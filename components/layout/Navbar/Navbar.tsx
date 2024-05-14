@@ -13,7 +13,7 @@ export default function Navbar({ session }: { session: Session | null }) {
   return (
     <>
       <SignInModal />
-      <div className="navbar bg-base-100 fixed lg:px-6 border-b z-50">
+      <div className="navbar bg-base-100 fixed lg:px-6 border-b z-50 font-sans">
   <div className="navbar-start">
     <div className="dropdown">
       <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -38,7 +38,7 @@ export default function Navbar({ session }: { session: Session | null }) {
   <div className="navbar-end">
     <div className="join hidden lg:flex">
       <input type="text" placeholder="me@email.com" className="input input-bordered input-secondary join-item w-full max-w-xs" />
-      <a className="btn btn-secondary join-item">Join the Waitlist</a>
+      <a className="btn btn-secondary join-item">Subscribe</a>
     </div>
   </div>
 </div>
