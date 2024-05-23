@@ -1,10 +1,11 @@
+import Link from "next/link";
 import OAuthForm from "../components/OAuthForm";
 import RegisterForm from "../components/RegisterForm";
 
 export default function Signup() {
   return (
-    <main>
-      <div className="navbar fixed lg:px-6 font-sans text-gray-500">
+    <main className="bg-gradient-to-br from-indigo-50 via-white to-cyan-100">
+      <div className="navbar fixed lg:px-6 font-sans text-gray-500 ">
         <div className="navbar-start">
           {/* <Logo/> */}
           <div className="ml-2">TapInsight</div>
@@ -15,7 +16,9 @@ export default function Signup() {
           <p className="font-bold text-4xl mb-4">Get started for free!</p>
           <p className="">
             Already have an account?{" "}
-            <span className="link link-primary link-hover">Login</span>
+            <Link href={"/auth/login"}>
+              <span className="link link-primary link-hover">Login</span>
+            </Link>
           </p>
           <RegisterForm />
           <OAuthForm />

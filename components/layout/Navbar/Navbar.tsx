@@ -6,6 +6,7 @@ import useScroll from "@/lib/hooks/use-scroll";
 
 import s from "./Navbar.module.css";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 export default function Navbar({ session }: { session: Session | null }) {
   const scrolled = useScroll(50);
@@ -69,11 +70,15 @@ export default function Navbar({ session }: { session: Session | null }) {
           </ul>
         </div>
         <div className="navbar-end">
-          <div className="btn btn-outline btn-sm max-w-fit">Login</div>
-          <div className="btn btn-primary btn-sm max-w-fit ml-2">
-            Try for free
-            <ArrowRight size={20} />
-          </div>
+          <Link href={"/auth/login"}>
+            <div className="btn btn-outline btn-sm max-w-fit">Login</div>
+          </Link>
+          <Link href={"auth/signup"}>
+            <div className="btn btn-primary btn-sm max-w-fit ml-2">
+              Try for free
+              <ArrowRight size={20} />
+            </div>
+          </Link>
         </div>
       </div>
     </main>
