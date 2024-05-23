@@ -1,6 +1,6 @@
 import Modal from "@/components/shared/Modal";
-import { AuthForm } from "@/app/auth-server-action/components/AuthForm";
-import OAuthForm from "@/app/auth-server-action/components/OAuthForm";
+import { AuthForm } from "@/app/auth/components/AuthForm";
+import OAuthForm from "@/app/auth/components/OAuthForm";
 import {
   useState,
   Dispatch,

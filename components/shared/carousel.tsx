@@ -11,7 +11,7 @@ import ShareContentImg from "@/public/images/4-shareContent.svg";
 export default function HomeCarousel() {
   return (
     <Carousel isShadow={false} showArrows={false} showStatus={false} isIndicatorsShadow={false} interval={8000} height='520px' width='400px'>
-      <div className="card w-96 bg-base-100 shadow-lg border border-gray-300" style={{maxHeight: "500px !important;", maxWidth: "384px !important;"}}>
+      <div className="card w-96 bg-base-100 shadow-lg border border-gray-300" style={{maxHeight: "500px", maxWidth: "384px"}}>
         <Image  
           src={AddContentImg}
           alt="Add Your Content"
@@ -20,10 +20,10 @@ export default function HomeCarousel() {
           className='rounded-tr-[12px] rounded-tl-[12px]'/>
         <div className="card-body font-sans">
           <h2 className="card-title">1. Add your content</h2>
-          <p className='text-gray-500'>Copy and paste the content you want to use to generate learning materials.</p>
+          <p className='text-gray-500'>Copy and paste the content you want to use to generate learning games.</p>
         </div>
       </div>
-      <div className="card w-96 bg-base-100 shadow-lg border border-gray-300" style={{maxHeight: "500px !important;", maxWidth: "384px !important;"}}>
+      <div className="card w-96 bg-base-100 shadow-lg border border-gray-300" style={{maxHeight: "500px", maxWidth: "384px"}}>
         <Image  
           src={SelectContentImg}
           alt="Select Your Learning Materials"
@@ -32,10 +32,10 @@ export default function HomeCarousel() {
           className='rounded-tr-[12px] rounded-tl-[12px]'/>
         <div className="card-body font-sans">
           <h2 className="card-title">2. Choose what to generate</h2>
-          <p className='text-gray-500'>Simeltaneously generate over 20 different learning resources, including flashcards, quizzes, games, puzzles, and more.</p>
+          <p className='text-gray-500'>Effortlessly generate a variety of quiz-style games, puzzles, and more.</p>
         </div>
       </div>
-      <div className="flex items-center justify-center card w-96 bg-base-100 shadow-lg border border-gray-300" style={{maxHeight: "500px !important;", maxWidth: "384px !important;"}}>
+      <div className="flex items-center justify-center card w-96 bg-base-100 shadow-lg border border-gray-300" style={{maxHeight: "500px", maxWidth: "384px"}}>
         <Image  
           src={EditContentImg}
           alt="Edit Your Learning Materials"
@@ -43,11 +43,11 @@ export default function HomeCarousel() {
           height="345"
           className='rounded-tr-[12px] rounded-tl-[12px]'/>
         <div className="card-body font-sans">
-          <h2 className="card-title">3. Customize your resources</h2>
-          <p className='text-gray-500'>Effortlessly edit and customize learning resources to better fit your needs.</p>
+          <h2 className="card-title">3. Customize</h2>
+          <p className='text-gray-500'>Inutitively edit and customize your games to better fit your learner&apos;s needs.</p>
         </div>
       </div>
-      <div className="card w-96 bg-base-100 shadow-lg border border-gray-300" style={{maxHeight: "500px !important;", maxWidth: "384px !important;"}}>
+      <div className="card w-96 bg-base-100 shadow-lg border border-gray-300" style={{maxHeight: "500px", maxWidth: "384px"}}>
         <Image  
           src={ShareContentImg}
           alt="Share Your Learning Materials"
@@ -55,8 +55,8 @@ export default function HomeCarousel() {
           height="345"
           className='rounded-tr-[12px] rounded-tl-[12px]'/>
         <div className="card-body font-sans">
-          <h2 className="card-title">4. Share to other platforms</h2>
-          <p className='text-gray-500'>Exporting content to other platforms like Quizlet and Kahoot is simple and painless.</p>
+          <h2 className="card-title">4. Share with your students</h2>
+          <p className='text-gray-500'>Publishing and sharing classroom games with your students is quick and intuitive.</p>
         </div>
       </div>
     </Carousel>

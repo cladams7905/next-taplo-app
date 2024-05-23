@@ -21,7 +21,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({closeSignInModal}) => {
 					<SignInForm closeSignInModal={closeSignInModal}/>
 				</TabsContent>
 				<TabsContent value="register">
-					<RegisterForm closeSignInModal={closeSignInModal}/>
+					<RegisterForm />
 				</TabsContent>
 			</Tabs>
 			{/* <OAuthForm /> */}

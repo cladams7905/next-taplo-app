@@ -1,3 +1,5 @@
+"use client";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -21,19 +23,23 @@ import { useTransition } from "react";
 const FormSchema = z
 	.object({
 		email: z.string().email(),
-		password: z.string().min(6, {
-			message: "Password is required.",
+		password: z.string().min(8, {
+			message: "Password must be at least 8 characters.",
 		}),
-		confirm: z.string().min(6, {
-			message: "Password is required.",
+		confirm: z.string().min(8, {
+			message: "Password must be at least 8 characters.",
 		}),
 	})
 	.refine((data) => data.confirm === data.password, {
-		message: "Password did not match",
+		message: "Passwords do not match.",
+		path: ["confirm"],
+	})
+	.refine((data) => /^(?=.*[A-Za-z])(?=.*\d).+$/.test(data.confirm), {
+		message: "Password does not contain numbers and letters.",
 		path: ["confirm"],
 	});
 
-export default function RegisterForm({closeSignInModal} : {closeSignInModal: () => void}) {
+export default function RegisterForm() {
 	const [isPending, startTransition] = useTransition();
 
 	const form = useForm<z.infer<typeof FormSchema>>({
@@ -63,7 +69,6 @@ export default function RegisterForm({closeSignInModal} : {closeSignInModal: () 
 				});
 			} else {
 				await signInWithEmailAndPassword(data).then(() => {
-					closeSignInModal();
 					toast({
 						description: (
 							<pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
@@ -87,7 +92,7 @@ export default function RegisterForm({closeSignInModal} : {closeSignInModal: () 
 		<Form {...form}>
 			<form
 				onSubmit={form.handleSubmit(onSubmit)}
-				className="w-full space-y-6 my-6"
+				className="w-full space-y-6 my-6 font-sans"
 				autoComplete="on"
 			>
 				<FormField
@@ -97,8 +102,9 @@ export default function RegisterForm({closeSignInModal} : {closeSignInModal: () 
 						<FormItem>
 							<FormLabel>Email</FormLabel>
 							<FormControl>
-								<Input
+								<input
 									placeholder="example@gmail.com"
+									className="input input-bordered flex items-center gap-2 w-full"
 									{...field}
 									type="email"
 									onChange={field.onChange}
@@ -115,11 +121,12 @@ export default function RegisterForm({closeSignInModal} : {closeSignInModal: () 
 						<FormItem>
 							<FormLabel>Password</FormLabel>
 							<FormControl>
-								<Input
-									placeholder="password"
+								<input
+									placeholder="Password"
 									{...field}
 									type="password"
 									onChange={field.onChange}
+									className="input input-bordered flex items-center gap-2 w-full"
 								/>
 							</FormControl>
 
@@ -134,11 +141,11 @@ export default function RegisterForm({closeSignInModal} : {closeSignInModal: () 
 						<FormItem>
 							<FormLabel>Confirm Password</FormLabel>
 							<FormControl>
-								<Input
+								<input
 									placeholder="Confirm Password"
 									{...field}
 									type="password"
-									className="input input-bordered input-md flex items-center gap-2 w-full"
+									className="input input-bordered flex items-center gap-2 w-full"
 									onChange={field.onChange}
 								/>
 							</FormControl>
@@ -146,13 +153,13 @@ export default function RegisterForm({closeSignInModal} : {closeSignInModal: () 
 						</FormItem>
 					)}
 				/>
-				<Button type="submit" className="w-full text-white bg-secondary border-secondary hover:bg-secondary-foreground hover:border-secondary-foreground" style={{ marginTop: '2.5rem' }}>
+				<div onClick={form.handleSubmit(onSubmit)} className="w-full btn btn-neutral" style={{ marginTop: '2.5rem' }}>
 					{isPending ? (
-						<LoadingDots color="#FFFFFF" />
+						<LoadingDots />
 					) : (
 						'Register'
 					)}
-				</Button>
+				</div>
 			</form>
 		</Form>
 	);

@@ -2,7 +2,7 @@
 
 import { LogOut, Settings } from "lucide-react";
 import { Session } from '@supabase/supabase-js';
-import { signOut } from "@/app/auth-server-action/actions";
+import { signOut } from "@/app/auth/actions";
 import { toast } from "@/components/shared/use-toast";
 import Image from "next/image";
 
