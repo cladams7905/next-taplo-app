@@ -33,6 +33,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${cx(openSans.variable, changaOne.variable)}`}>
         {children}
+        <Toaster />
         <Analytics />
       </body>
     </html>

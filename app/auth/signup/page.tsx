@@ -1,8 +1,15 @@
 import Link from "next/link";
 import OAuthForm from "../components/OAuthForm";
 import RegisterForm from "../components/RegisterForm";
+import readUserSession from "@/lib/actions/readUserSession";
+import { redirect } from "next/navigation";
 
-export default function Signup() {
+export default async function Signup() {
+  const { data } = await readUserSession();
+  if (data.session) {
+    return redirect("/projects");
+  }
+
   return (
     <main className="bg-gradient-to-br from-indigo-50 via-white to-cyan-100">
       <div className="navbar fixed lg:px-6 font-sans text-gray-500 ">

@@ -1,10 +1,15 @@
-"use client";
-
 import SignInForm from "../components/SignInForm";
 import OAuthForm from "../components/OAuthForm";
 import Link from "next/link";
+import readUserSession from "@/lib/actions/readUserSession";
+import { redirect } from "next/navigation";
 
-export default function Login() {
+export default async function Login() {
+  const { data } = await readUserSession();
+  if (data.session) {
+    return redirect("/projects");
+  }
+
   return (
     <main className="bg-gradient-to-br from-indigo-50 via-white to-cyan-100">
       <div className="navbar fixed lg:px-6 font-sans text-gray-500 ">

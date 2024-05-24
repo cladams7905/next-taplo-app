@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import LoadingDots from "@/components/shared/LoadingDots";
-
 import {
   Form,
   FormControl,
@@ -14,9 +13,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/shared/form";
-import { Input } from "@/components/shared/input";
 import { toast } from "@/components/shared/use-toast";
-import { Button } from "@/components/shared/button";
 import {
   signInWithEmailAndPassword,
   signUpWithEmailAndPassword,
@@ -61,9 +58,10 @@ export default function RegisterForm() {
 
       if (error?.message) {
         toast({
+          variant: "destructive",
           description: (
-            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-              <code className="text-red-400">{"Error: " + error.message}</code>
+            <pre className="mt-2 font-sans rounded-md text-wrap break-words whitespace-normal">
+              <p>{"Error: " + error.message}</p>
             </pre>
           ),
         });
@@ -71,15 +69,11 @@ export default function RegisterForm() {
         await signInWithEmailAndPassword(data).then(() => {
           toast({
             description: (
-              <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                <code className="text-green-400">
-                  Successfully registered!
-                  <div className="text-white">
-                    Please check {data.email}
-                    <br />
-                    to confirm your registration.
-                  </div>
-                </code>
+              <pre className="mt-2 font-sans rounded-md text-wrap break-words whitespace-normal">
+                <p>
+                  Successfully registered! Please check {data.email} to confirm
+                  your registration.
+                </p>
               </pre>
             ),
           });
