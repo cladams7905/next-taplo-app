@@ -1,13 +1,15 @@
 import SignInForm from "../components/SignInForm";
 import OAuthForm from "../components/OAuthForm";
 import Link from "next/link";
-import readUserSession from "@/lib/actions/readUserSession";
+import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 
 export default async function Login() {
-  const { data } = await readUserSession();
-  if (data.session) {
-    return redirect("/projects");
+  const supabase = createClient();
+
+  const { data, error } = await supabase.auth.getUser();
+  if (!error && data?.user) {
+    redirect("/projects");
   }
 
   return (

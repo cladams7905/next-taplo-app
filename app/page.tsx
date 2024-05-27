@@ -1,16 +1,16 @@
 import Image from "next/image";
 import UsersightPopup from "@/components/shared/usersightPopup";
 import { Suspense } from "react";
-import NavbarWapper from "@/components/layout/Navbar/NavbarWrapper";
 import { ArrowRight, PlayCircle } from "lucide-react";
 import Link from "next/link";
 import Footer from "@/components/layout/Footer";
+import Navbar from "@/components/layout/Navbar";
 
 export default function Home() {
   return (
     <main>
       <Suspense fallback="...">
-        <NavbarWapper />
+        <Navbar />
       </Suspense>
       <div
         className="flex min-h-screen w-full flex-col items-center justify-between p-24

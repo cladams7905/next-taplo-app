@@ -7,18 +7,17 @@ import LoadingDots from "@/components/shared/LoadingDots";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/shared/form";
 import { toast } from "@/components/shared/use-toast";
-import {
-  signInWithEmailAndPassword,
-  signUpWithEmailAndPassword,
-} from "../actions";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
+import ResendEmailButton from "./ResendEmailButton";
+import Link from "next/link";
+import OAuthForm from "./OAuthForm";
+import { createClient } from "@/utils/supabase/client";
 
 const FormSchema = z
   .object({
@@ -41,6 +40,20 @@ const FormSchema = z
 
 export default function RegisterForm() {
   const [isPending, startTransition] = useTransition();
+  const [isRegisterSuccess, setIsRegisterSuccess] = useState(false);
+
+  const supabase = createClient();
+
+  const signUp = async (data: { email: string; password: string }) => {
+    const result = await supabase.auth.signUp({
+      email: data.email,
+      password: data.password,
+      options: {
+        emailRedirectTo: `${location.origin}/projects`,
+      },
+    });
+    return JSON.stringify(result);
+  };
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -51,110 +64,138 @@ export default function RegisterForm() {
     },
   });
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
+  async function onSubmit(formData: z.infer<typeof FormSchema>) {
     startTransition(async () => {
-      const result = await signUpWithEmailAndPassword(data);
-      const { error } = JSON.parse(result);
-
-      if (error?.message) {
+      const { data, error } = JSON.parse(
+        await signUp({
+          email: formData.email,
+          password: formData.password,
+        })
+      );
+      if (error) {
         toast({
           variant: "destructive",
           description: (
-            <pre className="mt-2 font-sans rounded-md text-wrap break-words whitespace-normal">
-              <p>{"Error: " + error.message}</p>
+            <pre className="font-sans rounded-md text-wrap break-words whitespace-normal">
+              <p>{`Error ${error.status}: ` + error.name}</p>
             </pre>
           ),
         });
       } else {
-        await signInWithEmailAndPassword(data).then(() => {
-          toast({
-            description: (
-              <pre className="mt-2 font-sans rounded-md text-wrap break-words whitespace-normal">
-                <p>
-                  Successfully registered! Please check {data.email} to confirm
-                  your registration.
-                </p>
-              </pre>
-            ),
-          });
+        setIsRegisterSuccess(true);
+        toast({
+          description: (
+            <pre className="font-sans rounded-md text-wrap break-words whitespace-normal">
+              <p>
+                Successfully registered! Please check{" "}
+                <span className="font-bold">{formData.email}</span> to confirm
+                your registration.
+              </p>
+            </pre>
+          ),
         });
       }
     });
   }
 
-  return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full space-y-6 my-6 font-sans"
-        autoComplete="on"
-      >
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <input
-                  placeholder="example@gmail.com"
-                  className="input input-bordered flex items-center gap-2 w-full"
-                  {...field}
-                  type="email"
-                  onChange={field.onChange}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <input
-                  placeholder="Password"
-                  {...field}
-                  type="password"
-                  onChange={field.onChange}
-                  className="input input-bordered flex items-center gap-2 w-full"
-                />
-              </FormControl>
+  if (isRegisterSuccess) {
+    return (
+      <div className="flex flex-col items-center justify-center w-full max-w-md">
+        <p className="font-bold text-4xl mb-4">Almost done!</p>
+        <p>Please check your inbox to confirm your email address.</p>
+        <ResendEmailButton email={form.getValues().email} />
+      </div>
+    );
+  } else {
+    return (
+      <div className="flex flex-col items-center justify-center w-full max-w-md">
+        <p className="font-bold text-4xl mb-4">Get started for free!</p>
+        <p className="">
+          Already have an account?{" "}
+          <Link href={"/auth/login"}>
+            <span className="link link-primary link-hover">Login</span>
+          </Link>
+        </p>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="w-full space-y-6 my-6 font-sans"
+            autoComplete="on"
+          >
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <input
+                      placeholder="example@gmail.com"
+                      className="input input-bordered flex items-center gap-2 w-full"
+                      {...field}
+                      type="email"
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <input
+                      placeholder="Password"
+                      {...field}
+                      type="password"
+                      onChange={field.onChange}
+                      className="input input-bordered flex items-center gap-2 w-full"
+                    />
+                  </FormControl>
 
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="confirm"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Confirm Password</FormLabel>
-              <FormControl>
-                <input
-                  placeholder="Confirm Password"
-                  {...field}
-                  type="password"
-                  className="input input-bordered flex items-center gap-2 w-full"
-                  onChange={field.onChange}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <div
-          onClick={form.handleSubmit(onSubmit)}
-          className="w-full btn btn-neutral"
-          style={{ marginTop: "2.5rem" }}
-        >
-          {isPending ? <LoadingDots /> : "Sign up"}
-        </div>
-      </form>
-    </Form>
-  );
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="confirm"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirm Password</FormLabel>
+                  <FormControl>
+                    <input
+                      placeholder="Confirm Password"
+                      {...field}
+                      type="password"
+                      className="input input-bordered flex items-center gap-2 w-full"
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div
+              onClick={form.handleSubmit(onSubmit)}
+              className="w-full btn btn-neutral"
+              style={{ marginTop: "2.5rem" }}
+            >
+              {isPending ? <LoadingDots color="#FFFFFF" /> : "Sign up"}
+            </div>
+          </form>
+        </Form>
+        <OAuthForm />
+        <p className="mt-6 text-sm">
+          By continuing, you agree to our{" "}
+          <span className="link">Terms of Use</span> and{" "}
+          <span className="link">Privacy Policy</span>.
+        </p>
+      </div>
+    );
+  }
 }

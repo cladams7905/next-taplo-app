@@ -1,13 +1,13 @@
-import RegisterForm from "../components/RegisterForm";
-import { createClient } from "@/utils/supabase/server";
+import UpdatePasswordForm from "../components/UpdatePasswordForm";
 import { redirect } from "next/navigation";
+import { createClient } from "@/utils/supabase/server";
 
-export default async function Signup() {
+export default async function UpdatePassword() {
   const supabase = createClient();
 
   const { data, error } = await supabase.auth.getUser();
-  if (!error && data?.user) {
-    redirect("/projects");
+  if (error || !data?.user) {
+    redirect("/");
   }
 
   return (
@@ -19,7 +19,10 @@ export default async function Signup() {
         </div>
       </div>
       <div className="flex min-h-screen w-full flex-col items-center justify-between p-24 font-sans">
-        <RegisterForm />
+        <div className="flex flex-col items-center justify-center w-full max-w-md">
+          <p className="font-bold text-4xl mb-4">Change password</p>
+          <UpdatePasswordForm />
+        </div>
       </div>
     </main>
   );

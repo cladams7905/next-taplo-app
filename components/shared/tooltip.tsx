@@ -3,13 +3,13 @@
 import { ReactNode } from "react";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import { Drawer } from "vaul";
-import useMediaQuery from "@/lib/hooks/use-media-query";
+import useMediaQuery from "@/utils/hooks/use-media-query";
 
 export default function Tooltip({
   children,
   content,
   fullWidth,
-  alignment
+  alignment,
 }: {
   children: ReactNode;
   content: ReactNode | string;

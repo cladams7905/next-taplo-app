@@ -3,7 +3,6 @@ import { Analytics } from "@vercel/analytics/react";
 import Footer from "@/components/layout/Footer";
 import { Suspense } from "react";
 import { Toaster } from "@/components/shared/toaster";
-import NavbarWapper from "@/components/layout/Navbar/NavbarWrapper";
 import { Open_Sans, Changa_One } from "next/font/google";
 import cx from "classnames";
 import "./globals.css";

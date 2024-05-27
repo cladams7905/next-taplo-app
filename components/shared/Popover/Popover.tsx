@@ -3,7 +3,7 @@
 import { Dispatch, ReactNode, SetStateAction } from "react";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import { Drawer } from "vaul";
-import useMediaQuery from "@/lib/hooks/use-media-query";
+import useMediaQuery from "@/utils/hooks/use-media-query";
 
 export default function Popover({
   children,
@@ -52,7 +52,7 @@ export default function Popover({
           sideOffset={8}
           align={align}
           className="z-50 hidden animate-slide-up-fade items-center rounded-md border border-gray-300 bg-white sm:block"
-          style={{boxShadow: 'rgba(0, 0, 0, 0.1) 0px 2px 6px'}}
+          style={{ boxShadow: "rgba(0, 0, 0, 0.1) 0px 2px 6px" }}
         >
           {content}
         </PopoverPrimitive.Content>

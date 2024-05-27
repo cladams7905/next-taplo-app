@@ -1,14 +1,13 @@
 "use client";
 
-import { Session } from "@supabase/supabase-js";
 import { Logo } from "@/components/shared/icons/logo";
-import useScroll from "@/lib/hooks/use-scroll";
+import useScroll from "@/utils/hooks/use-scroll";
 
 import s from "./Navbar.module.css";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 
-export default function Navbar({ session }: { session: Session | null }) {
+export default function Navbar() {
   const scrolled = useScroll(50);
 
   return (

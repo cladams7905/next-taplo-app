@@ -12,11 +12,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/shared/form";
-import { Input } from "@/components/shared/input";
 import { toast } from "@/components/shared/use-toast";
-import { Button } from "@/components/shared/button";
 import { useTransition } from "react";
 import LoadingDots from "@/components/shared/LoadingDots";
+import Link from "next/link";
 
 const FormSchema = z.object({
   email: z.string().email(),
@@ -36,19 +35,31 @@ export default function SignInForm() {
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  function onSubmit(formData: z.infer<typeof FormSchema>) {
     startTransition(async () => {
-      const result = await signInWithEmailAndPassword(data);
+      const result = await signInWithEmailAndPassword(formData);
       const { error } = JSON.parse(result);
 
-      if (error?.message) {
-        toast({
-          description: (
-            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-              <code className="text-red-400">{"Error: " + error.message}</code>
-            </pre>
-          ),
-        });
+      if (error) {
+        if (error.status === 400) {
+          toast({
+            variant: "destructive",
+            description: (
+              <pre className="font-sans rounded-md text-wrap break-words whitespace-normal">
+                <p>{`Incorrect username or password.`}</p>
+              </pre>
+            ),
+          });
+        } else {
+          toast({
+            variant: "destructive",
+            description: (
+              <pre className="font-sans rounded-md text-wrap break-words whitespace-normal">
+                <p>{`Error ${error.status}: ` + error.code}</p>
+              </pre>
+            ),
+          });
+        }
       }
     });
   }
@@ -98,13 +109,15 @@ export default function SignInForm() {
             </FormItem>
           )}
         />
-        <p className="link text-sm text-right">Forgot password?</p>
+        <Link href={"/auth/forgot-password"}>
+          <p className="link text-sm text-right mt-2">Forgot password?</p>
+        </Link>
         <div
           onClick={form.handleSubmit(onSubmit)}
           className="w-full btn btn-neutral"
           style={{ marginTop: "2.5rem" }}
         >
-          {isPending ? <LoadingDots /> : "Login"}
+          {isPending ? <LoadingDots color="#FFFFFF" /> : "Login"}
         </div>
       </form>
     </Form>
