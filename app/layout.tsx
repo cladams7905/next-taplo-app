@@ -9,7 +9,7 @@ import "./globals.css";
 
 const openSans = Open_Sans({
   variable: "--font-openSans",
-  weight: ["400", "600", "800"],
+  weight: ["300", "400", "600", "800"],
   subsets: ["latin"],
 });
 const changaOne = Changa_One({

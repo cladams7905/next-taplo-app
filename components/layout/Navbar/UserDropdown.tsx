@@ -1,6 +1,6 @@
 "use client";
 
-import { LogOut, Settings, User2 } from "lucide-react";
+import { CircleUserRound, LogOut, Settings } from "lucide-react";
 import { User } from "@supabase/supabase-js";
 import { signOut } from "@/app/auth/actions";
 import { toast } from "@/components/shared/use-toast";
@@ -49,21 +49,17 @@ export default function UserDropdown(data: { user: User }) {
               className="mr-2 rounded-full border border-gray-300"
             ></Image>
           ) : (
-            <User2
-              height={36}
-              width={36}
-              className="mr-2 rounded-full border border-gray-300"
+            <CircleUserRound
+              height={24}
+              width={24}
+              strokeWidth={1}
+              color="oklch(var(--pc))"
+              className="mr-2 rounded-full"
             />
           )}
         </div>
       </button>
-      <div
-        className="dropdown-content w-full mt-2 rounded-md bg-white p-2 sm:w-56 border border-gray-100"
-        style={{
-          boxShadow:
-            "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 4px 0px",
-        }}
-      >
+      <div className="dropdown-content w-fit min-w-48 mt-2 rounded-md bg-white p-2 border shadow border-gray-200">
         <div className="p-2">
           {data?.user && (
             <>

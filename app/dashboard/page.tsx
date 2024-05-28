@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
 import React from "react";
-import ProjectNavbar from "./ProjectNavbar";
+import Navbar from "./DashboardNavbar";
 import { createClient } from "@/utils/supabase/server";
 
-export default async function ProjectsPage() {
+export default async function Dashboard() {
   const supabase = createClient();
 
   const { data, error } = await supabase.auth.getUser();
@@ -12,8 +12,8 @@ export default async function ProjectsPage() {
   }
 
   return (
-    <main>
-      <ProjectNavbar user={data.user} />
+    <main className="min-h-screen w-full bg-gradient-to-br from-indigo-50 via-white to-cyan-100">
+      <Navbar user={data.user} />
     </main>
   );
 }
