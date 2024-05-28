@@ -13,8 +13,7 @@ export default async function ProjectsPage() {
 
   return (
     <main>
-      <div>Projects</div>
-      <ProjectNavbar />
+      <ProjectNavbar user={data.user} />
     </main>
   );
 }
