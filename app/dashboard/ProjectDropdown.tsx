@@ -38,7 +38,7 @@ export default function ProjectDropdown() {
         </ul>
       </div>
       <hr className="text-gray-300 my-2"></hr>
-      <div className="btn btn-secondary btn-sm rounded-md h-auto p-2 mt-3">
+      <div className="btn btn-secondary btn-sm rounded-md h-auto p-2 mt-2">
         <CirclePlus height={18} width={18} />
         New Project
       </div>

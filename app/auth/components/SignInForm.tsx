@@ -46,7 +46,7 @@ export default function SignInForm() {
             variant: "destructive",
             description: (
               <pre className="font-sans rounded-md text-wrap break-words whitespace-normal">
-                <p>{`Incorrect username or password.`}</p>
+                <p>{`Incorrect username or password. Make sure you sign in using the same provider you registered with.`}</p>
               </pre>
             ),
           });

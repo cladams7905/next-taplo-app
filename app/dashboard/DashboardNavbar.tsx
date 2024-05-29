@@ -54,17 +54,6 @@ export default function DashboardNavbar(data: { user: User }) {
           </ul>
         </div>
         <div className="navbar-end">
-          <ul
-            tabIndex={0}
-            className="menu menu-horizontal px-1 mr-4 hidden lg:flex"
-          >
-            <li>
-              <a>Suggest a feature!</a>
-            </li>
-            <li>
-              <a>Help</a>
-            </li>
-          </ul>
           <UserDropdown user={data.user} />
         </div>
       </div>
