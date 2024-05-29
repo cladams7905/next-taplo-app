@@ -1,6 +1,15 @@
 "use client";
 
-import { CircleUserRound, LogOut, Settings } from "lucide-react";
+import {
+  CircleUserRound,
+  LogOut,
+  Settings,
+  UserIcon,
+  User2,
+  UserX,
+  UserSquare,
+  UserSquare2,
+} from "lucide-react";
 import { User } from "@supabase/supabase-js";
 import { signOut } from "@/app/auth/actions";
 import { toast } from "@/components/shared/use-toast";
@@ -50,10 +59,10 @@ export default function UserDropdown(data: { user: User }) {
             ></Image>
           ) : (
             <CircleUserRound
-              height={24}
-              width={24}
-              strokeWidth={1}
-              color="oklch(var(--pc))"
+              height={26}
+              width={26}
+              strokeWidth={1.5}
+              color="#6b7280"
               className="mr-2 rounded-full"
             />
           )}
