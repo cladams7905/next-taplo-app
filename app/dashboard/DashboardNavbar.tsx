@@ -1,14 +1,33 @@
 "use client";
 
-import React from "react";
+import { useEffect, useState } from "react";
 import UserDropdown from "@/components/layout/Navbar/UserDropdown";
 import { User } from "@supabase/supabase-js";
 import { ChevronsUpDown, Menu } from "lucide-react";
 import ProjectDropdown from "./ProjectDropdown";
+import { usePathname } from "next/navigation";
 
 export default function DashboardNavbar(data: { user: User }) {
+  const pathname = usePathname();
+  const [activeTab, setActiveTab] = useState(0);
+  const [isCreateProjectPage, setIsCreateProjectPage] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsCreateProjectPage(pathname === "/dashboard/create-project");
+    }
+  }, [pathname]);
+
+  const handleTabClick = (tabIndex: number) => {
+    setActiveTab(tabIndex);
+  };
+
   return (
-    <main className="fixed flex flex-col items-center w-full bg-base-100 border-b border-gray-200 font-sans z-30 transition-all">
+    <main
+      className={`fixed flex flex-col items-center w-full font-sans z-30 transition-all${
+        !isCreateProjectPage && ` bg-base-100 border-b border-gray-200`
+      }`}
+    >
       <div className="navbar flex lg:px-6">
         <div className="navbar-start">
           <div className="dropdown">
@@ -27,7 +46,6 @@ export default function DashboardNavbar(data: { user: User }) {
               </li>
             </ul>
           </div>
-          {/* <Logo/> */}
           <div className="ml-2">TapInsight.io</div>
           <div className="text-gray-300 text-xl ml-6 font-thin">/</div>
           <div className="flex flex-wrap items-center">
@@ -62,17 +80,46 @@ export default function DashboardNavbar(data: { user: User }) {
           <UserDropdown user={data.user} />
         </div>
       </div>
-      <div role="tablist" className="tabs tabs-bordered lg:max-w-lg">
-        <a role="tab" className="tab !border-none text-gray-500">
-          Analytics
-        </a>
-        <a role="tab" className="tab tab-active font-semibold !border-primary ">
-          Widgets
-        </a>
-        <a role="tab" className="tab !border-none text-gray-500">
-          Settings
-        </a>
-      </div>
+      {!isCreateProjectPage && (
+        <div role="tablist" className="tabs tabs-bordered lg:max-w-lg">
+          <a
+            role="tab"
+            tabIndex={0}
+            className={`tab ${
+              activeTab === 0
+                ? "tab-active font-semibold !border-primary"
+                : "!border-none text-gray-500"
+            }`}
+            onClick={(e) => handleTabClick(e.currentTarget.tabIndex)}
+          >
+            Analytics
+          </a>
+          <a
+            role="tab"
+            tabIndex={1}
+            className={`tab ${
+              activeTab === 1
+                ? "tab-active font-semibold !border-primary"
+                : "!border-none text-gray-500"
+            }`}
+            onClick={(e) => handleTabClick(e.currentTarget.tabIndex)}
+          >
+            Widgets
+          </a>
+          <a
+            role="tab"
+            tabIndex={2}
+            className={`tab ${
+              activeTab === 2
+                ? "tab-active font-semibold !border-primary mt-0"
+                : "!border-none text-gray-500"
+            }`}
+            onClick={(e) => handleTabClick(e.currentTarget.tabIndex)}
+          >
+            Settings
+          </a>
+        </div>
+      )}
     </main>
   );
 }
