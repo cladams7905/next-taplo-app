@@ -1,22 +1,13 @@
 "use client";
 
-import {
-  CircleUserRound,
-  LogOut,
-  Settings,
-  UserIcon,
-  User2,
-  UserX,
-  UserSquare,
-  UserSquare2,
-} from "lucide-react";
+import { CircleUserRound, LogOut, Settings } from "lucide-react";
 import { User } from "@supabase/supabase-js";
 import { signOut } from "@/app/auth/actions";
-import { toast } from "@/components/shared/use-toast";
 import Image from "next/image";
 import { useTransition } from "react";
 import { redirect } from "next/navigation";
 import LoadingDots from "@/components/shared/LoadingDots";
+import { showToastError } from "@/components/shared/showToast";
 
 export default function UserDropdown(data: { user: User }) {
   const [isPending, startTransition] = useTransition();
@@ -31,14 +22,7 @@ export default function UserDropdown(data: { user: User }) {
     startTransition(async () => {
       const { error } = JSON.parse(await signOut());
       if (error) {
-        toast({
-          variant: "destructive",
-          description: (
-            <pre className="font-sans rounded-md text-wrap break-words whitespace-normal">
-              <p>{`Error ${error.status}: ` + error.name}</p>
-            </pre>
-          ),
-        });
+        showToastError(error);
       } else {
         redirect("/");
       }

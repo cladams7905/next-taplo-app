@@ -1,6 +1,6 @@
 import NewProjectForm from "./NewProjectForm";
 
-export default function CreateProject() {
+export default async function CreateProject() {
   return (
     <div className="flex items-center justify-center w-full">
       <div className="border mt-1 border-gray-200 z-[1] p-2 shadow bg-base-100 rounded-md w-full max-w-lg">

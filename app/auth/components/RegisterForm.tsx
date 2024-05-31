@@ -12,12 +12,12 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/shared/form";
-import { toast } from "@/components/shared/use-toast";
 import { useState, useTransition } from "react";
 import ResendEmailButton from "./ResendEmailButton";
 import Link from "next/link";
 import OAuthForm from "./OAuthForm";
 import { createClient } from "@/utils/supabase/client";
+import { showToast, showToastError } from "@/components/shared/showToast";
 
 const FormSchema = z
   .object({
@@ -73,27 +73,11 @@ export default function RegisterForm() {
         })
       );
       if (error) {
-        toast({
-          variant: "destructive",
-          description: (
-            <pre className="font-sans rounded-md text-wrap break-words whitespace-normal">
-              <p>{`Error ${error.status}: ` + error.name}</p>
-            </pre>
-          ),
-        });
+        showToastError(error);
       } else {
         setIsRegisterSuccess(true);
-        toast({
-          description: (
-            <pre className="font-sans rounded-md text-wrap break-words whitespace-normal">
-              <p>
-                Successfully registered! Please check{" "}
-                <span className="font-bold">{formData.email}</span> to confirm
-                your registration.
-              </p>
-            </pre>
-          ),
-        });
+        showToast(`Successfully registered! Please check ${formData.email} to confirm
+                your registration.`);
       }
     });
   }

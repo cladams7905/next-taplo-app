@@ -12,9 +12,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/shared/form";
-import { toast } from "@/components/shared/use-toast";
 import { useTransition } from "react";
 import { createClient } from "@/utils/supabase/client";
+import { showToast, showToastError } from "@/components/shared/showToast";
 
 const FormSchema = z.object({
   email: z.string().email(),
@@ -46,26 +46,10 @@ export default function ForgotPasswordForm() {
       );
 
       if (error) {
-        toast({
-          variant: "destructive",
-          description: (
-            <pre className="font-sans rounded-md text-wrap break-words whitespace-normal">
-              <p>{`Error ${error.status}: ` + error.name}</p>
-            </pre>
-          ),
-        });
+        showToastError(error);
       } else {
-        toast({
-          description: (
-            <pre className="font-sans rounded-md text-wrap break-words whitespace-normal">
-              <p>
-                An email has been sent to{" "}
-                <span className="font-bold">{formData.email}</span> with a link
-                to reset your password. Please check your email!
-              </p>
-            </pre>
-          ),
-        });
+        showToast(`An email has been sent to ${formData.email} with a link
+                to reset your password. Please check your email!`);
       }
     });
   }

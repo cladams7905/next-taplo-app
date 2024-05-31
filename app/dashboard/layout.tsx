@@ -1,8 +1,9 @@
 import React, { Suspense } from "react";
-import Navbar from "./DashboardNavbar";
+import Navbar from "./components/DashboardNavbar";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
-import Footer from "./DashboardFooter";
+import Footer from "./components/DashboardFooter";
+import { getProjectsByUserId } from "./actions";
 
 export default async function RootLayout({
   children,
@@ -10,16 +11,16 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const supabase = createClient();
-
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
     redirect("/");
   }
+  const currentProjects = (await getProjectsByUserId(data.user.id)) || [];
 
   return (
     <main>
       <Suspense fallback="...">
-        <Navbar user={data.user} />
+        <Navbar user={data.user} projects={currentProjects} />
       </Suspense>
       <div className="flex flex-col min-h-screen w-full bg-gradient-to-br from-indigo-50 via-white to-cyan-100">
         <div className="px-36 mt-32">{children}</div>

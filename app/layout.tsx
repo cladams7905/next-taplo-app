@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
-import Footer from "@/components/layout/Footer";
-import { Suspense } from "react";
 import { Toaster } from "@/components/shared/toaster";
 import { Open_Sans, Changa_One } from "next/font/google";
 import cx from "classnames";

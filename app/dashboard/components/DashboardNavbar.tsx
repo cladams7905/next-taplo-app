@@ -6,14 +6,24 @@ import { User } from "@supabase/supabase-js";
 import { ChevronsUpDown, Menu } from "lucide-react";
 import ProjectDropdown from "./ProjectDropdown";
 import { usePathname } from "next/navigation";
+import { Tables } from "@/utils/supabase/types";
 
-export default function DashboardNavbar(data: { user: User }) {
+export default function DashboardNavbar(props: {
+  user: User;
+  projects: Tables<"Projects">[];
+}) {
   const pathname = usePathname();
   const [activeTab, setActiveTab] = useState(0);
   const [isCreateProjectPage, setIsCreateProjectPage] = useState(false);
+
+  /* The dropdown trigger ref is used to manually toggle the closing of 
+  the project dropdown menu when "Create New Project" is clicked, 
+  since DaisyUI doesn't have a built-in option for dropdown toggling. */
   const dropdownTriggerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    /* This check is used for toggling the navbar tablist. 
+    On the create project page, the tablist should not show. */
     if (typeof window !== "undefined") {
       setIsCreateProjectPage(pathname === "/dashboard/create-project");
     }
@@ -61,7 +71,7 @@ export default function DashboardNavbar(data: { user: User }) {
                 >
                   <a>
                     {" "}
-                    Untitled Project{" "}
+                    Select Project{" "}
                     <ChevronsUpDown
                       height={16}
                       width={16}
@@ -77,6 +87,7 @@ export default function DashboardNavbar(data: { user: User }) {
                 >
                   <ProjectDropdown
                     triggerElement={dropdownTriggerRef.current}
+                    projects={props.projects}
                   />
                 </div>
               </div>
@@ -84,7 +95,7 @@ export default function DashboardNavbar(data: { user: User }) {
           </div>
         </div>
         <div className="navbar-end">
-          <UserDropdown user={data.user} />
+          <UserDropdown user={props.user} />
         </div>
       </div>
       {!isCreateProjectPage && (

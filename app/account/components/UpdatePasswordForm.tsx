@@ -12,10 +12,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/shared/form";
-import { toast } from "@/components/shared/use-toast";
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
+import { showToast, showToastError } from "@/components/shared/showToast";
 
 const FormSchema = z
   .object({
@@ -63,23 +63,10 @@ export default function UpdatePasswordForm() {
       );
       console.log(error);
       if (error) {
-        toast({
-          variant: "destructive",
-          description: (
-            <pre className="font-sans rounded-md text-wrap break-words whitespace-normal">
-              <p>{`Error ${error.status}: ` + error.name}</p>
-            </pre>
-          ),
-        });
+        showToastError(error);
       } else {
         router.push("/auth/login");
-        toast({
-          description: (
-            <pre className="font-sans rounded-md text-wrap break-words whitespace-normal">
-              <p>Password updated!</p>
-            </pre>
-          ),
-        });
+        showToast("Password updated!");
       }
     });
   }

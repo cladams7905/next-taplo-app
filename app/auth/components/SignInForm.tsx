@@ -12,10 +12,10 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/shared/form";
-import { toast } from "@/components/shared/use-toast";
 import { useTransition } from "react";
 import LoadingDots from "@/components/shared/LoadingDots";
 import Link from "next/link";
+import { showToastError } from "@/components/shared/showToast";
 
 const FormSchema = z.object({
   email: z.string().email(),
@@ -42,23 +42,12 @@ export default function SignInForm() {
 
       if (error) {
         if (error.status === 400) {
-          toast({
-            variant: "destructive",
-            description: (
-              <pre className="font-sans rounded-md text-wrap break-words whitespace-normal">
-                <p>{`Incorrect username or password. Make sure you sign in using the same provider you registered with.`}</p>
-              </pre>
-            ),
-          });
-        } else {
-          toast({
-            variant: "destructive",
-            description: (
-              <pre className="font-sans rounded-md text-wrap break-words whitespace-normal">
-                <p>{`Error ${error.status}: ` + error.code}</p>
-              </pre>
-            ),
-          });
+          showToastError(
+            error,
+            error.status === 400
+              ? `Incorrect username or password. Make sure you sign in using the same provider you registered with.`
+              : ``
+          );
         }
       }
     });

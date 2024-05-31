@@ -13,8 +13,9 @@ import {
   FormMessage,
 } from "@/components/shared/form";
 import { useTransition } from "react";
-import { createClient } from "@/utils/supabase/client";
 import { CirclePlus } from "lucide-react";
+import { createProject } from "../actions";
+import { showToast, showToastError } from "@/components/shared/showToast";
 
 const FormSchema = z.object({
   projectName: z.string().max(32, {
@@ -25,8 +26,6 @@ const FormSchema = z.object({
 export default function NewProjectForm() {
   const [isPending, startTransition] = useTransition();
 
-  const supabase = createClient();
-
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -35,8 +34,20 @@ export default function NewProjectForm() {
   });
 
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
-    startTransition(async () => {});
+    startTransition(async () => {
+      const newProject = {
+        project_name: formData.projectName,
+      };
+      const { error } = JSON.parse(await createProject(newProject));
+      if (error) {
+        showToastError(error);
+      } else {
+        form.resetField("projectName");
+        showToast(`Successfully created new project: ${formData.projectName}`);
+      }
+    });
   }
+
   return (
     <div className="flex flex-col items-center justify-center w-full max-w-md">
       <Form {...form}>
