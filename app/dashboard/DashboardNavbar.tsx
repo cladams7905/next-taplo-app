@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import UserDropdown from "@/components/layout/Navbar/UserDropdown";
 import { User } from "@supabase/supabase-js";
 import { ChevronsUpDown, Menu } from "lucide-react";
@@ -11,6 +11,7 @@ export default function DashboardNavbar(data: { user: User }) {
   const pathname = usePathname();
   const [activeTab, setActiveTab] = useState(0);
   const [isCreateProjectPage, setIsCreateProjectPage] = useState(false);
+  const dropdownTriggerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -54,6 +55,9 @@ export default function DashboardNavbar(data: { user: User }) {
                 <li
                   className="text-sm text-primary-content font-semibold mr-1"
                   tabIndex={1}
+                  onClick={() => {
+                    dropdownTriggerRef?.current?.classList.remove("hidden");
+                  }}
                 >
                   <a>
                     {" "}
@@ -68,9 +72,12 @@ export default function DashboardNavbar(data: { user: User }) {
                 </li>
                 <div
                   className="dropdown-content border mt-1 border-gray-200 z-[1] p-2 shadow bg-base-100 rounded-md w-52"
+                  ref={dropdownTriggerRef}
                   tabIndex={1}
                 >
-                  <ProjectDropdown />
+                  <ProjectDropdown
+                    triggerElement={dropdownTriggerRef.current}
+                  />
                 </div>
               </div>
             </ul>

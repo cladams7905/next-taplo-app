@@ -37,7 +37,6 @@ export default function NewProjectForm() {
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
     startTransition(async () => {});
   }
-
   return (
     <div className="flex flex-col items-center justify-center w-full max-w-md">
       <Form {...form}>

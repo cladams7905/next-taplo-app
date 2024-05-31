@@ -2,12 +2,14 @@
 
 import { Check, CirclePlus, Search } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
-export default function ProjectDropdown() {
+export default function ProjectDropdown(props: {
+  triggerElement: HTMLDivElement | null;
+}) {
   const [isActive, setIsActive] = useState(true);
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" id="project-dropdown-trigger">
       <label className="input input-sm flex items-center">
         <Search
           strokeWidth={1}
@@ -42,6 +44,9 @@ export default function ProjectDropdown() {
       <Link
         href={"/dashboard/create-project"}
         className="btn btn-primary btn-sm rounded-md h-auto p-2 mt-2"
+        onClick={() => {
+          props.triggerElement?.classList.add("hidden");
+        }}
       >
         <CirclePlus height={18} width={18} />
         New Project
