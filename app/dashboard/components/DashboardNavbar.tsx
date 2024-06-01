@@ -7,14 +7,24 @@ import { ChevronsUpDown, Menu } from "lucide-react";
 import ProjectDropdown from "./ProjectDropdown";
 import { usePathname } from "next/navigation";
 import { Tables } from "@/utils/supabase/types";
+import { getActiveProject } from "../actions";
+import { ActiveProject } from "@/utils/customTypes";
+import { moveToTop } from "@/utils/actions";
+import ProjectTabList from "./ProjectTabList";
+import { showToastError } from "@/components/shared/showToast";
 
-export default function DashboardNavbar(props: {
+export default function DashboardNavbar({
+  user,
+  projects,
+}: {
   user: User;
   projects: Tables<"Projects">[];
 }) {
   const pathname = usePathname();
-  const [activeTab, setActiveTab] = useState(0);
-  const [isCreateProjectPage, setIsCreateProjectPage] = useState(false);
+  const [isHiddenTabList, setIsHiddenTabList] = useState(false);
+  const [activeProject, setActiveProject] = useState<ActiveProject>();
+  const [reorderedProjects, setReorderedProjects] =
+    useState<Tables<"Projects">[]>(projects);
 
   /* The dropdown trigger ref is used to manually toggle the closing of 
   the project dropdown menu when "Create New Project" is clicked, 
@@ -25,18 +35,33 @@ export default function DashboardNavbar(props: {
     /* This check is used for toggling the navbar tablist. 
     On the create project page, the tablist should not show. */
     if (typeof window !== "undefined") {
-      setIsCreateProjectPage(pathname === "/dashboard/create-project");
+      setIsHiddenTabList(pathname === "/dashboard/create-project");
     }
   }, [pathname]);
 
-  const handleTabClick = (tabIndex: number) => {
-    setActiveTab(tabIndex);
-  };
+  useEffect(() => {
+    /* This useEffect reorders the project list in the project dropdown so 
+    that the active project is always at the top of the list. */
+    const updateActiveProject = async () => {
+      const { data, error } = JSON.parse(await getActiveProject(user.id));
+      if (error) {
+        showToastError(error);
+      } else {
+        setActiveProject(data);
+        const updatedProjects = moveToTop(
+          projects,
+          projects.filter((project) => project.id == data.id)[0]
+        );
+        setReorderedProjects(updatedProjects);
+      }
+    };
+    updateActiveProject();
+  }, [user.id, projects]);
 
   return (
     <main
       className={`fixed flex flex-col items-center w-full font-sans z-30 transition-all${
-        !isCreateProjectPage && ` bg-base-100 border-b border-gray-200`
+        !isHiddenTabList && ` bg-base-100 border-b border-gray-200`
       }`}
     >
       <div className="navbar flex lg:px-6">
@@ -71,7 +96,9 @@ export default function DashboardNavbar(props: {
                 >
                   <a>
                     {" "}
-                    Select Project{" "}
+                    {activeProject
+                      ? activeProject.project_name
+                      : "Select Project"}{" "}
                     <ChevronsUpDown
                       height={16}
                       width={16}
@@ -87,7 +114,9 @@ export default function DashboardNavbar(props: {
                 >
                   <ProjectDropdown
                     triggerElement={dropdownTriggerRef.current}
-                    projects={props.projects}
+                    projects={reorderedProjects}
+                    activeProject={activeProject}
+                    setActiveProjectRef={setActiveProject}
                   />
                 </div>
               </div>
@@ -95,49 +124,10 @@ export default function DashboardNavbar(props: {
           </div>
         </div>
         <div className="navbar-end">
-          <UserDropdown user={props.user} />
+          <UserDropdown user={user} />
         </div>
       </div>
-      {!isCreateProjectPage && (
-        <div role="tablist" className="tabs tabs-bordered lg:max-w-lg">
-          <a
-            role="tab"
-            tabIndex={0}
-            className={`tab ${
-              activeTab === 0
-                ? "tab-active font-semibold !border-primary"
-                : "!border-none text-gray-500"
-            }`}
-            onClick={(e) => handleTabClick(e.currentTarget.tabIndex)}
-          >
-            Analytics
-          </a>
-          <a
-            role="tab"
-            tabIndex={1}
-            className={`tab ${
-              activeTab === 1
-                ? "tab-active font-semibold !border-primary"
-                : "!border-none text-gray-500"
-            }`}
-            onClick={(e) => handleTabClick(e.currentTarget.tabIndex)}
-          >
-            Widgets
-          </a>
-          <a
-            role="tab"
-            tabIndex={2}
-            className={`tab ${
-              activeTab === 2
-                ? "tab-active font-semibold !border-primary mt-0"
-                : "!border-none text-gray-500"
-            }`}
-            onClick={(e) => handleTabClick(e.currentTarget.tabIndex)}
-          >
-            Settings
-          </a>
-        </div>
-      )}
+      <ProjectTabList isHidden={isHiddenTabList} />
     </main>
   );
 }

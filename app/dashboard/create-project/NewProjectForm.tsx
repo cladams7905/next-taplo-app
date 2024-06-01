@@ -18,9 +18,14 @@ import { createProject } from "../actions";
 import { showToast, showToastError } from "@/components/shared/showToast";
 
 const FormSchema = z.object({
-  projectName: z.string().max(32, {
-    message: "Project name cannot exceed 32 characters.",
-  }),
+  projectName: z
+    .string()
+    .max(32, {
+      message: "Project name cannot exceed 32 characters.",
+    })
+    .min(3, {
+      message: "Project name must be at least 3 characters.",
+    }),
 });
 
 export default function NewProjectForm() {
@@ -53,7 +58,7 @@ export default function NewProjectForm() {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full space-y-6 my-6 font-sans"
+          className="w-full space-y-6 font-sans"
           autoComplete="on"
         >
           <FormField

@@ -13,37 +13,61 @@ export type Database = {
         Row: {
           created_at: string
           id: number
-          is_public: boolean | null
           project_name: string | null
           user_id: string | null
         }
         Insert: {
           created_at?: string
           id?: number
-          is_public?: boolean | null
           project_name?: string | null
           user_id?: string | null
         }
         Update: {
           created_at?: string
           id?: number
-          is_public?: boolean | null
           project_name?: string | null
           user_id?: string | null
         }
         Relationships: []
+      }
+      SessionData: {
+        Row: {
+          id: number
+          is_active: boolean | null
+          last_opened: string | null
+          project_id: number | null
+          user_id: string | null
+        }
+        Insert: {
+          id?: number
+          is_active?: boolean | null
+          last_opened?: string | null
+          project_id?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          id?: number
+          is_active?: boolean | null
+          last_opened?: string | null
+          project_id?: number | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "SessionData_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "Projects"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      fetch_user_by_email: {
-        Args: {
-          user_email: string
-        }
-        Returns: Record<string, unknown>
-      }
+      [_ in never]: never
     }
     Enums: {
       [_ in never]: never

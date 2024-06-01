@@ -15,7 +15,8 @@ export default async function RootLayout({
   if (error || !data?.user) {
     redirect("/");
   }
-  const currentProjects = (await getProjectsByUserId(data.user.id)) || [];
+  const currentProjects =
+    JSON.parse(await getProjectsByUserId(data.user.id))?.data || [];
 
   return (
     <main>
