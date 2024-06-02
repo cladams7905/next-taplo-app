@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import { TablesInsert } from "@/utils/supabase/types";
 
 export async function createProject(project: TablesInsert<"Projects">) {
-  const supabase = await createClient();
+  const supabase = createClient();
   const result = await supabase
     .from("Projects")
     .insert(project)
@@ -14,13 +14,13 @@ export async function createProject(project: TablesInsert<"Projects">) {
 }
 
 export async function getProjectsByUserId(userId: string) {
-  const supabase = await createClient();
+  const supabase = createClient();
   const result = await supabase.from("Projects").select().eq("user_id", userId);
   return JSON.stringify(result);
 }
 
 export async function getProjectSessionData(projectId: string) {
-  const supabase = await createClient();
+  const supabase = createClient();
   const result = await supabase
     .from("SessionData")
     .select()
@@ -29,28 +29,32 @@ export async function getProjectSessionData(projectId: string) {
 }
 
 export async function getActiveProject(userId: string) {
-  const supabase = await createClient();
-  const activeProjectId = await supabase
+  const supabase = createClient();
+  const sessionData = await supabase
     .from("SessionData")
     .select("project_id")
     .eq("is_active", true)
-    .eq("user_id", userId)
-    .single();
+    .eq("user_id", userId);
 
-  if (!activeProjectId.data?.project_id) {
+  if (!sessionData.data || sessionData.data?.length === 0) {
+    return JSON.stringify(sessionData);
+  }
+  const activeProjectId = sessionData.data[0];
+
+  if (!activeProjectId.project_id) {
     return JSON.stringify(activeProjectId);
   } else {
     const result = await supabase
       .from("Projects")
       .select()
-      .eq("id", activeProjectId.data.project_id)
+      .eq("id", activeProjectId.project_id)
       .single();
     return JSON.stringify(result);
   }
 }
 
 export async function setActiveProject(userId: string, projectId: string) {
-  const supabase = await createClient();
+  const supabase = createClient();
   const result = await supabase
     .from("SessionData")
     .update({ is_active: true })

@@ -4,6 +4,7 @@ import { Toaster } from "@/components/shared/toaster";
 import { Open_Sans, Changa_One } from "next/font/google";
 import cx from "classnames";
 import "./globals.css";
+import ProgressBarProvider from "@/components/shared/progressbar";
 
 const openSans = Open_Sans({
   variable: "--font-openSans",
@@ -29,7 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${cx(openSans.variable, changaOne.variable)}`}>
-        {children}
+        <ProgressBarProvider>{children}</ProgressBarProvider>
         <Toaster />
         <Analytics />
       </body>

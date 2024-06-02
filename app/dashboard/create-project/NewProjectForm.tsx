@@ -16,6 +16,7 @@ import { useTransition } from "react";
 import { CirclePlus } from "lucide-react";
 import { createProject } from "../actions";
 import { showToast, showToastError } from "@/components/shared/showToast";
+import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
   projectName: z
@@ -29,6 +30,7 @@ const FormSchema = z.object({
 });
 
 export default function NewProjectForm() {
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -43,12 +45,14 @@ export default function NewProjectForm() {
       const newProject = {
         project_name: formData.projectName,
       };
-      const { error } = JSON.parse(await createProject(newProject));
+      const { data, error } = JSON.parse(await createProject(newProject));
       if (error) {
         showToastError(error);
       } else {
         form.resetField("projectName");
         showToast(`Successfully created new project: ${formData.projectName}`);
+        router.push(`/dashboard/project/${data.id}`);
+        router.refresh();
       }
     });
   }

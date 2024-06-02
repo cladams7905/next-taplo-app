@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import UserDropdown from "@/components/layout/Navbar/UserDropdown";
 import { User } from "@supabase/supabase-js";
-import { ChevronsUpDown, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import ProjectDropdown from "./ProjectDropdown";
 import { usePathname } from "next/navigation";
 import { Tables } from "@/utils/supabase/types";
@@ -15,20 +15,19 @@ import { showToastError } from "@/components/shared/showToast";
 export default function DashboardNavbar({
   user,
   projects,
+  fetchedActiveProject,
 }: {
   user: User;
   projects: Tables<"Projects">[];
+  fetchedActiveProject?: Tables<"Projects">;
 }) {
   const pathname = usePathname();
   const [isHiddenTabList, setIsHiddenTabList] = useState(false);
-  const [activeProject, setActiveProject] = useState<Tables<"Projects">>();
+  const [activeProject, setActiveProject] = useState<
+    Tables<"Projects"> | undefined
+  >(fetchedActiveProject);
   const [reorderedProjects, setReorderedProjects] =
     useState<Tables<"Projects">[]>(projects);
-
-  /* The dropdown trigger ref is used to manually toggle the closing of 
-  the project dropdown menu when "Create New Project" is clicked, 
-  since DaisyUI doesn't have a built-in option for dropdown toggling. */
-  const dropdownTriggerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     /* This check is used for toggling the navbar tablist. 
@@ -49,7 +48,7 @@ export default function DashboardNavbar({
       }
     };
     updateActiveProject();
-  }, [user.id]);
+  }, [user.id, fetchedActiveProject]);
 
   useEffect(() => {
     /* Reorder projects when active project changes */
@@ -88,44 +87,11 @@ export default function DashboardNavbar({
           </div>
           <div className="ml-2">TapInsight.io</div>
           <div className="text-gray-300 text-xl ml-6 font-thin">/</div>
-          <div className="flex flex-wrap items-center">
-            <ul className="menu menu-horizontal">
-              <div className="dropdown">
-                <li
-                  className="text-sm text-primary-content font-semibold mr-1"
-                  tabIndex={1}
-                  onClick={() => {
-                    dropdownTriggerRef?.current?.classList.remove("hidden");
-                  }}
-                >
-                  <a>
-                    {" "}
-                    {activeProject
-                      ? activeProject.project_name
-                      : "Select Project"}{" "}
-                    <ChevronsUpDown
-                      height={16}
-                      width={16}
-                      strokeWidth={1.5}
-                      color="oklch(var(--bc))"
-                    />
-                  </a>
-                </li>
-                <div
-                  className="dropdown-content border mt-1 border-gray-200 z-[1] p-2 shadow bg-base-100 rounded-md w-52"
-                  ref={dropdownTriggerRef}
-                  tabIndex={1}
-                >
-                  <ProjectDropdown
-                    triggerElement={dropdownTriggerRef.current}
-                    projects={reorderedProjects}
-                    activeProject={activeProject}
-                    setActiveProjectRef={setActiveProject}
-                  />
-                </div>
-              </div>
-            </ul>
-          </div>
+          <ProjectDropdown
+            projects={reorderedProjects}
+            activeProject={activeProject}
+            setActiveProjectRef={setActiveProject}
+          />
         </div>
         <div className="navbar-end">
           <UserDropdown user={user} />
