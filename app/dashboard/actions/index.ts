@@ -30,17 +30,23 @@ export async function getProjectSessionData(projectId: string) {
 
 export async function getActiveProject(userId: string) {
   const supabase = await createClient();
-  const result = await supabase
-    .from("Projects")
-    .select(
-      `*,
-    SessionData!inner (
-      last_opened
-    )`
-    )
-    .eq("SessionData.is_active", true)
+  const activeProjectId = await supabase
+    .from("SessionData")
+    .select("project_id")
+    .eq("is_active", true)
+    .eq("user_id", userId)
     .single();
-  return JSON.stringify(result);
+
+  if (!activeProjectId.data?.project_id) {
+    return JSON.stringify(activeProjectId);
+  } else {
+    const result = await supabase
+      .from("Projects")
+      .select()
+      .eq("id", activeProjectId.data.project_id)
+      .single();
+    return JSON.stringify(result);
+  }
 }
 
 export async function setActiveProject(userId: string, projectId: string) {

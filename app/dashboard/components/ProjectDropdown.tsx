@@ -1,12 +1,12 @@
 "use client";
 
-import { ActiveProject } from "@/utils/customTypes";
 import { Tables } from "@/utils/supabase/types";
 import { Check, CirclePlus, Search } from "lucide-react";
 import Link from "next/link";
 import { setActiveProject } from "../actions";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState, useTransition } from "react";
 import { showToastError } from "@/components/shared/showToast";
+import LoadingDots from "@/components/shared/LoadingDots";
 
 export default function ProjectDropdown({
   triggerElement,
@@ -16,9 +16,31 @@ export default function ProjectDropdown({
 }: {
   triggerElement: HTMLDivElement | null;
   projects: Tables<"Projects">[];
-  activeProject: ActiveProject | undefined;
-  setActiveProjectRef: Dispatch<SetStateAction<ActiveProject | undefined>>;
+  activeProject: Tables<"Projects"> | undefined;
+  setActiveProjectRef: Dispatch<SetStateAction<Tables<"Projects"> | undefined>>;
 }) {
+  const [isPending, startTransition] = useTransition();
+  const [loadingProjectId, setLoadingProjectId] = useState<string | null>(null);
+
+  async function handleSubmit(
+    project: Tables<"Projects">,
+    activeProject: Tables<"Projects">
+  ) {
+    setLoadingProjectId(project.id.toString());
+    startTransition(async () => {
+      if (project.user_id && activeProject.id !== project.id) {
+        const { error } = JSON.parse(
+          await setActiveProject(project.user_id, project.id.toString())
+        );
+        if (error) {
+          showToastError(error);
+        } else {
+          setActiveProjectRef(project);
+        }
+      }
+    });
+  }
+
   return (
     <div
       className="flex flex-col transition-all ease-in-out duration-300"
@@ -42,30 +64,21 @@ export default function ProjectDropdown({
         <div className="text-xs ml-2 font-semibold text-gray-400">Projects</div>
         <ul className="mt-2 max-h-32 overflow-y-scroll">
           {activeProject &&
-            projects.map((project, i) => (
+            projects.map((project) => (
               <li
                 key={project.id}
                 className={`flex flex-row text-sm text-primary-content rounded-md mb-2 ${
                   activeProject?.id === project.id && `bg-gray-200`
                 }`}
-                onClick={async () => {
-                  if (project.user_id) {
-                    const { error } = JSON.parse(
-                      await setActiveProject(
-                        project.user_id,
-                        project.id.toString()
-                      )
-                    );
-                    if (error) {
-                      showToastError(error);
-                    }
-                  }
-                }}
+                onClick={() => handleSubmit(project, activeProject)}
               >
                 <a className="w-full flex justify-between">
                   {project.project_name}
                   {activeProject?.id === project.id && (
                     <Check color="oklch(var(--pc))" height={18} width={18} />
+                  )}
+                  {isPending && loadingProjectId === project.id.toString() && (
+                    <LoadingDots />
                   )}
                 </a>
               </li>

@@ -8,7 +8,6 @@ import ProjectDropdown from "./ProjectDropdown";
 import { usePathname } from "next/navigation";
 import { Tables } from "@/utils/supabase/types";
 import { getActiveProject } from "../actions";
-import { ActiveProject } from "@/utils/customTypes";
 import { moveToTop } from "@/utils/actions";
 import ProjectTabList from "./ProjectTabList";
 import { showToastError } from "@/components/shared/showToast";
@@ -22,7 +21,7 @@ export default function DashboardNavbar({
 }) {
   const pathname = usePathname();
   const [isHiddenTabList, setIsHiddenTabList] = useState(false);
-  const [activeProject, setActiveProject] = useState<ActiveProject>();
+  const [activeProject, setActiveProject] = useState<Tables<"Projects">>();
   const [reorderedProjects, setReorderedProjects] =
     useState<Tables<"Projects">[]>(projects);
 
@@ -40,23 +39,28 @@ export default function DashboardNavbar({
   }, [pathname]);
 
   useEffect(() => {
-    /* This useEffect reorders the project list in the project dropdown so 
-    that the active project is always at the top of the list. */
+    /* Fetch and set the active project */
     const updateActiveProject = async () => {
       const { data, error } = JSON.parse(await getActiveProject(user.id));
       if (error) {
         showToastError(error);
       } else {
         setActiveProject(data);
-        const updatedProjects = moveToTop(
-          projects,
-          projects.filter((project) => project.id == data.id)[0]
-        );
-        setReorderedProjects(updatedProjects);
       }
     };
     updateActiveProject();
-  }, [user.id, projects]);
+  }, [user.id]);
+
+  useEffect(() => {
+    /* Reorder projects when active project changes */
+    if (activeProject) {
+      const updatedProjects = moveToTop(
+        projects,
+        projects.find((project) => project.id === activeProject.id)
+      );
+      setReorderedProjects(updatedProjects);
+    }
+  }, [activeProject, projects]);
 
   return (
     <main
