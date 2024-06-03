@@ -29,6 +29,7 @@ export default function ProjectDropdown({
   const [isCreateProjectPending, startCreateProjectTransition] =
     useTransition();
   const [loadingProjectId, setLoadingProjectId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   /* The dropdown trigger ref is used to manually toggle the closing of 
   the project dropdown menu when "Create New Project" is clicked, 
@@ -54,6 +55,10 @@ export default function ProjectDropdown({
       }
     });
   }
+
+  const filteredProjects = projects.filter((project) =>
+    project?.project_name?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div className="flex flex-wrap items-center">
@@ -99,6 +104,8 @@ export default function ProjectDropdown({
                   type="text"
                   className="grow w-5 ml-4"
                   placeholder="Search Projects..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </label>
               <hr className="text-gray-300"></hr>
@@ -108,7 +115,7 @@ export default function ProjectDropdown({
                 </div>
                 <ul className="mt-2 max-h-32 overflow-y-scroll">
                   {activeProject &&
-                    projects.map((project) => (
+                    filteredProjects.map((project) => (
                       <li
                         key={project.id}
                         className={`flex flex-row text-sm text-primary-content rounded-md mb-2 ${
@@ -120,7 +127,7 @@ export default function ProjectDropdown({
                           handleSubmit(project, activeProject);
                           setTimeout(() => {
                             triggerElement?.current?.classList.add("hidden");
-                          }, 2000);
+                          }, 1000);
                         }}
                       >
                         <a className="w-full flex justify-between">
