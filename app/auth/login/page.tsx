@@ -10,7 +10,7 @@ export default async function Login() {
 
   const { data, error } = await supabase.auth.getUser();
   if (!error && data?.user) {
-    redirect(`${origin}${await getRedirectPathname(data.user.id)}`);
+    redirect(await getRedirectPathname(data.user.id));
   }
 
   return (
