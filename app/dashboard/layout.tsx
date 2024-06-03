@@ -5,7 +5,7 @@ import { createClient } from "@/utils/supabase/server";
 import Footer from "./components/DashboardFooter";
 import { getActiveProject, getProjectsByUserId } from "./actions";
 
-export default async function RootLayout({
+export default async function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

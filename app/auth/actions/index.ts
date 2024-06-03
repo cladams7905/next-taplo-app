@@ -1,5 +1,6 @@
 "use server";
 
+import { getActiveProject } from "@/app/dashboard/actions";
 import { createClient } from "@/utils/supabase/server";
 
 export async function signUpWithEmailAndPassword(data: {
@@ -31,4 +32,13 @@ export async function signOut() {
   const supabase = createClient();
   const result = await supabase.auth.signOut();
   return JSON.stringify(result);
+}
+
+export async function getRedirectPathname(userId: string) {
+  const activeProject = JSON.parse(await getActiveProject(userId));
+  if (activeProject?.data) {
+    return `/dashboard/project/${activeProject.data.id}`;
+  } else {
+    return `/dashboard/create-project`;
+  }
 }
