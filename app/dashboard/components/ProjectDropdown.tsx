@@ -26,6 +26,8 @@ export default function ProjectDropdown({
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const [isCreateProjectPending, startCreateProjectTransition] =
+    useTransition();
   const [loadingProjectId, setLoadingProjectId] = useState<string | null>(null);
 
   /* The dropdown trigger ref is used to manually toggle the closing of 
@@ -114,7 +116,12 @@ export default function ProjectDropdown({
                           !isPending &&
                           `bg-gray-200`
                         }`}
-                        onClick={() => handleSubmit(project, activeProject)}
+                        onClick={() => {
+                          handleSubmit(project, activeProject);
+                          setTimeout(() => {
+                            triggerElement?.current?.classList.add("hidden");
+                          }, 2000);
+                        }}
                       >
                         <a className="w-full flex justify-between">
                           {project.project_name}
@@ -137,13 +144,23 @@ export default function ProjectDropdown({
               <hr className="text-gray-300 my-2"></hr>
               <Link
                 href={"/dashboard/create-project"}
-                className="btn btn-primary btn-sm rounded-md h-auto p-2 mt-1"
+                className="btn btn-primary btn-sm rounded-md h-auto p-2 mt-1 min-h-[38px]"
                 onClick={() => {
-                  triggerElement?.current?.classList.add("hidden");
+                  startCreateProjectTransition(() => {
+                    setTimeout(() => {
+                      triggerElement?.current?.classList.add("hidden");
+                    }, 700);
+                  });
                 }}
               >
-                <CirclePlus height={18} width={18} />
-                New Project
+                {isCreateProjectPending ? (
+                  <LoadingDots color="#FFFFFF" />
+                ) : (
+                  <>
+                    <CirclePlus height={18} width={18} />
+                    New Project
+                  </>
+                )}
               </Link>
             </div>
           </div>
