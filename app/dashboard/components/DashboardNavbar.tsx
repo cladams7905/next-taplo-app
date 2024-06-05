@@ -63,7 +63,7 @@ export default function DashboardNavbar({
 
   return (
     <main
-      className={`fixed flex flex-col items-center w-full font-sans z-30 transition-all${
+      className={`flex flex-col items-center w-full font-sans z-30 transition-all${
         !isHiddenTabList && ` bg-base-100 border-b border-gray-200`
       }`}
     >
@@ -78,10 +78,13 @@ export default function DashboardNavbar({
               className="menu menu-sm dropdown-content border border-gray-200 z-[1] p-2 shadow bg-base-100 rounded-md w-52"
             >
               <li>
-                <a>Suggest a feature!</a>
+                <a>Surveys</a>
               </li>
               <li>
-                <a>Help</a>
+                <a>Insights</a>
+              </li>
+              <li>
+                <a>Settings</a>
               </li>
             </ul>
           </div>
@@ -93,11 +96,13 @@ export default function DashboardNavbar({
             setActiveProjectRef={setActiveProject}
           />
         </div>
+        <div className="navbar-center -mb-9 hidden lg:block">
+          <ProjectTabList isHidden={isHiddenTabList} />
+        </div>
         <div className="navbar-end">
           <UserDropdown user={user} />
         </div>
       </div>
-      <ProjectTabList isHidden={isHiddenTabList} />
     </main>
   );
 }

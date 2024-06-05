@@ -14,7 +14,7 @@ export default function Home() {
       </Suspense>
       <div
         className="flex min-h-screen w-full flex-col items-center justify-between p-24
-      bg-gradient-to-br from-indigo-50 via-white to-cyan-100"
+      bg-gradient-to-br from-slate-100 via-white to-cyan-100"
       >
         {/* <UsersightPopup/> */}
         <div className="flex flex-row flex-wrap font-sans lg:mb-32 md:mb-16 sm:mb-12 lg:gap-12 md:gap-8 sm:gap-4 items-center justify-center w-full">

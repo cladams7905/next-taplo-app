@@ -42,17 +42,19 @@ export default function ProjectDropdown({
   ) {
     setLoadingProjectId(project.id.toString());
     startTransition(async () => {
-      if (project.user_id && activeProject.id !== project.id) {
-        const { error } = JSON.parse(
-          await setActiveProject(project.user_id, project.id.toString())
-        );
-        if (error) {
-          showToastError(error);
-        } else {
-          setActiveProjectRef(project);
-          router.push(`/dashboard/project/${project.id}`);
+      if (project.user_id) {
+        if (activeProject.id !== project.id) {
+          const { error } = JSON.parse(
+            await setActiveProject(project.user_id, project.id.toString())
+          );
+          if (error) {
+            showToastError(error);
+          } else {
+            setActiveProjectRef(project);
+          }
         }
       }
+      router.push(`/dashboard/project/${project.id}`);
     });
   }
 

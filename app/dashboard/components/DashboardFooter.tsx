@@ -3,9 +3,9 @@ import React from "react";
 
 export default function DashboardFooter() {
   return (
-    <footer className="footer flex justify-end fixed bottom-0 px-4 text-base-content">
+    <footer className="footer flex justify-end bottom-0 px-4 text-base-content">
       <aside>
-        <ul tabIndex={0} className="menu menu-horizontal hidden lg:flex">
+        <ul tabIndex={0} className="menu menu-horizontal">
           <li>
             <a>Suggest a feature</a>
           </li>

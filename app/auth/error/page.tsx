@@ -2,7 +2,7 @@ import React from "react";
 
 export default async function AuthCodeError() {
   return (
-    <main className="bg-gradient-to-br from-indigo-50 via-white to-cyan-100">
+    <main className="bg-gradient-to-br from-slate-100 via-white to-cyan-100">
       <div className="navbar fixed lg:px-6 font-sans text-gray-500 ">
         <div className="navbar-start">
           {/* <Logo/> */}

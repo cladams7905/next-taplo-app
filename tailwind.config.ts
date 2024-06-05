@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-import daisyui from 'daisyui'
+import daisyui from "daisyui";
 
 const config: Config = {
   daisyui: {
@@ -12,9 +12,9 @@ const config: Config = {
       // emerald theme
       {
         emerald: {
-          ...require("daisyui/src/theming/themes")["emerald"]
+          ...require("daisyui/src/theming/themes")["emerald"],
         },
-      }
+      },
     ],
   },
   content: [
@@ -24,9 +24,12 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      height: {
+        "screen-minus-navbar": "calc(100vh - 68px)",
+      },
       fontFamily: {
-        heading: ['var(--font-changaOne)'],
-        sans: ['var(--font-openSans)'],
+        heading: ["var(--font-changaOne)"],
+        sans: ["var(--font-openSans)"],
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

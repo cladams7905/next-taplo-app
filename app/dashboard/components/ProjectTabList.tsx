@@ -23,7 +23,7 @@ export default function ProjectTabList({ isHidden }: { isHidden: boolean }) {
             }`}
             onClick={(e) => handleTabClick(e.currentTarget.tabIndex)}
           >
-            Analytics
+            Surveys
           </a>
           <a
             role="tab"
@@ -35,7 +35,7 @@ export default function ProjectTabList({ isHidden }: { isHidden: boolean }) {
             }`}
             onClick={(e) => handleTabClick(e.currentTarget.tabIndex)}
           >
-            Widgets
+            Insights
           </a>
           <a
             role="tab"
