@@ -30,3 +30,7 @@ input, textarea {
 @layer base {
 
 }
+
+.tab-active::after {
+  @apply content-[""] flex items-center mt-8 w-10 h-[3px] rounded-sm bg-primary absolute transition-opacity duration-300 ease-in-out
+}

@@ -27,7 +27,7 @@ export default async function DashboardLayout({
         projects={currentProjects}
         fetchedActiveProject={activeProject}
       />
-      <div className="flex flex-col h-screen-minus-navbar bg-slate-100 px-8 pt-5 relative">
+      <div className="flex flex-col h-screen-minus-navbar bg-slate-100 px-8 relative">
         {children}
         <Footer />
       </div>

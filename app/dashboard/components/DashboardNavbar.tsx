@@ -62,11 +62,7 @@ export default function DashboardNavbar({
   }, [activeProject, projects]);
 
   return (
-    <main
-      className={`flex flex-col items-center w-full font-sans z-30 transition-all${
-        !isHiddenTabList && ` bg-base-100 border-b border-gray-200`
-      }`}
-    >
+    <main className="flex flex-col items-center w-full font-sans z-30 transition-all bg-slate-100">
       <div className="navbar flex lg:px-6">
         <div className="navbar-start">
           <div className="dropdown">
@@ -78,7 +74,7 @@ export default function DashboardNavbar({
               className="menu menu-sm dropdown-content border border-gray-200 z-[1] p-2 shadow bg-base-100 rounded-md w-52"
             >
               <li>
-                <a>Surveys</a>
+                <a>Tapforms</a>
               </li>
               <li>
                 <a>Insights</a>
@@ -96,7 +92,7 @@ export default function DashboardNavbar({
             setActiveProjectRef={setActiveProject}
           />
         </div>
-        <div className="navbar-center -mb-9 hidden lg:block">
+        <div className="navbar-center hidden lg:block">
           <ProjectTabList isHidden={isHiddenTabList} />
         </div>
         <div className="navbar-end">

@@ -3,7 +3,7 @@ import React from "react";
 
 export default function DashboardFooter() {
   return (
-    <footer className="footer flex justify-end bottom-0 px-4 text-base-content">
+    <footer className="footer font-sans w-full flex justify-end bottom-0 text-base-content">
       <aside>
         <ul tabIndex={0} className="menu menu-horizontal">
           <li>
