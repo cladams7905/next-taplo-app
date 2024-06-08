@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@/components/shared/form";
 import { useTransition } from "react";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 import { showToast, showToastError } from "@/components/shared/showToast";
 
 const FormSchema = z.object({

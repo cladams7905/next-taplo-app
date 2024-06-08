@@ -49,7 +49,7 @@ export type Database = {
           title: string | null
           type: Database["public"]["Enums"]["FeatureType"] | null
           upvotes: number | null
-          user_id: string
+          user_id: string | null
         }
         Insert: {
           created_at?: string
@@ -61,7 +61,7 @@ export type Database = {
           title?: string | null
           type?: Database["public"]["Enums"]["FeatureType"] | null
           upvotes?: number | null
-          user_id?: string
+          user_id?: string | null
         }
         Update: {
           created_at?: string
@@ -73,7 +73,7 @@ export type Database = {
           title?: string | null
           type?: Database["public"]["Enums"]["FeatureType"] | null
           upvotes?: number | null
-          user_id?: string
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -97,19 +97,19 @@ export type Database = {
           created_at: string
           id: number
           project_name: string | null
-          user_id: string
+          user_id: string | null
         }
         Insert: {
           created_at?: string
           id?: number
           project_name?: string | null
-          user_id: string
+          user_id?: string | null
         }
         Update: {
           created_at?: string
           id?: number
           project_name?: string | null
-          user_id?: string
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -127,21 +127,21 @@ export type Database = {
           is_active: boolean | null
           last_opened: string | null
           project_id: number | null
-          user_id: string
+          user_id: string | null
         }
         Insert: {
           id?: number
           is_active?: boolean | null
           last_opened?: string | null
           project_id?: number | null
-          user_id: string
+          user_id?: string | null
         }
         Update: {
           id?: number
           is_active?: boolean | null
           last_opened?: string | null
           project_id?: number | null
-          user_id?: string
+          user_id?: string | null
         }
         Relationships: [
           {

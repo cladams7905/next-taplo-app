@@ -14,9 +14,9 @@ import {
 } from "@/components/shared/form";
 import { useTransition } from "react";
 import { CirclePlus } from "lucide-react";
-import { createProject } from "../actions";
 import { showToast, showToastError } from "@/components/shared/showToast";
 import { useRouter } from "next/navigation";
+import { createProject } from "@/lib/actions/projects";
 
 const FormSchema = z.object({
   projectName: z
@@ -45,7 +45,7 @@ export default function NewProjectForm() {
       const newProject = {
         project_name: formData.projectName,
       };
-      const { data, error } = JSON.parse(await createProject(newProject));
+      const { data, error } = await createProject(newProject);
       if (error) {
         showToastError(error);
       } else {

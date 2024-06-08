@@ -1,7 +1,7 @@
 "use server";
 
-import { createClient } from "@/utils/supabase/server";
-import { TablesInsert } from "@/utils/supabase/types";
+import { createClient } from "@/lib/supabase/server";
+import { TablesInsert } from "@/lib/supabase/types";
 
 export async function createFeatureRequest(
   featureRequest: TablesInsert<"FeatureRequests">

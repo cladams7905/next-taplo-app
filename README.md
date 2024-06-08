@@ -2,7 +2,7 @@
 
 Run the following code:
 
-<code>./utils/supabase/update.sh</code>
+<code>./lib/supabase/update.sh</code>
 
 ## Deploy on Vercel
 

@@ -3,7 +3,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { Drawer } from "vaul";
 import * as Dialog from "@radix-ui/react-dialog";
-import useMediaQuery from "@/utils/hooks/use-media-query";
+import useMediaQuery from "@/lib/hooks/use-media-query";
 
 export default function Modal({
   children,

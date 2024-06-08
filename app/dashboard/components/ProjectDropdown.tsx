@@ -1,9 +1,8 @@
 "use client";
 
-import { Tables } from "@/utils/supabase/types";
+import { Tables } from "@/lib/supabase/types";
 import { Check, ChevronsUpDown, CirclePlus, Search } from "lucide-react";
 import Link from "next/link";
-import { setActiveProject } from "../actions";
 import {
   Dispatch,
   SetStateAction,
@@ -14,7 +13,8 @@ import {
 import { showToastError } from "@/components/shared/showToast";
 import LoadingDots from "@/components/shared/LoadingDots";
 import { useRouter } from "next/navigation";
-import { checkStringLength } from "@/utils/actions";
+import { checkStringLength } from "@/lib/actions";
+import { setActiveProject } from "@/lib/actions/sessionData";
 
 export default function ProjectDropdown({
   projects,
@@ -45,8 +45,9 @@ export default function ProjectDropdown({
     startTransition(async () => {
       if (project.user_id) {
         if (activeProject.id !== project.id) {
-          const { error } = JSON.parse(
-            await setActiveProject(project.user_id, project.id.toString())
+          const { error } = await setActiveProject(
+            project.user_id,
+            project.id.toString()
           );
           if (error) {
             showToastError(error);

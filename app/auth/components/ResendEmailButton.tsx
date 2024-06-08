@@ -3,7 +3,7 @@
 import React from "react";
 import { useTransition } from "react";
 import LoadingDots from "@/components/shared/LoadingDots";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 import { showToast, showToastError } from "@/components/shared/showToast";
 
 export default function ResendEmailButton({ email }: { email?: string }) {

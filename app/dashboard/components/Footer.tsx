@@ -1,7 +1,7 @@
 import { HelpCircle } from "lucide-react";
 import React from "react";
 
-export default function DashboardFooter() {
+export default function Footer() {
   return (
     <footer className="footer font-sans w-full flex justify-end bottom-0 text-base-content">
       <aside>

@@ -1,7 +1,7 @@
 "use client";
 
 import { Logo } from "@/components/shared/icons/logo";
-import useScroll from "@/utils/hooks/use-scroll";
+import useScroll from "@/lib/hooks/use-scroll";
 
 import s from "./Navbar.module.css";
 import { ArrowRight, Menu } from "lucide-react";

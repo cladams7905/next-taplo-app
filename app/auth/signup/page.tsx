@@ -1,5 +1,5 @@
 import RegisterForm from "../components/RegisterForm";
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { getRedirectPathname } from "../actions";
 

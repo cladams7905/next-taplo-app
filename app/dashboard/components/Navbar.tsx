@@ -6,13 +6,13 @@ import { User } from "@supabase/supabase-js";
 import { Menu } from "lucide-react";
 import ProjectDropdown from "./ProjectDropdown";
 import { usePathname } from "next/navigation";
-import { Tables } from "@/utils/supabase/types";
-import { getActiveProject } from "../actions";
-import { moveToTop } from "@/utils/actions";
+import { Tables } from "@/lib/supabase/types";
+import { moveToTop } from "@/lib/actions";
 import ProjectTabList from "./ProjectTabList";
 import { showToastError } from "@/components/shared/showToast";
+import { getActiveProject } from "@/lib/actions/sessionData";
 
-export default function DashboardNavbar({
+export default function Navbar({
   user,
   projects,
   fetchedActiveProject,
@@ -40,7 +40,7 @@ export default function DashboardNavbar({
   useEffect(() => {
     /* Fetch and set the active project */
     const updateActiveProject = async () => {
-      const { data, error } = JSON.parse(await getActiveProject(user.id));
+      const { data, error } = await getActiveProject(user.id);
       if (error) {
         showToastError(error);
       } else {

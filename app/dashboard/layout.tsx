@@ -1,9 +1,10 @@
 import React from "react";
-import Navbar from "./components/DashboardNavbar";
+import Navbar from "./components/Navbar";
 import { redirect } from "next/navigation";
-import { createClient } from "@/utils/supabase/server";
-import Footer from "./components/DashboardFooter";
-import { getActiveProject, getProjectsByUserId } from "./actions";
+import { createClient } from "@/lib/supabase/server";
+import Footer from "./components/Footer";
+import { getProjectsByUserId } from "@/lib/actions/projects";
+import { getActiveProject } from "@/lib/actions/sessionData";
 
 export default async function DashboardLayout({
   children,
@@ -11,14 +12,14 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }>) {
   const supabase = createClient();
+
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
     redirect("/");
   }
-  const currentProjects =
-    JSON.parse(await getProjectsByUserId(data.user.id))?.data || [];
 
-  const activeProject = JSON.parse(await getActiveProject(data.user.id))?.data;
+  const currentProjects = (await getProjectsByUserId(data.user.id))?.data || [];
+  const activeProject = (await getActiveProject(data.user.id))?.data;
 
   return (
     <main>

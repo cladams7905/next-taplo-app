@@ -8,7 +8,6 @@ import {
 } from "@/components/shared/tabs";
 import SignInForm from "./SignInForm";
 import RegisterForm from "./RegisterForm";
-import OAuthForm from "./OAuthForm";
 
 export interface AuthFormProps {
   closeSignInModal: () => void;

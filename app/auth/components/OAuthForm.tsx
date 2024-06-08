@@ -3,7 +3,7 @@
 import { useState } from "react";
 import LoadingDots from "@/components/shared/LoadingDots";
 import Google from "@/components/shared/icons/google";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 
 export default function OAuthForm() {
   const [signInClicked, setSignInClicked] = useState(false);

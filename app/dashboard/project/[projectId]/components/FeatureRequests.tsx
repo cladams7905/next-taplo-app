@@ -1,6 +1,6 @@
 import { ChevronUpSquare, EllipsisVertical, MessageSquare } from "lucide-react";
-import { Tables } from "@/utils/supabase/types";
-import { convertDateTime } from "@/utils/actions";
+import { Tables } from "@/lib/supabase/types";
+import { convertDateTime } from "@/lib/actions";
 
 export default function FeatureRequests({
   featureRequests,
