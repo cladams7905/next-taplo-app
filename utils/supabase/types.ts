@@ -9,26 +9,117 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      Comments: {
+        Row: {
+          content: string | null
+          created_at: string
+          feature_id: number | null
+          id: number
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string
+          feature_id?: number | null
+          id?: number
+        }
+        Update: {
+          content?: string | null
+          created_at?: string
+          feature_id?: number | null
+          id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "Comments_feature_id_fkey"
+            columns: ["feature_id"]
+            isOneToOne: false
+            referencedRelation: "FeatureRequests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      FeatureRequests: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: number
+          importance: Database["public"]["Enums"]["Importance"] | null
+          project_id: number
+          status: Database["public"]["Enums"]["RequestStatus"] | null
+          title: string | null
+          type: Database["public"]["Enums"]["FeatureType"] | null
+          upvotes: number | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: number
+          importance?: Database["public"]["Enums"]["Importance"] | null
+          project_id: number
+          status?: Database["public"]["Enums"]["RequestStatus"] | null
+          title?: string | null
+          type?: Database["public"]["Enums"]["FeatureType"] | null
+          upvotes?: number | null
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: number
+          importance?: Database["public"]["Enums"]["Importance"] | null
+          project_id?: number
+          status?: Database["public"]["Enums"]["RequestStatus"] | null
+          title?: string | null
+          type?: Database["public"]["Enums"]["FeatureType"] | null
+          upvotes?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "FeatureRequests_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "Projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "FeatureRequests_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       Projects: {
         Row: {
           created_at: string
           id: number
           project_name: string | null
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           created_at?: string
           id?: number
           project_name?: string | null
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           created_at?: string
           id?: number
           project_name?: string | null
-          user_id?: string | null
+          user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "Projects_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       SessionData: {
         Row: {
@@ -36,21 +127,21 @@ export type Database = {
           is_active: boolean | null
           last_opened: string | null
           project_id: number | null
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           id?: number
           is_active?: boolean | null
           last_opened?: string | null
           project_id?: number | null
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           id?: number
           is_active?: boolean | null
           last_opened?: string | null
           project_id?: number | null
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
@@ -58,6 +149,13 @@ export type Database = {
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "Projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "SessionData_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
@@ -70,7 +168,16 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      FeatureType:
+        | "Error/Bug Fix"
+        | "Design"
+        | "Usability"
+        | "Device Compatibility"
+        | "Security"
+        | "Integration"
+        | "Other"
+      Importance: "Low" | "Moderate" | "High" | "Critical"
+      RequestStatus: "New" | "In Progress" | "Completed" | "Archived"
     }
     CompositeTypes: {
       [_ in never]: never

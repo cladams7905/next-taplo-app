@@ -1,6 +1,6 @@
 "use client";
 
-import { CircleUserRound, LogOut, Settings } from "lucide-react";
+import { CircleUserRound, LogOut, User2 } from "lucide-react";
 import { User } from "@supabase/supabase-js";
 import { signOut } from "@/app/auth/actions";
 import Image from "next/image";
@@ -69,8 +69,8 @@ export default function UserDropdown(data: { user: User }) {
           className="relative flex w-full cursor-not-allowed items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100"
           disabled
         >
-          <Settings className="h-4 w-4" />
-          <p className="text-sm">Settings</p>
+          <User2 className="h-4 w-4" />
+          <p className="text-sm">Account</p>
         </button>
         <button
           className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100"

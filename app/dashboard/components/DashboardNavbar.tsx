@@ -74,10 +74,7 @@ export default function DashboardNavbar({
               className="menu menu-sm dropdown-content border border-gray-200 z-[1] p-2 shadow bg-base-100 rounded-md w-52"
             >
               <li>
-                <a>Tapforms</a>
-              </li>
-              <li>
-                <a>Insights</a>
+                <a>Dashboard</a>
               </li>
               <li>
                 <a>Settings</a>

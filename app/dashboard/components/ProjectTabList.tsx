@@ -21,23 +21,13 @@ export default function ProjectTabList({ isHidden }: { isHidden: boolean }) {
             }`}
             onClick={(e) => handleTabClick(e.currentTarget.tabIndex)}
           >
-            Tapforms
+            Dashboard
           </a>
           <a
             role="tab"
             tabIndex={1}
             className={`tab ${
               currentTab === 1 ? "tab-active font-semibold" : "text-gray-500"
-            }`}
-            onClick={(e) => handleTabClick(e.currentTarget.tabIndex)}
-          >
-            Insights
-          </a>
-          <a
-            role="tab"
-            tabIndex={2}
-            className={`tab ${
-              currentTab === 2 ? "tab-active font-semibold" : "text-gray-500"
             }`}
             onClick={(e) => handleTabClick(e.currentTarget.tabIndex)}
           >

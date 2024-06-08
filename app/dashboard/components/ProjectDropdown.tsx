@@ -14,6 +14,7 @@ import {
 import { showToastError } from "@/components/shared/showToast";
 import LoadingDots from "@/components/shared/LoadingDots";
 import { useRouter } from "next/navigation";
+import { checkStringLength } from "@/utils/actions";
 
 export default function ProjectDropdown({
   projects,
@@ -133,7 +134,7 @@ export default function ProjectDropdown({
                         }}
                       >
                         <a className="w-full flex justify-between">
-                          {project.project_name}
+                          {checkStringLength(project.project_name)}
                           {activeProject?.id === project.id && !isPending && (
                             <Check
                               color="oklch(var(--pc))"
