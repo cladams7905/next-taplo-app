@@ -1,23 +1,31 @@
+"use client";
+
+import { SortType } from "@/lib/enums";
 import { Tables } from "@/lib/supabase/types";
 import { Ellipsis } from "lucide-react";
+import { Dispatch, SetStateAction } from "react";
+import SortDropdown from "./SortDropdown";
+import FilterDropdown from "./FilterDropdown";
 
-export default function Header({ project }: { project: Tables<"Projects"> }) {
+export default function Header({
+  project,
+  sortType,
+  setSortType,
+}: {
+  project: Tables<"Projects">;
+  sortType: SortType;
+  setSortType: Dispatch<SetStateAction<SortType>>;
+}) {
   return (
     <div className="flex flex-row items-center justify-between">
       <div className="flex gap-3 items-center">
         <p className="text-2xl">{`${project.project_name} - Dashboard`}</p>
         <Ellipsis />
       </div>
-      <select
-        defaultValue={"Sort by"}
-        className="select select-bordered select-sm w-full max-w-44"
-      >
-        <option>Alphabetical order</option>
-        <option>Date submitted</option>
-        <option>Importance</option>
-        <option>Status</option>
-        <option>Type</option>
-      </select>
+      <div className="flex gap-3 items-center">
+        <FilterDropdown />
+        <SortDropdown sortType={sortType} setSortType={setSortType} />
+      </div>
     </div>
   );
 }

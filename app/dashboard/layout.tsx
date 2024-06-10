@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import Footer from "./components/Footer";
 import { getProjectsByUserId } from "@/lib/actions/projects";
 import { getActiveProject } from "@/lib/actions/sessionData";
+import { revalidatePath } from "next/cache";
 
 export default async function DashboardLayout({
   children,
@@ -18,6 +19,7 @@ export default async function DashboardLayout({
     redirect("/");
   }
 
+  revalidatePath("/dashboard/project");
   const currentProjects = (await getProjectsByUserId(data.user.id))?.data || [];
   const activeProject = (await getActiveProject(data.user.id))?.data;
 

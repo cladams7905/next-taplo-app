@@ -1,12 +1,18 @@
+"use client";
+
 import { ChevronUpSquare, EllipsisVertical, MessageSquare } from "lucide-react";
 import { Tables } from "@/lib/supabase/types";
 import { convertDateTime } from "@/lib/actions";
+import { SortType } from "@/lib/enums";
 
 export default function FeatureRequests({
   featureRequests,
+  sortType,
 }: {
   featureRequests: Tables<"FeatureRequests">[];
+  sortType: SortType;
 }) {
+  const sortedRequests = sortRequests(featureRequests, sortType);
   return (
     <>
       {featureRequests.length > 0 ? (
@@ -27,57 +33,59 @@ export default function FeatureRequests({
             </div>
           </div>
           <div className="flex flex-col overflow-y-scroll gap-3">
-            {featureRequests.map((feature) => (
-              <div
-                key={feature.id}
-                className="flex items-center bg-gray-100 rounded-md px-6 py-4 min-h-14 hover:bg-gray-200 transition-all duration-150 ease-in-out"
-              >
-                <div className="flex w-full columns-5">
-                  <div className="flex w-[15%] items-center">
-                    <div className="flex items-center gap-2 rounded-md text-md font-semibold text-base-content">
-                      <div className="flex flex-col items-center justify-center">
-                        <ChevronUpSquare
-                          width={20}
-                          height={20}
-                          strokeWidth={1.5}
-                        />
-                        {feature.upvotes}
-                      </div>
-                      <div className="flex flex-col items-center justify-center">
-                        <MessageSquare
-                          width={20}
-                          height={20}
-                          strokeWidth={1.5}
-                        />
-                        0
+            {sortedRequests
+              .map((feature) => (
+                <div
+                  key={feature.id}
+                  className="flex items-center bg-gray-100 rounded-md px-6 py-4 min-h-14 hover:bg-gray-200 transition-all duration-150 ease-in-out"
+                >
+                  <div className="flex w-full columns-5">
+                    <div className="flex w-[15%] items-center">
+                      <div className="flex items-center gap-2 rounded-md text-md font-semibold text-base-content">
+                        <div className="flex flex-col items-center justify-center">
+                          <ChevronUpSquare
+                            width={20}
+                            height={20}
+                            strokeWidth={1.5}
+                          />
+                          {feature.upvotes}
+                        </div>
+                        <div className="flex flex-col items-center justify-center">
+                          <MessageSquare
+                            width={20}
+                            height={20}
+                            strokeWidth={1.5}
+                          />
+                          0
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="flex flex-col justify-center gap-1 w-[40%] text-sm">
-                    <p className="font-semibold text-base-content">
-                      {feature.title}
-                    </p>
-                    <p className="text-gray-500">{feature.description}</p>
-                  </div>
-                  <div className="w-[18%] flex items-center text-sm text-gray-500">
-                    {convertDateTime(feature.created_at)}
-                  </div>
-                  <div className="w-[15%] flex items-center text-sm text-gray-500">
-                    {feature.type}
-                  </div>
-                  <div className="flex items-center justify-center">
-                    <div className="flex flex-row gap-1 items-end">
-                      <div className="w-2 h-3 bg-error rounded-md"></div>
-                      <div className="w-2 h-4 bg-error rounded-md"></div>
-                      <div className="w-2 h-5 bg-error rounded-md"></div>
+                    <div className="flex flex-col justify-center gap-1 w-[40%] text-sm">
+                      <p className="font-semibold text-base-content">
+                        {feature.title}
+                      </p>
+                      <p className="text-gray-500">{feature.description}</p>
                     </div>
-                  </div>
-                  <div className="w-[8.5%] flex items-center justify-end">
-                    <EllipsisVertical />
+                    <div className="w-[18%] flex items-center text-sm text-gray-500">
+                      {convertDateTime(feature.created_at)}
+                    </div>
+                    <div className="w-[15%] flex items-center text-sm text-gray-500">
+                      {feature.type}
+                    </div>
+                    <div className="flex items-center justify-center">
+                      <div className="flex flex-row gap-1 items-end">
+                        <div className="w-2 h-3 bg-error rounded-md"></div>
+                        <div className="w-2 h-4 bg-error rounded-md"></div>
+                        <div className="w-2 h-5 bg-error rounded-md"></div>
+                      </div>
+                    </div>
+                    <div className="w-[8.5%] flex items-center justify-end">
+                      <EllipsisVertical />
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+              .sort()}
           </div>
         </>
       ) : (
@@ -88,3 +96,31 @@ export default function FeatureRequests({
     </>
   );
 }
+
+const sortRequests = (
+  featureRequests: Tables<"FeatureRequests">[],
+  sortType: SortType
+) => {
+  let sortedRequests;
+  switch (sortType) {
+    case SortType.dateSubmitted:
+      sortedRequests = featureRequests.sort(
+        (a, b) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
+      break;
+    case SortType.alphabetical:
+      sortedRequests = featureRequests.sort((a, b) =>
+        a.title != null && b.title != null
+          ? a.title.toLowerCase().localeCompare(b.title.toLowerCase())
+          : 0
+      );
+      break;
+    default:
+      sortedRequests = featureRequests.sort(
+        (a, b) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      );
+  }
+  return sortedRequests;
+};
