@@ -1,8 +1,14 @@
 "use client";
 
 import { SortType } from "@/lib/enums";
-import { ArrowDownAZ, ArrowDownUp, Calendar, Check } from "lucide-react";
-import { Dispatch, SetStateAction, useState } from "react";
+import {
+  ArrowDownAZ,
+  ArrowDownUp,
+  Calendar,
+  Check,
+  ChevronUpSquare,
+} from "lucide-react";
+import { Dispatch, SetStateAction } from "react";
 
 export default function SortDropdown({
   sortType,
@@ -15,7 +21,7 @@ export default function SortDropdown({
     <div className="flex flex-wrap items-center">
       <ul className="menu menu-horizontal">
         <div className="dropdown dropdown-end" tabIndex={1}>
-          <li className="text-sm text-primary-content font-semibold mr-1">
+          <li className="text-sm text-primary-content font-semibold">
             <a>
               Sort
               <ArrowDownUp
@@ -74,6 +80,30 @@ export default function SortDropdown({
                     Alphabetical
                   </div>
                   {sortType === SortType.alphabetical && (
+                    <Check color="oklch(var(--pc))" height={18} width={18} />
+                  )}
+                </a>
+              </li>
+              <li
+                className={`flex flex-row text-sm text-primary-content rounded-md ${
+                  sortType === SortType.upvotes && `bg-gray-200`
+                }`}
+                onClick={() => {
+                  setSortType(SortType.upvotes);
+                }}
+              >
+                <a className="w-full flex justify-between">
+                  <div className="flex flex-row items-center gap-2">
+                    {" "}
+                    <ChevronUpSquare
+                      height={16}
+                      width={16}
+                      strokeWidth={1.5}
+                      color="oklch(var(--bc))"
+                    />
+                    Upvotes
+                  </div>
+                  {sortType === SortType.upvotes && (
                     <Check color="oklch(var(--pc))" height={18} width={18} />
                   )}
                 </a>

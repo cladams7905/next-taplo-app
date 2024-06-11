@@ -13,6 +13,7 @@ export default function FeatureRequests({
   sortType: SortType;
 }) {
   const sortedRequests = sortRequests(featureRequests, sortType);
+  const numComments = 0;
   return (
     <>
       {featureRequests.length > 0 ? (
@@ -48,16 +49,18 @@ export default function FeatureRequests({
                             height={20}
                             strokeWidth={1.5}
                           />
-                          {feature.upvotes}
+                          {feature.upvotes ? feature.upvotes : 0}
                         </div>
-                        <div className="flex flex-col items-center justify-center">
-                          <MessageSquare
-                            width={20}
-                            height={20}
-                            strokeWidth={1.5}
-                          />
-                          0
-                        </div>
+                        {numComments > 0 && (
+                          <div className="flex flex-col items-center justify-center">
+                            <MessageSquare
+                              width={20}
+                              height={20}
+                              strokeWidth={1.5}
+                            />
+                            0
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div className="flex flex-col justify-center gap-1 w-[40%] text-sm">
@@ -116,11 +119,11 @@ const sortRequests = (
           : 0
       );
       break;
-    default:
-      sortedRequests = featureRequests.sort(
-        (a, b) =>
-          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    case SortType.upvotes:
+      sortedRequests = featureRequests.sort((a, b) =>
+        a.upvotes != null && b.upvotes != null ? b.upvotes - a.upvotes : 0
       );
+      break;
   }
   return sortedRequests;
 };

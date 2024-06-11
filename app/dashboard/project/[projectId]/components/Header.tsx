@@ -22,7 +22,7 @@ export default function Header({
         <p className="text-2xl">{`${project.project_name} - Dashboard`}</p>
         <Ellipsis />
       </div>
-      <div className="flex gap-3 items-center">
+      <div className="flex items-center">
         <FilterDropdown />
         <SortDropdown sortType={sortType} setSortType={setSortType} />
       </div>
