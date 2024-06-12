@@ -23,8 +23,8 @@ export default function Header({
 }) {
   return (
     <div className="flex flex-row items-center justify-between">
-      <div className="flex gap-3 items-center">
-        <p className="text-2xl">{`${project.project_name} - Dashboard`}</p>
+      <div className="flex gap-6 items-center">
+        <p className="text-2xl">{`${project.project_name} Dashboard`}</p>
         <Ellipsis />
       </div>
       <div className="flex items-center">

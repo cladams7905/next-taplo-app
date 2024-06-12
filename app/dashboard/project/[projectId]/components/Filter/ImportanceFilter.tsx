@@ -22,7 +22,6 @@ export default function ImportanceFilter({
   const lowCheckBox = useRef<HTMLInputElement>(null);
   const medCheckbox = useRef<HTMLInputElement>(null);
   const highCheckBox = useRef<HTMLInputElement>(null);
-  const critCheckBox = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (lowCheckBox.current && isImportanceAllChecked) {
@@ -33,9 +32,6 @@ export default function ImportanceFilter({
     }
     if (highCheckBox.current && isImportanceAllChecked) {
       highCheckBox.current.checked = true;
-    }
-    if (critCheckBox.current && isImportanceAllChecked) {
-      critCheckBox.current.checked = true;
     }
   }, [isImportanceAllChecked]);
 
@@ -91,18 +87,6 @@ export default function ImportanceFilter({
           }}
         />
         <span className="label-text text-xs">High</span>
-      </label>
-      <label className="label cursor-pointer justify-start gap-3">
-        <input
-          type="checkbox"
-          ref={critCheckBox}
-          disabled={isImportanceAllChecked}
-          className="checkbox w-4 h-4 rounded-sm focus:border-solid"
-          onChange={(e) => {
-            handleCheckboxChange(e, "importanceFilter", "Critical");
-          }}
-        />
-        <span className="label-text text-xs">Critical</span>
       </label>
     </div>
   );

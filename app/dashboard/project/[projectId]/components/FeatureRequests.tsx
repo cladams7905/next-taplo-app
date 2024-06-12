@@ -1,6 +1,11 @@
 "use client";
 
-import { ChevronUpSquare, EllipsisVertical, MessageSquare } from "lucide-react";
+import {
+  ChevronUp,
+  ChevronUpSquare,
+  EllipsisVertical,
+  MessageSquare,
+} from "lucide-react";
 import { Enums, Tables } from "@/lib/supabase/types";
 import { convertDateTime } from "@/lib/actions";
 import { SortType } from "@/lib/enums";
@@ -37,30 +42,30 @@ export default function FeatureRequests({
               <p>Importance</p>
             </div>
           </div>
-          <div className="flex flex-col overflow-y-scroll gap-3">
+          <div className="flex flex-col overflow-y-scroll">
             {sortedRequests
               .map((feature) => (
                 <div
                   key={feature.id}
-                  className="flex items-center bg-gray-100 rounded-md px-6 py-4 min-h-14 hover:bg-gray-200 transition-all duration-150 ease-in-out"
+                  className="flex items-center border-b border-gray-200 hover:rounded-md px-6 py-2 min-h-14 hover:bg-gray-200 transition-all duration-150 ease-in-out"
                 >
                   <div className="flex w-full columns-5">
                     <div className="flex w-[15%] items-center">
-                      <div className="flex items-center gap-2 rounded-md text-md font-semibold text-base-content">
+                      <div className="flex items-center gap-2 hover:rounded-md text-md text-base-content">
                         <div className="flex flex-col items-center justify-center">
                           <ChevronUpSquare
                             width={20}
                             height={20}
-                            strokeWidth={1.5}
+                            strokeWidth={1}
                           />
                           {feature.upvotes ? feature.upvotes : 0}
                         </div>
-                        {numComments > 0 && (
+                        {numComments == 0 && (
                           <div className="flex flex-col items-center justify-center">
                             <MessageSquare
                               width={20}
                               height={20}
-                              strokeWidth={1.5}
+                              strokeWidth={1}
                             />
                             0
                           </div>
@@ -79,12 +84,28 @@ export default function FeatureRequests({
                     <div className="w-[15%] flex items-center text-sm text-gray-500">
                       {feature.type}
                     </div>
-                    <div className="flex items-center justify-center">
-                      <div className="flex flex-row gap-1 items-end">
-                        <div className="w-2 h-3 bg-error rounded-md"></div>
-                        <div className="w-2 h-4 bg-error rounded-md"></div>
-                        <div className="w-2 h-5 bg-error rounded-md"></div>
-                      </div>
+                    <div className="flex items-center justify-center ml-4">
+                      {feature.importance === "Low" && (
+                        <div className="flex flex-row gap-1 items-end">
+                          <div className="w-1 h-2 bg-primary rounded-md"></div>
+                          <div className="w-1 h-3 bg-gray-300 rounded-md"></div>
+                          <div className="w-1 h-4 bg-gray-300 rounded-md"></div>
+                        </div>
+                      )}
+                      {feature.importance === "Moderate" && (
+                        <div className="flex flex-row gap-1 items-end">
+                          <div className="w-1 h-2 bg-warning rounded-md"></div>
+                          <div className="w-1 h-3 bg-warning rounded-md"></div>
+                          <div className="w-1 h-4 bg-gray-300 rounded-md"></div>
+                        </div>
+                      )}
+                      {feature.importance === "High" && (
+                        <div className="flex flex-row gap-1 items-end">
+                          <div className="w-1 h-2 bg-accent rounded-md"></div>
+                          <div className="w-1 h-3 bg-accent rounded-md"></div>
+                          <div className="w-1 h-4 bg-accent rounded-md"></div>
+                        </div>
+                      )}
                     </div>
                     <div className="w-[8.5%] flex items-center justify-end">
                       <EllipsisVertical />

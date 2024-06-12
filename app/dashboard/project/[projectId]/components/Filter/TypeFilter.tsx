@@ -19,32 +19,28 @@ export default function TypeFilter({
   const [isTypeAllChecked, setTypeAllChecked] = useState(true);
 
   /* Feature type checkbox refs */
-  const errCheckBox = useRef<HTMLInputElement>(null);
-  const designCheckBox = useRef<HTMLInputElement>(null);
-  const usabilityCheckBox = useRef<HTMLInputElement>(null);
-  const deviceCompatCheckBox = useRef<HTMLInputElement>(null);
+  const bugsFixesCheckBox = useRef<HTMLInputElement>(null);
+  const designUsabilityCheckBox = useRef<HTMLInputElement>(null);
+  const deviceSupportCheckBox = useRef<HTMLInputElement>(null);
   const securityCheckBox = useRef<HTMLInputElement>(null);
-  const integrationCheckBox = useRef<HTMLInputElement>(null);
+  const integrationsCheckBox = useRef<HTMLInputElement>(null);
   const otherCheckBox = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (errCheckBox.current && isTypeAllChecked) {
-      errCheckBox.current.checked = true;
+    if (bugsFixesCheckBox.current && isTypeAllChecked) {
+      bugsFixesCheckBox.current.checked = true;
     }
-    if (designCheckBox.current && isTypeAllChecked) {
-      designCheckBox.current.checked = true;
+    if (designUsabilityCheckBox.current && isTypeAllChecked) {
+      designUsabilityCheckBox.current.checked = true;
     }
-    if (usabilityCheckBox.current && isTypeAllChecked) {
-      usabilityCheckBox.current.checked = true;
-    }
-    if (deviceCompatCheckBox.current && isTypeAllChecked) {
-      deviceCompatCheckBox.current.checked = true;
+    if (deviceSupportCheckBox.current && isTypeAllChecked) {
+      deviceSupportCheckBox.current.checked = true;
     }
     if (securityCheckBox.current && isTypeAllChecked) {
       securityCheckBox.current.checked = true;
     }
-    if (integrationCheckBox.current && isTypeAllChecked) {
-      integrationCheckBox.current.checked = true;
+    if (integrationsCheckBox.current && isTypeAllChecked) {
+      integrationsCheckBox.current.checked = true;
     }
     if (otherCheckBox.current && isTypeAllChecked) {
       otherCheckBox.current.checked = true;
@@ -72,53 +68,41 @@ export default function TypeFilter({
         <label className="label cursor-pointer justify-start gap-3">
           <input
             type="checkbox"
-            ref={errCheckBox}
+            ref={bugsFixesCheckBox}
             disabled={isTypeAllChecked}
             className="checkbox w-4 h-4 rounded-sm focus:border-solid"
             onChange={(e) => {
-              handleCheckboxChange(e, "typeFilter", "Error/Bug Fix");
+              handleCheckboxChange(e, "typeFilter", "Bugs & Fixes");
             }}
           />
-          <span className="label-text text-xs">Error/Bug Fix</span>
+          <span className="label-text text-xs">Bugs & Fixes</span>
         </label>
         <label className="label cursor-pointer justify-start gap-3">
           <input
             type="checkbox"
-            ref={designCheckBox}
+            ref={designUsabilityCheckBox}
             disabled={isTypeAllChecked}
             className="checkbox w-4 h-4 rounded-sm focus:border-solid"
             onChange={(e) => {
-              handleCheckboxChange(e, "typeFilter", "Design");
+              handleCheckboxChange(e, "typeFilter", "Design & Usability");
             }}
           />
-          <span className="label-text text-xs">Design</span>
+          <span className="label-text text-xs">Design & Usability</span>
         </label>
         <label className="label cursor-pointer justify-start gap-3">
           <input
             type="checkbox"
-            ref={usabilityCheckBox}
+            ref={deviceSupportCheckBox}
             disabled={isTypeAllChecked}
             className="checkbox w-4 h-4 rounded-sm focus:border-solid"
             onChange={(e) => {
-              handleCheckboxChange(e, "typeFilter", "Usability");
+              handleCheckboxChange(e, "typeFilter", "Device Support");
             }}
           />
-          <span className="label-text text-xs">Usability</span>
+          <span className="label-text text-xs">Device Support</span>
         </label>
       </div>
       <div className="w-1/2">
-        <label className="label cursor-pointer justify-start gap-3">
-          <input
-            type="checkbox"
-            ref={deviceCompatCheckBox}
-            disabled={isTypeAllChecked}
-            className="checkbox w-4 h-4 rounded-sm focus:border-solid"
-            onChange={(e) => {
-              handleCheckboxChange(e, "typeFilter", "Device Compatibility");
-            }}
-          />
-          <span className="label-text text-xs">Device Compatibility</span>
-        </label>
         <label className="label cursor-pointer justify-start gap-3">
           <input
             type="checkbox"
@@ -134,11 +118,11 @@ export default function TypeFilter({
         <label className="label cursor-pointer justify-start gap-3">
           <input
             type="checkbox"
-            ref={integrationCheckBox}
+            ref={integrationsCheckBox}
             disabled={isTypeAllChecked}
             className="checkbox w-4 h-4 rounded-sm focus:border-solid"
             onChange={(e) => {
-              handleCheckboxChange(e, "typeFilter", "Integration");
+              handleCheckboxChange(e, "typeFilter", "Integrations");
             }}
           />
           <span className="label-text text-xs">Integrations</span>
@@ -150,7 +134,7 @@ export default function TypeFilter({
             disabled={isTypeAllChecked}
             className="checkbox w-4 h-4 rounded-sm focus:border-solid"
             onChange={(e) => {
-              handleCheckboxChange(e, "typeFilter", "Othe");
+              handleCheckboxChange(e, "typeFilter", "Other");
             }}
           />
           <span className="label-text text-xs">Other</span>

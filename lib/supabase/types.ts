@@ -169,14 +169,13 @@ export type Database = {
     }
     Enums: {
       FeatureType:
-        | "Error/Bug Fix"
-        | "Design"
-        | "Usability"
-        | "Device Compatibility"
+        | "Bugs & Fixes"
+        | "Design & Usability"
+        | "Device Support"
         | "Security"
-        | "Integration"
+        | "Integrations"
         | "Other"
-      Importance: "Low" | "Moderate" | "High" | "Critical"
+      Importance: "Low" | "Moderate" | "High"
       RequestStatus: "New" | "In Progress" | "Completed" | "Archived"
     }
     CompositeTypes: {
