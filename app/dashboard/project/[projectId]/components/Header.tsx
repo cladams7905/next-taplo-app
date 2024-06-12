@@ -5,7 +5,7 @@ import { Tables } from "@/lib/supabase/types";
 import { Ellipsis } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import SortDropdown from "./SortDropdown";
-import FilterDropdown from "./FilterDropdown";
+import FilterDropdown from "./Filter/FilterDropdown";
 import { FilterBuilder } from "@/lib/types";
 
 export default function Header({
