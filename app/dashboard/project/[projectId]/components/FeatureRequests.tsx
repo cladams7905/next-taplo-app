@@ -1,18 +1,22 @@
 "use client";
 
 import { ChevronUpSquare, EllipsisVertical, MessageSquare } from "lucide-react";
-import { Tables } from "@/lib/supabase/types";
+import { Enums, Tables } from "@/lib/supabase/types";
 import { convertDateTime } from "@/lib/actions";
 import { SortType } from "@/lib/enums";
+import { FilterBuilder } from "@/lib/types";
 
 export default function FeatureRequests({
   featureRequests,
   sortType,
+  filterBuilder,
 }: {
   featureRequests: Tables<"FeatureRequests">[];
   sortType: SortType;
+  filterBuilder: FilterBuilder;
 }) {
-  const sortedRequests = sortRequests(featureRequests, sortType);
+  const filteredRequests = filterRequests(featureRequests, filterBuilder);
+  const sortedRequests = sortRequests(filteredRequests, sortType);
   const numComments = 0;
   return (
     <>
@@ -126,4 +130,29 @@ const sortRequests = (
       break;
   }
   return sortedRequests;
+};
+
+const filterRequests = (
+  featureRequests: Tables<"FeatureRequests">[],
+  filterBuilder: FilterBuilder
+) => {
+  let filteredRequests = featureRequests;
+
+  filterBuilder.importanceFilter.forEach((filter) => {
+    filteredRequests = filteredRequests.filter(
+      (request) => request.importance !== filter
+    );
+  });
+  filterBuilder.statusFilter.forEach((filter) => {
+    filteredRequests = filteredRequests.filter(
+      (request) => request.status !== filter
+    );
+  });
+  filterBuilder.typeFilter.forEach((filter) => {
+    filteredRequests = filteredRequests.filter(
+      (request) => request.type !== filter
+    );
+  });
+
+  return filteredRequests;
 };

@@ -6,15 +6,20 @@ import { Ellipsis } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import SortDropdown from "./SortDropdown";
 import FilterDropdown from "./FilterDropdown";
+import { FilterBuilder } from "@/lib/types";
 
 export default function Header({
   project,
   sortType,
   setSortType,
+  filterBuilder,
+  setFilterBuilder,
 }: {
   project: Tables<"Projects">;
   sortType: SortType;
   setSortType: Dispatch<SetStateAction<SortType>>;
+  filterBuilder: FilterBuilder;
+  setFilterBuilder: Dispatch<SetStateAction<FilterBuilder>>;
 }) {
   return (
     <div className="flex flex-row items-center justify-between">
@@ -23,7 +28,10 @@ export default function Header({
         <Ellipsis />
       </div>
       <div className="flex items-center">
-        <FilterDropdown />
+        <FilterDropdown
+          filterBuilder={filterBuilder}
+          setFilterBuilder={setFilterBuilder}
+        />
         <SortDropdown sortType={sortType} setSortType={setSortType} />
       </div>
     </div>
