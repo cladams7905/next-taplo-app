@@ -28,3 +28,13 @@ export async function getProjectById(projectId: number) {
     .single();
   return JSON.parse(JSON.stringify(result));
 }
+
+export async function deleteProjectById(projectId: number) {
+  const supabase = createClient();
+  const result = await supabase
+    .from("Projects")
+    .delete()
+    .eq("id", projectId)
+    .single();
+  return JSON.parse(JSON.stringify(result));
+}

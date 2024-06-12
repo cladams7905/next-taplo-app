@@ -60,7 +60,7 @@ export default function FeatureRequests({
                           />
                           {feature.upvotes ? feature.upvotes : 0}
                         </div>
-                        {numComments == 0 && (
+                        {numComments > 0 && (
                           <div className="flex flex-col items-center justify-center">
                             <MessageSquare
                               width={20}
