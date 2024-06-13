@@ -86,6 +86,9 @@ export default function ProjectDropdown({
                 strokeWidth={1.5}
                 color="oklch(var(--bc))"
               />
+              {isPending && (
+                <span className="loading loading-spinner loading-sm"></span>
+              )}
             </a>
           </li>
           <div
@@ -143,10 +146,6 @@ export default function ProjectDropdown({
                               width={18}
                             />
                           )}
-                          {isPending &&
-                            loadingProjectId === project.id.toString() && (
-                              <LoadingDots size="sm" />
-                            )}
                         </a>
                       </li>
                     ))}

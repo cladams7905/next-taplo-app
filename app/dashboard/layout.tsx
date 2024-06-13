@@ -32,7 +32,9 @@ export default async function DashboardLayout({
         fetchedActiveProject={activeProject}
       />
       <div className="flex flex-col h-screen-minus-navbar bg-slate-50 px-8 relative">
-        <Suspense fallback={<Loading />}>{children}</Suspense>
+        <Suspense key={Math.random()} fallback={<Loading />}>
+          {children}
+        </Suspense>
         <Footer />
       </div>
     </main>
