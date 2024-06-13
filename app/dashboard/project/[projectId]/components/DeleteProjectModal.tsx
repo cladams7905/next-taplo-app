@@ -81,7 +81,7 @@ export default function DeleteProjectModal({
         <p className="py-4">
           If you are sure you want to delete project{" "}
           <span className="font-semibold">{`${project.project_name}`}</span>,
-          please enter the project name below.
+          please enter the project name below. This action cannot be undone!
         </p>
         <div className="flex flex-col items-center justify-center w-full max-w-md">
           <Form {...form}>

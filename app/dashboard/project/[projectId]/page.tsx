@@ -11,6 +11,10 @@ export default async function DashboardHome({
   const featureRequests = (await getFeatureRequests(params.projectId)).data;
   const project = (await getProjectById(params.projectId)).data;
 
+  if (!project) {
+    throw new Error("This project does not exist.");
+  }
+
   return (
     <main className="flex w-full h-full columns-2 gap-3 font-sans relative">
       <div className="w-1/5">
