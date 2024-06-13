@@ -8,6 +8,7 @@ import SortDropdown from "./SortDropdown";
 import FilterDropdown from "./Filter/FilterDropdown";
 import { FilterBuilder } from "@/lib/types";
 import DeleteProjectModal from "./DeleteProjectModal";
+import RenameProjectModal from "./RenameProjectModal";
 
 export default function Header({
   project,
@@ -48,7 +49,12 @@ export default function Header({
                 className={`flex flex-row w-full text-sm text-primary-content rounded-md hover:bg-gray-200 p-2`}
                 onClick={() => {}}
               >
-                <a className="w-full flex justify-between">
+                <a
+                  className="w-full flex justify-between"
+                  onClick={() => {
+                    renameModalRef.current?.showModal();
+                  }}
+                >
                   <div className="flex flex-row items-center gap-2">
                     <Pencil
                       height={16}
@@ -59,6 +65,11 @@ export default function Header({
                     Rename
                   </div>
                 </a>
+                <RenameProjectModal
+                  renameModalRef={renameModalRef}
+                  dropdownRef={dropdownRef}
+                  project={project}
+                />
               </li>
               <li
                 className={`flex flex-row w-full text-sm text-primary-content rounded-md hover:bg-gray-200 p-2`}

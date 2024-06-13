@@ -1,7 +1,7 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import { TablesInsert } from "@/lib/supabase/types";
+import { TablesInsert, TablesUpdate } from "@/lib/supabase/types";
 
 export async function createProject(project: TablesInsert<"Projects">) {
   const supabase = createClient();
@@ -34,6 +34,19 @@ export async function deleteProjectById(projectId: number) {
   const result = await supabase
     .from("Projects")
     .delete()
+    .eq("id", projectId)
+    .single();
+  return JSON.parse(JSON.stringify(result));
+}
+
+export async function updateExistingProject(
+  projectId: number,
+  project: TablesUpdate<"Projects">
+) {
+  const supabase = createClient();
+  const result = await supabase
+    .from("Projects")
+    .update(project)
     .eq("id", projectId)
     .single();
   return JSON.parse(JSON.stringify(result));
