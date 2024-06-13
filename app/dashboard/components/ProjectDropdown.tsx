@@ -11,7 +11,7 @@ import {
   useTransition,
 } from "react";
 import { showToastError } from "@/components/shared/showToast";
-import LoadingDots from "@/components/shared/LoadingDots";
+import LoadingDots from "@/components/shared/loadingdots";
 import { useRouter } from "next/navigation";
 import { checkStringLength } from "@/lib/actions";
 import { setActiveProject } from "@/lib/actions/sessionData";
@@ -145,7 +145,7 @@ export default function ProjectDropdown({
                           )}
                           {isPending &&
                             loadingProjectId === project.id.toString() && (
-                              <LoadingDots />
+                              <LoadingDots size="sm" />
                             )}
                         </a>
                       </li>
@@ -165,7 +165,7 @@ export default function ProjectDropdown({
                 }}
               >
                 {isCreateProjectPending ? (
-                  <LoadingDots color="#FFFFFF" />
+                  <LoadingDots color="#FFFFFF" size="sm" />
                 ) : (
                   <>
                     <CirclePlus height={18} width={18} />

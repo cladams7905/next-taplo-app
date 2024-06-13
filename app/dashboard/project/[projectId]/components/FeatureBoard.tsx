@@ -21,6 +21,10 @@ export default function FeatureBoard({
     typeFilter: [],
   });
 
+  if (!project) {
+    throw new Error("This project does not exist.");
+  }
+
   return (
     <div className="flex flex-col flex-wrap h-full bg-base-100 border border-gray-200 rounded-md px-12 py-6 gap-5">
       <Header

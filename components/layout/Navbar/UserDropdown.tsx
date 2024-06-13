@@ -1,12 +1,12 @@
 "use client";
 
-import { CircleUserRound, LogOut, User2 } from "lucide-react";
+import { CircleUser, LogOut, Settings } from "lucide-react";
 import { User } from "@supabase/supabase-js";
 import { signOut } from "@/app/auth/actions";
 import Image from "next/image";
 import { useTransition } from "react";
 import { redirect } from "next/navigation";
-import LoadingDots from "@/components/shared/LoadingDots";
+import LoadingDots from "@/components/shared/loadingdots";
 import { showToastError } from "@/components/shared/showToast";
 
 export default function UserDropdown(data: { user: User }) {
@@ -42,11 +42,10 @@ export default function UserDropdown(data: { user: User }) {
               className="mr-2 rounded-full border border-gray-300"
             ></Image>
           ) : (
-            <CircleUserRound
+            <CircleUser
               height={26}
               width={26}
-              strokeWidth={1.5}
-              color="#6b7280"
+              strokeWidth={1.25}
               className="mr-2 rounded-full"
             />
           )}
@@ -69,16 +68,20 @@ export default function UserDropdown(data: { user: User }) {
           className="relative flex w-full cursor-not-allowed items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100"
           disabled
         >
-          <User2 className="h-4 w-4" />
+          <Settings className="h-auto w-4" />
           <p className="text-sm">Account</p>
         </button>
         <button
           className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100"
           onClick={() => handleSignOut()}
         >
-          <LogOut className="h-4 w-4" />
+          <LogOut className="h-auto w-4" />
           <p className="text-sm">
-            {isPending ? <LoadingDots color="oklch(var(--pc))" /> : "Logout"}
+            {isPending ? (
+              <LoadingDots color="oklch(var(--pc))" size="sm" />
+            ) : (
+              "Logout"
+            )}
           </p>
         </button>
       </div>

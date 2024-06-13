@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import LoadingDots from "@/components/shared/LoadingDots";
 import {
   Form,
   FormControl,
@@ -121,7 +120,11 @@ export default function UpdatePasswordForm() {
           className="w-full btn btn-neutral"
           style={{ marginTop: "2.5rem" }}
         >
-          {isPending ? <LoadingDots color="#FFFFFF" /> : "Update Password"}
+          {isPending ? (
+            <span className="loading loading-dots loading-md bg-base-100"></span>
+          ) : (
+            "Update Password"
+          )}
         </div>
       </form>
     </Form>

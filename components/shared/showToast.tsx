@@ -20,6 +20,7 @@ export function showToastError(error: any, message?: string) {
 
 export function showToast(message: string) {
   return toast({
+    variant: "default",
     description: (
       <pre className="font-sans rounded-md text-wrap break-words whitespace-normal">
         <p>{message}</p>

@@ -1,10 +1,10 @@
 export default function Loading() {
   return (
-    <div className="flex w-full h-full columns-2 gap-3 font-sans relative">
-      <div className="skeleton bg-slate-100 w-1/5"></div>
-      <div className="flex flex-col w-4/5 gap-4">
-        <div className="skeleton bg-slate-100 w-full h-1/4"></div>
-        <div className="skeleton bg-slate-100 w-full h-3/4"></div>
+    <div className="flex w-full h-screen columns-2 gap-3 font-sans relative bg-slate-50">
+      <div className="flex flex-col w-full items-center justify-center gap-3">
+        {" "}
+        <div className="text-4xl font-semibold">Loading...</div>
+        <span className="loading loading-spinner loading-lg"></span>
       </div>
     </div>
   );

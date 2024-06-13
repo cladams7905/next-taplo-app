@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import LoadingDots from "@/components/shared/LoadingDots";
+import LoadingDots from "@/components/shared/loadingdots";
 import Google from "@/components/shared/icons/google";
 import { createClient } from "@/lib/supabase/client";
 
@@ -41,7 +41,7 @@ export default function OAuthForm() {
           }}
         >
           {signInClicked ? (
-            <LoadingDots />
+            <LoadingDots color="oklch(var(--pc))" />
           ) : (
             <>
               <Google className="h-5 w-5" />

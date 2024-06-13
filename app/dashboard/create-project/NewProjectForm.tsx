@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import LoadingDots from "@/components/shared/LoadingDots";
+import LoadingDots from "@/components/shared/loadingdots";
 import {
   Form,
   FormControl,

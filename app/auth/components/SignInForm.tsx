@@ -13,7 +13,7 @@ import {
   FormMessage,
 } from "@/components/shared/form";
 import { useTransition } from "react";
-import LoadingDots from "@/components/shared/LoadingDots";
+import LoadingDots from "@/components/shared/loadingdots";
 import Link from "next/link";
 import { showToastError } from "@/components/shared/showToast";
 

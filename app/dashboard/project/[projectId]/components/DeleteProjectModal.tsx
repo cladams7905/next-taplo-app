@@ -11,12 +11,11 @@ import {
   FormMessage,
 } from "@/components/shared/form";
 import * as z from "zod";
-import LoadingDots from "@/components/shared/LoadingDots";
+import LoadingDots from "@/components/shared/loadingdots";
 import { Trash } from "lucide-react";
 import { Tables } from "@/lib/supabase/types";
 import { deleteProjectById } from "@/lib/actions/projects";
 import { showToast, showToastError } from "@/components/shared/showToast";
-import { getActiveProject } from "@/lib/actions/sessionData";
 import { useRouter } from "next/navigation";
 import { getRedirectPathname } from "@/app/auth/actions";
 
