@@ -21,7 +21,7 @@ export default function SortDropdown({
     <div className="flex flex-wrap items-center">
       <ul className="menu menu-horizontal">
         <div className="dropdown dropdown-end" tabIndex={1}>
-          <li className="text-sm text-primary-content font-semibold">
+          <li className="text-sm text-base-content font-semibold">
             <a>
               Sort
               <ArrowDownUp
@@ -33,13 +33,14 @@ export default function SortDropdown({
             </a>
           </li>
           <div
-            className="dropdown-content border mt-1 border-gray-200 z-[1] p-2 shadow bg-base-100 rounded-md w-52"
+            className="dropdown-content border mt-1 border-gray-200 dark:border-gray-600 z-[1] p-2 shadow bg-base-100 rounded-md w-52"
             tabIndex={1}
           >
             <ul className="flex flex-col transition-all ease-in-out duration-300">
               <li
-                className={`flex flex-row text-sm text-primary-content rounded-md ${
-                  sortType === SortType.dateSubmitted && `bg-gray-200`
+                className={`flex flex-row text-sm text-base-content rounded-md ${
+                  sortType === SortType.dateSubmitted &&
+                  `bg-gray-200 text-primary-content`
                 }`}
                 onClick={() => {
                   setSortType(SortType.dateSubmitted);
@@ -61,8 +62,9 @@ export default function SortDropdown({
                 </a>
               </li>
               <li
-                className={`flex flex-row text-sm text-primary-content rounded-md ${
-                  sortType === SortType.alphabetical && `bg-gray-200`
+                className={`flex flex-row text-sm text-base-content rounded-md ${
+                  sortType === SortType.alphabetical &&
+                  `bg-gray-200 text-primary-content`
                 }`}
                 onClick={() => {
                   setSortType(SortType.alphabetical);
@@ -85,8 +87,9 @@ export default function SortDropdown({
                 </a>
               </li>
               <li
-                className={`flex flex-row text-sm text-primary-content rounded-md ${
-                  sortType === SortType.upvotes && `bg-gray-200`
+                className={`flex flex-row text-sm text-base-content rounded-md ${
+                  sortType === SortType.upvotes &&
+                  `bg-gray-200 text-primary-content`
                 }`}
                 onClick={() => {
                   setSortType(SortType.upvotes);

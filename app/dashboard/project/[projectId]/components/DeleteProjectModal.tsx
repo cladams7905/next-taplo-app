@@ -65,7 +65,7 @@ export default function DeleteProjectModal({
 
   return (
     <dialog className="modal" ref={deleteModalRef}>
-      <div className="modal-box">
+      <div className="modal-box text-base-content dark:border dark:border-gray-600">
         <form method="dialog" className="modal-backdrop">
           <button
             className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-base-content"

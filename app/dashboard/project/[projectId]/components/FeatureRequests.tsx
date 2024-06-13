@@ -47,7 +47,7 @@ export default function FeatureRequests({
               .map((feature) => (
                 <div
                   key={feature.id}
-                  className="flex items-center border-b border-gray-200 hover:rounded-md px-6 py-2 min-h-14 hover:bg-gray-200 transition-all duration-150 ease-in-out"
+                  className="flex items-center border-b border-gray-200 dark:border-gray-600 hover:rounded-md px-6 py-2 min-h-14 hover:bg-gray-200 transition-all duration-150 ease-in-out"
                 >
                   <div className="flex w-full columns-5">
                     <div className="flex w-[15%] items-center">

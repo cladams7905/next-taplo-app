@@ -74,7 +74,7 @@ export default function RenameProjectModal({
 
   return (
     <dialog className="modal" ref={renameModalRef}>
-      <div className="modal-box">
+      <div className="modal-box dark:border dark:border-gray-600">
         <form method="dialog" className="modal-backdrop">
           <button
             className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-base-content"

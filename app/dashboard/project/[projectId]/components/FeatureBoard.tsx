@@ -26,7 +26,7 @@ export default function FeatureBoard({
   }
 
   return (
-    <div className="flex flex-col flex-wrap h-full bg-base-100 border border-gray-200 rounded-md px-12 py-6 gap-5">
+    <div className="flex flex-col flex-wrap h-full bg-base-100 dark:bg-neutral border border-gray-200 dark:border-gray-600 rounded-md px-12 py-6 gap-5">
       <Header
         project={project}
         sortType={sortType}
@@ -34,7 +34,7 @@ export default function FeatureBoard({
         filterBuilder={filterBuilder}
         setFilterBuilder={setFilterBuilder}
       />
-      <hr></hr>
+      <hr className="dark:hidden"></hr>
       <FeatureRequests
         featureRequests={featureRequests}
         sortType={sortType}

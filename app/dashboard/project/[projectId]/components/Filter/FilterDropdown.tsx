@@ -50,7 +50,7 @@ export default function FilterDropdown({
     <div className="flex flex-wrap items-center">
       <ul className="menu menu-horizontal">
         <div className="dropdown dropdown-end" tabIndex={1}>
-          <li className="text-sm text-primary-content font-semibold">
+          <li className="text-sm text-base-content font-semibold">
             <a>
               Filter
               <Filter
@@ -62,7 +62,7 @@ export default function FilterDropdown({
             </a>
           </li>
           <div
-            className="dropdown-content border mt-1 border-gray-200 z-[1] p-4 px-8 shadow bg-base-100 rounded-md"
+            className="dropdown-content border mt-1 border-gray-200 dark:border-gray-600 z-[1] p-4 px-8 shadow bg-base-100 rounded-md"
             tabIndex={1}
           >
             <div className="flex w-fit h-full columns-3 gap-14">

@@ -8,15 +8,9 @@ const config: Config = {
     utils: true,
     logs: true,
     rtl: false,
-    themes: [
-      // emerald theme
-      {
-        emerald: {
-          ...require("daisyui/src/theming/themes")["emerald"],
-        },
-      },
-    ],
+    themes: ["emerald", "dark"],
   },
+  darkMode: ["class", '[data-theme="dark"]'],
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",

@@ -69,7 +69,7 @@ export default function ProjectDropdown({
       <ul className="menu menu-horizontal">
         <div className="dropdown">
           <li
-            className="text-sm text-primary-content font-semibold mr-1"
+            className="text-sm text-base-content font-semibold mr-1"
             tabIndex={1}
             onClick={() => {
               triggerElement?.current?.classList.remove("hidden");
@@ -87,12 +87,12 @@ export default function ProjectDropdown({
                 color="oklch(var(--bc))"
               />
               {isPending && (
-                <span className="loading loading-spinner loading-sm"></span>
+                <span className="loading loading-spinner loading-sm dark:bg-primary"></span>
               )}
             </a>
           </li>
           <div
-            className="dropdown-content border mt-1 border-gray-200 z-[1] p-2 shadow bg-base-100 rounded-md w-52"
+            className="dropdown-content border mt-1 border-gray-200 dark:border-gray-600 z-[1] p-2 shadow bg-base-100 rounded-md w-52"
             ref={triggerElement}
             tabIndex={1}
           >
@@ -103,7 +103,7 @@ export default function ProjectDropdown({
               <label className="input input-sm flex items-center">
                 <Search
                   strokeWidth={1}
-                  color="oklch(var(--pc))"
+                  color="oklch(var(--bc))"
                   height={16}
                   width={16}
                 />
@@ -115,7 +115,7 @@ export default function ProjectDropdown({
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </label>
-              <hr className="text-gray-300"></hr>
+              <hr className="dark:border dark:border-gray-600"></hr>
               <div className="mt-4">
                 <div className="text-xs ml-2 font-semibold text-gray-400">
                   Projects
@@ -125,10 +125,10 @@ export default function ProjectDropdown({
                     filteredProjects.map((project) => (
                       <li
                         key={project.id}
-                        className={`flex flex-row text-sm text-primary-content rounded-md mb-2 ${
+                        className={`flex flex-row text-sm text-base-content rounded-md mb-2 ${
                           activeProject?.id === project.id &&
                           !isPending &&
-                          `bg-gray-200`
+                          `bg-gray-200 text-primary-content`
                         }`}
                         onClick={() => {
                           handleSubmit(project, activeProject);
@@ -151,7 +151,7 @@ export default function ProjectDropdown({
                     ))}
                 </ul>
               </div>
-              <hr className="text-gray-300 my-2"></hr>
+              <hr className="my-2 dark:border dark:border-gray-600"></hr>
               <Link
                 href={"/dashboard/create-project"}
                 className="btn btn-primary btn-sm rounded-md h-auto p-2 mt-1 min-h-[38px]"

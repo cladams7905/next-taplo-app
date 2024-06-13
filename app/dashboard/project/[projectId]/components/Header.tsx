@@ -40,13 +40,13 @@ export default function Header({
             }}
           />
           <div
-            className="dropdown-content border mt-1 border-gray-200 z-[1] p-2 w-48 shadow bg-base-100 rounded-md"
+            className="dropdown-content border mt-1 border-gray-200 dark:border-gray-600 z-[1] p-2 w-48 shadow bg-base-100 rounded-md"
             ref={dropdownRef}
             tabIndex={1}
           >
             <ul className="flex flex-col w-full">
               <li
-                className={`flex flex-row w-full text-sm text-primary-content rounded-md hover:bg-gray-200 p-2`}
+                className={`flex flex-row w-full text-sm text-base-content rounded-md hover:bg-gray-200 p-2`}
                 onClick={() => {}}
               >
                 <a
@@ -81,7 +81,7 @@ export default function Header({
                     deleteModalRef.current?.showModal();
                   }}
                 >
-                  <div className="flex flex-row items-center gap-2 text-accent">
+                  <div className="flex flex-row items-center gap-2 text-error">
                     {" "}
                     <Trash height={16} width={16} strokeWidth={1.5} />
                     Delete Project

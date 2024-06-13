@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import Navbar from "./components/Navbar";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
@@ -6,7 +6,6 @@ import Footer from "./components/Footer";
 import { getProjectsByUserId } from "@/lib/actions/projects";
 import { getActiveProject } from "@/lib/actions/sessionData";
 import { revalidatePath } from "next/cache";
-import Loading from "./project/[projectId]/loading";
 
 export default async function DashboardLayout({
   children,
@@ -31,10 +30,8 @@ export default async function DashboardLayout({
         projects={currentProjects}
         fetchedActiveProject={activeProject}
       />
-      <div className="flex flex-col h-screen-minus-navbar bg-slate-50 px-8 relative">
-        <Suspense key={Math.random()} fallback={<Loading />}>
-          {children}
-        </Suspense>
+      <div className="flex flex-col h-screen-minus-navbar bg-slate-50 dark:bg-base-100 px-8 relative">
+        {children}
         <Footer />
       </div>
     </main>
