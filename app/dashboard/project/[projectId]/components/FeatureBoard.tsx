@@ -6,6 +6,7 @@ import FeatureRequests from "./FeatureRequests";
 import { SortType } from "@/lib/enums";
 import { Tables } from "@/lib/supabase/types";
 import { FilterBuilder } from "@/lib/types";
+import ProjectTabList from "./ProjectTabList";
 
 export default function FeatureBoard({
   featureRequests,
@@ -22,7 +23,7 @@ export default function FeatureBoard({
   });
 
   return (
-    <div className="flex flex-col flex-wrap h-full bg-base-100 dark:bg-neutral border border-gray-200 rounded-l-none dark:border-gray-600 rounded-md px-12 py-6 gap-5">
+    <div className="flex flex-col flex-wrap h-full bg-base-100 dark:bg-neutral border border-gray-200 rounded-l-none rounded-tr-none dark:border-gray-600 rounded-md p-4 px-8 gap-5">
       <Header
         project={project}
         sortType={sortType}

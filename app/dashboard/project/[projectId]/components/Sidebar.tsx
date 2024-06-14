@@ -2,7 +2,7 @@ import { ChevronUpSquare, SquareArrowOutUpRight } from "lucide-react";
 
 export default function Sidebar() {
   return (
-    <div className="flex flex-col w-full h-full bg-base-100 dark:bg-neutral rounded-md rounded-r-none border-r-transparent p-4 pb-6 gap-6 border border-gray-200 dark:border-gray-600 ">
+    <div className="flex flex-col w-full h-full bg-base-100 dark:bg-neutral rounded-md rounded-r-none rounded-tl-none border-r-transparent p-6 gap-6 border border-gray-200 dark:border-gray-600 ">
       <div className="stat-title text-gray-500 dark:text-base-content">
         Project Activity
       </div>

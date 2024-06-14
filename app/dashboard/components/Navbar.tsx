@@ -8,7 +8,7 @@ import ProjectDropdown from "./ProjectDropdown";
 import { usePathname } from "next/navigation";
 import { Tables } from "@/lib/supabase/types";
 import { moveToTop } from "@/lib/actions";
-import ProjectTabList from "./ProjectTabList";
+import ProjectTabList from "../project/[projectId]/components/ProjectTabList";
 import { showToastError } from "@/components/shared/showToast";
 import { getActiveProject } from "@/lib/actions/sessionData";
 
@@ -88,9 +88,6 @@ export default function Navbar({
             activeProject={activeProject}
             setActiveProjectRef={setActiveProject}
           />
-        </div>
-        <div className="navbar-center hidden lg:block">
-          <ProjectTabList isHidden={isHiddenTabList} />
         </div>
         <div className="navbar-end">
           <UserDropdown user={user} />
