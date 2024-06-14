@@ -39,7 +39,7 @@ export default function FeatureRequests({
               <p>Type</p>
             </div>
             <div className=" text-sm font-semibold text-base-content">
-              <p>Importance</p>
+              <p>Priority</p>
             </div>
           </div>
           <div className="flex flex-col overflow-y-scroll">

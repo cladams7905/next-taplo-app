@@ -28,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="dark">
+    <html lang="en" data-theme="emerald">
       <body className={`${cx(openSans.variable, changaOne.variable)}`}>
         <ProgressBarProvider>{children}</ProgressBarProvider>
         <Toaster />
