@@ -17,8 +17,8 @@ export default async function DashboardHome({
   }
 
   return (
-    <main className="flex w-full h-full columns-2 gap-3 font-sans relative">
-      <div className="w-1/5">
+    <main className="flex w-full h-full columns-2 font-sans relative">
+      <div className="w-1/5 h-full">
         <Sidebar />
       </div>
       <div className="w-4/5 h-full">

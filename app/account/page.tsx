@@ -8,5 +8,5 @@ export default async function AccountPage() {
   if (error || !data?.user) {
     redirect("/");
   }
-  return <div>page</div>;
+  return <div>Account</div>;
 }

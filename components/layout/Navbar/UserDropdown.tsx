@@ -8,6 +8,7 @@ import { useTransition } from "react";
 import { redirect } from "next/navigation";
 import LoadingDots from "@/components/shared/loadingdots";
 import { showToastError } from "@/components/shared/showToast";
+import Link from "next/link";
 
 export default function UserDropdown(data: { user: User }) {
   const [isPending, startTransition] = useTransition();
@@ -64,13 +65,12 @@ export default function UserDropdown(data: { user: User }) {
             </>
           )}
         </div>
-        <button
-          className="relative flex w-full cursor-not-allowed items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100"
-          disabled
-        >
-          <Settings className="h-auto w-4" />
-          <p className="text-sm">Account</p>
-        </button>
+        <Link href={"/account"}>
+          <button className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100">
+            <Settings className="h-auto w-4" />
+            <p className="text-sm">Account</p>
+          </button>
+        </Link>
         <button
           className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100"
           onClick={() => handleSignOut()}

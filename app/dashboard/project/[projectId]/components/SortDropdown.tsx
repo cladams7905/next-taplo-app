@@ -40,7 +40,7 @@ export default function SortDropdown({
               <li
                 className={`flex flex-row text-sm text-base-content rounded-md ${
                   sortType === SortType.dateSubmitted &&
-                  `bg-gray-200 text-primary-content`
+                  `bg-gray-100 text-primary-content`
                 }`}
                 onClick={() => {
                   setSortType(SortType.dateSubmitted);
@@ -64,7 +64,7 @@ export default function SortDropdown({
               <li
                 className={`flex flex-row text-sm text-base-content rounded-md ${
                   sortType === SortType.alphabetical &&
-                  `bg-gray-200 text-primary-content`
+                  `bg-gray-100 text-primary-content`
                 }`}
                 onClick={() => {
                   setSortType(SortType.alphabetical);
@@ -89,7 +89,7 @@ export default function SortDropdown({
               <li
                 className={`flex flex-row text-sm text-base-content rounded-md ${
                   sortType === SortType.upvotes &&
-                  `bg-gray-200 text-primary-content`
+                  `bg-gray-100 text-primary-content`
                 }`}
                 onClick={() => {
                   setSortType(SortType.upvotes);
