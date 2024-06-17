@@ -30,9 +30,8 @@ export default async function DashboardLayout({
         projects={currentProjects}
         fetchedActiveProject={activeProject}
       />
-      <div className="flex flex-col h-screen-minus-navbar bg-gray-100 dark:bg-base-100 px-8 relative">
+      <div className="flex flex-col h-screen-minus-navbar bg-white dark:bg-base-100 relative">
         {children}
-        <Footer />
       </div>
     </main>
   );
