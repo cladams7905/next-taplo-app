@@ -13,7 +13,7 @@ export default function Navbar() {
   return (
     <main>
       <div
-        className={`navbar bg-base-100 fixed lg:px-6 font-sans text-gray-500 ${
+        className={`navbar bg-base-100 fixed lg:px-20 font-sans ${
           scrolled
             ? "border-b border-gray-200 bg-white/80 backdrop-blur-xl"
             : "bg-white/0"
@@ -32,15 +32,15 @@ export default function Navbar() {
                 <a>Features</a>
               </li>
               <li>
-                <a>FAQs</a>
+                <a>Wall of Love</a>
               </li>
               <li>
-                <a>Contact</a>
+                <a>Pricing</a>
               </li>
             </ul>
           </div>
           {/* <Logo/> */}
-          <div className="ml-2">TapInsight</div>
+          <div className="ml-2 font-bold">ToastJam</div>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
@@ -48,16 +48,18 @@ export default function Navbar() {
               <a>Features</a>
             </li>
             <li>
-              <a>FAQs</a>
+              <a>Wall of Love</a>
             </li>
             <li>
-              <a>Contact</a>
+              <a>Pricing</a>
             </li>
           </ul>
         </div>
         <div className="navbar-end">
           <Link href={"/auth/login"}>
-            <div className="btn btn-outline btn-sm max-w-fit">Login</div>
+            <div className="btn btn-neutral btn-ghost btn-sm max-w-fit">
+              Login
+            </div>
           </Link>
           <Link href={"auth/signup"}>
             <div className="btn btn-primary btn-sm max-w-fit ml-2">

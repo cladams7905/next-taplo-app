@@ -14,11 +14,11 @@ export default async function Login() {
   }
 
   return (
-    <main className="bg-gradient-to-br from-slate-100 via-white to-cyan-100">
-      <div className="navbar fixed lg:px-6 font-sans text-gray-500 ">
+    <main className="bg-gradient-to-br from-primary/5 via-white to-secondary/45">
+      <div className="navbar fixed lg:px-20 font-sans">
         <div className="navbar-start">
           {/* <Logo/> */}
-          <div className="ml-2">TapInsight</div>
+          <div className="ml-2 font-bold">ToastJam</div>
         </div>
       </div>
       <div className="flex min-h-screen w-full flex-col items-center justify-between p-24 font-sans">

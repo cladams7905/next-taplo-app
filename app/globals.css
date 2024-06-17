@@ -15,6 +15,10 @@ html {
   font-feature-settings: 'case' 1, 'rlig' 1, 'calt' 0;
 }
 
+html {
+  @apply !bg-primary/25
+}
+
 html,
 body {
   font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Helvetica Neue',
@@ -25,10 +29,6 @@ body {
 
 input, textarea {
   @apply focus:border-none outline-none
-}
- 
-@layer base {
-
 }
 
 /* .tab-active::after {

@@ -8,7 +8,22 @@ const config: Config = {
     utils: true,
     logs: true,
     rtl: false,
-    themes: ["emerald", "dark"],
+    themes: [
+      {
+        default: {
+          primary: "#c084fc",
+          secondary: "#f0abfc",
+          accent: "#a7f3d0",
+          neutral: "#2B2970",
+          "base-100": "#ffffff",
+          "base-content": "#374151",
+          info: "#0891b2",
+          success: "#4ade80",
+          warning: "#fde047",
+          error: "#f87171",
+        },
+      },
+    ],
   },
   darkMode: ["class", '[data-theme="dark"]'],
   content: [
