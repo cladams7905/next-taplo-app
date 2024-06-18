@@ -2,10 +2,10 @@ import React from "react";
 import Navbar from "./components/Navbar";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import Footer from "./components/Footer";
 import { getProjectsByUserId } from "@/lib/actions/projects";
 import { getActiveProject } from "@/lib/actions/sessionData";
 import { revalidatePath } from "next/cache";
+import ProjectTabList from "./project/[projectId]/components/ProjectTabList";
 
 export default async function DashboardLayout({
   children,
@@ -31,7 +31,9 @@ export default async function DashboardLayout({
         fetchedActiveProject={activeProject}
       />
       <div className="flex flex-col h-screen-minus-navbar bg-white dark:bg-base-100 relative">
-        {children}
+        <div className="flex flex-col w-full h-full font-sans relative">
+          {children}
+        </div>
       </div>
     </main>
   );

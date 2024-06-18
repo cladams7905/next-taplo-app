@@ -74,7 +74,7 @@ export default function NewProjectForm() {
                 <FormControl>
                   <input
                     placeholder="My Awesome Project"
-                    className="input input-bordered flex items-center gap-2 w-full"
+                    className="input input-bordered border-neutral focus:outline-primary flex items-center gap-2 w-full"
                     {...field}
                     type="text"
                     onChange={field.onChange}
@@ -86,7 +86,7 @@ export default function NewProjectForm() {
           />
           <div
             onClick={form.handleSubmit(onSubmit)}
-            className="w-full btn btn-primary"
+            className="w-full btn btn-primary border border-neutral"
             style={{ marginTop: "2.5rem" }}
           >
             {isPending ? (

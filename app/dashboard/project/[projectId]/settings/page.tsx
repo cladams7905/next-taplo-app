@@ -1,11 +1,8 @@
-import Sidebar from "./components/Sidebar";
-import FeatureBoard from "./components/FeatureBoard";
 import { getProjectById } from "@/lib/actions/projects";
 import { getFeatureRequests } from "@/lib/actions/featureRequests";
 import { notFound } from "next/navigation";
-import ProjectTabList from "./components/ProjectTabList";
 
-export default async function DashboardHome({
+export default async function CreatePopupPage({
   params,
 }: {
   params: { projectId: number };
@@ -17,7 +14,5 @@ export default async function DashboardHome({
     return notFound();
   }
 
-  return (
-    <main className="flex flex-col w-full h-full font-sans relative"></main>
-  );
+  return <>Settings</>;
 }

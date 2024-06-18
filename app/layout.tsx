@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "@/components/shared/toaster";
-import { Open_Sans, Changa_One, Nunito_Sans } from "next/font/google";
+import { Nunito_Sans, Gayathri, Rubik } from "next/font/google";
 import cx from "classnames";
 import "./globals.css";
 import ProgressBarProvider from "@/components/shared/progressbar";
 
-const openSans = Nunito_Sans({
+const openSans = Rubik({
   variable: "--font-openSans",
-  weight: ["300", "400", "600", "800"],
+  weight: ["300", "400", "500"],
   subsets: ["latin"],
 });
-const changaOne = Changa_One({
+const changaOne = Gayathri({
   variable: "--font-changaOne",
-  weight: "400",
+  weight: "700",
   subsets: ["latin"],
 });
 

@@ -40,7 +40,7 @@ export default function UserDropdown(data: { user: User }) {
               alt="user"
               width="36"
               height="36"
-              className="mr-2 rounded-full border border-gray-300"
+              className="mr-2 rounded-full border-2 border-neutral"
             ></Image>
           ) : (
             <CircleUser
@@ -52,16 +52,14 @@ export default function UserDropdown(data: { user: User }) {
           )}
         </div>
       </button>
-      <div className="dropdown-content w-fit min-w-48 mt-2 rounded-md bg-white p-2 border shadow border-gray-200">
+      <div className="dropdown-content w-fit min-w-48 mt-2 rounded-md bg-white p-2 border shadow border-neutral">
         <div className="p-2">
           {data?.user && (
             <>
               <p className="truncate text-sm font-medium text-gray-900">
                 {name ? name : username}
               </p>
-              <p className="truncate text-sm font-medium text-gray-400">
-                {email}
-              </p>
+              <p className="truncate text-sm text-gray-400">{email}</p>
             </>
           )}
         </div>

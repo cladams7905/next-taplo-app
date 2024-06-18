@@ -37,7 +37,7 @@ export async function signOut() {
 export async function getRedirectPathname(userId: string) {
   const activeProject = await getActiveProject(userId);
   if (activeProject?.data.id) {
-    return `/dashboard/project/${activeProject.data.id}`;
+    return `/dashboard/project/${activeProject.data.id}/create`;
   } else {
     return `/dashboard/create-project`;
   }

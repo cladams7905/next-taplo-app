@@ -11,16 +11,17 @@ const config: Config = {
     themes: [
       {
         default: {
-          primary: "#c084fc",
+          primary: "#C5B8EF",
           secondary: "#f0abfc",
           accent: "#a7f3d0",
-          neutral: "#2B2970",
+          neutral: "#172554",
           "base-100": "#ffffff",
-          "base-content": "#374151",
+          "base-content": "#172554",
           info: "#0891b2",
           success: "#4ade80",
           warning: "#fde047",
           error: "#f87171",
+          "accent-light": "#FAF4F6",
         },
       },
     ],
@@ -34,7 +35,7 @@ const config: Config = {
   theme: {
     extend: {
       height: {
-        "screen-minus-navbar": "calc(100vh - 68px)",
+        "screen-minus-navbar": "calc(100vh - 100px)",
       },
       fontFamily: {
         heading: ["var(--font-changaOne)"],
@@ -44,6 +45,9 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      },
+      colors: {
+        "accent-light": "#FAF4F6",
       },
     },
   },

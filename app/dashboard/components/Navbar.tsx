@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import UserDropdown from "@/components/layout/Navbar/UserDropdown";
 import { User } from "@supabase/supabase-js";
-import { Menu } from "lucide-react";
+import { ChevronRight, Menu } from "lucide-react";
 import ProjectDropdown from "./ProjectDropdown";
 import { usePathname } from "next/navigation";
 import { Tables } from "@/lib/supabase/types";
@@ -62,12 +62,12 @@ export default function Navbar({
   }, [activeProject, projects]);
 
   return (
-    <main className="flex flex-col items-center w-full font-sans z-30 lg:px-40 transition-all bg-white dark:bg-base-100">
+    <main className="flex flex-col items-center w-full font-sans z-30 lg:px-40 transition-all dark:bg-base-100 pb-8">
       <div className="navbar flex lg:px-6">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-              <Menu color="#6b7280" />
+              <Menu color="oklch(var(--n))" />
             </div>
             <ul
               tabIndex={0}
@@ -81,8 +81,15 @@ export default function Navbar({
               </li>
             </ul>
           </div>
-          <div className="ml-2">TapInsight.io</div>
-          <div className="text-gray-300 text-xl ml-6 font-thin">/</div>
+          <div className="ml-2 font-bold">ToastJam</div>
+          <div className="text-gray-500 text-xl ml-6 font-thin">
+            <ChevronRight
+              height={16}
+              width={16}
+              strokeWidth={2}
+              color="oklch(var(--bc))"
+            />
+          </div>
           <ProjectDropdown
             projects={reorderedProjects}
             activeProject={activeProject}

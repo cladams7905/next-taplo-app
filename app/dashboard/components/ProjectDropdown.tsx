@@ -56,7 +56,7 @@ export default function ProjectDropdown({
           }
         }
       }
-      router.push(`/dashboard/project/${project.id}`);
+      router.push(`/dashboard/project/${project.id}/create`);
     });
   }
 
@@ -83,7 +83,7 @@ export default function ProjectDropdown({
               <ChevronsUpDown
                 height={16}
                 width={16}
-                strokeWidth={1.5}
+                strokeWidth={2}
                 color="oklch(var(--bc))"
               />
               {isPending && (
@@ -92,7 +92,7 @@ export default function ProjectDropdown({
             </a>
           </li>
           <div
-            className="dropdown-content border mt-1 border-gray-200 dark:border-gray-600 z-[1] p-2 shadow bg-base-100 rounded-md w-52"
+            className="dropdown-content border mt-1 border-neutral dark:border-gray-600 z-[10] p-2 shadow bg-base-100 rounded-md w-52"
             ref={triggerElement}
             tabIndex={1}
           >
@@ -102,8 +102,8 @@ export default function ProjectDropdown({
             >
               <label className="input input-sm flex items-center">
                 <Search
-                  strokeWidth={1}
-                  color="oklch(var(--bc))"
+                  strokeWidth={2}
+                  color="oklch(var(--n))"
                   height={16}
                   width={16}
                 />
@@ -115,7 +115,7 @@ export default function ProjectDropdown({
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </label>
-              <hr className="dark:border dark:border-gray-600"></hr>
+              <hr className="border-t border-neutral"></hr>
               <div className="mt-4">
                 <div className="text-xs ml-2 font-semibold text-gray-400">
                   Projects
@@ -141,7 +141,7 @@ export default function ProjectDropdown({
                           {checkStringLength(project.project_name)}
                           {activeProject?.id === project.id && !isPending && (
                             <Check
-                              color="oklch(var(--pc))"
+                              color="oklch(var(--n))"
                               height={18}
                               width={18}
                             />
@@ -151,10 +151,10 @@ export default function ProjectDropdown({
                     ))}
                 </ul>
               </div>
-              <hr className="my-2 dark:border dark:border-gray-600"></hr>
+              <hr className="my-2 border-t border-neutral"></hr>
               <Link
                 href={"/dashboard/create-project"}
-                className="btn btn-primary btn-sm rounded-md h-auto p-2 mt-1 min-h-[38px]"
+                className="btn btn-primary border border-neutral btn-sm rounded-md h-auto p-2 mt-1 min-h-[38px]"
                 onClick={() => {
                   startCreateProjectTransition(() => {
                     setTimeout(() => {
