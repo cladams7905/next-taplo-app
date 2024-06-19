@@ -86,7 +86,7 @@ export default function NewProjectForm() {
           />
           <div
             onClick={form.handleSubmit(onSubmit)}
-            className="w-full btn btn-primary border border-neutral"
+            className="w-full btn btn-primary border border-neutral hover:border-neutral"
             style={{ marginTop: "2.5rem" }}
           >
             {isPending ? (

@@ -9,89 +9,6 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      Comments: {
-        Row: {
-          content: string | null
-          created_at: string
-          feature_id: number | null
-          id: number
-        }
-        Insert: {
-          content?: string | null
-          created_at?: string
-          feature_id?: number | null
-          id?: number
-        }
-        Update: {
-          content?: string | null
-          created_at?: string
-          feature_id?: number | null
-          id?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "Comments_feature_id_fkey"
-            columns: ["feature_id"]
-            isOneToOne: false
-            referencedRelation: "FeatureRequests"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      FeatureRequests: {
-        Row: {
-          created_at: string
-          description: string | null
-          id: number
-          importance: Database["public"]["Enums"]["Importance"] | null
-          project_id: number
-          status: Database["public"]["Enums"]["RequestStatus"] | null
-          title: string | null
-          type: Database["public"]["Enums"]["FeatureType"] | null
-          upvotes: number | null
-          user_id: string | null
-        }
-        Insert: {
-          created_at?: string
-          description?: string | null
-          id?: number
-          importance?: Database["public"]["Enums"]["Importance"] | null
-          project_id: number
-          status?: Database["public"]["Enums"]["RequestStatus"] | null
-          title?: string | null
-          type?: Database["public"]["Enums"]["FeatureType"] | null
-          upvotes?: number | null
-          user_id?: string | null
-        }
-        Update: {
-          created_at?: string
-          description?: string | null
-          id?: number
-          importance?: Database["public"]["Enums"]["Importance"] | null
-          project_id?: number
-          status?: Database["public"]["Enums"]["RequestStatus"] | null
-          title?: string | null
-          type?: Database["public"]["Enums"]["FeatureType"] | null
-          upvotes?: number | null
-          user_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "FeatureRequests_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "Projects"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "FeatureRequests_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       Projects: {
         Row: {
           created_at: string
@@ -160,6 +77,63 @@ export type Database = {
           },
         ]
       }
+      UserToasts: {
+        Row: {
+          bg_color: string | null
+          bg_style: string | null
+          content: string | null
+          created_at: string
+          event_type: string | null
+          font: string | null
+          id: number
+          project_id: number
+          screen_alignment: string | null
+          title: string | null
+          user_id: string | null
+        }
+        Insert: {
+          bg_color?: string | null
+          bg_style?: string | null
+          content?: string | null
+          created_at?: string
+          event_type?: string | null
+          font?: string | null
+          id?: number
+          project_id: number
+          screen_alignment?: string | null
+          title?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          bg_color?: string | null
+          bg_style?: string | null
+          content?: string | null
+          created_at?: string
+          event_type?: string | null
+          font?: string | null
+          id?: number
+          project_id?: number
+          screen_alignment?: string | null
+          title?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "UserToasts_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "Projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "UserToasts_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -168,15 +142,11 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      FeatureType:
-        | "Bugs & Fixes"
-        | "Design & Usability"
-        | "Device Support"
-        | "Security"
-        | "Integrations"
-        | "Other"
-      Importance: "Low" | "Moderate" | "High"
-      RequestStatus: "New" | "In Progress" | "Completed" | "Archived"
+      EventType:
+        | "Email Subscribe"
+        | "Purchase Complete"
+        | "User Register"
+        | "Custom"
     }
     CompositeTypes: {
       [_ in never]: never

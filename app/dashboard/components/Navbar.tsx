@@ -71,7 +71,7 @@ export default function Navbar({
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content border border-gray-200 z-[1] p-2 shadow bg-base-100 rounded-md w-52"
+              className="menu menu-sm dropdown-content border border-neutral z-[1] p-2 shadow bg-base-100 rounded-md w-52"
             >
               <li>
                 <a>Dashboard</a>
