@@ -103,7 +103,7 @@ export default function ProjectDropdown({
               <label className="input input-sm flex items-center">
                 <Search
                   strokeWidth={2}
-                  color="oklch(var(--n))"
+                  color="oklch(var(--bc))"
                   height={16}
                   width={16}
                 />
@@ -141,7 +141,7 @@ export default function ProjectDropdown({
                           {checkStringLength(project.project_name)}
                           {activeProject?.id === project.id && !isPending && (
                             <Check
-                              color="oklch(var(--n))"
+                              color="oklch(var(--bc))"
                               height={18}
                               width={18}
                             />

@@ -62,7 +62,7 @@ export default function Navbar({
   }, [activeProject, projects]);
 
   return (
-    <main className="flex flex-col items-center w-full font-sans z-30 lg:px-40 transition-all dark:bg-base-100 pb-8">
+    <main className="flex flex-col items-center w-full font-sans z-30 px-12 transition-all dark:bg-base-100">
       <div className="navbar flex lg:px-6">
         <div className="navbar-start">
           <div className="dropdown">

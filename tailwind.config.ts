@@ -14,14 +14,15 @@ const config: Config = {
           primary: "#C5B8EF",
           secondary: "#f0abfc",
           accent: "#a7f3d0",
-          neutral: "#172554",
+          neutral: "#9ca3af",
           "base-100": "#ffffff",
           "base-content": "#172554",
           info: "#0891b2",
           success: "#4ade80",
           warning: "#fde047",
           error: "#f87171",
-          "accent-light": "#FAF4F6",
+          "accent-light": "#FFEEDF",
+          "accent-tab": "#FFEEDF",
         },
       },
     ],
@@ -35,7 +36,7 @@ const config: Config = {
   theme: {
     extend: {
       height: {
-        "screen-minus-navbar": "calc(100vh - 100px)",
+        "screen-minus-navbar": "calc(100vh - 68px)",
       },
       fontFamily: {
         heading: ["var(--font-changaOne)"],
@@ -47,7 +48,8 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        "accent-light": "#FAF4F6",
+        "accent-light": "#FFEEDF",
+        "accent-tab": "#FFEEDF",
       },
     },
   },

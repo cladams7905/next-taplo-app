@@ -5,7 +5,6 @@ import { createClient } from "@/lib/supabase/server";
 import { getProjectsByUserId } from "@/lib/actions/projects";
 import { getActiveProject } from "@/lib/actions/sessionData";
 import { revalidatePath } from "next/cache";
-import ProjectTabList from "./project/[projectId]/components/ProjectTabList";
 
 export default async function DashboardLayout({
   children,

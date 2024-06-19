@@ -40,7 +40,7 @@ export default function Sidebar({
   };
 
   return (
-    <div className="flex flex-col join-item bg-white border-r-transparent rounded-r-none rounded-lg h-full p-4 border border-neutral">
+    <div className="flex flex-col join-item bg-white rounded-r-none relative rounded-lg h-full p-4 border border-neutral shadow-lg z-[3]">
       <div
         className="btn btn-primary border border-neutral hover:border-neutral w-full"
         onClick={() => handleCreateToast()}
@@ -77,7 +77,7 @@ export default function Sidebar({
                   <p className="text-sm text-gray-500">{toast.event_type}</p>
                 </div>
                 {activeToast?.id === toast.id && (
-                  <Check color="oklch(var(--n))" height={22} width={22} />
+                  <Check color="oklch(var(--bc))" height={22} width={22} />
                 )}
               </a>
             </li>

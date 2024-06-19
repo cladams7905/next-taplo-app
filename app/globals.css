@@ -31,7 +31,7 @@ input, textarea {
   @apply focus:border-none outline-none
 }
 
-li > a:hover, .tab:hover:not(.tab-active) {
+li > a:hover:not(.tab) {
   @apply !bg-primary/50
 }
 

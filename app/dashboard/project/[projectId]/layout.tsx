@@ -6,10 +6,5 @@ export default async function DashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <>
-      <ProjectTabList />
-      {children}
-    </>
-  );
+  return <>{children}</>;
 }

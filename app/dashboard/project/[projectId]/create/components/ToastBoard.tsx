@@ -17,7 +17,7 @@ export default function ToastBoard({
   >(userToasts.length > 0 ? userToasts[0] : undefined);
 
   return (
-    <main className="flex columns-2 join lg:px-48 py-4 w-full h-screen-minus-navbar">
+    <main className="flex bg-primary/35 columns-2 join lg:px-16 pb-6 w-full h-screen-minus-navbar">
       <div className="w-1/4">
         <Sidebar
           userToasts={userToasts}
