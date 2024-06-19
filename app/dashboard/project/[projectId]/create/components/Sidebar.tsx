@@ -63,7 +63,7 @@ export default function Sidebar({
             <li
               key={i}
               className={`flex gap-2 rounded-lg border border-neutral ${
-                activeToast?.id === toast.id && `bg-gray-100`
+                activeToast?.id === toast.id && `bg-primary/35`
               }`}
             >
               <a

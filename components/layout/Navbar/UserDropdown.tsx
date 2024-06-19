@@ -35,13 +35,15 @@ export default function UserDropdown(data: { user: User }) {
       <button className="flex items-center justify-center overflow-hidden rounded-full">
         <div className="transition-all duration-75 active:scale-95">
           {avatar_url ? (
-            <Image
-              src={avatar_url}
-              alt="user"
-              width="36"
-              height="36"
-              className="mr-2 rounded-full border-2 border-neutral"
-            ></Image>
+            <div className="border-2 border-neutral rounded-full">
+              <Image
+                src={avatar_url}
+                alt="user"
+                width="36"
+                height="36"
+                className="rounded-full"
+              />
+            </div>
           ) : (
             <CircleUser
               height={26}
@@ -64,13 +66,13 @@ export default function UserDropdown(data: { user: User }) {
           )}
         </div>
         <Link href={"/account"}>
-          <button className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100">
+          <button className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-primary/50">
             <Settings className="h-auto w-4" />
             <p className="text-sm">Account</p>
           </button>
         </Link>
         <button
-          className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-gray-100"
+          className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-primary/50"
           onClick={() => handleSignOut()}
         >
           <LogOut className="h-auto w-4" />

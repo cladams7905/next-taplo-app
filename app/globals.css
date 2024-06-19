@@ -16,7 +16,7 @@ html {
 }
 
 html {
-  @apply !bg-primary/20
+  @apply !bg-primary/35
 }
 
 html,
@@ -29,6 +29,10 @@ body {
 
 input, textarea {
   @apply focus:border-none outline-none
+}
+
+li > a:hover, .tab:hover:not(.tab-active) {
+  @apply !bg-primary/50
 }
 
 :root {
