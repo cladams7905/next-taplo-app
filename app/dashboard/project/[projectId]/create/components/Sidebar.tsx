@@ -6,13 +6,7 @@ import { checkStringLength } from "@/lib/actions";
 import { createUserToast } from "@/lib/actions/userToasts";
 import { Tables } from "@/lib/supabase/types";
 import { Check, CirclePlus } from "lucide-react";
-import {
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-  useTransition,
-} from "react";
+import { Dispatch, SetStateAction, useEffect, useTransition } from "react";
 
 export default function Sidebar({
   userToasts,

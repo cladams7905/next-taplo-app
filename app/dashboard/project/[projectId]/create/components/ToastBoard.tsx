@@ -32,7 +32,6 @@ export default function ToastBoard({
       </div>
       <div className="w-3/4">
         <ActiveToastView
-          project={project}
           activeToast={activeToast}
           setActiveToast={setActiveToast}
           setCurrentToasts={setCurrentToasts}
