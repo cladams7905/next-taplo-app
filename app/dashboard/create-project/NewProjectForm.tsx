@@ -51,7 +51,7 @@ export default function NewProjectForm() {
       } else {
         form.resetField("projectName");
         showToast(`Successfully created new project: ${formData.projectName}`);
-        router.push(`/dashboard/project/${data.id}`);
+        router.push(`/dashboard/project/${data.id}/create`);
         router.refresh();
       }
     });

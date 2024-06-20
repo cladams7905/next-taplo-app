@@ -32,10 +32,10 @@ export default function ProjectDropdown({
   const [loadingProjectId, setLoadingProjectId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
-  /* The dropdown trigger ref is used to manually toggle the closing of 
+  /* The dropdown toggle ref is used to manually toggle the closing of 
   the project dropdown menu when "Create New Project" is clicked, 
   since DaisyUI doesn't have a built-in option for dropdown toggling. */
-  const triggerElement = useRef<HTMLDivElement>(null);
+  const toggleElement = useRef<HTMLDivElement>(null);
 
   async function handleSubmit(
     project: Tables<"Projects">,
@@ -72,7 +72,7 @@ export default function ProjectDropdown({
             className="text-sm text-base-content font-semibold mr-1"
             tabIndex={1}
             onClick={() => {
-              triggerElement?.current?.classList.remove("hidden");
+              toggleElement?.current?.classList.remove("hidden");
             }}
           >
             <a>
@@ -93,7 +93,7 @@ export default function ProjectDropdown({
           </li>
           <div
             className="dropdown-content border mt-1 border-neutral dark:border-gray-600 z-[10] p-2 shadow bg-base-100 rounded-md w-52"
-            ref={triggerElement}
+            ref={toggleElement}
             tabIndex={1}
           >
             <div
@@ -133,7 +133,7 @@ export default function ProjectDropdown({
                         onClick={() => {
                           handleSubmit(project, activeProject);
                           setTimeout(() => {
-                            triggerElement?.current?.classList.add("hidden");
+                            toggleElement?.current?.classList.add("hidden");
                           }, 1000);
                         }}
                       >
@@ -158,7 +158,7 @@ export default function ProjectDropdown({
                 onClick={() => {
                   startCreateProjectTransition(() => {
                     setTimeout(() => {
-                      triggerElement?.current?.classList.add("hidden");
+                      toggleElement?.current?.classList.add("hidden");
                     }, 700);
                   });
                 }}

@@ -36,22 +36,11 @@ export default function ProjectTabList() {
           Connect
         </Link>
         <Link
-          href={"./share"}
-          role="tab"
-          tabIndex={2}
-          className={`tab [--tab-border-color:oklch(var(--n))] [&:hover:not(.tab-active)]:bg-primary/50 rounded-lg  w-24 ${
-            currentTab === 2 ? "tab-active font-semibold" : ""
-          }`}
-          onClick={(e) => handleTabClick(e.currentTarget.tabIndex)}
-        >
-          Share
-        </Link>
-        <Link
           href={"./settings"}
           role="tab"
-          tabIndex={3}
+          tabIndex={2}
           className={`tab [--tab-border-color:oklch(var(--n))] [&:hover:not(.tab-active)]:bg-primary/50 rounded-lg w-24 ${
-            currentTab === 3 ? "tab-active font-semibold" : ""
+            currentTab === 2 ? "tab-active font-semibold" : ""
           }`}
           onClick={(e) => handleTabClick(e.currentTarget.tabIndex)}
         >
