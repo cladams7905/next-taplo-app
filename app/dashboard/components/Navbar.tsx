@@ -62,19 +62,22 @@ export default function Navbar({
   }, [activeProject, projects]);
 
   return (
-    <main className="flex flex-col items-center w-full font-sans z-30 px-12 transition-all dark:bg-base-100">
+    <main className="flex flex-col items-center w-full font-sans z-30 lg:px-12 transition-all dark:bg-base-100">
       <div className="navbar flex lg:px-6">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-              <Menu color="oklch(var(--n))" />
+              <Menu color="oklch(var(--bc))" />
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content border border-neutral z-[1] p-2 shadow bg-base-100 rounded-md w-52"
+              className="menu menu-sm dropdown-content border border-neutral z-[5] p-2 shadow bg-base-100 rounded-md w-52"
             >
               <li>
-                <a>Dashboard</a>
+                <a>Toasts</a>
+              </li>
+              <li>
+                <a>Webhooks</a>
               </li>
               <li>
                 <a>Settings</a>
@@ -95,6 +98,9 @@ export default function Navbar({
             activeProject={activeProject}
             setActiveProjectRef={setActiveProject}
           />
+        </div>
+        <div className="navbar-center hidden lg:block">
+          <ProjectTabList />
         </div>
         <div className="navbar-end">
           <UserDropdown user={user} />

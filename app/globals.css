@@ -35,6 +35,15 @@ li > a:hover:not(.tab) {
   @apply !bg-primary/50
 }
 
+.tab-active::after {
+  @apply content-[""] flex items-center -mt-16 w-14 h-[5px] rounded-sm bg-base-content absolute transition-opacity duration-300 ease-in-out
+}
+
+.tabs-lifted>.tab-active::after {
+  /* Override the properties here to unset or neutralize them if needed */
+  opacity: 0;
+}
+
 :root {
   --tab-border-color: oklch(var(--n))
 }
