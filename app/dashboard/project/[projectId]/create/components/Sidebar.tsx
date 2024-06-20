@@ -19,14 +19,14 @@ export default function Sidebar({
   project,
   activeToast,
   setActiveToast,
+  setCurrentToasts,
 }: {
   userToasts: Tables<"UserToasts">[];
   project: Tables<"Projects">;
   activeToast: Tables<"UserToasts"> | undefined;
   setActiveToast: Dispatch<SetStateAction<Tables<"UserToasts"> | undefined>>;
+  setCurrentToasts: Dispatch<SetStateAction<Tables<"UserToasts">[]>>;
 }) {
-  const [currentToasts, setCurrentToasts] =
-    useState<Tables<"UserToasts">[]>(userToasts);
   const [isPending, startTransition] = useTransition();
 
   const handleCreateToast = () => {
@@ -55,7 +55,7 @@ export default function Sidebar({
     }
   }, [activeToast]);
 
-  const sortedToasts = currentToasts.sort((a, b) => {
+  const sortedToasts = userToasts.sort((a, b) => {
     const titleA = a.title || "";
     const titleB = b.title || "";
     return titleA.localeCompare(titleB);
@@ -78,7 +78,7 @@ export default function Sidebar({
       </div>
       <div className="mt-4">
         <div className="text-sm ml-2 font-semibold">
-          My Toasts ({currentToasts.length})
+          My Toasts ({userToasts.length})
         </div>
         <ul className="menu px-0 py-2 mt-2 overflow-y-auto max-h-[65vh] flex flex-col gap-3">
           {sortedToasts.map((toast, i) => (

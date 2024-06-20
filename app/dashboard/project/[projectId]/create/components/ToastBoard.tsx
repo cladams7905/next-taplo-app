@@ -16,14 +16,18 @@ export default function ToastBoard({
     Tables<"UserToasts"> | undefined
   >(userToasts.length > 0 ? userToasts[0] : undefined);
 
+  const [currentToasts, setCurrentToasts] =
+    useState<Tables<"UserToasts">[]>(userToasts);
+
   return (
-    <main className="flex bg-primary/35 columns-2 join lg:px-16 pb-6 w-full h-screen-minus-navbar">
+    <main className="flex bg-primary/35 columns-2 join lg:px-12 px-2 pb-6 w-full h-screen-minus-navbar">
       <div className="w-1/4">
         <Sidebar
-          userToasts={userToasts}
+          userToasts={currentToasts}
           project={project}
           activeToast={activeToast}
           setActiveToast={setActiveToast}
+          setCurrentToasts={setCurrentToasts}
         />
       </div>
       <div className="w-3/4">
@@ -31,6 +35,7 @@ export default function ToastBoard({
           project={project}
           activeToast={activeToast}
           setActiveToast={setActiveToast}
+          setCurrentToasts={setCurrentToasts}
         />
       </div>
     </main>

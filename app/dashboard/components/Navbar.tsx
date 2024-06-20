@@ -63,10 +63,10 @@ export default function Navbar({
 
   return (
     <main className="flex flex-col items-center w-full font-sans z-30 lg:px-12 transition-all dark:bg-base-100">
-      <div className="navbar flex lg:px-6">
+      <div className="navbar flex">
         <div className="navbar-start">
           <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+            <div tabIndex={0} role="button" className="ml-2 mr-6 lg:hidden">
               <Menu color="oklch(var(--bc))" />
             </div>
             <ul
@@ -84,7 +84,7 @@ export default function Navbar({
               </li>
             </ul>
           </div>
-          <div className="ml-2 font-bold">ToastJam</div>
+          <div className="font-bold">ToastJam</div>
           <div className="text-gray-500 text-xl ml-6 font-thin">
             <ChevronRight
               height={16}

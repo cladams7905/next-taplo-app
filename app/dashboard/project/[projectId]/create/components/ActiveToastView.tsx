@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import ToastImg from "@/public/images/toaster2.jpeg";
-import { CirclePlus, Ellipsis, PencilLine } from "lucide-react";
+import { CirclePlus, Ellipsis, PencilLine, Trash } from "lucide-react";
 import { Tables, TablesUpdate } from "@/lib/supabase/types";
 import ToastTabList from "./ToastTabList";
 import {
@@ -14,22 +14,25 @@ import {
   useTransition,
 } from "react";
 import { checkStringLength } from "@/lib/actions";
-import { updateUserToast } from "@/lib/actions/userToasts";
+import { deleteUserToast, updateUserToast } from "@/lib/actions/userToasts";
 import { showToast, showToastError } from "@/components/shared/showToast";
 
 export default function ActiveToastView({
   project,
   activeToast,
   setActiveToast,
+  setCurrentToasts,
 }: {
   project: Tables<"Projects">;
   activeToast: Tables<"UserToasts"> | undefined;
   setActiveToast: Dispatch<SetStateAction<Tables<"UserToasts"> | undefined>>;
+  setCurrentToasts: Dispatch<SetStateAction<Tables<"UserToasts">[]>>;
 }) {
   const [currentTab, setCurrentTab] = useState(0);
   const [isRenameClicked, setIsRenameClicked] = useState(false);
   const renameInputRef = useRef<HTMLInputElement>(null);
   const [isPending, startTransition] = useTransition();
+  const [isDeletePending, startDeleteTransition] = useTransition();
 
   /* This useEffect handles renaming of the toast */
   useEffect(() => {
@@ -94,6 +97,29 @@ export default function ActiveToastView({
     };
   }, [project.id, isRenameClicked, activeToast, setActiveToast]);
 
+  /* Toast delete */
+  const handleDelete = () => {
+    startDeleteTransition(async () => {
+      if (activeToast) {
+        const { data, error } = await deleteUserToast(activeToast.id);
+        if (error) {
+          showToastError(error);
+        } else {
+          setCurrentToasts((prevToasts) => {
+            const updatedToasts = prevToasts.filter(
+              (toast) => toast.id !== data.id
+            );
+            setActiveToast(
+              updatedToasts.length > 0 ? updatedToasts[0] : undefined
+            );
+            return updatedToasts;
+          });
+          showToast(`Successfully deleted \"${data.title}\"`);
+        }
+      }
+    });
+  };
+
   return activeToast !== undefined ? (
     <div className="flex flex-col join-item bg-accent-light rounded-lg h-full border border-neutral shadow-lg z-[1]">
       <div className="w-full h-1/3 p-4">
@@ -122,14 +148,43 @@ export default function ActiveToastView({
               <PencilLine width={18} height={18} />
             </div>
             {isPending && (
-              <span className="loading loading-spinner loading-md bg-base-content"></span>
+              <span className="loading loading-spinner loading-sm bg-base-content" />
             )}
           </div>
-          <Ellipsis />
+          <div className="dropdown dropdown-end">
+            <div className="p-2 -mt-2 rounded-lg cursor-pointer hover:bg-primary/50">
+              <Ellipsis
+                width={22}
+                height={22}
+                tabIndex={0}
+                className="!outline-none"
+              />
+            </div>
+            <ul
+              tabIndex={0}
+              className="menu menu-sm dropdown-content border border-neutral z-[1] p-2 shadow bg-base-100 rounded-md w-52"
+            >
+              <li>
+                <a
+                  className="flex items-center justify-between py-2 rounded-md"
+                  onClick={() => handleDelete()}
+                >
+                  <div className="flex items-center gap-2">
+                    {" "}
+                    <Trash width={18} height={18} />
+                    Delete
+                  </div>
+                  {isDeletePending && (
+                    <span className="loading loading-spinner loading-sm bg-base-content" />
+                  )}
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       <ToastTabList currentTab={currentTab} setCurrentTab={setCurrentTab} />
-      <div className="flex flex-col w-full items-center h-2/3 overflow-y-auto bg-white rounded-br-lg p-6 gap-6 shadow-lg">
+      <div className="flex flex-col w-full items-center h-2/3 overflow-y-auto bg-white rounded-br-lg p-6 gap-6">
         {currentTab === 0 && <ToastEvent activeToast={activeToast} />}
         {currentTab === 1 && <ToastContent activeToast={activeToast} />}
         {/* {currentTab === 2 && <ToastStyle activeToast={activeToast} />} */}

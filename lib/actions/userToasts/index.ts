@@ -35,3 +35,14 @@ export async function updateUserToast(
     .single();
   return JSON.parse(JSON.stringify(result));
 }
+
+export async function deleteUserToast(toastId: number) {
+  const supabase = createClient();
+  const result = await supabase
+    .from("UserToasts")
+    .delete()
+    .eq("id", toastId)
+    .select("*")
+    .single();
+  return JSON.parse(JSON.stringify(result));
+}
