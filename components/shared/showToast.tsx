@@ -1,8 +1,8 @@
 import { toast } from "./use-toast";
 
 export function showToastError(error: any, message?: string) {
-  console.log(error);
   return toast({
+    className: "bg-error text-white border-none",
     variant: "destructive",
     description: (
       <pre className="font-sans rounded-md text-wrap break-words whitespace-normal">

@@ -27,7 +27,7 @@ export function Toaster() {
         return (
           <Toast key={id} {...props}>
             {variant === "default" && (
-              <div className="flex items-center justify-center bg-primary rounded-full p-1 w-8 h-8">
+              <div className="flex items-center justify-center bg-success rounded-full p-1 w-8 h-8">
                 <Check color="#FFFFFF" strokeWidth={3} />
               </div>
             )}

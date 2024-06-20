@@ -6,7 +6,14 @@ import { checkStringLength } from "@/lib/actions";
 import { createUserToast } from "@/lib/actions/userToasts";
 import { Tables } from "@/lib/supabase/types";
 import { Check, CirclePlus } from "lucide-react";
-import { Dispatch, SetStateAction, useState, useTransition } from "react";
+import {
+  act,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+  useTransition,
+} from "react";
 
 export default function Sidebar({
   userToasts,
@@ -38,6 +45,16 @@ export default function Sidebar({
       }
     });
   };
+
+  useEffect(() => {
+    if (activeToast) {
+      setCurrentToasts((prevToasts) =>
+        prevToasts.map((toast) =>
+          toast.id === activeToast.id ? { ...toast, ...activeToast } : toast
+        )
+      );
+    }
+  }, [activeToast]);
 
   return (
     <div className="flex flex-col join-item bg-white rounded-r-none relative rounded-lg h-full p-4 border border-neutral shadow-lg z-[3]">

@@ -77,7 +77,7 @@ export default function Navbar({
                 <a>Toasts</a>
               </li>
               <li>
-                <a>Webhooks</a>
+                <a>Integrations</a>
               </li>
               <li>
                 <a>Settings</a>
