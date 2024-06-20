@@ -116,20 +116,13 @@ export default function ActiveToastView({
               />
             )}
             <div
-              className="tooltip tooltip-bottom tooltip-primary"
-              data-tip="Rename"
+              className="hover:bg-primary/50 p-2 rounded-lg cursor-pointer"
+              onClick={() => setIsRenameClicked(!isRenameClicked)}
             >
-              {" "}
-              <div
-                className="hover:bg-primary/50 p-2 rounded-lg cursor-pointer"
-                onClick={() => setIsRenameClicked(!isRenameClicked)}
-              >
-                {" "}
-                <PencilLine width={18} height={18} />
-              </div>
+              <PencilLine width={18} height={18} />
             </div>
             {isPending && (
-              <span className="loading loading-spinner loading-md bg-primary"></span>
+              <span className="loading loading-spinner loading-md bg-base-content"></span>
             )}
           </div>
           <Ellipsis />

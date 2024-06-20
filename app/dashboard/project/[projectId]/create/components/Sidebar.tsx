@@ -7,7 +7,6 @@ import { createUserToast } from "@/lib/actions/userToasts";
 import { Tables } from "@/lib/supabase/types";
 import { Check, CirclePlus } from "lucide-react";
 import {
-  act,
   Dispatch,
   SetStateAction,
   useEffect,
@@ -56,6 +55,12 @@ export default function Sidebar({
     }
   }, [activeToast]);
 
+  const sortedToasts = currentToasts.sort((a, b) => {
+    const titleA = a.title || "";
+    const titleB = b.title || "";
+    return titleA.localeCompare(titleB);
+  });
+
   return (
     <div className="flex flex-col join-item bg-white rounded-r-none relative rounded-lg h-full p-4 border border-neutral shadow-lg z-[3]">
       <div
@@ -76,7 +81,7 @@ export default function Sidebar({
           My Toasts ({currentToasts.length})
         </div>
         <ul className="menu px-0 py-2 mt-2 overflow-y-auto max-h-[65vh] flex flex-col gap-3">
-          {currentToasts.map((toast, i) => (
+          {sortedToasts.map((toast, i) => (
             <li
               key={i}
               className={`flex gap-2 rounded-lg border border-neutral ${

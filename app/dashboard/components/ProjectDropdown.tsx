@@ -87,7 +87,7 @@ export default function ProjectDropdown({
                 color="oklch(var(--bc))"
               />
               {isPending && (
-                <span className="loading loading-spinner loading-sm bg-primary"></span>
+                <span className="loading loading-spinner loading-sm bg-base-content"></span>
               )}
             </a>
           </li>
