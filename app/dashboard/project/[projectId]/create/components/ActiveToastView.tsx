@@ -29,7 +29,7 @@ export default function ActiveToastView({
   const [currentTab, setCurrentTab] = useState(0);
 
   return activeToast !== undefined ? (
-    <div className="flex flex-col join-item bg-accent-light rounded-lg h-full border border-neutral shadow-lg z-[1]">
+    <div className="flex flex-col join-item rounded-none bg-primary/35 h-full shadow-lg z-[1]">
       <div className="w-full h-1/3 p-4">
         <div className="flex justify-between items-center">
           <RenameToastButton
@@ -169,6 +169,7 @@ const DeleteToastButton = ({
   setCurrentToasts: Dispatch<SetStateAction<Tables<"UserToasts">[]>>;
 }) => {
   const [isPending, startTransition] = useTransition();
+  const toggleElement = useRef<HTMLUListElement>(null);
 
   /* Toast delete */
   const handleDelete = () => {
@@ -187,6 +188,7 @@ const DeleteToastButton = ({
             );
             return updatedToasts;
           });
+          toggleElement?.current?.classList.add("hidden");
           showToast(`Successfully deleted \"${data.title}\"`);
         }
       }
@@ -195,7 +197,12 @@ const DeleteToastButton = ({
 
   return (
     <div className="dropdown dropdown-end">
-      <div className="p-2 -mt-2 rounded-lg cursor-pointer hover:bg-primary/50">
+      <div
+        className="p-2 -mt-2 rounded-lg cursor-pointer hover:bg-primary/50"
+        onClick={() => {
+          toggleElement?.current?.classList.remove("hidden");
+        }}
+      >
         <Ellipsis
           width={22}
           height={22}
@@ -205,6 +212,7 @@ const DeleteToastButton = ({
       </div>
       <ul
         tabIndex={0}
+        ref={toggleElement}
         className="menu menu-sm dropdown-content border border-neutral z-[1] p-2 shadow bg-base-100 rounded-md w-52"
       >
         <li>
@@ -356,9 +364,9 @@ const ToastStyle = ({
 
 const NoToastView = () => {
   return (
-    <div className="flex flex-col items-center gap-3 join-item bg-accent-light rounded-lg h-full p-4 border border-neutral">
+    <div className="flex flex-col items-center gap-3 bg-accent-light h-full p-4 border border-neutral">
       <Image
-        className="rounded-3xl max-h-[300px] mt-12"
+        className="rounded-3xl max-h-[300px] mt-20"
         width={300}
         alt="toast"
         src={ToastImg}

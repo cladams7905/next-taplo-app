@@ -90,7 +90,7 @@ export default function NewProjectForm() {
             style={{ marginTop: "2.5rem" }}
           >
             {isPending ? (
-              <LoadingDots color="#FFFFFF" />
+              <LoadingDots color="oklch(var(--bc))" />
             ) : (
               <>
                 <CirclePlus height={18} width={18} />

@@ -128,7 +128,7 @@ export default function ProjectDropdown({
                         className={`flex flex-row text-sm text-base-content rounded-md mb-2 ${
                           activeProject?.id === project.id &&
                           !isPending &&
-                          `bg-primary/50 text-primary-content`
+                          `bg-link-hover text-primary-content`
                         }`}
                         onClick={() => {
                           handleSubmit(project, activeProject);
@@ -164,7 +164,7 @@ export default function ProjectDropdown({
                 }}
               >
                 {isCreateProjectPending ? (
-                  <LoadingDots color="#FFFFFF" size="sm" />
+                  <LoadingDots color="oklch(var(--bc))" size="sm" />
                 ) : (
                   <>
                     <CirclePlus height={18} width={18} />

@@ -117,7 +117,7 @@ export default function RenameProjectModal({
                 style={{ marginTop: "2.5rem" }}
               >
                 {isPending ? (
-                  <LoadingDots color="#FFFFFF" />
+                  <LoadingDots color="oklch(var(--bc))" />
                 ) : (
                   <>
                     <Pencil height={18} width={18} />

@@ -11,7 +11,7 @@ const config: Config = {
     themes: [
       {
         default: {
-          primary: "#C5B8EF",
+          primary: "#CBA5E9",
           secondary: "#f0abfc",
           accent: "#a7f3d0",
           neutral: "#9ca3af",
@@ -21,8 +21,9 @@ const config: Config = {
           success: "#4ade80",
           warning: "#fde047",
           error: "#f87171",
-          "accent-light": "#FFEEDF",
-          "accent-tab": "#FFEEDF",
+          "accent-light": "#f9fafb",
+          "accent-tab": "#ffffff",
+          "link-hover": "#E8E9ED",
         },
       },
     ],
@@ -48,8 +49,9 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       colors: {
-        "accent-light": "#FFEEDF",
-        "accent-tab": "#FFEEDF",
+        "accent-light": "#f9fafb",
+        "accent-tab": "#ffffff",
+        "link-hover": "#E8E9ED",
       },
     },
   },

@@ -1,7 +1,7 @@
-import { Enums } from "../supabase/types";
-
-export type FilterBuilder = {
-  importanceFilter: Enums<"Importance">[] | [];
-  statusFilter: Enums<"RequestStatus">[] | [];
-  typeFilter: Enums<"FeatureType">[] | [];
-};
+export type ToastType =
+  | "Payment Complete"
+  | "Email Subscribe"
+  | "User Register"
+  | "Webpage Open"
+  | "Custom"
+  | null;

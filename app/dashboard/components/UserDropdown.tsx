@@ -66,13 +66,13 @@ export default function UserDropdown(data: { user: User }) {
           )}
         </div>
         <Link href={"/account"}>
-          <button className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-primary/50">
+          <button className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-link-hover">
             <Settings className="h-auto w-4" />
             <p className="text-sm">Account</p>
           </button>
         </Link>
         <button
-          className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-primary/50"
+          className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-link-hover"
           onClick={() => handleSignOut()}
         >
           <LogOut className="h-auto w-4" />

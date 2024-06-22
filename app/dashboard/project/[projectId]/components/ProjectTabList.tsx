@@ -17,7 +17,7 @@ export default function ProjectTabList() {
           href={"./create"}
           role="tab"
           tabIndex={0}
-          className={`tab [--tab-border-color:oklch(var(--n))] [&:hover:not(.tab-active)]:bg-primary/50 rounded-lg w-24 ${
+          className={`tab [--tab-border-color:oklch(var(--n))] [&:hover:not(.tab-active)]:bg-link-hover rounded-lg w-24 ${
             currentTab === 0 ? "tab-active font-semibold" : ""
           }`}
           onClick={(e) => handleTabClick(e.currentTarget.tabIndex)}
@@ -28,7 +28,7 @@ export default function ProjectTabList() {
           href={"./connect"}
           role="tab"
           tabIndex={1}
-          className={`tab [--tab-border-color:oklch(var(--n))] [&:hover:not(.tab-active)]:bg-primary/50 rounded-lg w-24 ${
+          className={`tab [--tab-border-color:oklch(var(--n))] [&:hover:not(.tab-active)]:bg-link-hover rounded-lg w-24 ${
             currentTab === 1 ? "tab-active font-semibold" : ""
           }`}
           onClick={(e) => handleTabClick(e.currentTarget.tabIndex)}
@@ -39,7 +39,7 @@ export default function ProjectTabList() {
           href={"./settings"}
           role="tab"
           tabIndex={2}
-          className={`tab [--tab-border-color:oklch(var(--n))] [&:hover:not(.tab-active)]:bg-primary/50 rounded-lg w-24 ${
+          className={`tab [--tab-border-color:oklch(var(--n))] [&:hover:not(.tab-active)]:bg-link-hover rounded-lg w-24 ${
             currentTab === 2 ? "tab-active font-semibold" : ""
           }`}
           onClick={(e) => handleTabClick(e.currentTarget.tabIndex)}

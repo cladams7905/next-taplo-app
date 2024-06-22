@@ -4,6 +4,7 @@ import { Tables } from "@/lib/supabase/types";
 import ActiveToastView from "./ActiveToastView";
 import Sidebar from "./Sidebar";
 import { useState } from "react";
+import { ToastType } from "@/lib/types";
 
 export default function ToastBoard({
   userToasts,
@@ -18,9 +19,10 @@ export default function ToastBoard({
 
   const [currentToasts, setCurrentToasts] =
     useState<Tables<"UserToasts">[]>(userToasts);
+  const [toastType, setToastType] = useState<ToastType>(null);
 
   return (
-    <main className="flex bg-primary/35 columns-2 join lg:px-12 px-2 pb-6 w-full h-screen-minus-navbar">
+    <main className="flex columns-2 join w-full h-screen-minus-navbar">
       <div className="w-1/4">
         <Sidebar
           userToasts={currentToasts}
@@ -28,6 +30,8 @@ export default function ToastBoard({
           activeToast={activeToast}
           setActiveToast={setActiveToast}
           setCurrentToasts={setCurrentToasts}
+          toastType={toastType}
+          setToastType={setToastType}
         />
       </div>
       <div className="w-3/4">

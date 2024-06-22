@@ -16,8 +16,8 @@ html {
 }
 
 html {
-  @apply !bg-primary/35
-}
+  @apply selection:!bg-primary/35
+} 
 
 html,
 body {
@@ -32,7 +32,7 @@ input, textarea {
 }
 
 li > a:hover:not(.tab) {
-  @apply !bg-primary/50
+  @apply !bg-link-hover
 }
 
 .tab-active::after {

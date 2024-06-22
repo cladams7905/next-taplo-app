@@ -6,7 +6,15 @@ import { checkStringLength } from "@/lib/actions";
 import { createUserToast } from "@/lib/actions/userToasts";
 import { Tables } from "@/lib/supabase/types";
 import { Check, CirclePlus } from "lucide-react";
-import { Dispatch, SetStateAction, useEffect, useTransition } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useTransition,
+} from "react";
+import TemplateModal from "./TemplateModal";
+import { ToastType } from "@/lib/types";
 
 export default function Sidebar({
   userToasts,
@@ -14,14 +22,19 @@ export default function Sidebar({
   activeToast,
   setActiveToast,
   setCurrentToasts,
+  toastType,
+  setToastType,
 }: {
   userToasts: Tables<"UserToasts">[];
   project: Tables<"Projects">;
   activeToast: Tables<"UserToasts"> | undefined;
   setActiveToast: Dispatch<SetStateAction<Tables<"UserToasts"> | undefined>>;
   setCurrentToasts: Dispatch<SetStateAction<Tables<"UserToasts">[]>>;
+  toastType: ToastType;
+  setToastType: Dispatch<SetStateAction<ToastType>>;
 }) {
   const [isPending, startTransition] = useTransition();
+  const templateModalRef = useRef<HTMLDialogElement>(null);
 
   const handleCreateToast = () => {
     startTransition(async () => {
@@ -35,6 +48,7 @@ export default function Sidebar({
       } else {
         setCurrentToasts((prevToasts) => [...prevToasts, data]);
         setActiveToast(data);
+        templateModalRef.current?.showModal();
       }
     });
   };
@@ -56,13 +70,13 @@ export default function Sidebar({
   });
 
   return (
-    <div className="flex flex-col join-item bg-white rounded-r-none relative rounded-lg h-full p-4 border border-neutral shadow-lg z-[3]">
+    <div className="flex flex-col join-item rounded-none bg-white relative h-full p-4 border-r border-neutral shadow-lg z-[3]">
       <div
         className="btn btn-primary border border-neutral hover:border-neutral w-full"
         onClick={() => handleCreateToast()}
       >
         {isPending ? (
-          <LoadingDots color="#FFFFFF" size="sm" />
+          <LoadingDots color="oklch(var(--bc))" size="sm" />
         ) : (
           <>
             <CirclePlus height={18} width={18} />
@@ -70,16 +84,23 @@ export default function Sidebar({
           </>
         )}
       </div>
+      <TemplateModal
+        templateModalRef={templateModalRef}
+        toastType={toastType}
+        setToastType={setToastType}
+        activeToast={activeToast}
+        setActiveToast={setActiveToast}
+      />
       <div className="mt-4">
         <div className="text-sm ml-2 font-semibold">
           My Toasts ({userToasts.length})
         </div>
-        <ul className="menu px-0 py-2 mt-2 overflow-y-auto max-h-[65vh] flex flex-col gap-3">
+        <ul className="menu px-0 py-2 mt-2 overflow-y-scroll flex-nowrap max-h-[75vh] flex flex-col gap-3">
           {sortedToasts.map((toast, i) => (
             <li
               key={i}
               className={`flex gap-2 rounded-lg border border-neutral ${
-                activeToast?.id === toast.id && `bg-primary/35`
+                activeToast?.id === toast.id && `bg-link-hover`
               }`}
             >
               <a
