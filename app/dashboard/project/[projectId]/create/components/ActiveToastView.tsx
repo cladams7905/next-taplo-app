@@ -16,6 +16,7 @@ import {
 import { checkStringLength } from "@/lib/actions";
 import { deleteUserToast, updateUserToast } from "@/lib/actions/userToasts";
 import { showToast, showToastError } from "@/components/shared/showToast";
+import { ToastType } from "@/lib/enums";
 
 export default function ActiveToastView({
   activeToast,
@@ -46,7 +47,12 @@ export default function ActiveToastView({
       </div>
       <ToastTabList currentTab={currentTab} setCurrentTab={setCurrentTab} />
       <div className="flex flex-col w-full items-center h-2/3 overflow-y-auto bg-white rounded-br-lg p-6 gap-6">
-        {currentTab === 0 && <ToastEvent activeToast={activeToast} />}
+        {currentTab === 0 && (
+          <ToastEvent
+            activeToast={activeToast}
+            setActiveToast={setActiveToast}
+          />
+        )}
         {currentTab === 1 && <ToastContent activeToast={activeToast} />}
         {/* {currentTab === 2 && <ToastStyle activeToast={activeToast} />} */}
       </div>
@@ -237,9 +243,29 @@ const DeleteToastButton = ({
 
 const ToastEvent = ({
   activeToast,
+  setActiveToast,
 }: {
   activeToast: Tables<"UserToasts"> | undefined;
+  setActiveToast: Dispatch<SetStateAction<Tables<"UserToasts"> | undefined>>;
 }) => {
+  const toastTypes = Object.values(ToastType);
+
+  const handleTypeSelect = async (toastType: ToastType) => {
+    if (activeToast && toastType) {
+      setActiveToast({
+        ...activeToast,
+        event_type: toastType,
+      });
+      const { error } = await updateUserToast(activeToast.id, {
+        ...activeToast,
+        event_type: toastType,
+      });
+      if (error) {
+        showToastError(error);
+      }
+    }
+  };
+
   return (
     <div className="flex flex-col w-2/3 gap-6">
       <p className="text-xl font-bold text-left">Toast Event</p>
@@ -248,11 +274,20 @@ const ToastEvent = ({
           <p>Event Type</p>
           <select
             className="select select-bordered border-neutral w-full"
-            defaultValue={"default"}
+            defaultValue={
+              activeToast?.event_type ? activeToast.event_type : "default"
+            }
           >
             <option value={"default"}>Select</option>
-            <option>Han Solo</option>
-            <option>Greedo</option>
+            {toastTypes.map((toastType, i) => (
+              <option
+                key={i}
+                value={toastType}
+                onClick={() => handleTypeSelect(toastType)}
+              >
+                {toastType}
+              </option>
+            ))}
           </select>
         </div>
         <div className="w-full">
@@ -364,7 +399,7 @@ const ToastStyle = ({
 
 const NoToastView = () => {
   return (
-    <div className="flex flex-col items-center gap-3 bg-accent-light h-full p-4 border border-neutral">
+    <div className="flex flex-col items-center gap-3 bg-primary/35 h-full p-4">
       <Image
         className="rounded-3xl max-h-[300px] mt-20"
         width={300}

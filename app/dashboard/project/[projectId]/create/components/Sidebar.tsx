@@ -14,7 +14,8 @@ import {
   useTransition,
 } from "react";
 import TemplateModal from "./TemplateModal";
-import { ToastType } from "@/lib/types";
+import { ToastType } from "@/lib/enums";
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 
 export default function Sidebar({
   userToasts,
@@ -30,8 +31,8 @@ export default function Sidebar({
   activeToast: Tables<"UserToasts"> | undefined;
   setActiveToast: Dispatch<SetStateAction<Tables<"UserToasts"> | undefined>>;
   setCurrentToasts: Dispatch<SetStateAction<Tables<"UserToasts">[]>>;
-  toastType: ToastType;
-  setToastType: Dispatch<SetStateAction<ToastType>>;
+  toastType: ToastType | undefined;
+  setToastType: Dispatch<SetStateAction<ToastType | undefined>>;
 }) {
   const [isPending, startTransition] = useTransition();
   const templateModalRef = useRef<HTMLDialogElement>(null);
@@ -39,8 +40,8 @@ export default function Sidebar({
   const handleCreateToast = () => {
     startTransition(async () => {
       const { data, error } = await createUserToast({
-        title: "New Toast",
-        event_type: "On user register",
+        title: getToastTitle(),
+        event_type: "",
         project_id: project.id,
       });
       if (error) {
@@ -51,6 +52,29 @@ export default function Sidebar({
         templateModalRef.current?.showModal();
       }
     });
+  };
+
+  const getToastTitle = () => {
+    let title = "New Toast";
+    let count = 0;
+    userToasts.forEach((toast) => {
+      if (toast.title?.includes("New Toast")) {
+        count++;
+      }
+    });
+    userToasts.forEach((toast) => {
+      const match = toast.title?.match(/\d/);
+      if (match) {
+        const num = parseInt(match[0]);
+        if (num >= count) {
+          count = num + 1;
+        }
+      }
+    });
+    if (count > 0) {
+      title = `New Toast (${count})`;
+    }
+    return title;
   };
 
   useEffect(() => {
@@ -111,7 +135,14 @@ export default function Sidebar({
               >
                 <div>
                   <p>{checkStringLength(toast.title)}</p>
-                  <p className="text-sm text-gray-500">{toast.event_type}</p>
+                  {toast.event_type === "" ? (
+                    <div className="flex items-center gap-1">
+                      <p className="text-sm text-error">No Event Selected</p>
+                      <ExclamationTriangleIcon color="oklch(var(--er))" />
+                    </div>
+                  ) : (
+                    <p className="text-sm text-gray-500">{toast.event_type}</p>
+                  )}
                 </div>
                 {activeToast?.id === toast.id && (
                   <Check color="oklch(var(--bc))" height={22} width={22} />

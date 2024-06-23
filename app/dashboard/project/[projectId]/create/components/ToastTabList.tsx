@@ -23,9 +23,7 @@ export default function ToastTabList({
           role="tab"
           tabIndex={0}
           className={`tab [--tab-border-color:oklch(var(--n))] w-24 ${
-            currentTab === 0
-              ? "tab-active font-semibold"
-              : "hover:!bg-accent-tab"
+            currentTab === 0 ? "tab-active font-semibold" : ""
           }`}
           onClick={(e) => handleTabClick(e.currentTarget.tabIndex)}
         >
@@ -35,9 +33,7 @@ export default function ToastTabList({
           role="tab"
           tabIndex={1}
           className={`tab [--tab-border-color:oklch(var(--n))] w-24 ${
-            currentTab === 1
-              ? "tab-active font-semibold"
-              : "hover:!bg-accent-tab"
+            currentTab === 1 ? "tab-active font-semibold" : ""
           }`}
           onClick={(e) => handleTabClick(e.currentTarget.tabIndex)}
         >
