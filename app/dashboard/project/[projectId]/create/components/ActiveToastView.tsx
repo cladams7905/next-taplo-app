@@ -45,7 +45,7 @@ export default function ActiveToastView({
             setCurrentToasts={setCurrentToasts}
           />
         </div>
-        <div className="flex h-full w-full items-start justify-center pt-6">
+        <div className="flex h-full w-full lg:items-start items-center justify-center -mt-8 lg:mt-4">
           <ToastPopup activeToast={activeToast} />
         </div>
       </div>
