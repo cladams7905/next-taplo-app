@@ -254,7 +254,7 @@ const ToastEvent = ({
     if (activeToast && toastType) {
       setActiveToast({
         ...activeToast,
-        event_type: toastType,
+        event_type: toastType.toString() !== "default" ? toastType : "",
       });
       const { error } = await updateUserToast(activeToast.id, {
         ...activeToast,
@@ -274,17 +274,12 @@ const ToastEvent = ({
           <p>Event Type</p>
           <select
             className="select select-bordered border-neutral w-full"
-            defaultValue={
-              activeToast?.event_type ? activeToast.event_type : "default"
-            }
+            value={activeToast?.event_type || "default"}
+            onChange={(e) => handleTypeSelect(e.target.value as ToastType)}
           >
             <option value={"default"}>Select</option>
             {toastTypes.map((toastType, i) => (
-              <option
-                key={i}
-                value={toastType}
-                onClick={() => handleTypeSelect(toastType)}
-              >
+              <option key={i} value={toastType}>
                 {toastType}
               </option>
             ))}
