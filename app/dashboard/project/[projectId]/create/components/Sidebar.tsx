@@ -16,6 +16,8 @@ import {
 import TemplateModal from "./TemplateModal";
 import { ToastType } from "@/lib/enums";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import Link from "next/link";
+import ProjectTabList from "../../components/ProjectTabList";
 
 export default function Sidebar({
   userToasts,
@@ -94,63 +96,81 @@ export default function Sidebar({
   });
 
   return (
-    <div className="flex flex-col join-item rounded-none bg-white relative h-full p-4 border-r border-neutral shadow-lg z-[3]">
-      <div
-        className="btn btn-primary border border-neutral hover:border-neutral w-full"
-        onClick={() => handleCreateToast()}
-      >
-        {isPending ? (
-          <LoadingDots color="oklch(var(--bc))" size="sm" />
-        ) : (
-          <>
-            <CirclePlus height={18} width={18} />
-            New Toast
-          </>
-        )}
-      </div>
-      <TemplateModal
-        templateModalRef={templateModalRef}
-        toastType={toastType}
-        setToastType={setToastType}
-        activeToast={activeToast}
-        setActiveToast={setActiveToast}
-      />
-      <div className="mt-4">
-        <div className="text-sm ml-2 font-semibold">
-          My Toasts ({userToasts.length})
-        </div>
-        <ul className="menu px-0 py-2 mt-2 overflow-y-scroll flex-nowrap max-h-[75vh] flex flex-col gap-3">
-          {sortedToasts.map((toast, i) => (
-            <li
-              key={i}
-              className={`flex gap-2 rounded-lg border border-neutral ${
-                activeToast?.id === toast.id && `bg-link-hover`
-              }`}
-            >
-              <a
-                className="flex w-full items-center cursor-pointer justify-between"
-                onClick={() => {
-                  setActiveToast(toast);
-                }}
-              >
-                <div>
-                  <p>{checkStringLength(toast.title)}</p>
-                  {toast.event_type === "" ? (
-                    <div className="flex items-center gap-1">
-                      <p className="text-sm text-error">No Event Selected</p>
-                      <ExclamationTriangleIcon color="oklch(var(--er))" />
+    <div className="drawer lg:drawer-open flex flex-col lg:join-item rounded-none bg-white relative h-full lg:p-4 border-r border-neutral shadow-lg z-[3]">
+      <input id="sidebar-drawer" type="checkbox" className="drawer-toggle" />
+      <div className="drawer-side">
+        <label
+          htmlFor="sidebar-drawer"
+          aria-label="close sidebar"
+          className="drawer-overlay"
+        ></label>
+        <div className="flex flex-col bg-white lg:p-0 md:px-8 p-4 pt-0 h-full lg:w-full md:w-1/2 sm:w-1/2 w-2/3">
+          <div className="flex w-full justify-center overflow-x-scroll lg:hidden">
+            <ProjectTabList />
+          </div>
+          <hr className="border-t border-neutral mb-6 lg:hidden" />
+          <div
+            className="btn btn-primary border border-neutral hover:border-neutral w-full"
+            onClick={() => handleCreateToast()}
+          >
+            {isPending ? (
+              <LoadingDots color="oklch(var(--bc))" size="sm" />
+            ) : (
+              <>
+                <CirclePlus height={18} width={18} />
+                New Toast
+              </>
+            )}
+          </div>
+          <TemplateModal
+            templateModalRef={templateModalRef}
+            toastType={toastType}
+            setToastType={setToastType}
+            activeToast={activeToast}
+            setActiveToast={setActiveToast}
+          />
+          <div className="mt-4">
+            <div className="text-sm ml-2 font-semibold">
+              My Toasts ({userToasts.length})
+            </div>
+            <ul className="menu px-0 py-2 mt-2 overflow-y-scroll flex-nowrap max-h-[75vh] flex flex-col gap-3">
+              {sortedToasts.map((toast, i) => (
+                <li
+                  key={i}
+                  className={`flex gap-2 rounded-lg border border-neutral ${
+                    activeToast?.id === toast.id && `bg-link-hover`
+                  }`}
+                >
+                  <a
+                    className="flex w-full items-center cursor-pointer justify-between"
+                    onClick={() => {
+                      setActiveToast(toast);
+                    }}
+                  >
+                    <div>
+                      <p>{checkStringLength(toast.title)}</p>
+                      {toast.event_type === "" ? (
+                        <div className="flex items-center gap-1">
+                          <p className="text-sm text-error">
+                            No Event Selected
+                          </p>
+                          <ExclamationTriangleIcon color="oklch(var(--er))" />
+                        </div>
+                      ) : (
+                        <p className="text-sm text-gray-500">
+                          {toast.event_type}
+                        </p>
+                      )}
                     </div>
-                  ) : (
-                    <p className="text-sm text-gray-500">{toast.event_type}</p>
-                  )}
-                </div>
-                {activeToast?.id === toast.id && (
-                  <Check color="oklch(var(--bc))" height={22} width={22} />
-                )}
-              </a>
-            </li>
-          ))}
-        </ul>
+                    {activeToast?.id === toast.id && (
+                      <Check color="oklch(var(--bc))" height={22} width={22} />
+                    )}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   );

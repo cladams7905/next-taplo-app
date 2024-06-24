@@ -53,6 +53,15 @@ const config: Config = {
         "accent-tab": "#ffffff",
         "link-hover": "#E8E9ED",
       },
+      keyframes: {
+        wiggle: {
+          "0%, 100%": { transform: "rotate(-3deg)" },
+          "50%": { transform: "rotate(3deg)" },
+        },
+      },
+      animation: {
+        wiggle: "wiggle 0.5s ease-in-out infinite",
+      },
     },
   },
   plugins: [daisyui],

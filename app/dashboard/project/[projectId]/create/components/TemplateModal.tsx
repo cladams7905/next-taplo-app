@@ -45,7 +45,7 @@ export default function TemplateModal({
       <div className="modal-box w-11/12 max-w-5xl flex flex-col gap-6 justify-center !border !border-neutral text-base-content relative">
         <form method="dialog" className="modal-backdrop">
           <button
-            className="btn btn-sm btn-circle btn-ghost !border-none absolute right-2 top-2 text-base-content"
+            className="btn btn-sm btn-circle btn-ghost !border-none !outline-none absolute right-2 top-2 text-base-content"
             onClick={() => templateModalRef.current?.close()}
           >
             ✕

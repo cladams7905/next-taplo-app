@@ -22,8 +22,8 @@ export default function ToastBoard({
   const [toastType, setToastType] = useState<ToastType | undefined>();
 
   return (
-    <main className="flex columns-2 join w-full h-screen-minus-navbar">
-      <div className="w-1/4">
+    <main className="flex lg:columns-2 lg:join w-full h-screen-minus-navbar">
+      <div className="lg:w-1/4">
         <Sidebar
           userToasts={currentToasts}
           project={project}
@@ -34,7 +34,7 @@ export default function ToastBoard({
           setToastType={setToastType}
         />
       </div>
-      <div className="w-3/4">
+      <div className="lg:w-3/4 w-full">
         <ActiveToastView
           activeToast={activeToast}
           setActiveToast={setActiveToast}

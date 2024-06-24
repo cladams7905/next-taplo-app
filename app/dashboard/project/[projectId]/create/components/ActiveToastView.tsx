@@ -17,6 +17,7 @@ import { checkStringLength } from "@/lib/actions";
 import { deleteUserToast, updateUserToast } from "@/lib/actions/userToasts";
 import { showToast, showToastError } from "@/components/shared/showToast";
 import { ToastType } from "@/lib/enums";
+import ToastPopup from "./ToastPopup";
 
 export default function ActiveToastView({
   activeToast,
@@ -31,7 +32,7 @@ export default function ActiveToastView({
 
   return activeToast !== undefined ? (
     <div className="flex flex-col join-item rounded-none bg-primary/35 h-full shadow-lg z-[1]">
-      <div className="w-full h-1/3 p-4">
+      <div className="w-full lg:h-1/3 h-1/2 p-4">
         <div className="flex justify-between items-center">
           <RenameToastButton
             activeToast={activeToast}
@@ -43,6 +44,9 @@ export default function ActiveToastView({
             setActiveToast={setActiveToast}
             setCurrentToasts={setCurrentToasts}
           />
+        </div>
+        <div className="flex h-full w-full items-start justify-center pt-6">
+          <ToastPopup activeToast={activeToast} />
         </div>
       </div>
       <ToastTabList currentTab={currentTab} setCurrentTab={setCurrentTab} />

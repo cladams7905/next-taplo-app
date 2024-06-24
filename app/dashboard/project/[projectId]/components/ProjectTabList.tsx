@@ -12,7 +12,10 @@ export default function ProjectTabList() {
 
   return (
     <div className="flex flex-row items-center">
-      <div role="tablist" className="menu menu-horizontal tabs w-fit py-2">
+      <div
+        role="tablist"
+        className="menu menu-horizontal lg:inline-flex grid tabs w-fit py-2 lg:h-auto h-[58px]"
+      >
         <Link
           href={"./create"}
           role="tab"
