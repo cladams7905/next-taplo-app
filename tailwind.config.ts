@@ -11,10 +11,10 @@ const config: Config = {
     themes: [
       {
         default: {
-          primary: "#CBA5E9",
+          primary: "#6091F3",
           secondary: "#f0abfc",
           accent: "#a7f3d0",
-          neutral: "#9ca3af",
+          neutral: "#D1D3D7" /**9ca3af */,
           "base-100": "#ffffff",
           "base-content": "#172554",
           info: "#0891b2",
@@ -23,7 +23,7 @@ const config: Config = {
           error: "#f87171",
           "accent-light": "#f9fafb",
           "accent-tab": "#ffffff",
-          "link-hover": "#E8E9ED",
+          "link-hover": "#DFE9FD",
         },
       },
     ],
@@ -51,7 +51,7 @@ const config: Config = {
       colors: {
         "accent-light": "#f9fafb",
         "accent-tab": "#ffffff",
-        "link-hover": "#E8E9ED",
+        "link-hover": "#DFE9FD",
       },
       keyframes: {
         wiggle: {

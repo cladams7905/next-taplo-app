@@ -35,7 +35,7 @@ export default function UserDropdown(data: { user: User }) {
       <button className="flex items-center justify-center overflow-hidden rounded-full">
         <div className="transition-all duration-75 active:scale-95">
           {avatar_url ? (
-            <div className="border border-base-content rounded-full">
+            <div className="border border-neutral rounded-full">
               <Image
                 src={avatar_url}
                 alt="user"

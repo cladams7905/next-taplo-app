@@ -17,7 +17,7 @@ export default function ToastTabList({
   return (
     <div className="flex flex-row items-end">
       <hr className="w-8 border-t border-neutral" />
-      <div role="tablist" className="tabs tabs-lifted w-fit -mt-12">
+      <div role="tablist" className="tabs tabs-lifted w-fit -mt-12 shadow-lg">
         <a></a>
         <a
           role="tab"

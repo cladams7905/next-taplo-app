@@ -61,7 +61,7 @@ export default function TemplateModal({
             }`}
             onClick={() => setToastType(ToastType.PaymentComplete)}
           >
-            <div className="flex items-center w-full h-2/3 bg-primary/35 rounded-t-lg"></div>
+            <div className="flex items-center w-full h-2/3 bg-gradient-to-tr from-primary/50 to-violet-100 rounded-t-lg"></div>
             <div className="flex flex-col justify-center items-center gap-1 p-4">
               <p className="font-bold">On payment complete</p>
               <p className="text-gray-500 text-sm text-center">
@@ -77,7 +77,7 @@ export default function TemplateModal({
             }`}
             onClick={() => setToastType(ToastType.EmailSubscribe)}
           >
-            <div className="flex items-center w-full h-2/3 bg-primary/35 rounded-t-lg"></div>
+            <div className="flex items-center w-full h-2/3 bg-gradient-to-tr from-primary/50 to-violet-100 rounded-t-lg"></div>
             <div className="flex flex-col justify-center items-center gap-1 p-4">
               <p className="font-bold">On email subscribe</p>
               <p className="text-gray-500 text-sm text-center">
@@ -93,7 +93,7 @@ export default function TemplateModal({
             }`}
             onClick={() => setToastType(ToastType.UserRegister)}
           >
-            <div className="flex items-center w-full h-2/3 bg-primary/35 rounded-t-lg"></div>
+            <div className="flex items-center w-full h-2/3 bg-gradient-to-tr from-primary/50 to-violet-100 rounded-t-lg"></div>
             <div className="flex flex-col justify-center items-center gap-1 p-4">
               <p className="font-bold">On new register</p>
               <p className="text-gray-500 text-sm text-center">
@@ -109,7 +109,7 @@ export default function TemplateModal({
             }`}
             onClick={() => setToastType(ToastType.WebpageOpen)}
           >
-            <div className="flex items-center w-full h-2/3 bg-primary/35 rounded-t-lg"></div>
+            <div className="flex items-center w-full h-2/3 bg-gradient-to-tr from-primary/50 to-violet-100 rounded-t-lg"></div>
             <div className="flex flex-col justify-center items-center gap-1 p-4">
               <p className="font-bold">On webpage open</p>
               <p className="text-gray-500 text-sm text-center">
@@ -125,7 +125,7 @@ export default function TemplateModal({
             }`}
             onClick={() => setToastType(ToastType.Custom)}
           >
-            <div className="flex items-center w-full h-2/3 bg-primary/35 rounded-t-lg"></div>
+            <div className="flex items-center w-full h-2/3 bg-gradient-to-tr from-primary/50 to-violet-100 rounded-t-lg"></div>
             <div className="flex flex-col items-center !h-[100px] gap-1 p-4">
               <p className="font-bold">Custom</p>
               <p className="text-gray-500 text-sm text-center">

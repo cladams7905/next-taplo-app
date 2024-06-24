@@ -154,7 +154,7 @@ export default function ProjectDropdown({
               <hr className="my-2 border-t border-neutral"></hr>
               <Link
                 href={"/dashboard/create-project"}
-                className="btn btn-primary border border-neutral hover:border-neutral btn-sm rounded-md h-auto p-2 mt-1 min-h-[38px]"
+                className="btn btn-primary text-white btn-sm rounded-md h-auto p-2 mt-1 min-h-[38px]"
                 onClick={() => {
                   startCreateProjectTransition(() => {
                     setTimeout(() => {

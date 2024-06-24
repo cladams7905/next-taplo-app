@@ -110,7 +110,7 @@ export default function Sidebar({
           </div>
           <hr className="border-t border-neutral mb-6 lg:hidden" />
           <div
-            className="btn btn-primary border border-neutral hover:border-neutral w-full"
+            className="btn btn-primary w-full text-white"
             onClick={() => handleCreateToast()}
           >
             {isPending ? (

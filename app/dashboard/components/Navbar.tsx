@@ -63,7 +63,7 @@ export default function Navbar({
   }, [activeProject, projects]);
 
   return (
-    <main className="flex flex-col items-center w-full font-sans z-30 px-3 transition-all border-b border-neutral dark:bg-base-100">
+    <main className="flex flex-col items-center w-full font-sans z-30 px-3 transition-all border-b border-neutral dark:bg-base-100 shadow-md bg-white">
       <div className="navbar flex">
         <div className="navbar-start">
           <label

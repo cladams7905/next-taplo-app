@@ -31,7 +31,7 @@ export default function ActiveToastView({
   const [currentTab, setCurrentTab] = useState(0);
 
   return activeToast !== undefined ? (
-    <div className="flex flex-col join-item rounded-none bg-primary/35 h-full shadow-lg z-[1]">
+    <div className="flex flex-col join-item rounded-none bg-gradient-to-tr from-primary/50 to-violet-100 h-full shadow-lg z-[1]">
       <div className="w-full lg:h-1/3 h-1/2 p-4">
         <div className="flex justify-between items-center">
           <RenameToastButton
@@ -398,7 +398,7 @@ const ToastStyle = ({
 
 const NoToastView = () => {
   return (
-    <div className="flex flex-col items-center gap-3 bg-primary/35 h-full p-4">
+    <div className="flex flex-col items-center gap-3 bg-gradient-to-tr from-primary/50 to-violet-100 h-full p-4 rounded-none">
       <Image
         className="rounded-3xl max-h-[300px] mt-20"
         width={300}
