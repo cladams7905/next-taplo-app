@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "./components/Navbar";
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from "@/app/supabase/server";
 
 export default async function DashboardLayout({
   children,

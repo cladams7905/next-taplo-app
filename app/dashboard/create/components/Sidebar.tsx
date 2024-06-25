@@ -4,7 +4,7 @@ import LoadingDots from "@/components/shared/loadingdots";
 import { showToastError } from "@/components/shared/showToast";
 import { checkStringLength } from "@/lib/actions";
 import { createUserToast } from "@/lib/actions/userToasts";
-import { Tables } from "@/lib/supabase/types";
+import { Tables } from "@/app/supabase/types";
 import { Check, CirclePlus } from "lucide-react";
 import {
   Dispatch,

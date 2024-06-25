@@ -3,7 +3,7 @@
 import Image from "next/image";
 import ToastImg from "@/public/images/toaster1.png";
 import { CirclePlus, Ellipsis, PencilLine, Trash } from "lucide-react";
-import { Tables, TablesUpdate } from "@/lib/supabase/types";
+import { Tables, TablesUpdate } from "@/app/supabase/types";
 import ToastTabList from "./ToastTabList";
 import {
   Dispatch,
@@ -158,7 +158,7 @@ const RenameToastButton = ({
         />
       )}
       <div
-        className="hover:bg-primary/50 p-2 rounded-lg cursor-pointer"
+        className="hover:bg-primary/35 p-2 rounded-lg cursor-pointer"
         onClick={() => setIsRenameClicked(!isRenameClicked)}
       >
         <PencilLine width={18} height={18} />
@@ -209,7 +209,7 @@ const DeleteToastButton = ({
   return (
     <div className="dropdown dropdown-end">
       <div
-        className="p-2 -mt-2 rounded-lg cursor-pointer hover:bg-primary/50"
+        className="p-2 -mt-2 rounded-lg cursor-pointer hover:bg-primary/35"
         onClick={() => {
           toggleElement?.current?.classList.remove("hidden");
         }}

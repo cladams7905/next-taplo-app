@@ -3,7 +3,7 @@
 import LoadingDots from "@/components/shared/loadingdots";
 import { showToastError } from "@/components/shared/showToast";
 import { updateUserToast } from "@/lib/actions/userToasts";
-import { Tables } from "@/lib/supabase/types";
+import { Tables } from "@/app/supabase/types";
 import { ToastType } from "@/lib/enums";
 import { Dispatch, RefObject, SetStateAction, useTransition } from "react";
 
@@ -136,8 +136,8 @@ export default function TemplateModal({
         </div>
         <div className="flex w-full items-center justify-center">
           <div
-            className={`btn btn-primary w-full max-w-72 ${
-              !toastType && "btn-disabled"
+            className={`btn btn-primary text-white w-full max-w-72 ${
+              !toastType && "btn-disabled text-base-content"
             }`}
             onClick={() => handleTemplateSubmit()}
           >

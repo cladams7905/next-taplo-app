@@ -9,6 +9,41 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      ApiKeys: {
+        Row: {
+          created_at: string
+          id: number
+          key: string | null
+          name: string | null
+          provider: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          key?: string | null
+          name?: string | null
+          provider?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          key?: string | null
+          name?: string | null
+          provider?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ApiKeys_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       Toasts: {
         Row: {
           bg_color: string | null
@@ -52,44 +87,6 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "UserToasts_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      Webhooks: {
-        Row: {
-          created_at: string
-          endpoint: string | null
-          event_type: string | null
-          id: number
-          provider: string | null
-          secret: string | null
-          user_id: string | null
-        }
-        Insert: {
-          created_at?: string
-          endpoint?: string | null
-          event_type?: string | null
-          id?: number
-          provider?: string | null
-          secret?: string | null
-          user_id?: string | null
-        }
-        Update: {
-          created_at?: string
-          endpoint?: string | null
-          event_type?: string | null
-          id?: number
-          provider?: string | null
-          secret?: string | null
-          user_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "Webhooks_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"

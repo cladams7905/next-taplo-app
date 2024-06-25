@@ -1,6 +1,6 @@
 "use client";
 
-import { Tables } from "@/lib/supabase/types";
+import { Tables } from "@/app/supabase/types";
 import ActiveToastView from "./ActiveToastView";
 import Sidebar from "./Sidebar";
 import { useState } from "react";

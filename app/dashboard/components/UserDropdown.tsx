@@ -48,7 +48,7 @@ export default function UserDropdown(data: { user: User }) {
             <CircleUser
               height={26}
               width={26}
-              strokeWidth={1.25}
+              strokeWidth={1.75}
               className="mr-2 rounded-full"
             />
           )}
