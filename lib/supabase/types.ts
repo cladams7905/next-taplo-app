@@ -90,6 +90,7 @@ export type Database = {
           screen_alignment: string | null
           title: string | null
           user_id: string | null
+          webhook_id: number | null
         }
         Insert: {
           bg_color?: string | null
@@ -103,6 +104,7 @@ export type Database = {
           screen_alignment?: string | null
           title?: string | null
           user_id?: string | null
+          webhook_id?: number | null
         }
         Update: {
           bg_color?: string | null
@@ -116,6 +118,7 @@ export type Database = {
           screen_alignment?: string | null
           title?: string | null
           user_id?: string | null
+          webhook_id?: number | null
         }
         Relationships: [
           {
@@ -127,6 +130,54 @@ export type Database = {
           },
           {
             foreignKeyName: "UserToasts_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      Webhooks: {
+        Row: {
+          created_at: string
+          endpoint: string | null
+          event_type: string | null
+          id: number
+          project_id: number | null
+          provider: string | null
+          secret: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          endpoint?: string | null
+          event_type?: string | null
+          id?: number
+          project_id?: number | null
+          provider?: string | null
+          secret?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          endpoint?: string | null
+          event_type?: string | null
+          id?: number
+          project_id?: number | null
+          provider?: string | null
+          secret?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "Webhooks_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "Projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "Webhooks_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"

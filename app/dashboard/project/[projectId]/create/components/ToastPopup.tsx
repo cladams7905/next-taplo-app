@@ -35,14 +35,14 @@ export default function ToastPopup({
         Anonymous just purchased{" "}
         <span className="font-bold link">Tennis shoes ($20)</span>.
       </p>
-      <div className="flex justify-end items-center gap-2">
+      {/* <div className="flex justify-end items-center gap-2">
         <div className="flex items-center shadow-sm border border-gray-200 rounded-lg px-2 py-1">
           🎉 1
         </div>
         <div className="flex items-center shadow-sm border border-gray-200 rounded-lg px-2 py-1">
           👏 2
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -1,10 +1,36 @@
 "use client";
 
+import { Tables } from "@/lib/supabase/types";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-export default function ProjectTabList() {
-  const [currentTab, setCurrentTab] = useState(0);
+export default function ProjectTabList({
+  activeProject,
+}: {
+  activeProject?: Tables<"Projects">;
+}) {
+  const pathname = usePathname();
+  const setTabFromPathname = () => {
+    let tabIndex = 0;
+    if (activeProject) {
+      switch (pathname) {
+        case `/dashboard/project/${activeProject.id}/create`:
+          tabIndex = 0;
+          break;
+        case `/dashboard/project/${activeProject.id}/connect`:
+          tabIndex = 1;
+          break;
+        case `/dashboard/project/${activeProject.id}/settings`:
+          tabIndex = 2;
+          break;
+        default:
+          console.log(`unhandled pathname: ${pathname}`);
+      }
+    }
+    return tabIndex;
+  };
+  const [currentTab, setCurrentTab] = useState(setTabFromPathname());
 
   const handleTabClick = (tabIndex: number) => {
     setCurrentTab(tabIndex);

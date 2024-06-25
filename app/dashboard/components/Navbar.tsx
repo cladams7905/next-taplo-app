@@ -67,7 +67,6 @@ export default function Navbar({
       <div className="navbar flex">
         <div className="navbar-start">
           <label
-            tabIndex={0}
             role="button"
             className="flex ml-2 mr-6 lg:hidden drawer-button"
             htmlFor="sidebar-drawer"
@@ -91,7 +90,7 @@ export default function Navbar({
         </div>
         {!isHiddenTabList && (
           <div className="navbar-center hidden lg:block">
-            <ProjectTabList />
+            <ProjectTabList activeProject={activeProject} />
           </div>
         )}
         <div className="navbar-end">

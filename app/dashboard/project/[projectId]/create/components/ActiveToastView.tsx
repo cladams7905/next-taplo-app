@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import ToastImg from "@/public/images/toaster2.jpeg";
+import ToastImg from "@/public/images/toaster1.png";
 import { CirclePlus, Ellipsis, PencilLine, Trash } from "lucide-react";
 import { Tables, TablesUpdate } from "@/lib/supabase/types";
 import ToastTabList from "./ToastTabList";
@@ -18,6 +18,7 @@ import { deleteUserToast, updateUserToast } from "@/lib/actions/userToasts";
 import { showToast, showToastError } from "@/components/shared/showToast";
 import { ToastType } from "@/lib/enums";
 import ToastPopup from "./ToastPopup";
+import "animate.css";
 
 export default function ActiveToastView({
   activeToast,
@@ -400,12 +401,12 @@ const NoToastView = () => {
   return (
     <div className="flex flex-col items-center gap-3 bg-gradient-to-tr from-primary/50 to-violet-100 h-full p-4 rounded-none">
       <Image
-        className="rounded-3xl max-h-[300px] mt-20"
+        className="rounded-3xl max-h-[300px] mt-20 animate__animated animate__headShake"
         width={300}
         alt="toast"
         src={ToastImg}
       />
-      <div className="flex flex-col gap-2 items-center justify-center">
+      <div className="flex flex-col gap-2 items-center justify-center -mt-4">
         {" "}
         <div className="font-bold text-2xl">
           You haven&apos;t made any toasts yet.
