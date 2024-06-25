@@ -1,15 +1,20 @@
 "use client";
 
 import { Tables } from "@/supabase/types";
-import { CirclePlus, EllipsisVertical } from "lucide-react";
+import { CirclePlus, Delete, EllipsisVertical, Trash } from "lucide-react";
 import Image from "next/image";
 import StripeLogo from "@/public/images/stripe-logo.svg";
 import { convertDateTime } from "@/lib/actions";
+import { Dispatch, SetStateAction, useRef, useTransition } from "react";
+import { showToast, showToastError } from "@/components/shared/showToast";
+import { deleteIntegration } from "@/lib/actions/integrations";
 
 export default function IntegrationsList({
   integrations,
+  setIntegrations,
 }: {
   integrations: Tables<"Integrations">[];
+  setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
 }) {
   return integrations.length > 0 ? (
     integrations.map((integration, i) => (
@@ -42,7 +47,10 @@ export default function IntegrationsList({
           </div>
         </div>
         <div className="flex items-center">
-          <EllipsisVertical />
+          <DeleteIntegrationButton
+            integration={integration}
+            setIntegrations={setIntegrations}
+          />
         </div>
       </div>
     ))
@@ -62,3 +70,72 @@ export default function IntegrationsList({
     </div>
   );
 }
+
+const DeleteIntegrationButton = ({
+  integration,
+  setIntegrations,
+}: {
+  integration: Tables<"Integrations">;
+  setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
+}) => {
+  const [isPending, startTransition] = useTransition();
+  const toggleElement = useRef<HTMLUListElement>(null);
+
+  /* Toast delete */
+  const handleDelete = () => {
+    startTransition(async () => {
+      const { data, error } = await deleteIntegration(integration.id);
+      if (error) {
+        showToastError(error);
+      } else {
+        setIntegrations((prevIntegrations) => {
+          const updatedIntegrations = prevIntegrations.filter(
+            (integration) => integration.id !== data.id
+          );
+          return updatedIntegrations;
+        });
+        toggleElement?.current?.classList.add("hidden");
+        showToast(`Successfully deleted \"${data.name}\"`);
+      }
+    });
+  };
+
+  return (
+    <div className="dropdown dropdown-end">
+      <div
+        className="p-2 rounded-lg cursor-pointer hover:bg-primary/20"
+        onClick={() => {
+          toggleElement?.current?.classList.remove("hidden");
+        }}
+      >
+        <EllipsisVertical
+          width={22}
+          height={22}
+          tabIndex={0}
+          className="outline-none"
+        />
+      </div>
+      <ul
+        tabIndex={0}
+        ref={toggleElement}
+        className="menu menu-sm dropdown-content border border-neutral z-[1] p-2 shadow bg-base-100 rounded-md w-52"
+      >
+        <li>
+          <a
+            className="flex items-center justify-between py-2 rounded-md"
+            onClick={() => handleDelete()}
+          >
+            <div className="flex items-center gap-2">
+              {" "}
+              <Trash width={18} height={18} />
+              Delete
+            </div>
+            {isPending && (
+              <span className="loading loading-spinner loading-sm bg-base-content" />
+            )}
+          </a>
+        </li>
+      </ul>
+    </div>
+  );
+};

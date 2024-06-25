@@ -1,7 +1,7 @@
 import { createClient } from "@/supabase/server";
 import { redirect } from "next/navigation";
 import ApiKeyBoard from "./components/IntegrationBoard";
-import { getIntegrations } from "@/lib/actions/Integrations";
+import { getIntegrations } from "@/lib/actions/integrations";
 
 export default async function ConnectPage() {
   const supabase = createClient();

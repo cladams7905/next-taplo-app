@@ -26,7 +26,10 @@ export default function IntegrationBoard({
         {" "}
         <p className="text-xl">My Integrations</p>
         <div className="flex flex-col gap-4 overflow-y-scroll">
-          <IntegrationsList integrations={integrations} />
+          <IntegrationsList
+            integrations={currentIntegrations}
+            setIntegrations={setCurrentIntegrations}
+          />
         </div>
       </div>
     </div>

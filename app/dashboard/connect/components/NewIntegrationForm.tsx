@@ -24,7 +24,7 @@ import { CirclePlus } from "lucide-react";
 import Image from "next/image";
 import StripeLogo from "@/public/images/stripe-logo.svg";
 import { Tables } from "@/supabase/types";
-import { createIntegration } from "@/lib/actions/Integrations";
+import { createIntegration } from "@/lib/actions/integrations";
 
 const PROVIDERS = ["Stripe", "LemonSqueezy"] as const;
 const providersEnum = z.enum(PROVIDERS, {
