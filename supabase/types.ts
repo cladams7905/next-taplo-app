@@ -9,34 +9,34 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      ApiKeys: {
+      Integrations: {
         Row: {
+          api_key: string | null
           created_at: string
           id: number
-          key: string | null
           name: string | null
           provider: string | null
           user_id: string | null
         }
         Insert: {
+          api_key?: string | null
           created_at?: string
           id?: number
-          key?: string | null
           name?: string | null
           provider?: string | null
           user_id?: string | null
         }
         Update: {
+          api_key?: string | null
           created_at?: string
           id?: number
-          key?: string | null
           name?: string | null
           provider?: string | null
           user_id?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "ApiKeys_user_id_fkey"
+            foreignKeyName: "Integrations_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"
@@ -53,6 +53,7 @@ export type Database = {
           event_type: string | null
           font: string | null
           id: number
+          integration_id: number | null
           screen_alignment: string | null
           title: string | null
           user_id: string | null
@@ -66,6 +67,7 @@ export type Database = {
           event_type?: string | null
           font?: string | null
           id?: number
+          integration_id?: number | null
           screen_alignment?: string | null
           title?: string | null
           user_id?: string | null
@@ -79,12 +81,20 @@ export type Database = {
           event_type?: string | null
           font?: string | null
           id?: number
+          integration_id?: number | null
           screen_alignment?: string | null
           title?: string | null
           user_id?: string | null
           webhook_id?: number | null
         }
         Relationships: [
+          {
+            foreignKeyName: "Toasts_integration_id_fkey"
+            columns: ["integration_id"]
+            isOneToOne: false
+            referencedRelation: "Integrations"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "UserToasts_user_id_fkey"
             columns: ["user_id"]

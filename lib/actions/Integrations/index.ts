@@ -3,42 +3,47 @@
 import { createClient } from "@/supabase/server";
 import { TablesInsert, TablesUpdate } from "@/supabase/types";
 
-export async function createWebhook(webhook: TablesInsert<"ApiKeys">) {
-  const supabase = createClient();
-  const result = await supabase
-    .from("ApiKeys")
-    .insert(webhook)
-    .select("*")
-    .single();
-  return JSON.parse(JSON.stringify(result));
-}
-
-export async function getApiKeys(userId: string) {
-  const supabase = createClient();
-  const result = await supabase.from("ApiKeys").select().eq("user_id", userId);
-  return JSON.parse(JSON.stringify(result));
-}
-
-export async function updateWebhook(
-  webhookId: number,
-  webhook: TablesUpdate<"ApiKeys">
+export async function createIntegration(
+  integration: TablesInsert<"Integrations">
 ) {
   const supabase = createClient();
   const result = await supabase
-    .from("ApiKeys")
-    .update(webhook)
-    .eq("id", webhookId)
+    .from("Integrations")
+    .insert(integration)
     .select("*")
     .single();
   return JSON.parse(JSON.stringify(result));
 }
 
-export async function deleteWebhook(webhookId: number) {
+export async function getIntegrations(userId: string) {
   const supabase = createClient();
   const result = await supabase
-    .from("ApiKeys")
+    .from("Integrations")
+    .select()
+    .eq("user_id", userId);
+  return JSON.parse(JSON.stringify(result));
+}
+
+export async function updateIntegration(
+  integrationId: number,
+  integration: TablesUpdate<"Integrations">
+) {
+  const supabase = createClient();
+  const result = await supabase
+    .from("Integrations")
+    .update(integration)
+    .eq("id", integrationId)
+    .select("*")
+    .single();
+  return JSON.parse(JSON.stringify(result));
+}
+
+export async function deleteIntegration(integrationId: number) {
+  const supabase = createClient();
+  const result = await supabase
+    .from("Integrations")
     .delete()
-    .eq("id", webhookId)
+    .eq("id", integrationId)
     .select("*")
     .single();
   return JSON.parse(JSON.stringify(result));

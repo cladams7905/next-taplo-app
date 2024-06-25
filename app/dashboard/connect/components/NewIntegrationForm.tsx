@@ -12,11 +12,19 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/shared/form";
-import { useState, useTransition } from "react";
+import {
+  Dispatch,
+  RefObject,
+  SetStateAction,
+  useState,
+  useTransition,
+} from "react";
 import { showToast, showToastError } from "@/components/shared/showToast";
 import { CirclePlus } from "lucide-react";
 import Image from "next/image";
 import StripeLogo from "@/public/images/stripe-logo.svg";
+import { Tables } from "@/supabase/types";
+import { createIntegration } from "@/lib/actions/Integrations";
 
 const PROVIDERS = ["Stripe", "LemonSqueezy"] as const;
 const providersEnum = z.enum(PROVIDERS, {
@@ -26,11 +34,17 @@ type ProvidersEnum = z.infer<typeof providersEnum>;
 
 const FormSchema = z.object({
   provider: providersEnum,
-  secret: z.string().min(1, "API Key is required."),
+  key: z.string().min(1, "API Key is required."),
   name: z.string().optional(),
 });
 
-export default function NewKeyForm() {
+export default function NewIntegrationForm({
+  newIntegrationModalRef,
+  setIntegrations,
+}: {
+  newIntegrationModalRef: RefObject<HTMLDialogElement>;
+  setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
+}) {
   const [isPending, startTransition] = useTransition();
   const [provider, setProvider] = useState<ProvidersEnum>();
 
@@ -38,14 +52,25 @@ export default function NewKeyForm() {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       provider: undefined,
-      secret: "",
+      key: "",
       name: "",
     },
   });
 
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
     startTransition(async () => {
-      // handle submission
+      const { data, error } = await createIntegration({
+        api_key: formData.key,
+        provider: formData.provider,
+        name: formData.name ? formData.name : `${formData.provider} API Key`,
+      });
+      if (error) {
+        showToastError(error);
+      } else {
+        showToast(`Successfully created new ${data.provider} API Key.`);
+        setIntegrations((prevIntegrations) => [...prevIntegrations, data]);
+      }
+      newIntegrationModalRef.current?.close();
     });
   }
 
@@ -97,9 +122,21 @@ export default function NewKeyForm() {
             </FormItem>
           )}
         />
+        {provider !== undefined && provider === "Stripe" && (
+          <div className="flex flex-col gap-2">
+            <p className="text-sm font-bold">For connecting to Stripe: </p>
+            <p className="text-sm text-gray-500">
+              1. Create a Stripe Restricted API key with only "charges"
+              permissions set to "read".{" "}
+            </p>
+            <p className="text-sm text-gray-500">
+              2. Paste your restricted API key below.
+            </p>
+          </div>
+        )}
         <FormField
           control={form.control}
-          name="secret"
+          name="key"
           render={({ field }) => (
             <FormItem>
               <FormLabel>API Key</FormLabel>
@@ -147,7 +184,7 @@ export default function NewKeyForm() {
           ) : (
             <>
               <CirclePlus height={20} width={20} />
-              Create New API Key
+              Create New Integration
             </>
           )}
         </div>
