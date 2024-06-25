@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 
-export default function ProjectError({
+export default function AppError({
   error,
   reset,
 }: {
@@ -15,7 +15,7 @@ export default function ProjectError({
   }, [error]);
 
   return (
-    <div className="flex flex-col w-full h-screen-minus-navbar items-center justify-center gap-10 font-sans">
+    <div className="flex flex-col w-full h-screen bg-gradient-to-tr from-primary/50 to-violet-100 items-center justify-center gap-10 font-sans">
       <div className="text-4xl font-bold">
         Whoops! (
         {`${error.name === "Error" ? "Client-Side Error" : error.name}`})

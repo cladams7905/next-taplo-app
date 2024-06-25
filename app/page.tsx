@@ -1,5 +1,4 @@
 import Image from "next/image";
-import UsersightPopup from "@/components/shared/usersightPopup";
 import { Suspense } from "react";
 import { ArrowRight, PlayCircle } from "lucide-react";
 import Link from "next/link";
@@ -16,7 +15,6 @@ export default function Home() {
         className="flex min-h-screen w-full flex-col items-center justify-between p-24
       bg-gradient-to-br from-white via-white to-secondary/45"
       >
-        {/* <UsersightPopup/> */}
         <div className="flex flex-row flex-wrap font-sans lg:mb-32 md:mb-16 sm:mb-12 lg:gap-12 md:gap-8 sm:gap-4 items-center justify-center w-full">
           <div className="flex flex-1 flex-col justify-center lg:w-1/2 w-fit min-w-[330px] h-[80vh]">
             <h1 className="font-bold text-5xl mb-12">

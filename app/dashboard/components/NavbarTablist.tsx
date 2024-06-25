@@ -5,28 +5,22 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-export default function ProjectTabList({
-  activeProject,
-}: {
-  activeProject?: Tables<"Projects">;
-}) {
+export default function NavbarTabList() {
   const pathname = usePathname();
   const setTabFromPathname = () => {
     let tabIndex = 0;
-    if (activeProject) {
-      switch (pathname) {
-        case `/dashboard/project/${activeProject.id}/create`:
-          tabIndex = 0;
-          break;
-        case `/dashboard/project/${activeProject.id}/connect`:
-          tabIndex = 1;
-          break;
-        case `/dashboard/project/${activeProject.id}/settings`:
-          tabIndex = 2;
-          break;
-        default:
-          console.log(`unhandled pathname: ${pathname}`);
-      }
+    switch (pathname) {
+      case `/dashboard/create`:
+        tabIndex = 0;
+        break;
+      case `/dashboard/connect`:
+        tabIndex = 1;
+        break;
+      case `/dashboard/settings`:
+        tabIndex = 2;
+        break;
+      default:
+        console.log(`unhandled pathname: ${pathname}`);
     }
     return tabIndex;
   };

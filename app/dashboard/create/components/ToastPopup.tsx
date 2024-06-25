@@ -8,7 +8,7 @@ import "animate.css";
 export default function ToastPopup({
   activeToast,
 }: {
-  activeToast: Tables<"UserToasts">;
+  activeToast: Tables<"Toasts">;
 }) {
   const [isFirstClicked, setIsFirstClicked] = useState(false);
   useEffect(() => {

@@ -8,17 +8,15 @@ import { ToastType } from "@/lib/enums";
 
 export default function ToastBoard({
   userToasts,
-  project,
 }: {
-  userToasts: Tables<"UserToasts">[];
-  project: Tables<"Projects">;
+  userToasts: Tables<"Toasts">[];
 }) {
-  const [activeToast, setActiveToast] = useState<
-    Tables<"UserToasts"> | undefined
-  >(userToasts.length > 0 ? userToasts[0] : undefined);
+  const [activeToast, setActiveToast] = useState<Tables<"Toasts"> | undefined>(
+    userToasts.length > 0 ? userToasts[0] : undefined
+  );
 
   const [currentToasts, setCurrentToasts] =
-    useState<Tables<"UserToasts">[]>(userToasts);
+    useState<Tables<"Toasts">[]>(userToasts);
   const [toastType, setToastType] = useState<ToastType | undefined>();
 
   return (
@@ -26,7 +24,6 @@ export default function ToastBoard({
       <div className="lg:w-1/4">
         <Sidebar
           userToasts={currentToasts}
-          project={project}
           activeToast={activeToast}
           setActiveToast={setActiveToast}
           setCurrentToasts={setCurrentToasts}

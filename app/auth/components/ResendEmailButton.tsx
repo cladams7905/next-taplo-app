@@ -16,7 +16,7 @@ export default function ResendEmailButton({ email }: { email?: string }) {
       type: "signup",
       email: data.email,
       options: {
-        emailRedirectTo: `${location.origin}/dashboard/create-project`,
+        emailRedirectTo: `${location.origin}/dashboard/create`,
       },
     });
     return JSON.stringify(result);

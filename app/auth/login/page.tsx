@@ -3,14 +3,13 @@ import OAuthForm from "../components/OAuthForm";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { getRedirectPathname } from "../actions";
 
 export default async function Login() {
   const supabase = createClient();
 
   const { data, error } = await supabase.auth.getUser();
   if (!error && data?.user) {
-    redirect(await getRedirectPathname(data.user.id));
+    redirect("/dashboard/create");
   }
 
   return (

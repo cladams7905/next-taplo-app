@@ -25,9 +25,9 @@ export default function ActiveToastView({
   setActiveToast,
   setCurrentToasts,
 }: {
-  activeToast: Tables<"UserToasts"> | undefined;
-  setActiveToast: Dispatch<SetStateAction<Tables<"UserToasts"> | undefined>>;
-  setCurrentToasts: Dispatch<SetStateAction<Tables<"UserToasts">[]>>;
+  activeToast: Tables<"Toasts"> | undefined;
+  setActiveToast: Dispatch<SetStateAction<Tables<"Toasts"> | undefined>>;
+  setCurrentToasts: Dispatch<SetStateAction<Tables<"Toasts">[]>>;
 }) {
   const [currentTab, setCurrentTab] = useState(0);
 
@@ -72,9 +72,9 @@ const RenameToastButton = ({
   setActiveToast,
   setCurrentToasts,
 }: {
-  activeToast: Tables<"UserToasts">;
-  setActiveToast: Dispatch<SetStateAction<Tables<"UserToasts"> | undefined>>;
-  setCurrentToasts: Dispatch<SetStateAction<Tables<"UserToasts">[]>>;
+  activeToast: Tables<"Toasts">;
+  setActiveToast: Dispatch<SetStateAction<Tables<"Toasts"> | undefined>>;
+  setCurrentToasts: Dispatch<SetStateAction<Tables<"Toasts">[]>>;
 }) => {
   const [isRenameClicked, setIsRenameClicked] = useState(false);
   const renameInputRef = useRef<HTMLInputElement>(null);
@@ -111,7 +111,7 @@ const RenameToastButton = ({
       });
     }
 
-    async function updateToast(toast: TablesUpdate<"UserToasts">) {
+    async function updateToast(toast: TablesUpdate<"Toasts">) {
       if (toast?.id) {
         const { data, error } = await updateUserToast(toast.id, toast);
         if (error) {
@@ -175,9 +175,9 @@ const DeleteToastButton = ({
   setActiveToast,
   setCurrentToasts,
 }: {
-  activeToast: Tables<"UserToasts">;
-  setActiveToast: Dispatch<SetStateAction<Tables<"UserToasts"> | undefined>>;
-  setCurrentToasts: Dispatch<SetStateAction<Tables<"UserToasts">[]>>;
+  activeToast: Tables<"Toasts">;
+  setActiveToast: Dispatch<SetStateAction<Tables<"Toasts"> | undefined>>;
+  setCurrentToasts: Dispatch<SetStateAction<Tables<"Toasts">[]>>;
 }) => {
   const [isPending, startTransition] = useTransition();
   const toggleElement = useRef<HTMLUListElement>(null);
@@ -250,8 +250,8 @@ const ToastEvent = ({
   activeToast,
   setActiveToast,
 }: {
-  activeToast: Tables<"UserToasts"> | undefined;
-  setActiveToast: Dispatch<SetStateAction<Tables<"UserToasts"> | undefined>>;
+  activeToast: Tables<"Toasts"> | undefined;
+  setActiveToast: Dispatch<SetStateAction<Tables<"Toasts"> | undefined>>;
 }) => {
   const toastTypes = Object.values(ToastType);
 
@@ -309,7 +309,7 @@ const ToastEvent = ({
 const ToastContent = ({
   activeToast,
 }: {
-  activeToast: Tables<"UserToasts"> | undefined;
+  activeToast: Tables<"Toasts"> | undefined;
 }) => {
   return (
     <div className="flex flex-col w-2/3 gap-6">
@@ -338,7 +338,7 @@ const ToastContent = ({
 const ToastStyle = ({
   activeToast,
 }: {
-  activeToast: Tables<"UserToasts"> | undefined;
+  activeToast: Tables<"Toasts"> | undefined;
 }) => {
   return (
     <div className="flex flex-col w-2/3 gap-6">

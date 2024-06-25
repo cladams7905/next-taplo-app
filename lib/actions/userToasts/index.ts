@@ -3,32 +3,29 @@
 import { createClient } from "@/lib/supabase/server";
 import { TablesInsert, TablesUpdate } from "@/lib/supabase/types";
 
-export async function createUserToast(userToast: TablesInsert<"UserToasts">) {
+export async function createUserToast(userToast: TablesInsert<"Toasts">) {
   const supabase = createClient();
   const result = await supabase
-    .from("UserToasts")
+    .from("Toasts")
     .insert(userToast)
     .select("*")
     .single();
   return JSON.parse(JSON.stringify(result));
 }
 
-export async function getUserToasts(projectId: number) {
+export async function getUserToasts(userId: string) {
   const supabase = createClient();
-  const result = await supabase
-    .from("UserToasts")
-    .select()
-    .eq("project_id", projectId);
+  const result = await supabase.from("Toasts").select().eq("user_id", userId);
   return JSON.parse(JSON.stringify(result));
 }
 
 export async function updateUserToast(
   toastId: number,
-  userToast: TablesUpdate<"UserToasts">
+  userToast: TablesUpdate<"Toasts">
 ) {
   const supabase = createClient();
   const result = await supabase
-    .from("UserToasts")
+    .from("Toasts")
     .update(userToast)
     .eq("id", toastId)
     .select("*")
@@ -39,7 +36,7 @@ export async function updateUserToast(
 export async function deleteUserToast(toastId: number) {
   const supabase = createClient();
   const result = await supabase
-    .from("UserToasts")
+    .from("Toasts")
     .delete()
     .eq("id", toastId)
     .select("*")

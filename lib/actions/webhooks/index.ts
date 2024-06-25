@@ -13,12 +13,9 @@ export async function createWebhook(webhook: TablesInsert<"Webhooks">) {
   return JSON.parse(JSON.stringify(result));
 }
 
-export async function getWebhooks(projectId: number) {
+export async function getWebhooks(userId: string) {
   const supabase = createClient();
-  const result = await supabase
-    .from("Webhooks")
-    .select()
-    .eq("project_id", projectId);
+  const result = await supabase.from("Webhooks").select().eq("user_id", userId);
   return JSON.parse(JSON.stringify(result));
 }
 

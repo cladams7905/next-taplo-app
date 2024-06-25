@@ -16,23 +16,20 @@ import {
 import TemplateModal from "./TemplateModal";
 import { ToastType } from "@/lib/enums";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import Link from "next/link";
-import ProjectTabList from "../../components/ProjectTabList";
+import NavbarTablist from "../../components/NavbarTablist";
 
 export default function Sidebar({
   userToasts,
-  project,
   activeToast,
   setActiveToast,
   setCurrentToasts,
   toastType,
   setToastType,
 }: {
-  userToasts: Tables<"UserToasts">[];
-  project: Tables<"Projects">;
-  activeToast: Tables<"UserToasts"> | undefined;
-  setActiveToast: Dispatch<SetStateAction<Tables<"UserToasts"> | undefined>>;
-  setCurrentToasts: Dispatch<SetStateAction<Tables<"UserToasts">[]>>;
+  userToasts: Tables<"Toasts">[];
+  activeToast: Tables<"Toasts"> | undefined;
+  setActiveToast: Dispatch<SetStateAction<Tables<"Toasts"> | undefined>>;
+  setCurrentToasts: Dispatch<SetStateAction<Tables<"Toasts">[]>>;
   toastType: ToastType | undefined;
   setToastType: Dispatch<SetStateAction<ToastType | undefined>>;
 }) {
@@ -44,7 +41,6 @@ export default function Sidebar({
       const { data, error } = await createUserToast({
         title: getToastTitle(),
         event_type: "",
-        project_id: project.id,
       });
       if (error) {
         showToastError(error);
@@ -105,8 +101,8 @@ export default function Sidebar({
           className="drawer-overlay"
         ></label>
         <div className="flex flex-col bg-white lg:p-0 md:px-8 p-4 pt-0 h-full lg:w-full md:w-1/2 sm:w-1/2 w-2/3">
-          <div className="flex w-full justify-center overflow-x-scroll lg:hidden">
-            <ProjectTabList />
+          <div className="flex w-full overflow-x-scroll lg:hidden">
+            <NavbarTablist />
           </div>
           <hr className="border-t border-neutral mb-6 lg:hidden" />
           <div
@@ -114,7 +110,7 @@ export default function Sidebar({
             onClick={() => handleCreateToast()}
           >
             {isPending ? (
-              <LoadingDots color="oklch(var(--bc))" size="sm" />
+              <LoadingDots color="#FFFFFF" size="sm" />
             ) : (
               <>
                 <CirclePlus height={18} width={18} />

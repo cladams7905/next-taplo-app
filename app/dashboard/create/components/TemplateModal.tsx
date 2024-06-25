@@ -17,8 +17,8 @@ export default function TemplateModal({
   templateModalRef: RefObject<HTMLDialogElement>;
   toastType: ToastType | undefined;
   setToastType: Dispatch<SetStateAction<ToastType | undefined>>;
-  activeToast: Tables<"UserToasts"> | undefined;
-  setActiveToast: Dispatch<SetStateAction<Tables<"UserToasts"> | undefined>>;
+  activeToast: Tables<"Toasts"> | undefined;
+  setActiveToast: Dispatch<SetStateAction<Tables<"Toasts"> | undefined>>;
 }) {
   const [isPending, startTransition] = useTransition();
 
@@ -141,7 +141,7 @@ export default function TemplateModal({
             }`}
             onClick={() => handleTemplateSubmit()}
           >
-            {isPending ? <LoadingDots /> : "Use this template"}
+            {isPending ? <LoadingDots color="#FFFFFF" /> : "Use this template"}
           </div>
         </div>
       </div>

@@ -9,75 +9,7 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      Projects: {
-        Row: {
-          created_at: string
-          id: number
-          project_name: string | null
-          user_id: string | null
-        }
-        Insert: {
-          created_at?: string
-          id?: number
-          project_name?: string | null
-          user_id?: string | null
-        }
-        Update: {
-          created_at?: string
-          id?: number
-          project_name?: string | null
-          user_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "Projects_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      SessionData: {
-        Row: {
-          id: number
-          is_active: boolean | null
-          last_opened: string | null
-          project_id: number | null
-          user_id: string | null
-        }
-        Insert: {
-          id?: number
-          is_active?: boolean | null
-          last_opened?: string | null
-          project_id?: number | null
-          user_id?: string | null
-        }
-        Update: {
-          id?: number
-          is_active?: boolean | null
-          last_opened?: string | null
-          project_id?: number | null
-          user_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "SessionData_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "Projects"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "SessionData_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      UserToasts: {
+      Toasts: {
         Row: {
           bg_color: string | null
           bg_style: string | null
@@ -86,7 +18,6 @@ export type Database = {
           event_type: string | null
           font: string | null
           id: number
-          project_id: number
           screen_alignment: string | null
           title: string | null
           user_id: string | null
@@ -100,7 +31,6 @@ export type Database = {
           event_type?: string | null
           font?: string | null
           id?: number
-          project_id: number
           screen_alignment?: string | null
           title?: string | null
           user_id?: string | null
@@ -114,20 +44,12 @@ export type Database = {
           event_type?: string | null
           font?: string | null
           id?: number
-          project_id?: number
           screen_alignment?: string | null
           title?: string | null
           user_id?: string | null
           webhook_id?: number | null
         }
         Relationships: [
-          {
-            foreignKeyName: "UserToasts_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "Projects"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "UserToasts_user_id_fkey"
             columns: ["user_id"]
@@ -143,7 +65,6 @@ export type Database = {
           endpoint: string | null
           event_type: string | null
           id: number
-          project_id: number | null
           provider: string | null
           secret: string | null
           user_id: string | null
@@ -153,7 +74,6 @@ export type Database = {
           endpoint?: string | null
           event_type?: string | null
           id?: number
-          project_id?: number | null
           provider?: string | null
           secret?: string | null
           user_id?: string | null
@@ -163,19 +83,11 @@ export type Database = {
           endpoint?: string | null
           event_type?: string | null
           id?: number
-          project_id?: number | null
           provider?: string | null
           secret?: string | null
           user_id?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "Webhooks_project_id_fkey"
-            columns: ["project_id"]
-            isOneToOne: false
-            referencedRelation: "Projects"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "Webhooks_user_id_fkey"
             columns: ["user_id"]
@@ -193,11 +105,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      EventType:
-        | "Email Subscribe"
-        | "Purchase Complete"
-        | "User Register"
-        | "Custom"
+      [_ in never]: never
     }
     CompositeTypes: {
       [_ in never]: never
