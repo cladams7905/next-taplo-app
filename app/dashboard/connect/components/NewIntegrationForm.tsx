@@ -25,6 +25,7 @@ import Image from "next/image";
 import StripeLogo from "@/public/images/stripe-logo.svg";
 import { Tables } from "@/supabase/types";
 import { createIntegration } from "@/lib/actions/integrations";
+import { checkDuplicateTitle } from "@/lib/actions";
 
 const PROVIDERS = ["Stripe", "LemonSqueezy"] as const;
 const providersEnum = z.enum(PROVIDERS, {
@@ -40,9 +41,11 @@ const FormSchema = z.object({
 
 export default function NewIntegrationForm({
   newIntegrationModalRef,
+  integrations,
   setIntegrations,
 }: {
   newIntegrationModalRef: RefObject<HTMLDialogElement>;
+  integrations: Tables<"Integrations">[];
   setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
 }) {
   const [isPending, startTransition] = useTransition();
@@ -62,7 +65,12 @@ export default function NewIntegrationForm({
       const { data, error } = await createIntegration({
         api_key: formData.key,
         provider: formData.provider,
-        name: formData.name ? formData.name : `${formData.provider} API Key`,
+        name: formData.name
+          ? formData.name
+          : checkDuplicateTitle(
+              integrations.map((integration) => integration.name),
+              `${formData.provider} API Key`
+            ),
       });
       if (error) {
         showToastError(error);

@@ -9,6 +9,7 @@ const config: Config = {
     logs: true,
     rtl: false,
     themes: [
+      "dark",
       {
         default: {
           primary: "#6091F3",

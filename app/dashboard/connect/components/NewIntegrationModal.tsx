@@ -1,14 +1,16 @@
 "use client";
 
 import { Dispatch, RefObject, SetStateAction } from "react";
-import NewKeyForm from "./NewIntegrationForm";
+import NewIntegrationForm from "./NewIntegrationForm";
 import { Tables } from "@/supabase/types";
 
 export default function NewIntegrationModal({
   newIntegrationModalRef,
+  integrations,
   setIntegrations,
 }: {
   newIntegrationModalRef: RefObject<HTMLDialogElement>;
+  integrations: Tables<"Integrations">[];
   setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
 }) {
   return (
@@ -23,8 +25,9 @@ export default function NewIntegrationModal({
           </button>
         </form>
         <div className="text-xl font-bold mb-6">New Integration</div>
-        <NewKeyForm
+        <NewIntegrationForm
           newIntegrationModalRef={newIntegrationModalRef}
+          integrations={integrations}
           setIntegrations={setIntegrations}
         />
       </div>

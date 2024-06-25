@@ -2,7 +2,7 @@
 
 import LoadingDots from "@/components/shared/loadingdots";
 import { showToastError } from "@/components/shared/showToast";
-import { checkStringLength } from "@/lib/actions";
+import { checkDuplicateTitle, checkStringLength } from "@/lib/actions";
 import { createUserToast } from "@/lib/actions/userToasts";
 import { Tables } from "@/supabase/types";
 import { Check, CirclePlus } from "lucide-react";
@@ -39,7 +39,10 @@ export default function Sidebar({
   const handleCreateToast = () => {
     startTransition(async () => {
       const { data, error } = await createUserToast({
-        title: getToastTitle(),
+        title: checkDuplicateTitle(
+          userToasts.map((toast) => toast.title),
+          "New Toast"
+        ),
         event_type: "",
       });
       if (error) {
@@ -50,29 +53,6 @@ export default function Sidebar({
         templateModalRef.current?.showModal();
       }
     });
-  };
-
-  const getToastTitle = () => {
-    let title = "New Toast";
-    let count = 0;
-    userToasts.forEach((toast) => {
-      if (toast.title?.includes("New Toast")) {
-        count++;
-      }
-    });
-    userToasts.forEach((toast) => {
-      const match = toast.title?.match(/\d/);
-      if (match) {
-        const num = parseInt(match[0]);
-        if (num >= count) {
-          count = num + 1;
-        }
-      }
-    });
-    if (count > 0) {
-      title = `New Toast (${count})`;
-    }
-    return title;
   };
 
   useEffect(() => {
@@ -92,7 +72,7 @@ export default function Sidebar({
   });
 
   return (
-    <div className="drawer lg:drawer-open flex flex-col lg:join-item rounded-none bg-white relative h-full lg:p-4 border-r border-neutral shadow-lg z-[3]">
+    <div className="drawer lg:drawer-open flex flex-col lg:join-item rounded-none bg-white dark:bg-base-100 relative h-full lg:p-4 border-r border-neutral shadow-lg z-[3]">
       <input id="sidebar-drawer" type="checkbox" className="drawer-toggle" />
       <div className="drawer-side">
         <label
@@ -100,7 +80,7 @@ export default function Sidebar({
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <div className="flex flex-col bg-white lg:p-0 md:px-8 p-4 pt-0 h-full lg:w-full md:w-1/2 sm:w-1/2 w-2/3">
+        <div className="flex flex-col bg-white dark:bg-base-100 lg:p-0 md:px-8 p-4 pt-0 h-full lg:w-full md:w-1/2 sm:w-1/2 w-2/3">
           <div className="flex w-full overflow-x-scroll lg:hidden">
             <NavbarTablist />
           </div>

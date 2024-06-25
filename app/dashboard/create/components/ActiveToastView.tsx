@@ -24,10 +24,12 @@ export default function ActiveToastView({
   activeToast,
   setActiveToast,
   setCurrentToasts,
+  integrations,
 }: {
   activeToast: Tables<"Toasts"> | undefined;
   setActiveToast: Dispatch<SetStateAction<Tables<"Toasts"> | undefined>>;
   setCurrentToasts: Dispatch<SetStateAction<Tables<"Toasts">[]>>;
+  integrations: Tables<"Integrations">[];
 }) {
   const [currentTab, setCurrentTab] = useState(0);
 
@@ -51,11 +53,12 @@ export default function ActiveToastView({
         </div>
       </div>
       <ToastTabList currentTab={currentTab} setCurrentTab={setCurrentTab} />
-      <div className="flex flex-col w-full items-center h-2/3 overflow-y-auto bg-white rounded-br-lg p-6 gap-6">
+      <div className="flex flex-col w-full items-center h-2/3 overflow-y-auto bg-white dark:bg-base-100 rounded-br-lg p-6 gap-6">
         {currentTab === 0 && (
           <ToastEvent
             activeToast={activeToast}
             setActiveToast={setActiveToast}
+            integrations={integrations}
           />
         )}
         {currentTab === 1 && <ToastContent activeToast={activeToast} />}
@@ -249,9 +252,11 @@ const DeleteToastButton = ({
 const ToastEvent = ({
   activeToast,
   setActiveToast,
+  integrations,
 }: {
   activeToast: Tables<"Toasts"> | undefined;
   setActiveToast: Dispatch<SetStateAction<Tables<"Toasts"> | undefined>>;
+  integrations: Tables<"Integrations">[];
 }) => {
   const toastTypes = Object.values(ToastType);
 
@@ -264,6 +269,25 @@ const ToastEvent = ({
       const { error } = await updateUserToast(activeToast.id, {
         ...activeToast,
         event_type: toastType,
+      });
+      if (error) {
+        showToastError(error);
+      }
+    }
+  };
+
+  const handleIntegrationSelect = async (integration: string) => {
+    console.log(integration);
+    const integrationId = integrations.filter((x) => x.name === integration)[0]
+      .id;
+    if (activeToast && integrationId) {
+      setActiveToast({
+        ...activeToast,
+        integration_id: integrationId,
+      });
+      const { error } = await updateUserToast(activeToast.id, {
+        ...activeToast,
+        integration_id: integrationId,
       });
       if (error) {
         showToastError(error);
@@ -292,14 +316,32 @@ const ToastEvent = ({
         </div>
         <div className="w-full">
           <p>Integration</p>
-          <select
-            className="select select-bordered border-neutral w-full"
-            defaultValue={"default"}
-          >
-            <option value={"default"}>Select</option>
-            <option>Han Solo</option>
-            <option>Greedo</option>
-          </select>
+          <div className="flex gap-2">
+            <select
+              className="select select-bordered border-neutral w-full"
+              value={
+                integrations.filter(
+                  (x) => x.id === activeToast?.integration_id
+                )[0]?.name || "default"
+              }
+              onChange={(e) => {
+                handleIntegrationSelect(e.target.value);
+              }}
+            >
+              <option value={"default"}>Select</option>
+              {integrations.map((integration, i) => (
+                <option
+                  key={i}
+                  value={integration.name ? integration.name : ""}
+                >
+                  {`(${integration.provider}) - ${integration.name}`}
+                </option>
+              ))}
+            </select>
+            <div className="btn btn-primary text-white">
+              <CirclePlus height={18} width={18} /> New Integration
+            </div>
+          </div>
         </div>
       </div>
     </div>

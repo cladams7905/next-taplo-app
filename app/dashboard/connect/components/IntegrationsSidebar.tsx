@@ -25,6 +25,7 @@ export default function IntegrationsSidebar({
       </div>
       <NewIntegrationModal
         newIntegrationModalRef={newIntegrationModalRef}
+        integrations={integrations}
         setIntegrations={setCurrentIntegrations}
       />
     </>

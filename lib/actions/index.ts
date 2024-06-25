@@ -76,3 +76,34 @@ export function checkStringLength(str: string | null, maxLength?: number) {
 
   return modifiedStr;
 }
+
+/**
+ * Checks to see if a title already exists in an array of strings.
+ * If it does, then it appends a number to the end of the title to make it unique.
+ * @param arr the array of strings
+ * @param title the title to check against
+ * @returns the new title
+ */
+export const checkDuplicateTitle = (arr: (string | null)[], title: string) => {
+  let count = 0;
+  arr.forEach((value: string | null) => {
+    if (value && value.includes(title)) {
+      count++;
+    }
+  });
+  arr.forEach((value) => {
+    if (value) {
+      const match = value.match(/\d/);
+      if (match) {
+        const num = parseInt(match[0]);
+        if (num >= count) {
+          count = num + 1;
+        }
+      }
+    }
+  });
+  if (count > 0) {
+    title = `${title} (${count})`;
+  }
+  return title;
+};

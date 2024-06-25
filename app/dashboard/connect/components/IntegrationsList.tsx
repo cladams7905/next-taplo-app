@@ -81,7 +81,6 @@ const DeleteIntegrationButton = ({
   const [isPending, startTransition] = useTransition();
   const toggleElement = useRef<HTMLUListElement>(null);
 
-  /* Toast delete */
   const handleDelete = () => {
     startTransition(async () => {
       const { data, error } = await deleteIntegration(integration.id);
