@@ -1,6 +1,6 @@
 "use client";
 
-import { Tables } from "@/app/supabase/types";
+import { Tables } from "@/supabase/types";
 import { CirclePlus, EllipsisVertical } from "lucide-react";
 import { useState } from "react";
 

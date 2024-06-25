@@ -16,7 +16,7 @@ import { useState, useTransition } from "react";
 import ResendEmailButton from "./ResendEmailButton";
 import Link from "next/link";
 import OAuthForm from "./OAuthForm";
-import { createClient } from "@/app/supabase/client";
+import { createClient } from "@/supabase/client";
 import { showToast, showToastError } from "@/components/shared/showToast";
 
 const FormSchema = z

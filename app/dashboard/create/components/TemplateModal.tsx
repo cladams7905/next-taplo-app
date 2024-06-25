@@ -3,7 +3,7 @@
 import LoadingDots from "@/components/shared/loadingdots";
 import { showToastError } from "@/components/shared/showToast";
 import { updateUserToast } from "@/lib/actions/userToasts";
-import { Tables } from "@/app/supabase/types";
+import { Tables } from "@/supabase/types";
 import { ToastType } from "@/lib/enums";
 import { Dispatch, RefObject, SetStateAction, useTransition } from "react";
 

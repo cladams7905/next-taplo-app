@@ -3,7 +3,7 @@
 import Image from "next/image";
 import ToastImg from "@/public/images/toaster1.png";
 import { CirclePlus, Ellipsis, PencilLine, Trash } from "lucide-react";
-import { Tables, TablesUpdate } from "@/app/supabase/types";
+import { Tables, TablesUpdate } from "@/supabase/types";
 import ToastTabList from "./ToastTabList";
 import {
   Dispatch,

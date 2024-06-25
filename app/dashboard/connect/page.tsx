@@ -1,5 +1,5 @@
 import { getApiKeys } from "@/lib/actions/apiKeys";
-import { createClient } from "@/app/supabase/server";
+import { createClient } from "@/supabase/server";
 import { redirect } from "next/navigation";
 import ApiKeyBoard from "./components/ApiKeyBoard";
 

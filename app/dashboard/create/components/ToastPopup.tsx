@@ -1,6 +1,6 @@
 "use client";
 
-import { Tables } from "@/app/supabase/types";
+import { Tables } from "@/supabase/types";
 import { BadgeCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 import "animate.css";

@@ -1,7 +1,7 @@
 "use server";
 
-import { createClient } from "@/app/supabase/server";
-import { TablesInsert, TablesUpdate } from "@/app/supabase/types";
+import { createClient } from "@/supabase/server";
+import { TablesInsert, TablesUpdate } from "@/supabase/types";
 
 export async function createUserToast(userToast: TablesInsert<"Toasts">) {
   const supabase = createClient();

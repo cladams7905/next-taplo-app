@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "../dashboard/components/Navbar";
 import Footer from "../dashboard/components/Footer";
 import { redirect } from "next/navigation";
-import { createClient } from "@/app/supabase/server";
+import { createClient } from "@/supabase/server";
 
 export default async function AccountLayout({
   children,

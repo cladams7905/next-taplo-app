@@ -12,7 +12,7 @@ import {
 } from "@/components/shared/form";
 import * as z from "zod";
 import LoadingDots from "@/components/shared/loadingdots";
-import { Tables } from "@/app/supabase/types";
+import { Tables } from "@/supabase/types";
 import { showToast, showToastError } from "@/components/shared/showToast";
 import { useRouter } from "next/navigation";
 import { Pencil } from "lucide-react";

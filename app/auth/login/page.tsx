@@ -1,7 +1,7 @@
 import SignInForm from "../components/SignInForm";
 import OAuthForm from "../components/OAuthForm";
 import Link from "next/link";
-import { createClient } from "@/app/supabase/server";
+import { createClient } from "@/supabase/server";
 import { redirect } from "next/navigation";
 
 export default async function Login() {

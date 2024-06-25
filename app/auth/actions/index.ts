@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/app/supabase/server";
+import { createClient } from "@/supabase/server";
 
 export async function signUpWithEmailAndPassword(data: {
   email: string;

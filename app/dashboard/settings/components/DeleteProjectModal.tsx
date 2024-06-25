@@ -13,7 +13,7 @@ import {
 import * as z from "zod";
 import LoadingDots from "@/components/shared/loadingdots";
 import { Trash } from "lucide-react";
-import { Tables } from "@/app/supabase/types";
+import { Tables } from "@/supabase/types";
 import { deleteProjectById } from "@/lib/actions/projects";
 import { showToast, showToastError } from "@/components/shared/showToast";
 import { useRouter } from "next/navigation";

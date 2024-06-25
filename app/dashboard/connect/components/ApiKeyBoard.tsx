@@ -1,6 +1,6 @@
 "use client";
 
-import { Tables } from "@/app/supabase/types";
+import { Tables } from "@/supabase/types";
 import { useRef } from "react";
 import ApiKeySidebar from "./ApiKeySidebar";
 import ApiKeysList from "./ApiKeysList";
