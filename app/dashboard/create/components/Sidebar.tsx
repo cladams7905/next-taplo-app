@@ -17,6 +17,9 @@ import TemplateModal from "./TemplateModal";
 import { ToastType } from "@/lib/enums";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import NavbarTablist from "../../components/NavbarTablist";
+import Image from "next/image";
+import StripeLogo from "@/public/images/stripe-logo.svg";
+import LemonSqueezyLogo from "@/public/images/lemonsqueezy-logo.jpeg";
 
 export default function Sidebar({
   userToasts,
@@ -25,6 +28,7 @@ export default function Sidebar({
   setCurrentToasts,
   toastType,
   setToastType,
+  integrations,
 }: {
   userToasts: Tables<"Toasts">[];
   activeToast: Tables<"Toasts"> | undefined;
@@ -32,6 +36,7 @@ export default function Sidebar({
   setCurrentToasts: Dispatch<SetStateAction<Tables<"Toasts">[]>>;
   toastType: ToastType | undefined;
   setToastType: Dispatch<SetStateAction<ToastType | undefined>>;
+  integrations: Tables<"Integrations">[];
 }) {
   const [isPending, startTransition] = useTransition();
   const templateModalRef = useRef<HTMLDialogElement>(null);
@@ -133,9 +138,34 @@ export default function Sidebar({
                           <ExclamationTriangleIcon color="oklch(var(--er))" />
                         </div>
                       ) : (
-                        <p className="text-sm text-gray-500">
-                          {toast.event_type}
-                        </p>
+                        <div className="flex items-center gap-2">
+                          <p className="text-sm text-gray-500">
+                            {toast.event_type}
+                          </p>
+                          {integrations.filter(
+                            (x) => x.id === toast.integration_id
+                          )[0]?.provider === "Stripe" ? (
+                            <Image
+                              width={16}
+                              height={16}
+                              alt={"Stripe logo"}
+                              src={StripeLogo}
+                              className="aspect-square rounded-md"
+                            />
+                          ) : integrations.filter(
+                              (x) => x.id === toast.integration_id
+                            )[0]?.provider === "LemonSqueezy" ? (
+                            <Image
+                              width={16}
+                              height={16}
+                              alt={"LemonSqueezy logo"}
+                              src={LemonSqueezyLogo}
+                              className="aspect-square rounded-md"
+                            />
+                          ) : (
+                            ""
+                          )}
+                        </div>
                       )}
                     </div>
                     {activeToast?.id === toast.id && (

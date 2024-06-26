@@ -1,7 +1,7 @@
 "use server";
 
 import { createClient } from "@/supabase/server";
-import { TablesInsert, TablesUpdate } from "@/supabase/types";
+import { Tables, TablesInsert, TablesUpdate } from "@/supabase/types";
 
 export async function createIntegration(
   integration: TablesInsert<"Integrations">

@@ -1,9 +1,10 @@
 "use client";
 
 import { Tables } from "@/supabase/types";
-import { CirclePlus, Delete, EllipsisVertical, Trash } from "lucide-react";
+import { CirclePlus, EllipsisVertical, Trash } from "lucide-react";
 import Image from "next/image";
 import StripeLogo from "@/public/images/stripe-logo.svg";
+import LemonSqueezyLogo from "@/public/images/lemonsqueezy-logo.jpeg";
 import { convertDateTime } from "@/lib/actions";
 import { Dispatch, SetStateAction, useRef, useTransition } from "react";
 import { showToast, showToastError } from "@/components/shared/showToast";
@@ -30,6 +31,15 @@ export default function IntegrationsList({
                 height={48}
                 alt={"Stripe logo"}
                 src={StripeLogo}
+                className="rounded-lg"
+              />
+            )}
+            {integration.provider === "LemonSqueezy" && (
+              <Image
+                width={48}
+                height={48}
+                alt={"LemonSqueezy logo"}
+                src={LemonSqueezyLogo}
                 className="rounded-lg"
               />
             )}

@@ -31,6 +31,7 @@ export default function ToastBoard({
           setCurrentToasts={setCurrentToasts}
           toastType={toastType}
           setToastType={setToastType}
+          integrations={integrations}
         />
       </div>
       <div className="lg:w-3/4 w-full">

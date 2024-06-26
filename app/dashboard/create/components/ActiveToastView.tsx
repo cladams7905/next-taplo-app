@@ -277,10 +277,9 @@ const ToastEvent = ({
   };
 
   const handleIntegrationSelect = async (integration: string) => {
-    console.log(integration);
     const integrationId = integrations.filter((x) => x.name === integration)[0]
-      .id;
-    if (activeToast && integrationId) {
+      ?.id;
+    if (activeToast) {
       setActiveToast({
         ...activeToast,
         integration_id: integrationId,

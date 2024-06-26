@@ -28,6 +28,10 @@ export default function IntegrationsSidebar({
         integrations={integrations}
         setIntegrations={setCurrentIntegrations}
       />
+      <p className="text-sm text-gray-500">
+        Add integrations for your toast popups to listen to notifications from
+        your payment/subscription providers.
+      </p>
     </>
   );
 }
