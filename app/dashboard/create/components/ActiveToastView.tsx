@@ -20,6 +20,10 @@ import { ToastType } from "@/lib/enums";
 import ToastPopup from "./ToastPopup";
 import "animate.css";
 import NewIntegrationModal from "../../connect/components/NewIntegrationModal";
+import {
+  ExclamationTriangleIcon,
+  QuestionMarkCircledIcon,
+} from "@radix-ui/react-icons";
 
 export default function ActiveToastView({
   activeToast,
@@ -35,7 +39,7 @@ export default function ActiveToastView({
   const [currentTab, setCurrentTab] = useState(0);
 
   return activeToast !== undefined ? (
-    <div className="flex flex-col join-item rounded-none bg-gradient-to-tr from-primary/50 to-violet-100 h-full shadow-lg z-[1]">
+    <div className="flex flex-col !rounded-none bg-gradient-to-tr from-primary/50 to-violet-100 h-full shadow-lg z-[1]">
       <div className="w-full lg:h-1/3 h-1/2 p-4">
         <div className="flex justify-between items-center">
           <RenameToastButton
@@ -303,7 +307,15 @@ const ToastEvent = ({
       <p className="text-xl font-bold text-left">Toast Event</p>
       <div className="flex flex-col gap-4">
         <div className="w-full">
-          <p>Event Type</p>
+          <div className="flex items-center gap-4">
+            <p>Event Type</p>
+            {!activeToast?.event_type && (
+              <div className="flex items-center gap-1">
+                <p className="text-sm text-error">Required</p>
+                <ExclamationTriangleIcon color="oklch(var(--er))" />
+              </div>
+            )}
+          </div>
           <select
             className="select select-bordered border-neutral w-full"
             value={activeToast?.event_type || "default"}
@@ -318,8 +330,25 @@ const ToastEvent = ({
           </select>
         </div>
         <div className="w-full">
-          <p>Integration</p>
-          <div className="flex gap-2">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1">
+              Integration{" "}
+              <div
+                className="tooltip tooltip-info"
+                data-tip="Integrations enable your toast to listen to notifications from a
+              payment/subscription provider."
+              >
+                <QuestionMarkCircledIcon />
+              </div>
+            </div>
+            {!activeToast?.integration_id && (
+              <div className="flex items-center gap-1">
+                <p className="text-sm text-error">Required</p>
+                <ExclamationTriangleIcon color="oklch(var(--er))" />
+              </div>
+            )}
+          </div>
+          <div className="lg:flex gap-2">
             <select
               className="select select-bordered border-neutral w-full"
               value={
@@ -342,7 +371,7 @@ const ToastEvent = ({
               ))}
             </select>
             <div
-              className="btn btn-primary text-white"
+              className="btn lg:mt-0 mt-8 lg:w-auto w-full btn-primary text-white"
               onClick={() => newIntegrationModalRef.current?.showModal()}
             >
               <CirclePlus height={18} width={18} /> New Integration

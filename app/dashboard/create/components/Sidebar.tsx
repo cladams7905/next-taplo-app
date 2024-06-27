@@ -77,7 +77,7 @@ export default function Sidebar({
   });
 
   return (
-    <div className="drawer lg:drawer-open flex flex-col lg:join-item rounded-none bg-white dark:bg-base-100 relative h-full lg:p-4 border-r border-neutral shadow-lg z-[3]">
+    <div className="drawer lg:drawer-open flex flex-col rounded-none bg-white dark:bg-base-100 relative h-full lg:p-4 border-r border-neutral shadow-lg z-[3]">
       <input id="sidebar-drawer" type="checkbox" className="drawer-toggle" />
       <div className="drawer-side">
         <label

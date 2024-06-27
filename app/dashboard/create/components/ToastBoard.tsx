@@ -22,7 +22,7 @@ export default function ToastBoard({
   const [toastType, setToastType] = useState<ToastType | undefined>();
 
   return (
-    <main className="flex lg:columns-2 lg:join w-full h-screen-minus-navbar">
+    <main className="flex lg:columns-2 w-full h-screen-minus-navbar">
       <div className="lg:w-1/4">
         <Sidebar
           userToasts={currentToasts}
