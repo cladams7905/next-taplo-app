@@ -8,10 +8,14 @@ export default function NewIntegrationModal({
   newIntegrationModalRef,
   integrations,
   setIntegrations,
+  activeToast,
+  setActiveToast,
 }: {
   newIntegrationModalRef: RefObject<HTMLDialogElement>;
   integrations: Tables<"Integrations">[];
   setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
+  activeToast?: Tables<"Toasts">;
+  setActiveToast?: Dispatch<SetStateAction<Tables<"Toasts"> | undefined>>;
 }) {
   return (
     <dialog className="modal" ref={newIntegrationModalRef}>
@@ -29,6 +33,8 @@ export default function NewIntegrationModal({
           newIntegrationModalRef={newIntegrationModalRef}
           integrations={integrations}
           setIntegrations={setIntegrations}
+          activeToast={activeToast}
+          setActiveToast={setActiveToast}
         />
       </div>
     </dialog>

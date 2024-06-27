@@ -23,9 +23,12 @@ import { showToast, showToastError } from "@/components/shared/showToast";
 import { CirclePlus } from "lucide-react";
 import Image from "next/image";
 import StripeLogo from "@/public/images/stripe-logo.svg";
+import LemonSqueezyLogo from "@/public/images/lemonsqueezy-logo.jpeg";
 import { Tables } from "@/supabase/types";
 import { createIntegration } from "@/lib/actions/integrations";
 import { checkDuplicateTitle } from "@/lib/actions";
+import { updateUserToast } from "@/lib/actions/userToasts";
+import { useRouter } from "next/navigation";
 
 const PROVIDERS = ["Stripe", "LemonSqueezy"] as const;
 const providersEnum = z.enum(PROVIDERS, {
@@ -43,13 +46,18 @@ export default function NewIntegrationForm({
   newIntegrationModalRef,
   integrations,
   setIntegrations,
+  activeToast,
+  setActiveToast,
 }: {
   newIntegrationModalRef: RefObject<HTMLDialogElement>;
   integrations: Tables<"Integrations">[];
   setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
+  activeToast?: Tables<"Toasts">;
+  setActiveToast?: Dispatch<SetStateAction<Tables<"Toasts"> | undefined>>;
 }) {
   const [isPending, startTransition] = useTransition();
   const [provider, setProvider] = useState<ProvidersEnum>();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -75,8 +83,25 @@ export default function NewIntegrationForm({
       if (error) {
         showToastError(error);
       } else {
-        showToast(`Successfully created new ${data.provider} API Key.`);
         setIntegrations((prevIntegrations) => [...prevIntegrations, data]);
+        if (activeToast && setActiveToast) {
+          setActiveToast({
+            ...activeToast,
+            integration_id: data.id,
+          });
+          const { error } = await updateUserToast(activeToast.id, {
+            ...activeToast,
+            integration_id: data.id,
+          });
+          if (error) {
+            showToastError(error);
+          } else {
+            router.refresh();
+            showToast(`Successfully created new ${data.provider} API Key.`);
+          }
+        } else {
+          showToast(`Successfully created new ${data.provider} API Key.`);
+        }
       }
       newIntegrationModalRef.current?.close();
     });
@@ -120,6 +145,15 @@ export default function NewIntegrationForm({
                         height={48}
                         alt={"Stripe logo"}
                         src={StripeLogo}
+                        className="rounded-lg"
+                      />
+                    )}
+                    {provider !== undefined && provider === "LemonSqueezy" && (
+                      <Image
+                        width={48}
+                        height={48}
+                        alt={"LemonSqueezy logo"}
+                        src={LemonSqueezyLogo}
                         className="rounded-lg"
                       />
                     )}

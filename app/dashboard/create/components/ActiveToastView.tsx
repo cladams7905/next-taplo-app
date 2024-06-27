@@ -19,6 +19,7 @@ import { showToast, showToastError } from "@/components/shared/showToast";
 import { ToastType } from "@/lib/enums";
 import ToastPopup from "./ToastPopup";
 import "animate.css";
+import NewIntegrationModal from "../../connect/components/NewIntegrationModal";
 
 export default function ActiveToastView({
   activeToast,
@@ -259,6 +260,9 @@ const ToastEvent = ({
   integrations: Tables<"Integrations">[];
 }) => {
   const toastTypes = Object.values(ToastType);
+  const newIntegrationModalRef = useRef<HTMLDialogElement>(null);
+  const [currentIntegrations, setCurrentIntegrations] =
+    useState<Tables<"Integrations">[]>(integrations);
 
   const handleTypeSelect = async (toastType: ToastType) => {
     if (activeToast && toastType) {
@@ -337,9 +341,19 @@ const ToastEvent = ({
                 </option>
               ))}
             </select>
-            <div className="btn btn-primary text-white">
+            <div
+              className="btn btn-primary text-white"
+              onClick={() => newIntegrationModalRef.current?.showModal()}
+            >
               <CirclePlus height={18} width={18} /> New Integration
             </div>
+            <NewIntegrationModal
+              newIntegrationModalRef={newIntegrationModalRef}
+              integrations={currentIntegrations}
+              setIntegrations={setCurrentIntegrations}
+              activeToast={activeToast}
+              setActiveToast={setActiveToast}
+            />
           </div>
         </div>
       </div>

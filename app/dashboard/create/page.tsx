@@ -3,6 +3,7 @@ import ToastBoard from "./components/ToastBoard";
 import { createClient } from "@/supabase/server";
 import { redirect } from "next/navigation";
 import { getIntegrations } from "@/lib/actions/integrations";
+import { revalidatePath } from "next/cache";
 
 export default async function CreatePopupPage() {
   const supabase = createClient();
@@ -10,6 +11,7 @@ export default async function CreatePopupPage() {
   if (error || !data?.user) {
     redirect("/");
   }
+  revalidatePath("/dashboard/create");
   const userToasts = (await getUserToasts(data.user.id)).data;
   const integrations = (await getIntegrations(data.user.id)).data;
 
