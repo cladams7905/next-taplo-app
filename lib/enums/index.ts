@@ -1,7 +1,7 @@
 export enum ToastType {
-  PaymentComplete = "Payment Complete",
-  EmailSubscribe = "Email Subscribe",
-  UserRegister = "User Register",
-  WebpageOpen = "Webpage Open",
+  PaymentComplete = "On Purchase",
+  EmailSubscribe = "On Email Subscribe",
+  UserRegister = "On User Register",
+  WebpageOpen = "On Webpage Open",
   Custom = "Custom",
 }

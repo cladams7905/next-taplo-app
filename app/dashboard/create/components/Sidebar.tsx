@@ -49,6 +49,7 @@ export default function Sidebar({
           "New Toast"
         ),
         event_type: "",
+        content: "Someone in USA just purchased",
       });
       if (error) {
         showToastError(error);
@@ -118,7 +119,7 @@ export default function Sidebar({
               {sortedToasts.map((toast, i) => (
                 <li
                   key={i}
-                  className={`flex gap-2 rounded-lg border border-neutral ${
+                  className={`flex gap-2 rounded-lg border border-neutral shadow-sm ${
                     activeToast?.id === toast.id && `bg-link-hover`
                   }`}
                 >
@@ -128,7 +129,7 @@ export default function Sidebar({
                       setActiveToast(toast);
                     }}
                   >
-                    <div>
+                    <div className="flex flex-col gap-[2px]">
                       <p>{checkStringLength(toast.title)}</p>
                       {toast.event_type === "" ? (
                         <div className="flex items-center gap-1">
@@ -139,9 +140,6 @@ export default function Sidebar({
                         </div>
                       ) : (
                         <div className="flex items-center gap-2">
-                          <p className="text-sm text-gray-500">
-                            {toast.event_type}
-                          </p>
                           {integrations.filter(
                             (x) => x.id === toast.integration_id
                           )[0]?.provider === "Stripe" ? (
@@ -165,6 +163,9 @@ export default function Sidebar({
                           ) : (
                             ""
                           )}
+                          <p className="text-sm text-gray-500">
+                            {toast.event_type}
+                          </p>
                         </div>
                       )}
                     </div>

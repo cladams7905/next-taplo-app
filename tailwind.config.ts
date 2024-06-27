@@ -12,19 +12,19 @@ const config: Config = {
       "dark",
       {
         default: {
-          primary: "#6091F3",
+          primary: "#7A81EB",
           secondary: "#f0abfc",
           accent: "#172554",
           neutral: "#D1D3D7" /**9ca3af */,
           "base-100": "#ffffff",
           "base-content": "#172554",
-          info: "#DFE9FD",
+          info: "#E7E8FE",
           success: "#4ade80",
           warning: "#fde047",
           error: "#f87171",
           "accent-light": "#f9fafb",
           "accent-tab": "#ffffff",
-          "link-hover": "#DFE9FD",
+          "link-hover": "var(--fallback-p,oklch(var(--p)/0.20))",
         },
       },
     ],
@@ -52,7 +52,7 @@ const config: Config = {
       colors: {
         "accent-light": "#f9fafb",
         "accent-tab": "#ffffff",
-        "link-hover": "#DFE9FD",
+        "link-hover": "var(--fallback-p,oklch(var(--p)/0.20))",
       },
       keyframes: {
         wiggle: {

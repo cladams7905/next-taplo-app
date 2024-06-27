@@ -24,7 +24,7 @@ export default function ActiveToastView({
   const [currentTab, setCurrentTab] = useState(0);
 
   return activeToast !== undefined ? (
-    <div className="flex flex-col !rounded-none bg-gradient-to-tr from-primary/50 to-violet-100 h-full shadow-lg z-[1]">
+    <div className="flex flex-col !rounded-none bg-gradient-to-tr from-primary/50 to-purple-100 h-full shadow-lg z-[1]">
       <div className="w-full lg:h-1/3 h-1/2 p-4">
         <div className="flex justify-between items-center">
           <RenameToastButton
