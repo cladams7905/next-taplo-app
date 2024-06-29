@@ -7,8 +7,8 @@ import ToastPopup from "./toastview/ToastPopup";
 import { RenameToastButton } from "./toastview/RenameToastButton";
 import { DeleteToastButton } from "./toastview/DeleteToastButton";
 import { ToastEventTab } from "./toastview/ToastEventTab";
-import { ToastContentTab } from "./toastview/ToastContentTab";
 import { NoToastView } from "./toastview/NoToastView";
+import { ToastStyleTab } from "./toastview/ToastStyleTab";
 
 export default function ActiveToastView({
   activeToast,
@@ -51,8 +51,7 @@ export default function ActiveToastView({
             integrations={integrations}
           />
         )}
-        {currentTab === 1 && <ToastContentTab activeToast={activeToast} />}
-        {/* {currentTab === 2 && <ToastStyleTab activeToast={activeToast} />} */}
+        {currentTab === 1 && <ToastStyleTab activeToast={activeToast} />}
       </div>
     </div>
   ) : (

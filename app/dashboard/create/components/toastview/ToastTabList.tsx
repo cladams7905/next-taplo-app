@@ -37,20 +37,8 @@ export default function ToastTabList({
           }`}
           onClick={(e) => handleTabClick(e.currentTarget.tabIndex)}
         >
-          Content
-        </a>
-        {/* <a
-          role="tab"
-          tabIndex={2}
-          className={`tab [--tab-border-color:oklch(var(--n))] w-24 ${
-            currentTab === 2
-              ? "tab-active font-semibold"
-              : "hover:!bg-accent-tab"
-          }`}
-          onClick={(e) => handleTabClick(e.currentTarget.tabIndex)}
-        >
           Style
-        </a> */}
+        </a>
         <a></a>
       </div>
       <hr className="w-full border-t border-neutral" />

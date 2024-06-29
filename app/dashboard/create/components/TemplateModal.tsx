@@ -28,10 +28,12 @@ export default function TemplateModal({
         setActiveToast({
           ...activeToast,
           event_type: toastType,
+          content: setToastContent(toastType),
         });
         const { error } = await updateUserToast(activeToast.id, {
           ...activeToast,
           event_type: toastType,
+          content: setToastContent(toastType),
         });
         if (error) {
           showToastError(error);
@@ -56,7 +58,7 @@ export default function TemplateModal({
           <div
             className={`flex flex-col w-64 h-64 min-w-64 rounded-lg border border-neutral cursor-pointer hover:shadow-lg hover:outline hover:outline-2 hover:outline-primary hover:-translate-y-1 transition-transform
             ${
-              toastType === "Payment Complete" &&
+              toastType === ToastType.PaymentComplete &&
               "shadow-lg outline outline-2 outline-primary"
             }`}
             onClick={() => setToastType(ToastType.PaymentComplete)}
@@ -72,7 +74,7 @@ export default function TemplateModal({
           <div
             className={`flex flex-col w-64 h-64 min-w-64 rounded-lg border border-neutral cursor-pointer hover:shadow-lg hover:outline hover:outline-2 hover:outline-primary hover:-translate-y-1 transition-transform
             ${
-              toastType === "Email Subscribe" &&
+              toastType === ToastType.EmailSubscribe &&
               "shadow-lg outline outline-2 outline-primary"
             }`}
             onClick={() => setToastType(ToastType.EmailSubscribe)}
@@ -88,7 +90,7 @@ export default function TemplateModal({
           <div
             className={`flex flex-col w-64 h-64 min-w-64 rounded-lg border border-neutral cursor-pointer hover:shadow-lg hover:outline hover:outline-2 hover:outline-primary hover:-translate-y-1 transition-transform 
             ${
-              toastType === "User Register" &&
+              toastType === ToastType.UserRegister &&
               "shadow-lg outline outline-2 outline-primary"
             }`}
             onClick={() => setToastType(ToastType.UserRegister)}
@@ -104,7 +106,7 @@ export default function TemplateModal({
           <div
             className={`flex flex-col w-64 h-64 min-w-64 rounded-lg border border-neutral cursor-pointer hover:shadow-lg hover:outline hover:outline-2 hover:outline-primary hover:-translate-y-1 transition-transform 
             ${
-              toastType === "Webpage Open" &&
+              toastType === ToastType.WebpageOpen &&
               "shadow-lg outline outline-2 outline-primary"
             }`}
             onClick={() => setToastType(ToastType.WebpageOpen)}
@@ -120,7 +122,7 @@ export default function TemplateModal({
           <div
             className={`flex flex-col w-64 h-64 min-w-64 rounded-lg border border-neutral cursor-pointer hover:shadow-lg hover:outline hover:outline-2 hover:outline-primary hover:-translate-y-1 transition-transform 
             ${
-              toastType === "Custom" &&
+              toastType === ToastType.Custom &&
               "shadow-lg outline outline-2 outline-primary"
             }`}
             onClick={() => setToastType(ToastType.Custom)}
@@ -148,3 +150,24 @@ export default function TemplateModal({
     </dialog>
   );
 }
+
+export const setToastContent = (toastType: ToastType | undefined) => {
+  let toastContent;
+  switch (toastType) {
+    case ToastType.PaymentComplete:
+      toastContent = "Someone in USA made a purchase ($20).";
+      break;
+    case ToastType.EmailSubscribe:
+      toastContent = "Someone in USA subscribed via email.";
+      break;
+    case ToastType.WebpageOpen:
+      toastContent = "Add your own content here!";
+      break;
+    case ToastType.UserRegister:
+      toastContent = "Someone in USA just registered for an account.";
+      break;
+    default:
+      toastContent = "";
+  }
+  return toastContent;
+};

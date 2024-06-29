@@ -48,8 +48,7 @@ export default function Sidebar({
           userToasts.map((toast) => toast.title),
           "New Toast"
         ),
-        event_type: "",
-        content: "Someone in USA just purchased",
+        event_type: toastType,
       });
       if (error) {
         showToastError(error);
@@ -131,7 +130,7 @@ export default function Sidebar({
                   >
                     <div className="flex flex-col gap-[2px]">
                       <p>{checkStringLength(toast.title)}</p>
-                      {toast.event_type === "" ? (
+                      {!toast.event_type ? (
                         <div className="flex items-center gap-1">
                           <p className="text-sm text-error">
                             No Event Selected

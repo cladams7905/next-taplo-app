@@ -11,6 +11,7 @@ import {
 } from "@radix-ui/react-icons";
 import { CirclePlus } from "lucide-react";
 import { Dispatch, SetStateAction, useRef, useState } from "react";
+import { setToastContent } from "../TemplateModal";
 
 export const ToastEventTab = ({
   activeToast,
@@ -31,10 +32,12 @@ export const ToastEventTab = ({
       setActiveToast({
         ...activeToast,
         event_type: toastType.toString() !== "default" ? toastType : "",
+        content: setToastContent(toastType),
       });
       const { error } = await updateUserToast(activeToast.id, {
         ...activeToast,
         event_type: toastType,
+        content: setToastContent(toastType),
       });
       if (error) {
         showToastError(error);
@@ -63,8 +66,8 @@ export const ToastEventTab = ({
   return (
     <div className="flex flex-col w-2/3 gap-6">
       <p className="text-xl font-bold text-left">Toast Event</p>
-      <div className="flex flex-col gap-4">
-        <div className="w-full">
+      <div className="flex flex-col gap-8">
+        <div className="w-full flex flex-col gap-2">
           <div className="flex items-center gap-4">
             <p>Event Type</p>
             {!activeToast?.event_type && (
@@ -87,7 +90,7 @@ export const ToastEventTab = ({
             ))}
           </select>
         </div>
-        <div className="w-full">
+        <div className="w-full flex flex-col gap-2">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1">
               Integration{" "}
