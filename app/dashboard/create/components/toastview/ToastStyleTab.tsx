@@ -2,6 +2,7 @@
 
 import { showToastError } from "@/components/shared/showToast";
 import { updateUserToast } from "@/lib/actions/userToasts";
+import { ScreenAlignment } from "@/lib/enums";
 import { Tables } from "@/supabase/types";
 import { Undo2 } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
@@ -35,6 +36,8 @@ export const ToastStyleTab = ({
   borderColor: IColor;
   setBorderColor: Dispatch<SetStateAction<IColor>>;
 }) => {
+  const screenAlignmentTypes = Object.values(ScreenAlignment);
+
   const handleResetClick = async () => {
     if (activeToast) {
       setActiveToast({
@@ -139,6 +142,24 @@ export const ToastStyleTab = ({
     }
   };
 
+  const handleScreenAlignmentSelect = async (
+    screenAlignment: ScreenAlignment
+  ) => {
+    if (activeToast && screenAlignment) {
+      setActiveToast({
+        ...activeToast,
+        screen_alignment: screenAlignment,
+      });
+      const { error } = await updateUserToast(activeToast.id, {
+        ...activeToast,
+        screen_alignment: screenAlignment,
+      });
+      if (error) {
+        showToastError(error);
+      }
+    }
+  };
+
   return (
     <div className="flex flex-col w-2/3 gap-6">
       <div className="flex flex-row items-center w-full justify-between gap-4">
@@ -150,8 +171,8 @@ export const ToastStyleTab = ({
           <Undo2 height={18} width={18} /> Reset
         </div>
       </div>
-      <div className="flex flex-row gap-10">
-        <div className="flex flex-col w-1/2 gap-4">
+      <div className="flex lg:flex-row md:flex-row flex-col lg:gap-10 gap-6">
+        <div className="flex flex-col lg:w-1/2 w-full gap-4">
           <div className="w-full">
             <p>Background color</p>
             <div
@@ -236,7 +257,7 @@ export const ToastStyleTab = ({
             </div>
           </div>
         </div>
-        <div className="flex flex-col w-1/2 gap-4">
+        <div className="flex flex-col lg:w-1/2 w-full gap-4">
           <div className="w-full">
             <p>Border color</p>
             <div
@@ -294,14 +315,23 @@ export const ToastStyleTab = ({
           </div>
         </div>
       </div>
-      <div className="w-full">
+      <div className="w-full lg:max-w-[265px] mt-8">
         {" "}
         <p>Screen alignment</p>
-        <input
-          type="text"
-          placeholder={activeToast?.title ? activeToast.title : "New Toast"}
-          className="input input-bordered border border-neutral w-full"
-        />
+        <select
+          className="select select-bordered border-neutral w-full"
+          value={activeToast?.screen_alignment || "default"}
+          onChange={(e) =>
+            handleScreenAlignmentSelect(e.target.value as ScreenAlignment)
+          }
+        >
+          <option value={"default"}>Select</option>
+          {screenAlignmentTypes.map((screenAlignment, i) => (
+            <option key={i} value={screenAlignment}>
+              {screenAlignment}
+            </option>
+          ))}
+        </select>
       </div>
     </div>
   );

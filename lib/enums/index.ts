@@ -5,3 +5,10 @@ export enum ToastType {
   WebpageOpen = "On Webpage Open",
   Custom = "Custom",
 }
+
+export enum ScreenAlignment {
+  BottomLeft = "Bottom Left",
+  BottomRight = "Bottom Right",
+  TopLeft = "Top Left",
+  TopRight = "Top Right",
+}

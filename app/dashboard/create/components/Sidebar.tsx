@@ -14,7 +14,7 @@ import {
   useTransition,
 } from "react";
 import TemplateModal from "./TemplateModal";
-import { ToastType } from "@/lib/enums";
+import { ScreenAlignment, ToastType } from "@/lib/enums";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import NavbarTablist from "../../components/NavbarTablist";
 import Image from "next/image";
@@ -53,6 +53,7 @@ export default function Sidebar({
         accent_color: "#6b7280",
         border_color: "#D1D3D7",
         verified_color: "#4ade80",
+        screen_alignment: ScreenAlignment.BottomLeft,
       });
       if (error) {
         showToastError(error);
