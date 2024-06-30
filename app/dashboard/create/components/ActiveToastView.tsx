@@ -24,10 +24,21 @@ export default function ActiveToastView({
   integrations: Tables<"Integrations">[];
 }) {
   const [currentTab, setCurrentTab] = useState(0);
-  const [backgroundToastColor, setBackgroundToastColor] = useColor("#FFFFFF");
-  const [textColor, setTextColor] = useColor("#172554");
-  const [accentColor, setAccentColor] = useColor("#6b7280");
-  const [verifiedColor, setVerifiedColor] = useColor("#4ade80");
+  const [backgroundToastColor, setBackgroundToastColor] = useColor(
+    activeToast?.bg_color ? activeToast.bg_color : "#FFFFFF"
+  );
+  const [textColor, setTextColor] = useColor(
+    activeToast?.text_color ? activeToast.text_color : "#172554"
+  );
+  const [accentColor, setAccentColor] = useColor(
+    activeToast?.accent_color ? activeToast.accent_color : "#6b7280"
+  );
+  const [borderColor, setBorderColor] = useColor(
+    activeToast?.border_color ? activeToast.border_color : "#D1D3D7"
+  );
+  const [verifiedColor, setVerifiedColor] = useColor(
+    activeToast?.verified_color ? activeToast.verified_color : "#4ade80"
+  );
 
   return activeToast !== undefined ? (
     <div className="flex flex-col !rounded-none bg-gradient-to-tr from-primary/50 to-purple-100 h-full shadow-lg z-[1]">
@@ -51,11 +62,12 @@ export default function ActiveToastView({
             textColor={textColor}
             accentColor={accentColor}
             verifiedColor={verifiedColor}
+            borderColor={borderColor}
           />
         </div>
       </div>
       <ToastTabList currentTab={currentTab} setCurrentTab={setCurrentTab} />
-      <div className="flex flex-col w-full items-center h-2/3 overflow-y-auto bg-white dark:bg-base-100 rounded-br-lg p-6 gap-6">
+      <div className="flex flex-col w-full items-center h-2/3 overflow-y-auto bg-white dark:bg-base-100 rounded-br-lg p-6 gap-6 relative">
         {currentTab === 0 && (
           <ToastEventTab
             activeToast={activeToast}
@@ -66,6 +78,7 @@ export default function ActiveToastView({
         {currentTab === 1 && (
           <ToastStyleTab
             activeToast={activeToast}
+            setActiveToast={setActiveToast}
             backgroundToastColor={backgroundToastColor}
             setBackgroundToastColor={setBackgroundToastColor}
             textColor={textColor}
@@ -74,6 +87,8 @@ export default function ActiveToastView({
             setAccentColor={setAccentColor}
             verifiedColor={verifiedColor}
             setVerifiedColor={setVerifiedColor}
+            borderColor={borderColor}
+            setBorderColor={setBorderColor}
           />
         )}
       </div>

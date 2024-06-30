@@ -46,46 +46,49 @@ export type Database = {
       }
       Toasts: {
         Row: {
+          accent_color: string | null
           bg_color: string | null
-          bg_style: string | null
+          border_color: string | null
           content: string | null
           created_at: string
           event_type: string | null
-          font: string | null
           id: number
           integration_id: number | null
           screen_alignment: string | null
+          text_color: string | null
           title: string | null
           user_id: string | null
-          webhook_id: number | null
+          verified_color: string | null
         }
         Insert: {
+          accent_color?: string | null
           bg_color?: string | null
-          bg_style?: string | null
+          border_color?: string | null
           content?: string | null
           created_at?: string
           event_type?: string | null
-          font?: string | null
           id?: number
           integration_id?: number | null
           screen_alignment?: string | null
+          text_color?: string | null
           title?: string | null
           user_id?: string | null
-          webhook_id?: number | null
+          verified_color?: string | null
         }
         Update: {
+          accent_color?: string | null
           bg_color?: string | null
-          bg_style?: string | null
+          border_color?: string | null
           content?: string | null
           created_at?: string
           event_type?: string | null
-          font?: string | null
           id?: number
           integration_id?: number | null
           screen_alignment?: string | null
+          text_color?: string | null
           title?: string | null
           user_id?: string | null
-          webhook_id?: number | null
+          verified_color?: string | null
         }
         Relationships: [
           {

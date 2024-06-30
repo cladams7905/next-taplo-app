@@ -12,12 +12,14 @@ export default function ToastPopup({
   textColor,
   accentColor,
   verifiedColor,
+  borderColor,
 }: {
   activeToast: Tables<"Toasts">;
   backgroundToastColor: IColor;
   textColor: IColor;
   accentColor: IColor;
   verifiedColor: IColor;
+  borderColor: IColor;
 }) {
   const [isFirstClicked, setIsFirstClicked] = useState(false);
   useEffect(() => {
@@ -30,8 +32,9 @@ export default function ToastPopup({
     <div
       style={{
         backgroundColor: backgroundToastColor.hex.toString(),
+        borderColor: borderColor.hex.toString(),
       }}
-      className={`relative w-full max-w-72 rounded-lg border border-neutral shadow-xl p-2 pl-4 ${
+      className={`relative w-full max-w-72 rounded-lg border shadow-xl p-2 pl-4 ${
         isFirstClicked && "animate__animated animate__bounceIn"
       }`}
     >

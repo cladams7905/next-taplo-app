@@ -48,7 +48,11 @@ export default function Sidebar({
           userToasts.map((toast) => toast.title),
           "New Toast"
         ),
-        event_type: toastType,
+        bg_color: "#FFFFFF",
+        text_color: "#172554",
+        accent_color: "#6b7280",
+        border_color: "#D1D3D7",
+        verified_color: "#4ade80",
       });
       if (error) {
         showToastError(error);
