@@ -27,10 +27,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-input, textarea {
-  @apply focus:border-none outline-none
-}
-
 li > a:hover:not(.tab) {
   @apply !bg-link-hover
 }
@@ -40,10 +36,18 @@ li > a:hover:not(.tab) {
 }
 
 .tabs-lifted>.tab-active::after {
-  /* Override the properties here to unset or neutralize them if needed */
   opacity: 0;
 }
 
 :root {
   --tab-border-color: oklch(var(--n))
+}
+
+/* Styling for color picker box */
+.rcp-body{
+  @apply bg-white
+}
+
+.rcp-field-input{
+  @apply !border !border-gray-300 !text-base-content
 }

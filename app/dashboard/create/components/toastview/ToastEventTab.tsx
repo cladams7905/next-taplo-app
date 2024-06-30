@@ -36,7 +36,7 @@ export const ToastEventTab = ({
       });
       const { error } = await updateUserToast(activeToast.id, {
         ...activeToast,
-        event_type: toastType,
+        event_type: toastType.toString() !== "default" ? toastType : "",
         content: setToastContent(toastType),
       });
       if (error) {
@@ -89,6 +89,11 @@ export const ToastEventTab = ({
               </option>
             ))}
           </select>
+        </div>
+        <div className="w-full flex flex-col gap-2">
+          Show Products
+          <input type="checkbox" className="toggle" defaultChecked />
+          Products (for on purchase only)
         </div>
         <div className="w-full flex flex-col gap-2">
           <div className="flex items-center gap-4">

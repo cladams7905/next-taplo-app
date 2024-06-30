@@ -9,6 +9,8 @@ import { DeleteToastButton } from "./toastview/DeleteToastButton";
 import { ToastEventTab } from "./toastview/ToastEventTab";
 import { NoToastView } from "./toastview/NoToastView";
 import { ToastStyleTab } from "./toastview/ToastStyleTab";
+import { useColor } from "react-color-palette";
+import "react-color-palette/css";
 
 export default function ActiveToastView({
   activeToast,
@@ -22,6 +24,10 @@ export default function ActiveToastView({
   integrations: Tables<"Integrations">[];
 }) {
   const [currentTab, setCurrentTab] = useState(0);
+  const [backgroundToastColor, setBackgroundToastColor] = useColor("#FFFFFF");
+  const [textColor, setTextColor] = useColor("#172554");
+  const [accentColor, setAccentColor] = useColor("#6b7280");
+  const [verifiedColor, setVerifiedColor] = useColor("#4ade80");
 
   return activeToast !== undefined ? (
     <div className="flex flex-col !rounded-none bg-gradient-to-tr from-primary/50 to-purple-100 h-full shadow-lg z-[1]">
@@ -39,7 +45,13 @@ export default function ActiveToastView({
           />
         </div>
         <div className="flex h-full w-full lg:items-start items-center justify-center -mt-8 lg:mt-4">
-          <ToastPopup activeToast={activeToast} />
+          <ToastPopup
+            activeToast={activeToast}
+            backgroundToastColor={backgroundToastColor}
+            textColor={textColor}
+            accentColor={accentColor}
+            verifiedColor={verifiedColor}
+          />
         </div>
       </div>
       <ToastTabList currentTab={currentTab} setCurrentTab={setCurrentTab} />
@@ -51,7 +63,19 @@ export default function ActiveToastView({
             integrations={integrations}
           />
         )}
-        {currentTab === 1 && <ToastStyleTab activeToast={activeToast} />}
+        {currentTab === 1 && (
+          <ToastStyleTab
+            activeToast={activeToast}
+            backgroundToastColor={backgroundToastColor}
+            setBackgroundToastColor={setBackgroundToastColor}
+            textColor={textColor}
+            setTextColor={setTextColor}
+            accentColor={accentColor}
+            setAccentColor={setAccentColor}
+            verifiedColor={verifiedColor}
+            setVerifiedColor={setVerifiedColor}
+          />
+        )}
       </div>
     </div>
   ) : (
