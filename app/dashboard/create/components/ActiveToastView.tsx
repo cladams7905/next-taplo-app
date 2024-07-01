@@ -17,11 +17,13 @@ export default function ActiveToastView({
   setActiveToast,
   setCurrentToasts,
   integrations,
+  products,
 }: {
   activeToast: Tables<"Toasts"> | undefined;
   setActiveToast: Dispatch<SetStateAction<Tables<"Toasts"> | undefined>>;
   setCurrentToasts: Dispatch<SetStateAction<Tables<"Toasts">[]>>;
   integrations: Tables<"Integrations">[];
+  products: Tables<"Products">[];
 }) {
   const [currentTab, setCurrentTab] = useState(0);
   const [backgroundToastColor, setBackgroundToastColor] = useColor(
@@ -73,6 +75,7 @@ export default function ActiveToastView({
             activeToast={activeToast}
             setActiveToast={setActiveToast}
             integrations={integrations}
+            products={products}
           />
         )}
         {currentTab === 1 && (

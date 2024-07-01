@@ -73,7 +73,7 @@ export default function Sidebar({
         )
       );
     }
-  }, [activeToast]);
+  }, [activeToast, setCurrentToasts]);
 
   const sortedToasts = userToasts.sort((a, b) => {
     const titleA = a.title || "";

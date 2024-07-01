@@ -44,6 +44,51 @@ export type Database = {
           },
         ]
       }
+      Products: {
+        Row: {
+          created_at: string
+          currency: string | null
+          id: number
+          name: string | null
+          price: number | null
+          toast_id: number | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          currency?: string | null
+          id?: number
+          name?: string | null
+          price?: number | null
+          toast_id?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          currency?: string | null
+          id?: number
+          name?: string | null
+          price?: number | null
+          toast_id?: number | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "Products_toast_id_fkey"
+            columns: ["toast_id"]
+            isOneToOne: false
+            referencedRelation: "Toasts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "Products_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       Toasts: {
         Row: {
           accent_color: string | null
@@ -55,6 +100,7 @@ export type Database = {
           id: number
           integration_id: number | null
           screen_alignment: string | null
+          show_products: boolean
           text_color: string | null
           title: string | null
           user_id: string | null
@@ -70,6 +116,7 @@ export type Database = {
           id?: number
           integration_id?: number | null
           screen_alignment?: string | null
+          show_products?: boolean
           text_color?: string | null
           title?: string | null
           user_id?: string | null
@@ -85,6 +132,7 @@ export type Database = {
           id?: number
           integration_id?: number | null
           screen_alignment?: string | null
+          show_products?: boolean
           text_color?: string | null
           title?: string | null
           user_id?: string | null

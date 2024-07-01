@@ -4,6 +4,7 @@ import { createClient } from "@/supabase/server";
 import { redirect } from "next/navigation";
 import { getIntegrations } from "@/lib/actions/integrations";
 import { revalidatePath } from "next/cache";
+import { getProducts } from "@/lib/actions/products";
 
 export default async function CreatePopupPage() {
   const supabase = createClient();
@@ -11,9 +12,17 @@ export default async function CreatePopupPage() {
   if (error || !data?.user) {
     redirect("/");
   }
-  revalidatePath("/dashboard/create");
+  revalidatePath("/dashboard/create", "page");
+
   const userToasts = (await getUserToasts(data.user.id)).data;
   const integrations = (await getIntegrations(data.user.id)).data;
+  const products = (await getProducts(data.user.id)).data;
 
-  return <ToastBoard userToasts={userToasts} integrations={integrations} />;
+  return (
+    <ToastBoard
+      userToasts={userToasts}
+      integrations={integrations}
+      products={products}
+    />
+  );
 }

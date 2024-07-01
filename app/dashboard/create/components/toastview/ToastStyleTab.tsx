@@ -185,6 +185,7 @@ export const ToastStyleTab = ({
                 type="text"
                 value={backgroundToastColor.hex.toUpperCase()}
                 className="input input-bordered border border-neutral w-full max-w-52"
+                readOnly
               />
               <div
                 tabIndex={0}
@@ -214,6 +215,7 @@ export const ToastStyleTab = ({
                 type="text"
                 value={textColor.hex.toUpperCase()}
                 className="input input-bordered border border-neutral w-full max-w-52"
+                readOnly
               />
               <div
                 tabIndex={0}
@@ -240,6 +242,7 @@ export const ToastStyleTab = ({
                 type="text"
                 value={accentColor.hex.toUpperCase()}
                 className="input input-bordered border border-neutral w-full max-w-52"
+                readOnly
               />
               <div
                 tabIndex={0}
@@ -268,6 +271,7 @@ export const ToastStyleTab = ({
                 type="text"
                 value={borderColor.hex.toUpperCase()}
                 className="input input-bordered border border-neutral w-full max-w-52"
+                readOnly
               />
               <div
                 tabIndex={0}
@@ -294,6 +298,7 @@ export const ToastStyleTab = ({
                 type="text"
                 value={verifiedColor.hex.toUpperCase()}
                 className="input input-bordered border border-neutral w-full max-w-52"
+                readOnly
               />
               <div
                 tabIndex={0}

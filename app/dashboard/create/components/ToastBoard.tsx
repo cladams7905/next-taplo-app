@@ -9,9 +9,11 @@ import { ToastType } from "@/lib/enums";
 export default function ToastBoard({
   userToasts,
   integrations,
+  products,
 }: {
   userToasts: Tables<"Toasts">[];
   integrations: Tables<"Integrations">[];
+  products: Tables<"Products">[];
 }) {
   const [activeToast, setActiveToast] = useState<Tables<"Toasts"> | undefined>(
     userToasts.length > 0 ? userToasts[0] : undefined
@@ -40,6 +42,7 @@ export default function ToastBoard({
           setActiveToast={setActiveToast}
           setCurrentToasts={setCurrentToasts}
           integrations={integrations}
+          products={products}
         />
       </div>
     </main>
