@@ -49,6 +49,7 @@ export type Database = {
           created_at: string
           currency: string | null
           id: number
+          link: string | null
           name: string | null
           price: number | null
           toast_id: number | null
@@ -58,6 +59,7 @@ export type Database = {
           created_at?: string
           currency?: string | null
           id?: number
+          link?: string | null
           name?: string | null
           price?: number | null
           toast_id?: number | null
@@ -67,6 +69,7 @@ export type Database = {
           created_at?: string
           currency?: string | null
           id?: number
+          link?: string | null
           name?: string | null
           price?: number | null
           toast_id?: number | null

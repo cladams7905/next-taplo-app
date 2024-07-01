@@ -27,7 +27,7 @@ export default function ToastTabList({
           }`}
           onClick={(e) => handleTabClick(e.currentTarget.tabIndex)}
         >
-          General
+          Content
         </a>
         <a
           role="tab"

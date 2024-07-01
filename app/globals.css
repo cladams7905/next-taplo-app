@@ -43,6 +43,10 @@ li > a:hover:not(.tab) {
   --tab-border-color: oklch(var(--n))
 }
 
+.btn-ghost:hover {
+  @apply bg-primary/20
+}
+
 /* Styling for color picker box */
 .rcp-body{
   @apply bg-white
