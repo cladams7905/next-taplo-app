@@ -16,7 +16,13 @@ export default function ToastBoard({
   products: Tables<"Products">[];
 }) {
   const [activeToast, setActiveToast] = useState<Tables<"Toasts"> | undefined>(
-    userToasts.length > 0 ? userToasts[0] : undefined
+    userToasts.length > 0
+      ? userToasts.reduce((latest, current) => {
+          return new Date(current.created_at) > new Date(latest.created_at)
+            ? current
+            : latest;
+        })
+      : undefined
   );
 
   const [currentToasts, setCurrentToasts] =

@@ -41,6 +41,9 @@ export default function ActiveToastView({
   const [verifiedColor, setVerifiedColor] = useColor(
     activeToast?.verified_color ? activeToast.verified_color : "#4ade80"
   );
+  const [isShowProductsChecked, setShowProductsChecked] = useState(
+    activeToast?.show_products || false
+  );
 
   return activeToast !== undefined ? (
     <div className="flex flex-col !rounded-none bg-gradient-to-tr from-primary/50 to-purple-100 h-full shadow-lg z-[1]">
@@ -60,11 +63,13 @@ export default function ActiveToastView({
         <div className="flex h-full w-full lg:items-start items-center justify-center -mt-8 lg:mt-4">
           <ToastPopup
             activeToast={activeToast}
+            products={products}
             backgroundToastColor={backgroundToastColor}
             textColor={textColor}
             accentColor={accentColor}
             verifiedColor={verifiedColor}
             borderColor={borderColor}
+            isShowProductsChecked={isShowProductsChecked}
           />
         </div>
       </div>
@@ -76,6 +81,8 @@ export default function ActiveToastView({
             setActiveToast={setActiveToast}
             integrations={integrations}
             products={products}
+            isShowProductsChecked={isShowProductsChecked}
+            setShowProductsChecked={setShowProductsChecked}
           />
         )}
         {currentTab === 1 && (

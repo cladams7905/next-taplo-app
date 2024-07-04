@@ -19,11 +19,15 @@ export const ToastEventTab = ({
   setActiveToast,
   integrations,
   products,
+  isShowProductsChecked,
+  setShowProductsChecked,
 }: {
   activeToast: Tables<"Toasts"> | undefined;
   setActiveToast: Dispatch<SetStateAction<Tables<"Toasts"> | undefined>>;
   integrations: Tables<"Integrations">[];
   products: Tables<"Products">[];
+  isShowProductsChecked: boolean;
+  setShowProductsChecked: Dispatch<SetStateAction<boolean>>;
 }) => {
   const toastTypes = Object.values(ToastType);
   const newIntegrationModalRef = useRef<HTMLDialogElement>(null);
@@ -139,6 +143,8 @@ export const ToastEventTab = ({
             activeToast={activeToast}
             setActiveToast={setActiveToast}
             products={products}
+            isShowProductsChecked={isShowProductsChecked}
+            setShowProductsChecked={setShowProductsChecked}
           />
         )}
       </div>

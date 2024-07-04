@@ -6,6 +6,8 @@ import { updateUserToast } from "@/lib/actions/userToasts";
 import { Tables } from "@/supabase/types";
 import { ToastType } from "@/lib/enums";
 import { Dispatch, RefObject, SetStateAction, useTransition } from "react";
+import { createProduct } from "@/lib/actions/products";
+import { useRouter } from "next/navigation";
 
 export default function TemplateModal({
   templateModalRef,
@@ -21,6 +23,7 @@ export default function TemplateModal({
   setActiveToast: Dispatch<SetStateAction<Tables<"Toasts"> | undefined>>;
 }) {
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   const handleTemplateSubmit = () => {
     startTransition(async () => {
@@ -37,6 +40,20 @@ export default function TemplateModal({
         });
         if (error) {
           showToastError(error);
+        }
+
+        //If "On Purchase" type, create example product
+        if (toastType === ToastType.PaymentComplete) {
+          const { error } = await createProduct({
+            toast_id: activeToast.id,
+            name: "My Product",
+            price: 20,
+          });
+          if (error) {
+            showToastError(error);
+          } else {
+            router.refresh();
+          }
         }
       }
       templateModalRef.current?.close();

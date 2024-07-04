@@ -8,26 +8,44 @@ import { IColor } from "react-color-palette";
 
 export default function ToastPopup({
   activeToast,
+  products,
   backgroundToastColor,
   textColor,
   accentColor,
   verifiedColor,
   borderColor,
+  isShowProductsChecked,
 }: {
   activeToast: Tables<"Toasts">;
+  products: Tables<"Products">[];
   backgroundToastColor: IColor;
   textColor: IColor;
   accentColor: IColor;
   verifiedColor: IColor;
   borderColor: IColor;
+  isShowProductsChecked: boolean;
 }) {
   const [isFirstClicked, setIsFirstClicked] = useState(false);
+
+  const [activeProduct, setActiveProduct] = useState<Tables<"Products"> | null>(
+    products.filter((product) => product.toast_id === activeToast?.id)[0]
+  );
+
+  useEffect(() => {
+    if (products && activeToast) {
+      setActiveProduct(
+        products.filter((product) => product.toast_id === activeToast?.id)[0]
+      );
+    }
+  }, [activeToast, products]);
+
   useEffect(() => {
     setIsFirstClicked(true);
     setTimeout(() => {
       setIsFirstClicked(false);
     }, 1000);
   }, [activeToast]);
+
   return (
     <div
       style={{
@@ -57,7 +75,22 @@ export default function ToastPopup({
         }}
         className="text-sm mt-1"
       >
-        {activeToast.content}
+        {activeProduct && isShowProductsChecked ? (
+          <>
+            {`Someone in USA just purchased `}
+            <a
+              className="link font-bold cursor-pointer"
+              href={activeProduct.link || ""}
+              target="_blank"
+            >
+              {activeProduct.name || "My Product"} ($
+              {activeProduct.price || "0.00"})
+            </a>
+            {`.`}
+          </>
+        ) : (
+          activeToast.content
+        )}
       </p>
     </div>
   );

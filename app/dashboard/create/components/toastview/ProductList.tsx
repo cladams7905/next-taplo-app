@@ -23,10 +23,14 @@ export default function ProductList({
   activeToast,
   setActiveToast,
   products,
+  isShowProductsChecked,
+  setShowProductsChecked,
 }: {
   activeToast: Tables<"Toasts">;
   setActiveToast: Dispatch<SetStateAction<Tables<"Toasts"> | undefined>>;
   products: Tables<"Products">[];
+  isShowProductsChecked: boolean;
+  setShowProductsChecked: Dispatch<SetStateAction<boolean>>;
 }) {
   interface ProductRefs {
     [key: number]: {
@@ -45,9 +49,6 @@ export default function ProductList({
   const [activeProduct, setActiveProduct] = useState<Tables<"Products"> | null>(
     currentProducts[0] || null
   );
-  const [isShowProductsChecked, setShowProductsChecked] = useState(
-    activeToast?.show_products || false
-  );
 
   useEffect(() => {
     if (products && activeToast) {
@@ -58,7 +59,7 @@ export default function ProductList({
       setCurrentProducts(filteredProducts);
       setActiveProduct(filteredProducts[0] || null);
     }
-  }, [activeToast, products]);
+  }, [activeToast, products, setShowProductsChecked]);
 
   const handleShowProductsToggle = () => {
     startTransition(async () => {
