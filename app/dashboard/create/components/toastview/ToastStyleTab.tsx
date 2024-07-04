@@ -162,8 +162,7 @@ export const ToastStyleTab = ({
 
   return (
     <div className="flex flex-col w-2/3 gap-6">
-      <div className="flex flex-row items-center w-full justify-between gap-4">
-        <p className="text-xl font-bold">Toast Style</p>
+      <div className="flex flex-row items-center w-full justify-end gap-4">
         <div
           className="btn btn-ghost btn-sm"
           onClick={() => handleResetClick()}

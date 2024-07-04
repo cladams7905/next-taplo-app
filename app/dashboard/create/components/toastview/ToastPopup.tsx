@@ -5,6 +5,7 @@ import { BadgeCheck } from "lucide-react";
 import { useEffect, useState } from "react";
 import "animate.css";
 import { IColor } from "react-color-palette";
+import confetti from "canvas-confetti";
 
 export default function ToastPopup({
   activeToast,
@@ -26,7 +27,6 @@ export default function ToastPopup({
   isShowProductsChecked: boolean;
 }) {
   const [isFirstClicked, setIsFirstClicked] = useState(false);
-
   const [activeProduct, setActiveProduct] = useState<Tables<"Products"> | null>(
     products.filter((product) => product.toast_id === activeToast?.id)[0]
   );
@@ -41,6 +41,17 @@ export default function ToastPopup({
 
   useEffect(() => {
     setIsFirstClicked(true);
+    confetti({
+      particleCount: 100,
+      startVelocity: 30,
+      spread: 60,
+      ticks: 100,
+      scalar: 0.25,
+      origin: {
+        x: 0.75,
+        y: 0.35,
+      },
+    });
     setTimeout(() => {
       setIsFirstClicked(false);
     }, 1000);
@@ -66,7 +77,12 @@ export default function ToastPopup({
         <BadgeCheck fill={verifiedColor.hex.toString()} color="#FFFFFF" />
         Verified Purchase
       </div>
-      <button className="btn btn-sm btn-circle btn-ghost !border-none !outline-none absolute right-1 top-1 text-base-content">
+      <button
+        style={{
+          color: accentColor.hex.toString(),
+        }}
+        className="btn btn-sm btn-circle btn-ghost !border-none !outline-none absolute right-1 top-1 text-base-content"
+      >
         ✕
       </button>
       <p

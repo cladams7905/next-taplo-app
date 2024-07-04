@@ -63,7 +63,6 @@ export const ToastEventTab = ({
 
   return (
     <div className="flex flex-col w-2/3 gap-6">
-      <p className="text-xl font-bold text-left">Toast Content</p>
       <div className="flex flex-col gap-8">
         <div className="w-full flex flex-col gap-2">
           <div className="flex items-center gap-4">
