@@ -2,7 +2,7 @@
 
 import { Tables } from "@/supabase/types";
 import ToastTabList from "./toastview/ToastTabList";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import ToastPopup from "./toastview/ToastPopup";
 import { RenameToastButton } from "./toastview/RenameToastButton";
 import { DeleteToastButton } from "./toastview/DeleteToastButton";
@@ -11,6 +11,7 @@ import { NoToastView } from "./toastview/NoToastView";
 import { ToastStyleTab } from "./toastview/ToastStyleTab";
 import { useColor } from "react-color-palette";
 import "react-color-palette/css";
+import { ToastContentTab } from "./toastview/ToastContentTab";
 
 export default function ActiveToastView({
   activeToast,
@@ -26,6 +27,8 @@ export default function ActiveToastView({
   products: Tables<"Products">[];
 }) {
   const [currentTab, setCurrentTab] = useState(0);
+
+  /* Toast style state variables */
   const [backgroundToastColor, setBackgroundToastColor] = useColor(
     activeToast?.bg_color ? activeToast.bg_color : "#FFFFFF"
   );
@@ -41,9 +44,34 @@ export default function ActiveToastView({
   const [verifiedColor, setVerifiedColor] = useColor(
     activeToast?.verified_color ? activeToast.verified_color : "#4ade80"
   );
+
+  /* Product state variables */
   const [isShowProductsChecked, setShowProductsChecked] = useState(
     activeToast?.show_products || false
   );
+  const [currentProducts, setCurrentProducts] = useState<Tables<"Products">[]>(
+    products.filter((product) => product.toast_id === activeToast?.id)
+  );
+  const [activeProduct, setActiveProduct] = useState<Tables<"Products"> | null>(
+    currentProducts[0] || null
+  );
+  const [productImageSrc, setProductImageSrc] = useState<string>(
+    activeProduct?.image_url ? activeProduct.image_url : ""
+  );
+
+  useEffect(() => {
+    if (products && activeToast) {
+      setShowProductsChecked(activeToast.show_products);
+      const filteredProducts = products.filter(
+        (product) => product.toast_id === activeToast?.id
+      );
+      setCurrentProducts(filteredProducts);
+      setActiveProduct(filteredProducts[0] || null);
+      setProductImageSrc(
+        activeProduct?.image_url ? activeProduct.image_url : ""
+      );
+    }
+  }, [activeToast, products, activeProduct, setShowProductsChecked]);
 
   return activeToast !== undefined ? (
     <div className="flex flex-col !rounded-none bg-gradient-to-tr from-primary/50 to-purple-100 h-full shadow-lg z-[1]">
@@ -70,6 +98,7 @@ export default function ActiveToastView({
             verifiedColor={verifiedColor}
             borderColor={borderColor}
             isShowProductsChecked={isShowProductsChecked}
+            productImageSrc={productImageSrc}
           />
         </div>
       </div>
@@ -80,12 +109,23 @@ export default function ActiveToastView({
             activeToast={activeToast}
             setActiveToast={setActiveToast}
             integrations={integrations}
-            products={products}
-            isShowProductsChecked={isShowProductsChecked}
-            setShowProductsChecked={setShowProductsChecked}
           />
         )}
         {currentTab === 1 && (
+          <ToastContentTab
+            activeToast={activeToast}
+            setActiveToast={setActiveToast}
+            products={currentProducts}
+            setProducts={setCurrentProducts}
+            activeProduct={activeProduct}
+            setActiveProduct={setActiveProduct}
+            isShowProductsChecked={isShowProductsChecked}
+            setShowProductsChecked={setShowProductsChecked}
+            productImageSrc={productImageSrc}
+            setProductImageSrc={setProductImageSrc}
+          />
+        )}
+        {currentTab === 2 && (
           <ToastStyleTab
             activeToast={activeToast}
             setActiveToast={setActiveToast}

@@ -8,6 +8,12 @@ const nextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: process.env.NEXT_PUBLIC_SUPABASE_PROJECT_REF + ".supabase.co",
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };

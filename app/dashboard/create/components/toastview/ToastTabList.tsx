@@ -27,13 +27,23 @@ export default function ToastTabList({
           }`}
           onClick={(e) => handleTabClick(e.currentTarget.tabIndex)}
         >
-          Content
+          Event
         </a>
         <a
           role="tab"
           tabIndex={1}
           className={`tab [--tab-border-color:oklch(var(--n))] w-24 ${
             currentTab === 1 ? "tab-active font-semibold" : ""
+          }`}
+          onClick={(e) => handleTabClick(e.currentTarget.tabIndex)}
+        >
+          Content
+        </a>
+        <a
+          role="tab"
+          tabIndex={2}
+          className={`tab [--tab-border-color:oklch(var(--n))] w-24 ${
+            currentTab === 2 ? "tab-active font-semibold" : ""
           }`}
           onClick={(e) => handleTabClick(e.currentTarget.tabIndex)}
         >

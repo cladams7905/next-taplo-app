@@ -12,22 +12,15 @@ import {
 import { CirclePlus } from "lucide-react";
 import { Dispatch, SetStateAction, useRef, useState } from "react";
 import { setToastContent } from "../TemplateModal";
-import ProductList from "./ProductList";
 
 export const ToastEventTab = ({
   activeToast,
   setActiveToast,
   integrations,
-  products,
-  isShowProductsChecked,
-  setShowProductsChecked,
 }: {
   activeToast: Tables<"Toasts"> | undefined;
   setActiveToast: Dispatch<SetStateAction<Tables<"Toasts"> | undefined>>;
   integrations: Tables<"Integrations">[];
-  products: Tables<"Products">[];
-  isShowProductsChecked: boolean;
-  setShowProductsChecked: Dispatch<SetStateAction<boolean>>;
 }) => {
   const toastTypes = Object.values(ToastType);
   const newIntegrationModalRef = useRef<HTMLDialogElement>(null);
@@ -66,7 +59,7 @@ export const ToastEventTab = ({
       <div className="flex flex-col gap-8">
         <div className="w-full flex flex-col gap-2">
           <div className="flex items-center gap-4">
-            <p>Event Type</p>
+            <p>Event</p>
             {!activeToast?.event_type && (
               <div className="flex items-center gap-1">
                 <p className="text-sm text-error">Required</p>
@@ -90,11 +83,11 @@ export const ToastEventTab = ({
         <div className="w-full flex flex-col gap-2">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1">
-              Integration{" "}
+              Listens to{" "}
               <div
                 className="tooltip tooltip-info"
                 data-tip="Integrations enable your toast to listen to notifications from a
-              payment/subscription provider."
+              3rd party service."
               >
                 <QuestionMarkCircledIcon />
               </div>
@@ -137,15 +130,6 @@ export const ToastEventTab = ({
             />
           </div>
         </div>
-        {activeToast?.event_type === ToastType.PaymentComplete && (
-          <ProductList
-            activeToast={activeToast}
-            setActiveToast={setActiveToast}
-            products={products}
-            isShowProductsChecked={isShowProductsChecked}
-            setShowProductsChecked={setShowProductsChecked}
-          />
-        )}
       </div>
     </div>
   );
