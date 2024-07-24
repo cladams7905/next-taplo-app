@@ -24,7 +24,7 @@ export default async function DashboardLayout({
       <Navbar
         user={data.user}
         projects={projects}
-        activeProject={activeProject}
+        fetchedActiveProject={activeProject}
       />
       <div className="flex flex-col h-screen-minus-navbar bg-white dark:bg-base-100 relative">
         <div className="flex flex-col w-full h-full font-sans relative">

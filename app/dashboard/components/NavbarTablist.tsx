@@ -1,6 +1,5 @@
 "use client";
 
-import { Tables } from "@/supabase/types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -10,13 +9,13 @@ export default function NavbarTabList() {
   const setTabFromPathname = () => {
     let tabIndex = 0;
     switch (pathname) {
-      case `/dashboard/create`:
+      case `/dashboard/project/[projectId]/create`:
         tabIndex = 0;
         break;
-      case `/dashboard/connect`:
+      case `/dashboard/project/[projectId]/connect`:
         tabIndex = 1;
         break;
-      case `/dashboard/settings`:
+      case `/dashboard/project/[projectId]/settings`:
         tabIndex = 2;
         break;
       default:

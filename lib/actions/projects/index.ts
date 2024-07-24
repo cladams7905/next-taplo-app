@@ -30,6 +30,16 @@ export async function getActiveProject(userId: string) {
   return JSON.parse(JSON.stringify(result));
 }
 
+export async function setActiveProject(userId: string, projectId: string) {
+  const supabase = createClient();
+  const result = await supabase
+    .from("Projects")
+    .update({ is_active: true })
+    .eq("user_id", userId)
+    .eq("id", projectId);
+  return JSON.parse(JSON.stringify(result));
+}
+
 export async function updateProject(
   projectId: number,
   project: TablesUpdate<"Projects">

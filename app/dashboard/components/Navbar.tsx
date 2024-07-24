@@ -2,20 +2,37 @@
 
 import UserDropdown from "./UserDropdown";
 import { User } from "@supabase/supabase-js";
-import { ChevronsUpDown, Menu } from "lucide-react";
+import { ChevronRight, ChevronsUpDown, Menu } from "lucide-react";
 import Tablist from "./NavbarTablist";
 import ProjectDropdown from "./ProjectDropdown";
 import { Tables } from "@/supabase/types";
+import { useEffect, useState } from "react";
 
 export default function Navbar({
   user,
   projects,
-  activeProject,
+  fetchedActiveProject,
 }: {
   user: User;
   projects: Tables<"Projects">[];
-  activeProject: Tables<"Projects">;
+  fetchedActiveProject: Tables<"Projects">;
 }) {
+  const [activeProject, setActiveProject] = useState<
+    Tables<"Projects"> | undefined
+  >(fetchedActiveProject);
+  const [reorderedProjects, setReorderedProjects] =
+    useState<Tables<"Projects">[]>(projects);
+
+  useEffect(() => {
+    /* Reorder projects when active project changes */
+    if (activeProject) {
+      const updatedProjects = moveToTop(
+        projects,
+        projects.find((project) => project.id === activeProject.id)
+      );
+      setReorderedProjects(updatedProjects);
+    }
+  }, [activeProject, projects]);
   return (
     <main className="flex flex-col items-center w-full font-sans z-30 px-3 transition-all border-b border-neutral dark:bg-base-100 shadow-md bg-white">
       <div className="navbar flex">
@@ -27,32 +44,20 @@ export default function Navbar({
           >
             <Menu color="oklch(var(--bc))" />
           </label>
-          <div className="font-bold">TapInsight</div>
-          <div className="text-gray-300 text-xl ml-6 font-thin">/</div>
-          <ul className="menu menu-horizontal">
-            <div className="dropdown">
-              <li className="text-sm text-primary-content mr-1" tabIndex={1}>
-                <a>
-                  {activeProject.name ? activeProject.name : "Untitled Project"}
-                  <ChevronsUpDown
-                    height={16}
-                    width={16}
-                    strokeWidth={1}
-                    color="oklch(var(--pc))"
-                  />
-                </a>
-              </li>
-              <div
-                className="dropdown-content border mt-1 border-gray-200 z-[10] p-2 shadow bg-base-100 rounded-md w-52"
-                tabIndex={1}
-              >
-                <ProjectDropdown
-                  projects={projects}
-                  activeProject={activeProject}
-                />
-              </div>
-            </div>
-          </ul>
+          <div className="font-bold">ToastJam</div>
+          <div className="text-gray-500 text-xl ml-6 font-thin">
+            <ChevronRight
+              height={16}
+              width={16}
+              strokeWidth={2}
+              color="oklch(var(--bc))"
+            />
+          </div>
+          <ProjectDropdown
+            projects={reorderedProjects}
+            activeProject={activeProject}
+            setActiveProjectRef={setActiveProject}
+          />
         </div>
         <div className="navbar-center hidden lg:block lg:mt-[2px]">
           <Tablist />
@@ -63,4 +68,19 @@ export default function Navbar({
       </div>
     </main>
   );
+}
+
+/**
+ * Moves an array value to the top index of an array.
+ * @param arr The array
+ * @param value the value to move
+ * @returns
+ */
+export function moveToTop(arr: any[], value: any) {
+  const index = arr.indexOf(value);
+  if (index > -1) {
+    arr.splice(index, 1);
+    arr.unshift(value);
+  }
+  return arr;
 }

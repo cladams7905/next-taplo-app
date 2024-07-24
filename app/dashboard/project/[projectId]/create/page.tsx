@@ -6,7 +6,7 @@ import { getIntegrations } from "@/lib/actions/integrations";
 import { revalidatePath } from "next/cache";
 import { getProducts } from "@/lib/actions/products";
 
-export default async function CreatePopupPage() {
+export default async function CreatePopupPage({ params }: { params: string }) {
   const supabase = createClient();
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
@@ -19,7 +19,7 @@ export default async function CreatePopupPage() {
 
   return (
     <ToastBoard
-      activeProject={activeProject}
+      fetchedActiveProject={activeProject}
       integrations={integrations}
       products={products}
     />
