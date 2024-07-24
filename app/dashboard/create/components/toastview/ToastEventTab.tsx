@@ -2,7 +2,7 @@
 
 import NewIntegrationModal from "@/app/dashboard/connect/components/NewIntegrationModal";
 import { showToastError } from "@/components/shared/showToast";
-import { updateUserToast } from "@/lib/actions/userToasts";
+import { updateUserToast } from "@/lib/actions/projects";
 import { ToastType } from "@/lib/enums";
 import { Tables } from "@/supabase/types";
 import {

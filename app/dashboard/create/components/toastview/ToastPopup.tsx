@@ -9,7 +9,7 @@ import confetti from "canvas-confetti";
 import Image from "next/image";
 
 export default function ToastPopup({
-  activeToast,
+  activeProject,
   products,
   backgroundToastColor,
   textColor,
@@ -19,7 +19,7 @@ export default function ToastPopup({
   isShowProductsChecked,
   productImageSrc,
 }: {
-  activeToast: Tables<"Toasts">;
+  activeProject: Tables<"Projects">;
   products: Tables<"Products">[];
   backgroundToastColor: IColor;
   textColor: IColor;
@@ -31,16 +31,16 @@ export default function ToastPopup({
 }) {
   const [isFirstClicked, setIsFirstClicked] = useState(false);
   const [activeProduct, setActiveProduct] = useState<Tables<"Products"> | null>(
-    products.filter((product) => product.toast_id === activeToast?.id)[0]
+    products.filter((product) => product.toast_id === activeProject?.id)[0]
   );
 
   useEffect(() => {
-    if (products && activeToast) {
+    if (products && activeProject) {
       setActiveProduct(
-        products.filter((product) => product.toast_id === activeToast?.id)[0]
+        products.filter((product) => product.toast_id === activeProject?.id)[0]
       );
     }
-  }, [activeToast, products]);
+  }, [activeProject, products]);
 
   useEffect(() => {
     setIsFirstClicked(true);
@@ -58,7 +58,7 @@ export default function ToastPopup({
     setTimeout(() => {
       setIsFirstClicked(false);
     }, 1000);
-  }, [activeToast]);
+  }, [activeProject]);
 
   return (
     <div
@@ -128,7 +128,7 @@ export default function ToastPopup({
                 {`.`}
               </>
             ) : (
-              activeToast.content
+              "Test"
             )}
           </p>
         </div>

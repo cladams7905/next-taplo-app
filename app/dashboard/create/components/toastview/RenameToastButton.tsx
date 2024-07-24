@@ -2,7 +2,7 @@
 
 import { showToast, showToastError } from "@/components/shared/showToast";
 import { checkStringLength } from "@/lib/actions";
-import { updateUserToast } from "@/lib/actions/userToasts";
+import { updateUserToast } from "@/lib/actions/projects";
 import { Tables, TablesUpdate } from "@/supabase/types";
 import { PencilLine } from "lucide-react";
 import {

@@ -1,4 +1,4 @@
-import { getUserToasts } from "@/lib/actions/userToasts";
+import { getActiveProject, getProjects } from "@/lib/actions/projects";
 import ToastBoard from "./components/ToastBoard";
 import { createClient } from "@/supabase/server";
 import { redirect } from "next/navigation";
@@ -12,15 +12,14 @@ export default async function CreatePopupPage() {
   if (error || !data?.user) {
     redirect("/");
   }
-  revalidatePath("/dashboard/create", "page");
 
-  const userToasts = (await getUserToasts(data.user.id)).data;
+  const activeProject = (await getActiveProject(data.user.id)).data;
   const integrations = (await getIntegrations(data.user.id)).data;
   const products = (await getProducts(data.user.id)).data;
 
   return (
     <ToastBoard
-      userToasts={userToasts}
+      activeProject={activeProject}
       integrations={integrations}
       products={products}
     />

@@ -83,7 +83,7 @@ export type Database = {
             foreignKeyName: "Products_toast_id_fkey"
             columns: ["toast_id"]
             isOneToOne: false
-            referencedRelation: "Toasts"
+            referencedRelation: "Projects"
             referencedColumns: ["id"]
           },
           {
@@ -95,65 +95,52 @@ export type Database = {
           },
         ]
       }
-      Toasts: {
+      Projects: {
         Row: {
           accent_color: string | null
           bg_color: string | null
           border_color: string | null
-          content: string | null
           created_at: string
-          event_type: string | null
           id: number
-          integration_id: number | null
+          is_active: boolean
+          name: string
           screen_alignment: string | null
           show_products: boolean
           text_color: string | null
-          title: string | null
-          user_id: string | null
+          user_id: string
           verified_color: string | null
         }
         Insert: {
           accent_color?: string | null
           bg_color?: string | null
           border_color?: string | null
-          content?: string | null
           created_at?: string
-          event_type?: string | null
           id?: number
-          integration_id?: number | null
+          is_active?: boolean
+          name?: string
           screen_alignment?: string | null
           show_products?: boolean
           text_color?: string | null
-          title?: string | null
-          user_id?: string | null
+          user_id?: string
           verified_color?: string | null
         }
         Update: {
           accent_color?: string | null
           bg_color?: string | null
           border_color?: string | null
-          content?: string | null
           created_at?: string
-          event_type?: string | null
           id?: number
-          integration_id?: number | null
+          is_active?: boolean
+          name?: string
           screen_alignment?: string | null
           show_products?: boolean
           text_color?: string | null
-          title?: string | null
-          user_id?: string | null
+          user_id?: string
           verified_color?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "Toasts_integration_id_fkey"
-            columns: ["integration_id"]
-            isOneToOne: false
-            referencedRelation: "Integrations"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "UserToasts_user_id_fkey"
+            foreignKeyName: "Projects_user_id_fkey"
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "users"

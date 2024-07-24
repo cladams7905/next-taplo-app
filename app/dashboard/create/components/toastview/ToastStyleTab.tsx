@@ -1,7 +1,7 @@
 "use client";
 
 import { showToastError } from "@/components/shared/showToast";
-import { updateUserToast } from "@/lib/actions/userToasts";
+import { updateUserToast } from "@/lib/actions/projects";
 import { ScreenAlignment } from "@/lib/enums";
 import { Tables } from "@/supabase/types";
 import { Undo2 } from "lucide-react";

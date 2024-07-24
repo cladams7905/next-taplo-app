@@ -15,7 +15,7 @@ import {
   updateProduct,
 } from "@/lib/actions/products";
 import { showToastError } from "@/components/shared/showToast";
-import { updateUserToast } from "@/lib/actions/userToasts";
+import { updateUserToast } from "@/lib/actions/projects";
 import { useRouter } from "next/navigation";
 import { Camera, Plus, Trash2 } from "lucide-react";
 import { createClient } from "@/supabase/client";

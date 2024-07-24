@@ -7,46 +7,33 @@ import { useState } from "react";
 import { ToastType } from "@/lib/enums";
 
 export default function ToastBoard({
-  userToasts,
+  fetchedActiveProject,
   integrations,
   products,
 }: {
-  userToasts: Tables<"Toasts">[];
+  fetchedActiveProject: Tables<"Projects">;
   integrations: Tables<"Integrations">[];
   products: Tables<"Products">[];
 }) {
-  const [activeToast, setActiveToast] = useState<Tables<"Toasts"> | undefined>(
-    userToasts.length > 0
-      ? userToasts.reduce((latest, current) => {
-          return new Date(current.created_at) > new Date(latest.created_at)
-            ? current
-            : latest;
-        })
-      : undefined
-  );
-
-  const [currentToasts, setCurrentToasts] =
-    useState<Tables<"Toasts">[]>(userToasts);
+  const [activeProject, setActiveProject] =
+    useState<Tables<"Projects">>(fetchedActiveProject);
   const [toastType, setToastType] = useState<ToastType | undefined>();
 
   return (
     <main className="flex lg:columns-2 w-full h-screen-minus-navbar">
-      <div className="lg:w-1/4">
+      <div className="lg:w-1/3">
         <Sidebar
-          userToasts={currentToasts}
-          activeToast={activeToast}
-          setActiveToast={setActiveToast}
-          setCurrentToasts={setCurrentToasts}
+          activeProject={activeProject}
+          setActiveProject={setActiveProject}
           toastType={toastType}
           setToastType={setToastType}
           integrations={integrations}
         />
       </div>
-      <div className="lg:w-3/4 w-full">
+      <div className="lg:w-2/3 w-full">
         <ActiveToastView
-          activeToast={activeToast}
-          setActiveToast={setActiveToast}
-          setCurrentToasts={setCurrentToasts}
+          activeProject={activeProject}
+          setActiveProject={setActiveProject}
           integrations={integrations}
           products={products}
         />

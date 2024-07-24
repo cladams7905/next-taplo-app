@@ -27,7 +27,7 @@ import LemonSqueezyLogo from "@/public/images/lemonsqueezy-logo.jpeg";
 import { Tables } from "@/supabase/types";
 import { createIntegration } from "@/lib/actions/integrations";
 import { checkDuplicateTitle } from "@/lib/actions";
-import { updateUserToast } from "@/lib/actions/userToasts";
+import { updateProject, updateUserToast } from "@/lib/actions/projects";
 import { useRouter } from "next/navigation";
 
 const PROVIDERS = ["Stripe", "LemonSqueezy"] as const;
@@ -52,8 +52,8 @@ export default function NewIntegrationForm({
   newIntegrationModalRef: RefObject<HTMLDialogElement>;
   integrations: Tables<"Integrations">[];
   setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
-  activeToast?: Tables<"Toasts">;
-  setActiveToast?: Dispatch<SetStateAction<Tables<"Toasts"> | undefined>>;
+  activeToast?: Tables<"Projects">;
+  setActiveToast?: Dispatch<SetStateAction<Tables<"Projects"> | undefined>>;
 }) {
   const [isPending, startTransition] = useTransition();
   const [provider, setProvider] = useState<ProvidersEnum>();
@@ -89,7 +89,7 @@ export default function NewIntegrationForm({
             ...activeToast,
             integration_id: data.id,
           });
-          const { error } = await updateUserToast(activeToast.id, {
+          const { error } = await updateProject(activeToast.id, {
             ...activeToast,
             integration_id: data.id,
           });

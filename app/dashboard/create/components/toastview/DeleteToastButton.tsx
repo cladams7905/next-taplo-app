@@ -1,7 +1,7 @@
 "use client";
 
 import { showToast, showToastError } from "@/components/shared/showToast";
-import { deleteUserToast } from "@/lib/actions/userToasts";
+import { deleteUserToast } from "@/lib/actions/projects";
 import { Tables } from "@/supabase/types";
 import { Copy, Ellipsis, Trash } from "lucide-react";
 import { Dispatch, SetStateAction, useRef, useTransition } from "react";

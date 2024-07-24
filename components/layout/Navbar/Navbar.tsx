@@ -40,7 +40,7 @@ export default function Navbar() {
             </ul>
           </div>
           {/* <Logo/> */}
-          <div className="ml-2 font-bold">ToastJam</div>
+          <div className="ml-2 font-bold">TapInsight</div>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">

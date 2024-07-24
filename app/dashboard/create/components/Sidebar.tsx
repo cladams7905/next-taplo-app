@@ -3,7 +3,6 @@
 import LoadingDots from "@/components/shared/loadingdots";
 import { showToastError } from "@/components/shared/showToast";
 import { checkDuplicateTitle, checkStringLength } from "@/lib/actions";
-import { createUserToast } from "@/lib/actions/userToasts";
 import { Tables } from "@/supabase/types";
 import { Check, CirclePlus } from "lucide-react";
 import {
@@ -22,18 +21,14 @@ import StripeLogo from "@/public/images/stripe-logo.svg";
 import LemonSqueezyLogo from "@/public/images/lemonsqueezy-logo.jpeg";
 
 export default function Sidebar({
-  userToasts,
-  activeToast,
-  setActiveToast,
-  setCurrentToasts,
+  activeProject,
+  setActiveProject,
   toastType,
   setToastType,
   integrations,
 }: {
-  userToasts: Tables<"Toasts">[];
-  activeToast: Tables<"Toasts"> | undefined;
-  setActiveToast: Dispatch<SetStateAction<Tables<"Toasts"> | undefined>>;
-  setCurrentToasts: Dispatch<SetStateAction<Tables<"Toasts">[]>>;
+  activeProject: Tables<"Projects">;
+  setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
   toastType: ToastType | undefined;
   setToastType: Dispatch<SetStateAction<ToastType | undefined>>;
   integrations: Tables<"Integrations">[];
@@ -41,50 +36,10 @@ export default function Sidebar({
   const [isPending, startTransition] = useTransition();
   const templateModalRef = useRef<HTMLDialogElement>(null);
 
-  const handleCreateToast = () => {
-    startTransition(async () => {
-      const { data, error } = await createUserToast({
-        title: checkDuplicateTitle(
-          userToasts.map((toast) => toast.title),
-          "New Toast"
-        ),
-        bg_color: "#FFFFFF",
-        text_color: "#172554",
-        accent_color: "#6b7280",
-        border_color: "#D1D3D7",
-        verified_color: "#4ade80",
-        screen_alignment: ScreenAlignment.BottomLeft,
-      });
-      if (error) {
-        showToastError(error);
-      } else {
-        setCurrentToasts((prevToasts) => [...prevToasts, data]);
-        setActiveToast(data);
-        templateModalRef.current?.showModal();
-      }
-    });
-  };
-
-  useEffect(() => {
-    if (activeToast) {
-      setCurrentToasts((prevToasts) =>
-        prevToasts.map((toast) =>
-          toast.id === activeToast.id ? { ...toast, ...activeToast } : toast
-        )
-      );
-    }
-  }, [activeToast, setCurrentToasts]);
-
-  const sortedToasts = userToasts.sort((a, b) => {
-    const titleA = a.title || "";
-    const titleB = b.title || "";
-    return titleA.localeCompare(titleB);
-  });
-
   return (
     <div className="drawer lg:drawer-open flex flex-col rounded-none bg-white dark:bg-base-100 relative h-full lg:p-4 border-r border-neutral shadow-lg z-[3]">
       <input id="sidebar-drawer" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-side">
+      {/* <div className="drawer-side">
         <label
           htmlFor="sidebar-drawer"
           aria-label="close sidebar"
@@ -182,7 +137,7 @@ export default function Sidebar({
             </ul>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

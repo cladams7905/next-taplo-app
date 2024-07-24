@@ -18,7 +18,7 @@ const changaOne = Gayathri({
 });
 
 export const metadata: Metadata = {
-  title: "ToastJam",
+  title: "TapInsight",
   description: "Real-time sales notifications",
 };
 
