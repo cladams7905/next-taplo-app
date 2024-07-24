@@ -1,21 +1,26 @@
 "use client";
 
+import { Tables } from "@/supabase/types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 
-export default function NavbarTabList() {
+export default function NavbarTabList({
+  activeProject,
+}: {
+  activeProject: Tables<"Projects"> | undefined;
+}) {
   const pathname = usePathname();
   const setTabFromPathname = () => {
     let tabIndex = 0;
     switch (pathname) {
-      case `/dashboard/project/[projectId]/create`:
+      case `/dashboard/project/${activeProject?.id}/create`:
         tabIndex = 0;
         break;
-      case `/dashboard/project/[projectId]/connect`:
+      case `/dashboard/project/${activeProject?.id}/connect`:
         tabIndex = 1;
         break;
-      case `/dashboard/project/[projectId]/settings`:
+      case `/dashboard/project/${activeProject?.id}/settings`:
         tabIndex = 2;
         break;
       default:

@@ -67,7 +67,7 @@ export default function NewProjectForm() {
           />
           <div
             onClick={form.handleSubmit(onSubmit)}
-            className="w-full btn btn-primary"
+            className="w-full btn btn-primary text-white"
             style={{ marginTop: "2.5rem" }}
           >
             {isPending ? (

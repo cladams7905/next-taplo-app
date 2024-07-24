@@ -2,7 +2,7 @@
 
 import UserDropdown from "./UserDropdown";
 import { User } from "@supabase/supabase-js";
-import { ChevronRight, ChevronsUpDown, Menu } from "lucide-react";
+import { ChevronRight, Menu } from "lucide-react";
 import Tablist from "./NavbarTablist";
 import ProjectDropdown from "./ProjectDropdown";
 import { Tables } from "@/supabase/types";
@@ -60,7 +60,7 @@ export default function Navbar({
           />
         </div>
         <div className="navbar-center hidden lg:block lg:mt-[2px]">
-          <Tablist />
+          <Tablist activeProject={activeProject} />
         </div>
         <div className="navbar-end">
           <UserDropdown user={user} />
