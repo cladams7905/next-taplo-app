@@ -84,7 +84,8 @@ export default function TemplateModal({
             <div className="flex flex-col justify-center items-center gap-1 p-4">
               <p className="font-bold">On payment complete</p>
               <p className="text-gray-500 text-sm text-center">
-                Displays whenever a purchase is made.
+                Displays whenever a purchase is made. Listens to Stripe,
+                Lemonsqueezy, Shopify etc.
               </p>
             </div>
           </div>
@@ -100,23 +101,25 @@ export default function TemplateModal({
             <div className="flex flex-col justify-center items-center gap-1 p-4">
               <p className="font-bold">On email subscribe</p>
               <p className="text-gray-500 text-sm text-center">
-                Displays whenever a user subscribes to an email list.
+                Displays whenever a user subscribes to an email list. Listens to
+                Mailchimp, Beehiiv, etc.
               </p>
             </div>
           </div>
           <div
             className={`flex flex-col w-64 h-64 min-w-64 rounded-lg border border-neutral cursor-pointer hover:shadow-lg hover:outline hover:outline-2 hover:outline-primary hover:-translate-y-1 transition-transform 
             ${
-              toastType === ToastType.Custom &&
+              toastType === ToastType.Review &&
               "shadow-lg outline outline-2 outline-primary"
             }`}
-            onClick={() => setToastType(ToastType.Custom)}
+            onClick={() => setToastType(ToastType.Review)}
           >
             <div className="flex items-center w-full h-2/3 bg-gradient-to-tr from-primary/50 to-violet-100 rounded-t-lg"></div>
             <div className="flex flex-col items-center !h-[100px] gap-1 p-4">
-              <p className="font-bold">Custom</p>
+              <p className="font-bold">On Review</p>
               <p className="text-gray-500 text-sm text-center">
-                Make your own!
+                Displays most recent user reviews. Listens to Google Reviews,
+                Trustpilot, etc.
               </p>
             </div>
           </div>
@@ -144,6 +147,9 @@ export const setToastContent = (toastType: ToastType | undefined) => {
       break;
     case ToastType.EmailSubscribe:
       toastContent = "Someone in USA subscribed via email.";
+      break;
+    case ToastType.Review:
+      toastContent = "Someone in USA left a review.";
       break;
     default:
       toastContent = "";

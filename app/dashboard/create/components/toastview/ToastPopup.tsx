@@ -97,12 +97,16 @@ export default function ToastPopup({
             }}
             className="flex flex-row items-center gap-1 text-xs"
           >
-            20 min ago |
-            <BadgeCheck
-              fill={verifiedColor.hex.toString()}
-              color={backgroundToastColor.hex.toString()}
-            />
-            Verified Purchase
+            <p>20 min ago</p>
+            <p className="mx-[2px]">|</p>
+            <div className="flex items-center">
+              {" "}
+              <BadgeCheck
+                fill={verifiedColor.hex.toString()}
+                color={backgroundToastColor.hex.toString()}
+              />
+              Verified Purchase
+            </div>
           </div>
           <p
             style={{

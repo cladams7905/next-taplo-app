@@ -30,7 +30,7 @@ export const ToastContentTab = ({
 }) => {
   const [isPending, startTransition] = useTransition();
   return (
-    <div className="flex flex-col w-2/3 gap-6">
+    <div className="flex flex-col w-2/3 gap-8">
       {activeToast?.event_type === ToastType.PaymentComplete && (
         <ProductList
           activeToast={activeToast}

@@ -1,7 +1,7 @@
 export enum ToastType {
   PaymentComplete = "On Purchase",
   EmailSubscribe = "On Email Subscribe",
-  Custom = "Custom",
+  Review = "On Review",
 }
 
 export enum ScreenAlignment {

@@ -234,7 +234,7 @@ export default function ProductList({
         </div>
         {isShowProductsChecked && (
           <div
-            className="btn btn-ghost btn-sm mt-2 max-w-fit"
+            className="btn text-white btn-primary btn-sm mt-2 max-w-fit"
             onClick={handleCreateProduct}
           >
             <Plus width={18} height={18} />

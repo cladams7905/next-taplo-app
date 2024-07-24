@@ -3,7 +3,7 @@
 import { showToast, showToastError } from "@/components/shared/showToast";
 import { deleteUserToast } from "@/lib/actions/userToasts";
 import { Tables } from "@/supabase/types";
-import { Ellipsis, Trash } from "lucide-react";
+import { Copy, Ellipsis, Trash } from "lucide-react";
 import { Dispatch, SetStateAction, useRef, useTransition } from "react";
 
 export const DeleteToastButton = ({
@@ -60,11 +60,26 @@ export const DeleteToastButton = ({
       <ul
         tabIndex={0}
         ref={toggleElement}
-        className="menu menu-sm dropdown-content border border-neutral z-[1] p-2 shadow bg-base-100 rounded-md w-52"
+        className="menu menu-sm dropdown-content border border-neutral z-[1] p-2 shadow bg-base-100 rounded-md min-w-40"
       >
         <li>
           <a
-            className="flex items-center justify-between py-2 rounded-md"
+            className="flex flex-col items-start py-2 rounded-md"
+            onClick={() => {}}
+          >
+            <div className="flex gap-2">
+              {" "}
+              <Copy width={18} height={18} />
+              Duplicate
+            </div>
+            {isPending && (
+              <span className="loading loading-spinner loading-sm bg-base-content" />
+            )}
+          </a>
+        </li>
+        <li>
+          <a
+            className="flex flex-col items-start py-2 rounded-md"
             onClick={() => handleDelete()}
           >
             <div className="flex items-center gap-2">
