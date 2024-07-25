@@ -10,7 +10,7 @@ import {
   useRef,
 } from "react";
 
-export default function NewEventDropdown({
+export default function EventsHeader({
   activeProject,
   setEvents,
   startEventTransition,
@@ -75,7 +75,7 @@ export default function NewEventDropdown({
                 <div className="flex flex-col gap-1">
                   {" "}
                   <div className="text-xs text-wrap">
-                    Displays whenever a user makes a purchase.
+                    Displays popup whenever a user makes a purchase.
                   </div>
                   <div className="text-xs text-gray-400">
                     Integrations: Stripe, LemonSqueezy
@@ -84,7 +84,7 @@ export default function NewEventDropdown({
               </div>
             </a>
           </li>
-          <li>
+          <li className="flex flex-col mb-2">
             <a
               className="w-full"
               onClick={() => handleCreateEvent(EventType.OnReview)}
@@ -93,10 +93,25 @@ export default function NewEventDropdown({
                 <div className="font-bold">On review</div>
                 <div className="flex flex-col gap-1">
                   <div className="text-xs text-wrap">
-                    Displays whenever a user leaves a review.
+                    Displays popup whenever a user leaves a positive review.
                   </div>
                   <div className="text-xs text-gray-400">
                     Integrations: Google, Trustpilot
+                  </div>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li>
+            <a
+              className="w-full"
+              onClick={() => handleCreateEvent(EventType.Custom)}
+            >
+              <div className="flex flex-col gap-2">
+                <div className="font-bold">Custom</div>
+                <div className="flex flex-col gap-1">
+                  <div className="text-xs text-wrap">
+                    Fully customizable popup, including header, body, and image.
                   </div>
                 </div>
               </div>

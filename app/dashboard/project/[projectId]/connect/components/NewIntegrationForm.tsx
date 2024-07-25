@@ -27,8 +27,8 @@ import LemonSqueezyLogo from "@/public/images/lemonsqueezy-logo.jpeg";
 import { Tables } from "@/supabase/types";
 import { createIntegration } from "@/lib/actions/integrations";
 import { checkDuplicateTitle } from "@/lib/actions";
-import { updateProject, updateUserToast } from "@/lib/actions/projects";
 import { useRouter } from "next/navigation";
+import { updateEvent } from "@/lib/actions/events";
 
 const PROVIDERS = ["Stripe", "LemonSqueezy"] as const;
 const providersEnum = z.enum(PROVIDERS, {
@@ -46,14 +46,16 @@ export default function NewIntegrationForm({
   newIntegrationModalRef,
   integrations,
   setIntegrations,
-  activeToast,
-  setActiveToast,
+  activeProject,
+  currentEvent,
+  setCurrentEvent,
 }: {
   newIntegrationModalRef: RefObject<HTMLDialogElement>;
   integrations: Tables<"Integrations">[];
   setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
-  activeToast?: Tables<"Projects">;
-  setActiveToast?: Dispatch<SetStateAction<Tables<"Projects"> | undefined>>;
+  activeProject: Tables<"Projects">;
+  currentEvent?: Tables<"Events">;
+  setCurrentEvent?: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
 }) {
   const [isPending, startTransition] = useTransition();
   const [provider, setProvider] = useState<ProvidersEnum>();
@@ -70,40 +72,52 @@ export default function NewIntegrationForm({
 
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
     startTransition(async () => {
-      const { data, error } = await createIntegration({
-        api_key: formData.key,
-        provider: formData.provider,
-        name: formData.name
-          ? formData.name
-          : checkDuplicateTitle(
-              integrations.map((integration) => integration.name),
-              `${formData.provider} API Key`
-            ),
-      });
-      if (error) {
-        showToastError(error);
-      } else {
-        setIntegrations((prevIntegrations) => [...prevIntegrations, data]);
-        if (activeToast && setActiveToast) {
-          setActiveToast({
-            ...activeToast,
-            integration_id: data.id,
-          });
-          const { error } = await updateProject(activeToast.id, {
-            ...activeToast,
-            integration_id: data.id,
-          });
-          if (error) {
-            showToastError(error);
-          } else {
-            router.refresh();
-            showToast(`Successfully created new ${data.provider} API Key.`);
-          }
-        } else {
-          showToast(`Successfully created new ${data.provider} API Key.`);
+      try {
+        const { data, error } = await createIntegration({
+          user_id: activeProject.user_id,
+          project_id: activeProject.id,
+          api_key: formData.key,
+          provider: formData.provider,
+          name: formData.name
+            ? formData.name
+            : checkDuplicateTitle(
+                integrations.map((integration) => integration.name),
+                `${formData.provider} API Key`
+              ),
+        });
+
+        if (error) {
+          showToastError(error);
+          return;
         }
+
+        setIntegrations((prevIntegrations) => [...prevIntegrations, data]);
+
+        if (currentEvent) {
+          const eventUpdateResult = await updateEvent(currentEvent.id, {
+            ...currentEvent,
+            integration_id: data.id,
+          });
+
+          if (eventUpdateResult.error) {
+            showToastError(eventUpdateResult.error);
+          } else {
+            if (setCurrentEvent) {
+              setCurrentEvent((prevEvent) => {
+                if (!prevEvent) return prevEvent;
+                return { ...prevEvent, integration_id: data.id };
+              });
+              router.refresh();
+            }
+          }
+        }
+
+        showToast(`Successfully created new ${data.provider} API Key.`);
+      } catch (error) {
+        showToastError(error);
+      } finally {
+        newIntegrationModalRef.current?.close();
       }
-      newIntegrationModalRef.current?.close();
     });
   }
 
@@ -168,8 +182,8 @@ export default function NewIntegrationForm({
           <div className="flex flex-col gap-2">
             <p className="text-sm font-bold">For connecting to Stripe: </p>
             <p className="text-sm text-gray-500">
-              1. Create a Stripe Restricted API key with only "charges"
-              permissions set to "read".{" "}
+              1. Create a Stripe Restricted API key with only
+              &quot;charges&quot; permissions set to &quot;read&quot;.{" "}
             </p>
             <p className="text-sm text-gray-500">
               2. Paste your restricted API key below.
