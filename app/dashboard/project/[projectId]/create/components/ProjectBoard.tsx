@@ -6,18 +6,18 @@ import Sidebar from "./Sidebar";
 import { useState } from "react";
 import { ToastType } from "@/lib/enums";
 
-export default function ToastBoard({
+export default function ProjectBoard({
   fetchedActiveProject,
   integrations,
-  products,
+  fetchedEvents,
 }: {
   fetchedActiveProject: Tables<"Projects">;
   integrations: Tables<"Integrations">[];
-  products: Tables<"Products">[];
+  fetchedEvents: Tables<"Events">[];
 }) {
   const [activeProject, setActiveProject] =
     useState<Tables<"Projects">>(fetchedActiveProject);
-  const [toastType, setToastType] = useState<ToastType | undefined>();
+  const [events, setEvents] = useState<Tables<"Events">[]>(fetchedEvents);
 
   return (
     <main className="flex lg:columns-2 w-full h-screen-minus-navbar">
@@ -25,8 +25,8 @@ export default function ToastBoard({
         <Sidebar
           activeProject={activeProject}
           setActiveProject={setActiveProject}
-          toastType={toastType}
-          setToastType={setToastType}
+          events={events}
+          setEvents={setEvents}
           integrations={integrations}
         />
       </div>
@@ -35,7 +35,6 @@ export default function ToastBoard({
           activeProject={activeProject}
           setActiveProject={setActiveProject}
           integrations={integrations}
-          products={products}
         />
       </div>
     </main>

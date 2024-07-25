@@ -3,8 +3,8 @@
 import LoadingDots from "@/components/shared/loadingdots";
 import { showToastError } from "@/components/shared/showToast";
 import { checkDuplicateTitle, checkStringLength } from "@/lib/actions";
-import { Tables } from "@/supabase/types";
-import { Check, CirclePlus } from "lucide-react";
+import { Tables, TablesInsert } from "@/supabase/types";
+import { Check, CirclePlus, EllipsisIcon } from "lucide-react";
 import {
   Dispatch,
   SetStateAction,
@@ -14,32 +14,122 @@ import {
 } from "react";
 import TemplateModal from "./TemplateModal";
 import { ScreenAlignment, ToastType } from "@/lib/enums";
-import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import NavbarTablist from "../../components/NavbarTablist";
+import {
+  ExclamationTriangleIcon,
+  QuestionMarkCircledIcon,
+} from "@radix-ui/react-icons";
 import Image from "next/image";
 import StripeLogo from "@/public/images/stripe-logo.svg";
 import LemonSqueezyLogo from "@/public/images/lemonsqueezy-logo.jpeg";
+import { createEvent } from "@/lib/actions/events";
 
 export default function Sidebar({
   activeProject,
   setActiveProject,
-  toastType,
-  setToastType,
+  events,
+  setEvents,
   integrations,
 }: {
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
-  toastType: ToastType | undefined;
-  setToastType: Dispatch<SetStateAction<ToastType | undefined>>;
+  events: Tables<"Events">[];
+  setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
   integrations: Tables<"Integrations">[];
 }) {
-  const [isPending, startTransition] = useTransition();
-  const templateModalRef = useRef<HTMLDialogElement>(null);
+  const [isEventPending, startEventTransition] = useTransition();
 
+  const handleCreateEvent = () => {
+    startEventTransition(async () => {
+      if (activeProject) {
+        const event: TablesInsert<"Events"> = {
+          user_id: activeProject.user_id,
+          project_id: activeProject.id,
+        };
+        const { data, error } = await createEvent(event);
+        if (error) {
+          showToastError(error);
+        } else {
+          setEvents((prevEvents) => [...prevEvents, data]);
+        }
+      }
+    });
+  };
   return (
-    <div className="drawer lg:drawer-open flex flex-col rounded-none bg-white dark:bg-base-100 relative h-full lg:p-4 border-r border-neutral shadow-lg z-[3]">
-      <input id="sidebar-drawer" type="checkbox" className="drawer-toggle" />
-      {/* <div className="drawer-side">
+    <div className="flex flex-col rounded-none bg-white dark:bg-base-100 relative h-full border-r border-neutral shadow-lg z-[3]">
+      <div className="flex flex-col border-b border-base-300 p-4 pb-10">
+        <div className="flex flex-row justify-between items-center">
+          <div className="flex items-center gap-2">
+            <div className="text-xs ml-2 font-semibold text-gray-400">
+              Events
+            </div>
+            {isEventPending && (
+              <span className="loading loading-spinner loading-xs bg-base-content"></span>
+            )}
+          </div>
+          <div
+            className="btn btn-sm lg:mt-0 mt-8 lg:w-auto w-full btn-primary text-white text-xs"
+            onClick={() => {
+              handleCreateEvent();
+            }}
+          >
+            <CirclePlus height={18} width={18} /> New Event
+          </div>
+        </div>
+        {events.map((event, i) => (
+          <div key={i} className="collapse collapse-arrow rounded-lg text-sm">
+            <input type="radio" name="my-accordion-3" />
+            <div className="collapse-title flex flex-row justify-between items-center">
+              <div className="flex flex-col">
+                <div className="font-bold">On purchase</div>
+                <div className="text-xs font-bold text-gray-400">
+                  Listens to:
+                </div>
+              </div>
+              <EllipsisIcon />
+            </div>
+            <div className="collapse-content flex flex-col gap-6">
+              <div className="w-full flex flex-col gap-2">
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-1">Integration</div>
+                </div>
+                <div className="flex flex-row gap-2">
+                  <select className="select select-bordered select-sm w-full text-xs">
+                    <option disabled selected>
+                      Who shot first?
+                    </option>
+                    <option>Han Solo</option>
+                    <option>Greedo</option>
+                  </select>
+                  <div className="btn btn-sm lg:mt-0 mt-8 lg:w-auto w-full btn-primary text-white text-xs">
+                    <CirclePlus height={18} width={18} /> New Integration
+                  </div>
+                </div>
+              </div>
+              <div className="w-full flex flex-col gap-2">
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-1">Content body</div>
+                </div>
+                <textarea
+                  className="textarea textarea-bordered"
+                  placeholder="Bio"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="flex flex-col gap-3 border-b border-base-300 p-4 pb-10">
+        <div className="text-xs ml-2 font-semibold text-gray-400">Style</div>
+      </div>
+      <div className="flex flex-col gap-3 border-b border-base-300 p-4 pb-10">
+        <div className="text-xs ml-2 font-semibold text-gray-400">Settings</div>
+      </div>
+    </div>
+  );
+}
+
+{
+  /* <div className="drawer-side">
         <label
           htmlFor="sidebar-drawer"
           aria-label="close sidebar"
@@ -137,7 +227,5 @@ export default function Sidebar({
             </ul>
           </div>
         </div>
-      </div> */}
-    </div>
-  );
+      </div> */
 }

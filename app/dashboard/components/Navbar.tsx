@@ -7,6 +7,7 @@ import Tablist from "./NavbarTablist";
 import ProjectDropdown from "./ProjectDropdown";
 import { Tables } from "@/supabase/types";
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 export default function Navbar({
   user,
@@ -17,6 +18,8 @@ export default function Navbar({
   projects: Tables<"Projects">[];
   fetchedActiveProject: Tables<"Projects">;
 }) {
+  const pathname = usePathname();
+  const [isHiddenTabList, setIsHiddenTabList] = useState(false);
   const [activeProject, setActiveProject] = useState<
     Tables<"Projects"> | undefined
   >(fetchedActiveProject);
@@ -33,6 +36,15 @@ export default function Navbar({
       setReorderedProjects(updatedProjects);
     }
   }, [activeProject, projects]);
+
+  useEffect(() => {
+    /* This check is used for toggling the navbar tablist. 
+    On the create project page, the tablist should not show. */
+    if (typeof window !== "undefined") {
+      setIsHiddenTabList(pathname === "/dashboard/create-project");
+    }
+  }, [pathname]);
+
   return (
     <main className="flex flex-col items-center w-full font-sans z-30 px-3 transition-all border-b border-neutral dark:bg-base-100 shadow-md bg-white">
       <div className="navbar flex">
@@ -44,7 +56,7 @@ export default function Navbar({
           >
             <Menu color="oklch(var(--bc))" />
           </label>
-          <div className="font-bold">ToastJam</div>
+          <div className="font-bold">TapInsight</div>
           <div className="text-gray-500 text-xl ml-6 font-thin">
             <ChevronRight
               height={16}
@@ -59,9 +71,11 @@ export default function Navbar({
             setActiveProjectRef={setActiveProject}
           />
         </div>
-        <div className="navbar-center hidden lg:block lg:mt-[2px]">
-          <Tablist activeProject={activeProject} />
-        </div>
+        {!isHiddenTabList && (
+          <div className="navbar-center hidden lg:block lg:mt-[2px]">
+            <Tablist activeProject={activeProject} />
+          </div>
+        )}
         <div className="navbar-end">
           <UserDropdown user={user} />
         </div>

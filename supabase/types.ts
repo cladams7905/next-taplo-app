@@ -9,32 +9,97 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      Events: {
+        Row: {
+          content_body: string | null
+          created_at: string
+          event_type: string
+          id: number
+          integration_id: number | null
+          project_id: number
+          show_products: boolean | null
+          user_id: string
+        }
+        Insert: {
+          content_body?: string | null
+          created_at?: string
+          event_type?: string
+          id?: number
+          integration_id?: number | null
+          project_id: number
+          show_products?: boolean | null
+          user_id: string
+        }
+        Update: {
+          content_body?: string | null
+          created_at?: string
+          event_type?: string
+          id?: number
+          integration_id?: number | null
+          project_id?: number
+          show_products?: boolean | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "Events_integration_id_fkey"
+            columns: ["integration_id"]
+            isOneToOne: false
+            referencedRelation: "Integrations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "Events_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "Projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "Events_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       Integrations: {
         Row: {
           api_key: string | null
           created_at: string
           id: number
           name: string | null
+          project_id: number
           provider: string | null
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           api_key?: string | null
           created_at?: string
           id?: number
           name?: string | null
+          project_id: number
           provider?: string | null
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           api_key?: string | null
           created_at?: string
           id?: number
           name?: string | null
+          project_id?: number
           provider?: string | null
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "Integrations_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "Projects"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "Integrations_user_id_fkey"
             columns: ["user_id"]
@@ -48,42 +113,42 @@ export type Database = {
         Row: {
           created_at: string
           currency: string | null
+          event_id: number
           id: number
           image_url: string | null
           link: string | null
           name: string | null
           price: number | null
-          toast_id: number | null
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           created_at?: string
           currency?: string | null
+          event_id: number
           id?: number
           image_url?: string | null
           link?: string | null
           name?: string | null
           price?: number | null
-          toast_id?: number | null
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           created_at?: string
           currency?: string | null
+          event_id?: number
           id?: number
           image_url?: string | null
           link?: string | null
           name?: string | null
           price?: number | null
-          toast_id?: number | null
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "Products_toast_id_fkey"
-            columns: ["toast_id"]
+            foreignKeyName: "Products_event_id_fkey"
+            columns: ["event_id"]
             isOneToOne: false
-            referencedRelation: "Projects"
+            referencedRelation: "Events"
             referencedColumns: ["id"]
           },
           {
@@ -105,7 +170,6 @@ export type Database = {
           is_active: boolean
           name: string
           screen_alignment: string | null
-          show_products: boolean
           text_color: string | null
           user_id: string
           verified_color: string | null
@@ -119,7 +183,6 @@ export type Database = {
           is_active?: boolean
           name?: string
           screen_alignment?: string | null
-          show_products?: boolean
           text_color?: string | null
           user_id?: string
           verified_color?: string | null
@@ -133,7 +196,6 @@ export type Database = {
           is_active?: boolean
           name?: string
           screen_alignment?: string | null
-          show_products?: boolean
           text_color?: string | null
           user_id?: string
           verified_color?: string | null

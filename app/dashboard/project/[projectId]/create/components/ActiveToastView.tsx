@@ -17,12 +17,10 @@ export default function ActiveProjectView({
   activeProject,
   setActiveProject,
   integrations,
-  products,
 }: {
   activeProject: Tables<"Projects"> | undefined;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
   integrations: Tables<"Integrations">[];
-  products: Tables<"Products">[];
 }) {
   const [currentTab, setCurrentTab] = useState(0);
 
@@ -43,33 +41,33 @@ export default function ActiveProjectView({
     activeProject?.verified_color ? activeProject.verified_color : "#4ade80"
   );
 
-  /* Product state variables */
-  const [isShowProductsChecked, setShowProductsChecked] = useState(
-    activeProject?.show_products || false
-  );
-  const [currentProducts, setCurrentProducts] = useState<Tables<"Products">[]>(
-    products.filter((product) => product.toast_id === activeProject?.id)
-  );
-  const [activeProduct, setActiveProduct] = useState<Tables<"Products"> | null>(
-    currentProducts[0] || null
-  );
-  const [productImageSrc, setProductImageSrc] = useState<string>(
-    activeProduct?.image_url ? activeProduct.image_url : ""
-  );
+  // /* Product state variables */
+  // const [isShowProductsChecked, setShowProductsChecked] = useState(
+  //   activeProject?.show_products || false
+  // );
+  // const [currentProducts, setCurrentProducts] = useState<Tables<"Products">[]>(
+  //   products.filter((product) => product.toast_id === activeProject?.id)
+  // );
+  // const [activeProduct, setActiveProduct] = useState<Tables<"Products"> | null>(
+  //   currentProducts[0] || null
+  // );
+  // const [productImageSrc, setProductImageSrc] = useState<string>(
+  //   activeProduct?.image_url ? activeProduct.image_url : ""
+  // );
 
-  useEffect(() => {
-    if (products && activeProject) {
-      setShowProductsChecked(activeProject.show_products);
-      const filteredProducts = products.filter(
-        (product) => product.toast_id === activeProject?.id
-      );
-      setCurrentProducts(filteredProducts);
-      setActiveProduct(filteredProducts[0] || null);
-      setProductImageSrc(
-        activeProduct?.image_url ? activeProduct.image_url : ""
-      );
-    }
-  }, [activeProject, products, activeProduct, setShowProductsChecked]);
+  // useEffect(() => {
+  //   if (products && activeProject) {
+  //     setShowProductsChecked(activeProject.show_products);
+  //     const filteredProducts = products.filter(
+  //       (product) => product.toast_id === activeProject?.id
+  //     );
+  //     setCurrentProducts(filteredProducts);
+  //     setActiveProduct(filteredProducts[0] || null);
+  //     setProductImageSrc(
+  //       activeProduct?.image_url ? activeProduct.image_url : ""
+  //     );
+  //   }
+  // }, [activeProject, products, activeProduct, setShowProductsChecked]);
 
   return activeProject !== undefined ? (
     <div className="flex flex-col !rounded-none bg-gradient-to-tr from-primary/50 to-purple-100 h-full shadow-lg z-[1]">
@@ -87,7 +85,7 @@ export default function ActiveProjectView({
           /> */}
         </div>
         <div className="flex items-center justify-center">
-          <ToastPopup
+          {/* <ToastPopup
             activeProject={activeProject}
             products={products}
             backgroundToastColor={backgroundToastColor}
@@ -97,7 +95,7 @@ export default function ActiveProjectView({
             borderColor={borderColor}
             isShowProductsChecked={isShowProductsChecked}
             productImageSrc={productImageSrc}
-          />
+          /> */}
         </div>
       </div>
     </div>

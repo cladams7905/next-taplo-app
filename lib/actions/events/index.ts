@@ -3,47 +3,45 @@
 import { createClient } from "@/supabase/server";
 import { TablesInsert, TablesUpdate } from "@/supabase/types";
 
-export async function createIntegration(
-  integration: TablesInsert<"Integrations">
-) {
+export async function createEvent(event: TablesInsert<"Events">) {
   const supabase = createClient();
   const result = await supabase
-    .from("Integrations")
-    .insert(integration)
+    .from("Events")
+    .insert(event)
     .select("*")
     .single();
   return JSON.parse(JSON.stringify(result));
 }
 
-export async function getIntegrations(projectId: string) {
+export async function getEvents(projectId: string) {
   const supabase = createClient();
   const result = await supabase
-    .from("Integrations")
+    .from("Events")
     .select()
     .eq("project_id", projectId);
   return JSON.parse(JSON.stringify(result));
 }
 
-export async function updateIntegration(
-  integrationId: number,
-  integration: TablesUpdate<"Integrations">
+export async function updateEvent(
+  eventId: number,
+  event: TablesUpdate<"Events">
 ) {
   const supabase = createClient();
   const result = await supabase
-    .from("Integrations")
-    .update(integration)
-    .eq("id", integrationId)
+    .from("Events")
+    .update(event)
+    .eq("id", eventId)
     .select("*")
     .single();
   return JSON.parse(JSON.stringify(result));
 }
 
-export async function deleteIntegration(integrationId: number) {
+export async function deleteEvent(eventId: number) {
   const supabase = createClient();
   const result = await supabase
-    .from("Integrations")
+    .from("Events")
     .delete()
-    .eq("id", integrationId)
+    .eq("id", eventId)
     .select("*")
     .single();
   return JSON.parse(JSON.stringify(result));

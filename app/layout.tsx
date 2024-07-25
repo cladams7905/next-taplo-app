@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "@/components/shared/toaster";
-import { Gayathri, Rubik } from "next/font/google";
+import { Gayathri, Noto_Sans } from "next/font/google";
 import cx from "classnames";
 import "./globals.css";
 import ProgressBarProvider from "@/components/shared/progressbar";
 
-const openSans = Rubik({
+const openSans = Noto_Sans({
   variable: "--font-openSans",
   weight: ["300", "400", "500"],
   subsets: ["latin"],

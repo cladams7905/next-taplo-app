@@ -1,10 +1,10 @@
-import { getActiveProject, getProjects } from "@/lib/actions/projects";
-import ToastBoard from "./components/ToastBoard";
+import { getActiveProject } from "@/lib/actions/projects";
+import ProjectBoard from "./components/ProjectBoard";
 import { createClient } from "@/supabase/server";
 import { redirect } from "next/navigation";
 import { getIntegrations } from "@/lib/actions/integrations";
-import { revalidatePath } from "next/cache";
 import { getProducts } from "@/lib/actions/products";
+import { getEvents } from "@/lib/actions/events";
 
 export default async function CreatePopupPage({ params }: { params: string }) {
   const supabase = createClient();
@@ -14,14 +14,14 @@ export default async function CreatePopupPage({ params }: { params: string }) {
   }
 
   const activeProject = (await getActiveProject(data.user.id)).data;
-  const integrations = (await getIntegrations(data.user.id)).data;
-  const products = (await getProducts(data.user.id)).data;
+  const integrations = (await getIntegrations(activeProject.id)).data;
+  const events = (await getEvents(activeProject.id)).data;
 
   return (
-    <ToastBoard
+    <ProjectBoard
       fetchedActiveProject={activeProject}
       integrations={integrations}
-      products={products}
+      fetchedEvents={events}
     />
   );
 }
