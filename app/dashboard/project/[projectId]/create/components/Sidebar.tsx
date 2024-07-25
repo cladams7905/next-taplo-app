@@ -1,10 +1,16 @@
 "use client";
 
 import LoadingDots from "@/components/shared/loadingdots";
-import { showToastError } from "@/components/shared/showToast";
+import { showToast, showToastError } from "@/components/shared/showToast";
 import { checkDuplicateTitle, checkStringLength } from "@/lib/actions";
 import { Tables, TablesInsert } from "@/supabase/types";
-import { Check, CirclePlus, EllipsisIcon } from "lucide-react";
+import {
+  Check,
+  CirclePlus,
+  EllipsisIcon,
+  EllipsisVerticalIcon,
+  Trash,
+} from "lucide-react";
 import {
   Dispatch,
   SetStateAction,
@@ -13,7 +19,7 @@ import {
   useTransition,
 } from "react";
 import TemplateModal from "./TemplateModal";
-import { ScreenAlignment, ToastType } from "@/lib/enums";
+import { ScreenAlignment } from "@/lib/enums";
 import {
   ExclamationTriangleIcon,
   QuestionMarkCircledIcon,
@@ -21,7 +27,8 @@ import {
 import Image from "next/image";
 import StripeLogo from "@/public/images/stripe-logo.svg";
 import LemonSqueezyLogo from "@/public/images/lemonsqueezy-logo.jpeg";
-import { createEvent } from "@/lib/actions/events";
+import { createEvent, deleteEvent } from "@/lib/actions/events";
+import NewEventDropdown from "./NewEventDropdown";
 
 export default function Sidebar({
   activeProject,
@@ -37,57 +44,96 @@ export default function Sidebar({
   integrations: Tables<"Integrations">[];
 }) {
   const [isEventPending, startEventTransition] = useTransition();
-
-  const handleCreateEvent = () => {
+  const toggleAccordion = (e: DOMTokenList) => {
+    if (e.contains("collapse-open")) {
+      e.remove("collapse-open");
+      e.add("collapse-close");
+    } else {
+      e.remove("collapse-close");
+      e.add("collapse-open");
+    }
+  };
+  const handleEventDelete = (eventId: number) => {
     startEventTransition(async () => {
       if (activeProject) {
-        const event: TablesInsert<"Events"> = {
-          user_id: activeProject.user_id,
-          project_id: activeProject.id,
-        };
-        const { data, error } = await createEvent(event);
+        const { data, error } = await deleteEvent(eventId);
         if (error) {
           showToastError(error);
         } else {
-          setEvents((prevEvents) => [...prevEvents, data]);
+          setEvents((prevEvents) => {
+            const updatedToasts = prevEvents.filter(
+              (event) => event.id !== data.id
+            );
+            return updatedToasts;
+          });
+          toggleElement?.current?.classList.add("hidden");
+          showToast(`Successfully deleted \"${data.event_type}\" event`);
         }
       }
     });
   };
+  const toggleElement = useRef<HTMLUListElement>(null);
   return (
-    <div className="flex flex-col rounded-none bg-white dark:bg-base-100 relative h-full border-r border-neutral shadow-lg z-[3]">
-      <div className="flex flex-col border-b border-base-300 p-4 pb-10">
-        <div className="flex flex-row justify-between items-center">
-          <div className="flex items-center gap-2">
-            <div className="text-xs ml-2 font-semibold text-gray-400">
-              Events
-            </div>
-            {isEventPending && (
-              <span className="loading loading-spinner loading-xs bg-base-content"></span>
-            )}
-          </div>
-          <div
-            className="btn btn-sm lg:mt-0 mt-8 lg:w-auto w-full btn-primary text-white text-xs"
-            onClick={() => {
-              handleCreateEvent();
-            }}
-          >
-            <CirclePlus height={18} width={18} /> New Event
-          </div>
-        </div>
+    <div className="rounded-none h-full w-full relative border-r border-neutral shadow-lg z-[3] bg-white dark:bg-base-100 overflow-y-scroll overflow-x-hidden">
+      <div className="relative flex flex-col min-w-full border-b border-base-300 p-4 pb-10 gap-3">
+        <NewEventDropdown
+          activeProject={activeProject}
+          setEvents={setEvents}
+          startEventTransition={startEventTransition}
+          isEventPending={isEventPending}
+        />
         {events.map((event, i) => (
-          <div key={i} className="collapse collapse-arrow rounded-lg text-sm">
-            <input type="radio" name="my-accordion-3" />
+          <div
+            key={i}
+            className="collapse collapse-arrow cursor-pointer rounded-lg text-sm border border-base-300"
+            onClick={(e) => toggleAccordion(e.currentTarget.classList)}
+          >
+            <input type="radio" className="-z-10" />
             <div className="collapse-title flex flex-row justify-between items-center">
               <div className="flex flex-col">
-                <div className="font-bold">On purchase</div>
+                <div className="font-bold">{event.event_type}</div>
                 <div className="text-xs font-bold text-gray-400">
                   Listens to:
                 </div>
               </div>
-              <EllipsisIcon />
+              <div
+                className="dropdown dropdown-left"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  toggleElement?.current?.classList.remove("hidden");
+                }}
+              >
+                <div
+                  className="p-2 -mt-2 rounded-lg cursor-pointer hover:bg-primary/20"
+                  tabIndex={1}
+                >
+                  <EllipsisIcon width={22} height={22} />
+                </div>
+                <ul
+                  tabIndex={1}
+                  ref={toggleElement}
+                  className="menu menu-sm dropdown-content mr-1 -mt-2 border border-neutral z-[10] shadow bg-base-100 rounded-md min-w-40"
+                >
+                  <li>
+                    <a
+                      className="flex flex-col items-start rounded-md"
+                      onClick={() => handleEventDelete(event.id)}
+                    >
+                      <div className="flex items-center gap-2">
+                        {" "}
+                        <Trash width={16} height={16} />
+                        Delete
+                      </div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </div>
-            <div className="collapse-content flex flex-col gap-6">
+            <div
+              className="collapse-content flex flex-col gap-6"
+              onClick={(e) => e.stopPropagation()}
+            >
               <div className="w-full flex flex-col gap-2">
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-1">Integration</div>

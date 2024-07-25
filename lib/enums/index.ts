@@ -1,7 +1,7 @@
-export enum ToastType {
-  PaymentComplete = "On Purchase",
-  EmailSubscribe = "On Email Subscribe",
-  Review = "On Review",
+export enum EventType {
+  OnPurchase = "On Purchase",
+  OnReview = "On Review",
+  Custom = "Custom",
 }
 
 export enum ScreenAlignment {

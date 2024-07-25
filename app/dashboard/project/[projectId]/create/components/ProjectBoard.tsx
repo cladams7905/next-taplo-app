@@ -4,7 +4,6 @@ import { Tables } from "@/supabase/types";
 import ActiveToastView from "./ActiveToastView";
 import Sidebar from "./Sidebar";
 import { useState } from "react";
-import { ToastType } from "@/lib/enums";
 
 export default function ProjectBoard({
   fetchedActiveProject,
