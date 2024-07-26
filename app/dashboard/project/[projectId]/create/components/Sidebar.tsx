@@ -21,7 +21,7 @@ export default function Sidebar({
   return (
     <div
       ref={scrollParentRef}
-      className="rounded-none w-full h-full relative border-r border-neutral shadow-lg z-[3] bg-white dark:bg-base-100 overflow-y-scroll overflow-x-hidden"
+      className="rounded-none w-full h-full border-r border-neutral shadow-lg z-[3] bg-white dark:bg-base-100 overflow-y-scroll overflow-x-hidden"
     >
       <EventSettings
         activeProject={activeProject}
@@ -31,10 +31,10 @@ export default function Sidebar({
         integrations={integrations}
         scrollRef={scrollParentRef}
       />
-      <div className="flex flex-col gap-3 border-b border-base-300 p-4 pb-10">
+      <div className="border-t border-b bg-white border-base-300 p-4 pb-10 sticky bottom-[74px]">
         <div className="text-xs ml-2 font-semibold text-gray-400">Style</div>
       </div>
-      <div className="flex flex-col gap-3 border-b border-base-300 p-4 pb-10">
+      <div className="flex flex-col bg-white gap-3 border-b border-base-300 p-4 pb-10 sticky bottom-0">
         <div className="text-xs ml-2 font-semibold text-gray-400">Settings</div>
       </div>
     </div>

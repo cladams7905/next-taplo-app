@@ -43,7 +43,7 @@ export default function EventSettings({
           isEventPending={isEventPending}
         />
       </div>
-      <div className="flex flex-col min-w-full border-b border-base-300 p-4 pb-10 gap-3">
+      <div className="flex flex-col min-w-full p-4 pb-10 gap-3">
         <EventsList
           activeProject={activeProject}
           setActiveProject={setActiveProject}
