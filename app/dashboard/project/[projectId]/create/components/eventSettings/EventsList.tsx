@@ -148,6 +148,7 @@ export default function EventsList({
             activeProject={activeProject}
             setActiveProject={setActiveProject}
             currentEvent={event}
+            events={events}
             integrations={integrations}
             setIntegrations={setIntegrations}
             startEventTransition={startEventTransition}

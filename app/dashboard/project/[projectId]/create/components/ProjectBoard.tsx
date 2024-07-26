@@ -20,7 +20,7 @@ export default function ProjectBoard({
 
   return (
     <main className="flex lg:columns-2 w-full h-screen-minus-navbar">
-      <div className="lg:w-1/3">
+      <div className="relative lg:w-1/3">
         <Sidebar
           activeProject={activeProject}
           setActiveProject={setActiveProject}

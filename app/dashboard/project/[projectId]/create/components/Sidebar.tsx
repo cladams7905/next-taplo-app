@@ -1,7 +1,7 @@
 "use client";
 
 import { Tables } from "@/supabase/types";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useRef } from "react";
 import EventSettings from "./eventSettings/EventSettings";
 
 export default function Sidebar({
@@ -17,17 +17,20 @@ export default function Sidebar({
   setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
   integrations: Tables<"Integrations">[];
 }) {
+  const scrollParentRef = useRef<HTMLDivElement>(null);
   return (
-    <div className="rounded-none h-full w-full relative border-r border-neutral shadow-lg z-[3] bg-white dark:bg-base-100 overflow-y-scroll overflow-x-hidden">
-      <div className="relative flex flex-col min-w-full border-b border-base-300 p-4 pb-10 gap-3">
-        <EventSettings
-          activeProject={activeProject}
-          setActiveProject={setActiveProject}
-          events={events}
-          setEvents={setEvents}
-          integrations={integrations}
-        />
-      </div>
+    <div
+      ref={scrollParentRef}
+      className="rounded-none w-full h-full relative border-r border-neutral shadow-lg z-[3] bg-white dark:bg-base-100 overflow-y-scroll overflow-x-hidden"
+    >
+      <EventSettings
+        activeProject={activeProject}
+        setActiveProject={setActiveProject}
+        events={events}
+        setEvents={setEvents}
+        integrations={integrations}
+        scrollRef={scrollParentRef}
+      />
       <div className="flex flex-col gap-3 border-b border-base-300 p-4 pb-10">
         <div className="text-xs ml-2 font-semibold text-gray-400">Style</div>
       </div>

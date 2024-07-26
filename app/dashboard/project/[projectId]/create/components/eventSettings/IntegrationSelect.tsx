@@ -14,6 +14,7 @@ export default function IntegrationSelect({
   activeProject,
   setActiveProject,
   currentEvent,
+  events,
   integrations,
   setIntegrations,
   startEventTransition,
@@ -22,6 +23,7 @@ export default function IntegrationSelect({
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
   currentEvent: Tables<"Events">;
+  events: Tables<"Events">[];
   integrations: Tables<"Integrations">[];
   setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
   startEventTransition: TransitionStartFunction;
@@ -30,7 +32,7 @@ export default function IntegrationSelect({
     integrationId: number
   ) => void;
 }) {
-  const toggleModalRef = useRef<HTMLUListElement>(null);
+  const toggleModalRef = useRef<HTMLDivElement>(null);
   const newIntegrationModalRef = useRef<HTMLDialogElement>(null);
 
   const getIntegrationById = (integrationId: number) => {
@@ -76,36 +78,44 @@ export default function IntegrationSelect({
           )}
           <ChevronDown width={16} height={16} />
         </div>
-        <ul
+        <div
           tabIndex={0}
           ref={toggleModalRef}
-          className="menu menu-sm dropdown-content border border-neutral z-[10] shadow bg-base-100 rounded-lg w-full mt-1"
+          className="menu menu-sm dropdown-content border border-neutral z-[10] shadow bg-base-100 rounded-lg w-full mt-1 h-32"
         >
-          {integrations.length > 0 ? (
-            integrations.map((integration, i) => (
-              <li key={i}>
-                <a
-                  className="flex flex-col items-start rounded-md"
-                  onClick={() => {
-                    startEventTransition(() => {
-                      handleUpdateIntegration(currentEvent, integration.id);
-                      setTimeout(() => {
-                        toggleModalRef.current?.classList.add("hidden");
-                      }, 1000);
-                    });
-                  }}
-                >
-                  {integration.name}
-                </a>
-              </li>
-            ))
-          ) : (
-            <div className="text-gray-400 text-xs">
-              You haven&apos;t created any integrations yet. Click &quot;+&quot;
-              to create a new one!
-            </div>
-          )}
-        </ul>
+          <ul className="h-full w-full overflow-y-scroll">
+            {integrations.length > 0 ? (
+              integrations.map((integration, i) => (
+                <li key={i}>
+                  {events.find((e) => e.integration_id === integration.id) ? (
+                    <div className="flex items-start justify-between rounded-md text-gray-400 pointer-events-none">
+                      <p>{integration.name} (Used)</p>
+                    </div>
+                  ) : (
+                    <a
+                      className="flex flex-col items-start justify-between rounded-md"
+                      onClick={() => {
+                        startEventTransition(() => {
+                          handleUpdateIntegration(currentEvent, integration.id);
+                          setTimeout(() => {
+                            toggleModalRef.current?.classList.add("hidden");
+                          }, 1000);
+                        });
+                      }}
+                    >
+                      {integration.name}
+                    </a>
+                  )}
+                </li>
+              ))
+            ) : (
+              <div className="text-gray-400 text-xs">
+                You haven&apos;t created any integrations yet. Click
+                &quot;+&quot; to create a new one!
+              </div>
+            )}
+          </ul>
+        </div>
       </div>
     </>
   );
