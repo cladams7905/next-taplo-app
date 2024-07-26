@@ -1,8 +1,8 @@
 "use client";
 
-import { deleteEvent } from "@/lib/actions/events";
+import { deleteEvent, updateEvent } from "@/lib/actions/events";
 import { showToast, showToastError } from "@/components/shared/showToast";
-import { CirclePlus, Ellipsis, Trash } from "lucide-react";
+import { Ellipsis, Trash } from "lucide-react";
 import { Tables } from "@/supabase/types";
 import {
   Dispatch,
@@ -65,6 +65,27 @@ export default function EventsList({
   const getIntegrationById = (integrationId: number) => {
     return integrations.find((integration) => integration.id === integrationId);
   };
+
+  const handleUpdateIntegration = async (
+    event: Tables<"Events">,
+    integrationId: number
+  ) => {
+    const eventUpdateResult = await updateEvent(event.id, {
+      ...event,
+      integration_id: integrationId,
+    });
+
+    if (eventUpdateResult.error) {
+      showToastError(eventUpdateResult.error);
+    } else {
+      setEvents((prevEvents) =>
+        prevEvents.map((e) =>
+          e.id === event.id ? { ...e, integration_id: integrationId } : e
+        )
+      );
+    }
+  };
+
   return events.map((event, i) => (
     <div
       key={i}
@@ -126,9 +147,11 @@ export default function EventsList({
           <IntegrationSelect
             activeProject={activeProject}
             setActiveProject={setActiveProject}
+            currentEvent={event}
             integrations={integrations}
             setIntegrations={setIntegrations}
-            event={event}
+            startEventTransition={startEventTransition}
+            handleUpdateIntegration={handleUpdateIntegration}
           />
         </div>
         <div className="w-full flex flex-col gap-2">

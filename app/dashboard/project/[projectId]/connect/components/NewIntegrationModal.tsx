@@ -10,14 +10,17 @@ export default function NewIntegrationModal({
   setIntegrations,
   activeProject,
   currentEvent,
-  setCurrentEvent,
+  handleUpdateIntegration,
 }: {
   newIntegrationModalRef: RefObject<HTMLDialogElement>;
   integrations: Tables<"Integrations">[];
   setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
   activeProject: Tables<"Projects">;
   currentEvent?: Tables<"Events">;
-  setCurrentEvent?: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
+  handleUpdateIntegration?: (
+    event: Tables<"Events">,
+    integrationId: number
+  ) => void;
 }) {
   return (
     <dialog className="modal" ref={newIntegrationModalRef}>
@@ -37,7 +40,7 @@ export default function NewIntegrationModal({
           setIntegrations={setIntegrations}
           activeProject={activeProject}
           currentEvent={currentEvent}
-          setCurrentEvent={setCurrentEvent}
+          handleUpdateIntegration={handleUpdateIntegration}
         />
       </div>
     </dialog>

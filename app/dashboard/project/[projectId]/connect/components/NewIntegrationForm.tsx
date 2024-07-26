@@ -27,8 +27,6 @@ import LemonSqueezyLogo from "@/public/images/lemonsqueezy-logo.jpeg";
 import { Tables } from "@/supabase/types";
 import { createIntegration } from "@/lib/actions/integrations";
 import { checkDuplicateTitle } from "@/lib/actions";
-import { useRouter } from "next/navigation";
-import { updateEvent } from "@/lib/actions/events";
 
 const PROVIDERS = ["Stripe", "LemonSqueezy"] as const;
 const providersEnum = z.enum(PROVIDERS, {
@@ -48,18 +46,20 @@ export default function NewIntegrationForm({
   setIntegrations,
   activeProject,
   currentEvent,
-  setCurrentEvent,
+  handleUpdateIntegration,
 }: {
   newIntegrationModalRef: RefObject<HTMLDialogElement>;
   integrations: Tables<"Integrations">[];
   setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
   activeProject: Tables<"Projects">;
   currentEvent?: Tables<"Events">;
-  setCurrentEvent?: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
+  handleUpdateIntegration?: (
+    event: Tables<"Events">,
+    integrationId: number
+  ) => void;
 }) {
   const [isPending, startTransition] = useTransition();
   const [provider, setProvider] = useState<ProvidersEnum>();
-  const router = useRouter();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -92,26 +92,9 @@ export default function NewIntegrationForm({
         }
 
         setIntegrations((prevIntegrations) => [...prevIntegrations, data]);
-
-        if (currentEvent) {
-          const eventUpdateResult = await updateEvent(currentEvent.id, {
-            ...currentEvent,
-            integration_id: data.id,
-          });
-
-          if (eventUpdateResult.error) {
-            showToastError(eventUpdateResult.error);
-          } else {
-            if (setCurrentEvent) {
-              setCurrentEvent((prevEvent) => {
-                if (!prevEvent) return prevEvent;
-                return { ...prevEvent, integration_id: data.id };
-              });
-              router.refresh();
-            }
-          }
+        if (currentEvent && handleUpdateIntegration) {
+          handleUpdateIntegration(currentEvent, data.id);
         }
-
         showToast(`Successfully created new ${data.provider} API Key.`);
       } catch (error) {
         showToastError(error);

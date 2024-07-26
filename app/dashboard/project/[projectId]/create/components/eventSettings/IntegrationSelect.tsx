@@ -1,28 +1,37 @@
 "use client";
 
 import { Tables } from "@/supabase/types";
-import { ArrowDownIcon, ChevronDown, CirclePlus } from "lucide-react";
-import { Dispatch, SetStateAction, useRef, useState } from "react";
+import { ChevronDown, CirclePlus } from "lucide-react";
+import {
+  Dispatch,
+  SetStateAction,
+  TransitionStartFunction,
+  useRef,
+} from "react";
 import NewIntegrationModal from "../../../connect/components/NewIntegrationModal";
 
 export default function IntegrationSelect({
   activeProject,
   setActiveProject,
+  currentEvent,
   integrations,
   setIntegrations,
-  event,
+  startEventTransition,
+  handleUpdateIntegration,
 }: {
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
+  currentEvent: Tables<"Events">;
   integrations: Tables<"Integrations">[];
   setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
-  event: Tables<"Events">;
+  startEventTransition: TransitionStartFunction;
+  handleUpdateIntegration: (
+    event: Tables<"Events">,
+    integrationId: number
+  ) => void;
 }) {
-  const toggleElement = useRef<HTMLUListElement>(null);
+  const toggleModalRef = useRef<HTMLUListElement>(null);
   const newIntegrationModalRef = useRef<HTMLDialogElement>(null);
-  const [currentEvent, setCurrentEvent] = useState<
-    Tables<"Events"> | undefined
-  >(event);
 
   const getIntegrationById = (integrationId: number) => {
     return integrations.find((integration) => integration.id === integrationId);
@@ -45,7 +54,7 @@ export default function IntegrationSelect({
           setIntegrations={setIntegrations}
           activeProject={activeProject}
           currentEvent={currentEvent}
-          setCurrentEvent={setCurrentEvent}
+          handleUpdateIntegration={handleUpdateIntegration}
         />
       </div>
       <div
@@ -53,15 +62,15 @@ export default function IntegrationSelect({
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          toggleElement?.current?.classList.remove("hidden");
+          toggleModalRef?.current?.classList.remove("hidden");
         }}
       >
         <div
           tabIndex={0}
           className="flex p-2 px-3 items-center justify-between cursor-pointer border border-base-300 rounded-lg text-sm"
         >
-          {event.integration_id ? (
-            getIntegrationById(event.integration_id)?.name
+          {currentEvent.integration_id ? (
+            getIntegrationById(currentEvent.integration_id)?.name
           ) : (
             <span className="text-gray-400">Select an integration</span>
           )}
@@ -69,13 +78,23 @@ export default function IntegrationSelect({
         </div>
         <ul
           tabIndex={0}
-          ref={toggleElement}
+          ref={toggleModalRef}
           className="menu menu-sm dropdown-content border border-neutral z-[10] shadow bg-base-100 rounded-lg w-full mt-1"
         >
           {integrations.length > 0 ? (
             integrations.map((integration, i) => (
               <li key={i}>
-                <a className="flex flex-col items-start rounded-md">
+                <a
+                  className="flex flex-col items-start rounded-md"
+                  onClick={() => {
+                    startEventTransition(() => {
+                      handleUpdateIntegration(currentEvent, integration.id);
+                      setTimeout(() => {
+                        toggleModalRef.current?.classList.add("hidden");
+                      }, 1000);
+                    });
+                  }}
+                >
                   {integration.name}
                 </a>
               </li>
