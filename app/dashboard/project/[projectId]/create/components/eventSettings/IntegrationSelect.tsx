@@ -42,12 +42,12 @@ export default function IntegrationSelect({
     <>
       {" "}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1">Integration</div>
+        <div className="flex items-center gap-1 font-bold">Integration</div>
         <div
           className="btn btn-sm lg:mt-0 mt-8 lg:w-auto w-full btn-ghost text-xs"
           onClick={() => newIntegrationModalRef.current?.showModal()}
         >
-          <CirclePlus height={17} width={17} />
+          <CirclePlus height={14} width={14} />
           New
         </div>
         <NewIntegrationModal
@@ -89,7 +89,7 @@ export default function IntegrationSelect({
                 <li key={i}>
                   {events.find((e) => e.integration_id === integration.id) ? (
                     <div className="flex items-start justify-between rounded-md text-gray-400 pointer-events-none">
-                      <p>{integration.name} (Used)</p>
+                      <p>{integration.name} (Active)</p>
                     </div>
                   ) : (
                     <a

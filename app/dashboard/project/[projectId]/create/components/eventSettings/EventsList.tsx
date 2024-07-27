@@ -2,7 +2,7 @@
 
 import { deleteEvent, updateEvent } from "@/lib/actions/events";
 import { showToast, showToastError } from "@/components/shared/showToast";
-import { Ellipsis, Trash } from "lucide-react";
+import { Ellipsis, Pencil, Trash } from "lucide-react";
 import { Tables } from "@/supabase/types";
 import {
   Dispatch,
@@ -12,6 +12,7 @@ import {
   useState,
 } from "react";
 import IntegrationSelect from "./IntegrationSelect";
+import ContentBody from "./ContentBody";
 
 export default function EventsList({
   activeProject,
@@ -96,7 +97,7 @@ export default function EventsList({
       <div className="collapse-title flex flex-row justify-between items-center">
         <div className="flex flex-col gap-1">
           <div className="font-bold">{event.event_type}</div>
-          <div className="text-xs font-bold text-gray-400">
+          <div className="text-xs text-gray-400">
             Listens to:{" "}
             {event.integration_id ? (
               getIntegrationById(event.integration_id)?.provider
@@ -156,13 +157,7 @@ export default function EventsList({
           />
         </div>
         <div className="w-full flex flex-col gap-2">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1">Content body</div>
-          </div>
-          <textarea
-            className="textarea textarea-bordered"
-            placeholder="Bio"
-          ></textarea>
+          <ContentBody currentEvent={event} />
         </div>
       </div>
     </div>

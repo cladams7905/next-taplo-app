@@ -22,16 +22,19 @@ export default function EventsHeader({
   isEventPending: boolean;
 }) {
   const eventDropdownRef = useRef<HTMLUListElement>(null);
+
   const handleCreateEvent = (eventType: EventType) => {
     startEventTransition(async () => {
       setTimeout(() => {
         eventDropdownRef.current?.classList.add("hidden");
       }, 1000);
       if (activeProject) {
+        const content = setEventContent(eventType);
         const event: TablesInsert<"Events"> = {
           user_id: activeProject.user_id,
           project_id: activeProject.id,
           event_type: eventType,
+          content_body: content,
         };
         const { data, error } = await createEvent(event);
         if (error) {
@@ -41,6 +44,22 @@ export default function EventsHeader({
         }
       }
     });
+  };
+
+  const setEventContent = (eventType: EventType) => {
+    let content: string;
+    switch (eventType) {
+      case EventType.OnPurchase:
+        content = "Someone in \\location made a purchase.";
+        break;
+      case EventType.OnReview:
+        content = "Someone in \\location left a review.";
+        break;
+      case EventType.Custom:
+        content = "Add your content here.";
+        break;
+    }
+    return content;
   };
   return (
     <div className="flex flex-row justify-between items-center">
