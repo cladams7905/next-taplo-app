@@ -107,7 +107,7 @@ export default function EventsList({
           </div>
         </div>
         <div
-          className="dropdown dropdown-left"
+          className="dropdown dropdown-end"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -157,7 +157,11 @@ export default function EventsList({
           />
         </div>
         <div className="w-full flex flex-col gap-2">
-          <ContentBody currentEvent={event} />
+          <ContentBody
+            currentEvent={event}
+            setEvents={setEvents}
+            startEventTransition={startEventTransition}
+          />
         </div>
       </div>
     </div>

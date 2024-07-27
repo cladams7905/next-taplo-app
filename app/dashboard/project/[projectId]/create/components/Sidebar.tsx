@@ -31,7 +31,7 @@ export default function Sidebar({
         integrations={integrations}
         scrollRef={scrollParentRef}
       />
-      <div className="border-t border-b bg-white border-base-300 p-4 pb-10 sticky bottom-[74px]">
+      <div className="border-t border-b bg-white border-base-300 p-4 pb-10 sticky bottom-[73px]">
         <div className="text-xs ml-2 font-semibold text-gray-400">Style</div>
       </div>
       <div className="flex flex-col bg-white gap-3 border-b border-base-300 p-4 pb-10 sticky bottom-0">

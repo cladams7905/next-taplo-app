@@ -1,12 +1,26 @@
-import React, { FormEvent, useEffect, useRef, useState } from "react";
+import React, {
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  TransitionStartFunction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Tables } from "@/supabase/types";
 import { Pencil } from "lucide-react";
 import { EventType } from "@/lib/enums";
+import { updateEvent } from "@/lib/actions/events";
+import { showToastError } from "@/components/shared/showToast";
 
 export default function ContentBody({
   currentEvent,
+  setEvents,
+  startEventTransition,
 }: {
   currentEvent: Tables<"Events">;
+  setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
+  startEventTransition: TransitionStartFunction;
 }) {
   const VARCHECK = "\\";
   const MAXINPUTCHARS = 80;
@@ -43,18 +57,41 @@ export default function ContentBody({
     }
   }, [isEditContent]);
 
+  const handleContentSave = () => {
+    startEventTransition(async () => {
+      const { data, error } = await updateEvent(currentEvent.id, {
+        ...currentEvent,
+        content_body: textareaRef.current?.value,
+      });
+      if (error) {
+        showToastError(error);
+      } else {
+        setEvents((prevEvents) =>
+          prevEvents.map((e) =>
+            e.id === currentEvent.id
+              ? { ...e, content_body: textareaRef.current!.value }
+              : e
+          )
+        );
+        setEditContent(false);
+      }
+    });
+  };
+
   const locateVariablesInContentBody = (contentBody: string | null) => {
     if (!contentBody) return "";
 
     const words = contentBody.split(" ");
     const transformedWords = words.map((word, index) => {
-      if (word.startsWith(VARCHECK)) {
-        return `<span key=${index} class="text-primary bg-primary/20 font-extrabold px-1">${word.slice(
-          1,
-          word.length
-        )}</span>`;
+      const splicedWord = word.slice(1, word.length);
+      if (
+        word.startsWith(VARCHECK) &&
+        variableList.includes(splicedWord.toLowerCase())
+      ) {
+        return `<span key=${index} class="text-primary bg-primary/20 font-extrabold px-1 uppercase">${splicedWord}</span>`;
+      } else {
+        return word;
       }
-      return word;
     });
 
     const htmlContent = transformedWords.join(" ");
@@ -124,6 +161,7 @@ export default function ContentBody({
 
   const handleInputChange = (e: FormEvent<HTMLTextAreaElement>) => {
     const content = e.currentTarget.value;
+    varDropdownRef.current?.classList.add("hidden");
     setCurrentNumChars(content.length);
 
     if (content.length > MAXINPUTCHARS) {
@@ -132,7 +170,6 @@ export default function ContentBody({
       setIsValidInput(true);
     }
 
-    varDropdownRef.current?.classList.remove("hidden");
     let lastVarCheckIndexes = getAllIndexes(content, VARCHECK);
 
     function getAllIndexes(str: string, char: string) {
@@ -154,7 +191,7 @@ export default function ContentBody({
       if (
         index !== -1 &&
         textareaRef.current &&
-        !variableList.includes(currVar)
+        !variableList.includes(currVar.toLocaleLowerCase())
       ) {
         const rect = textareaRef.current.getBoundingClientRect();
         const { top, left } = getCaretCoordinates(textareaRef.current, index);
@@ -164,6 +201,8 @@ export default function ContentBody({
           top: rect.top + lineHeight + top,
           left: rect.left + left,
         });
+
+        varDropdownRef.current?.classList.remove("hidden");
         setDropdownVisible(true);
         return true; //break out of loop
       } else {
@@ -190,7 +229,8 @@ export default function ContentBody({
       const currVar = getCurrentVariable(content, dropdownIndex);
       const beforeInsert = content.substring(0, dropdownIndex);
       const afterInsert = content.substring(dropdownIndex + currVar.length);
-      textareaRef.current.value = beforeInsert + "\\" + variable + afterInsert;
+      textareaRef.current.value =
+        beforeInsert + "\\" + variable.toLocaleUpperCase() + afterInsert;
       varDropdownRef.current?.classList.add("hidden");
     }
   };
@@ -266,7 +306,9 @@ export default function ContentBody({
                     className="flex flex-col items-start rounded-md py-1 px-2"
                     onClick={() => handleAddVariableFromDropdown(variable)}
                   >
-                    <div className="flex items-center gap-2">\{variable}</div>
+                    <div className="flex items-center gap-2 uppercase">
+                      \{variable}
+                    </div>
                   </a>
                 </li>
               ))}
@@ -277,7 +319,7 @@ export default function ContentBody({
               <div className="text-xs text-gray-400">
                 Available variables:{" "}
                 {variableList.map((variable, i) => (
-                  <span key={i} className="text-primary">
+                  <span key={i} className="text-primary uppercase">
                     {variable + `${i != variableList.length - 1 ? ", " : ""}`}
                   </span>
                 ))}
@@ -296,6 +338,7 @@ export default function ContentBody({
               className={`btn btn-primary btn-sm w-20 text-white text-xs -mt-3 ${
                 !isValidInput && "btn-disabled"
               }`}
+              onClick={handleContentSave}
             >
               Save
             </div>
