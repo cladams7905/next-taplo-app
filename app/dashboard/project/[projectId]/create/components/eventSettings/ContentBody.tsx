@@ -1,6 +1,7 @@
 import React, { FormEvent, useEffect, useRef, useState } from "react";
 import { Tables } from "@/supabase/types";
 import { Pencil } from "lucide-react";
+import { EventType } from "@/lib/enums";
 
 export default function ContentBody({
   currentEvent,
@@ -16,8 +17,25 @@ export default function ContentBody({
   const [isEditContent, setEditContent] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+  const [dropdownIndex, setDropdownIndex] = useState(0);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const editContentRef = useRef<HTMLDivElement>(null);
+  const varDropdownRef = useRef<HTMLUListElement>(null);
+
+  const getVariableList = () => {
+    let variableList: string[] = [];
+    switch (currentEvent.event_type) {
+      case EventType.OnPurchase:
+        variableList = ["location", "product", "price"];
+        break;
+      case EventType.OnReview:
+        variableList = ["location", "rating"];
+        break;
+    }
+    return variableList;
+  };
+
+  const [variableList, setVariableList] = useState<string[]>(getVariableList());
 
   useEffect(() => {
     if (isEditContent && textareaRef.current) {
@@ -114,23 +132,66 @@ export default function ContentBody({
       setIsValidInput(true);
     }
 
-    const lastVarCheckIndex = content.lastIndexOf(VARCHECK);
+    varDropdownRef.current?.classList.remove("hidden");
+    let lastVarCheckIndexes = getAllIndexes(content, VARCHECK);
 
-    if (lastVarCheckIndex !== -1 && textareaRef.current) {
-      const rect = textareaRef.current.getBoundingClientRect();
-      const { top, left } = getCaretCoordinates(
-        textareaRef.current,
-        lastVarCheckIndex
-      );
-      const lineHeight = 20;
+    function getAllIndexes(str: string, char: string) {
+      const indexes = [];
+      for (let i = 0; i < str.length; i++) {
+        if (str[i] === char) {
+          indexes.push(i);
+        }
+      }
+      return indexes;
+    }
 
-      setDropdownPosition({
-        top: rect.top + lineHeight + top,
-        left: rect.left + left,
-      });
-      setDropdownVisible(true);
-    } else {
-      setDropdownVisible(false);
+    lastVarCheckIndexes.some((index) => {
+      /* Check to make sure that the variable the dropdown is hovering over 
+    is not already matching one on the variable list */
+      setDropdownIndex(index);
+      const currVar = getCurrentVariable(content, index + 1);
+
+      if (
+        index !== -1 &&
+        textareaRef.current &&
+        !variableList.includes(currVar)
+      ) {
+        const rect = textareaRef.current.getBoundingClientRect();
+        const { top, left } = getCaretCoordinates(textareaRef.current, index);
+        const lineHeight = 20;
+
+        setDropdownPosition({
+          top: rect.top + lineHeight + top,
+          left: rect.left + left,
+        });
+        setDropdownVisible(true);
+        return true; //break out of loop
+      } else {
+        setDropdownVisible(false);
+      }
+    });
+  };
+
+  const getCurrentVariable = (content: string, index: number) => {
+    let currVar = "";
+    for (let i = index; i < content.length; i++) {
+      if (content[i] === " ") {
+        break;
+      } else {
+        currVar += content[i];
+      }
+    }
+    return currVar;
+  };
+
+  const handleAddVariableFromDropdown = (variable: string) => {
+    if (textareaRef.current?.value) {
+      const content = textareaRef.current.value;
+      const currVar = getCurrentVariable(content, dropdownIndex);
+      const beforeInsert = content.substring(0, dropdownIndex);
+      const afterInsert = content.substring(dropdownIndex + currVar.length);
+      textareaRef.current.value = beforeInsert + "\\" + variable + afterInsert;
+      varDropdownRef.current?.classList.add("hidden");
     }
   };
 
@@ -173,7 +234,10 @@ export default function ContentBody({
         <div className="flex items-center gap-1 font-bold">Content</div>
         <div
           className="btn btn-sm lg:mt-0 mt-8 lg:w-auto w-full btn-ghost text-xs"
-          onClick={() => setEditContent(!isEditContent)}
+          onClick={() => {
+            setEditContent(!isEditContent);
+            setIsValidInput(true);
+          }}
         >
           <Pencil height={14} width={14} />
           Edit
@@ -192,21 +256,31 @@ export default function ContentBody({
           ></textarea>
           {dropdownVisible && (
             <ul
-              className="fixed border border-neutral z-[10] shadow bg-base-100 rounded-md min-w-40 p-1"
+              className="fixed border border-neutral z-[10] shadow bg-base-100 rounded-md min-w-24 p-1"
               style={{ top: dropdownPosition.top, left: dropdownPosition.left }}
+              ref={varDropdownRef}
             >
-              <li>
-                <a className="flex flex-col items-start rounded-md py-1 px-2">
-                  <div className="flex items-center gap-2">Variable 1</div>
-                </a>
-              </li>
+              {variableList.map((variable, i) => (
+                <li key={i}>
+                  <a
+                    className="flex flex-col items-start rounded-md py-1 px-2"
+                    onClick={() => handleAddVariableFromDropdown(variable)}
+                  >
+                    <div className="flex items-center gap-2">\{variable}</div>
+                  </a>
+                </li>
+              ))}
             </ul>
           )}
           <div className="flex w-full justify-between">
-            <div className="flex flex-col lg:w-1/2">
+            <div className="flex flex-col">
               <div className="text-xs text-gray-400">
                 Available variables:{" "}
-                <span className="text-primary">location</span>
+                {variableList.map((variable, i) => (
+                  <span key={i} className="text-primary">
+                    {variable + `${i != variableList.length - 1 ? ", " : ""}`}
+                  </span>
+                ))}
               </div>
               <div className="text-xs text-gray-400">
                 {" "}
