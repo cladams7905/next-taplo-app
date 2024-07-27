@@ -30,14 +30,17 @@ export default function EventsList({
   startEventTransition: TransitionStartFunction;
 }) {
   const toggleElement = useRef<HTMLUListElement>(null);
+  const [isCollapseOpen, setCollapseOpen] = useState(false);
   const [integrations, setIntegrations] =
     useState<Tables<"Integrations">[]>(fetchedIntegrations);
 
   const toggleAccordion = (e: DOMTokenList) => {
     if (e.contains("collapse-open")) {
+      setCollapseOpen(false);
       e.remove("collapse-open");
       e.add("collapse-close");
     } else {
+      setCollapseOpen(true);
       e.remove("collapse-close");
       e.add("collapse-open");
     }
@@ -107,7 +110,9 @@ export default function EventsList({
           </div>
         </div>
         <div
-          className="dropdown dropdown-end"
+          className={`dropdown ${
+            isCollapseOpen ? "dropdown-end" : "dropdown-left"
+          }`}
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -123,7 +128,9 @@ export default function EventsList({
           <ul
             tabIndex={1}
             ref={toggleElement}
-            className="menu menu-sm dropdown-content mr-1 -mt-[10px] border border-neutral z-[10] shadow bg-base-100 rounded-md min-w-40"
+            className={`menu menu-sm dropdown-content ${
+              !isCollapseOpen && "-mt-[10px] mr-1"
+            } border border-neutral z-[10] shadow bg-base-100 rounded-md min-w-40`}
           >
             <li>
               <a
