@@ -13,6 +13,8 @@ import {
 } from "react";
 import IntegrationSelect from "./IntegrationSelect";
 import ContentBody from "./ContentBody";
+import { EventType } from "@/lib/enums";
+import ProductList from "../toastview/ProductList";
 
 export default function EventsList({
   activeProject,
@@ -170,6 +172,15 @@ export default function EventsList({
             startEventTransition={startEventTransition}
           />
         </div>
+        {event.event_type === EventType.OnPurchase && (
+          <div className="w-full flex flex-col gap-2">
+            <ProductList
+              currentEvent={event}
+              setEvents={setEvents}
+              startEventTransition={startEventTransition}
+            />
+          </div>
+        )}
       </div>
     </div>
   ));

@@ -24,51 +24,6 @@ export default function ActiveProjectView({
 }) {
   const [currentTab, setCurrentTab] = useState(0);
 
-  /* Toast style state variables */
-  const [backgroundToastColor, setBackgroundToastColor] = useColor(
-    activeProject?.bg_color ? activeProject.bg_color : "#FFFFFF"
-  );
-  const [textColor, setTextColor] = useColor(
-    activeProject?.text_color ? activeProject.text_color : "#172554"
-  );
-  const [accentColor, setAccentColor] = useColor(
-    activeProject?.accent_color ? activeProject.accent_color : "#6b7280"
-  );
-  const [borderColor, setBorderColor] = useColor(
-    activeProject?.border_color ? activeProject.border_color : "#D1D3D7"
-  );
-  const [verifiedColor, setVerifiedColor] = useColor(
-    activeProject?.verified_color ? activeProject.verified_color : "#4ade80"
-  );
-
-  // /* Product state variables */
-  // const [isShowProductsChecked, setShowProductsChecked] = useState(
-  //   activeProject?.show_products || false
-  // );
-  // const [currentProducts, setCurrentProducts] = useState<Tables<"Products">[]>(
-  //   products.filter((product) => product.toast_id === activeProject?.id)
-  // );
-  // const [activeProduct, setActiveProduct] = useState<Tables<"Products"> | null>(
-  //   currentProducts[0] || null
-  // );
-  // const [productImageSrc, setProductImageSrc] = useState<string>(
-  //   activeProduct?.image_url ? activeProduct.image_url : ""
-  // );
-
-  // useEffect(() => {
-  //   if (products && activeProject) {
-  //     setShowProductsChecked(activeProject.show_products);
-  //     const filteredProducts = products.filter(
-  //       (product) => product.toast_id === activeProject?.id
-  //     );
-  //     setCurrentProducts(filteredProducts);
-  //     setActiveProduct(filteredProducts[0] || null);
-  //     setProductImageSrc(
-  //       activeProduct?.image_url ? activeProduct.image_url : ""
-  //     );
-  //   }
-  // }, [activeProject, products, activeProduct, setShowProductsChecked]);
-
   return activeProject !== undefined ? (
     <div className="flex flex-col !rounded-none bg-gradient-to-tr from-primary/50 to-purple-100 h-full shadow-lg z-[1]">
       <div className="w-full lg:h-1/3 h-1/2 p-4">

@@ -35,6 +35,7 @@ export default function EventsHeader({
           project_id: activeProject.id,
           event_type: eventType,
           content_body: content,
+          show_products: eventType === EventType.OnPurchase ? true : null,
         };
         const { data, error } = await createEvent(event);
         if (error) {

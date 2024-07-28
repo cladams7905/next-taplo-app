@@ -13,7 +13,7 @@ export async function createProduct(product: TablesInsert<"Products">) {
   return JSON.parse(JSON.stringify(result));
 }
 
-export async function getProducts(eventId: string) {
+export async function getProducts(eventId: number) {
   const supabase = createClient();
   const result = await supabase
     .from("Products")

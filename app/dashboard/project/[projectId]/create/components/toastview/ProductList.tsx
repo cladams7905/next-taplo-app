@@ -5,44 +5,33 @@ import {
   ChangeEvent,
   Dispatch,
   SetStateAction,
+  TransitionStartFunction,
   useEffect,
   useRef,
+  useState,
   useTransition,
 } from "react";
 import {
   createProduct,
   deleteProduct,
+  getProducts,
   updateProduct,
 } from "@/lib/actions/products";
 import { showToastError } from "@/components/shared/showToast";
-import { updateUserToast } from "@/lib/actions/projects";
 import { useRouter } from "next/navigation";
 import { Camera, Plus, Trash2 } from "lucide-react";
 import { createClient } from "@/supabase/client";
 import Image from "next/image";
+import { updateEvent } from "@/lib/actions/events";
 
 export default function ProductList({
-  activeToast,
-  setActiveToast,
-  isShowProductsChecked,
-  setShowProductsChecked,
-  products,
-  setProducts,
-  activeProduct,
-  setActiveProduct,
-  productImageSrc,
-  setProductImageSrc,
+  currentEvent,
+  setEvents,
+  startEventTransition,
 }: {
-  activeToast: Tables<"Toasts">;
-  setActiveToast: Dispatch<SetStateAction<Tables<"Toasts"> | undefined>>;
-  isShowProductsChecked: boolean;
-  setShowProductsChecked: Dispatch<SetStateAction<boolean>>;
-  products: Tables<"Products">[];
-  setProducts: Dispatch<SetStateAction<Tables<"Products">[]>>;
-  activeProduct: Tables<"Products"> | null;
-  setActiveProduct: Dispatch<SetStateAction<Tables<"Products"> | null>>;
-  productImageSrc: string;
-  setProductImageSrc: Dispatch<SetStateAction<string>>;
+  currentEvent: Tables<"Events">;
+  setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
+  startEventTransition: TransitionStartFunction;
 }) {
   interface ProductRefs {
     [key: number]: {
@@ -52,25 +41,60 @@ export default function ProductList({
     };
   }
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
   const productRefs = useRef<ProductRefs>({});
+
+  /* Product state variables */
+  const [products, setProducts] = useState<Tables<"Products">[]>([]);
+  const [isShowProductsChecked, setShowProductsChecked] = useState(
+    currentEvent?.show_products || false
+  );
+  const [activeProduct, setActiveProduct] = useState<Tables<"Products"> | null>(
+    products[0] || null
+  );
+  const [productImageSrc, setProductImageSrc] = useState<string>(
+    activeProduct?.image_url ? activeProduct.image_url : ""
+  );
+
+  useEffect(() => {
+    startEventTransition(async () => {
+      const { data, error } = await getProducts(currentEvent.id);
+      if (error) {
+        showToastError(error);
+      } else {
+        setProducts(data);
+      }
+    });
+  }, [currentEvent, startEventTransition]);
+
+  // useEffect(() => {
+  //   if (products && currentEvent.show_products) {
+  //     setShowProductsChecked(currentEvent.show_products);
+  //     const filteredProducts = products.filter(
+  //       (product) => product.event_id === currentEvent?.id
+  //     );
+  //     setCurrentProducts(filteredProducts);
+  //     setActiveProduct(filteredProducts[0] || null);
+  //     setProductImageSrc(
+  //       activeProduct?.image_url ? activeProduct.image_url : ""
+  //     );
+  //   }
+  // }, [currentEvent, products, activeProduct, setShowProductsChecked]);
 
   const handleFileUpload = async (
     e: ChangeEvent<HTMLInputElement>,
     productId: number
   ) => {
-    startTransition(async () => {
+    startEventTransition(async () => {
       const supabase = createClient();
       let file;
       if (e.target.files) {
         file = e.target.files[0];
-        const filename = `${activeToast.user_id}/${file?.name}`;
+        const filename = `${currentEvent.user_id}/${file?.name}`;
         const { data, error } = await supabase.storage
           .from("product-images")
           .upload(filename, file, {
             upsert: true,
-          })
-          .then();
+          });
         if (error) {
           showToastError(error);
         } else {
@@ -82,7 +106,7 @@ export default function ProductList({
           if (error) {
             showToastError(error);
           } else {
-            router.refresh();
+            //router.refresh();
           }
         }
       }
@@ -90,58 +114,61 @@ export default function ProductList({
   };
 
   const handleShowProductsToggle = () => {
-    startTransition(async () => {
-      if (activeToast) {
-        const updatedToast = {
-          ...activeToast,
-          show_products: !isShowProductsChecked,
-        };
-        const { error } = await updateUserToast(activeToast.id, updatedToast);
-        if (error) {
-          showToastError(error);
-        } else {
-          setActiveToast(updatedToast);
-          setShowProductsChecked(!isShowProductsChecked);
-        }
+    startEventTransition(async () => {
+      setShowProductsChecked(!isShowProductsChecked);
+      const eventUpdateResult = await updateEvent(currentEvent.id, {
+        ...currentEvent,
+        show_products: !isShowProductsChecked,
+      });
+
+      if (eventUpdateResult.error) {
+        showToastError(eventUpdateResult.error);
+      } else {
+        setEvents((prevEvents) =>
+          prevEvents.map((e) =>
+            e.id === currentEvent.id
+              ? { ...e, show_products: !isShowProductsChecked }
+              : e
+          )
+        );
       }
     });
   };
 
   const handleCreateProduct = () => {
-    startTransition(async () => {
-      if (activeToast) {
-        const product: TablesInsert<"Products"> = { toast_id: activeToast.id };
-        const { data, error } = await createProduct(product);
-        if (error) {
-          showToastError(error);
-        } else {
-          setProducts((prevProducts) => [...prevProducts, data]);
-          router.refresh();
-        }
+    startEventTransition(async () => {
+      const product: TablesInsert<"Products"> = {
+        event_id: currentEvent.id,
+        user_id: currentEvent.user_id,
+      };
+      const { data, error } = await createProduct(product);
+      if (error) {
+        showToastError(error);
+      } else {
+        setProducts((prevProducts) => [...prevProducts, data]);
+        //router.refresh();
       }
     });
   };
 
   const handleDeleteProduct = (productId: number) => {
-    startTransition(async () => {
-      if (activeToast) {
-        const { data, error } = await deleteProduct(productId);
-        if (error) {
-          showToastError(error);
-        } else {
-          setProducts((prevProducts) =>
-            prevProducts.filter((product) => product.id !== data.id)
-          );
-          router.refresh();
-        }
+    startEventTransition(async () => {
+      const { data, error } = await deleteProduct(productId);
+      if (error) {
+        showToastError(error);
+      } else {
+        setProducts((prevProducts) =>
+          prevProducts.filter((product) => product.id !== data.id)
+        );
+        //router.refresh();
       }
     });
   };
 
   useEffect(() => {
     const handleUpdateProduct = (event: MouseEvent) => {
-      startTransition(() => {
-        if (activeToast && activeProduct) {
+      startEventTransition(() => {
+        if (activeProduct) {
           const productRef = productRefs.current[activeProduct.id];
           const currentProduct = products.find(
             (product) => product.id === activeProduct.id
@@ -188,7 +215,7 @@ export default function ProductList({
           if (shouldUpdate) {
             setActiveProduct(updatedProduct);
             updateProduct(activeProduct.id, updatedProduct);
-            router.refresh();
+            //router.refresh();
           }
         }
       });
@@ -198,7 +225,7 @@ export default function ProductList({
     return () => {
       document.removeEventListener("mousedown", handleUpdateProduct);
     };
-  }, [activeProduct, setActiveProduct, activeToast, products, router]);
+  }, [activeProduct, setActiveProduct, products, router, startEventTransition]);
 
   const assignRef = (
     el: HTMLInputElement | null,
@@ -220,17 +247,14 @@ export default function ProductList({
   return (
     <div className="w-full flex flex-col gap-2">
       <div className="flex flex-row w-full justify-between">
-        <div className="flex flex-row items-center gap-3">
-          Show Products
+        <div className="flex items-center gap-2 font-bold">
+          Products{" "}
           <input
             type="checkbox"
             checked={isShowProductsChecked}
             className="toggle toggle-primary toggle-sm"
             onChange={handleShowProductsToggle}
           />
-          {isPending && (
-            <span className="loading loading-spinner loading-sm bg-base-content ml-4" />
-          )}
         </div>
         {isShowProductsChecked && (
           <div
