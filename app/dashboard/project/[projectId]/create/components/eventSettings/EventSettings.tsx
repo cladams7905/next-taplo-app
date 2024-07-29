@@ -4,21 +4,22 @@ import { Tables } from "@/supabase/types";
 import EventsHeader from "./EventsHeader";
 import {
   Dispatch,
+  memo,
   RefObject,
   SetStateAction,
-  useRef,
   useTransition,
 } from "react";
 import EventsList from "./EventsList";
 import useScroll from "@/lib/hooks/use-scroll";
 
-export default function EventSettings({
+const EventSettings = ({
   activeProject,
   setActiveProject,
   events,
   setEvents,
   integrations,
   scrollRef,
+  eventHeaderRef,
 }: {
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
@@ -26,15 +27,16 @@ export default function EventSettings({
   setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
   integrations: Tables<"Integrations">[];
   scrollRef: RefObject<HTMLDivElement>;
-}) {
+  eventHeaderRef: RefObject<HTMLDivElement>;
+}) => {
   const [isEventPending, startEventTransition] = useTransition();
-  const scrolled = useScroll(10, scrollRef);
+  const scrolled = useScroll(1, scrollRef);
   return (
-    <>
+    <div ref={eventHeaderRef} className="flex flex-col w-full h-fit">
       <div
         className={`sticky top-0 w-full p-4 bg-white z-[3] ${
-          scrolled && "border-b border-base-300 "
-        } -mt-[1px]`}
+          scrolled ? "border-b border-base-300 -mb-[1px]" : ""
+        }`}
       >
         <EventsHeader
           activeProject={activeProject}
@@ -53,6 +55,28 @@ export default function EventSettings({
           startEventTransition={startEventTransition}
         />
       </div>
-    </>
+    </div>
+  );
+};
+
+//Compares params to prevent unnecessary rerenders
+function areEqual(
+  prevProps: {
+    events: Tables<"Events">[];
+    setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
+    integrations: Tables<"Integrations">[];
+  },
+  nextProps: {
+    events: Tables<"Events">[];
+    setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
+    integrations: Tables<"Integrations">[];
+  }
+) {
+  return (
+    prevProps.events === nextProps.events &&
+    prevProps.setEvents === nextProps.setEvents &&
+    prevProps.integrations === nextProps.integrations
   );
 }
+
+export default memo(EventSettings, areEqual);

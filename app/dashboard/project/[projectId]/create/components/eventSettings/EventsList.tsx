@@ -6,6 +6,7 @@ import { Ellipsis, Pencil, Trash } from "lucide-react";
 import { Tables } from "@/supabase/types";
 import {
   Dispatch,
+  memo,
   SetStateAction,
   TransitionStartFunction,
   useRef,
@@ -16,7 +17,7 @@ import ContentBody from "./ContentBody";
 import { EventType } from "@/lib/enums";
 import ProductList from "./ProductList";
 
-export default function EventsList({
+const EventsList = ({
   activeProject,
   setActiveProject,
   events,
@@ -30,7 +31,7 @@ export default function EventsList({
   setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
   fetchedIntegrations: Tables<"Integrations">[];
   startEventTransition: TransitionStartFunction;
-}) {
+}) => {
   const toggleElement = useRef<HTMLUListElement>(null);
   const [isCollapseOpen, setCollapseOpen] = useState(false);
   const [integrations, setIntegrations] =
@@ -189,4 +190,25 @@ export default function EventsList({
       </div>
     </div>
   ));
+};
+
+function areEqual(
+  prevProps: {
+    events: Tables<"Events">[];
+    setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
+    fetchedIntegrations: Tables<"Integrations">[];
+  },
+  nextProps: {
+    events: Tables<"Events">[];
+    setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
+    fetchedIntegrations: Tables<"Integrations">[];
+  }
+) {
+  return (
+    prevProps.events === nextProps.events &&
+    prevProps.setEvents === nextProps.setEvents &&
+    prevProps.fetchedIntegrations === nextProps.fetchedIntegrations
+  );
 }
+
+export default memo(EventsList, areEqual);

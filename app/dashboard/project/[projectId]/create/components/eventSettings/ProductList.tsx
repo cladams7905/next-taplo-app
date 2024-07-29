@@ -7,7 +7,6 @@ import {
   SetStateAction,
   TransitionStartFunction,
   useEffect,
-  useRef,
   useState,
   useTransition,
 } from "react";
@@ -18,7 +17,6 @@ import {
   updateProduct,
 } from "@/lib/actions/products";
 import { showToastError } from "@/components/shared/showToast";
-import { useRouter } from "next/navigation";
 import { Camera, CirclePlus, Trash2 } from "lucide-react";
 import { createClient } from "@/supabase/client";
 import Image from "next/image";
@@ -33,27 +31,12 @@ export default function ProductList({
   setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
   startEventTransition: TransitionStartFunction;
 }) {
-  interface ProductRefs {
-    [key: number]: {
-      name: HTMLInputElement | null;
-      price: HTMLInputElement | null;
-      link: HTMLInputElement | null;
-    };
-  }
-  const router = useRouter();
-  const productRefs = useRef<ProductRefs>({});
   const [isProductListPending, startProductTransition] = useTransition();
 
   /* Product state variables */
   const [products, setProducts] = useState<Tables<"Products">[]>([]);
   const [isShowProductsChecked, setShowProductsChecked] = useState(
     currentEvent?.show_products || false
-  );
-  const [activeProduct, setActiveProduct] = useState<Tables<"Products"> | null>(
-    products[0] || null
-  );
-  const [productImageSrc, setProductImageSrc] = useState<string>(
-    activeProduct?.image_url ? activeProduct.image_url : ""
   );
 
   useEffect(() => {
@@ -67,36 +50,33 @@ export default function ProductList({
         }
       });
     });
-  }, [currentEvent, startEventTransition]);
+  }, []);
 
-  const handleFileUpload = async (
+  const handleFileUpload = (
     e: ChangeEvent<HTMLInputElement>,
     productId: number
   ) => {
+    const supabase = createClient();
+
+    const file = e.target.files?.[0];
+    if (!file) return;
+
     startEventTransition(async () => {
-      const supabase = createClient();
-      let file;
-      if (e.target.files) {
-        file = e.target.files[0];
-        const filename = `${currentEvent.user_id}/${file?.name}`;
-        const { data, error } = await supabase.storage
-          .from("product-images")
-          .upload(filename, file, {
-            upsert: true,
-          });
-        if (error) {
-          showToastError(error);
-        } else {
-          const newImageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/product-images/${data.path}`;
-          setProductImageSrc(newImageUrl);
-          const { error } = await updateProduct(productId, {
-            image_url: newImageUrl,
-          });
-          if (error) {
-            showToastError(error);
-          } else {
-            //router.refresh();
-          }
+      const filename = `${currentEvent.user_id}/${file.name}`;
+      const { data, error: uploadError } = await supabase.storage
+        .from("product-images")
+        .upload(filename, file, { upsert: true });
+
+      if (uploadError) {
+        showToastError(uploadError);
+      } else {
+        const newImageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/product-images/${data.path}`;
+        const { error: updateError } = await updateProduct(productId, {
+          image_url: newImageUrl,
+        });
+
+        if (updateError) {
+          showToastError(updateError);
         }
       }
     });
@@ -135,7 +115,6 @@ export default function ProductList({
         showToastError(error);
       } else {
         setProducts((prevProducts) => [...prevProducts, data]);
-        //router.refresh();
       }
     });
   };
@@ -149,87 +128,37 @@ export default function ProductList({
         setProducts((prevProducts) =>
           prevProducts.filter((product) => product.id !== data.id)
         );
-        //router.refresh();
       }
     });
   };
 
-  useEffect(() => {
-    const handleUpdateProduct = (event: MouseEvent) => {
-      startEventTransition(() => {
-        if (activeProduct) {
-          const productRef = productRefs.current[activeProduct.id];
-          const currentProduct = products.find(
-            (product) => product.id === activeProduct.id
-          );
-          if (!currentProduct || !productRef) return;
-
-          let updatedProduct = { ...currentProduct };
-          let shouldUpdate = false;
-
-          if (
-            productRef.name &&
-            productRef.name.value !== "" &&
-            productRef.name.value !== currentProduct.name
-          ) {
-            updatedProduct = {
-              ...updatedProduct,
-              name: productRef.name.value,
-            };
-            shouldUpdate = true;
-          }
-          if (
-            productRef.price &&
-            productRef.price.value !== "" &&
-            productRef.price.value !== currentProduct.price?.toString()
-          ) {
-            updatedProduct = {
-              ...updatedProduct,
-              price: parseFloat(productRef.price.value),
-            };
-            shouldUpdate = true;
-          }
-          if (
-            productRef.link &&
-            productRef.link.value !== "" &&
-            productRef.link.value !== currentProduct.link
-          ) {
-            updatedProduct = {
-              ...updatedProduct,
-              link: productRef.link.value,
-            };
-            shouldUpdate = true;
-          }
-
-          if (shouldUpdate) {
-            setActiveProduct(updatedProduct);
-            updateProduct(activeProduct.id, updatedProduct);
-            //router.refresh();
-          }
-        }
-      });
-    };
-
-    document.addEventListener("mousedown", handleUpdateProduct);
-    return () => {
-      document.removeEventListener("mousedown", handleUpdateProduct);
-    };
-  }, [activeProduct, setActiveProduct, products, router, startEventTransition]);
-
-  const assignRef = (
-    el: HTMLInputElement | null,
-    productId: number,
-    refType: keyof ProductRefs[number]
+  const handleUpdateProduct = (
+    event: React.FocusEvent<HTMLInputElement>,
+    product: Tables<"Products">
   ) => {
-    if (el) {
-      if (!productRefs.current[productId]) {
-        productRefs.current[productId] = {
-          name: null,
-          price: null,
-          link: null,
-        };
-      }
-      productRefs.current[productId][refType] = el;
+    const { name, value } = event.target;
+    let updatedProduct = { ...product };
+    let shouldUpdate = false;
+
+    if (name === "name" && value !== product.name) {
+      updatedProduct = { ...updatedProduct, name: value };
+      shouldUpdate = true;
+    }
+
+    if (name === "price" && parseFloat(value) !== product.price) {
+      updatedProduct = { ...updatedProduct, price: parseFloat(value) };
+      shouldUpdate = true;
+    }
+
+    if (name === "link" && value !== product.link) {
+      updatedProduct = { ...updatedProduct, link: value };
+      shouldUpdate = true;
+    }
+
+    if (shouldUpdate) {
+      startEventTransition(() => {
+        updateProduct(product.id, updatedProduct);
+      });
     }
   };
 
@@ -306,8 +235,8 @@ export default function ProductList({
                     <p className="text-xs mt-4">Product Name</p>
                     <input
                       type="text"
-                      ref={(el) => assignRef(el, product.id, "name")}
-                      onMouseDown={() => setActiveProduct(product)}
+                      name="name"
+                      onBlur={(e) => handleUpdateProduct(e, product)}
                       placeholder="Ex: Tennis Shoes"
                       defaultValue={product.name || ""}
                       className="input input-bordered input-sm w-full"
@@ -317,8 +246,8 @@ export default function ProductList({
                     <p className="text-xs mt-4">Price</p>
                     <input
                       type="text"
-                      ref={(el) => assignRef(el, product.id, "price")}
-                      onMouseDown={() => setActiveProduct(product)}
+                      name="price"
+                      onBlur={(e) => handleUpdateProduct(e, product)}
                       placeholder="0.00"
                       defaultValue={product.price || ""}
                       className="input input-bordered input-sm max-w-[120px]"
@@ -329,8 +258,8 @@ export default function ProductList({
                   <p className="text-xs">Link (optional)</p>
                   <input
                     type="url"
-                    ref={(el) => assignRef(el, product.id, "link")}
-                    onMouseDown={() => setActiveProduct(product)}
+                    name="link"
+                    onBlur={(e) => handleUpdateProduct(e, product)}
                     placeholder="https://www.my-site.com/my-awesome-product"
                     defaultValue={product.link || ""}
                     className="input input-bordered input-sm w-full"

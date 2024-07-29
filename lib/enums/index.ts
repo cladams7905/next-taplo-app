@@ -10,3 +10,8 @@ export enum ScreenAlignment {
   TopLeft = "Top Left",
   TopRight = "Top Right",
 }
+
+export enum PopupTemplates {
+  Toast = "Toast",
+  Banner = "Banner",
+}

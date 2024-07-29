@@ -24,6 +24,7 @@
     "canvas-confetti": "^1.9.3",
     "class-variance-authority": "^0.7.0",
     "classnames": "^2.5.1",
+    "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.378.0",
     "next": "14.2.3",
     "next-nprogress-bar": "^2.3.12",
@@ -44,6 +45,7 @@
   },
   "devDependencies": {
     "@types/canvas-confetti": "^1.6.4",
+    "@types/lodash.debounce": "^4.0.9",
     "@types/node": "^20",
     "@types/nodemailer": "^6.4.15",
     "@types/react": "^18",

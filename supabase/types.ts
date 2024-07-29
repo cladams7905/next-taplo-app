@@ -170,6 +170,7 @@ export type Database = {
           is_active: boolean
           name: string
           screen_alignment: string | null
+          template: string | null
           text_color: string | null
           user_id: string
           verified_color: string | null
@@ -183,6 +184,7 @@ export type Database = {
           is_active?: boolean
           name?: string
           screen_alignment?: string | null
+          template?: string | null
           text_color?: string | null
           user_id?: string
           verified_color?: string | null
@@ -196,6 +198,7 @@ export type Database = {
           is_active?: boolean
           name?: string
           screen_alignment?: string | null
+          template?: string | null
           text_color?: string | null
           user_id?: string
           verified_color?: string | null
