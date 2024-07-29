@@ -14,7 +14,7 @@ import {
 import IntegrationSelect from "./IntegrationSelect";
 import ContentBody from "./ContentBody";
 import { EventType } from "@/lib/enums";
-import ProductList from "../toastview/ProductList";
+import ProductList from "./ProductList";
 
 export default function EventsList({
   activeProject,
@@ -181,6 +181,11 @@ export default function EventsList({
             />
           </div>
         )}
+        <div className="w-full flex flex-col gap-2">
+          <div className="flex flex-row w-full justify-between">
+            <div className="flex items-center gap-2 font-bold">Settings</div>
+          </div>
+        </div>
       </div>
     </div>
   ));

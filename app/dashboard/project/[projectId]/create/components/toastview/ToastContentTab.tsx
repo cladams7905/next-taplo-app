@@ -3,7 +3,7 @@
 import { ToastType } from "@/lib/enums";
 import { Tables } from "@/supabase/types";
 import { Dispatch, SetStateAction, useTransition } from "react";
-import ProductList from "./ProductList";
+import ProductList from "../eventSettings/ProductList";
 
 export const ToastContentTab = ({
   activeToast,

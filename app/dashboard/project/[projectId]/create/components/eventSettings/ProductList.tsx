@@ -19,7 +19,7 @@ import {
 } from "@/lib/actions/products";
 import { showToastError } from "@/components/shared/showToast";
 import { useRouter } from "next/navigation";
-import { Camera, Plus, Trash2 } from "lucide-react";
+import { Camera, CirclePlus, Trash2 } from "lucide-react";
 import { createClient } from "@/supabase/client";
 import Image from "next/image";
 import { updateEvent } from "@/lib/actions/events";
@@ -42,6 +42,7 @@ export default function ProductList({
   }
   const router = useRouter();
   const productRefs = useRef<ProductRefs>({});
+  const [isProductListPending, startProductTransition] = useTransition();
 
   /* Product state variables */
   const [products, setProducts] = useState<Tables<"Products">[]>([]);
@@ -56,29 +57,17 @@ export default function ProductList({
   );
 
   useEffect(() => {
-    startEventTransition(async () => {
-      const { data, error } = await getProducts(currentEvent.id);
-      if (error) {
-        showToastError(error);
-      } else {
-        setProducts(data);
-      }
+    startProductTransition(() => {
+      startEventTransition(async () => {
+        const { data, error } = await getProducts(currentEvent.id);
+        if (error) {
+          showToastError(error);
+        } else {
+          setProducts(data);
+        }
+      });
     });
   }, [currentEvent, startEventTransition]);
-
-  // useEffect(() => {
-  //   if (products && currentEvent.show_products) {
-  //     setShowProductsChecked(currentEvent.show_products);
-  //     const filteredProducts = products.filter(
-  //       (product) => product.event_id === currentEvent?.id
-  //     );
-  //     setCurrentProducts(filteredProducts);
-  //     setActiveProduct(filteredProducts[0] || null);
-  //     setProductImageSrc(
-  //       activeProduct?.image_url ? activeProduct.image_url : ""
-  //     );
-  //   }
-  // }, [currentEvent, products, activeProduct, setShowProductsChecked]);
 
   const handleFileUpload = async (
     e: ChangeEvent<HTMLInputElement>,
@@ -258,29 +247,29 @@ export default function ProductList({
         </div>
         {isShowProductsChecked && (
           <div
-            className="btn text-white btn-primary btn-sm mt-2 max-w-fit"
+            className="btn btn-sm lg:mt-0 mt-8 lg:w-auto w-full btn-ghost text-xs"
             onClick={handleCreateProduct}
           >
-            <Plus width={18} height={18} />
-            Add New Product
+            <CirclePlus height={14} width={14} />
+            New
           </div>
         )}
       </div>
       {isShowProductsChecked &&
         (!products || products.length === 0 ? (
-          <div className="text-gray-500 text-sm">
+          <div className="text-gray-400 text-xs">
             You haven&apos;t created any products yet.
           </div>
-        ) : (
+        ) : !isProductListPending ? (
           products.map((product, i) => (
             <div
               key={product.id}
-              className="flex flex-row w-full items-center gap-4 mb-4"
+              className="flex flex-row w-full items-center mb-4"
             >
               <div className="flex w-fit items-center">
                 <label
                   htmlFor="product-image-file-input"
-                  className={`flex justify-center cursor-pointer items-center min-w-[48px] max-h-[48px] aspect-square rounded-lg ${
+                  className={`flex justify-center mr-3 cursor-pointer items-center min-w-[48px] max-h-[48px] aspect-square rounded-lg ${
                     !product.image_url || product.image_url === ""
                       ? "bg-primary/35"
                       : "bg-white"
@@ -349,13 +338,23 @@ export default function ProductList({
                 </div>
               </div>
               <div
-                className="hover:bg-link-hover p-2 rounded-lg cursor-pointer -mt-6"
+                className="hover:bg-link-hover p-2 ml-1 rounded-lg cursor-pointer -mt-[20px]"
                 onClick={() => handleDeleteProduct(product.id)}
               >
                 <Trash2 width={18} height={18} />
               </div>
             </div>
           ))
+        ) : (
+          <div className="flex flex-row w-full items-center mt-4 mb-4">
+            <div className="flex w-fit items-center">
+              <div className="skeleton bg-primary/20 mr-3 items-center min-w-[48px] max-h-[48px] aspect-square rounded-lg"></div>
+            </div>
+            <div className="flex flex-col w-full gap-3">
+              <div className="skeleton rounded-lg h-6 w-full bg-primary/20" />
+              <div className="skeleton rounded-lg h-6 w-full bg-primary/20" />
+            </div>
+          </div>
         ))}
     </div>
   );
