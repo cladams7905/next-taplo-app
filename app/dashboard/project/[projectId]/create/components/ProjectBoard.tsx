@@ -20,7 +20,7 @@ export default function ProjectBoard({
   const [events, setEvents] = useState<Tables<"Events">[]>(fetchedEvents);
 
   /* Popup style state variables */
-  const [backgroundToastColor, setBackgroundToastColor] = useColor(
+  const [backgroundColor, setBackgroundColor] = useColor(
     activeProject?.bg_color ? activeProject.bg_color : "#FFFFFF"
   );
   const [textColor, setTextColor] = useColor(
@@ -45,6 +45,16 @@ export default function ProjectBoard({
           events={events}
           setEvents={setEvents}
           integrations={integrations}
+          backgroundColor={backgroundColor}
+          setBackgroundColor={setBackgroundColor}
+          textColor={textColor}
+          setTextColor={setTextColor}
+          accentColor={accentColor}
+          setAccentColor={setAccentColor}
+          verifiedColor={verifiedColor}
+          setVerifiedColor={setVerifiedColor}
+          borderColor={borderColor}
+          setBorderColor={setBorderColor}
         />
       </div>
       <div className="lg:w-2/3 w-full">

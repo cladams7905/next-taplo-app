@@ -352,7 +352,7 @@ export default function ProductList({
             </div>
             <div className="flex flex-col w-full gap-3">
               <div className="skeleton rounded-lg h-6 w-full bg-primary/20" />
-              <div className="skeleton rounded-lg h-6 w-full bg-primary/20" />
+              <div className="skeleton rounded-lg h-6 w-[80%] bg-primary/20" />
             </div>
           </div>
         ))}

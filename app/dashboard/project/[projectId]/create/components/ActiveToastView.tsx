@@ -8,7 +8,6 @@ import { RenameToastButton } from "./toastview/RenameToastButton";
 import { DeleteToastButton } from "./toastview/DeleteToastButton";
 import { ToastEventTab } from "./toastview/ToastEventTab";
 import { NoToastView } from "./toastview/NoToastView";
-import { ToastStyleTab } from "./toastview/ToastStyleTab";
 import { useColor } from "react-color-palette";
 import "react-color-palette/css";
 import { ToastContentTab } from "./toastview/ToastContentTab";
