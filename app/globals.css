@@ -40,7 +40,7 @@ li > a:hover:not(.tab) {
 }
 
 :root {
-  --tab-border-color: oklch(var(--n))
+  --tab-border-color: oklch(var(--bc))
 }
 
 .btn-ghost:hover {
@@ -54,4 +54,15 @@ li > a:hover:not(.tab) {
 
 .rcp-field-input{
   @apply !border !border-gray-300 !text-base-content
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+input:-webkit-autofill {
+  -webkit-text-fill-color: oklch(var(--bc)) !important;
 }
