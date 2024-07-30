@@ -2,7 +2,7 @@
 
 import { Tables } from "@/supabase/types";
 import Sidebar from "./Sidebar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useColor } from "react-color-palette";
 import PopupView from "./popupView/PopupView";
 

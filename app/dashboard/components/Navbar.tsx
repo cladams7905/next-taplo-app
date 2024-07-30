@@ -28,6 +28,7 @@ export default function Navbar({
 
   // First useEffect to set the active project
   useEffect(() => {
+    console.log(fetchedActiveProject, activeProject);
     setActiveProject(fetchedActiveProject);
   }, [fetchedActiveProject]);
 

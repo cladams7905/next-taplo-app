@@ -183,10 +183,44 @@ const EventsList = ({
               />
             </div>
           )}
-          <div className="w-full flex flex-col gap-2">
+          <div className="w-full flex flex-col gap-2 pb-2">
             <div className="flex flex-row w-full justify-between">
               <div className="flex items-center gap-2 font-bold">Settings</div>
             </div>
+            {event.event_type === EventType.OnPurchase && (
+              <div className="flex flex-col w-full gap-3 mt-2">
+                {" "}
+                <div className="flex flex-row items-center gap-2 text-sm">
+                  Show add to cart notifications{" "}
+                  <input
+                    type="checkbox"
+                    checked={true}
+                    className="toggle toggle-primary toggle-sm"
+                  />
+                </div>
+                <div className="flex flex-row items-center gap-2 text-sm">
+                  Show recently viewed products notifications{" "}
+                  <input
+                    type="checkbox"
+                    checked={true}
+                    className="toggle toggle-primary toggle-sm"
+                  />
+                </div>
+              </div>
+            )}
+            {event.event_type === EventType.OnReview && (
+              <div className="flex flex-col w-full gap-3 mt-2">
+                {" "}
+                <div className="flex flex-row items-center gap-2 text-sm">
+                  Only show 4-5 star reviews{" "}
+                  <input
+                    type="checkbox"
+                    checked={true}
+                    className="toggle toggle-primary toggle-sm"
+                  />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

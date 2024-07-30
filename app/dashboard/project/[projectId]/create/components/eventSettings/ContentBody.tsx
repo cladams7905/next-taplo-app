@@ -40,10 +40,10 @@ export default function ContentBody({
     let variableList: string[] = [];
     switch (currentEvent.event_type) {
       case EventType.OnPurchase:
-        variableList = ["location", "product", "price"];
+        variableList = ["person", "location", "product", "price"];
         break;
       case EventType.OnReview:
-        variableList = ["location", "rating"];
+        variableList = ["person", "location", "rating", "review"];
         break;
     }
     return variableList;
@@ -81,14 +81,14 @@ export default function ContentBody({
   const locateVariablesInContentBody = (contentBody: string | null) => {
     if (!contentBody) return "";
 
-    const words = contentBody.split(" ");
+    const words = contentBody.split(/(\\\w+|\w+|[^\w\s])/g).filter(Boolean);
     const transformedWords = words.map((word, index) => {
-      const splicedWord = word.slice(1, word.length);
+      const slicedWord = word.substring(1);
       if (
         word.startsWith(VARCHECK) &&
-        variableList.includes(splicedWord.toLowerCase())
+        variableList.includes(slicedWord.toLowerCase())
       ) {
-        return `<span key=${index} class="text-primary bg-primary/20 font-extrabold px-1 uppercase">${splicedWord}</span>`;
+        return `<span key=${index} class="text-primary bg-primary/20 font-extrabold px-1 uppercase">${slicedWord}</span>`;
       } else {
         return word;
       }
@@ -213,8 +213,9 @@ export default function ContentBody({
 
   const getCurrentVariable = (content: string, index: number) => {
     let currVar = "";
+    const regex = /^[A-Z]$/;
     for (let i = index; i < content.length; i++) {
-      if (content[i] === " ") {
+      if (!regex.test(content[i])) {
         break;
       } else {
         currVar += content[i];
@@ -271,7 +272,7 @@ export default function ContentBody({
   return (
     <>
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1 font-bold">Content</div>
+        <div className="flex items-center gap-1 font-bold">Text Content</div>
         <div
           className="btn btn-sm lg:mt-0 mt-8 lg:w-auto w-full btn-ghost text-xs"
           onClick={() => {

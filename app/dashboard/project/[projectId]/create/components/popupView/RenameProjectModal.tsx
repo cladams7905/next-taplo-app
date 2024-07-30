@@ -31,7 +31,6 @@ export default function RenameProjectModal({
   dropdownRef: RefObject<HTMLUListElement>;
   project: Tables<"Projects">;
 }) {
-  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const FormSchema = z
@@ -59,16 +58,20 @@ export default function RenameProjectModal({
 
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
     startTransition(async () => {
-      const { data, error } = await updateProject(project.id, {
+      setActiveProject({
+        ...activeProject,
         name: formData.projectName,
       });
+      const { error } = await updateProject(
+        project.id,
+        {
+          name: formData.projectName,
+        },
+        true
+      );
       if (error) {
         showToastError(error);
       } else {
-        setActiveProject({
-          ...activeProject,
-          name: formData.projectName,
-        });
         renameModalRef.current?.close();
         showToast(
           `Successfully renamed project ${project.name} to ${formData.projectName}.`
@@ -122,7 +125,7 @@ export default function RenameProjectModal({
                 style={{ marginTop: "2.5rem" }}
               >
                 {isPending ? (
-                  <LoadingDots color="oklch(var(--bc))" />
+                  <LoadingDots color="#FFFFFF" />
                 ) : (
                   <>
                     <Pencil height={18} width={18} />

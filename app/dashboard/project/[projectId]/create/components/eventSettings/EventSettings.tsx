@@ -40,6 +40,7 @@ const EventSettings = ({
       >
         <EventsHeader
           activeProject={activeProject}
+          events={events}
           setEvents={setEvents}
           startEventTransition={startEventTransition}
           isEventPending={isEventPending}

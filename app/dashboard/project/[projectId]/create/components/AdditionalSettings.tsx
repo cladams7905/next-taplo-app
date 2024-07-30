@@ -26,20 +26,29 @@ export default function AdditionalSettings({
           )}
         </div>
       </div>
-      <div className="flex flex-col p-4 gap-6">
-        <div className="flex flex-col gap-6 rounded-lg border border-base-300 px-5 pt-3 pb-5">
-          <div className="flex flex-row items-center w-full justify-between">
-            <p className="text-sm font-bold">General</p>
+      <div className="flex flex-col p-4 py-2 gap-6">
+        <div className="flex flex-col w-full gap-3 px-2">
+          <div className="flex flex-row items-center gap-2 text-sm">
+            Only show events from the past
+            <select className="select select-bordered select-sm w-full max-w-24">
+              <option disabled selected>
+                Select
+              </option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>10</option>
+              <option>15</option>
+              <option>30</option>
+              <option>60</option>
+              <option>90</option>
+            </select>
+            days{" "}
           </div>
-          <p className="text-xs">Show city in location</p>
-          <p className="text-xs">Only show events from the past ____ days</p>
-        </div>
-        <div className="flex flex-col gap-6 rounded-lg border border-base-300 px-5 pt-3 pb-5">
-          <div className="flex flex-row items-center w-full justify-between">
-            <p className="text-sm font-bold">Project Settings</p>
-          </div>
-          <p className="text-xs">Rename project</p>
-          <p className="text-xs">Delete project</p>
         </div>
       </div>
     </div>

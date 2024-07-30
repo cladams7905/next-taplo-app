@@ -44,7 +44,8 @@ export async function setActiveProject(userId: string, projectId: string) {
 
 export async function updateProject(
   projectId: number,
-  project: TablesUpdate<"Projects">
+  project: TablesUpdate<"Projects">,
+  shouldRevalidatePath: boolean = false
 ) {
   const supabase = createClient();
   const result = await supabase
@@ -53,6 +54,9 @@ export async function updateProject(
     .eq("id", projectId)
     .select("*")
     .single();
+  if (shouldRevalidatePath) {
+    revalidatePath("/dashboard/project/[projectId]/create", "layout");
+  }
   return JSON.parse(JSON.stringify(result));
 }
 

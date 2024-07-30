@@ -3,9 +3,9 @@
 import { Tables } from "@/supabase/types";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import EventSettings from "./eventSettings/EventSettings";
-import { StyleSettings } from "./styleSettings/StyleSettings";
+import { StyleSettings } from "./StyleSettings";
 import { IColor } from "react-color-palette";
-import AdditionalSettings from "./additionalSettings/AdditionalSettings";
+import AdditionalSettings from "./AdditionalSettings";
 
 export default function Sidebar({
   activeProject,

@@ -2,7 +2,7 @@ import { showToastError } from "@/components/shared/showToast";
 import { createEvent } from "@/lib/actions/events";
 import { EventType } from "@/lib/enums";
 import { Tables, TablesInsert } from "@/supabase/types";
-import { CirclePlus } from "lucide-react";
+import { CirclePlus, EarIcon } from "lucide-react";
 import {
   Dispatch,
   SetStateAction,
@@ -12,11 +12,13 @@ import {
 
 export default function EventsHeader({
   activeProject,
+  events,
   setEvents,
   startEventTransition,
   isEventPending,
 }: {
   activeProject: Tables<"Projects">;
+  events: Tables<"Events">[];
   setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
   startEventTransition: TransitionStartFunction;
   isEventPending: boolean;
@@ -51,16 +53,30 @@ export default function EventsHeader({
     let content: string;
     switch (eventType) {
       case EventType.OnPurchase:
-        content = "Someone in \\location made a purchase.";
+        content = "\\PERSON in \\LOCATION made a purchase.";
         break;
       case EventType.OnReview:
-        content = "Someone in \\location left a review.";
+        content = "\\PERSON in \\LOCATION left a review.";
+        break;
+      case EventType.ActiveUsers:
+        content = "\\ACTIVEUSERS people are online now.";
         break;
       case EventType.Custom:
         content = "Add your content here.";
         break;
     }
     return content;
+  };
+
+  const isEventAlreadyCreated = (eventType: EventType) => {
+    let isEventAlreadyCreated = false;
+    events.forEach((event) => {
+      if (event.event_type === eventType) {
+        isEventAlreadyCreated = true;
+        return;
+      }
+    });
+    return isEventAlreadyCreated;
   };
   return (
     <div className="flex flex-row justify-between items-center">
@@ -85,38 +101,83 @@ export default function EventsHeader({
           ref={eventDropdownRef}
           className="dropdown-content absolute z-10 mt-1 rounded-lg menu w-full bg-base-100 border border-base-300 min-w-80 p-2 shadow"
         >
-          <li className="flex flex-col mb-2">
+          <li
+            className={`flex flex-col ${
+              isEventAlreadyCreated(EventType.OnPurchase) ? "hidden" : "mb-2"
+            }`}
+          >
             <a
               className="w-full"
-              onClick={() => handleCreateEvent(EventType.OnPurchase)}
+              onClick={() => {
+                if (!isEventAlreadyCreated(EventType.OnPurchase))
+                  handleCreateEvent(EventType.OnPurchase);
+              }}
             >
               <div className="flex flex-col gap-2">
-                <div className="font-bold">On purchase</div>
+                <div className="flex flex-row items-center gap-1">
+                  <div className="font-bold">On Purchase</div>
+                  <EarIcon color="#9ca3af" width={18} height={18} />
+                </div>
                 <div className="flex flex-col gap-1">
                   {" "}
                   <div className="text-xs text-wrap">
-                    Displays popup whenever a user makes a purchase.
+                    Displays popup whenever a user makes a purchase or adds item
+                    to cart.
                   </div>
                   <div className="text-xs text-gray-400">
-                    Integrations: Stripe, LemonSqueezy
+                    Integrations: Stripe
                   </div>
                 </div>
               </div>
             </a>
           </li>
-          <li className="flex flex-col mb-2">
+          <li className={`flex flex-col mb-2`}>
             <a
               className="w-full"
-              onClick={() => handleCreateEvent(EventType.OnReview)}
+              onClick={() => {
+                handleCreateEvent(EventType.OnReview);
+              }}
             >
               <div className="flex flex-col gap-2">
-                <div className="font-bold">On review</div>
+                <div className="flex flex-row items-center gap-1">
+                  <div className="font-bold">On Review</div>
+                  <EarIcon color="#9ca3af" width={18} height={18} />
+                </div>
                 <div className="flex flex-col gap-1">
                   <div className="text-xs text-wrap">
                     Displays popup whenever a user leaves a positive review.
                   </div>
                   <div className="text-xs text-gray-400">
                     Integrations: Google, Trustpilot
+                  </div>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li
+            className={`flex flex-col ${
+              isEventAlreadyCreated(EventType.ActiveUsers) ? "hidden" : "mb-2"
+            }`}
+          >
+            <a
+              className="w-full"
+              onClick={() => {
+                if (!isEventAlreadyCreated(EventType.ActiveUsers))
+                  handleCreateEvent(EventType.ActiveUsers);
+              }}
+            >
+              <div className="flex flex-col gap-2">
+                <div className="flex flex-row items-center gap-1">
+                  <div className="font-bold">Active Users</div>
+                  <EarIcon color="#9ca3af" width={18} height={18} />
+                </div>
+                <div className="flex flex-col gap-1">
+                  <div className="text-xs text-wrap">
+                    Displays popup that shows the number of active users on your
+                    site.
+                  </div>
+                  <div className="text-xs text-gray-400">
+                    Integrations: Google Analytics
                   </div>
                 </div>
               </div>
@@ -131,7 +192,8 @@ export default function EventsHeader({
                 <div className="font-bold">Custom</div>
                 <div className="flex flex-col gap-1">
                   <div className="text-xs text-wrap">
-                    Fully customizable popup, including header, body, and image.
+                    Fully customizable popup, including header, content body,
+                    and image.
                   </div>
                 </div>
               </div>
