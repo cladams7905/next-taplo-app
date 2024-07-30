@@ -24,6 +24,7 @@ export const StyleSettings = ({
   borderColor,
   setBorderColor,
   scrollRef,
+  styleHeaderRef,
   eventHeaderHeight,
 }: {
   activeProject: Tables<"Projects"> | undefined;
@@ -39,6 +40,7 @@ export const StyleSettings = ({
   borderColor: IColor;
   setBorderColor: Dispatch<SetStateAction<IColor>>;
   scrollRef: RefObject<HTMLDivElement>;
+  styleHeaderRef: RefObject<HTMLDivElement>;
   eventHeaderHeight: number | undefined;
 }) => {
   const screenAlignmentTypes = Object.values(ScreenAlignment);
@@ -198,9 +200,9 @@ export const StyleSettings = ({
     });
   };
   return (
-    <div className="flex flex-col w-full h-fit mb-8">
+    <div ref={styleHeaderRef} className="flex flex-col w-full h-fit mb-8">
       <div
-        className={`flex items-center sticky top-[-1px] text-xs px-4 py-6 gap-2 bg-white border-t border-base-300 ${
+        className={`flex items-center sticky top-[-1px] text-xs z-[2] px-4 py-6 gap-2 bg-white border-t border-base-300 ${
           scrolled ? "border-b -mb-[1px]" : ""
         }`}
       >
@@ -217,7 +219,7 @@ export const StyleSettings = ({
               className="btn btn-sm lg:mt-0 lg:w-auto w-full btn-ghost text-xs"
               onClick={() => handleResetClick()}
             >
-              <Undo2 height={18} width={18} /> Reset
+              <Undo2 height={16} width={16} /> Reset
             </div>
           </div>
           <div className="flex lg:flex-row md:flex-row flex-col lg:gap-10 gap-6">
@@ -245,7 +247,7 @@ export const StyleSettings = ({
                   />
                   <div
                     tabIndex={0}
-                    className="dropdown-content bg-base-100 -ml-11 -mt-56 rounded-box z-[1] w-72 p-2 shadow border border-gray-300"
+                    className="dropdown-content bg-base-100 -ml-11 -mt-56 rounded-box z-[5] w-72 p-2 shadow border border-gray-300"
                   >
                     <ColorPicker
                       color={backgroundColor}
@@ -275,7 +277,7 @@ export const StyleSettings = ({
                   />
                   <div
                     tabIndex={0}
-                    className="dropdown-content bg-base-100 -ml-11 -mt-56 rounded-box z-[1] w-72 p-2 shadow border border-gray-300"
+                    className="dropdown-content bg-base-100 -ml-11 -mt-56 rounded-box z-[5] w-72 p-2 shadow border border-gray-300"
                   >
                     <ColorPicker color={textColor} onChange={setTextColor} />
                   </div>
@@ -302,7 +304,7 @@ export const StyleSettings = ({
                   />
                   <div
                     tabIndex={0}
-                    className="dropdown-content bg-base-100 -ml-11 -mt-56 rounded-box z-[1] w-72 p-2 shadow border border-gray-300"
+                    className="dropdown-content bg-base-100 -ml-11 -mt-56 rounded-box z-[5] w-72 p-2 shadow border border-gray-300"
                   >
                     <ColorPicker
                       color={accentColor}
@@ -334,7 +336,7 @@ export const StyleSettings = ({
                   />
                   <div
                     tabIndex={0}
-                    className="dropdown-content bg-base-100 -mr-11 -mt-56 rounded-box z-[1] w-72 p-2 shadow border border-gray-300"
+                    className="dropdown-content bg-base-100 -mr-11 -mt-56 rounded-box z-[5] w-72 p-2 shadow border border-gray-300"
                   >
                     <ColorPicker
                       color={borderColor}
@@ -364,7 +366,7 @@ export const StyleSettings = ({
                   />
                   <div
                     tabIndex={0}
-                    className="dropdown-content bg-base-100 rounded-box -mr-11 -mt-56 z-[1] w-72 p-2 shadow border border-gray-300"
+                    className="dropdown-content bg-base-100 rounded-box -mr-11 -mt-56 z-[5] w-72 p-2 shadow border border-gray-300"
                   >
                     <ColorPicker
                       color={verifiedColor}

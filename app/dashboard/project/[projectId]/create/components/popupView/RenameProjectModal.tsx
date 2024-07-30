@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RefObject, useTransition } from "react";
+import { Dispatch, RefObject, SetStateAction, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -12,20 +12,23 @@ import {
 } from "@/components/shared/form";
 import * as z from "zod";
 import LoadingDots from "@/components/shared/loadingdots";
-import { Trash } from "lucide-react";
 import { Tables } from "@/supabase/types";
-import { deleteProjectById } from "@/lib/actions/projects";
 import { showToast, showToastError } from "@/components/shared/showToast";
 import { useRouter } from "next/navigation";
-import { getRedirectPathname } from "@/app/auth/actions";
+import { Pencil } from "lucide-react";
+import { setActiveProject, updateProject } from "@/lib/actions/projects";
 
-export default function DeleteProjectModal({
-  deleteModalRef,
+export default function RenameProjectModal({
+  activeProject,
+  setActiveProject,
+  renameModalRef,
   dropdownRef,
   project,
 }: {
-  deleteModalRef: RefObject<HTMLDialogElement>;
-  dropdownRef: RefObject<HTMLDivElement>;
+  activeProject: Tables<"Projects">;
+  setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
+  renameModalRef: RefObject<HTMLDialogElement>;
+  dropdownRef: RefObject<HTMLUListElement>;
   project: Tables<"Projects">;
 }) {
   const router = useRouter();
@@ -33,10 +36,17 @@ export default function DeleteProjectModal({
 
   const FormSchema = z
     .object({
-      projectName: z.string(),
+      projectName: z
+        .string()
+        .max(32, {
+          message: "Project name cannot exceed 32 characters.",
+        })
+        .min(3, {
+          message: "Project name must be at least 3 characters.",
+        }),
     })
-    .refine((data) => data.projectName === project.project_name, {
-      message: "Project name does not match.",
+    .refine((data) => data.projectName !== project.name, {
+      message: "Project name must be different.",
       path: ["projectName"],
     });
 
@@ -49,23 +59,27 @@ export default function DeleteProjectModal({
 
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
     startTransition(async () => {
-      const { data, error } = await deleteProjectById(project.id);
+      const { data, error } = await updateProject(project.id, {
+        name: formData.projectName,
+      });
       if (error) {
         showToastError(error);
       } else {
-        if (project.user_id) {
-          router.push(await getRedirectPathname(project.user_id));
-          router.refresh();
-          deleteModalRef.current?.close();
-          showToast(`Successfully deleted project ${project.project_name}.`);
-        }
+        setActiveProject({
+          ...activeProject,
+          name: formData.projectName,
+        });
+        renameModalRef.current?.close();
+        showToast(
+          `Successfully renamed project ${project.name} to ${formData.projectName}.`
+        );
       }
     });
   }
 
   return (
-    <dialog className="modal" ref={deleteModalRef}>
-      <div className="modal-box text-base-content dark:border dark:border-gray-600">
+    <dialog className="modal" ref={renameModalRef}>
+      <div className="modal-box dark:border dark:border-gray-600">
         <form method="dialog" className="modal-backdrop">
           <button
             className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-base-content"
@@ -76,12 +90,7 @@ export default function DeleteProjectModal({
             ✕
           </button>
         </form>
-        <h3 className="font-semibold text-lg">Delete Project</h3>
-        <p className="py-4">
-          If you are sure you want to delete project{" "}
-          <span className="font-semibold">{`${project.project_name}`}</span>,
-          please enter the project name below. This action cannot be undone!
-        </p>
+        <h3 className="font-semibold text-lg mb-4">Rename Project</h3>
         <div className="flex flex-col items-center justify-center w-full max-w-md">
           <Form {...form}>
             <form
@@ -96,9 +105,7 @@ export default function DeleteProjectModal({
                   <FormItem>
                     <FormControl>
                       <input
-                        placeholder={
-                          project.project_name ? project.project_name : ""
-                        }
+                        placeholder="New Project Name"
                         className="input input-bordered flex items-center gap-2 w-full"
                         {...field}
                         type="text"
@@ -111,15 +118,15 @@ export default function DeleteProjectModal({
               />
               <div
                 onClick={form.handleSubmit(onSubmit)}
-                className="w-full btn btn-error text-base-100"
+                className="w-full btn btn-primary text-base-100"
                 style={{ marginTop: "2.5rem" }}
               >
                 {isPending ? (
-                  <LoadingDots color="#FFFFFF" />
+                  <LoadingDots color="oklch(var(--bc))" />
                 ) : (
                   <>
-                    <Trash height={18} width={18} />
-                    Delete Project
+                    <Pencil height={18} width={18} />
+                    Rename Project
                   </>
                 )}
               </div>

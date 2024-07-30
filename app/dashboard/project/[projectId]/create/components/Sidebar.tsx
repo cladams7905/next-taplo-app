@@ -5,6 +5,7 @@ import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import EventSettings from "./eventSettings/EventSettings";
 import { StyleSettings } from "./styleSettings/StyleSettings";
 import { IColor } from "react-color-palette";
+import AdditionalSettings from "./additionalSettings/AdditionalSettings";
 
 export default function Sidebar({
   activeProject,
@@ -41,16 +42,25 @@ export default function Sidebar({
 }) {
   const scrollParentRef = useRef<HTMLDivElement>(null);
   const eventHeaderRef = useRef<HTMLDivElement>(null);
+  const styleHeaderRef = useRef<HTMLDivElement>(null);
   const [eventHeaderHeight, setEventHeaderHeight] = useState<
     number | undefined
   >(undefined);
+  const [styleHeaderHeight, setStyleHeaderHeight] = useState<
+    number | undefined
+  >(undefined);
 
-  /* Detect changes in event settings height for sticky subheadings in sidebar */
+  /* Detect changes in sticky subheadings in sidebar */
   useEffect(() => {
     const handleResize = (entries: ResizeObserverEntry[]) => {
       for (let entry of entries) {
         if (entry.target === eventHeaderRef.current) {
           setEventHeaderHeight(entry.contentRect.height);
+        }
+        if (entry.target === styleHeaderRef.current) {
+          if (eventHeaderHeight) {
+            setStyleHeaderHeight(entry.contentRect.height + eventHeaderHeight);
+          }
         }
       }
     };
@@ -58,9 +68,15 @@ export default function Sidebar({
     if (eventHeaderRef.current) {
       resizeObserver.observe(eventHeaderRef.current);
     }
+    if (styleHeaderRef.current) {
+      resizeObserver.observe(styleHeaderRef.current);
+    }
     return () => {
       if (eventHeaderRef.current) {
         resizeObserver.unobserve(eventHeaderRef.current);
+      }
+      if (styleHeaderRef.current) {
+        resizeObserver.unobserve(styleHeaderRef.current);
       }
     };
   }, []);
@@ -93,13 +109,13 @@ export default function Sidebar({
         borderColor={borderColor}
         setBorderColor={setBorderColor}
         scrollRef={scrollParentRef}
+        styleHeaderRef={styleHeaderRef}
         eventHeaderHeight={eventHeaderHeight}
       />
-      <div className="sticky top-[128px] flex flex-col border-t bg-white gap-3 border-b border-base-300 p-4 pb-10 z-[3]">
-        <div className="text-xs ml-2 font-semibold text-gray-400">Settings</div>
-        <p className="text-xs">Show city in location</p>
-        <p className="text-xs">Only show events from the past ____ days</p>
-      </div>
+      <AdditionalSettings
+        scrollRef={scrollParentRef}
+        styleHeaderHeight={styleHeaderHeight}
+      />
     </div>
   );
 }

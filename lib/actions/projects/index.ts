@@ -53,7 +53,6 @@ export async function updateProject(
     .eq("id", projectId)
     .select("*")
     .single();
-  revalidatePath("/dashboard/project/[projectId]/create", "layout");
   return JSON.parse(JSON.stringify(result));
 }
 

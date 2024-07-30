@@ -12,37 +12,31 @@ import {
 } from "@/components/shared/form";
 import * as z from "zod";
 import LoadingDots from "@/components/shared/loadingdots";
+import { Trash } from "lucide-react";
 import { Tables } from "@/supabase/types";
 import { showToast, showToastError } from "@/components/shared/showToast";
 import { useRouter } from "next/navigation";
-import { Pencil } from "lucide-react";
-import { updateExistingProject } from "@/lib/actions/projects";
+import { getRedirectPathname } from "@/app/auth/actions";
+import { deleteProject } from "@/lib/actions/projects";
 
-export default function RenameProjectModal({
-  renameModalRef,
+export default function DeleteProjectModal({
+  deleteModalRef,
   dropdownRef,
   project,
 }: {
-  renameModalRef: RefObject<HTMLDialogElement>;
-  dropdownRef: RefObject<HTMLDivElement>;
+  deleteModalRef: RefObject<HTMLDialogElement>;
+  dropdownRef: RefObject<HTMLUListElement>;
   project: Tables<"Projects">;
 }) {
-  const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   const FormSchema = z
     .object({
-      projectName: z
-        .string()
-        .max(32, {
-          message: "Project name cannot exceed 32 characters.",
-        })
-        .min(3, {
-          message: "Project name must be at least 3 characters.",
-        }),
+      projectName: z.string(),
     })
-    .refine((data) => data.projectName !== project.project_name, {
-      message: "Project name must be different.",
+    .refine((data) => data.projectName === project.name, {
+      message: "Project name does not match.",
       path: ["projectName"],
     });
 
@@ -55,26 +49,20 @@ export default function RenameProjectModal({
 
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
     startTransition(async () => {
-      const { data, error } = await updateExistingProject(project.id, {
-        project_name: formData.projectName,
-      });
+      const { data, error } = await deleteProject(project.id);
       if (error) {
         showToastError(error);
       } else {
-        if (project.user_id) {
-          renameModalRef.current?.close();
-          showToast(
-            `Successfully renamed project ${project.project_name} to ${formData.projectName}.`
-          );
-          router.refresh();
-        }
+        router.push(await getRedirectPathname(project.user_id));
+        deleteModalRef.current?.close();
+        showToast(`Successfully deleted project ${project.name}.`);
       }
     });
   }
 
   return (
-    <dialog className="modal" ref={renameModalRef}>
-      <div className="modal-box dark:border dark:border-gray-600">
+    <dialog className="modal" ref={deleteModalRef}>
+      <div className="modal-box text-base-content dark:border dark:border-gray-600">
         <form method="dialog" className="modal-backdrop">
           <button
             className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-base-content"
@@ -85,7 +73,12 @@ export default function RenameProjectModal({
             ✕
           </button>
         </form>
-        <h3 className="font-semibold text-lg mb-4">Rename Project</h3>
+        <h3 className="font-semibold text-lg">Delete Project</h3>
+        <p className="py-4">
+          If you are sure you want to delete project{" "}
+          <span className="font-semibold">{`${project.name}`}</span>, please
+          enter the project name below. This action cannot be undone!
+        </p>
         <div className="flex flex-col items-center justify-center w-full max-w-md">
           <Form {...form}>
             <form
@@ -100,7 +93,7 @@ export default function RenameProjectModal({
                   <FormItem>
                     <FormControl>
                       <input
-                        placeholder="New Project Name"
+                        placeholder={project.name}
                         className="input input-bordered flex items-center gap-2 w-full"
                         {...field}
                         type="text"
@@ -113,15 +106,15 @@ export default function RenameProjectModal({
               />
               <div
                 onClick={form.handleSubmit(onSubmit)}
-                className="w-full btn btn-primary text-base-100"
+                className="w-full btn btn-error text-base-100"
                 style={{ marginTop: "2.5rem" }}
               >
                 {isPending ? (
-                  <LoadingDots color="oklch(var(--bc))" />
+                  <LoadingDots color="#FFFFFF" />
                 ) : (
                   <>
-                    <Pencil height={18} width={18} />
-                    Rename Project
+                    <Trash height={18} width={18} />
+                    Delete Project
                   </>
                 )}
               </div>

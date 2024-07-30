@@ -127,7 +127,7 @@ const EventsList = ({
               className="p-2 -mt-[10px] rounded-lg cursor-pointer hover:bg-primary/20"
               tabIndex={1}
             >
-              <Ellipsis width={22} height={22} />
+              <Ellipsis width={20} height={20} />
             </div>
             <ul
               tabIndex={1}

@@ -17,7 +17,7 @@ export default function NavbarTabList({
       case `/dashboard/project/${activeProject?.id}/create`:
         tabIndex = 0;
         break;
-      case `/dashboard/project/${activeProject?.id}/analytics`:
+      case `/dashboard/project/${activeProject?.id}/insights`:
         tabIndex = 1;
         break;
       default:
@@ -55,7 +55,7 @@ export default function NavbarTabList({
             currentTab === 1 ? "tab-active font-semibold" : ""
           }`}
         >
-          Analytics
+          Insights
         </div>
         <div className="absolute -right-[90px] mb-[6px] badge badge-primary bg-primary/20 border-none text-primary">
           Coming soon!

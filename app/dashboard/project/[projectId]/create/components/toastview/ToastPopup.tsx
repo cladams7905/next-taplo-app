@@ -10,68 +10,31 @@ import Image from "next/image";
 
 export default function ToastPopup({
   activeProject,
-  products,
-  backgroundToastColor,
+  events,
+  backgroundColor,
   textColor,
   accentColor,
   verifiedColor,
   borderColor,
-  isShowProductsChecked,
-  productImageSrc,
 }: {
   activeProject: Tables<"Projects">;
-  products: Tables<"Products">[];
-  backgroundToastColor: IColor;
+  events: Tables<"Events">[];
+  backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
   verifiedColor: IColor;
   borderColor: IColor;
-  isShowProductsChecked: boolean;
-  productImageSrc: string;
 }) {
-  const [isFirstClicked, setIsFirstClicked] = useState(false);
-  const [activeProduct, setActiveProduct] = useState<Tables<"Products"> | null>(
-    products.filter((product) => product.toast_id === activeProject?.id)[0]
-  );
-
-  useEffect(() => {
-    if (products && activeProject) {
-      setActiveProduct(
-        products.filter((product) => product.toast_id === activeProject?.id)[0]
-      );
-    }
-  }, [activeProject, products]);
-
-  useEffect(() => {
-    setIsFirstClicked(true);
-    // confetti({
-    //   particleCount: 100,
-    //   startVelocity: 30,
-    //   spread: 60,
-    //   ticks: 100,
-    //   scalar: 0.35,
-    //   origin: {
-    //     x: 0.75,
-    //     y: 0.35,
-    //   },
-    // });
-    setTimeout(() => {
-      setIsFirstClicked(false);
-    }, 1000);
-  }, [activeProject]);
-
   return (
     <div
       style={{
-        backgroundColor: backgroundToastColor.hex.toString(),
+        backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className={`flex relative w-fit pr-6 pl-3 max-w-[320px] rounded-lg border shadow-xl p-2 ${
-        isFirstClicked && "animate__animated animate__bounceIn"
-      }`}
+      className={`flex w-fit h-fit pr-6 pl-3 max-w-[320px] rounded-lg border shadow-md p-2`}
     >
       <div className="flex w-full gap-4 items-center">
-        {productImageSrc !== "" && (
+        {/* {productImageSrc !== "" && (
           <div
             style={{
               backgroundColor:
@@ -89,7 +52,7 @@ export default function ToastPopup({
               src={productImageSrc}
             />
           </div>
-        )}
+        )} */}
         <div className="flex flex-col w-full">
           <div
             style={{
@@ -103,7 +66,7 @@ export default function ToastPopup({
               {" "}
               <BadgeCheck
                 fill={verifiedColor.hex.toString()}
-                color={backgroundToastColor.hex.toString()}
+                color={backgroundColor.hex.toString()}
               />
               Verified Purchase
             </div>
@@ -114,7 +77,7 @@ export default function ToastPopup({
             }}
             className="text-[14px] mt-1"
           >
-            {activeProduct && activeProduct.name && isShowProductsChecked ? (
+            {/* {activeProduct && activeProduct.name && isShowProductsChecked ? (
               <>
                 {`Someone in USA purchased `}
                 <a
@@ -129,7 +92,7 @@ export default function ToastPopup({
               </>
             ) : (
               "Test"
-            )}
+            )} */}
           </p>
         </div>
       </div>

@@ -1,10 +1,10 @@
 "use client";
 
 import { Tables } from "@/supabase/types";
-import ActiveToastView from "./ActiveToastView";
 import Sidebar from "./Sidebar";
 import { useState } from "react";
 import { useColor } from "react-color-palette";
+import PopupView from "./popupView/PopupView";
 
 export default function ProjectBoard({
   fetchedActiveProject,
@@ -58,10 +58,15 @@ export default function ProjectBoard({
         />
       </div>
       <div className="lg:w-2/3 w-full">
-        <ActiveToastView
+        <PopupView
           activeProject={activeProject}
           setActiveProject={setActiveProject}
-          integrations={integrations}
+          events={events}
+          backgroundColor={backgroundColor}
+          textColor={textColor}
+          accentColor={accentColor}
+          borderColor={borderColor}
+          verifiedColor={verifiedColor}
         />
       </div>
     </main>
