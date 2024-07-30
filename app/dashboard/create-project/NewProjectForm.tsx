@@ -13,7 +13,6 @@ import {
   FormMessage,
 } from "@/components/shared/form";
 import { useTransition } from "react";
-import { createClient } from "@/supabase/client";
 import { CirclePlus } from "lucide-react";
 import { createProject } from "@/lib/actions/projects";
 import { showToast, showToastError } from "@/components/shared/showToast";
@@ -29,8 +28,6 @@ const FormSchema = z.object({
 export default function NewProjectForm() {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
-
-  const supabase = createClient();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -49,9 +46,8 @@ export default function NewProjectForm() {
       if (error) {
         showToastError(error);
       } else {
-        showToast(`Created new project: ${formData.projectName}`);
         router.push(`/dashboard/project/${data.id}/create`);
-        router.refresh();
+        showToast(`Created new project: ${formData.projectName}`);
       }
     });
   }

@@ -4,7 +4,6 @@ import { createClient } from "@/supabase/server";
 import { redirect } from "next/navigation";
 import { getIntegrations } from "@/lib/actions/integrations";
 import { getEvents } from "@/lib/actions/events";
-import { revalidatePath } from "next/cache";
 
 export default async function CreatePopupPage({ params }: { params: string }) {
   const supabase = createClient();

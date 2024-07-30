@@ -2,6 +2,7 @@
 
 import { createClient } from "@/supabase/server";
 import { TablesInsert, TablesUpdate } from "@/supabase/types";
+import { revalidatePath } from "next/cache";
 
 export async function createProject(project: TablesInsert<"Projects">) {
   const supabase = createClient();
@@ -10,6 +11,7 @@ export async function createProject(project: TablesInsert<"Projects">) {
     .insert(project)
     .select("*")
     .single();
+  revalidatePath("/dashboard/project/[projectId]/create", "layout");
   return JSON.parse(JSON.stringify(result));
 }
 
@@ -51,6 +53,7 @@ export async function updateProject(
     .eq("id", projectId)
     .select("*")
     .single();
+  revalidatePath("/dashboard/project/[projectId]/create", "layout");
   return JSON.parse(JSON.stringify(result));
 }
 
@@ -62,5 +65,6 @@ export async function deleteProject(projectId: number) {
     .eq("id", projectId)
     .select("*")
     .single();
+  revalidatePath("/dashboard/project/[projectId]/create", "layout");
   return JSON.parse(JSON.stringify(result));
 }

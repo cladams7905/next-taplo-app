@@ -6,21 +6,6 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /**
- * Moves an array value to the top index of an array.
- * @param arr The array
- * @param value the value to move
- * @returns
- */
-export function moveToTop(arr: any[], value: any) {
-  const index = arr.indexOf(value);
-  if (index > -1) {
-    arr.splice(index, 1);
-    arr.unshift(value);
-  }
-  return arr;
-}
-
-/**
  * Converts date time into a more readable format (i.e. Today 3:14 PM)
  * @param timestampz timestampz
  * @returns time

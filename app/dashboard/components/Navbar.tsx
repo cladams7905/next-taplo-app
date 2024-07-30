@@ -26,8 +26,13 @@ export default function Navbar({
   const [reorderedProjects, setReorderedProjects] =
     useState<Tables<"Projects">[]>(projects);
 
+  // First useEffect to set the active project
   useEffect(() => {
-    /* Reorder projects when active project changes */
+    setActiveProject(fetchedActiveProject);
+  }, [fetchedActiveProject]);
+
+  // Second useEffect to reorder projects when active project changes
+  useEffect(() => {
     if (activeProject) {
       const updatedProjects = moveToTop(
         projects,
@@ -36,6 +41,18 @@ export default function Navbar({
       setReorderedProjects(updatedProjects);
     }
   }, [activeProject, projects]);
+
+  // Helper function to move active project to the top
+  const moveToTop = (
+    projects: Tables<"Projects">[],
+    activeProject: Tables<"Projects"> | undefined
+  ) => {
+    if (!activeProject) return projects;
+    return [
+      activeProject,
+      ...projects.filter((project) => project.id !== activeProject.id),
+    ];
+  };
 
   useEffect(() => {
     /* This check is used for toggling the navbar tablist. 
@@ -82,19 +99,4 @@ export default function Navbar({
       </div>
     </main>
   );
-}
-
-/**
- * Moves an array value to the top index of an array.
- * @param arr The array
- * @param value the value to move
- * @returns
- */
-export function moveToTop(arr: any[], value: any) {
-  const index = arr.indexOf(value);
-  if (index > -1) {
-    arr.splice(index, 1);
-    arr.unshift(value);
-  }
-  return arr;
 }
