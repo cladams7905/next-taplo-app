@@ -162,7 +162,7 @@ export default function ProjectDropdown({
                 }}
               >
                 {isCreateProjectPending ? (
-                  <LoadingDots color="oklch(var(--bc))" size="sm" />
+                  <LoadingDots color="#FFFFFF" size="sm" />
                 ) : (
                   <>
                     <CirclePlus height={18} width={18} />

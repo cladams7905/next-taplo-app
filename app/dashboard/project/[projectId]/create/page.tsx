@@ -3,8 +3,8 @@ import ProjectBoard from "./components/ProjectBoard";
 import { createClient } from "@/supabase/server";
 import { redirect } from "next/navigation";
 import { getIntegrations } from "@/lib/actions/integrations";
-import { getProducts } from "@/lib/actions/products";
 import { getEvents } from "@/lib/actions/events";
+import { revalidatePath } from "next/cache";
 
 export default async function CreatePopupPage({ params }: { params: string }) {
   const supabase = createClient();

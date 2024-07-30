@@ -8,7 +8,7 @@ import {
   TransitionStartFunction,
   useRef,
 } from "react";
-import NewIntegrationModal from "../../../connect/components/NewIntegrationModal";
+import NewIntegrationModal from "./NewIntegrationModal";
 
 export default function IntegrationSelect({
   activeProject,

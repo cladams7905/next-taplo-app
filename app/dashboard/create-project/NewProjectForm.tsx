@@ -15,6 +15,10 @@ import {
 import { useTransition } from "react";
 import { createClient } from "@/supabase/client";
 import { CirclePlus } from "lucide-react";
+import { createProject } from "@/lib/actions/projects";
+import { showToast, showToastError } from "@/components/shared/showToast";
+import { useRouter } from "next/navigation";
+import { PopupTemplates, ScreenAlignment } from "@/lib/enums";
 
 const FormSchema = z.object({
   projectName: z.string().max(32, {
@@ -24,6 +28,7 @@ const FormSchema = z.object({
 
 export default function NewProjectForm() {
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
 
   const supabase = createClient();
 
@@ -35,7 +40,20 @@ export default function NewProjectForm() {
   });
 
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
-    startTransition(async () => {});
+    startTransition(async () => {
+      const { data, error } = await createProject({
+        name: formData.projectName,
+        screen_alignment: ScreenAlignment.BottomLeft,
+        template: PopupTemplates.Toast,
+      });
+      if (error) {
+        showToastError(error);
+      } else {
+        showToast(`Created new project: ${formData.projectName}`);
+        router.push(`/dashboard/project/${data.id}/create`);
+        router.refresh();
+      }
+    });
   }
 
   return (

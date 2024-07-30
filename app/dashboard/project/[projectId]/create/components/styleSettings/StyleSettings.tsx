@@ -179,8 +179,26 @@ export const StyleSettings = ({
       }
     });
   };
+
+  const handleTemplateSelect = (template: PopupTemplates) => {
+    startStyleTransition(async () => {
+      if (activeProject && template) {
+        setActiveProject({
+          ...activeProject,
+          template: template,
+        });
+        const { error } = await updateProject(activeProject.id, {
+          ...activeProject,
+          template: template,
+        });
+        if (error) {
+          showToastError(error);
+        }
+      }
+    });
+  };
   return (
-    <div className="flex flex-col w-full h-fit">
+    <div className="flex flex-col w-full h-fit mb-8">
       <div
         className={`flex items-center sticky top-[-1px] text-xs px-4 py-6 gap-2 bg-white border-t border-base-300 ${
           scrolled ? "border-b -mb-[1px]" : ""
@@ -364,7 +382,9 @@ export const StyleSettings = ({
           <select
             className="select select-bordered border-neutral w-full"
             value={activeProject?.template || "default"}
-            onChange={(e) => {}}
+            onChange={(e) => {
+              handleTemplateSelect(e.target.value as PopupTemplates);
+            }}
           >
             <option value={"default"}>Select</option>
             {templateTypes.map((type, i) => (

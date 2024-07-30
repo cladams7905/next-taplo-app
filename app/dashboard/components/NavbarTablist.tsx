@@ -17,11 +17,8 @@ export default function NavbarTabList({
       case `/dashboard/project/${activeProject?.id}/create`:
         tabIndex = 0;
         break;
-      case `/dashboard/project/${activeProject?.id}/connect`:
+      case `/dashboard/project/${activeProject?.id}/analytics`:
         tabIndex = 1;
-        break;
-      case `/dashboard/project/${activeProject?.id}/settings`:
-        tabIndex = 2;
         break;
       default:
         console.log(`unhandled pathname: ${pathname}`);
@@ -35,7 +32,7 @@ export default function NavbarTabList({
   };
 
   return (
-    <div className="flex flex-row items-center">
+    <div className="flex flex-row items-center relative">
       <div
         role="tablist"
         className="menu menu-horizontal lg:inline-flex grid tabs w-fit py-2 lg:h-auto h-[58px]"
@@ -51,28 +48,18 @@ export default function NavbarTabList({
         >
           Create
         </Link>
-        <Link
-          href={"./connect"}
+        <div
           role="tab"
           tabIndex={1}
-          className={`tab [--tab-border-color:oklch(var(--n))] [&:hover:not(.tab-active)]:bg-link-hover rounded-lg w-24 ${
+          className={`tab cursor-auto rounded-lg w-24 ${
             currentTab === 1 ? "tab-active font-semibold" : ""
           }`}
-          onClick={(e) => handleTabClick(e.currentTarget.tabIndex)}
         >
-          Connect
-        </Link>
-        <Link
-          href={"./settings"}
-          role="tab"
-          tabIndex={2}
-          className={`tab [--tab-border-color:oklch(var(--n))] [&:hover:not(.tab-active)]:bg-link-hover rounded-lg w-24 ${
-            currentTab === 2 ? "tab-active font-semibold" : ""
-          }`}
-          onClick={(e) => handleTabClick(e.currentTarget.tabIndex)}
-        >
-          Settings
-        </Link>
+          Analytics
+        </div>
+        <div className="absolute -right-[90px] mb-[6px] badge badge-primary bg-primary/20 border-none text-primary">
+          Coming soon!
+        </div>
       </div>
     </div>
   );

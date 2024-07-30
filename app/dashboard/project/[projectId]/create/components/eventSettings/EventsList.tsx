@@ -12,7 +12,7 @@ import {
   useRef,
   useState,
 } from "react";
-import IntegrationSelect from "./IntegrationSelect";
+import IntegrationSelect from "./integrations/IntegrationSelect";
 import ContentBody from "./ContentBody";
 import { EventType } from "@/lib/enums";
 import ProductList from "./ProductList";
@@ -93,103 +93,109 @@ const EventsList = ({
     }
   };
 
-  return events.map((event, i) => (
-    <div
-      key={i}
-      className="collapse collapse-arrow rounded-lg text-sm border border-base-300"
-      onClick={(e) => toggleAccordion(e.currentTarget.classList)}
-    >
-      <input type="radio" className="-z-10" />
-      <div className="collapse-title flex flex-row justify-between items-center">
-        <div className="flex flex-col gap-1">
-          <div className="font-bold">{event.event_type}</div>
-          <div className="text-xs text-gray-400">
-            Listens to:{" "}
-            {event.integration_id ? (
-              getIntegrationById(event.integration_id)?.provider
-            ) : (
-              <span className="text-error">None Selected</span>
-            )}
+  return events.length > 0 ? (
+    events.map((event, i) => (
+      <div
+        key={i}
+        className="collapse collapse-arrow rounded-lg text-sm border border-base-300"
+        onClick={(e) => toggleAccordion(e.currentTarget.classList)}
+      >
+        <input type="radio" className="-z-10" />
+        <div className="collapse-title flex flex-row justify-between items-center">
+          <div className="flex flex-col gap-1">
+            <div className="font-bold">{event.event_type}</div>
+            <div className="text-xs text-gray-400">
+              Listens to:{" "}
+              {event.integration_id ? (
+                getIntegrationById(event.integration_id)?.provider
+              ) : (
+                <span className="text-error">None Selected</span>
+              )}
+            </div>
+          </div>
+          <div
+            className={`dropdown ${
+              isCollapseOpen ? "dropdown-end" : "dropdown-left"
+            }`}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleElement?.current?.classList.remove("hidden");
+            }}
+          >
+            <div
+              className="p-2 -mt-[10px] rounded-lg cursor-pointer hover:bg-primary/20"
+              tabIndex={1}
+            >
+              <Ellipsis width={22} height={22} />
+            </div>
+            <ul
+              tabIndex={1}
+              ref={toggleElement}
+              className={`menu menu-sm dropdown-content ${
+                !isCollapseOpen && "-mt-[10px] mr-1"
+              } border border-neutral z-[10] shadow bg-base-100 rounded-md min-w-40`}
+            >
+              <li>
+                <a
+                  className="flex flex-col items-start rounded-md"
+                  onClick={() => handleEventDelete(event.id)}
+                >
+                  <div className="flex items-center gap-2">
+                    {" "}
+                    <Trash width={16} height={16} />
+                    Delete
+                  </div>
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
         <div
-          className={`dropdown ${
-            isCollapseOpen ? "dropdown-end" : "dropdown-left"
-          }`}
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            toggleElement?.current?.classList.remove("hidden");
-          }}
+          className="collapse-content flex flex-col gap-6"
+          onClick={(e) => e.stopPropagation()}
         >
-          <div
-            className="p-2 -mt-[10px] rounded-lg cursor-pointer hover:bg-primary/20"
-            tabIndex={1}
-          >
-            <Ellipsis width={22} height={22} />
-          </div>
-          <ul
-            tabIndex={1}
-            ref={toggleElement}
-            className={`menu menu-sm dropdown-content ${
-              !isCollapseOpen && "-mt-[10px] mr-1"
-            } border border-neutral z-[10] shadow bg-base-100 rounded-md min-w-40`}
-          >
-            <li>
-              <a
-                className="flex flex-col items-start rounded-md"
-                onClick={() => handleEventDelete(event.id)}
-              >
-                <div className="flex items-center gap-2">
-                  {" "}
-                  <Trash width={16} height={16} />
-                  Delete
-                </div>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div
-        className="collapse-content flex flex-col gap-6"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="w-full flex flex-col gap-2">
-          <IntegrationSelect
-            activeProject={activeProject}
-            setActiveProject={setActiveProject}
-            currentEvent={event}
-            events={events}
-            integrations={integrations}
-            setIntegrations={setIntegrations}
-            startEventTransition={startEventTransition}
-            handleUpdateIntegration={handleUpdateIntegration}
-          />
-        </div>
-        <div className="w-full flex flex-col gap-2">
-          <ContentBody
-            currentEvent={event}
-            setEvents={setEvents}
-            startEventTransition={startEventTransition}
-          />
-        </div>
-        {event.event_type === EventType.OnPurchase && (
           <div className="w-full flex flex-col gap-2">
-            <ProductList
+            <IntegrationSelect
+              activeProject={activeProject}
+              setActiveProject={setActiveProject}
+              currentEvent={event}
+              events={events}
+              integrations={integrations}
+              setIntegrations={setIntegrations}
+              startEventTransition={startEventTransition}
+              handleUpdateIntegration={handleUpdateIntegration}
+            />
+          </div>
+          <div className="w-full flex flex-col gap-2">
+            <ContentBody
               currentEvent={event}
               setEvents={setEvents}
               startEventTransition={startEventTransition}
             />
           </div>
-        )}
-        <div className="w-full flex flex-col gap-2">
-          <div className="flex flex-row w-full justify-between">
-            <div className="flex items-center gap-2 font-bold">Settings</div>
+          {event.event_type === EventType.OnPurchase && (
+            <div className="w-full flex flex-col gap-2">
+              <ProductList
+                currentEvent={event}
+                setEvents={setEvents}
+                startEventTransition={startEventTransition}
+              />
+            </div>
+          )}
+          <div className="w-full flex flex-col gap-2">
+            <div className="flex flex-row w-full justify-between">
+              <div className="flex items-center gap-2 font-bold">Settings</div>
+            </div>
           </div>
         </div>
       </div>
+    ))
+  ) : (
+    <div className="px-4 text-sm text-gray-400">
+      You haven't created any events yet. Click "+" to create a new one!
     </div>
-  ));
+  );
 };
 
 function areEqual(
