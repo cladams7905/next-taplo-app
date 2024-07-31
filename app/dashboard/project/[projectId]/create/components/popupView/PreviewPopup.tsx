@@ -2,13 +2,12 @@
 
 import { Tables } from "@/supabase/types";
 import { BadgeCheck } from "lucide-react";
-import { useEffect, useState } from "react";
-import "animate.css";
+import { useEffect, useRef, useState } from "react";
 import { IColor } from "react-color-palette";
 import confetti from "canvas-confetti";
 import Image from "next/image";
 
-export default function ToastPopup({
+export default function PreviewPopup({
   activeProject,
   events,
   backgroundColor,
@@ -25,13 +24,49 @@ export default function ToastPopup({
   verifiedColor: IColor;
   borderColor: IColor;
 }) {
+  const [animation, setAnimation] = useState("animate-slideIn");
+  const [isVisible, setIsVisible] = useState(true);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    const updateAnimation = () => {
+      setAnimation((prevAnimation) => {
+        if (prevAnimation === "animate-slideIn") {
+          setTimeout(() => setIsVisible(false), 500); // Duration of slideOut animation
+          return "animate-slideOut";
+        } else {
+          setIsVisible(true);
+          return "animate-slideIn";
+        }
+      });
+    };
+
+    // Clear the previous interval
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+
+    // Set a new interval based on the current animation state
+    intervalRef.current = setInterval(
+      updateAnimation,
+      animation === "animate-slideIn" ? 5000 : 750
+    );
+
+    return () => {
+      // Clear the interval when the component is unmounted
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [animation]); // Depend on the animation state
+
   return (
     <div
       style={{
         backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className={`flex w-fit h-fit pr-6 pl-3 max-w-[320px] rounded-lg border shadow-md p-2`}
+      className={`flex w-fit h-fit pr-6 pl-3 max-w-[320px] rounded-lg border shadow-md p-2 ${animation}`}
     >
       <div className="flex w-full gap-4 items-center">
         {/* {productImageSrc !== "" && (

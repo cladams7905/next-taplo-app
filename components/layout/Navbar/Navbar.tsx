@@ -15,7 +15,7 @@ export default function Navbar() {
       <div
         className={`navbar bg-base-100 fixed lg:px-20 font-sans ${
           scrolled
-            ? "border-b border-gray-200 bg-white/80 backdrop-blur-xl"
+            ? "border-b border-gray-300 bg-white/80 backdrop-blur-xl"
             : "bg-white/0"
         } z-30 transition-all`}
       >

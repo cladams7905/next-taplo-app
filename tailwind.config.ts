@@ -18,7 +18,7 @@ const config: Config = {
           neutral: "#D1D3D7" /**9ca3af */,
           "base-100": "#ffffff",
           "base-content": "#172554",
-          info: "#D8D2FB",
+          info: "#C4C4F8",
           success: "#4ade80",
           warning: "#fde047",
           error: "#f87171",
@@ -55,13 +55,18 @@ const config: Config = {
         "link-hover": "var(--fallback-p,oklch(var(--p)/0.20))",
       },
       keyframes: {
-        wiggle: {
-          "0%, 100%": { transform: "rotate(-3deg)" },
-          "50%": { transform: "rotate(3deg)" },
+        slideIn: {
+          "0%": { transform: "translateX(-20%)", opacity: "0" },
+          "100%": { transform: "translateX(0)", opacity: "1" },
+        },
+        slideOut: {
+          "0%": { transform: "translateX(0)", opacity: "1" },
+          "100%": { transform: "translateX(-20%)", opacity: "0" },
         },
       },
       animation: {
-        wiggle: "wiggle 0.5s ease-in-out infinite",
+        slideIn: "slideIn 0.3s ease-in-out forwards",
+        slideOut: "slideOut 0.2s ease-in-out forwards",
       },
     },
   },

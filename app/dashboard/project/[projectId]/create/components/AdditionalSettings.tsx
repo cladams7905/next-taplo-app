@@ -48,11 +48,11 @@ export default function AdditionalSettings({
     });
   };
   return (
-    <div className="sticky top-[128px] flex flex-col border-t bg-white border-b border-base-300 pb-6 z-[3]">
+    <div className="sticky top-[128px] flex flex-col border-t bg-white border-b border-gray-300 pb-6 z-[3]">
       <div className="flex flex-col w-full h-fit">
         <div
-          className={`flex items-center sticky top-[-1px] text-xs px-4 py-6 gap-2 bg-white border-base-300 ${
-            scrolled ? "border-b -mb-[1px]" : ""
+          className={`flex items-center sticky top-[-1px] text-xs px-4 py-6 gap-2 bg-white border-gray-300 ${
+            scrolled ? "border-b -mb-[1px] shadow-sm" : ""
           }`}
         >
           <div className="font-semibold text-gray-400 ml-2">Settings</div>

@@ -90,7 +90,7 @@ export default function ProjectDropdown({
             </a>
           </li>
           <div
-            className="dropdown-content border mt-1 border-neutral dark:border-gray-600 z-[10] p-2 shadow bg-base-100 rounded-md w-52"
+            className="dropdown-content border mt-1 border-gray-300 dark:border-gray-600 z-[10] p-2 shadow-lg bg-base-100 rounded-md w-52"
             ref={toggleElement}
             tabIndex={1}
           >
@@ -107,13 +107,13 @@ export default function ProjectDropdown({
                 />
                 <input
                   type="text"
-                  className="grow w-5 ml-4"
+                  className="grow w-5 ml-4 !border-none"
                   placeholder="Search Projects..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </label>
-              <hr className="border-t border-neutral"></hr>
+              <hr className="border-t border-gray-300"></hr>
               <div className="mt-4">
                 <div className="text-xs ml-2 font-semibold text-gray-400">
                   Projects
@@ -149,7 +149,7 @@ export default function ProjectDropdown({
                     ))}
                 </ul>
               </div>
-              <hr className="my-2 border-t border-neutral"></hr>
+              <hr className="my-2 border-t border-gray-300"></hr>
               <Link
                 href={"/dashboard/create-project"}
                 className="btn btn-primary text-white btn-sm rounded-md h-auto p-2 mt-1 min-h-[38px]"

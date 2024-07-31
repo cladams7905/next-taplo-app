@@ -202,8 +202,8 @@ export const StyleSettings = ({
   return (
     <div ref={styleHeaderRef} className="flex flex-col w-full h-fit mb-8">
       <div
-        className={`flex items-center sticky top-[-1px] text-xs z-[2] px-4 py-6 gap-2 bg-white border-t border-base-300 ${
-          scrolled ? "border-b -mb-[1px]" : ""
+        className={`flex items-center sticky top-[-1px] text-xs z-[2] px-4 py-6 gap-2 bg-white border-t border-gray-300 ${
+          scrolled ? "border-b -mb-[1px] shadow-sm" : ""
         }`}
       >
         <div className="font-semibold text-gray-400 ml-2">Style</div>
@@ -212,7 +212,7 @@ export const StyleSettings = ({
         )}
       </div>
       <div className="flex flex-col p-4 gap-6">
-        <div className="flex flex-col gap-6 rounded-lg border border-base-300 px-5 pt-3 pb-5">
+        <div className="flex flex-col gap-6 rounded-lg border border-gray-300 px-5 pt-3 pb-5">
           <div className="flex flex-row items-center w-full justify-between">
             <p className="text-sm font-bold">Colors</p>
             <div
@@ -235,7 +235,7 @@ export const StyleSettings = ({
                   <input
                     type="text"
                     value={backgroundColor.hex.toUpperCase()}
-                    className="input input-bordered input-sm h-[38px] border border-neutral w-full max-w-52"
+                    className="input input-bordered input-sm h-[38px] border border-gray-300 w-full max-w-52"
                     readOnly
                   />
                   <div
@@ -247,7 +247,7 @@ export const StyleSettings = ({
                   />
                   <div
                     tabIndex={0}
-                    className="dropdown-content bg-base-100 -ml-11 -mt-56 rounded-box z-[5] w-72 p-2 shadow border border-gray-300"
+                    className="dropdown-content bg-base-100 -ml-11 -mt-56 rounded-lg z-[5] w-72 p-2 shadow-md border border-gray-300"
                   >
                     <ColorPicker
                       color={backgroundColor}
@@ -265,7 +265,7 @@ export const StyleSettings = ({
                   <input
                     type="text"
                     value={textColor.hex.toUpperCase()}
-                    className="input input-bordered input-sm h-[38px] border border-neutral w-full max-w-52"
+                    className="input input-bordered input-sm h-[38px] border border-gray-300 w-full max-w-52"
                     readOnly
                   />
                   <div
@@ -277,7 +277,7 @@ export const StyleSettings = ({
                   />
                   <div
                     tabIndex={0}
-                    className="dropdown-content bg-base-100 -ml-11 -mt-56 rounded-box z-[5] w-72 p-2 shadow border border-gray-300"
+                    className="dropdown-content bg-base-100 -ml-11 -mt-56 rounded-lg z-[5] w-72 p-2 shadow-md border border-gray-300"
                   >
                     <ColorPicker color={textColor} onChange={setTextColor} />
                   </div>
@@ -292,7 +292,7 @@ export const StyleSettings = ({
                   <input
                     type="text"
                     value={accentColor.hex.toUpperCase()}
-                    className="input input-bordered input-sm h-[38px] border border-neutral w-full max-w-52"
+                    className="input input-bordered input-sm h-[38px] border border-gray-300 w-full max-w-52"
                     readOnly
                   />
                   <div
@@ -304,7 +304,7 @@ export const StyleSettings = ({
                   />
                   <div
                     tabIndex={0}
-                    className="dropdown-content bg-base-100 -ml-11 -mt-56 rounded-box z-[5] w-72 p-2 shadow border border-gray-300"
+                    className="dropdown-content bg-base-100 -ml-11 -mt-56 rounded-lg z-[5] w-72 p-2 shadow-md border border-gray-300"
                   >
                     <ColorPicker
                       color={accentColor}
@@ -324,7 +324,7 @@ export const StyleSettings = ({
                   <input
                     type="text"
                     value={borderColor.hex.toUpperCase()}
-                    className="input input-bordered input-sm h-[38px] border border-neutral w-full max-w-52"
+                    className="input input-bordered input-sm h-[38px] border border-gray-300 w-full max-w-52"
                     readOnly
                   />
                   <div
@@ -336,7 +336,7 @@ export const StyleSettings = ({
                   />
                   <div
                     tabIndex={0}
-                    className="dropdown-content bg-base-100 -mr-11 -mt-56 rounded-box z-[5] w-72 p-2 shadow border border-gray-300"
+                    className="dropdown-content bg-base-100 -mr-11 -mt-56 rounded-lg z-[5] w-72 p-2 shadow-md border border-gray-300"
                   >
                     <ColorPicker
                       color={borderColor}
@@ -354,7 +354,7 @@ export const StyleSettings = ({
                   <input
                     type="text"
                     value={verifiedColor.hex.toUpperCase()}
-                    className="input input-bordered input-sm h-[38px] border border-neutral w-full max-w-52"
+                    className="input input-bordered input-sm h-[38px] border border-gray-300 w-full max-w-52"
                     readOnly
                   />
                   <div
@@ -366,7 +366,7 @@ export const StyleSettings = ({
                   />
                   <div
                     tabIndex={0}
-                    className="dropdown-content bg-base-100 rounded-box -mr-11 -mt-56 z-[5] w-72 p-2 shadow border border-gray-300"
+                    className="dropdown-content bg-base-100 rounded-lg -mr-11 -mt-56 z-[5] w-72 p-2 shadow-md border border-gray-300"
                   >
                     <ColorPicker
                       color={verifiedColor}

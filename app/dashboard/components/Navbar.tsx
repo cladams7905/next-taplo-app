@@ -28,7 +28,6 @@ export default function Navbar({
 
   // First useEffect to set the active project
   useEffect(() => {
-    console.log(fetchedActiveProject, activeProject);
     setActiveProject(fetchedActiveProject);
   }, [fetchedActiveProject]);
 
@@ -64,7 +63,7 @@ export default function Navbar({
   }, [pathname]);
 
   return (
-    <main className="flex flex-col items-center w-full font-sans z-30 px-3 transition-all border-b border-neutral dark:bg-base-100 shadow-md bg-white">
+    <main className="flex flex-col items-center w-full font-sans z-30 px-3 transition-all border-b border-gray-300 dark:bg-base-100 shadow-md bg-white">
       <div className="navbar flex">
         <div className="navbar-start">
           <label

@@ -4,7 +4,8 @@ import { Tables } from "@/supabase/types";
 import Sidebar from "./Sidebar";
 import { useEffect, useState } from "react";
 import { useColor } from "react-color-palette";
-import PopupView from "./popupView/PopupView";
+import PopupView from "./popupView/PopupViewContainer";
+import PopupViewContainer from "./popupView/PopupViewContainer";
 
 export default function ProjectBoard({
   fetchedActiveProject,
@@ -58,7 +59,7 @@ export default function ProjectBoard({
         />
       </div>
       <div className="lg:w-2/3 w-full">
-        <PopupView
+        <PopupViewContainer
           activeProject={activeProject}
           setActiveProject={setActiveProject}
           events={events}

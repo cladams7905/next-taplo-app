@@ -66,3 +66,6 @@ input:-webkit-autofill:active {
 input:-webkit-autofill {
   -webkit-text-fill-color: oklch(var(--bc)) !important;
 }
+input, select, textarea {
+  @apply border !border-gray-300
+}

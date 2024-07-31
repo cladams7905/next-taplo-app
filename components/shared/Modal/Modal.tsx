@@ -31,7 +31,7 @@ export default function Modal({
           }`}
         />
         <Drawer.Portal>
-          <Drawer.Content className="fixed bottom-0 left-0 right-0 z-50 mt-24 rounded-t-[10px] border-t border-gray-200 bg-white">
+          <Drawer.Content className="fixed bottom-0 left-0 right-0 z-50 mt-24 rounded-t-[10px] border-t border-gray-300 bg-white">
             <div className="sticky top-0 z-20 flex items-center justify-center rounded-t-[10px] bg-inherit">
               <div className="my-3 h-1 w-12 rounded-full bg-gray-300" />
             </div>
@@ -57,7 +57,7 @@ export default function Modal({
           onCloseAutoFocus={(e) => e.preventDefault()}
           className={`animate-scale-in fixed inset-0 z-40 m-auto max-h-fit outline-none ${
             width ? width : "max-w-md"
-          } overflow-hidden border border-gray-200 bg-white p-0 shadow-xl md:rounded-2xl`}
+          } overflow-hidden border border-gray-300 bg-white p-0 shadow-xl md:rounded-2xl`}
         >
           {children}
         </Dialog.Content>

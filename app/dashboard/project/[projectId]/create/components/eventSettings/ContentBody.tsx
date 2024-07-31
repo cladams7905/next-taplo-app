@@ -349,7 +349,7 @@ export default function ContentBody({
         </div>
       ) : (
         <div
-          className="p-2 px-3 inline-block border border-base-300 rounded-lg text-sm"
+          className="p-2 px-3 inline-block border border-gray-300 rounded-lg text-sm"
           dangerouslySetInnerHTML={{
             __html: locateVariablesInContentBody(currentEvent.content_body),
           }}

@@ -35,7 +35,7 @@ export default function UserDropdown(data: { user: User }) {
       <button className="flex items-center justify-center overflow-hidden rounded-full">
         <div className="transition-all duration-75 active:scale-95">
           {avatar_url ? (
-            <div className="border border-neutral rounded-full">
+            <div className="border border-gray-300 rounded-full">
               <Image
                 src={avatar_url}
                 alt="user"
@@ -54,7 +54,7 @@ export default function UserDropdown(data: { user: User }) {
           )}
         </div>
       </button>
-      <div className="dropdown-content w-fit min-w-48 mt-2 rounded-md bg-white p-2 border shadow border-neutral">
+      <div className="dropdown-content w-fit min-w-48 mt-2 rounded-md bg-white p-2 border shadow-lg border-gray-300">
         <div className="p-2">
           {data?.user && (
             <>

@@ -67,7 +67,7 @@ const EventsList = ({
     events.map((event, i) => (
       <div
         key={i}
-        className="collapse collapse-arrow rounded-lg text-sm border border-base-300"
+        className="collapse collapse-arrow text-sm border border-gray-300 rounded-lg shadow-sm"
         onClick={(e) => toggleAccordion(e.currentTarget.classList)}
       >
         <Event

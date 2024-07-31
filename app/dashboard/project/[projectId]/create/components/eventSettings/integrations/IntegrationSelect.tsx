@@ -103,7 +103,7 @@ export default function IntegrationSelect({
       >
         <div
           tabIndex={0}
-          className="flex p-2 px-3 items-center justify-between cursor-pointer border border-base-300 rounded-lg text-sm"
+          className="flex p-2 px-3 items-center justify-between cursor-pointer border border-gray-300 rounded-lg text-sm"
         >
           {currentEvent.integration_id ? (
             getIntegrationById(currentEvent.integration_id)?.name
@@ -115,7 +115,7 @@ export default function IntegrationSelect({
         <div
           tabIndex={0}
           ref={toggleModalRef}
-          className="menu menu-sm dropdown-content bg-white border border-neutral shadow z-[2] rounded-lg w-full mt-1 h-fit min-h-20"
+          className="menu menu-sm dropdown-content bg-white border border-gray-300 shadow-md z-[2] rounded-lg w-full mt-1 h-fit min-h-20"
         >
           <ul className="h-full w-full overflow-y-scroll">
             {filteredIntegrations.length > 0 ? (
