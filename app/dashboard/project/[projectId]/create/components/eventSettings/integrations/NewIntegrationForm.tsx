@@ -27,8 +27,9 @@ import LemonSqueezyLogo from "@/public/images/lemonsqueezy-logo.jpeg";
 import { Tables } from "@/supabase/types";
 import { createIntegration } from "@/lib/actions/integrations";
 import { checkDuplicateTitle } from "@/lib/actions";
+import { Providers } from "@/lib/enums";
 
-const PROVIDERS = ["Stripe", "LemonSqueezy"] as const;
+const PROVIDERS = Object.values(Providers) as [string, ...string[]];
 const providersEnum = z.enum(PROVIDERS, {
   errorMap: (issue, ctx) => ({ message: "API Provider is required." }),
 });

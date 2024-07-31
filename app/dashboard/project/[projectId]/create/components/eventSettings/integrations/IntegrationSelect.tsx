@@ -6,9 +6,12 @@ import {
   Dispatch,
   SetStateAction,
   TransitionStartFunction,
+  useEffect,
   useRef,
+  useState,
 } from "react";
 import NewIntegrationModal from "./NewIntegrationModal";
+import { EventType, Providers } from "@/lib/enums";
 
 export default function IntegrationSelect({
   activeProject,
@@ -34,6 +37,37 @@ export default function IntegrationSelect({
 }) {
   const toggleModalRef = useRef<HTMLDivElement>(null);
   const newIntegrationModalRef = useRef<HTMLDialogElement>(null);
+
+  const filterIntegrationsByEventType = () => {
+    let filteredIntegrations: Tables<"Integrations">[] = integrations;
+    switch (currentEvent.event_type) {
+      case EventType.OnPurchase:
+        filteredIntegrations = integrations.filter(
+          (integration) => integration.provider === Providers.Stripe
+        );
+        break;
+      case EventType.OnReview:
+        filteredIntegrations = integrations.filter(
+          (integration) =>
+            integration.provider === Providers.Google ||
+            integration.provider === Providers.TrustPilot
+        );
+        break;
+      case EventType.ActiveUsers:
+        filteredIntegrations = integrations.filter(
+          (integration) => integration.provider === Providers.GoogleAnalytics
+        );
+        break;
+    }
+    return filteredIntegrations;
+  };
+  const [filteredIntegrations, setFilteredIntegrations] = useState<
+    Tables<"Integrations">[]
+  >(filterIntegrationsByEventType);
+
+  useEffect(() => {
+    setFilteredIntegrations(filterIntegrationsByEventType);
+  }, [integrations]);
 
   const getIntegrationById = (integrationId: number) => {
     return integrations.find((integration) => integration.id === integrationId);
@@ -81,11 +115,11 @@ export default function IntegrationSelect({
         <div
           tabIndex={0}
           ref={toggleModalRef}
-          className="menu menu-sm dropdown-content bg-white border border-neutral shadow z-[2] rounded-lg w-full mt-1 h-32"
+          className="menu menu-sm dropdown-content bg-white border border-neutral shadow z-[2] rounded-lg w-full mt-1 h-fit min-h-20"
         >
           <ul className="h-full w-full overflow-y-scroll">
-            {integrations.length > 0 ? (
-              integrations.map((integration, i) => (
+            {filteredIntegrations.length > 0 ? (
+              filteredIntegrations.map((integration, i) => (
                 <li key={i}>
                   {events.find((e) => e.integration_id === integration.id) ? (
                     <div className="flex items-start justify-between rounded-md text-gray-400 pointer-events-none">
@@ -110,8 +144,8 @@ export default function IntegrationSelect({
               ))
             ) : (
               <div className="text-gray-400 text-xs">
-                You haven&apos;t created any integrations yet. Click
-                &quot;+&quot; to create a new one!
+                You haven&apos;t created any integrations for this event yet.
+                Click &quot;+&quot; to create a new one!
               </div>
             )}
           </ul>

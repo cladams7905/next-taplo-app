@@ -38,6 +38,13 @@ export default function EventsHeader({
           event_type: eventType,
           content_body: content,
           show_products: eventType === EventType.OnPurchase ? true : null,
+          show_price: eventType === EventType.OnPurchase ? true : null,
+          show_add_to_cart: eventType === EventType.OnPurchase ? true : null,
+          show_viewed_products:
+            eventType === EventType.OnPurchase ? true : null,
+          show_positive_reviews: eventType === EventType.OnReview ? true : null,
+          show_recently_active_users:
+            eventType === EventType.ActiveUsers ? true : null,
         };
         const { data, error } = await createEvent(event);
         if (error) {

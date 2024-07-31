@@ -24,11 +24,11 @@ import { updateEvent } from "@/lib/actions/events";
 
 export default function ProductList({
   currentEvent,
-  setEvents,
+  setEvent,
   startEventTransition,
 }: {
   currentEvent: Tables<"Events">;
-  setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
+  setEvent: Dispatch<SetStateAction<Tables<"Events">>>;
   startEventTransition: TransitionStartFunction;
 }) {
   const [isProductListPending, startProductTransition] = useTransition();
@@ -93,13 +93,10 @@ export default function ProductList({
       if (eventUpdateResult.error) {
         showToastError(eventUpdateResult.error);
       } else {
-        setEvents((prevEvents) =>
-          prevEvents.map((e) =>
-            e.id === currentEvent.id
-              ? { ...e, show_products: !isShowProductsChecked }
-              : e
-          )
-        );
+        setEvent({
+          ...currentEvent,
+          show_products: !isShowProductsChecked,
+        });
       }
     });
   };

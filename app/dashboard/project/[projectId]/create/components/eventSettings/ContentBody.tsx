@@ -44,6 +44,8 @@ export default function ContentBody({
         break;
       case EventType.OnReview:
         variableList = ["person", "location", "rating", "review"];
+      case EventType.ActiveUsers:
+        variableList = ["activeusers", "location"];
         break;
     }
     return variableList;

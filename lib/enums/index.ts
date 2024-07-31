@@ -5,6 +5,13 @@ export enum EventType {
   Custom = "Custom",
 }
 
+export enum Providers {
+  Stripe = "Stripe",
+  Google = "Google",
+  TrustPilot = "TrustPilot",
+  GoogleAnalytics = "Google Analytics",
+}
+
 export enum ScreenAlignment {
   BottomLeft = "Bottom Left",
   BottomRight = "Bottom Right",

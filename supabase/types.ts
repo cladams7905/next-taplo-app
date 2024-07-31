@@ -17,7 +17,12 @@ export type Database = {
           id: number
           integration_id: number | null
           project_id: number
+          show_add_to_cart: boolean | null
+          show_positive_reviews: boolean | null
+          show_price: boolean | null
           show_products: boolean | null
+          show_recently_active_users: boolean | null
+          show_viewed_products: boolean | null
           user_id: string
         }
         Insert: {
@@ -27,7 +32,12 @@ export type Database = {
           id?: number
           integration_id?: number | null
           project_id: number
+          show_add_to_cart?: boolean | null
+          show_positive_reviews?: boolean | null
+          show_price?: boolean | null
           show_products?: boolean | null
+          show_recently_active_users?: boolean | null
+          show_viewed_products?: boolean | null
           user_id: string
         }
         Update: {
@@ -37,7 +47,12 @@ export type Database = {
           id?: number
           integration_id?: number | null
           project_id?: number
+          show_add_to_cart?: boolean | null
+          show_positive_reviews?: boolean | null
+          show_price?: boolean | null
           show_products?: boolean | null
+          show_recently_active_users?: boolean | null
+          show_viewed_products?: boolean | null
           user_id?: string
         }
         Relationships: [
@@ -166,6 +181,7 @@ export type Database = {
           bg_color: string | null
           border_color: string | null
           created_at: string
+          event_window: number
           id: number
           is_active: boolean
           name: string
@@ -180,6 +196,7 @@ export type Database = {
           bg_color?: string | null
           border_color?: string | null
           created_at?: string
+          event_window?: number
           id?: number
           is_active?: boolean
           name?: string
@@ -194,6 +211,7 @@ export type Database = {
           bg_color?: string | null
           border_color?: string | null
           created_at?: string
+          event_window?: number
           id?: number
           is_active?: boolean
           name?: string
