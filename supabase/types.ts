@@ -181,7 +181,7 @@ export type Database = {
           bg_color: string | null
           border_color: string | null
           created_at: string
-          event_window: number
+          event_interval: number
           id: number
           is_active: boolean
           name: string
@@ -196,7 +196,7 @@ export type Database = {
           bg_color?: string | null
           border_color?: string | null
           created_at?: string
-          event_window?: number
+          event_interval?: number
           id?: number
           is_active?: boolean
           name?: string
@@ -211,7 +211,7 @@ export type Database = {
           bg_color?: string | null
           border_color?: string | null
           created_at?: string
-          event_window?: number
+          event_interval?: number
           id?: number
           is_active?: boolean
           name?: string

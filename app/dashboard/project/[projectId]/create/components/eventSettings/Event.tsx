@@ -261,8 +261,8 @@ export default function Event({
             <div className="flex items-center gap-2 font-bold">Settings</div>
           </div>
           {event.event_type === EventType.OnPurchase && (
-            <div className="flex flex-col w-full gap-3 mt-2 ml-2">
-              <div className="flex flex-row items-center gap-2 text-sm">
+            <div className="flex flex-col w-full gap-3 mt-2 px-2">
+              <div className="flex flex-row items-center justify-between gap-2 text-sm">
                 Show price
                 <input
                   type="checkbox"
@@ -271,7 +271,7 @@ export default function Event({
                   onChange={() => handleShowPriceToggle(event)}
                 />
               </div>
-              <div className="flex flex-row items-center gap-2 text-sm">
+              <div className="flex flex-row items-center justify-between gap-2 text-sm">
                 Show add to cart notifications{" "}
                 <input
                   type="checkbox"
@@ -280,7 +280,7 @@ export default function Event({
                   onChange={() => handleShowAddToCartNotifications(event)}
                 />
               </div>
-              <div className="flex flex-row items-center gap-2 text-sm">
+              <div className="flex flex-row items-center justify-between gap-2 text-sm">
                 Show recently viewed products notifications{" "}
                 <input
                   type="checkbox"
@@ -294,9 +294,9 @@ export default function Event({
             </div>
           )}
           {event.event_type === EventType.OnReview && (
-            <div className="flex flex-col w-full gap-3 mt-2 ml-2">
+            <div className="flex flex-col w-full gap-3 mt-2 px-2">
               {" "}
-              <div className="flex flex-row items-center gap-2 text-sm">
+              <div className="flex flex-row items-center justify-between gap-2 text-sm">
                 Only show 4-5 star reviews{" "}
                 <input
                   type="checkbox"
@@ -308,9 +308,9 @@ export default function Event({
             </div>
           )}
           {event.event_type === EventType.ActiveUsers && (
-            <div className="flex flex-col w-full gap-3 mt-2 ml-2">
+            <div className="flex flex-col w-full gap-3 mt-2 px-2">
               {" "}
-              <div className="flex flex-row items-center gap-2 text-sm">
+              <div className="flex flex-row items-center justify-between gap-2 text-sm">
                 Show recently active users notifications
                 <input
                   type="checkbox"

@@ -113,6 +113,8 @@ export default function Sidebar({
         eventHeaderHeight={eventHeaderHeight}
       />
       <AdditionalSettings
+        activeProject={activeProject}
+        setActiveProject={setActiveProject}
         scrollRef={scrollParentRef}
         styleHeaderHeight={styleHeaderHeight}
       />
