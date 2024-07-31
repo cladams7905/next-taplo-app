@@ -5,6 +5,7 @@ import { IColor } from "react-color-palette";
 import { Dispatch, SetStateAction } from "react";
 import PopupContainerHeader from "./PopupContainerHeader";
 import PopupList from "./PopupList";
+import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
 
 export default function PopupViewContainer({
   activeProject,
@@ -26,8 +27,8 @@ export default function PopupViewContainer({
   borderColor: IColor;
 }) {
   return (
-    <div className="flex flex-col !rounded-none bg-gradient-to-tr from-primary/50 to-purple-100 h-full shadow-lg z-[1]">
-      <div className="w-full py-4 px-[25px]">
+    <div className="relative flex flex-col !rounded-none bg-gradient-to-tr from-primary/50 to-purple-100 h-full shadow-lg z-[1]">
+      <div className="w-full py-4 px-5">
         <PopupContainerHeader
           activeProject={activeProject}
           setActiveProject={setActiveProject}
@@ -49,6 +50,14 @@ export default function PopupViewContainer({
             verifiedColor={verifiedColor}
             borderColor={borderColor}
           />
+        </div>
+      </div>
+      <div className="flex w-full justify-end items-end px-5">
+        <div
+          className="tooltip tooltip-top tooltip-info p-2 rounded-lg cursor-pointer hover:bg-primary/20"
+          data-tip="Help"
+        >
+          <QuestionMarkCircledIcon width={20} height={20} />
         </div>
       </div>
     </div>

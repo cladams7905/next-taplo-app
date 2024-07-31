@@ -30,6 +30,7 @@ const EventsList = ({
 }) => {
   const [isCollapseOpen, setCollapseOpen] = useState(false);
   const toggleElement = useRef<HTMLUListElement>(null);
+  const [activeEvent, setActiveEvent] = useState<Tables<"Events">>(events[0]);
 
   const toggleAccordion = (e: DOMTokenList) => {
     if (e.contains("collapse-open")) {
@@ -67,9 +68,16 @@ const EventsList = ({
     events.map((event, i) => (
       <div
         key={i}
-        className="collapse collapse-arrow text-sm border border-gray-300 rounded-lg shadow-sm"
+        className={`relative collapse collapse-arrow text-sm border border-gray-300 rounded-lg shadow-sm`}
         onClick={(e) => toggleAccordion(e.currentTarget.classList)}
       >
+        <div
+          className={`absolute w-full h-2 ${
+            activeEvent.id === event.id
+              ? "block bg-primary collapse-open"
+              : "hidden"
+          }`}
+        />
         <Event
           activeProject={activeProject}
           setActiveProject={setActiveProject}

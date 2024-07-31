@@ -2,13 +2,12 @@
 
 import { Tables } from "@/supabase/types";
 import { BadgeCheck } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { IColor } from "react-color-palette";
-import confetti from "canvas-confetti";
-import Image from "next/image";
 
-export default function PreviewPopup({
+export default function TemplatePopup({
   activeProject,
+  setActiveProject,
   events,
   backgroundColor,
   textColor,
@@ -17,6 +16,7 @@ export default function PreviewPopup({
   borderColor,
 }: {
   activeProject: Tables<"Projects">;
+  setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
   events: Tables<"Events">[];
   backgroundColor: IColor;
   textColor: IColor;
@@ -24,49 +24,13 @@ export default function PreviewPopup({
   verifiedColor: IColor;
   borderColor: IColor;
 }) {
-  const [animation, setAnimation] = useState("animate-slideIn");
-  const [isVisible, setIsVisible] = useState(true);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    const updateAnimation = () => {
-      setAnimation((prevAnimation) => {
-        if (prevAnimation === "animate-slideIn") {
-          setTimeout(() => setIsVisible(false), 500); // Duration of slideOut animation
-          return "animate-slideOut";
-        } else {
-          setIsVisible(true);
-          return "animate-slideIn";
-        }
-      });
-    };
-
-    // Clear the previous interval
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
-
-    // Set a new interval based on the current animation state
-    intervalRef.current = setInterval(
-      updateAnimation,
-      animation === "animate-slideIn" ? 5000 : 750
-    );
-
-    return () => {
-      // Clear the interval when the component is unmounted
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
-  }, [animation]); // Depend on the animation state
-
   return (
     <div
       style={{
         backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className={`flex w-fit h-fit pr-6 pl-4 max-w-[320px] rounded-lg border shadow-md py-4 ${animation}`}
+      className={`flex w-fit h-fit pr-6 pl-4 max-w-[320px] rounded-lg border shadow-md py-4`}
     >
       <div className="flex w-full gap-4 items-center">
         {/* {productImageSrc !== "" && (
