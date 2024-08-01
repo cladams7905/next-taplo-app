@@ -16,6 +16,8 @@ export default function PopupViewContainer({
   accentColor,
   verifiedColor,
   borderColor,
+  isInPreview,
+  setIsInPreview,
 }: {
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
@@ -25,6 +27,8 @@ export default function PopupViewContainer({
   accentColor: IColor;
   verifiedColor: IColor;
   borderColor: IColor;
+  isInPreview: boolean;
+  setIsInPreview: Dispatch<SetStateAction<boolean>>;
 }) {
   return (
     <div className="relative flex flex-col !rounded-none bg-gradient-to-tr from-primary/50 to-purple-100 h-full shadow-lg z-[1]">
@@ -38,6 +42,8 @@ export default function PopupViewContainer({
           textColor={textColor}
           verifiedColor={verifiedColor}
           borderColor={borderColor}
+          isInPreview={isInPreview}
+          setIsInPreview={setIsInPreview}
         />
         <div className="flex items-center justify-center h-[75vh] w-full py-12 px-20">
           <PopupList

@@ -24,6 +24,8 @@ export default function PopupContainerHeader({
   accentColor,
   verifiedColor,
   borderColor,
+  isInPreview,
+  setIsInPreview,
 }: {
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
@@ -33,6 +35,8 @@ export default function PopupContainerHeader({
   accentColor: IColor;
   verifiedColor: IColor;
   borderColor: IColor;
+  isInPreview: boolean;
+  setIsInPreview: Dispatch<SetStateAction<boolean>>;
 }) {
   const deleteModalRef = useRef<HTMLDialogElement>(null);
   const renameModalRef = useRef<HTMLDialogElement>(null);
@@ -46,6 +50,7 @@ export default function PopupContainerHeader({
     ) {
       previewRef.current.classList.add("hidden");
       previewRef.current.classList.remove("flex");
+      setIsInPreview(false);
     }
   };
 
@@ -64,6 +69,7 @@ export default function PopupContainerHeader({
           onClick={() => {
             previewRef.current?.classList.remove("hidden");
             previewRef.current?.classList.add("flex");
+            setIsInPreview(true);
           }}
         >
           <Fullscreen width={20} height={20} />

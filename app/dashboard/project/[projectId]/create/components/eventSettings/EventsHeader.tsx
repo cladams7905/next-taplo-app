@@ -106,7 +106,7 @@ export default function EventsHeader({
         <ul
           tabIndex={0}
           ref={eventDropdownRef}
-          className="dropdown-content absolute z-10 mt-1 rounded-lg menu w-full bg-white border border-gray-300 min-w-80 p-2 shadow-md"
+          className="dropdown-content absolute z-[5] mt-1 rounded-lg menu w-full border border-gray-300 min-w-80 p-2 shadow-md"
         >
           <li
             className={`flex flex-col ${

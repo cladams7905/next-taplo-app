@@ -23,6 +23,7 @@ export default function Sidebar({
   setVerifiedColor,
   borderColor,
   setBorderColor,
+  isInPreview,
 }: {
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
@@ -39,6 +40,7 @@ export default function Sidebar({
   setVerifiedColor: Dispatch<SetStateAction<IColor>>;
   borderColor: IColor;
   setBorderColor: Dispatch<SetStateAction<IColor>>;
+  isInPreview: boolean;
 }) {
   const scrollParentRef = useRef<HTMLDivElement>(null);
   const eventHeaderRef = useRef<HTMLDivElement>(null);
@@ -84,7 +86,7 @@ export default function Sidebar({
   return (
     <div
       ref={scrollParentRef}
-      className="rounded-none w-full h-full border-r border-gray-300 shadow-lg z-[3] bg-white overflow-y-scroll overflow-x-hidden"
+      className="rounded-none w-full h-full border-r border-gray-300 shadow-lg bg-white overflow-y-scroll overflow-x-hidden"
     >
       <EventSettings
         activeProject={activeProject}
@@ -94,6 +96,7 @@ export default function Sidebar({
         integrations={integrations}
         scrollRef={scrollParentRef}
         eventHeaderRef={eventHeaderRef}
+        isInPreview={isInPreview}
       />
       <StyleSettings
         activeProject={activeProject}
@@ -111,12 +114,14 @@ export default function Sidebar({
         scrollRef={scrollParentRef}
         styleHeaderRef={styleHeaderRef}
         eventHeaderHeight={eventHeaderHeight}
+        isInPreview={isInPreview}
       />
       <AdditionalSettings
         activeProject={activeProject}
         setActiveProject={setActiveProject}
         scrollRef={scrollParentRef}
         styleHeaderHeight={styleHeaderHeight}
+        isInPreview={isInPreview}
       />
     </div>
   );

@@ -72,10 +72,8 @@ const EventsList = ({
         onClick={(e) => toggleAccordion(e.currentTarget.classList)}
       >
         <div
-          className={`absolute w-full h-2 ${
-            activeEvent.id === event.id
-              ? "block bg-primary collapse-open"
-              : "hidden"
+          className={`absolute w-full h-1 ${
+            activeEvent.id === event.id ? "block bg-primary" : "hidden"
           }`}
         />
         <Event
@@ -83,6 +81,8 @@ const EventsList = ({
           setActiveProject={setActiveProject}
           fetchedEvent={event}
           events={events}
+          activeEvent={activeEvent}
+          setActiveEvent={setActiveEvent}
           fetchedIntegrations={fetchedIntegrations}
           startEventTransition={startEventTransition}
           isCollapseOpen={isCollapseOpen}

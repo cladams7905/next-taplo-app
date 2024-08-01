@@ -20,6 +20,7 @@ const EventSettings = ({
   integrations,
   scrollRef,
   eventHeaderRef,
+  isInPreview,
 }: {
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
@@ -28,15 +29,16 @@ const EventSettings = ({
   integrations: Tables<"Integrations">[];
   scrollRef: RefObject<HTMLDivElement>;
   eventHeaderRef: RefObject<HTMLDivElement>;
+  isInPreview: boolean;
 }) => {
   const [isEventPending, startEventTransition] = useTransition();
   const scrolled = useScroll(1, scrollRef);
   return (
     <div ref={eventHeaderRef} className="flex flex-col w-full h-fit">
       <div
-        className={`sticky top-0 w-full p-4 bg-white z-[3] ${
+        className={`sticky top-0 w-full p-4 bg-white ${
           scrolled ? "border-b border-gray-300 -mb-[1px] shadow-sm" : ""
-        }`}
+        } ${isInPreview ? "" : "z-[2]"}`}
       >
         <EventsHeader
           activeProject={activeProject}
@@ -66,17 +68,20 @@ function areEqual(
     events: Tables<"Events">[];
     setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
     integrations: Tables<"Integrations">[];
+    isInPreview: boolean;
   },
   nextProps: {
     events: Tables<"Events">[];
     setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
     integrations: Tables<"Integrations">[];
+    isInPreview: boolean;
   }
 ) {
   return (
     prevProps.events === nextProps.events &&
     prevProps.setEvents === nextProps.setEvents &&
-    prevProps.integrations === nextProps.integrations
+    prevProps.integrations === nextProps.integrations &&
+    prevProps.isInPreview === nextProps.isInPreview
   );
 }
 

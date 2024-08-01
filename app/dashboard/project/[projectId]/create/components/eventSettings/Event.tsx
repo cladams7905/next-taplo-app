@@ -19,6 +19,8 @@ import { showToastError } from "@/components/shared/showToast";
 export default function Event({
   fetchedEvent,
   events,
+  activeEvent,
+  setActiveEvent,
   activeProject,
   setActiveProject,
   fetchedIntegrations,
@@ -29,6 +31,8 @@ export default function Event({
 }: {
   fetchedEvent: Tables<"Events">;
   events: Tables<"Events">[];
+  activeEvent: Tables<"Events">;
+  setActiveEvent: Dispatch<SetStateAction<Tables<"Events">>>;
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
   fetchedIntegrations: Tables<"Integrations">[];
@@ -64,6 +68,12 @@ export default function Event({
 
   const getIntegrationById = (integrationId: number) => {
     return integrations.find((integration) => integration.id === integrationId);
+  };
+
+  const handleToggleActiveEvent = () => {
+    if (activeEvent.id !== event.id) {
+      setActiveEvent(event);
+    }
   };
 
   const handleUpdateIntegration = async (
@@ -181,7 +191,10 @@ export default function Event({
   return (
     <>
       <input type="radio" className="-z-10" />
-      <div className="collapse-title flex flex-row justify-between items-center">
+      <div
+        className="collapse-title flex flex-row justify-between items-center"
+        onClick={handleToggleActiveEvent}
+      >
         <div className="flex flex-col gap-1">
           <div className="font-bold">{event.event_type}</div>
           <div className="text-xs text-gray-400">
@@ -214,7 +227,7 @@ export default function Event({
             ref={toggleElement}
             className={`menu menu-sm dropdown-content ${
               !isCollapseOpen && "-mt-[10px] mr-1"
-            } border border-neutral z-[10] shadow bg-base-100 rounded-md min-w-40`}
+            } border border-neutral z-[1] shadow bg-base-100 rounded-md min-w-40`}
           >
             <li>
               <a
@@ -233,7 +246,10 @@ export default function Event({
       </div>
       <div
         className="collapse-content flex flex-col gap-6"
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleToggleActiveEvent();
+        }}
       >
         <div className="w-full flex flex-col gap-2">
           <IntegrationSelect

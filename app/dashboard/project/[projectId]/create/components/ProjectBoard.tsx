@@ -36,6 +36,7 @@ export default function ProjectBoard({
   const [verifiedColor, setVerifiedColor] = useColor(
     activeProject?.verified_color ? activeProject.verified_color : "#4ade80"
   );
+  const [isInPreview, setIsInPreview] = useState(false);
 
   return (
     <main className="flex lg:columns-2 w-full h-screen-minus-navbar">
@@ -56,6 +57,7 @@ export default function ProjectBoard({
           setVerifiedColor={setVerifiedColor}
           borderColor={borderColor}
           setBorderColor={setBorderColor}
+          isInPreview={isInPreview}
         />
       </div>
       <div className="lg:w-2/3 w-full">
@@ -68,6 +70,8 @@ export default function ProjectBoard({
           accentColor={accentColor}
           borderColor={borderColor}
           verifiedColor={verifiedColor}
+          isInPreview={isInPreview}
+          setIsInPreview={setIsInPreview}
         />
       </div>
     </main>
