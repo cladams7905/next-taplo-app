@@ -11,6 +11,7 @@ export default function PopupViewContainer({
   activeProject,
   setActiveProject,
   events,
+  activeEvent,
   backgroundColor,
   textColor,
   accentColor,
@@ -18,10 +19,12 @@ export default function PopupViewContainer({
   borderColor,
   isInPreview,
   setIsInPreview,
+  displayTime,
 }: {
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
   events: Tables<"Events">[];
+  activeEvent: Tables<"Events"> | undefined;
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
@@ -29,6 +32,7 @@ export default function PopupViewContainer({
   borderColor: IColor;
   isInPreview: boolean;
   setIsInPreview: Dispatch<SetStateAction<boolean>>;
+  displayTime: number;
 }) {
   return (
     <div className="relative flex flex-col !rounded-none bg-gradient-to-tr from-primary/50 to-purple-100 h-full shadow-lg z-[1]">
@@ -44,18 +48,23 @@ export default function PopupViewContainer({
           borderColor={borderColor}
           isInPreview={isInPreview}
           setIsInPreview={setIsInPreview}
+          displayTime={displayTime}
         />
-        <div className="flex items-center justify-center h-[75vh] w-full py-12 px-20">
-          <PopupList
-            activeProject={activeProject}
-            setActiveProject={setActiveProject}
-            events={events}
-            backgroundColor={backgroundColor}
-            accentColor={accentColor}
-            textColor={textColor}
-            verifiedColor={verifiedColor}
-            borderColor={borderColor}
-          />
+
+        <div className="flex justify-center items-center h-[75vh] w-full py-12 px-20">
+          {events.length > 0 && (
+            <PopupList
+              activeProject={activeProject}
+              setActiveProject={setActiveProject}
+              events={events}
+              activeEvent={activeEvent}
+              backgroundColor={backgroundColor}
+              accentColor={accentColor}
+              textColor={textColor}
+              verifiedColor={verifiedColor}
+              borderColor={borderColor}
+            />
+          )}
         </div>
       </div>
       <div className="flex w-full justify-end items-end px-5">

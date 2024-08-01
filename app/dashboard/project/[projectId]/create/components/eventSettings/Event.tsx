@@ -31,15 +31,15 @@ export default function Event({
 }: {
   fetchedEvent: Tables<"Events">;
   events: Tables<"Events">[];
-  activeEvent: Tables<"Events">;
-  setActiveEvent: Dispatch<SetStateAction<Tables<"Events">>>;
+  activeEvent: Tables<"Events"> | undefined;
+  setActiveEvent: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
   fetchedIntegrations: Tables<"Integrations">[];
   startEventTransition: TransitionStartFunction;
   isCollapseOpen: boolean;
   handleEventDelete: (eventId: number) => void;
-  toggleElement: RefObject<HTMLUListElement>;
+  toggleElement: RefObject<HTMLDivElement>;
 }) {
   const [event, setEvent] = useState<Tables<"Events">>(fetchedEvent);
   const [integrations, setIntegrations] =
@@ -71,7 +71,7 @@ export default function Event({
   };
 
   const handleToggleActiveEvent = () => {
-    if (activeEvent.id !== event.id) {
+    if (!activeEvent || activeEvent.id !== event.id) {
       setActiveEvent(event);
     }
   };
@@ -210,6 +210,7 @@ export default function Event({
           className={`dropdown ${
             isCollapseOpen ? "dropdown-end" : "dropdown-left"
           }`}
+          ref={toggleElement}
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -224,7 +225,6 @@ export default function Event({
           </div>
           <ul
             tabIndex={1}
-            ref={toggleElement}
             className={`menu menu-sm dropdown-content ${
               !isCollapseOpen && "-mt-[10px] mr-1"
             } border border-neutral z-[1] shadow bg-base-100 rounded-md min-w-40`}

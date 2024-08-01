@@ -16,6 +16,7 @@ export default function PreviewContainer({
   verifiedColor,
   borderColor,
   previewRef,
+  displayTime,
 }: {
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
@@ -26,6 +27,7 @@ export default function PreviewContainer({
   verifiedColor: IColor;
   borderColor: IColor;
   previewRef: RefObject<HTMLDivElement>;
+  displayTime: number;
 }) {
   return (
     <div
@@ -63,6 +65,7 @@ export default function PreviewContainer({
             accentColor={accentColor}
             borderColor={borderColor}
             verifiedColor={verifiedColor}
+            displayTime={displayTime}
           />
         </div>
       ) : (

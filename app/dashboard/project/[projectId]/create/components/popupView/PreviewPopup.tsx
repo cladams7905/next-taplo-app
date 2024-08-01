@@ -15,6 +15,7 @@ export default function PreviewPopup({
   accentColor,
   verifiedColor,
   borderColor,
+  displayTime,
 }: {
   activeProject: Tables<"Projects">;
   events: Tables<"Events">[];
@@ -23,6 +24,7 @@ export default function PreviewPopup({
   accentColor: IColor;
   verifiedColor: IColor;
   borderColor: IColor;
+  displayTime: number;
 }) {
   const [animation, setAnimation] = useState("animate-slideIn");
   const [isVisible, setIsVisible] = useState(true);
@@ -32,7 +34,7 @@ export default function PreviewPopup({
     const updateAnimation = () => {
       setAnimation((prevAnimation) => {
         if (prevAnimation === "animate-slideIn") {
-          setTimeout(() => setIsVisible(false), 500); // Duration of slideOut animation
+          setTimeout(() => setIsVisible(false), 500);
           return "animate-slideOut";
         } else {
           setIsVisible(true);
@@ -49,7 +51,7 @@ export default function PreviewPopup({
     // Set a new interval based on the current animation state
     intervalRef.current = setInterval(
       updateAnimation,
-      animation === "animate-slideIn" ? 5000 : 750
+      animation === "animate-slideIn" ? getDisplayTime() : 750
     );
 
     return () => {
@@ -58,7 +60,15 @@ export default function PreviewPopup({
         clearInterval(intervalRef.current);
       }
     };
-  }, [animation]); // Depend on the animation state
+  }, [animation]);
+
+  const getDisplayTime = () => {
+    if (displayTime) {
+      return displayTime;
+    } else {
+      return 5000;
+    }
+  };
 
   return (
     <div

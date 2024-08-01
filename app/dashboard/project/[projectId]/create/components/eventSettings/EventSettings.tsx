@@ -21,9 +21,13 @@ const EventSettings = ({
   scrollRef,
   eventHeaderRef,
   isInPreview,
+  activeEvent,
+  setActiveEvent,
 }: {
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
+  activeEvent: Tables<"Events"> | undefined;
+  setActiveEvent: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
   events: Tables<"Events">[];
   setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
   integrations: Tables<"Integrations">[];
@@ -38,7 +42,7 @@ const EventSettings = ({
       <div
         className={`sticky top-0 w-full p-4 bg-white ${
           scrolled ? "border-b border-gray-300 -mb-[1px] shadow-sm" : ""
-        } ${isInPreview ? "" : "z-[2]"}`}
+        } ${isInPreview ? "z-[1]" : "z-[2]"}`}
       >
         <EventsHeader
           activeProject={activeProject}
@@ -52,6 +56,8 @@ const EventSettings = ({
         <EventsList
           activeProject={activeProject}
           setActiveProject={setActiveProject}
+          activeEvent={activeEvent}
+          setActiveEvent={setActiveEvent}
           events={events}
           setEvents={setEvents}
           fetchedIntegrations={integrations}
@@ -66,12 +72,14 @@ const EventSettings = ({
 function areEqual(
   prevProps: {
     events: Tables<"Events">[];
+    activeEvent: Tables<"Events"> | undefined;
     setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
     integrations: Tables<"Integrations">[];
     isInPreview: boolean;
   },
   nextProps: {
     events: Tables<"Events">[];
+    activeEvent: Tables<"Events"> | undefined;
     setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
     integrations: Tables<"Integrations">[];
     isInPreview: boolean;
@@ -79,6 +87,7 @@ function areEqual(
 ) {
   return (
     prevProps.events === nextProps.events &&
+    prevProps.activeEvent === nextProps.activeEvent &&
     prevProps.setEvents === nextProps.setEvents &&
     prevProps.integrations === nextProps.integrations &&
     prevProps.isInPreview === nextProps.isInPreview

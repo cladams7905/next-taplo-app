@@ -204,9 +204,9 @@ export const StyleSettings = ({
   return (
     <div ref={styleHeaderRef} className="flex flex-col w-full h-fit mb-8">
       <div
-        className={`flex items-center sticky top-[-1px] text-xs z-[1] px-4 py-6 gap-2 bg-white border-t border-gray-300 ${
+        className={`flex items-center sticky top-[-1px] text-xs px-4 py-6 gap-2 bg-white border-t border-gray-300 ${
           scrolled ? "border-b -mb-[1px] shadow-sm" : ""
-        } ${isInPreview ? "z-[1]" : "z-[2]"}`}
+        } ${isInPreview ? "z-[1]" : "z-[1]"}`}
       >
         <div className="font-semibold text-gray-400 ml-2">Style</div>
         {isStylePending && (
@@ -380,7 +380,7 @@ export const StyleSettings = ({
             </div>
           </div>
         </div>
-        <div className="flex flex-col w-full gap-2">
+        {/* <div className="flex flex-col w-full gap-2">
           {" "}
           <p className="text-sm font-bold">Template</p>
           <select
@@ -397,7 +397,7 @@ export const StyleSettings = ({
               </option>
             ))}
           </select>
-        </div>
+        </div> */}
         <div className="flex flex-col w-full gap-2">
           {" "}
           <p className="text-sm font-bold">Screen alignment</p>

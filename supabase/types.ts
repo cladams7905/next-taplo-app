@@ -11,7 +11,7 @@ export type Database = {
     Tables: {
       Events: {
         Row: {
-          content_body: string | null
+          content_body: Json
           created_at: string
           event_type: string
           id: number
@@ -26,7 +26,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
-          content_body?: string | null
+          content_body?: Json
           created_at?: string
           event_type?: string
           id?: number
@@ -41,7 +41,7 @@ export type Database = {
           user_id: string
         }
         Update: {
-          content_body?: string | null
+          content_body?: Json
           created_at?: string
           event_type?: string
           id?: number
@@ -181,6 +181,7 @@ export type Database = {
           bg_color: string | null
           border_color: string | null
           created_at: string
+          display_time: number | null
           event_interval: number
           id: number
           is_active: boolean
@@ -196,6 +197,7 @@ export type Database = {
           bg_color?: string | null
           border_color?: string | null
           created_at?: string
+          display_time?: number | null
           event_interval?: number
           id?: number
           is_active?: boolean
@@ -211,6 +213,7 @@ export type Database = {
           bg_color?: string | null
           border_color?: string | null
           created_at?: string
+          display_time?: number | null
           event_interval?: number
           id?: number
           is_active?: boolean

@@ -4,7 +4,6 @@ import { Tables } from "@/supabase/types";
 import Sidebar from "./Sidebar";
 import { useEffect, useState } from "react";
 import { useColor } from "react-color-palette";
-import PopupView from "./popupView/PopupViewContainer";
 import PopupViewContainer from "./popupView/PopupViewContainer";
 
 export default function ProjectBoard({
@@ -19,6 +18,16 @@ export default function ProjectBoard({
   const [activeProject, setActiveProject] =
     useState<Tables<"Projects">>(fetchedActiveProject);
   const [events, setEvents] = useState<Tables<"Events">[]>(fetchedEvents);
+  const [activeEvent, setActiveEvent] = useState<Tables<"Events"> | undefined>(
+    events[0] || undefined
+  );
+  const [displayTime, setDisplayTime] = useState<number>(
+    fetchedActiveProject.display_time ? fetchedActiveProject.display_time : 5000
+  );
+
+  useEffect(() => {
+    setActiveEvent(events[0]);
+  }, [events]);
 
   /* Popup style state variables */
   const [backgroundColor, setBackgroundColor] = useColor(
@@ -44,6 +53,8 @@ export default function ProjectBoard({
         <Sidebar
           activeProject={activeProject}
           setActiveProject={setActiveProject}
+          activeEvent={activeEvent}
+          setActiveEvent={setActiveEvent}
           events={events}
           setEvents={setEvents}
           integrations={integrations}
@@ -58,12 +69,15 @@ export default function ProjectBoard({
           borderColor={borderColor}
           setBorderColor={setBorderColor}
           isInPreview={isInPreview}
+          displayTime={displayTime}
+          setDisplayTime={setDisplayTime}
         />
       </div>
       <div className="lg:w-2/3 w-full">
         <PopupViewContainer
           activeProject={activeProject}
           setActiveProject={setActiveProject}
+          activeEvent={activeEvent}
           events={events}
           backgroundColor={backgroundColor}
           textColor={textColor}
@@ -72,6 +86,7 @@ export default function ProjectBoard({
           verifiedColor={verifiedColor}
           isInPreview={isInPreview}
           setIsInPreview={setIsInPreview}
+          displayTime={displayTime}
         />
       </div>
     </main>

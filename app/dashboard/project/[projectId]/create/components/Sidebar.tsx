@@ -10,6 +10,8 @@ import AdditionalSettings from "./AdditionalSettings";
 export default function Sidebar({
   activeProject,
   setActiveProject,
+  activeEvent,
+  setActiveEvent,
   events,
   setEvents,
   integrations,
@@ -24,9 +26,13 @@ export default function Sidebar({
   borderColor,
   setBorderColor,
   isInPreview,
+  displayTime,
+  setDisplayTime,
 }: {
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
+  activeEvent: Tables<"Events"> | undefined;
+  setActiveEvent: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
   events: Tables<"Events">[];
   setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
   integrations: Tables<"Integrations">[];
@@ -41,6 +47,8 @@ export default function Sidebar({
   borderColor: IColor;
   setBorderColor: Dispatch<SetStateAction<IColor>>;
   isInPreview: boolean;
+  displayTime: number;
+  setDisplayTime: Dispatch<SetStateAction<number>>;
 }) {
   const scrollParentRef = useRef<HTMLDivElement>(null);
   const eventHeaderRef = useRef<HTMLDivElement>(null);
@@ -91,6 +99,8 @@ export default function Sidebar({
       <EventSettings
         activeProject={activeProject}
         setActiveProject={setActiveProject}
+        activeEvent={activeEvent}
+        setActiveEvent={setActiveEvent}
         events={events}
         setEvents={setEvents}
         integrations={integrations}
@@ -122,6 +132,8 @@ export default function Sidebar({
         scrollRef={scrollParentRef}
         styleHeaderHeight={styleHeaderHeight}
         isInPreview={isInPreview}
+        displayTime={displayTime}
+        setDisplayTime={setDisplayTime}
       />
     </div>
   );

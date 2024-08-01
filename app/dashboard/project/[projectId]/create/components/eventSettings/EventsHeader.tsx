@@ -1,7 +1,7 @@
 import { showToastError } from "@/components/shared/showToast";
 import { createEvent } from "@/lib/actions/events";
 import { EventType } from "@/lib/enums";
-import { Tables, TablesInsert } from "@/supabase/types";
+import { Json, Tables, TablesInsert } from "@/supabase/types";
 import { CirclePlus, EarIcon } from "lucide-react";
 import {
   Dispatch,
@@ -57,16 +57,30 @@ export default function EventsHeader({
   };
 
   const setEventContent = (eventType: EventType) => {
-    let content: string;
+    let content: Json;
     switch (eventType) {
       case EventType.OnPurchase:
-        content = "\\PERSON in \\LOCATION made a purchase.";
+        content = {
+          basic: "\\PERSON in \\LOCATION made a purchase.",
+          products: {
+            basic: "\\PERSON in \\LOCATION made a purchase.",
+            addToCart: "\\PERSON in \\LOCATION added \\PRODUCT to cart.",
+            recentlyViewed: "\\PERSON in \\LOCATION recently viewed \\PRODUCT.",
+          },
+        };
         break;
       case EventType.OnReview:
-        content = "\\PERSON in \\LOCATION left a review.";
+        content = {
+          basic: "\\PERSON in \\LOCATION left a \\RATING star review: \\REVIEW",
+          overallRating:
+            "\\PROJECT is rated \\RATING stars on \\PROVIDER with over \\NUMREVIEWS reviews.",
+        };
         break;
       case EventType.ActiveUsers:
-        content = "\\ACTIVEUSERS people are online now.";
+        content = {
+          basic: "\\NUMUSERS people are online now.",
+          recentlyActive: "\\RECENTUSERS people were recently active.",
+        };
         break;
       case EventType.Custom:
         content = "Add your content here.";
@@ -106,7 +120,7 @@ export default function EventsHeader({
         <ul
           tabIndex={0}
           ref={eventDropdownRef}
-          className="dropdown-content absolute z-[5] mt-1 rounded-lg menu w-full border border-gray-300 min-w-80 p-2 shadow-md"
+          className="dropdown-content bg-white z-10 mt-1 rounded-lg menu w-full border border-gray-300 min-w-80 p-2 shadow-md"
         >
           <li
             className={`flex flex-col ${

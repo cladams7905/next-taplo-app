@@ -6,6 +6,7 @@ import {
   memo,
   SetStateAction,
   TransitionStartFunction,
+  useEffect,
   useRef,
   useState,
 } from "react";
@@ -16,6 +17,8 @@ import { showToast, showToastError } from "@/components/shared/showToast";
 const EventsList = ({
   activeProject,
   setActiveProject,
+  activeEvent,
+  setActiveEvent,
   events,
   setEvents,
   fetchedIntegrations,
@@ -23,14 +26,15 @@ const EventsList = ({
 }: {
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
+  activeEvent: Tables<"Events"> | undefined;
+  setActiveEvent: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
   events: Tables<"Events">[];
   setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
   fetchedIntegrations: Tables<"Integrations">[];
   startEventTransition: TransitionStartFunction;
 }) => {
   const [isCollapseOpen, setCollapseOpen] = useState(false);
-  const toggleElement = useRef<HTMLUListElement>(null);
-  const [activeEvent, setActiveEvent] = useState<Tables<"Events">>(events[0]);
+  const toggleElement = useRef<HTMLDivElement>(null);
 
   const toggleAccordion = (e: DOMTokenList) => {
     if (e.contains("collapse-open")) {
@@ -72,8 +76,10 @@ const EventsList = ({
         onClick={(e) => toggleAccordion(e.currentTarget.classList)}
       >
         <div
-          className={`absolute w-full h-1 ${
-            activeEvent.id === event.id ? "block bg-primary" : "hidden"
+          className={`absolute w-[6px] h-full ${
+            activeEvent && activeEvent.id === event.id
+              ? "block bg-primary"
+              : "hidden"
           }`}
         />
         <Event
@@ -102,17 +108,20 @@ function areEqual(
   prevProps: {
     events: Tables<"Events">[];
     setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
+    activeEvent: Tables<"Events"> | undefined;
     fetchedIntegrations: Tables<"Integrations">[];
   },
   nextProps: {
     events: Tables<"Events">[];
     setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
+    activeEvent: Tables<"Events"> | undefined;
     fetchedIntegrations: Tables<"Integrations">[];
   }
 ) {
   return (
     prevProps.events === nextProps.events &&
     prevProps.setEvents === nextProps.setEvents &&
+    prevProps.activeEvent === nextProps.activeEvent &&
     prevProps.fetchedIntegrations === nextProps.fetchedIntegrations
   );
 }

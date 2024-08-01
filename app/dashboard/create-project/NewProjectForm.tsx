@@ -42,6 +42,7 @@ export default function NewProjectForm() {
         name: formData.projectName,
         screen_alignment: ScreenAlignment.BottomLeft,
         template: PopupTemplates.Toast,
+        display_time: 4000,
       });
       if (error) {
         showToastError(error);

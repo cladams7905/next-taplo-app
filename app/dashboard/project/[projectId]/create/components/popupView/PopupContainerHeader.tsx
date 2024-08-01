@@ -7,6 +7,7 @@ import {
   Ellipsis,
   Fullscreen,
   Pencil,
+  ScanEye,
   TrashIcon,
 } from "lucide-react";
 import { IColor } from "react-color-palette";
@@ -26,6 +27,7 @@ export default function PopupContainerHeader({
   borderColor,
   isInPreview,
   setIsInPreview,
+  displayTime,
 }: {
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
@@ -37,6 +39,7 @@ export default function PopupContainerHeader({
   borderColor: IColor;
   isInPreview: boolean;
   setIsInPreview: Dispatch<SetStateAction<boolean>>;
+  displayTime: number;
 }) {
   const deleteModalRef = useRef<HTMLDialogElement>(null);
   const renameModalRef = useRef<HTMLDialogElement>(null);
@@ -63,17 +66,19 @@ export default function PopupContainerHeader({
   return (
     <div className="flex justify-between items-center">
       <div className="flex items-center gap-4">
-        <div
-          className="tooltip tooltip-bottom tooltip-info p-2 rounded-lg cursor-pointer hover:bg-primary/20"
-          data-tip="Preview"
-          onClick={() => {
-            previewRef.current?.classList.remove("hidden");
-            previewRef.current?.classList.add("flex");
-            setIsInPreview(true);
-          }}
-        >
-          <Fullscreen width={20} height={20} />
-        </div>
+        {events.length > 0 && (
+          <div
+            className="tooltip tooltip-bottom tooltip-info p-2 rounded-lg cursor-pointer hover:bg-primary/20"
+            data-tip="Preview"
+            onClick={() => {
+              previewRef.current?.classList.remove("hidden");
+              previewRef.current?.classList.add("flex");
+              setIsInPreview(true);
+            }}
+          >
+            <ScanEye width={22} height={22} />
+          </div>
+        )}
         <PreviewContainer
           activeProject={activeProject}
           setActiveProject={setActiveProject}
@@ -84,6 +89,7 @@ export default function PopupContainerHeader({
           verifiedColor={verifiedColor}
           borderColor={borderColor}
           previewRef={previewRef}
+          displayTime={displayTime}
         />
       </div>
       <div className="flex items-center gap-4">
