@@ -1,13 +1,14 @@
 "use client";
 
 import { Tables } from "@/supabase/types";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { IColor } from "react-color-palette";
-import TemplatePopup from "./TemplatePopup";
-import TemplateList from "./TemplateList";
 import { Pencil } from "lucide-react";
+import ContentList from "./ContentList";
+import ContentPopup from "./ContentPopup";
+import { EventType } from "@/lib/enums";
 
-export default function PopupList({
+export default function PopupViewer({
   activeProject,
   setActiveProject,
   events,
@@ -28,6 +29,47 @@ export default function PopupList({
   verifiedColor: IColor;
   borderColor: IColor;
 }) {
+  const [contentBody, setContentBody] = useState<string[]>(
+    (activeEvent?.content_body as string[]) || []
+  );
+  const [activeContent, setActiveContent] = useState<string>(
+    (activeEvent?.content_body as string[])[0] || ""
+  );
+
+  const getVariableList = () => {
+    let variableList: string[] = [];
+    if (activeEvent) {
+      switch (activeEvent.event_type) {
+        case EventType.OnPurchase:
+          variableList = ["person", "location", "product", "price"];
+          break;
+        case EventType.OnReview:
+          variableList = [
+            "person",
+            "location",
+            "rating",
+            "review",
+            "project",
+            "provider",
+            "numreviews",
+          ];
+          break;
+        case EventType.ActiveUsers:
+          variableList = ["numusers", "recentusers"];
+          break;
+      }
+    }
+    return variableList;
+  };
+
+  const [variableList, setVariableList] = useState<string[]>(getVariableList());
+
+  useEffect(() => {
+    setContentBody((activeEvent?.content_body as string[]) || []);
+    setActiveContent((activeEvent?.content_body as string[])[0] || "");
+    setVariableList(getVariableList());
+  }, [activeEvent, contentBody]);
+
   return (
     <div className="flex flex-col w-full items-center gap-3 max-w-[40vw] p-4 px-6 rounded-lg">
       <div className="flex flex-col w-full items-center">
@@ -36,7 +78,7 @@ export default function PopupList({
             {activeEvent ? activeEvent.event_type : ""}
           </div>
         </div>
-        <TemplatePopup
+        <ContentPopup
           activeProject={activeProject}
           setActiveProject={setActiveProject}
           events={events}
@@ -45,6 +87,8 @@ export default function PopupList({
           textColor={textColor}
           verifiedColor={verifiedColor}
           borderColor={borderColor}
+          contentBody={contentBody}
+          activeContent={activeContent}
         />
       </div>
       <div className="flex w-full justify-end items-center max-w-[320px]">
@@ -53,7 +97,7 @@ export default function PopupList({
           Change Template
         </div>
       </div>
-      <TemplateList
+      <ContentList
         activeProject={activeProject}
         setActiveProject={setActiveProject}
         events={events}
@@ -63,6 +107,11 @@ export default function PopupList({
         textColor={textColor}
         verifiedColor={verifiedColor}
         borderColor={borderColor}
+        contentBody={contentBody}
+        setContentBody={setContentBody}
+        activeContent={activeContent}
+        setActiveContent={setActiveContent}
+        variableList={variableList}
       />
     </div>
   );

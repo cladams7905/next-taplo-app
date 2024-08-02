@@ -7,7 +7,6 @@ import {
   Ellipsis,
   Fullscreen,
   Pencil,
-  ScanEye,
   TrashIcon,
 } from "lucide-react";
 import { IColor } from "react-color-palette";
@@ -16,7 +15,7 @@ import RenameProjectModal from "./RenameProjectModal";
 import DeleteProjectModal from "./DeleteProjectModal";
 import PreviewContainer from "./PreviewContainer";
 
-export default function PopupContainerHeader({
+export default function ViewContainerHeader({
   activeProject,
   setActiveProject,
   events,
@@ -76,7 +75,7 @@ export default function PopupContainerHeader({
               setIsInPreview(true);
             }}
           >
-            <ScanEye width={22} height={22} />
+            <Fullscreen width={22} height={22} />
           </div>
         )}
         <PreviewContainer

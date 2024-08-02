@@ -3,11 +3,12 @@
 import { Tables } from "@/supabase/types";
 import { IColor } from "react-color-palette";
 import { Dispatch, SetStateAction } from "react";
-import PopupContainerHeader from "./PopupContainerHeader";
-import PopupList from "./PopupList";
+import PopupContainerHeader from "./ViewContainerHeader";
 import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
+import PopupViewer from "./PopupViewer";
+import ViewContainerHeader from "./ViewContainerHeader";
 
-export default function PopupViewContainer({
+export default function ViewContainer({
   activeProject,
   setActiveProject,
   events,
@@ -36,8 +37,8 @@ export default function PopupViewContainer({
 }) {
   return (
     <div className="relative flex flex-col !rounded-none bg-gradient-to-tr from-primary/50 to-purple-100 h-full shadow-lg z-[1]">
-      <div className="w-full py-4 px-5">
-        <PopupContainerHeader
+      <div className="w-full py-2 px-5">
+        <ViewContainerHeader
           activeProject={activeProject}
           setActiveProject={setActiveProject}
           events={events}
@@ -51,9 +52,9 @@ export default function PopupViewContainer({
           displayTime={displayTime}
         />
 
-        <div className="flex justify-center items-center h-[75vh] w-full py-12 px-20">
+        <div className="flex justify-center items-center w-full h-full">
           {events.length > 0 && (
-            <PopupList
+            <PopupViewer
               activeProject={activeProject}
               setActiveProject={setActiveProject}
               events={events}
@@ -67,7 +68,7 @@ export default function PopupViewContainer({
           )}
         </div>
       </div>
-      <div className="flex w-full justify-end items-end px-5">
+      <div className="flex absolute bottom-0 right-0 w-full justify-end items-end px-5 pb-3">
         <div
           className="tooltip tooltip-top tooltip-info p-2 rounded-lg cursor-pointer hover:bg-primary/20"
           data-tip="Help"

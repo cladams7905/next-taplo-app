@@ -1,7 +1,8 @@
 import { showToastError } from "@/components/shared/showToast";
+import { sortByTimeCreated } from "@/lib/actions";
 import { createEvent } from "@/lib/actions/events";
 import { EventType } from "@/lib/enums";
-import { Json, Tables, TablesInsert } from "@/supabase/types";
+import { Tables, TablesInsert } from "@/supabase/types";
 import { CirclePlus, EarIcon } from "lucide-react";
 import {
   Dispatch,
@@ -50,40 +51,37 @@ export default function EventsHeader({
         if (error) {
           showToastError(error);
         } else {
-          setEvents((prevEvents) => [...prevEvents, data]);
+          setEvents((prevEvents) => sortByTimeCreated([...prevEvents, data]));
         }
       }
     });
   };
 
   const setEventContent = (eventType: EventType) => {
-    let content: Json;
+    let content: string[];
     switch (eventType) {
       case EventType.OnPurchase:
-        content = {
-          basic: "\\PERSON in \\LOCATION made a purchase.",
-          products: {
-            basic: "\\PERSON in \\LOCATION made a purchase.",
-            addToCart: "\\PERSON in \\LOCATION added \\PRODUCT to cart.",
-            recentlyViewed: "\\PERSON in \\LOCATION recently viewed \\PRODUCT.",
-          },
-        };
+        content = [
+          "\\PERSON in \\LOCATION made a purchase.",
+          "\\PERSON in \\LOCATION purchased \\PRODUCT.",
+          "\\PERSON in \\LOCATION added \\PRODUCT to cart.",
+          "\\PERSON in \\LOCATION recently viewed \\PRODUCT.",
+        ];
         break;
       case EventType.OnReview:
-        content = {
-          basic: "\\PERSON in \\LOCATION left a \\RATING star review: \\REVIEW",
-          overallRating:
-            "\\PROJECT is rated \\RATING stars on \\PROVIDER with over \\NUMREVIEWS reviews.",
-        };
+        content = [
+          "\\PERSON in \\LOCATION left a \\RATING star review: \\REVIEW",
+          "\\PROJECT is rated \\RATING stars on \\PROVIDER with over \\NUMREVIEWS reviews.",
+        ];
         break;
       case EventType.ActiveUsers:
-        content = {
-          basic: "\\NUMUSERS people are online now.",
-          recentlyActive: "\\RECENTUSERS people were recently active.",
-        };
+        content = [
+          "\\NUMUSERS people are online now.",
+          "\\RECENTUSERS people were recently active.",
+        ];
         break;
       case EventType.Custom:
-        content = "Add your content here.";
+        content = ["Add your content here."];
         break;
     }
     return content;

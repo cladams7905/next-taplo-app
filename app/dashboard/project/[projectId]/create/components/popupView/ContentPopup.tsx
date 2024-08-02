@@ -5,7 +5,7 @@ import { BadgeCheck } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import { IColor } from "react-color-palette";
 
-export default function TemplatePopup({
+export default function ContentPopup({
   activeProject,
   setActiveProject,
   events,
@@ -14,6 +14,8 @@ export default function TemplatePopup({
   accentColor,
   verifiedColor,
   borderColor,
+  contentBody,
+  activeContent,
 }: {
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
@@ -23,6 +25,8 @@ export default function TemplatePopup({
   accentColor: IColor;
   verifiedColor: IColor;
   borderColor: IColor;
+  contentBody: string[];
+  activeContent: string;
 }) {
   return (
     <div

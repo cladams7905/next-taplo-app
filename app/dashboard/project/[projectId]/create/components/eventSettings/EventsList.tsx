@@ -6,13 +6,13 @@ import {
   memo,
   SetStateAction,
   TransitionStartFunction,
-  useEffect,
   useRef,
   useState,
 } from "react";
 import Event from "./Event";
 import { deleteEvent } from "@/lib/actions/events";
 import { showToast, showToastError } from "@/components/shared/showToast";
+import { sortByTimeCreated } from "@/lib/actions";
 
 const EventsList = ({
   activeProject,
@@ -51,6 +51,7 @@ const EventsList = ({
   const handleEventDelete = (eventId: number) => {
     startEventTransition(async () => {
       if (activeProject) {
+        toggleElement?.current?.classList.add("hidden");
         const { data, error } = await deleteEvent(eventId);
         if (error) {
           showToastError(error);
@@ -59,9 +60,8 @@ const EventsList = ({
             const updatedEvents = prevEvents.filter(
               (event) => event.id !== data.id
             );
-            return updatedEvents;
+            return sortByTimeCreated(updatedEvents);
           });
-          toggleElement?.current?.classList.add("hidden");
           showToast(`Successfully deleted \"${data.event_type}\" event`);
         }
       }

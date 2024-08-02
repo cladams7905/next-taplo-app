@@ -4,6 +4,7 @@ import { Tables, TablesInsert } from "@/supabase/types";
 import {
   ChangeEvent,
   Dispatch,
+  memo,
   SetStateAction,
   TransitionStartFunction,
   useEffect,
@@ -21,8 +22,9 @@ import { Camera, CirclePlus, Trash2 } from "lucide-react";
 import { createClient } from "@/supabase/client";
 import Image from "next/image";
 import { updateEvent } from "@/lib/actions/events";
+import { EventType } from "@/lib/enums";
 
-export default function ProductList({
+const ProductList = ({
   currentEvent,
   setEvent,
   startEventTransition,
@@ -30,7 +32,7 @@ export default function ProductList({
   currentEvent: Tables<"Events">;
   setEvent: Dispatch<SetStateAction<Tables<"Events">>>;
   startEventTransition: TransitionStartFunction;
-}) {
+}) => {
   const [isProductListPending, startProductTransition] = useTransition();
 
   /* Product state variables */
@@ -40,17 +42,19 @@ export default function ProductList({
   );
 
   useEffect(() => {
-    startProductTransition(() => {
-      startEventTransition(async () => {
-        const { data, error } = await getProducts(currentEvent.id);
-        if (error) {
-          showToastError(error);
-        } else {
-          setProducts(data);
-        }
+    if (currentEvent.event_type === EventType.OnPurchase) {
+      startProductTransition(() => {
+        startEventTransition(async () => {
+          const { data, error } = await getProducts(currentEvent.id);
+          if (error) {
+            showToastError(error);
+          } else {
+            setProducts(data);
+          }
+        });
       });
-    });
-  }, []);
+    }
+  }, [currentEvent]);
 
   const handleFileUpload = (
     e: ChangeEvent<HTMLInputElement>,
@@ -284,4 +288,17 @@ export default function ProductList({
         ))}
     </div>
   );
+};
+
+function areEqual(
+  prevProps: {
+    currentEvent: Tables<"Events">;
+  },
+  nextProps: {
+    currentEvent: Tables<"Events">;
+  }
+) {
+  return prevProps.currentEvent === nextProps.currentEvent;
 }
+
+export default memo(ProductList, areEqual);

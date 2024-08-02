@@ -214,7 +214,7 @@ export const StyleSettings = ({
         )}
       </div>
       <div className="flex flex-col p-4 gap-6">
-        <div className="flex flex-col gap-6 rounded-lg border border-gray-300 px-5 pt-3 pb-5">
+        <div className="flex flex-col gap-6 rounded-lg border border-gray-300 px-5 pt-3 pb-6">
           <div className="flex flex-row items-center w-full justify-between">
             <p className="text-sm font-bold">Colors</p>
             <div
@@ -237,7 +237,7 @@ export const StyleSettings = ({
                   <input
                     type="text"
                     value={backgroundColor.hex.toUpperCase()}
-                    className="input input-bordered input-sm h-[38px] border border-gray-300 w-full max-w-52"
+                    className="input input-bordered input-sm h-[34px] border border-gray-300 w-full max-w-32"
                     readOnly
                   />
                   <div
@@ -245,7 +245,7 @@ export const StyleSettings = ({
                     style={{
                       backgroundColor: backgroundColor.hex.toString(),
                     }}
-                    className="max-h-[38px] max-w-[38px] h-full w-full border border-gray-300 rounded-lg aspect-square"
+                    className="max-h-[34px] max-w-[34px] h-full w-full border border-gray-300 rounded-lg aspect-square"
                   />
                   <div
                     tabIndex={0}
@@ -267,7 +267,7 @@ export const StyleSettings = ({
                   <input
                     type="text"
                     value={textColor.hex.toUpperCase()}
-                    className="input input-bordered input-sm h-[38px] border border-gray-300 w-full max-w-52"
+                    className="input input-bordered input-sm h-[34px] border border-gray-300 w-full max-w-32"
                     readOnly
                   />
                   <div
@@ -275,7 +275,7 @@ export const StyleSettings = ({
                     style={{
                       backgroundColor: textColor.hex.toString(),
                     }}
-                    className="max-h-[38px] max-w-[38px] h-full w-full border border-gray-300 rounded-lg aspect-square"
+                    className="max-h-[34px] max-w-[34px] h-full w-full border border-gray-300 rounded-lg aspect-square"
                   />
                   <div
                     tabIndex={0}
@@ -294,7 +294,7 @@ export const StyleSettings = ({
                   <input
                     type="text"
                     value={accentColor.hex.toUpperCase()}
-                    className="input input-bordered input-sm h-[38px] border border-gray-300 w-full max-w-52"
+                    className="input input-bordered input-sm h-[34px] border border-gray-300 w-full max-w-32"
                     readOnly
                   />
                   <div
@@ -302,7 +302,7 @@ export const StyleSettings = ({
                     style={{
                       backgroundColor: accentColor.hex.toString(),
                     }}
-                    className="max-h-[38px] max-w-[38px] h-full w-full border border-gray-300 rounded-lg aspect-square"
+                    className="max-h-[34px] max-w-[34px] h-full w-full border border-gray-300 rounded-lg aspect-square"
                   />
                   <div
                     tabIndex={0}
@@ -326,7 +326,7 @@ export const StyleSettings = ({
                   <input
                     type="text"
                     value={borderColor.hex.toUpperCase()}
-                    className="input input-bordered input-sm h-[38px] border border-gray-300 w-full max-w-52"
+                    className="input input-bordered input-sm h-[32px] border border-gray-300 w-full max-w-32"
                     readOnly
                   />
                   <div
@@ -334,7 +334,7 @@ export const StyleSettings = ({
                     style={{
                       backgroundColor: borderColor.hex.toString(),
                     }}
-                    className="max-h-[38px] max-w-[38px] h-full w-full border border-gray-300 rounded-lg aspect-square"
+                    className="max-h-[34px] max-w-[34px] h-full w-full border border-gray-300 rounded-lg aspect-square"
                   />
                   <div
                     tabIndex={0}
@@ -356,7 +356,7 @@ export const StyleSettings = ({
                   <input
                     type="text"
                     value={verifiedColor.hex.toUpperCase()}
-                    className="input input-bordered input-sm h-[38px] border border-gray-300 w-full max-w-52"
+                    className="input input-bordered input-sm h-[34px] border border-gray-300 w-full max-w-32"
                     readOnly
                   />
                   <div
@@ -364,7 +364,7 @@ export const StyleSettings = ({
                     style={{
                       backgroundColor: verifiedColor.hex.toString(),
                     }}
-                    className="max-h-[38px] max-w-[38px] h-full w-full border border-gray-300 rounded-lg aspect-square"
+                    className="max-h-[34px] max-w-[34px] h-full w-full border border-gray-300 rounded-lg aspect-square"
                   />
                   <div
                     tabIndex={0}

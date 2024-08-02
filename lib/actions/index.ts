@@ -92,3 +92,15 @@ export const checkDuplicateTitle = (arr: (string | null)[], title: string) => {
   }
   return title;
 };
+
+/**
+ * Sorts an array by the created_at field in descending order (most recent entries at the top).
+ */
+export const sortByTimeCreated = (arr: any[]) => {
+  return arr
+    .slice()
+    .sort(
+      (a, b) =>
+        new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    );
+};

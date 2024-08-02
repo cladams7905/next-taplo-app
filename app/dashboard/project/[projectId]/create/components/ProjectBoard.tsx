@@ -4,7 +4,8 @@ import { Tables } from "@/supabase/types";
 import Sidebar from "./Sidebar";
 import { useEffect, useState } from "react";
 import { useColor } from "react-color-palette";
-import PopupViewContainer from "./popupView/PopupViewContainer";
+import ViewContainer from "./popupView/ViewContainer";
+import { sortByTimeCreated } from "@/lib/actions";
 
 export default function ProjectBoard({
   fetchedActiveProject,
@@ -17,7 +18,9 @@ export default function ProjectBoard({
 }) {
   const [activeProject, setActiveProject] =
     useState<Tables<"Projects">>(fetchedActiveProject);
-  const [events, setEvents] = useState<Tables<"Events">[]>(fetchedEvents);
+  const [events, setEvents] = useState<Tables<"Events">[]>(
+    sortByTimeCreated(fetchedEvents)
+  );
   const [activeEvent, setActiveEvent] = useState<Tables<"Events"> | undefined>(
     events[0] || undefined
   );
@@ -74,7 +77,7 @@ export default function ProjectBoard({
         />
       </div>
       <div className="lg:w-2/3 w-full">
-        <PopupViewContainer
+        <ViewContainer
           activeProject={activeProject}
           setActiveProject={setActiveProject}
           activeEvent={activeEvent}
