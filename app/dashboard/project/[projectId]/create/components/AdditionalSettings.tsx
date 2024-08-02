@@ -116,7 +116,7 @@ export default function AdditionalSettings({
             </div>
           </div>
           <div className="flex flex-row items-center justify-between gap-2 text-sm px-2">
-            Time before each popup disappears
+            Time for each popup to display
             <div className="flex items-center gap-2 mr-[10px]">
               <input
                 className="input input-bordered input-sm max-w-20"

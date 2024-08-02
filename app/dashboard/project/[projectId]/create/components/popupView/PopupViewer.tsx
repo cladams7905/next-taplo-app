@@ -70,6 +70,86 @@ export default function PopupViewer({
     setVariableList(getVariableList());
   }, [activeEvent, contentBody]);
 
+  const replaceVariablesInContentBody = (
+    contentStr?: string | null,
+    shouldReturnHTML?: boolean
+  ) => {
+    if (!contentStr && !activeContent) return "";
+
+    let words;
+    if (contentStr) {
+      words = contentStr.split(" ");
+    } else {
+      words = activeContent.split(" ");
+    }
+
+    // Check to contain if string contains non-alphanumeric chars other than a backslash
+    const checkForInvalidCharsRegex = /[^a-zA-Z0-9\\]/;
+    // Check used to split string by non-alphanumeric chars other than a backslash
+    const filterInvalidCharsRegex = /(\\\w+|\w+|[^\w\s])/g;
+
+    const transformedWords = words.flatMap((word, i) => {
+      if (word.startsWith("\\") && checkForInvalidCharsRegex.test(word)) {
+        const cleanedWord = word.split(filterInvalidCharsRegex).filter(Boolean);
+        return cleanedWord
+          .map((val) => {
+            return val.startsWith("\\")
+              ? shouldReturnHTML
+                ? `<span key=${i} class="text-primary bg-primary/20 font-extrabold px-1 uppercase rounded-lg">${val}</span>`
+                : replaceVariable(val.substring(1).toLocaleLowerCase())
+              : val;
+          })
+          .join("");
+      } else {
+        return word.startsWith("\\")
+          ? shouldReturnHTML
+            ? `<span key=${i} class="text-primary bg-primary/20 font-extrabold px-1 uppercase rounded-lg">${word}</span>`
+            : replaceVariable(word.substring(1).toLocaleLowerCase())
+          : word;
+      }
+    });
+    return transformedWords.join(" ");
+  };
+
+  const replaceVariable = (variable: string) => {
+    let returnWord = "";
+    switch (variable) {
+      case "person":
+        returnWord = "Someone";
+        break;
+      case "location":
+        returnWord = "Seattle, Washington, USA";
+        break;
+      case "product":
+        returnWord = "Tennis Shoes";
+        break;
+      case "rating":
+        returnWord = "4";
+        break;
+      case "review":
+        returnWord = "I love this product!";
+        break;
+      case "project":
+        returnWord = activeProject.name;
+        break;
+      case "provider":
+        returnWord = "Google";
+        break;
+      case "numreviews":
+        returnWord = "20";
+        break;
+      case "numusers":
+        returnWord = "20";
+        break;
+      case "recentusers":
+        returnWord = "40";
+        break;
+      default:
+        returnWord = "undefined";
+    }
+    return returnWord;
+  };
+
   return (
     <div className="flex flex-col w-full items-center gap-3 max-w-[40vw] p-4 px-6 rounded-lg">
       <div className="flex flex-col w-full items-center">
@@ -89,6 +169,7 @@ export default function PopupViewer({
           borderColor={borderColor}
           contentBody={contentBody}
           activeContent={activeContent}
+          replaceVariablesInContentBody={replaceVariablesInContentBody}
         />
       </div>
       <div className="flex w-full justify-end items-center max-w-[320px]">
@@ -112,6 +193,7 @@ export default function PopupViewer({
         activeContent={activeContent}
         setActiveContent={setActiveContent}
         variableList={variableList}
+        replaceVariablesInContentBody={replaceVariablesInContentBody}
       />
     </div>
   );

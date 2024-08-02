@@ -19,6 +19,7 @@ export default function ContentList({
   activeContent,
   setActiveContent,
   variableList,
+  replaceVariablesInContentBody,
 }: {
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
@@ -34,6 +35,10 @@ export default function ContentList({
   activeContent: string;
   setActiveContent: Dispatch<SetStateAction<string>>;
   variableList: string[];
+  replaceVariablesInContentBody: (
+    contentStr?: string | null,
+    shouldReturnHTML?: boolean
+  ) => string;
 }) {
   const handleToggleActiveContent = (content: string) => {
     if (content !== activeContent) {
@@ -41,25 +46,6 @@ export default function ContentList({
     }
   };
 
-  const locateVariablesInContentBody = (contentStr: string | null) => {
-    if (!contentStr) return "";
-
-    const words = contentStr.split(/(\\\w+|\w+|[^\w\s])/g).filter(Boolean);
-    const transformedWords = words.map((word, index) => {
-      const slicedWord = word.substring(1);
-      if (
-        word.startsWith("\\") &&
-        variableList.includes(slicedWord.toLocaleLowerCase())
-      ) {
-        return `<span key=${index} class="text-primary bg-primary/20 font-extrabold px-1 uppercase rounded-lg">${slicedWord}</span>`;
-      } else {
-        return word;
-      }
-    });
-
-    const htmlContent = transformedWords.join(" ");
-    return htmlContent;
-  };
   return (
     <div className="flex flex-col w-full h-fit max-h-56 mt-12 items-center gap-3 overflow-y-scroll py-2 px-6 cursor-pointer">
       {contentBody.map((entry, i) => (
@@ -72,7 +58,7 @@ export default function ContentList({
               : "border border-gray-200"
           }`}
           dangerouslySetInnerHTML={{
-            __html: locateVariablesInContentBody(entry),
+            __html: replaceVariablesInContentBody(entry, true),
           }}
         ></div>
       ))}

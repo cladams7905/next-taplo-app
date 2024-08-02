@@ -16,6 +16,7 @@ export default function ContentPopup({
   borderColor,
   contentBody,
   activeContent,
+  replaceVariablesInContentBody,
 }: {
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
@@ -27,6 +28,10 @@ export default function ContentPopup({
   borderColor: IColor;
   contentBody: string[];
   activeContent: string;
+  replaceVariablesInContentBody: (
+    contentStr?: string | null,
+    shouldReturnHTML?: boolean
+  ) => string;
 }) {
   return (
     <div
@@ -77,7 +82,7 @@ export default function ContentPopup({
             }}
             className="text-[14px] leading-5"
           >
-            Someone in Seattle, Washington, USA purchased a bike helmet.
+            {replaceVariablesInContentBody()}
           </p>
           <p
             className="text-xs"
