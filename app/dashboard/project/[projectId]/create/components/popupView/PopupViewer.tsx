@@ -95,7 +95,7 @@ export default function PopupViewer({
           .map((val) => {
             return val.startsWith("\\")
               ? shouldReturnHTML
-                ? `<span key=${i} class="text-primary bg-primary/20 font-extrabold px-1 uppercase rounded-lg">${val}</span>`
+                ? getVariableHTML(val, i)
                 : replaceVariable(val.substring(1).toLocaleLowerCase())
               : val;
           })
@@ -103,12 +103,16 @@ export default function PopupViewer({
       } else {
         return word.startsWith("\\")
           ? shouldReturnHTML
-            ? `<span key=${i} class="text-primary bg-primary/20 font-extrabold px-1 uppercase rounded-lg">${word}</span>`
+            ? getVariableHTML(word, i)
             : replaceVariable(word.substring(1).toLocaleLowerCase())
           : word;
       }
     });
     return transformedWords.join(" ");
+  };
+
+  const getVariableHTML = (word: string, index: number) => {
+    return `<span key=${index} class="text-primary bg-primary/20 font-extrabold px-1 uppercase rounded-lg">${word}</span>`;
   };
 
   const replaceVariable = (variable: string) => {
@@ -151,7 +155,7 @@ export default function PopupViewer({
   };
 
   return (
-    <div className="flex flex-col w-full items-center gap-3 max-w-[40vw] p-4 px-6 rounded-lg">
+    <div className="flex flex-col w-full items-center gap-3 lg:max-w-[45vw] p-4 px-6 rounded-lg">
       <div className="flex flex-col w-full items-center">
         <div className="w-full max-w-[320px]">
           <div className="px-4 py-2 w-fit text-sm font-bold mb-2">

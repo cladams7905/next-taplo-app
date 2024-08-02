@@ -36,37 +36,34 @@ export default function ViewContainer({
   displayTime: number;
 }) {
   return (
-    <div className="relative flex flex-col !rounded-none bg-gradient-to-tr from-primary/50 to-purple-100 h-full shadow-lg z-[1]">
-      <div className="w-full py-2 px-5">
-        <ViewContainerHeader
-          activeProject={activeProject}
-          setActiveProject={setActiveProject}
-          events={events}
-          backgroundColor={backgroundColor}
-          accentColor={accentColor}
-          textColor={textColor}
-          verifiedColor={verifiedColor}
-          borderColor={borderColor}
-          isInPreview={isInPreview}
-          setIsInPreview={setIsInPreview}
-          displayTime={displayTime}
-        />
-
-        <div className="flex justify-center items-center w-full h-full">
-          {events.length > 0 && (
-            <PopupViewer
-              activeProject={activeProject}
-              setActiveProject={setActiveProject}
-              events={events}
-              activeEvent={activeEvent}
-              backgroundColor={backgroundColor}
-              accentColor={accentColor}
-              textColor={textColor}
-              verifiedColor={verifiedColor}
-              borderColor={borderColor}
-            />
-          )}
-        </div>
+    <div className="relative flex flex-col !rounded-none bg-gradient-to-tr from-primary/50 to-purple-100 h-full shadow-lg z-[1] py-2 px-5">
+      <ViewContainerHeader
+        activeProject={activeProject}
+        setActiveProject={setActiveProject}
+        events={events}
+        backgroundColor={backgroundColor}
+        accentColor={accentColor}
+        textColor={textColor}
+        verifiedColor={verifiedColor}
+        borderColor={borderColor}
+        isInPreview={isInPreview}
+        setIsInPreview={setIsInPreview}
+        displayTime={displayTime}
+      />
+      <div className="flex justify-center items-center w-full h-full">
+        {events.length > 0 && (
+          <PopupViewer
+            activeProject={activeProject}
+            setActiveProject={setActiveProject}
+            events={events}
+            activeEvent={activeEvent}
+            backgroundColor={backgroundColor}
+            accentColor={accentColor}
+            textColor={textColor}
+            verifiedColor={verifiedColor}
+            borderColor={borderColor}
+          />
+        )}
       </div>
       <div className="flex absolute bottom-0 right-0 w-full justify-end items-end px-5 pb-3">
         <div
