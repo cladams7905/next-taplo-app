@@ -13,6 +13,7 @@ export default function ViewContainer({
   setActiveProject,
   events,
   activeEvent,
+  setActiveEvent,
   backgroundColor,
   textColor,
   accentColor,
@@ -26,6 +27,7 @@ export default function ViewContainer({
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
   events: Tables<"Events">[];
   activeEvent: Tables<"Events"> | undefined;
+  setActiveEvent: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
@@ -57,6 +59,7 @@ export default function ViewContainer({
             setActiveProject={setActiveProject}
             events={events}
             activeEvent={activeEvent}
+            setActiveEvent={setActiveEvent}
             backgroundColor={backgroundColor}
             accentColor={accentColor}
             textColor={textColor}

@@ -1,21 +1,13 @@
 "use client";
 
-import { Tables } from "@/supabase/types";
 import { CirclePlus, Pencil, TrashIcon } from "lucide-react";
-import { Dispatch, SetStateAction, useRef } from "react";
-import { IColor } from "react-color-palette";
+import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import AddEditContentModal from "./AddEditContentModal";
+import { Tables } from "@/supabase/types";
 
 export default function ContentList({
-  activeProject,
-  setActiveProject,
-  events,
   activeEvent,
-  backgroundColor,
-  textColor,
-  accentColor,
-  verifiedColor,
-  borderColor,
+  setActiveEvent,
   contentBody,
   setContentBody,
   activeContent,
@@ -23,15 +15,8 @@ export default function ContentList({
   variableList,
   replaceVariablesInContentBody,
 }: {
-  activeProject: Tables<"Projects">;
-  setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
-  events: Tables<"Events">[];
   activeEvent: Tables<"Events"> | undefined;
-  backgroundColor: IColor;
-  textColor: IColor;
-  accentColor: IColor;
-  verifiedColor: IColor;
-  borderColor: IColor;
+  setActiveEvent: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
   contentBody: string[];
   setContentBody: Dispatch<SetStateAction<string[]>>;
   activeContent: string;
@@ -59,10 +44,10 @@ export default function ContentList({
         >
           <div
             onClick={() => handleToggleActiveContent(entry)}
-            className={`inline-block w-full max-w-[35vw] h-fit bg-white/50 border border-gray-300 rounded-lg py-2 px-5 text-sm ${
+            className={`inline-block w-full max-w-[35vw] h-fit bg-white/50 rounded-lg py-2 px-5 text-sm ${
               activeContent === entry
-                ? "ring-2 ring-primary"
-                : "hover:ring-2 ring-primary/35"
+                ? "ring-[3px] ring-primary"
+                : "border border-gray-300 hover:ring-[3px] ring-primary/35"
             }`}
             dangerouslySetInnerHTML={{
               __html: replaceVariablesInContentBody(entry, true),
@@ -89,13 +74,22 @@ export default function ContentList({
       <div className="flex items-center justify-center mt-1 mr-[70px]">
         <div
           className="btn btn-sm lg:mt-0 mt-8 lg:w-auto w-full btn-ghost text-xs"
-          onClick={() => addEditContentModalRef.current?.showModal()}
+          onClick={() => {
+            addEditContentModalRef.current?.showModal();
+          }}
         >
           <CirclePlus height={16} width={16} />
           Add Content
         </div>
       </div>
-      <AddEditContentModal modalRef={addEditContentModalRef} />
+      <AddEditContentModal
+        activeEvent={activeEvent}
+        setActiveEvent={setActiveEvent}
+        modalRef={addEditContentModalRef}
+        variableList={variableList}
+        activeContent={activeContent}
+        setActiveContent={setActiveContent}
+      />
     </div>
   );
 }

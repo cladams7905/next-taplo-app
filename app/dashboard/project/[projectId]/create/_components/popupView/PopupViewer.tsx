@@ -19,6 +19,7 @@ export default function PopupViewer({
   setActiveProject,
   events,
   activeEvent,
+  setActiveEvent,
   backgroundColor,
   textColor,
   accentColor,
@@ -29,6 +30,7 @@ export default function PopupViewer({
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
   events: Tables<"Events">[];
   activeEvent: Tables<"Events"> | undefined;
+  setActiveEvent: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
@@ -189,15 +191,8 @@ export default function PopupViewer({
         </div>
       </div>
       <ContentList
-        activeProject={activeProject}
-        setActiveProject={setActiveProject}
-        events={events}
         activeEvent={activeEvent}
-        backgroundColor={backgroundColor}
-        accentColor={accentColor}
-        textColor={textColor}
-        verifiedColor={verifiedColor}
-        borderColor={borderColor}
+        setActiveEvent={setActiveEvent}
         contentBody={contentBody}
         setContentBody={setContentBody}
         activeContent={activeContent}

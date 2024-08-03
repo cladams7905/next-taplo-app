@@ -81,6 +81,7 @@ export default function ProjectBoard({
           activeProject={activeProject}
           setActiveProject={setActiveProject}
           activeEvent={activeEvent}
+          setActiveEvent={setActiveEvent}
           events={events}
           backgroundColor={backgroundColor}
           textColor={textColor}
