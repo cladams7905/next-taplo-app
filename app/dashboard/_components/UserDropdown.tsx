@@ -2,7 +2,7 @@
 
 import { CircleUser, LogOut, Settings } from "lucide-react";
 import { User } from "@supabase/supabase-js";
-import { signOut } from "@/app/auth/actions";
+import { signOut } from "@/app/(auth)/_actions";
 import Image from "next/image";
 import { useTransition } from "react";
 import { redirect } from "next/navigation";

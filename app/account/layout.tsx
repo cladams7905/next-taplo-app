@@ -1,6 +1,6 @@
 import React from "react";
-import Navbar from "../dashboard/components/Navbar";
-import Footer from "../dashboard/components/Footer";
+import Navbar from "../dashboard/_components/Navbar";
+import Footer from "../dashboard/_components/Footer";
 import { redirect } from "next/navigation";
 import { createClient } from "@/supabase/server";
 

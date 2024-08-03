@@ -74,22 +74,25 @@ export default function Sidebar({
         }
       }
     };
+    const eventHeader = eventHeaderRef.current;
+    const styleHeader = styleHeaderRef.current;
+
     const resizeObserver = new ResizeObserver(handleResize);
-    if (eventHeaderRef.current) {
-      resizeObserver.observe(eventHeaderRef.current);
+    if (eventHeader) {
+      resizeObserver.observe(eventHeader);
     }
-    if (styleHeaderRef.current) {
-      resizeObserver.observe(styleHeaderRef.current);
+    if (styleHeader) {
+      resizeObserver.observe(styleHeader);
     }
     return () => {
-      if (eventHeaderRef.current) {
-        resizeObserver.unobserve(eventHeaderRef.current);
+      if (eventHeader) {
+        resizeObserver.unobserve(eventHeader);
       }
-      if (styleHeaderRef.current) {
-        resizeObserver.unobserve(styleHeaderRef.current);
+      if (styleHeader) {
+        resizeObserver.unobserve(styleHeader);
       }
     };
-  }, []);
+  }, [eventHeaderHeight]);
 
   return (
     <div

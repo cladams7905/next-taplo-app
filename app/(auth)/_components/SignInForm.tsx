@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { signInWithEmailAndPassword } from "../actions";
+import { signInWithEmailAndPassword } from "../_actions";
 import {
   Form,
   FormControl,

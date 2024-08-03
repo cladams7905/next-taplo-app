@@ -1,7 +1,7 @@
-import RegisterForm from "../components/RegisterForm";
+import RegisterForm from "../_components/RegisterForm";
 import { createClient } from "@/supabase/server";
 import { redirect } from "next/navigation";
-import { getRedirectPathname } from "../actions";
+import { getRedirectPathname } from "../_actions";
 
 export default async function Signup() {
   const supabase = createClient();

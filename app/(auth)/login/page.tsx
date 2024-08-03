@@ -1,9 +1,9 @@
-import SignInForm from "../components/SignInForm";
-import OAuthForm from "../components/OAuthForm";
+import SignInForm from "../_components/SignInForm";
+import OAuthForm from "../_components/OAuthForm";
 import Link from "next/link";
 import { createClient } from "@/supabase/server";
 import { redirect } from "next/navigation";
-import { getRedirectPathname } from "../actions";
+import { getRedirectPathname } from "../_actions";
 
 export default async function Login() {
   const supabase = createClient();

@@ -16,7 +16,7 @@ import { Trash } from "lucide-react";
 import { Tables } from "@/supabase/types";
 import { showToast, showToastError } from "@/components/shared/showToast";
 import { useRouter } from "next/navigation";
-import { getRedirectPathname } from "@/app/auth/actions";
+import { getRedirectPathname } from "@/app/(auth)/_actions";
 import { deleteProject } from "@/lib/actions/projects";
 
 export default function DeleteProjectModal({

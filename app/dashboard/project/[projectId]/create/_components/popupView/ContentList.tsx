@@ -1,7 +1,7 @@
 "use client";
 
 import { Tables } from "@/supabase/types";
-import { Pencil, TrashIcon } from "lucide-react";
+import { CirclePlus, Pencil, TrashIcon } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import { IColor } from "react-color-palette";
 
@@ -48,7 +48,7 @@ export default function ContentList({
   };
 
   return (
-    <div className="flex flex-col w-full mt-12 ml-20 h-fit max-h-56 gap-3 overflow-y-scroll overflow-x-visible py-2 cursor-pointer">
+    <div className="flex flex-col w-full mt-12 ml-20 h-fit lg:max-h-64 gap-3 overflow-y-scroll overflow-x-visible py-2 cursor-pointer">
       {contentBody.map((entry, i) => (
         <div
           key={i}
@@ -66,15 +66,28 @@ export default function ContentList({
             }}
           />
           <div className="flex flex-row items-center justify-center gap-2 right-[-2rem] top-1/2">
-            <div className="rounded-lg p-1 cursor-pointer hover:bg-primary/20">
-              <Pencil width={20} height={20} />
-            </div>
-            <div className="rounded-lg p-1 cursor-pointer hover:bg-primary/20">
-              <TrashIcon width={20} height={20} />
-            </div>
+            {activeContent === entry ? (
+              <>
+                {" "}
+                <div className="rounded-lg p-1 cursor-pointer hover:bg-primary/20">
+                  <Pencil width={18} height={18} />
+                </div>
+                <div className="rounded-lg p-1 cursor-pointer hover:bg-primary/20">
+                  <TrashIcon width={18} height={18} />
+                </div>
+              </>
+            ) : (
+              <div className="w-[59px]" />
+            )}
           </div>
         </div>
       ))}
+      <div className="flex items-center justify-center mt-1 mr-[70px]">
+        <div className="btn btn-sm lg:mt-0 mt-8 lg:w-auto w-full btn-ghost text-xs">
+          <CirclePlus height={16} width={16} />
+          Add Content
+        </div>
+      </div>
     </div>
   );
 }

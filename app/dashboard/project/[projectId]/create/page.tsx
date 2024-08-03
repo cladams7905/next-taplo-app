@@ -1,5 +1,5 @@
 import { getActiveProject } from "@/lib/actions/projects";
-import ProjectBoard from "./components/ProjectBoard";
+import ProjectBoard from "./_components/ProjectBoard";
 import { createClient } from "@/supabase/server";
 import { redirect } from "next/navigation";
 import { getIntegrations } from "@/lib/actions/integrations";

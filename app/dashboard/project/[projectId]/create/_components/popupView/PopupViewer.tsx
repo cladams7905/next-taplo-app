@@ -1,7 +1,13 @@
 "use client";
 
 import { Tables } from "@/supabase/types";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { IColor } from "react-color-palette";
 import { Pencil } from "lucide-react";
 import ContentList from "./ContentList";
@@ -36,7 +42,7 @@ export default function PopupViewer({
     (activeEvent?.content_body as string[])[0] || ""
   );
 
-  const getVariableList = () => {
+  const getVariableList = useCallback(() => {
     let variableList: string[] = [];
     if (activeEvent) {
       switch (activeEvent.event_type) {
@@ -60,7 +66,7 @@ export default function PopupViewer({
       }
     }
     return variableList;
-  };
+  }, [activeEvent]);
 
   const [variableList, setVariableList] = useState<string[]>(getVariableList());
 
@@ -68,7 +74,7 @@ export default function PopupViewer({
     setContentBody((activeEvent?.content_body as string[]) || []);
     setActiveContent((activeEvent?.content_body as string[])[0] || "");
     setVariableList(getVariableList());
-  }, [activeEvent, contentBody]);
+  }, [activeEvent, contentBody, getVariableList]);
 
   const replaceVariablesInContentBody = (
     contentStr?: string | null,

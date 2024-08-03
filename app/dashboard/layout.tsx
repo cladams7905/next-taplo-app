@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "./components/Navbar";
+import Navbar from "./_components/Navbar";
 import { redirect } from "next/navigation";
 import { createClient } from "@/supabase/server";
 import { getActiveProject, getProjects } from "@/lib/actions/projects";

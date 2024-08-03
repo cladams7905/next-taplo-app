@@ -1,4 +1,4 @@
-import NewProjectForm from "./NewProjectForm";
+import NewProjectForm from "./_components/NewProjectForm";
 
 export default async function CreateProject() {
   return (
