@@ -51,7 +51,7 @@ export default function ContentList({
   };
 
   return (
-    <div className="flex flex-col w-full mt-4 ml-20 h-fit lg:max-h-64 gap-3 overflow-y-scroll overflow-x-visible py-2 cursor-pointer">
+    <div className="flex flex-col w-full mt-4 ml-[4.7rem] pl-1 h-fit lg:max-h-64 gap-3 overflow-y-scroll overflow-x-visible py-2 cursor-pointer">
       {contentBody.map((entry, i) => (
         <div
           key={i}
@@ -68,22 +68,20 @@ export default function ContentList({
               __html: replaceVariablesInContentBody(entry, true),
             }}
           />
-          <div className="flex flex-row items-center justify-center gap-2 right-[-2rem] top-1/2">
-            {activeContent === entry ? (
+          <div className="flex flex-row items-center gap-2 right-[-2rem] w-16 top-1/2">
+            {activeContent === entry && (
               <>
                 {" "}
                 <div
                   className="rounded-lg p-1 cursor-pointer hover:bg-primary/20"
                   onClick={() => addEditContentModalRef.current?.showModal()}
                 >
-                  <Pencil width={18} height={18} />
+                  <Pencil width={16} height={16} />
                 </div>
                 <div className="rounded-lg p-1 cursor-pointer hover:bg-primary/20">
-                  <TrashIcon width={18} height={18} />
+                  <TrashIcon width={16} height={16} />
                 </div>
               </>
-            ) : (
-              <div className="w-[60px]" />
             )}
           </div>
         </div>
