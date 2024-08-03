@@ -2,7 +2,7 @@
 
 import { Tables } from "@/supabase/types";
 import Sidebar from "./Sidebar";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useColor } from "react-color-palette";
 import ViewContainer from "./popupView/ViewContainer";
 import { sortByTimeCreated } from "@/lib/actions";
@@ -28,9 +28,22 @@ export default function ProjectBoard({
     fetchedActiveProject.display_time ? fetchedActiveProject.display_time : 5000
   );
 
+  const updateEvents = useCallback(
+    (newEvent: Tables<"Events">) => {
+      setEvents((prevEvents) =>
+        prevEvents.map((prev) =>
+          prev.id === newEvent.id ? { ...prev, ...newEvent } : prev
+        )
+      );
+    },
+    [setEvents]
+  );
+
   useEffect(() => {
-    setActiveEvent(events[0]);
-  }, [events]);
+    if (activeEvent) {
+      updateEvents(activeEvent);
+    }
+  }, [activeEvent, updateEvents]);
 
   /* Popup style state variables */
   const [backgroundColor, setBackgroundColor] = useColor(
@@ -83,6 +96,7 @@ export default function ProjectBoard({
           activeEvent={activeEvent}
           setActiveEvent={setActiveEvent}
           events={events}
+          setEvents={setEvents}
           backgroundColor={backgroundColor}
           textColor={textColor}
           accentColor={accentColor}

@@ -96,7 +96,7 @@ export default function RegisterForm() {
         <p className="font-bold text-4xl mb-4">Get started for free!</p>
         <p className="">
           Already have an account?{" "}
-          <Link href={"/auth/login"}>
+          <Link href={"/login"}>
             <span className="link link-primary link-hover">Login</span>
           </Link>
         </p>

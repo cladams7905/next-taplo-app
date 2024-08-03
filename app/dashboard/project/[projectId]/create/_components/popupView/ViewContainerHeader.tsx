@@ -27,6 +27,7 @@ export default function ViewContainerHeader({
   isInPreview,
   setIsInPreview,
   displayTime,
+  isLoadPending,
 }: {
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
@@ -39,6 +40,7 @@ export default function ViewContainerHeader({
   isInPreview: boolean;
   setIsInPreview: Dispatch<SetStateAction<boolean>>;
   displayTime: number;
+  isLoadPending: boolean;
 }) {
   const deleteModalRef = useRef<HTMLDialogElement>(null);
   const renameModalRef = useRef<HTMLDialogElement>(null);
@@ -64,7 +66,14 @@ export default function ViewContainerHeader({
   }, [setIsInPreview]);
 
   return (
-    <div className="flex justify-end items-center">
+    <div
+      className={`flex ${
+        isLoadPending ? "justify-between" : "justify-end"
+      } items-center`}
+    >
+      {isLoadPending && (
+        <span className="loading loading-spinner loading-sm bg-base-content ml-2" />
+      )}
       <div className="flex items-center gap-4">
         {events.length > 0 && (
           <div

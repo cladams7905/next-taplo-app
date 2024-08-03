@@ -3,11 +3,11 @@ import React, {
   FormEvent,
   RefObject,
   SetStateAction,
+  TransitionStartFunction,
   useEffect,
   useRef,
   useState,
 } from "react";
-import { Pencil } from "lucide-react";
 import { updateEvent } from "@/lib/actions/events";
 import { showToastError } from "@/components/shared/showToast";
 import { Tables } from "@/supabase/types";
@@ -16,21 +16,27 @@ export default function ContentBodyEditor({
   activeEvent,
   setActiveEvent,
   activeContent,
-  setActiveContent,
+  contentBody,
+  setContentBody,
   variableList,
+  modalRef,
   editContentTextAreaRef,
+  startLoadTransition,
 }: {
   activeEvent: Tables<"Events"> | undefined;
   setActiveEvent: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
   activeContent: string;
-  setActiveContent: Dispatch<SetStateAction<string>>;
+  contentBody: string[];
+  setContentBody: Dispatch<SetStateAction<string[]>>;
   variableList: string[];
+  modalRef: RefObject<HTMLDialogElement>;
   editContentTextAreaRef: RefObject<HTMLTextAreaElement>;
+  startLoadTransition: TransitionStartFunction;
 }) {
   const VARCHECK = "\\";
   const MAXINPUTCHARS = 80;
   const [currentNumChars, setCurrentNumChars] = useState(
-    activeContent.length || 0
+    activeContent?.length || 0
   );
   const [isValidInput, setIsValidInput] = useState(true);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -45,28 +51,32 @@ export default function ContentBodyEditor({
     }
   }, [activeContent, editContentTextAreaRef]);
 
-  const handleContentSave = async () => {
-    if (activeEvent) {
-      const { data, error } = await updateEvent(activeEvent.id, {
-        ...activeEvent,
-        content_body: editContentTextAreaRef.current?.value,
-      });
-      if (error) {
-        showToastError(error);
-      } else {
-        setActiveEvent((prevEvent) => {
-          if (prevEvent) {
-            return {
-              ...prevEvent,
-              content_body: [
-                ...(prevEvent.content_body as string[]),
-                editContentTextAreaRef.current!.value,
-              ],
-            };
-          }
+  const handleContentSave = () => {
+    startLoadTransition(async () => {
+      if (activeEvent) {
+        const updatedContentBody = contentBody.map((content) =>
+          content === activeContent
+            ? editContentTextAreaRef.current!.value
+            : content
+        );
+        const { data, error } = await updateEvent(activeEvent.id, {
+          content_body: updatedContentBody,
         });
+        if (error) {
+          showToastError(error);
+        } else {
+          setActiveEvent((prevEvent) =>
+            prevEvent
+              ? {
+                  ...prevEvent,
+                  content_body: updatedContentBody,
+                }
+              : prevEvent
+          );
+          modalRef.current?.close();
+        }
       }
-    }
+    });
   };
 
   const getCaretCoordinates = (
@@ -237,8 +247,8 @@ export default function ContentBodyEditor({
         </ul>
       )}
       <div className="flex w-full justify-between">
-        <div className="flex flex-col">
-          <div className="text-xs text-gray-400">
+        <div className="flex flex-col gap-2">
+          <div className="text-xs text-gray-400 max-w-[360px]">
             Available variables:{" "}
             {variableList.map((variable, i) => (
               <span key={i} className="text-primary uppercase">
@@ -257,10 +267,10 @@ export default function ContentBodyEditor({
       </div>
       <div className="flex justify-end">
         <div
-          className={`btn btn-primary btn-sm w-20 text-white text-xs -mt-3 ${
+          className={`btn btn-primary btn-sm w-20 text-white text-xs -mt-4 ${
             !isValidInput && "btn-disabled"
           }`}
-          onClick={handleContentSave}
+          onClick={() => handleContentSave()}
         >
           Save
         </div>

@@ -62,6 +62,7 @@ const EventsList = ({
             );
             return sortByTimeCreated(updatedEvents);
           });
+          setActiveEvent(events[0]);
           showToast(`Successfully deleted \"${data.event_type}\" event`);
         }
       }
@@ -99,7 +100,8 @@ const EventsList = ({
     ))
   ) : (
     <div className="px-4 text-sm text-gray-400">
-      You haven't created any events yet. Click "+" to create a new one!
+      You haven&apos;t created any events yet. Click &quot;+&quot; to create a
+      new one!
     </div>
   );
 };
@@ -108,20 +110,17 @@ function areEqual(
   prevProps: {
     events: Tables<"Events">[];
     setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
-    activeEvent: Tables<"Events"> | undefined;
     fetchedIntegrations: Tables<"Integrations">[];
   },
   nextProps: {
     events: Tables<"Events">[];
     setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
-    activeEvent: Tables<"Events"> | undefined;
     fetchedIntegrations: Tables<"Integrations">[];
   }
 ) {
   return (
     prevProps.events === nextProps.events &&
     prevProps.setEvents === nextProps.setEvents &&
-    prevProps.activeEvent === nextProps.activeEvent &&
     prevProps.fetchedIntegrations === nextProps.fetchedIntegrations
   );
 }

@@ -1,23 +1,33 @@
 "use client";
 
-import { Dispatch, RefObject, SetStateAction, useRef } from "react";
+import {
+  Dispatch,
+  RefObject,
+  SetStateAction,
+  TransitionStartFunction,
+  useRef,
+} from "react";
 import ContentBodyEditor from "./ContentBodyEditor";
 import { Tables } from "@/supabase/types";
 
 export default function AddEditContentModal({
+  contentBody,
+  setContentBody,
   activeEvent,
   setActiveEvent,
   modalRef,
   activeContent,
-  setActiveContent,
   variableList,
+  startLoadTransition,
 }: {
+  contentBody: string[];
+  setContentBody: Dispatch<SetStateAction<string[]>>;
   activeEvent: Tables<"Events"> | undefined;
   setActiveEvent: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
   modalRef: RefObject<HTMLDialogElement>;
   activeContent: string;
-  setActiveContent: Dispatch<SetStateAction<string>>;
   variableList: string[];
+  startLoadTransition: TransitionStartFunction;
 }) {
   const editContentTextAreaRef = useRef<HTMLTextAreaElement>(null);
   return (
@@ -37,12 +47,15 @@ export default function AddEditContentModal({
         </form>
         <div className="text-xl font-bold mb-6">Add/Edit Content</div>
         <ContentBodyEditor
+          contentBody={contentBody}
+          setContentBody={setContentBody}
           activeEvent={activeEvent}
           setActiveEvent={setActiveEvent}
           variableList={variableList}
           activeContent={activeContent}
-          setActiveContent={setActiveContent}
+          modalRef={modalRef}
           editContentTextAreaRef={editContentTextAreaRef}
+          startLoadTransition={startLoadTransition}
         />
       </div>
     </dialog>

@@ -2,7 +2,7 @@
 
 import { Tables } from "@/supabase/types";
 import { BadgeCheck } from "lucide-react";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, TransitionStartFunction } from "react";
 import { IColor } from "react-color-palette";
 
 export default function ContentPopup({
@@ -16,6 +16,7 @@ export default function ContentPopup({
   borderColor,
   contentBody,
   activeContent,
+  startLoadTransition,
   replaceVariablesInContentBody,
 }: {
   activeProject: Tables<"Projects">;
@@ -28,6 +29,7 @@ export default function ContentPopup({
   borderColor: IColor;
   contentBody: string[];
   activeContent: string;
+  startLoadTransition: TransitionStartFunction;
   replaceVariablesInContentBody: (
     contentStr?: string | null,
     shouldReturnHTML?: boolean

@@ -1,9 +1,16 @@
 "use client";
 
 import { CirclePlus, Pencil, TrashIcon } from "lucide-react";
-import { Dispatch, SetStateAction, useEffect, useRef } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  TransitionStartFunction,
+  useRef,
+} from "react";
 import AddEditContentModal from "./AddEditContentModal";
 import { Tables } from "@/supabase/types";
+import { updateEvent } from "@/lib/actions/events";
+import { showToastError } from "@/components/shared/showToast";
 
 export default function ContentList({
   activeEvent,
@@ -12,6 +19,7 @@ export default function ContentList({
   setContentBody,
   activeContent,
   setActiveContent,
+  startLoadTransition,
   variableList,
   replaceVariablesInContentBody,
 }: {
@@ -21,6 +29,7 @@ export default function ContentList({
   setContentBody: Dispatch<SetStateAction<string[]>>;
   activeContent: string;
   setActiveContent: Dispatch<SetStateAction<string>>;
+  startLoadTransition: TransitionStartFunction;
   variableList: string[];
   replaceVariablesInContentBody: (
     contentStr?: string | null,
@@ -33,6 +42,38 @@ export default function ContentList({
     if (content !== activeContent) {
       setActiveContent(content);
     }
+  };
+
+  const handleDeleteContent = (content: string) => {
+    startLoadTransition(async () => {
+      if (activeEvent) {
+        if (contentBody.length > 1) {
+          const updatedContentBody = contentBody.filter(
+            (val) => val !== content
+          );
+          const { data, error } = await updateEvent(activeEvent.id, {
+            content_body: updatedContentBody,
+          });
+          if (error) {
+            showToastError(error);
+          } else {
+            setActiveEvent((prevEvent) =>
+              prevEvent
+                ? {
+                    ...prevEvent,
+                    content_body: updatedContentBody,
+                  }
+                : prevEvent
+            );
+          }
+        } else {
+          showToastError(
+            null,
+            "Each event must have at least one content entry."
+          );
+        }
+      }
+    });
   };
 
   return (
@@ -63,7 +104,10 @@ export default function ContentList({
                 >
                   <Pencil width={16} height={16} />
                 </div>
-                <div className="rounded-lg p-1 cursor-pointer hover:bg-primary/20">
+                <div
+                  className="rounded-lg p-1 cursor-pointer hover:bg-primary/20"
+                  onClick={() => handleDeleteContent(entry)}
+                >
                   <TrashIcon width={16} height={16} />
                 </div>
               </>
@@ -83,12 +127,14 @@ export default function ContentList({
         </div>
       </div>
       <AddEditContentModal
+        contentBody={contentBody}
+        setContentBody={setContentBody}
         activeEvent={activeEvent}
         setActiveEvent={setActiveEvent}
         modalRef={addEditContentModalRef}
         variableList={variableList}
         activeContent={activeContent}
-        setActiveContent={setActiveContent}
+        startLoadTransition={startLoadTransition}
       />
     </div>
   );

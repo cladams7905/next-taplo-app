@@ -26,7 +26,7 @@ export default function Home() {
               make.
             </p>
             <div className="flex flex-row mb-2">
-              <Link href={"/auth/signup"}>
+              <Link href={"/signup"}>
                 <div className="btn btn-lg btn-primary max-w-fit">
                   Get started for free
                   <ArrowRight />

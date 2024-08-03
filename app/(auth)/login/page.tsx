@@ -26,7 +26,7 @@ export default async function Login() {
           <p className="font-bold text-4xl mb-4">Welcome back</p>
           <p className="">
             Don&apos;t have an account?{" "}
-            <Link href={"/auth/signup"}>
+            <Link href={"/signup"}>
               <span className="link link-primary link-hover">Sign up</span>
             </Link>
           </p>

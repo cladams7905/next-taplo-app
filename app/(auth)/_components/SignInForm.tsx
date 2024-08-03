@@ -98,7 +98,7 @@ export default function SignInForm() {
             </FormItem>
           )}
         />
-        <Link href={"/auth/forgot-password"}>
+        <Link href={"/forgot-password"}>
           <p className="link text-sm text-right mt-2">Forgot password?</p>
         </Link>
         <div

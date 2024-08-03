@@ -4,6 +4,7 @@ import { Tables } from "@/supabase/types";
 import {
   Dispatch,
   SetStateAction,
+  TransitionStartFunction,
   useCallback,
   useEffect,
   useState,
@@ -25,6 +26,7 @@ export default function PopupViewer({
   accentColor,
   verifiedColor,
   borderColor,
+  startLoadTransition,
 }: {
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
@@ -36,12 +38,13 @@ export default function PopupViewer({
   accentColor: IColor;
   verifiedColor: IColor;
   borderColor: IColor;
+  startLoadTransition: TransitionStartFunction;
 }) {
   const [contentBody, setContentBody] = useState<string[]>(
     (activeEvent?.content_body as string[]) || []
   );
   const [activeContent, setActiveContent] = useState<string>(
-    (activeEvent?.content_body as string[])[0] || ""
+    activeEvent ? (activeEvent?.content_body as string[])[0] : ""
   );
 
   const getVariableList = useCallback(() => {
@@ -73,10 +76,17 @@ export default function PopupViewer({
   const [variableList, setVariableList] = useState<string[]>(getVariableList());
 
   useEffect(() => {
-    setContentBody((activeEvent?.content_body as string[]) || []);
-    setActiveContent((activeEvent?.content_body as string[])[0] || "");
-    setVariableList(getVariableList());
-  }, [activeEvent, contentBody, getVariableList]);
+    if (activeEvent) {
+      const newContentBody: string[] =
+        (activeEvent.content_body as string[]) || [];
+
+      setContentBody(newContentBody);
+      setVariableList(getVariableList());
+      if (newContentBody.length > 0) {
+        setActiveContent(newContentBody[0]);
+      }
+    }
+  }, [activeEvent, getVariableList]);
 
   const replaceVariablesInContentBody = (
     contentStr?: string | null,
@@ -181,6 +191,7 @@ export default function PopupViewer({
           borderColor={borderColor}
           contentBody={contentBody}
           activeContent={activeContent}
+          startLoadTransition={startLoadTransition}
           replaceVariablesInContentBody={replaceVariablesInContentBody}
         />
         <div className="flex w-full justify-end items-center max-w-[320px] mt-2 mb-12">
@@ -197,6 +208,7 @@ export default function PopupViewer({
         setContentBody={setContentBody}
         activeContent={activeContent}
         setActiveContent={setActiveContent}
+        startLoadTransition={startLoadTransition}
         variableList={variableList}
         replaceVariablesInContentBody={replaceVariablesInContentBody}
       />

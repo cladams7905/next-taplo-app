@@ -2,8 +2,7 @@
 
 import { Tables } from "@/supabase/types";
 import { IColor } from "react-color-palette";
-import { Dispatch, SetStateAction } from "react";
-import PopupContainerHeader from "./ViewContainerHeader";
+import { Dispatch, SetStateAction, useTransition } from "react";
 import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
 import PopupViewer from "./PopupViewer";
 import ViewContainerHeader from "./ViewContainerHeader";
@@ -12,6 +11,7 @@ export default function ViewContainer({
   activeProject,
   setActiveProject,
   events,
+  setEvents,
   activeEvent,
   setActiveEvent,
   backgroundColor,
@@ -26,6 +26,7 @@ export default function ViewContainer({
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
   events: Tables<"Events">[];
+  setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
   activeEvent: Tables<"Events"> | undefined;
   setActiveEvent: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
   backgroundColor: IColor;
@@ -37,6 +38,8 @@ export default function ViewContainer({
   setIsInPreview: Dispatch<SetStateAction<boolean>>;
   displayTime: number;
 }) {
+  const [isLoadPending, startLoadTransition] = useTransition();
+
   return (
     <div className="relative flex flex-col !rounded-none bg-gradient-to-tr from-primary/50 to-purple-100 h-full shadow-lg z-[1] py-2 px-5">
       <ViewContainerHeader
@@ -51,6 +54,7 @@ export default function ViewContainer({
         isInPreview={isInPreview}
         setIsInPreview={setIsInPreview}
         displayTime={displayTime}
+        isLoadPending={isLoadPending}
       />
       <div className="flex justify-center items-center w-full h-full">
         {events.length > 0 && (
@@ -65,6 +69,7 @@ export default function ViewContainer({
             textColor={textColor}
             verifiedColor={verifiedColor}
             borderColor={borderColor}
+            startLoadTransition={startLoadTransition}
           />
         )}
       </div>

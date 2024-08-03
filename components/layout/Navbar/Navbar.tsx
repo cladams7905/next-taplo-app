@@ -56,12 +56,12 @@ export default function Navbar() {
           </ul>
         </div>
         <div className="navbar-end">
-          <Link href={"/auth/login"}>
+          <Link href={"/login"}>
             <div className="btn btn-neutral btn-ghost btn-sm max-w-fit">
               Login
             </div>
           </Link>
-          <Link href={"auth/signup"}>
+          <Link href={"/signup"}>
             <div className="btn btn-primary btn-sm max-w-fit ml-2">
               Try for free
               <ArrowRight size={20} />

@@ -64,7 +64,7 @@ export default function UpdatePasswordForm() {
       if (error) {
         showToastError(error);
       } else {
-        router.push("/auth/login");
+        router.push("/login");
         showToast("Password updated!");
       }
     });

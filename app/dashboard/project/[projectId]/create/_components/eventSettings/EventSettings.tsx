@@ -48,6 +48,7 @@ const EventSettings = ({
           activeProject={activeProject}
           events={events}
           setEvents={setEvents}
+          setActiveEvent={setActiveEvent}
           startEventTransition={startEventTransition}
           isEventPending={isEventPending}
         />
@@ -72,14 +73,12 @@ const EventSettings = ({
 function areEqual(
   prevProps: {
     events: Tables<"Events">[];
-    activeEvent: Tables<"Events"> | undefined;
     setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
     integrations: Tables<"Integrations">[];
     isInPreview: boolean;
   },
   nextProps: {
     events: Tables<"Events">[];
-    activeEvent: Tables<"Events"> | undefined;
     setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
     integrations: Tables<"Integrations">[];
     isInPreview: boolean;
@@ -87,7 +86,6 @@ function areEqual(
 ) {
   return (
     prevProps.events === nextProps.events &&
-    prevProps.activeEvent === nextProps.activeEvent &&
     prevProps.setEvents === nextProps.setEvents &&
     prevProps.integrations === nextProps.integrations &&
     prevProps.isInPreview === nextProps.isInPreview

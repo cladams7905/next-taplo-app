@@ -18,7 +18,7 @@ export default function OAuthForm() {
           access_type: "offline",
           prompt: "consent",
         },
-        redirectTo: `${location.origin}/auth/callback`,
+        redirectTo: `${location.origin}/callback`,
       },
     });
   };

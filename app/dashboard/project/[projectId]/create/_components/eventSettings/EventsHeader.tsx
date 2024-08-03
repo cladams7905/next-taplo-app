@@ -15,12 +15,14 @@ export default function EventsHeader({
   activeProject,
   events,
   setEvents,
+  setActiveEvent,
   startEventTransition,
   isEventPending,
 }: {
   activeProject: Tables<"Projects">;
   events: Tables<"Events">[];
   setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
+  setActiveEvent: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
   startEventTransition: TransitionStartFunction;
   isEventPending: boolean;
 }) {
@@ -52,6 +54,7 @@ export default function EventsHeader({
           showToastError(error);
         } else {
           setEvents((prevEvents) => sortByTimeCreated([...prevEvents, data]));
+          setActiveEvent(events[0]);
         }
       }
     });
