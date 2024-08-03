@@ -162,9 +162,9 @@ export default function PopupViewer({
 
   return (
     <div className="flex flex-col w-full items-center gap-3 lg:max-w-[45vw] p-4 px-6 rounded-lg">
-      <div className="flex flex-col w-full items-center">
-        <div className="w-full max-w-[320px]">
-          <div className="px-4 py-2 w-fit text-sm font-bold mb-2">
+      <div className="flex flex-col w-full items-center rounded-lg bg-white/40 max-w-[35vw] border border-gray-300">
+        <div className="w-full mb-12">
+          <div className="px-4 py-2 w-fit text-sm font-bold">
             {activeEvent ? activeEvent.event_type : ""}
           </div>
         </div>
@@ -181,11 +181,11 @@ export default function PopupViewer({
           activeContent={activeContent}
           replaceVariablesInContentBody={replaceVariablesInContentBody}
         />
-      </div>
-      <div className="flex w-full justify-end items-center max-w-[320px]">
-        <div className="btn btn-sm lg:mt-0 mt-8 lg:w-auto w-full btn-ghost text-xs font-bold">
-          <Pencil height={14} width={14} />
-          Change Template
+        <div className="flex w-full justify-end items-center max-w-[320px] mt-2 mb-12">
+          <div className="btn btn-sm lg:mt-0 mt-8 lg:w-auto w-full btn-ghost text-xs font-bold">
+            <Pencil height={14} width={14} />
+            Change Template
+          </div>
         </div>
       </div>
       <ContentList

@@ -6,6 +6,7 @@ import {
   Dispatch,
   SetStateAction,
   TransitionStartFunction,
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -38,7 +39,7 @@ export default function IntegrationSelect({
   const toggleModalRef = useRef<HTMLDivElement>(null);
   const newIntegrationModalRef = useRef<HTMLDialogElement>(null);
 
-  const filterIntegrationsByEventType = () => {
+  const filterIntegrationsByEventType = useCallback(() => {
     let filteredIntegrations: Tables<"Integrations">[] = integrations;
     switch (currentEvent.event_type) {
       case EventType.OnPurchase:
@@ -60,14 +61,15 @@ export default function IntegrationSelect({
         break;
     }
     return filteredIntegrations;
-  };
+  }, [currentEvent.event_type, integrations]);
+
   const [filteredIntegrations, setFilteredIntegrations] = useState<
     Tables<"Integrations">[]
   >(filterIntegrationsByEventType);
 
   useEffect(() => {
     setFilteredIntegrations(filterIntegrationsByEventType);
-  }, [integrations]);
+  }, [integrations, filterIntegrationsByEventType]);
 
   const getIntegrationById = (integrationId: number) => {
     return integrations.find((integration) => integration.id === integrationId);

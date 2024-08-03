@@ -45,37 +45,38 @@ export default function ViewContainerHeader({
   const dropdownRef = useRef<HTMLUListElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
 
-  const handleClickOutside = (event: MouseEvent) => {
-    if (
-      previewRef.current &&
-      previewRef.current.contains(event.target as Node)
-    ) {
-      previewRef.current.classList.add("hidden");
-      previewRef.current.classList.remove("flex");
-      setIsInPreview(false);
-    }
-  };
-
   useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        previewRef.current &&
+        previewRef.current.contains(event.target as Node)
+      ) {
+        previewRef.current.classList.add("hidden");
+        previewRef.current.classList.remove("flex");
+        setIsInPreview(false);
+      }
+    };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [setIsInPreview]);
+
   return (
-    <div className="flex justify-between items-center">
+    <div className="flex justify-end items-center">
       <div className="flex items-center gap-4">
         {events.length > 0 && (
           <div
-            className="tooltip tooltip-bottom tooltip-info p-2 rounded-lg cursor-pointer hover:bg-primary/20"
-            data-tip="Preview"
+            className="btn btn-accent text-white text-xs btn-sm"
             onClick={() => {
               previewRef.current?.classList.remove("hidden");
               previewRef.current?.classList.add("flex");
               setIsInPreview(true);
             }}
           >
-            <Fullscreen width={22} height={22} />
+            Preview
+            <Fullscreen width={18} height={18} />
           </div>
         )}
         <PreviewContainer
@@ -90,8 +91,6 @@ export default function ViewContainerHeader({
           previewRef={previewRef}
           displayTime={displayTime}
         />
-      </div>
-      <div className="flex items-center gap-4">
         <div className="btn btn-primary text-white text-xs btn-sm">
           Embed
           <Code2Icon width={18} height={18} />
