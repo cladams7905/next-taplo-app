@@ -6,6 +6,7 @@ import {
   memo,
   SetStateAction,
   TransitionStartFunction,
+  useEffect,
   useRef,
   useState,
 } from "react";
@@ -57,12 +58,19 @@ const EventsList = ({
           showToastError(error);
         } else {
           setEvents((prevEvents) => {
-            const updatedEvents = prevEvents.filter(
-              (event) => event.id !== data.id
+            const updatedEvents = sortByTimeCreated(
+              prevEvents.filter((event) => event.id !== data.id)
             );
-            return sortByTimeCreated(updatedEvents);
+
+            // Check if there are remaining events before setting the active event
+            if (updatedEvents.length > 0) {
+              setActiveEvent(updatedEvents[0]);
+            } else {
+              setActiveEvent(undefined);
+            }
+
+            return updatedEvents;
           });
-          setActiveEvent(events[0]);
           showToast(`Successfully deleted \"${data.event_type}\" event`);
         }
       }

@@ -8,7 +8,9 @@ import {
   Dispatch,
   SetStateAction,
   TransitionStartFunction,
+  useEffect,
   useRef,
+  useState,
 } from "react";
 
 export default function EventsHeader({
@@ -53,8 +55,11 @@ export default function EventsHeader({
         if (error) {
           showToastError(error);
         } else {
-          setEvents((prevEvents) => sortByTimeCreated([...prevEvents, data]));
-          setActiveEvent(events[0]);
+          setEvents((prevEvents) => {
+            const updatedEvents = sortByTimeCreated([...prevEvents, data]);
+            setActiveEvent(updatedEvents[0]);
+            return updatedEvents;
+          });
         }
       }
     });
