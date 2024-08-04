@@ -54,7 +54,7 @@ const ProductList = ({
         });
       });
     }
-  }, [currentEvent]);
+  }, [currentEvent.event_type, currentEvent.id, startEventTransition]);
 
   const handleFileUpload = (
     e: ChangeEvent<HTMLInputElement>,

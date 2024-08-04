@@ -38,7 +38,10 @@ const EventSettings = ({
   const [isEventPending, startEventTransition] = useTransition();
   const scrolled = useScroll(1, scrollRef);
   return (
-    <div ref={eventHeaderRef} className="flex flex-col w-full h-fit">
+    <div
+      ref={eventHeaderRef}
+      className="flex relative z-[0] flex-col w-full h-fit"
+    >
       <div
         className={`sticky top-0 w-full p-4 bg-white ${
           scrolled ? "border-b border-gray-300 -mb-[1px] shadow-sm" : ""

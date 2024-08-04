@@ -158,7 +158,7 @@ export default function EventsHeader({
               </div>
             </a>
           </li>
-          <li className={`flex flex-col mb-2`}>
+          {/* <li className={`flex flex-col mb-2`}>
             <a
               className="w-full"
               onClick={() => {
@@ -180,7 +180,7 @@ export default function EventsHeader({
                 </div>
               </div>
             </a>
-          </li>
+          </li> */}
           <li
             className={`flex flex-col ${
               isEventAlreadyCreated(EventType.ActiveUsers) ? "hidden" : "mb-2"

@@ -17,7 +17,6 @@ export default function ContentBodyEditor({
   setActiveEvent,
   activeContent,
   contentBody,
-  setContentBody,
   variableList,
   modalRef,
   editContentTextAreaRef,
@@ -27,7 +26,6 @@ export default function ContentBodyEditor({
   setActiveEvent: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
   activeContent: string;
   contentBody: string[];
-  setContentBody: Dispatch<SetStateAction<string[]>>;
   variableList: string[];
   modalRef: RefObject<HTMLDialogElement>;
   editContentTextAreaRef: RefObject<HTMLTextAreaElement>;

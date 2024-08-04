@@ -97,7 +97,7 @@ export default function Sidebar({
   return (
     <div
       ref={scrollParentRef}
-      className="rounded-none w-full h-full border-r border-gray-300 shadow-lg bg-white overflow-y-scroll overflow-x-hidden"
+      className="rounded-none relative w-full h-full border-l border-gray-300 bg-white overflow-y-scroll overflow-x-hidden shadow-xl"
     >
       <EventSettings
         activeProject={activeProject}

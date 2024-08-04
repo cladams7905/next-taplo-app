@@ -16,7 +16,6 @@ export default function ContentList({
   activeEvent,
   setActiveEvent,
   contentBody,
-  setContentBody,
   activeContent,
   setActiveContent,
   startLoadTransition,
@@ -26,7 +25,6 @@ export default function ContentList({
   activeEvent: Tables<"Events"> | undefined;
   setActiveEvent: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
   contentBody: string[];
-  setContentBody: Dispatch<SetStateAction<string[]>>;
   activeContent: string;
   setActiveContent: Dispatch<SetStateAction<string>>;
   startLoadTransition: TransitionStartFunction;
@@ -128,7 +126,6 @@ export default function ContentList({
       </div>
       <AddEditContentModal
         contentBody={contentBody}
-        setContentBody={setContentBody}
         activeEvent={activeEvent}
         setActiveEvent={setActiveEvent}
         modalRef={addEditContentModalRef}

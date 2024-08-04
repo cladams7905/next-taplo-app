@@ -65,7 +65,25 @@ export default function ProjectBoard({
 
   return (
     <main className="flex lg:columns-2 w-full h-screen-minus-navbar">
-      <div className="relative lg:w-1/3">
+      <div className="lg:w-[60%]">
+        <ViewContainer
+          activeProject={activeProject}
+          setActiveProject={setActiveProject}
+          activeEvent={activeEvent}
+          setActiveEvent={setActiveEvent}
+          events={events}
+          setEvents={setEvents}
+          backgroundColor={backgroundColor}
+          textColor={textColor}
+          accentColor={accentColor}
+          borderColor={borderColor}
+          verifiedColor={verifiedColor}
+          isInPreview={isInPreview}
+          setIsInPreview={setIsInPreview}
+          displayTime={displayTime}
+        />
+      </div>
+      <div className="relative lg:w-[40%]">
         <Sidebar
           activeProject={activeProject}
           setActiveProject={setActiveProject}
@@ -87,24 +105,6 @@ export default function ProjectBoard({
           isInPreview={isInPreview}
           displayTime={displayTime}
           setDisplayTime={setDisplayTime}
-        />
-      </div>
-      <div className="lg:w-2/3 w-full">
-        <ViewContainer
-          activeProject={activeProject}
-          setActiveProject={setActiveProject}
-          activeEvent={activeEvent}
-          setActiveEvent={setActiveEvent}
-          events={events}
-          setEvents={setEvents}
-          backgroundColor={backgroundColor}
-          textColor={textColor}
-          accentColor={accentColor}
-          borderColor={borderColor}
-          verifiedColor={verifiedColor}
-          isInPreview={isInPreview}
-          setIsInPreview={setIsInPreview}
-          displayTime={displayTime}
         />
       </div>
     </main>

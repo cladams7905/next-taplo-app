@@ -11,9 +11,8 @@ import {
 } from "react";
 import { IColor } from "react-color-palette";
 import { Pencil } from "lucide-react";
-import ContentList from "./ContentList";
-import ContentPopup from "./ContentPopup";
 import { EventType } from "@/lib/enums";
+import TemplatePopup from "./TemplatePopup";
 
 export default function PopupViewer({
   activeProject,
@@ -174,13 +173,13 @@ export default function PopupViewer({
 
   return (
     <div className="flex flex-col w-full items-center gap-3 lg:max-w-[45vw] p-4 px-6 rounded-lg">
-      <div className="flex flex-col w-full items-center rounded-lg bg-white/40 max-w-[35vw] border border-gray-300">
-        <div className="w-full mb-12 mt-1 ml-2">
+      <div className="flex flex-col w-full relative items-center rounded-lg gap-12 bg-white/40 max-w-[35vw] border border-gray-300 pb-24">
+        <div className="w-full mt-1 ml-2">
           <div className="px-4 py-2 w-fit text-sm font-bold">
             {activeEvent ? activeEvent.event_type : ""}
           </div>
         </div>
-        <ContentPopup
+        <TemplatePopup
           activeProject={activeProject}
           setActiveProject={setActiveProject}
           events={events}
@@ -194,24 +193,30 @@ export default function PopupViewer({
           startLoadTransition={startLoadTransition}
           replaceVariablesInContentBody={replaceVariablesInContentBody}
         />
-        <div className="flex w-full justify-end items-center max-w-[320px] mt-2 mb-12">
+        <div className="flex flex-row gap-2 items-center justify-center absolute w-full h-fit px-10 py-4 border-t border-gray-300 bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold">
+          <p className="text-xs">Template: Header with image</p>
+          {/* <div className="btn btn-sm text-xs btn-ghost hover:bg-white/20">
+            Change Template
+            <Pencil height={14} width={14} />
+          </div> */}
+        </div>
+        {/* <div className="flex w-full justify-end items-center max-w-[320px] mt-2 mb-12">
           <div className="btn btn-sm lg:mt-0 mt-8 lg:w-auto w-full btn-ghost text-xs font-bold">
             <Pencil height={14} width={14} />
             Change Template
           </div>
-        </div>
+        </div> */}
       </div>
-      <ContentList
+      {/* <ContentList
         activeEvent={activeEvent}
         setActiveEvent={setActiveEvent}
         contentBody={contentBody}
-        setContentBody={setContentBody}
         activeContent={activeContent}
         setActiveContent={setActiveContent}
         startLoadTransition={startLoadTransition}
         variableList={variableList}
         replaceVariablesInContentBody={replaceVariablesInContentBody}
-      />
+      /> */}
     </div>
   );
 }

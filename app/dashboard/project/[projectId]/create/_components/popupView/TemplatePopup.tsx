@@ -5,7 +5,7 @@ import { BadgeCheck } from "lucide-react";
 import { Dispatch, SetStateAction, TransitionStartFunction } from "react";
 import { IColor } from "react-color-palette";
 
-export default function ContentPopup({
+export default function TemplatePopup({
   activeProject,
   setActiveProject,
   events,
@@ -41,7 +41,7 @@ export default function ContentPopup({
         backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className={`flex w-fit h-fit pr-6 pl-4 max-w-[320px] rounded-lg border shadow-md py-4`}
+      className={`flex w-fit h-fit pr-6 pl-4 max-w-[320px] rounded-lg border shadow-md py-4 mx-4`}
     >
       <div className="flex w-full gap-4 items-center">
         {/* {productImageSrc !== "" && (

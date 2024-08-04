@@ -12,7 +12,6 @@ import { Tables } from "@/supabase/types";
 
 export default function AddEditContentModal({
   contentBody,
-  setContentBody,
   activeEvent,
   setActiveEvent,
   modalRef,
@@ -21,7 +20,6 @@ export default function AddEditContentModal({
   startLoadTransition,
 }: {
   contentBody: string[];
-  setContentBody: Dispatch<SetStateAction<string[]>>;
   activeEvent: Tables<"Events"> | undefined;
   setActiveEvent: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
   modalRef: RefObject<HTMLDialogElement>;
@@ -48,7 +46,6 @@ export default function AddEditContentModal({
         <div className="text-xl font-bold mb-6">Add/Edit Content</div>
         <ContentBodyEditor
           contentBody={contentBody}
-          setContentBody={setContentBody}
           activeEvent={activeEvent}
           setActiveEvent={setActiveEvent}
           variableList={variableList}
