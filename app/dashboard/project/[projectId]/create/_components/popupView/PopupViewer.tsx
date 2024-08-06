@@ -223,6 +223,8 @@ export default function PopupViewer({
       <TemplateModal
         templateModalRef={templateModalRef}
         activeTemplate={activeTemplate}
+        activeProject={activeProject}
+        setActiveProject={setActiveProject}
         setActiveTemplate={setActiveTemplate}
         backgroundColor={backgroundColor}
         accentColor={accentColor}
