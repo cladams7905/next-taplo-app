@@ -20,6 +20,12 @@ export enum ScreenAlignment {
 }
 
 export enum PopupTemplates {
-  Toast = "Toast",
+  SmPopup = "Small popup",
+  SmPopupNoImg = "Small popup (no image)",
+  LgPopup = "Large popup",
+  LgPopupNoImg = "Large popup (no image)",
+  Card = "Card",
+  CardNoImg = "Card (no image)",
   Banner = "Banner",
+  BannerNoImg = "Banner (no image)",
 }

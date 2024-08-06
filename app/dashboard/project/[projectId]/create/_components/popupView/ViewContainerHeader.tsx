@@ -72,36 +72,38 @@ export default function ViewContainerHeader({
       )}
       <div className="flex items-center gap-2">
         {events.length > 0 && (
-          <div
-            className="btn btn-accent flex items-center text-white text-xs btn-sm tooltip tooltip-bottom tooltip-info font-normal"
-            onClick={() => {
-              previewRef.current?.classList.remove("hidden");
-              previewRef.current?.classList.add("flex");
-              setIsInPreview(true);
-            }}
-            data-tip="Preview"
-          >
-            <Fullscreen width={18} height={18} />
-          </div>
+          <>
+            <div
+              className="btn btn-primary flex items-center tooltip tooltip-bottom tooltip-info text-white text-xs btn-sm font-normal"
+              data-tip="Embed"
+            >
+              <Code2Icon width={18} height={18} />
+            </div>
+            <div
+              className="btn btn-accent flex items-center text-white text-xs btn-sm tooltip tooltip-bottom tooltip-info font-normal"
+              onClick={() => {
+                previewRef.current?.classList.remove("hidden");
+                previewRef.current?.classList.add("flex");
+                setIsInPreview(true);
+              }}
+              data-tip="Preview"
+            >
+              <Fullscreen width={18} height={18} />
+            </div>
+            <PreviewContainer
+              activeProject={activeProject}
+              setActiveProject={setActiveProject}
+              events={events}
+              backgroundColor={backgroundColor}
+              accentColor={accentColor}
+              textColor={textColor}
+              verifiedColor={verifiedColor}
+              borderColor={borderColor}
+              previewRef={previewRef}
+              displayTime={displayTime}
+            />
+          </>
         )}
-        <PreviewContainer
-          activeProject={activeProject}
-          setActiveProject={setActiveProject}
-          events={events}
-          backgroundColor={backgroundColor}
-          accentColor={accentColor}
-          textColor={textColor}
-          verifiedColor={verifiedColor}
-          borderColor={borderColor}
-          previewRef={previewRef}
-          displayTime={displayTime}
-        />
-        <div
-          className="btn btn-primary flex items-center tooltip tooltip-bottom tooltip-info text-white text-xs btn-sm font-normal"
-          data-tip="Embed"
-        >
-          <Code2Icon width={18} height={18} />
-        </div>
       </div>
       <div tabIndex={0} className="dropdown dropdown-end">
         <div

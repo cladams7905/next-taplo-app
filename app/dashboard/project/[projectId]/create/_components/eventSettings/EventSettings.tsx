@@ -40,7 +40,9 @@ const EventSettings = ({
   return (
     <div
       ref={eventHeaderRef}
-      className="flex relative z-[0] flex-col w-full h-fit"
+      className={`flex relative ${
+        isInPreview && "z-[0]"
+      } flex-col w-full h-fit`}
     >
       <div
         className={`sticky top-0 w-full p-4 bg-white ${
@@ -54,6 +56,7 @@ const EventSettings = ({
           setActiveEvent={setActiveEvent}
           startEventTransition={startEventTransition}
           isEventPending={isEventPending}
+          isInPreview={isInPreview}
         />
       </div>
       <div className="flex flex-col min-w-full p-4 pb-10 gap-3">

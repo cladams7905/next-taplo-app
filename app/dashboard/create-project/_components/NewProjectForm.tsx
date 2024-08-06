@@ -41,7 +41,7 @@ export default function NewProjectForm() {
       const { data, error } = await createProject({
         name: formData.projectName,
         screen_alignment: ScreenAlignment.BottomLeft,
-        template: PopupTemplates.Toast,
+        template: PopupTemplates.SmPopupNoImg,
         display_time: 4000,
       });
       if (error) {

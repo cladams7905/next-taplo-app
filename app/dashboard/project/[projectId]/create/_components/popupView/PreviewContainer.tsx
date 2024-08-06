@@ -34,7 +34,7 @@ export default function PreviewContainer({
       ref={previewRef}
       className="items-center justify-center fixed hidden w-full h-full top-0 left-0 z-50 bg-black/30 text-lg p-5"
     >
-      {activeProject.template === PopupTemplates.Toast ? (
+      {activeProject.template === PopupTemplates.SmPopupNoImg ? (
         <div
           className={`absolute p-[inherit] ${
             activeProject.screen_alignment === ScreenAlignment.BottomLeft

@@ -240,7 +240,7 @@ export const StyleSettings = ({
                   <input
                     type="text"
                     value={backgroundColor.hex.toUpperCase()}
-                    className="input input-bordered input-sm h-[34px] border border-gray-300 w-full max-w-32"
+                    className="input input-bordered input-sm h-[34px] border border-gray-300 w-full"
                     readOnly
                   />
                   <div
@@ -270,7 +270,7 @@ export const StyleSettings = ({
                   <input
                     type="text"
                     value={textColor.hex.toUpperCase()}
-                    className="input input-bordered input-sm h-[34px] border border-gray-300 w-full max-w-32"
+                    className="input input-bordered input-sm h-[34px] border border-gray-300 w-full"
                     readOnly
                   />
                   <div
@@ -297,7 +297,7 @@ export const StyleSettings = ({
                   <input
                     type="text"
                     value={accentColor.hex.toUpperCase()}
-                    className="input input-bordered input-sm h-[34px] border border-gray-300 w-full max-w-32"
+                    className="input input-bordered input-sm h-[34px] border border-gray-300 w-full"
                     readOnly
                   />
                   <div
@@ -329,7 +329,7 @@ export const StyleSettings = ({
                   <input
                     type="text"
                     value={borderColor.hex.toUpperCase()}
-                    className="input input-bordered input-sm h-[32px] border border-gray-300 w-full max-w-32"
+                    className="input input-bordered input-sm h-[32px] border border-gray-300 w-full"
                     readOnly
                   />
                   <div
@@ -359,7 +359,7 @@ export const StyleSettings = ({
                   <input
                     type="text"
                     value={verifiedColor.hex.toUpperCase()}
-                    className="input input-bordered input-sm h-[34px] border border-gray-300 w-full max-w-32"
+                    className="input input-bordered input-sm h-[34px] border border-gray-300 w-full"
                     readOnly
                   />
                   <div

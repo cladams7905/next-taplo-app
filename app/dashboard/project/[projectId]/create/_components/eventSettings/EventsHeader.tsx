@@ -20,6 +20,7 @@ export default function EventsHeader({
   setActiveEvent,
   startEventTransition,
   isEventPending,
+  isInPreview,
 }: {
   activeProject: Tables<"Projects">;
   events: Tables<"Events">[];
@@ -27,6 +28,7 @@ export default function EventsHeader({
   setActiveEvent: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
   startEventTransition: TransitionStartFunction;
   isEventPending: boolean;
+  isInPreview: boolean;
 }) {
   const eventDropdownRef = useRef<HTMLUListElement>(null);
 
@@ -126,7 +128,9 @@ export default function EventsHeader({
         <ul
           tabIndex={0}
           ref={eventDropdownRef}
-          className="dropdown-content bg-white z-10 mt-1 rounded-lg menu w-full border border-gray-300 min-w-80 p-2 shadow-md"
+          className={`dropdown-content absolute bg-white ${
+            !isInPreview && "z-[20]"
+          } mt-1 rounded-lg menu w-full border border-gray-300 min-w-80 p-2 shadow-md`}
         >
           <li
             className={`flex flex-col ${
