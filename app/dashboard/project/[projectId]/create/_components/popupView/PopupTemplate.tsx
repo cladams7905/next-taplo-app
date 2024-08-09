@@ -149,43 +149,52 @@ const SmallPopupTemplate = ({
         backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className={`flex flex-row w-fit h-fit pr-6 pl-4 max-w-[360px] rounded-lg border shadow-md py-4 mx-4 gap-3 ${
+      className={`relative flex flex-row w-fit h-fit pr-6 pl-4 max-w-[330px] rounded-lg border shadow-md py-4 gap-3 ${
         shouldAnimate && animation
       }`}
     >
       <div className="flex items-center justify-center">
-        <div className="rounded-full flex items-center justify-center w-16 h-16 min-w-16 bg-purple-50 aspect-square">
-          <ImageIcon color={"#d8b4fe"} height={18} width={18} />
+        <div
+          className="rounded-full flex items-center justify-center w-16 h-16 min-w-16 aspect-square"
+          style={{
+            backgroundColor: hexToRgba(accentColor.hex.toString(), 0.2),
+          }}
+        >
+          <ShoppingBasket
+            color={hexToRgba(accentColor.hex.toString(), 0.85)}
+            height={24}
+            width={24}
+          />
         </div>
       </div>
-      <div className="flex w-full gap-4 items-center">
+      <div className="flex w-full gap-4 items-center ml-2">
         <div className="flex flex-col w-full gap-2">
           <p
             style={{
               color: textColor.hex.toString(),
             }}
-            className="text-[14px] leading-5"
+            className="text-[13px] leading-5"
           >
-            Jamie in Raleigh, North Carolina, USA made a{" "}
-            <span className="font-bold">$44</span> purchase.
+            Jamie in Raleigh, North Carolina, USA purchased{" "}
+            <span className="font-bold underline">Running shoes</span>.
           </p>
           <div
             className="text-xs flex items-center gap-4"
             style={{
-              color: accentColor.hex.toString(),
+              color: hexToRgba(textColor.hex.toString(), 0.75),
             }}
           >
             12 min ago
             <p
-              className="flex items-center gap-[3px] text-[11px]"
+              className="absolute bottom-1 right-1 flex items-center gap-[3px] text-[10px]"
               style={{
-                color: accentColor.hex.toString(),
+                color: hexToRgba(textColor.hex.toString(), 0.75),
               }}
             >
               Verified by TapInsight
               <BadgeCheck
-                width={22}
-                height={22}
+                width={18}
+                height={18}
                 fill={accentColor.hex.toString()}
                 color={backgroundColor.hex.toString()}
               />
@@ -218,7 +227,7 @@ const SmallPopupNoImageTemplate = ({
         backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className={`flex w-fit h-fit pr-6 pl-4 max-w-[320px] rounded-lg border shadow-md py-4 ${
+      className={`relative flex w-fit h-fit pr-6 pl-4 max-w-[300px] rounded-lg border shadow-md py-4 ${
         shouldAnimate && animation
       }`}
     >
@@ -228,7 +237,7 @@ const SmallPopupNoImageTemplate = ({
             style={{
               color: textColor.hex.toString(),
             }}
-            className="text-[14px] leading-5"
+            className="text-[13px] leading-5"
           >
             Jamie in Raleigh, North Carolina, USA made a{" "}
             <span className="font-bold">$44</span> purchase.
@@ -236,20 +245,20 @@ const SmallPopupNoImageTemplate = ({
           <div
             className="text-xs flex items-center gap-4"
             style={{
-              color: accentColor.hex.toString(),
+              color: hexToRgba(textColor.hex.toString(), 0.75),
             }}
           >
             12 min ago
             <p
-              className="flex items-center gap-[3px] text-[11px]"
+              className="absolute bottom-1 right-1 flex items-center gap-[3px] text-[10px]"
               style={{
-                color: accentColor.hex.toString(),
+                color: hexToRgba(textColor.hex.toString(), 0.75),
               }}
             >
               Verified by TapInsight
               <BadgeCheck
-                width={22}
-                height={22}
+                width={18}
+                height={18}
                 fill={accentColor.hex.toString()}
                 color={backgroundColor.hex.toString()}
               />
@@ -294,14 +303,14 @@ const LargePopupTemplate = ({
           }}
         >
           <ShoppingBasket
-            color={hexToRgba(accentColor.hex.toString(), 0.75)}
+            color={hexToRgba(accentColor.hex.toString(), 0.85)}
             height={32}
             width={32}
           />
         </div>
       </div>
       <div className="flex w-full gap-4 items-center">
-        <div className="flex flex-col w-full gap-2 mx-2">
+        <div className="flex flex-col w-full gap-[6px] mx-2">
           <p
             style={{
               color: textColor.hex.toString(),
@@ -320,16 +329,16 @@ const LargePopupTemplate = ({
             .
           </p>
           <div
-            className="text-xs flex items-center gap-4"
+            className="text-[13px] flex items-center gap-4"
             style={{
-              color: hexToRgba(textColor.hex.toString(), 0.6),
+              color: hexToRgba(textColor.hex.toString(), 0.75),
             }}
           >
             12 min ago
             <p
-              className="absolute bottom-1 right-1 flex items-center gap-[3px] text-[10px]"
+              className="absolute bottom-1 right-1 flex items-center gap-[3px] text-[10.5px]"
               style={{
-                color: hexToRgba(textColor.hex.toString(), 0.6),
+                color: hexToRgba(textColor.hex.toString(), 0.75),
               }}
             >
               Verified by TapInsight
@@ -368,38 +377,46 @@ const LargePopupNoImageTemplate = ({
         backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className={`relative flex flex-row w-fit h-fit min-h-[100px] max-w-[340px] rounded-lg border shadow-md gap-3 ${
+      className={`relative flex flex-row w-fit h-fit min-h-[110px] max-w-[340px] rounded-lg border shadow-md gap-3 ${
         shouldAnimate && animation
       }`}
     >
-      <div className="flex w-full gap-4 items-center mx-6">
-        <div className="flex flex-col w-full gap-2">
+      <div className="flex w-full gap-3 items-center mx-3">
+        <div className="flex flex-col w-full gap-[6px] mx-2">
           <p
             style={{
               color: textColor.hex.toString(),
             }}
             className="text-[15px] leading-5"
           >
-            {" "}
-            Jamie in Raleigh, North Carolina, USA made a purchase.
-          </p>
-          <div
-            className="text-xs flex items-center gap-4"
-            style={{
-              color: accentColor.hex.toString(),
-            }}
-          >
-            12 min ago
-            <p
-              className="absolute bottom-2 right-2 flex items-center gap-[3px] text-[11px]"
+            Jamie in Raleigh, North Carolina, USA purchased{" "}
+            <span
+              className="font-bold underline"
               style={{
                 color: accentColor.hex.toString(),
               }}
             >
+              Swim shoes
+            </span>
+            .
+          </p>
+          <div
+            className="text-[13px] flex items-center"
+            style={{
+              color: hexToRgba(textColor.hex.toString(), 0.75),
+            }}
+          >
+            12 min ago
+            <p
+              className="absolute bottom-1 right-1 flex items-center gap-[3px] text-[11px]"
+              style={{
+                color: hexToRgba(textColor.hex.toString(), 0.75),
+              }}
+            >
               Verified by TapInsight
               <BadgeCheck
-                width={22}
-                height={22}
+                width={18}
+                height={18}
                 fill={accentColor.hex.toString()}
                 color={backgroundColor.hex.toString()}
               />

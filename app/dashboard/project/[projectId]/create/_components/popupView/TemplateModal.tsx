@@ -1,10 +1,11 @@
 "use client";
 
 import { showToastError } from "@/components/shared/showToast";
+import { hexToRgba } from "@/lib/actions";
 import { updateProject } from "@/lib/actions/projects";
 import { TemplateTypes } from "@/lib/enums";
 import { Tables } from "@/supabase/types";
-import { BadgeCheck, CheckIcon, ImageIcon } from "lucide-react";
+import { BadgeCheck, CheckIcon, ImageIcon, ShoppingBasket } from "lucide-react";
 import {
   Dispatch,
   RefObject,
@@ -229,44 +230,61 @@ const SmallPopupTemplate = ({
         backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className="flex flex-row items-center p-2 gap-2 border shadow-md w-full h-20 -mt-10 rounded-lg"
+      className={`relative flex flex-row w-fit h-fit px-2 ${
+        !isShowImages && "max-w-[230px]"
+      } -mt-9 rounded-lg border shadow-md py-3 gap-3`}
     >
       {isShowImages && (
-        <div className="flex items-center justify-center rounded-full w-12 h-12 min-w-12 bg-purple-50">
-          <ImageIcon color={"#d8b4fe"} height={18} width={18} />
-        </div>
-      )}
-      <div className="flex flex-col gap-1">
-        <p
-          className="text-[7pt]"
-          style={{
-            color: textColor.hex.toString(),
-          }}
-        >
-          Jamie in Raleigh, North Carolina, USA purchased{" "}
-          <span className="font-bold uppercase">Your Product</span>
-        </p>
-        <div
-          className="flex items-center gap-[3px] text-[6.4pt] leading-[13px]"
-          style={{
-            color: accentColor.hex.toString(),
-          }}
-        >
-          12 min ago |
-          <p
-            className="flex items-center gap-[3px]"
+        <div className="flex items-center justify-center">
+          <div
+            className="rounded-full flex items-center justify-center w-12 h-12 min-w-12 aspect-square"
             style={{
-              color: accentColor.hex.toString(),
+              backgroundColor: hexToRgba(accentColor.hex.toString(), 0.2),
             }}
           >
-            Verified
-            <BadgeCheck
-              width={14}
-              height={14}
-              fill={accentColor.hex.toString()}
-              color={backgroundColor.hex.toString()}
+            <ShoppingBasket
+              color={hexToRgba(accentColor.hex.toString(), 0.85)}
+              height={18}
+              width={18}
             />
+          </div>
+        </div>
+      )}
+      <div
+        className={`flex w-full gap-4 items-center ${!isShowImages && "ml-2"}`}
+      >
+        <div className="flex flex-col w-full gap-1">
+          <p
+            style={{
+              color: textColor.hex.toString(),
+            }}
+            className="text-[10px] leading-[14px]"
+          >
+            Jamie in Raleigh, North Carolina, USA purchased{" "}
+            <span className="font-bold underline">Running shoes</span>.
           </p>
+          <div
+            className="text-[9px] flex items-center gap-4"
+            style={{
+              color: hexToRgba(textColor.hex.toString(), 0.75),
+            }}
+          >
+            12 min ago
+            <p
+              className="absolute bottom-1 right-1 flex items-center gap-[3px] text-[8px]"
+              style={{
+                color: hexToRgba(textColor.hex.toString(), 0.75),
+              }}
+            >
+              Verified by TapInsight
+              <BadgeCheck
+                width={14}
+                height={14}
+                fill={accentColor.hex.toString()}
+                color={backgroundColor.hex.toString()}
+              />
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -292,80 +310,69 @@ const LargePopupTemplate = ({
         backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className="join join-horizontal flex flex-row items-center gap-2 border shadow-md w-full h-24 -mt-10 rounded-lg"
+      className={`relative flex flex-row w-fit h-fit min-h-[80px] rounded-lg -mt-10 border shadow-md gap-3 ${
+        !isShowImages && "max-w-[260px]"
+      }`}
     >
       {isShowImages && (
-        <div className="join-item flex items-center justify-center w-32 h-full min-w-12 bg-purple-50 rounded-l-lg">
-          <ImageIcon color={"#d8b4fe"} height={18} width={18} />
+        <div className="flex items-center justify-center h-full w-full max-w-[90px]">
+          <div
+            className="flex h-full w-full items-center justify-center aspect-square rounded-l-lg"
+            style={{
+              backgroundColor: hexToRgba(accentColor.hex.toString(), 0.2),
+            }}
+          >
+            <ShoppingBasket
+              color={hexToRgba(accentColor.hex.toString(), 0.75)}
+              height={24}
+              width={24}
+            />
+          </div>
         </div>
       )}
       <div
-        className={`join-item flex flex-col gap-2 p-1 ${
-          !isShowImages && "p-4"
-        }`}
+        className={`flex w-full gap-4 items-center ${!isShowImages && "mx-2"}`}
       >
-        {!isShowImages && (
+        <div className="flex flex-col w-full gap-2 mx-2">
           <p
-            className="flex items-center gap-[3px] text-[7pt]"
             style={{
-              color: accentColor.hex.toString(),
+              color: textColor.hex.toString(),
+            }}
+            className="text-[11px] leading-[14px]"
+          >
+            Jamie in Raleigh, North Carolina, USA purchased{" "}
+            <span
+              className="font-bold underline"
+              style={{
+                color: accentColor.hex.toString(),
+              }}
+            >
+              Running shoes
+            </span>
+            .
+          </p>
+          <div
+            className="text-[9px] flex items-center gap-4"
+            style={{
+              color: hexToRgba(textColor.hex.toString(), 0.75),
             }}
           >
-            Verified
-            <BadgeCheck
-              width={14}
-              height={14}
-              fill={accentColor.hex.toString()}
-              color={backgroundColor.hex.toString()}
-            />
-          </p>
-        )}
-        <p
-          className="text-[7pt] leading-[13px]"
-          style={{
-            color: textColor.hex.toString(),
-          }}
-        >
-          Jamie in Raleigh, North Carolina, USA purchased
-        </p>
-        <p
-          className={`text-[8.5pt] ${
-            isShowImages ? "leading-[13px]" : "leading-[4px] -mt-0"
-          } font-bold uppercase`}
-          style={{
-            color: textColor.hex.toString(),
-          }}
-        >
-          Your product
-        </p>
-        <div
-          className={`flex items-center gap-[3px] text-[7pt] ${
-            isShowImages ? "leading-[13px]" : "leading-[10px] mt-2"
-          }`}
-          style={{
-            color: accentColor.hex.toString(),
-          }}
-        >
-          12 min ago
-          {isShowImages && (
-            <>
-              |
-              <p
-                className="flex items-center gap-[3px]"
-                style={{
-                  color: accentColor.hex.toString(),
-                }}
-              >
-                Verified
-                <BadgeCheck
-                  width={14}
-                  height={14}
-                  fill={accentColor.hex.toString()}
-                  color={backgroundColor.hex.toString()}
-                />
-              </p>
-            </>
-          )}
+            12 min ago
+            <p
+              className="absolute bottom-1 right-1 flex items-center gap-[3px] text-[8px]"
+              style={{
+                color: hexToRgba(textColor.hex.toString(), 0.75),
+              }}
+            >
+              Verified by TapInsight
+              <BadgeCheck
+                width={14}
+                height={14}
+                fill={accentColor.hex.toString()}
+                color={backgroundColor.hex.toString()}
+              />
+            </p>
+          </div>
         </div>
       </div>
     </div>
