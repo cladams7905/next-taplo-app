@@ -19,7 +19,7 @@ export enum ScreenAlignment {
   TopRight = "Top Right",
 }
 
-export enum PopupTemplates {
+export enum TemplateTypes {
   SmPopup = "Small popup",
   SmPopupNoImg = "Small popup (no image)",
   LgPopup = "Large popup",

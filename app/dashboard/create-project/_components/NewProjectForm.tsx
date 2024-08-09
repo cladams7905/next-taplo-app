@@ -17,7 +17,7 @@ import { CirclePlus } from "lucide-react";
 import { createProject } from "@/lib/actions/projects";
 import { showToast, showToastError } from "@/components/shared/showToast";
 import { useRouter } from "next/navigation";
-import { PopupTemplates, ScreenAlignment } from "@/lib/enums";
+import { TemplateTypes, ScreenAlignment } from "@/lib/enums";
 
 const FormSchema = z.object({
   projectName: z.string().max(32, {
@@ -41,7 +41,7 @@ export default function NewProjectForm() {
       const { data, error } = await createProject({
         name: formData.projectName,
         screen_alignment: ScreenAlignment.BottomLeft,
-        template: PopupTemplates.SmPopupNoImg,
+        template: TemplateTypes.SmPopupNoImg,
         display_time: 4000,
       });
       if (error) {

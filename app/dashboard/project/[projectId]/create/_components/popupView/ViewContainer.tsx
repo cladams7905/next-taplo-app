@@ -17,7 +17,6 @@ export default function ViewContainer({
   backgroundColor,
   textColor,
   accentColor,
-  verifiedColor,
   borderColor,
   isInPreview,
   setIsInPreview,
@@ -32,7 +31,6 @@ export default function ViewContainer({
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
-  verifiedColor: IColor;
   borderColor: IColor;
   isInPreview: boolean;
   setIsInPreview: Dispatch<SetStateAction<boolean>>;
@@ -49,7 +47,6 @@ export default function ViewContainer({
         backgroundColor={backgroundColor}
         accentColor={accentColor}
         textColor={textColor}
-        verifiedColor={verifiedColor}
         borderColor={borderColor}
         isInPreview={isInPreview}
         setIsInPreview={setIsInPreview}
@@ -67,7 +64,6 @@ export default function ViewContainer({
             backgroundColor={backgroundColor}
             accentColor={accentColor}
             textColor={textColor}
-            verifiedColor={verifiedColor}
             borderColor={borderColor}
             startLoadTransition={startLoadTransition}
           />

@@ -22,7 +22,6 @@ export default function ViewContainerHeader({
   backgroundColor,
   textColor,
   accentColor,
-  verifiedColor,
   borderColor,
   isInPreview,
   setIsInPreview,
@@ -35,7 +34,6 @@ export default function ViewContainerHeader({
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
-  verifiedColor: IColor;
   borderColor: IColor;
   isInPreview: boolean;
   setIsInPreview: Dispatch<SetStateAction<boolean>>;
@@ -97,7 +95,6 @@ export default function ViewContainerHeader({
               backgroundColor={backgroundColor}
               accentColor={accentColor}
               textColor={textColor}
-              verifiedColor={verifiedColor}
               borderColor={borderColor}
               previewRef={previewRef}
               displayTime={displayTime}

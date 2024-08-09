@@ -2,7 +2,7 @@
 
 import { showToastError } from "@/components/shared/showToast";
 import { updateProject } from "@/lib/actions/projects";
-import { PopupTemplates, ScreenAlignment } from "@/lib/enums";
+import { TemplateTypes, ScreenAlignment } from "@/lib/enums";
 import useScroll from "@/lib/hooks/use-scroll";
 import { Tables } from "@/supabase/types";
 import { Undo2 } from "lucide-react";
@@ -19,8 +19,6 @@ export const StyleSettings = ({
   setTextColor,
   accentColor,
   setAccentColor,
-  verifiedColor,
-  setVerifiedColor,
   borderColor,
   setBorderColor,
   scrollRef,
@@ -36,8 +34,6 @@ export const StyleSettings = ({
   setTextColor: Dispatch<SetStateAction<IColor>>;
   accentColor: IColor;
   setAccentColor: Dispatch<SetStateAction<IColor>>;
-  verifiedColor: IColor;
-  setVerifiedColor: Dispatch<SetStateAction<IColor>>;
   borderColor: IColor;
   setBorderColor: Dispatch<SetStateAction<IColor>>;
   scrollRef: RefObject<HTMLDivElement>;
@@ -46,7 +42,7 @@ export const StyleSettings = ({
   isInPreview: boolean;
 }) => {
   const screenAlignmentTypes = Object.values(ScreenAlignment);
-  const templateTypes = Object.values(PopupTemplates);
+  const templateTypes = Object.values(TemplateTypes);
   const [isStylePending, startStyleTransition] = useTransition();
   const scrolled = useScroll(eventHeaderHeight, scrollRef);
 
@@ -148,24 +144,6 @@ export const StyleSettings = ({
     });
   };
 
-  const handleVerifiedColorChange = (newColor: string) => {
-    startStyleTransition(async () => {
-      if (newColor !== activeProject?.verified_color && activeProject) {
-        setActiveProject({
-          ...activeProject,
-          verified_color: newColor,
-        });
-        const { error } = await updateProject(activeProject.id, {
-          ...activeProject,
-          verified_color: newColor,
-        });
-        if (error) {
-          showToastError(error);
-        }
-      }
-    });
-  };
-
   const handleScreenAlignmentSelect = (screenAlignment: ScreenAlignment) => {
     startStyleTransition(async () => {
       if (activeProject && screenAlignment) {
@@ -184,7 +162,7 @@ export const StyleSettings = ({
     });
   };
 
-  const handleTemplateSelect = (template: PopupTemplates) => {
+  const handleTemplateSelect = (template: TemplateTypes) => {
     startStyleTransition(async () => {
       if (activeProject && template) {
         setActiveProject({
@@ -288,36 +266,6 @@ export const StyleSettings = ({
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col w-full gap-2">
-                <p className="text-sm">Accent color</p>
-                <div
-                  className="flex flex-row gap-2 dropdown dropdown-right"
-                  onBlur={() => handleAccentColorChange(accentColor.hex)}
-                >
-                  <input
-                    type="text"
-                    value={accentColor.hex.toUpperCase()}
-                    className="input input-bordered input-sm h-[34px] border border-gray-300 w-full"
-                    readOnly
-                  />
-                  <div
-                    tabIndex={0}
-                    style={{
-                      backgroundColor: accentColor.hex.toString(),
-                    }}
-                    className="max-h-[34px] max-w-[34px] h-full w-full border border-gray-300 rounded-lg aspect-square"
-                  />
-                  <div
-                    tabIndex={0}
-                    className="dropdown-content bg-base-100 -ml-11 -mt-56 rounded-lg z-[5] w-72 p-2 shadow-md border border-gray-300"
-                  >
-                    <ColorPicker
-                      color={accentColor}
-                      onChange={setAccentColor}
-                    />
-                  </div>
-                </div>
-              </div>
             </div>
             <div className="flex flex-col lg:w-1/2 w-full gap-4">
               <div className="flex flex-col w-full gap-2">
@@ -351,31 +299,31 @@ export const StyleSettings = ({
                 </div>
               </div>
               <div className="flex flex-col w-full gap-2">
-                <p className="text-sm">Verified color</p>
+                <p className="text-sm">Accent color</p>
                 <div
                   className="flex flex-row gap-2 dropdown dropdown-left"
-                  onBlur={() => handleVerifiedColorChange(verifiedColor.hex)}
+                  onBlur={() => handleAccentColorChange(accentColor.hex)}
                 >
                   <input
                     type="text"
-                    value={verifiedColor.hex.toUpperCase()}
+                    value={accentColor.hex.toUpperCase()}
                     className="input input-bordered input-sm h-[34px] border border-gray-300 w-full"
                     readOnly
                   />
                   <div
                     tabIndex={0}
                     style={{
-                      backgroundColor: verifiedColor.hex.toString(),
+                      backgroundColor: accentColor.hex.toString(),
                     }}
                     className="max-h-[34px] max-w-[34px] h-full w-full border border-gray-300 rounded-lg aspect-square"
                   />
                   <div
                     tabIndex={0}
-                    className="dropdown-content bg-base-100 rounded-lg -mr-11 -mt-56 z-[5] w-72 p-2 shadow-md border border-gray-300"
+                    className="dropdown-content bg-base-100 -mr-11 -mt-56 rounded-lg z-[5] w-72 p-2 shadow-md border border-gray-300"
                   >
                     <ColorPicker
-                      color={verifiedColor}
-                      onChange={setVerifiedColor}
+                      color={accentColor}
+                      onChange={setAccentColor}
                     />
                   </div>
                 </div>
@@ -390,7 +338,7 @@ export const StyleSettings = ({
             className="select select-bordered border-neutral w-full"
             value={activeProject?.template || "default"}
             onChange={(e) => {
-              handleTemplateSelect(e.target.value as PopupTemplates);
+              handleTemplateSelect(e.target.value as TemplateTypes);
             }}
           >
             <option value={"default"}>Select</option>

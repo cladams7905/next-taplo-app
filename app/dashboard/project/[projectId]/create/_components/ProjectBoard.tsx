@@ -58,9 +58,6 @@ export default function ProjectBoard({
   const [borderColor, setBorderColor] = useColor(
     activeProject?.border_color ? activeProject.border_color : "#D1D3D7"
   );
-  const [verifiedColor, setVerifiedColor] = useColor(
-    activeProject?.verified_color ? activeProject.verified_color : "#4ade80"
-  );
   const [isInPreview, setIsInPreview] = useState(false);
 
   return (
@@ -77,7 +74,6 @@ export default function ProjectBoard({
           textColor={textColor}
           accentColor={accentColor}
           borderColor={borderColor}
-          verifiedColor={verifiedColor}
           isInPreview={isInPreview}
           setIsInPreview={setIsInPreview}
           displayTime={displayTime}
@@ -98,8 +94,6 @@ export default function ProjectBoard({
           setTextColor={setTextColor}
           accentColor={accentColor}
           setAccentColor={setAccentColor}
-          verifiedColor={verifiedColor}
-          setVerifiedColor={setVerifiedColor}
           borderColor={borderColor}
           setBorderColor={setBorderColor}
           isInPreview={isInPreview}

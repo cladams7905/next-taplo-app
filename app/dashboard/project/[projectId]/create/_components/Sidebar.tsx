@@ -21,8 +21,6 @@ export default function Sidebar({
   setTextColor,
   accentColor,
   setAccentColor,
-  verifiedColor,
-  setVerifiedColor,
   borderColor,
   setBorderColor,
   isInPreview,
@@ -42,8 +40,6 @@ export default function Sidebar({
   setTextColor: Dispatch<SetStateAction<IColor>>;
   accentColor: IColor;
   setAccentColor: Dispatch<SetStateAction<IColor>>;
-  verifiedColor: IColor;
-  setVerifiedColor: Dispatch<SetStateAction<IColor>>;
   borderColor: IColor;
   setBorderColor: Dispatch<SetStateAction<IColor>>;
   isInPreview: boolean;
@@ -120,8 +116,6 @@ export default function Sidebar({
         setTextColor={setTextColor}
         accentColor={accentColor}
         setAccentColor={setAccentColor}
-        verifiedColor={verifiedColor}
-        setVerifiedColor={setVerifiedColor}
         borderColor={borderColor}
         setBorderColor={setBorderColor}
         scrollRef={scrollParentRef}

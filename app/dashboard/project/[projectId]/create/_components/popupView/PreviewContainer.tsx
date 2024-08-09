@@ -3,8 +3,8 @@
 import { Tables } from "@/supabase/types";
 import { Dispatch, RefObject, SetStateAction } from "react";
 import { IColor } from "react-color-palette";
-import PreviewPopup from "./PreviewPopup";
-import { PopupTemplates, ScreenAlignment } from "@/lib/enums";
+import PopupTemplate from "./PopupTemplate";
+import { TemplateTypes, ScreenAlignment } from "@/lib/enums";
 
 export default function PreviewContainer({
   activeProject,
@@ -13,7 +13,6 @@ export default function PreviewContainer({
   backgroundColor,
   textColor,
   accentColor,
-  verifiedColor,
   borderColor,
   previewRef,
   displayTime,
@@ -24,7 +23,6 @@ export default function PreviewContainer({
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
-  verifiedColor: IColor;
   borderColor: IColor;
   previewRef: RefObject<HTMLDivElement>;
   displayTime: number;
@@ -34,13 +32,12 @@ export default function PreviewContainer({
       ref={previewRef}
       className="items-center justify-center fixed hidden w-full h-full top-0 left-0 z-50 bg-black/30 text-lg p-5"
     >
-      {activeProject.template === PopupTemplates.SmPopupNoImg ? (
-        <div
-          className={`absolute p-[inherit] ${
-            activeProject.screen_alignment === ScreenAlignment.BottomLeft
-              ? "bottom-0 left-0"
-              : ""
-          }
+      <div
+        className={`absolute p-[inherit] ${
+          activeProject.screen_alignment === ScreenAlignment.BottomLeft
+            ? "bottom-0 left-0"
+            : ""
+        }
                 ${
                   activeProject.screen_alignment === ScreenAlignment.TopLeft
                     ? "top-0 left-0"
@@ -56,21 +53,17 @@ export default function PreviewContainer({
                     ? "top-0 right-0"
                     : ""
                 }`}
-        >
-          <PreviewPopup
-            activeProject={activeProject}
-            events={events}
-            backgroundColor={backgroundColor}
-            textColor={textColor}
-            accentColor={accentColor}
-            borderColor={borderColor}
-            verifiedColor={verifiedColor}
-            displayTime={displayTime}
-          />
-        </div>
-      ) : (
-        <></>
-      )}
+      >
+        <PopupTemplate
+          activeProject={activeProject}
+          backgroundColor={backgroundColor}
+          textColor={textColor}
+          accentColor={accentColor}
+          borderColor={borderColor}
+          displayTime={displayTime}
+          shouldAnimate={true}
+        />
+      </div>
     </div>
   );
 }

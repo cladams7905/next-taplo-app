@@ -104,3 +104,22 @@ export const sortByTimeCreated = (arr: any[]) => {
         new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
     );
 };
+
+/**
+ * Converts a hex string value to rgba (with opacity)
+ * @param hex the hex string
+ * @param opacity the opacity value (between 0 and 1)
+ * @returns the rgba string
+ */
+export function hexToRgba(hex: string, opacity: number) {
+  // Remove the "#" if present
+  hex = hex.replace(/^#/, "");
+
+  // Convert the hex to RGB
+  let r = parseInt(hex.slice(0, 2), 16);
+  let g = parseInt(hex.slice(2, 4), 16);
+  let b = parseInt(hex.slice(4, 6), 16);
+
+  // Return the rgba string
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+}

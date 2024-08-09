@@ -12,10 +12,9 @@ import {
 } from "react";
 import { IColor } from "react-color-palette";
 import { Pencil } from "lucide-react";
-import { EventType, PopupTemplates } from "@/lib/enums";
-import TemplatePopup from "./TemplatePopup";
+import { EventType, TemplateTypes } from "@/lib/enums";
 import TemplateModal from "./TemplateModal";
-import ContentList from "./contentEditor/ContentList";
+import PopupTemplate from "./PopupTemplate";
 
 export default function PopupViewer({
   activeProject,
@@ -26,7 +25,6 @@ export default function PopupViewer({
   backgroundColor,
   textColor,
   accentColor,
-  verifiedColor,
   borderColor,
   startLoadTransition,
 }: {
@@ -38,7 +36,6 @@ export default function PopupViewer({
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
-  verifiedColor: IColor;
   borderColor: IColor;
   startLoadTransition: TransitionStartFunction;
 }) {
@@ -49,8 +46,8 @@ export default function PopupViewer({
     activeEvent ? (activeEvent?.content_body as string[])[0] : ""
   );
 
-  const [activeTemplate, setActiveTemplate] = useState<PopupTemplates>(
-    activeProject.template as PopupTemplates
+  const [activeTemplate, setActiveTemplate] = useState<TemplateTypes>(
+    activeProject.template as TemplateTypes
   );
 
   const templateModalRef = useRef<HTMLDialogElement>(null);
@@ -188,19 +185,12 @@ export default function PopupViewer({
             {activeEvent ? activeEvent.event_type : ""}
           </div>
         </div>
-        <TemplatePopup
+        <PopupTemplate
           activeProject={activeProject}
-          setActiveProject={setActiveProject}
-          events={events}
           backgroundColor={backgroundColor}
           accentColor={accentColor}
           textColor={textColor}
-          verifiedColor={verifiedColor}
           borderColor={borderColor}
-          contentBody={contentBody}
-          activeContent={activeContent}
-          startLoadTransition={startLoadTransition}
-          replaceVariablesInContentBody={replaceVariablesInContentBody}
         />
         <div
           className="flex flex-row gap-2 items-center justify-center absolute w-full h-fit px-10 py-4 border-t border-gray-300 bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold cursor-pointer"
@@ -210,16 +200,6 @@ export default function PopupViewer({
           <Pencil height={14} width={14} />
         </div>
       </div>
-      {/* <ContentList
-        activeEvent={activeEvent}
-        setActiveEvent={setActiveEvent}
-        contentBody={contentBody}
-        activeContent={activeContent}
-        setActiveContent={setActiveContent}
-        variableList={variableList}
-        startLoadTransition={startLoadTransition}
-        replaceVariablesInContentBody={replaceVariablesInContentBody}
-      /> */}
       <TemplateModal
         templateModalRef={templateModalRef}
         activeTemplate={activeTemplate}
@@ -229,7 +209,6 @@ export default function PopupViewer({
         backgroundColor={backgroundColor}
         accentColor={accentColor}
         textColor={textColor}
-        verifiedColor={verifiedColor}
         borderColor={borderColor}
       />
     </div>

@@ -2,7 +2,7 @@
 
 import { showToastError } from "@/components/shared/showToast";
 import { updateProject } from "@/lib/actions/projects";
-import { PopupTemplates } from "@/lib/enums";
+import { TemplateTypes } from "@/lib/enums";
 import { Tables } from "@/supabase/types";
 import { BadgeCheck, CheckIcon, ImageIcon } from "lucide-react";
 import {
@@ -23,24 +23,22 @@ export default function TemplateModal({
   backgroundColor,
   textColor,
   accentColor,
-  verifiedColor,
   borderColor,
 }: {
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
   templateModalRef: RefObject<HTMLDialogElement>;
-  activeTemplate: PopupTemplates;
-  setActiveTemplate: Dispatch<SetStateAction<PopupTemplates>>;
+  activeTemplate: TemplateTypes;
+  setActiveTemplate: Dispatch<SetStateAction<TemplateTypes>>;
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
-  verifiedColor: IColor;
   borderColor: IColor;
 }) {
   const [isShowImageTemplates, setShowImageTemplates] = useState<boolean>(true);
   const [isLoading, startLoadingTransition] = useTransition();
 
-  const handleSetActiveTemplate = (templateToSet: PopupTemplates) => {
+  const handleSetActiveTemplate = (templateToSet: TemplateTypes) => {
     if (templateToSet === activeTemplate) return;
 
     startLoadingTransition(async () => {
@@ -89,18 +87,18 @@ export default function TemplateModal({
           <div
             className={`relative flex flex-col px-4 items-center justify-center
             ${
-              (activeTemplate === PopupTemplates.SmPopup ||
-                activeTemplate === PopupTemplates.SmPopupNoImg) &&
+              (activeTemplate === TemplateTypes.SmPopup ||
+                activeTemplate === TemplateTypes.SmPopupNoImg) &&
               "outline outline-[3px] outline-primary"
             } bg-primary/20 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:drop-shadow-md hover:-translate-y-1 transition-transform`}
             onClick={() =>
               isShowImageTemplates
-                ? handleSetActiveTemplate(PopupTemplates.SmPopup)
-                : handleSetActiveTemplate(PopupTemplates.SmPopupNoImg)
+                ? handleSetActiveTemplate(TemplateTypes.SmPopup)
+                : handleSetActiveTemplate(TemplateTypes.SmPopupNoImg)
             }
           >
-            {(activeTemplate === PopupTemplates.SmPopup ||
-              activeTemplate === PopupTemplates.SmPopupNoImg) && (
+            {(activeTemplate === TemplateTypes.SmPopup ||
+              activeTemplate === TemplateTypes.SmPopupNoImg) && (
               <div className="flex items-center justify-center absolute top-0 left-0 aspect-square w-10 h-10 rounded-br-lg rounded-tl-lg bg-primary text-white">
                 <CheckIcon width={20} height={20} strokeWidth={3} />
               </div>
@@ -109,7 +107,6 @@ export default function TemplateModal({
               backgroundColor={backgroundColor}
               borderColor={borderColor}
               textColor={textColor}
-              verifiedColor={verifiedColor}
               accentColor={accentColor}
               isShowImages={isShowImageTemplates}
             />
@@ -120,18 +117,18 @@ export default function TemplateModal({
           <div
             className={`relative flex flex-col px-2 items-center justify-center
             ${
-              (activeTemplate === PopupTemplates.LgPopup ||
-                activeTemplate === PopupTemplates.LgPopupNoImg) &&
+              (activeTemplate === TemplateTypes.LgPopup ||
+                activeTemplate === TemplateTypes.LgPopupNoImg) &&
               "outline outline-[3px] outline-primary"
             } bg-primary/20 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:drop-shadow-md hover:-translate-y-1 transition-transform`}
             onClick={() =>
               isShowImageTemplates
-                ? handleSetActiveTemplate(PopupTemplates.LgPopup)
-                : handleSetActiveTemplate(PopupTemplates.LgPopupNoImg)
+                ? handleSetActiveTemplate(TemplateTypes.LgPopup)
+                : handleSetActiveTemplate(TemplateTypes.LgPopupNoImg)
             }
           >
-            {(activeTemplate === PopupTemplates.LgPopup ||
-              activeTemplate === PopupTemplates.LgPopupNoImg) && (
+            {(activeTemplate === TemplateTypes.LgPopup ||
+              activeTemplate === TemplateTypes.LgPopupNoImg) && (
               <div className="flex items-center justify-center absolute top-0 left-0 aspect-square w-10 h-10 rounded-br-lg rounded-tl-lg bg-primary text-white">
                 <CheckIcon width={20} height={20} strokeWidth={3} />
               </div>
@@ -140,7 +137,6 @@ export default function TemplateModal({
               backgroundColor={backgroundColor}
               borderColor={borderColor}
               textColor={textColor}
-              verifiedColor={verifiedColor}
               accentColor={accentColor}
               isShowImages={isShowImageTemplates}
             />
@@ -151,18 +147,18 @@ export default function TemplateModal({
           <div
             className={`relative flex flex-col px-2 items-center justify-center
             ${
-              (activeTemplate === PopupTemplates.Card ||
-                activeTemplate === PopupTemplates.CardNoImg) &&
+              (activeTemplate === TemplateTypes.Card ||
+                activeTemplate === TemplateTypes.CardNoImg) &&
               "outline outline-[3px] outline-primary"
             } bg-primary/20 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:drop-shadow-md hover:-translate-y-1 transition-transform`}
             onClick={() =>
               isShowImageTemplates
-                ? handleSetActiveTemplate(PopupTemplates.Card)
-                : handleSetActiveTemplate(PopupTemplates.CardNoImg)
+                ? handleSetActiveTemplate(TemplateTypes.Card)
+                : handleSetActiveTemplate(TemplateTypes.CardNoImg)
             }
           >
-            {(activeTemplate === PopupTemplates.Card ||
-              activeTemplate === PopupTemplates.CardNoImg) && (
+            {(activeTemplate === TemplateTypes.Card ||
+              activeTemplate === TemplateTypes.CardNoImg) && (
               <div className="flex items-center justify-center absolute top-0 left-0 aspect-square w-10 h-10 rounded-br-lg rounded-tl-lg bg-primary text-white">
                 <CheckIcon width={20} height={20} strokeWidth={3} />
               </div>
@@ -171,7 +167,6 @@ export default function TemplateModal({
               backgroundColor={backgroundColor}
               borderColor={borderColor}
               textColor={textColor}
-              verifiedColor={verifiedColor}
               accentColor={accentColor}
               isShowImages={isShowImageTemplates}
             />
@@ -182,18 +177,18 @@ export default function TemplateModal({
           <div
             className={`relative flex flex-col px-4 items-center justify-center
             ${
-              (activeTemplate === PopupTemplates.Banner ||
-                activeTemplate === PopupTemplates.BannerNoImg) &&
+              (activeTemplate === TemplateTypes.Banner ||
+                activeTemplate === TemplateTypes.BannerNoImg) &&
               "outline outline-[3px] outline-primary"
             } bg-primary/20 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:drop-shadow-md hover:-translate-y-1 transition-transform`}
             onClick={() =>
               isShowImageTemplates
-                ? handleSetActiveTemplate(PopupTemplates.Banner)
-                : handleSetActiveTemplate(PopupTemplates.BannerNoImg)
+                ? handleSetActiveTemplate(TemplateTypes.Banner)
+                : handleSetActiveTemplate(TemplateTypes.BannerNoImg)
             }
           >
-            {(activeTemplate === PopupTemplates.Banner ||
-              activeTemplate === PopupTemplates.BannerNoImg) && (
+            {(activeTemplate === TemplateTypes.Banner ||
+              activeTemplate === TemplateTypes.BannerNoImg) && (
               <div className="flex items-center justify-center absolute top-0 left-0 aspect-square w-10 h-10 rounded-br-lg rounded-tl-lg bg-primary text-white">
                 <CheckIcon width={20} height={20} strokeWidth={3} />
               </div>
@@ -202,7 +197,6 @@ export default function TemplateModal({
               backgroundColor={backgroundColor}
               borderColor={borderColor}
               textColor={textColor}
-              verifiedColor={verifiedColor}
               accentColor={accentColor}
               isShowImages={isShowImageTemplates}
             />
@@ -220,14 +214,12 @@ const SmallPopupTemplate = ({
   backgroundColor,
   textColor,
   accentColor,
-  verifiedColor,
   borderColor,
   isShowImages,
 }: {
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
-  verifiedColor: IColor;
   borderColor: IColor;
   isShowImages: boolean;
 }) => {
@@ -271,7 +263,7 @@ const SmallPopupTemplate = ({
             <BadgeCheck
               width={14}
               height={14}
-              fill={verifiedColor.hex.toString()}
+              fill={accentColor.hex.toString()}
               color={backgroundColor.hex.toString()}
             />
           </p>
@@ -285,14 +277,12 @@ const LargePopupTemplate = ({
   backgroundColor,
   textColor,
   accentColor,
-  verifiedColor,
   borderColor,
   isShowImages,
 }: {
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
-  verifiedColor: IColor;
   borderColor: IColor;
   isShowImages: boolean;
 }) => {
@@ -325,7 +315,7 @@ const LargePopupTemplate = ({
             <BadgeCheck
               width={14}
               height={14}
-              fill={verifiedColor.hex.toString()}
+              fill={accentColor.hex.toString()}
               color={backgroundColor.hex.toString()}
             />
           </p>
@@ -370,7 +360,7 @@ const LargePopupTemplate = ({
                 <BadgeCheck
                   width={14}
                   height={14}
-                  fill={verifiedColor.hex.toString()}
+                  fill={accentColor.hex.toString()}
                   color={backgroundColor.hex.toString()}
                 />
               </p>
@@ -386,14 +376,12 @@ const CardTemplate = ({
   backgroundColor,
   textColor,
   accentColor,
-  verifiedColor,
   borderColor,
   isShowImages,
 }: {
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
-  verifiedColor: IColor;
   borderColor: IColor;
   isShowImages: boolean;
 }) => {
@@ -448,7 +436,7 @@ const CardTemplate = ({
             <BadgeCheck
               width={14}
               height={14}
-              fill={verifiedColor.hex.toString()}
+              fill={accentColor.hex.toString()}
               color={backgroundColor.hex.toString()}
             />
           </p>
@@ -462,14 +450,12 @@ const BannerTemplate = ({
   backgroundColor,
   textColor,
   accentColor,
-  verifiedColor,
   borderColor,
   isShowImages,
 }: {
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
-  verifiedColor: IColor;
   borderColor: IColor;
   isShowImages: boolean;
 }) => {
@@ -513,7 +499,7 @@ const BannerTemplate = ({
             <BadgeCheck
               width={14}
               height={14}
-              fill={verifiedColor.hex.toString()}
+              fill={accentColor.hex.toString()}
               color={backgroundColor.hex.toString()}
             />
           </p>
