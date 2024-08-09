@@ -176,19 +176,27 @@ const SmallPopupTemplate = ({
             className="text-[13px] leading-5"
           >
             Jamie in Raleigh, North Carolina, USA purchased{" "}
-            <span className="font-bold underline">Running shoes</span>.
+            <span
+              className="font-bold underline"
+              style={{
+                color: accentColor.hex.toString(),
+              }}
+            >
+              Running shoes
+            </span>
+            .
           </p>
           <div
             className="text-xs flex items-center gap-4"
             style={{
-              color: hexToRgba(textColor.hex.toString(), 0.75),
+              color: hexToRgba(textColor.hex.toString(), 0.65),
             }}
           >
             12 min ago
             <p
-              className="absolute bottom-1 right-1 flex items-center gap-[3px] text-[10px]"
+              className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10px]"
               style={{
-                color: hexToRgba(textColor.hex.toString(), 0.75),
+                color: hexToRgba(textColor.hex.toString(), 0.65),
               }}
             >
               Verified by TapInsight
@@ -239,20 +247,28 @@ const SmallPopupNoImageTemplate = ({
             }}
             className="text-[13px] leading-5"
           >
-            Jamie in Raleigh, North Carolina, USA made a{" "}
-            <span className="font-bold">$44</span> purchase.
+            Jamie in Raleigh, North Carolina, USA purchased{" "}
+            <span
+              className="font-bold"
+              style={{
+                color: accentColor.hex.toString(),
+              }}
+            >
+              Running shoes
+            </span>
+            .
           </p>
           <div
             className="text-xs flex items-center gap-4"
             style={{
-              color: hexToRgba(textColor.hex.toString(), 0.75),
+              color: hexToRgba(textColor.hex.toString(), 0.65),
             }}
           >
             12 min ago
             <p
-              className="absolute bottom-1 right-1 flex items-center gap-[3px] text-[10px]"
+              className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10px]"
               style={{
-                color: hexToRgba(textColor.hex.toString(), 0.75),
+                color: hexToRgba(textColor.hex.toString(), 0.65),
               }}
             >
               Verified by TapInsight
@@ -297,9 +313,10 @@ const LargePopupTemplate = ({
     >
       <div className="flex items-center justify-center h-full w-full max-w-[110px]">
         <div
-          className="flex h-full w-full items-center justify-center aspect-square rounded-l-lg"
+          className="flex h-full w-full items-center justify-center aspect-square rounded-l-lg outline-1 outline"
           style={{
             backgroundColor: hexToRgba(accentColor.hex.toString(), 0.2),
+            outlineColor: hexToRgba(accentColor.hex.toString(), 0.2),
           }}
         >
           <ShoppingBasket
@@ -324,21 +341,21 @@ const LargePopupTemplate = ({
                 color: accentColor.hex.toString(),
               }}
             >
-              Swim shoes
+              Running shoes
             </span>
             .
           </p>
           <div
             className="text-[13px] flex items-center gap-4"
             style={{
-              color: hexToRgba(textColor.hex.toString(), 0.75),
+              color: hexToRgba(textColor.hex.toString(), 0.65),
             }}
           >
             12 min ago
             <p
-              className="absolute bottom-1 right-1 flex items-center gap-[3px] text-[10.5px]"
+              className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10.5px]"
               style={{
-                color: hexToRgba(textColor.hex.toString(), 0.75),
+                color: hexToRgba(textColor.hex.toString(), 0.65),
               }}
             >
               Verified by TapInsight
@@ -396,21 +413,21 @@ const LargePopupNoImageTemplate = ({
                 color: accentColor.hex.toString(),
               }}
             >
-              Swim shoes
+              Running shoes
             </span>
             .
           </p>
           <div
             className="text-[13px] flex items-center"
             style={{
-              color: hexToRgba(textColor.hex.toString(), 0.75),
+              color: hexToRgba(textColor.hex.toString(), 0.65),
             }}
           >
             12 min ago
             <p
-              className="absolute bottom-1 right-1 flex items-center gap-[3px] text-[11px]"
+              className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[11px]"
               style={{
-                color: hexToRgba(textColor.hex.toString(), 0.75),
+                color: hexToRgba(textColor.hex.toString(), 0.65),
               }}
             >
               Verified by TapInsight

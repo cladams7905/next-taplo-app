@@ -261,19 +261,27 @@ const SmallPopupTemplate = ({
             className="text-[10px] leading-[14px]"
           >
             Jamie in Raleigh, North Carolina, USA purchased{" "}
-            <span className="font-bold underline">Running shoes</span>.
+            <span
+              className="font-bold underline"
+              style={{
+                color: accentColor.hex.toString(),
+              }}
+            >
+              Running shoes
+            </span>
+            .
           </p>
           <div
             className="text-[9px] flex items-center gap-4"
             style={{
-              color: hexToRgba(textColor.hex.toString(), 0.75),
+              color: hexToRgba(textColor.hex.toString(), 0.65),
             }}
           >
             12 min ago
             <p
               className="absolute bottom-1 right-1 flex items-center gap-[3px] text-[8px]"
               style={{
-                color: hexToRgba(textColor.hex.toString(), 0.75),
+                color: hexToRgba(textColor.hex.toString(), 0.65),
               }}
             >
               Verified by TapInsight
@@ -317,13 +325,14 @@ const LargePopupTemplate = ({
       {isShowImages && (
         <div className="flex items-center justify-center h-full w-full max-w-[90px]">
           <div
-            className="flex h-full w-full items-center justify-center aspect-square rounded-l-lg"
+            className="flex h-full w-full items-center justify-center aspect-square rounded-l-lg outline outline-1"
             style={{
               backgroundColor: hexToRgba(accentColor.hex.toString(), 0.2),
+              outlineColor: hexToRgba(accentColor.hex.toString(), 0.2),
             }}
           >
             <ShoppingBasket
-              color={hexToRgba(accentColor.hex.toString(), 0.75)}
+              color={hexToRgba(accentColor.hex.toString(), 0.65)}
               height={24}
               width={24}
             />
@@ -354,14 +363,14 @@ const LargePopupTemplate = ({
           <div
             className="text-[9px] flex items-center gap-4"
             style={{
-              color: hexToRgba(textColor.hex.toString(), 0.75),
+              color: hexToRgba(textColor.hex.toString(), 0.65),
             }}
           >
             12 min ago
             <p
               className="absolute bottom-1 right-1 flex items-center gap-[3px] text-[8px]"
               style={{
-                color: hexToRgba(textColor.hex.toString(), 0.75),
+                color: hexToRgba(textColor.hex.toString(), 0.65),
               }}
             >
               Verified by TapInsight

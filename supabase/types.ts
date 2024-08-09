@@ -190,7 +190,6 @@ export type Database = {
           template: string | null
           text_color: string | null
           user_id: string
-          verified_color: string | null
         }
         Insert: {
           accent_color?: string | null
@@ -206,7 +205,6 @@ export type Database = {
           template?: string | null
           text_color?: string | null
           user_id?: string
-          verified_color?: string | null
         }
         Update: {
           accent_color?: string | null
@@ -222,7 +220,6 @@ export type Database = {
           template?: string | null
           text_color?: string | null
           user_id?: string
-          verified_color?: string | null
         }
         Relationships: [
           {
