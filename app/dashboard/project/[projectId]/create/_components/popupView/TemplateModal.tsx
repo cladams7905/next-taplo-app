@@ -517,44 +517,70 @@ const BannerTemplate = ({
         backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className="flex flex-row items-center gap-2 border shadow-md w-full py-1 px-3 h-12 -mt-12 rounded-lg"
+      className={`relative flex flex-row px-2 h-fit min-h-[30px] items-center justify-center rounded-lg border shadow-md -mt-10`}
     >
       {isShowImages && (
-        <div className="flex items-center justify-center w-10 h-8 bg-purple-50 rounded-full outline outline-purple-50">
-          <ImageIcon color={"#d8b4fe"} height={18} width={18} />
-        </div>
-      )}
-      <div className="flex flex-col">
-        <p
-          className="text-[6pt]"
-          style={{
-            color: textColor.hex.toString(),
-          }}
-        >
-          Jamie in Raleigh, North Carolina, USA purchased{" "}
-          <span className="font-bold uppercase">Your Product</span>
-        </p>
-        <div
-          className="flex items-center gap-[3px] text-[5pt] leading-[13px]"
-          style={{
-            color: accentColor.hex.toString(),
-          }}
-        >
-          12 min ago |
-          <p
-            className="flex items-center gap-[3px]"
+        <div className="flex items-center justify-center">
+          <div
+            className="rounded-full flex items-center justify-center w-8 h-8 min-w-8 aspect-square"
             style={{
-              color: accentColor.hex.toString(),
+              backgroundColor: hexToRgba(accentColor.hex.toString(), 0.2),
             }}
           >
-            Verified
-            <BadgeCheck
-              width={14}
+            <ShoppingBasket
+              color={hexToRgba(accentColor.hex.toString(), 0.85)}
               height={14}
-              fill={accentColor.hex.toString()}
-              color={backgroundColor.hex.toString()}
+              width={14}
             />
+          </div>
+        </div>
+      )}
+      <div className="flex w-full items-center justify-center">
+        <div
+          className={`flex flex-col items-center justify-center w-full px-2 py-2 gap-1 ${
+            !isShowImages && "text-center"
+          }`}
+        >
+          <p
+            style={{
+              color: textColor.hex.toString(),
+            }}
+            className="text-[8px] leading-[12px]"
+          >
+            Jamie in Raleigh, North Carolina, USA purchased{" "}
+            <span
+              className="font-bold underline"
+              style={{
+                color: accentColor.hex.toString(),
+              }}
+            >
+              Running shoes
+            </span>
+            .
           </p>
+          <div
+            className={`flex flex-row items-center gap-1 text-[8px]`}
+            style={{
+              color: hexToRgba(textColor.hex.toString(), 0.65),
+            }}
+          >
+            12 min ago
+            <p>|</p>
+            <p
+              className="flex items-center gap-[3px]"
+              style={{
+                color: hexToRgba(textColor.hex.toString(), 0.65),
+              }}
+            >
+              Verified by TapInsight
+              <BadgeCheck
+                width={14}
+                height={14}
+                fill={accentColor.hex.toString()}
+                color={backgroundColor.hex.toString()}
+              />
+            </p>
+          </div>
         </div>
       </div>
     </div>
