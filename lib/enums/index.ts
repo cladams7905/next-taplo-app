@@ -15,8 +15,10 @@ export enum Providers {
 export enum ScreenAlignment {
   BottomLeft = "Bottom Left",
   BottomRight = "Bottom Right",
+  BottomCenter = "Bottom Center",
   TopLeft = "Top Left",
   TopRight = "Top Right",
+  TopCenter = "Top Center",
 }
 
 export enum TemplateTypes {

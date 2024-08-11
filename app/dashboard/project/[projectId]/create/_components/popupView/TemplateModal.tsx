@@ -100,7 +100,7 @@ export default function TemplateModal({
           >
             {(activeTemplate === TemplateTypes.SmPopup ||
               activeTemplate === TemplateTypes.SmPopupNoImg) && (
-              <div className="flex items-center justify-center absolute top-0 left-0 aspect-square w-10 h-10 rounded-br-lg rounded-tl-lg bg-primary text-white">
+              <div className="flex items-center justify-center absolute top-0 z-[2] left-0 aspect-square w-10 h-10 rounded-br-lg rounded-tl-lg bg-primary text-white">
                 <CheckIcon width={20} height={20} strokeWidth={3} />
               </div>
             )}
@@ -130,7 +130,7 @@ export default function TemplateModal({
           >
             {(activeTemplate === TemplateTypes.LgPopup ||
               activeTemplate === TemplateTypes.LgPopupNoImg) && (
-              <div className="flex items-center justify-center absolute top-0 left-0 aspect-square w-10 h-10 rounded-br-lg rounded-tl-lg bg-primary text-white">
+              <div className="flex items-center justify-center absolute top-0 z-[2] left-0 aspect-square w-10 h-10 rounded-br-lg rounded-tl-lg bg-primary text-white">
                 <CheckIcon width={20} height={20} strokeWidth={3} />
               </div>
             )}
@@ -160,7 +160,7 @@ export default function TemplateModal({
           >
             {(activeTemplate === TemplateTypes.Card ||
               activeTemplate === TemplateTypes.CardNoImg) && (
-              <div className="flex items-center justify-center absolute top-0 left-0 aspect-square w-10 h-10 rounded-br-lg rounded-tl-lg bg-primary text-white">
+              <div className="flex items-center justify-center absolute top-0 left-0 z-[2] aspect-square w-10 h-10 rounded-br-lg rounded-tl-lg bg-primary text-white">
                 <CheckIcon width={20} height={20} strokeWidth={3} />
               </div>
             )}
@@ -190,7 +190,7 @@ export default function TemplateModal({
           >
             {(activeTemplate === TemplateTypes.Banner ||
               activeTemplate === TemplateTypes.BannerNoImg) && (
-              <div className="flex items-center justify-center absolute top-0 left-0 aspect-square w-10 h-10 rounded-br-lg rounded-tl-lg bg-primary text-white">
+              <div className="flex items-center justify-center absolute top-0 left-0 z-[2] aspect-square w-10 h-10 rounded-br-lg rounded-tl-lg bg-primary text-white">
                 <CheckIcon width={20} height={20} strokeWidth={3} />
               </div>
             )}
@@ -332,7 +332,7 @@ const LargePopupTemplate = ({
             }}
           >
             <ShoppingBasket
-              color={hexToRgba(accentColor.hex.toString(), 0.65)}
+              color={hexToRgba(accentColor.hex.toString(), 0.85)}
               height={24}
               width={24}
             />
@@ -407,55 +407,75 @@ const CardTemplate = ({
         backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className="flex flex-col items-center gap-2 border shadow-md w-56 h-52 -mt-12 rounded-lg"
+      className={`relative flex flex-col w-fit ${
+        isShowImages ? "h-[200px]" : "h-[120px] items-center justify-center"
+      } max-w-[220px] -mt-12 rounded-lg border shadow-md gap-3`}
     >
       {isShowImages && (
-        <div className="flex items-center justify-center w-full h-full bg-purple-50 rounded-t-lg">
-          <ImageIcon color={"#d8b4fe"} height={18} width={18} />
-        </div>
-      )}
-      <div
-        className={`flex flex-col gap-2 p-1 px-2 ${
-          !isShowImages && "items-center justify-center text-center h-full"
-        }`}
-      >
-        <p
-          className="text-[8pt] leading-[13px]"
-          style={{
-            color: textColor.hex.toString(),
-          }}
-        >
-          Jamie in Raleigh, North Carolina, USA purchased
-        </p>
-        <p
-          className="text-[9pt] leading-[13px] font-bold uppercase"
-          style={{
-            color: textColor.hex.toString(),
-          }}
-        >
-          Your product
-        </p>
-        <div
-          className="flex items-center gap-[3px] text-[7.5pt] leading-[13px] mb-1"
-          style={{
-            color: accentColor.hex.toString(),
-          }}
-        >
-          12 min ago |
-          <p
-            className="flex items-center gap-[3px]"
+        <div className="flex items-center justify-center h-full w-full">
+          <div
+            className="flex h-full w-full max-h-[110px] items-center justify-center aspect-square rounded-t-lg outline-1 outline"
             style={{
-              color: accentColor.hex.toString(),
+              backgroundColor: hexToRgba(accentColor.hex.toString(), 0.2),
+              outlineColor: hexToRgba(accentColor.hex.toString(), 0.2),
             }}
           >
-            Verified
-            <BadgeCheck
-              width={14}
-              height={14}
-              fill={accentColor.hex.toString()}
-              color={backgroundColor.hex.toString()}
+            <ShoppingBasket
+              color={hexToRgba(accentColor.hex.toString(), 0.85)}
+              height={28}
+              width={28}
             />
+          </div>
+        </div>
+      )}
+      <div className="flex w-full gap-4 items-center">
+        <div
+          className={`flex flex-col w-full gap-[4px] mx-2 p-1 ${
+            isShowImages
+              ? "pb-6"
+              : "text-center items-center justify-center px-2"
+          }`}
+        >
+          <p
+            style={{
+              color: textColor.hex.toString(),
+            }}
+            className="text-[11px] leading-[16px]"
+          >
+            Jamie in Raleigh, North Carolina, USA purchased{" "}
+            <span
+              className="font-bold underline"
+              style={{
+                color: accentColor.hex.toString(),
+              }}
+            >
+              Running shoes.
+            </span>
           </p>
+          <div
+            className={`text-[10px] flex items-center ${
+              !isShowImages && "mt-1"
+            }`}
+            style={{
+              color: hexToRgba(textColor.hex.toString(), 0.65),
+            }}
+          >
+            12 min ago
+            <p
+              className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[9px]"
+              style={{
+                color: hexToRgba(textColor.hex.toString(), 0.65),
+              }}
+            >
+              Verified by TapInsight
+              <BadgeCheck
+                width={14}
+                height={14}
+                fill={accentColor.hex.toString()}
+                color={backgroundColor.hex.toString()}
+              />
+            </p>
+          </div>
         </div>
       </div>
     </div>

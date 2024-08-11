@@ -55,18 +55,48 @@ const config: Config = {
         "link-hover": "var(--fallback-p,oklch(var(--p)/0.20))",
       },
       keyframes: {
-        slideIn: {
+        slideInLeft: {
           "0%": { transform: "translateX(-20%)", opacity: "0" },
           "100%": { transform: "translateX(0)", opacity: "1" },
         },
-        slideOut: {
+        slideOutLeft: {
           "0%": { transform: "translateX(0)", opacity: "1" },
           "100%": { transform: "translateX(-20%)", opacity: "0" },
         },
+        slideInRight: {
+          "0%": { transform: "translateX(20%)", opacity: "0" },
+          "100%": { transform: "translateX(0)", opacity: "1" },
+        },
+        slideOutRight: {
+          "0%": { transform: "translateX(0)", opacity: "1" },
+          "100%": { transform: "translateX(20%)", opacity: "0" },
+        },
+        slideInTop: {
+          "0%": { transform: "translateY(-20%)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
+        },
+        slideOutTop: {
+          "0%": { transform: "translateY(0)", opacity: "1" },
+          "100%": { transform: "translateY(-20%)", opacity: "0" },
+        },
+        slideInBottom: {
+          "0%": { transform: "translateY(20%)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
+        },
+        slideOutBottom: {
+          "0%": { transform: "translateY(0)", opacity: "1" },
+          "100%": { transform: "translateY(20%)", opacity: "0" },
+        },
       },
       animation: {
-        slideIn: "slideIn 0.3s ease-in-out forwards",
-        slideOut: "slideOut 0.2s ease-in-out forwards",
+        slideInLeft: "slideInLeft 0.3s ease-in-out forwards",
+        slideOutLeft: "slideOutLeft 0.2s ease-in-out forwards",
+        slideInRight: "slideInRight 0.3s ease-in-out forwards",
+        slideOutRight: "slideOutRight 0.2s ease-in-out forwards",
+        slideInTop: "slideInTop 0.3s ease-in-out forwards",
+        slideOutTop: "slideOutTop 0.2s ease-in-out forwards",
+        slideInBottom: "slideInBottom 0.3s ease-in-out forwards",
+        slideOutBottom: "slideOutBottom 0.2s ease-in-out forwards",
       },
     },
   },
