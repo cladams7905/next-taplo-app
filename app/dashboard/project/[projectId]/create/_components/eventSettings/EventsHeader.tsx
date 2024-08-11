@@ -117,7 +117,7 @@ export default function EventsHeader({
       </div>
       <div className="dropdown dropdown-end">
         <div
-          className="btn btn-sm lg:mt-0 mt-8 lg:w-auto w-full btn-primary text-white text-xs"
+          className="btn btn-sm lg:w-auto w-full btn-primary text-white text-xs"
           onClick={() => {
             eventDropdownRef.current?.classList.remove("hidden");
           }}

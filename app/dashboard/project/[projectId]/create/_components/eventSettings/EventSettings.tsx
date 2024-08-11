@@ -45,7 +45,7 @@ const EventSettings = ({
       } flex-col w-full h-fit`}
     >
       <div
-        className={`sticky top-0 w-full p-4 bg-white ${
+        className={`sticky top-0 w-full min-h-[65px] p-4 bg-white ${
           scrolled ? "border-b border-gray-300 -mb-[1px] shadow-sm" : ""
         } ${isInPreview ? "z-[1]" : "z-[2]"}`}
       >

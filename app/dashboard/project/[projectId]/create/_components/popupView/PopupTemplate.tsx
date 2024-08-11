@@ -29,7 +29,7 @@ export default function PopupTemplate({
   const [animation, setAnimation] = useState(
     activeProject.screen_alignment === ScreenAlignment.BottomLeft ||
       activeProject.screen_alignment === ScreenAlignment.TopLeft
-      ? "animate-SlideInLeft"
+      ? "animate-slideInLeft"
       : activeProject.screen_alignment === ScreenAlignment.BottomRight ||
         activeProject.screen_alignment === ScreenAlignment.TopRight
       ? "animate-slideInRight"
@@ -37,18 +37,12 @@ export default function PopupTemplate({
       ? "animate-slideInTop"
       : "animate-slideInBottom"
   );
-  const [isVisible, setIsVisible] = useState(true);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const updateAnimation = () => {
       setAnimation((prevAnimation) => {
         const newAnimation = determineAnimationDirection(prevAnimation);
-        if (newAnimation.includes("Out")) {
-          setTimeout(() => setIsVisible(false), 500);
-        } else {
-          setIsVisible(true);
-        }
         return newAnimation;
       });
     };
@@ -688,17 +682,31 @@ const BannerTemplate = ({
         backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className={`relative flex flex-col h-fit min-h-[70px] items-center justify-center max-w-screen-lg rounded-lg border shadow-md ${
+      className={`relative flex flex-row px-5 h-fit min-h-[60px] items-center justify-center max-w-screen-md rounded-lg border shadow-md ${
         shouldAnimate && animation
       }`}
     >
+      <div className="flex items-center justify-center">
+        <div
+          className="rounded-full flex items-center justify-center w-12 h-12 min-w-12 aspect-square"
+          style={{
+            backgroundColor: hexToRgba(accentColor.hex.toString(), 0.2),
+          }}
+        >
+          <ShoppingBasket
+            color={hexToRgba(accentColor.hex.toString(), 0.85)}
+            height={20}
+            width={20}
+          />
+        </div>
+      </div>
       <div className="flex w-full items-center justify-center">
-        <div className="flex flex-col w-full px-5 py-3 gap-1">
+        <div className="flex flex-col items-center justify-center w-full px-5 py-2 gap-1">
           <p
             style={{
               color: textColor.hex.toString(),
             }}
-            className="text-[14px]"
+            className="text-[14px] leading-[18px] mt-2"
           >
             Jamie in Raleigh, North Carolina, USA purchased{" "}
             <span
@@ -712,14 +720,15 @@ const BannerTemplate = ({
             .
           </p>
           <div
-            className={`text-[12px] ${shouldAnimate && "-mt-2"}`}
+            className={`flex flex-row gap-1 text-[12px]`}
             style={{
               color: hexToRgba(textColor.hex.toString(), 0.65),
             }}
           >
             12 min ago
+            <p>|</p>
             <p
-              className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10.5px]"
+              className="flex items-center gap-[3px]"
               style={{
                 color: hexToRgba(textColor.hex.toString(), 0.65),
               }}
@@ -760,12 +769,12 @@ const BannerNoImageTemplate = ({
         backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className={`relative flex flex-col h-fit min-h-[70px] items-center justify-center max-w-screen-lg rounded-lg border shadow-md ${
+      className={`relative flex flex-col h-fit min-h-[60px] items-center justify-center max-w-screen-md rounded-lg border shadow-md ${
         shouldAnimate && animation
       }`}
     >
       <div className="flex w-full items-center justify-center">
-        <div className="flex flex-col w-full px-5 py-3 gap-1">
+        <div className="flex flex-col items-center justify-center w-full px-5 py-2 gap-1">
           <p
             style={{
               color: textColor.hex.toString(),
@@ -784,14 +793,17 @@ const BannerNoImageTemplate = ({
             .
           </p>
           <div
-            className={`text-[12px] ${shouldAnimate && "-mt-2"}`}
+            className={`flex flex-row gap-1 text-[12px] ${
+              shouldAnimate && "-mt-2"
+            }`}
             style={{
               color: hexToRgba(textColor.hex.toString(), 0.65),
             }}
           >
             12 min ago
+            <p>|</p>
             <p
-              className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10.5px]"
+              className="flex items-center gap-[3px]"
               style={{
                 color: hexToRgba(textColor.hex.toString(), 0.65),
               }}

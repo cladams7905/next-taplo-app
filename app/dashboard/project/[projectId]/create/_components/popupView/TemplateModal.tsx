@@ -3,7 +3,7 @@
 import { showToastError } from "@/components/shared/showToast";
 import { hexToRgba } from "@/lib/actions";
 import { updateProject } from "@/lib/actions/projects";
-import { TemplateTypes } from "@/lib/enums";
+import { ScreenAlignment, TemplateTypes } from "@/lib/enums";
 import { Tables } from "@/supabase/types";
 import { BadgeCheck, CheckIcon, ImageIcon, ShoppingBasket } from "lucide-react";
 import {
@@ -45,15 +45,31 @@ export default function TemplateModal({
     startLoadingTransition(async () => {
       const { data, error } = await updateProject(activeProject.id, {
         template: templateToSet,
+        screen_alignment: setScreenAlignment(templateToSet),
       });
       if (error) {
         showToastError(error);
       } else {
         setActiveTemplate(templateToSet);
-        setActiveProject({ ...activeProject, template: templateToSet });
+        setActiveProject({
+          ...activeProject,
+          template: templateToSet,
+          screen_alignment: setScreenAlignment(templateToSet),
+        });
       }
     });
   };
+
+  const setScreenAlignment = (templateToSet: TemplateTypes) => {
+    return templateToSet === TemplateTypes.Banner ||
+      templateToSet === TemplateTypes.BannerNoImg
+      ? ScreenAlignment.BottomCenter
+      : activeProject.template === TemplateTypes.Banner ||
+        activeProject.template === TemplateTypes.BannerNoImg
+      ? ScreenAlignment.BottomLeft
+      : activeProject.screen_alignment;
+  };
+
   return (
     <dialog className="modal" ref={templateModalRef}>
       <div className="modal-box max-w-screen-md text-base-content dark:border dark:border-gray-600">

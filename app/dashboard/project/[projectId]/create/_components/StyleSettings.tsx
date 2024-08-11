@@ -358,11 +358,22 @@ export const StyleSettings = ({
             }
           >
             <option value={"default"}>Select</option>
-            {screenAlignmentTypes.map((screenAlignment, i) => (
-              <option key={i} value={screenAlignment}>
-                {screenAlignment}
-              </option>
-            ))}
+            {activeProject?.template === TemplateTypes.Banner ||
+            activeProject?.template === TemplateTypes.BannerNoImg
+              ? screenAlignmentTypes
+                  .filter((alignment) => alignment.includes("Center"))
+                  .map((screenAlignment, i) => (
+                    <option key={i} value={screenAlignment}>
+                      {screenAlignment}
+                    </option>
+                  ))
+              : screenAlignmentTypes
+                  .filter((alignment) => !alignment.includes("Center"))
+                  .map((screenAlignment, i) => (
+                    <option key={i} value={screenAlignment}>
+                      {screenAlignment}
+                    </option>
+                  ))}
           </select>
         </div>
       </div>

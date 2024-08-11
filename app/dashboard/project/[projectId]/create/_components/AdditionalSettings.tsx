@@ -89,7 +89,7 @@ export default function AdditionalSettings({
       <div className="flex flex-col p-4 gap-6">
         <div className="flex flex-col w-full gap-3 px-2">
           <div className="flex flex-row items-center justify-between gap-2 text-sm px-2">
-            Only show events from the past
+            Show events from the past
             <div className="flex items-center gap-2">
               <select
                 defaultValue={eventInterval || "default"}
