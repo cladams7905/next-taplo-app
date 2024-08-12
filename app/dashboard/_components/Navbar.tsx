@@ -70,14 +70,14 @@ export default function Navbar({
           <div className="dropdown">
             <label
               role="button"
-              className="flex mr-6 hover:bg-primary/20 active:bg-primary/20 rounded-lg p-2"
+              className="mr-6 hover:bg-primary/20 active:bg-primary/20 lg:hidden md:hidden block rounded-lg p-2"
               tabIndex={0}
             >
               <Menu color="oklch(var(--bc))" />
             </label>
             <div
               tabIndex={0}
-              className="dropdown-content border mt-2 border-gray-300 dark:border-gray-600 z-[10] p-2 shadow-lg bg-base-100 rounded-md w-44"
+              className="dropdown-content border mt-2 border-gray-300 dark:border-gray-600 z-[10] p-2 shadow-lg bg-base-100 rounded-md w-[180px]"
             >
               <Link
                 href={`/dashboard/project/${fetchedActiveProject.id}/create`}
@@ -88,6 +88,9 @@ export default function Navbar({
               </Link>
               <button className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-link-hover">
                 <p className="text-sm">Insights</p>
+                <div className="absolute right-0 badge badge-primary bg-primary/20 border-none text-primary text-xs">
+                  Coming soon!
+                </div>
               </button>
             </div>
           </div>
@@ -107,7 +110,7 @@ export default function Navbar({
           />
         </div>
         {!isHiddenTabList && (
-          <div className="navbar-center hidden lg:block lg:mt-[2px]">
+          <div className="navbar-center hidden lg:block md:block lg:-mt-0 md:-mt-[10px]">
             <Tablist activeProject={activeProject} />
           </div>
         )}
