@@ -90,7 +90,7 @@ export default function ProjectDropdown({
             </a>
           </li>
           <div
-            className="dropdown-content border mt-1 border-gray-300 dark:border-gray-600 z-[10] p-2 shadow-lg bg-base-100 rounded-md w-52"
+            className="dropdown-content right-[3px] md:left-0 lg:left-0 border mt-1 border-gray-300 dark:border-gray-600 z-[10] p-2 shadow-lg bg-base-100 rounded-md w-52"
             ref={toggleElement}
             tabIndex={1}
           >

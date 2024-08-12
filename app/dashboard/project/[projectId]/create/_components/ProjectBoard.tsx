@@ -61,8 +61,8 @@ export default function ProjectBoard({
   const [isInPreview, setIsInPreview] = useState(false);
 
   return (
-    <main className="flex lg:columns-2 w-full h-screen-minus-navbar">
-      <div className="lg:w-[60%]">
+    <main className="flex lg:flex-row md:flex-row flex-col w-full h-screen-minus-navbar">
+      <div className="lg:w-[60%] w-full">
         <ViewContainer
           activeProject={activeProject}
           setActiveProject={setActiveProject}
@@ -79,7 +79,7 @@ export default function ProjectBoard({
           displayTime={displayTime}
         />
       </div>
-      <div className="relative lg:w-[40%]">
+      <div className="relative lg:w-[40%] w-full">
         <Sidebar
           activeProject={activeProject}
           setActiveProject={setActiveProject}

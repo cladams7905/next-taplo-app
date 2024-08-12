@@ -39,8 +39,8 @@ export default function UserDropdown(data: { user: User }) {
               <Image
                 src={avatar_url}
                 alt="user"
-                width="36"
-                height="36"
+                width="34"
+                height="34"
                 className="rounded-full"
               />
             </div>

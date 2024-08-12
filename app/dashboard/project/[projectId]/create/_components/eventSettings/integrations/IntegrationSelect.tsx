@@ -80,7 +80,7 @@ export default function IntegrationSelect({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1 font-bold">Integration</div>
         <div
-          className="btn btn-sm lg:mt-0 mt-8 lg:w-auto w-full btn-ghost text-xs"
+          className="btn btn-sm w-auto btn-ghost text-xs"
           onClick={() => newIntegrationModalRef.current?.showModal()}
         >
           <CirclePlus height={14} width={14} />

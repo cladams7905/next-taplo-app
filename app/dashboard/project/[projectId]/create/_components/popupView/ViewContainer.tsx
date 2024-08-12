@@ -3,9 +3,9 @@
 import { Tables } from "@/supabase/types";
 import { IColor } from "react-color-palette";
 import { Dispatch, SetStateAction, useTransition } from "react";
-import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
 import PopupViewer from "./PopupViewer";
 import ViewContainerHeader from "./ViewContainerHeader";
+import ViewContainerFooter from "./ViewContainerFooter";
 
 export default function ViewContainer({
   activeProject,
@@ -69,14 +69,7 @@ export default function ViewContainer({
           />
         )}
       </div>
-      <div className="flex absolute bottom-0 right-0 w-full justify-end items-end px-5 pb-3">
-        <div
-          className="tooltip tooltip-top tooltip-info p-2 rounded-lg cursor-pointer hover:bg-primary/20"
-          data-tip="Help"
-        >
-          <QuestionMarkCircledIcon width={20} height={20} />
-        </div>
-      </div>
+      <ViewContainerFooter />
     </div>
   );
 }

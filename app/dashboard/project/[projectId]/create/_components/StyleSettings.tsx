@@ -197,7 +197,7 @@ export const StyleSettings = ({
           <div className="flex flex-row items-center w-full justify-between">
             <p className="text-sm font-bold">Colors</p>
             <div
-              className="btn btn-sm lg:mt-0 lg:w-auto w-full btn-ghost text-xs"
+              className="btn btn-sm w-auto btn-ghost text-xs"
               onClick={() => handleResetClick()}
             >
               <Undo2 height={16} width={16} /> Reset
@@ -208,7 +208,7 @@ export const StyleSettings = ({
               <div className="flex flex-col w-full gap-2">
                 <p className="text-sm">Background color</p>
                 <div
-                  className="flex flex-row gap-2 dropdown dropdown-right"
+                  className="flex flex-row gap-2 dropdown dropdown-top lg:dropdown-right"
                   onBlur={() =>
                     handleBackgroundColorChange(backgroundColor.hex)
                   }
@@ -228,7 +228,7 @@ export const StyleSettings = ({
                   />
                   <div
                     tabIndex={0}
-                    className="dropdown-content bg-base-100 -ml-11 -mt-56 rounded-lg z-[5] w-72 p-2 shadow-md border border-gray-300"
+                    className="dropdown-content bg-base-100 mb-2 lg:-ml-11 lg:-mt-56 rounded-lg z-[5] w-72 p-2 shadow-md border border-gray-300"
                   >
                     <ColorPicker
                       color={backgroundColor}
@@ -240,7 +240,7 @@ export const StyleSettings = ({
               <div className="flex flex-col w-full gap-2">
                 <p className="text-sm">Text color</p>
                 <div
-                  className="flex flex-row gap-2 dropdown dropdown-right"
+                  className="flex flex-row gap-2 dropdown dropdown-top lg:dropdown-right"
                   onBlur={() => handleTextColorChange(textColor.hex)}
                 >
                   <input
@@ -258,7 +258,7 @@ export const StyleSettings = ({
                   />
                   <div
                     tabIndex={0}
-                    className="dropdown-content bg-base-100 -ml-11 -mt-56 rounded-lg z-[5] w-72 p-2 shadow-md border border-gray-300"
+                    className="dropdown-content bg-base-100 mb-2 lg:-ml-11 lg:-mt-64 rounded-lg z-[5] w-72 p-2 shadow-md border border-gray-300"
                   >
                     <ColorPicker color={textColor} onChange={setTextColor} />
                   </div>
@@ -269,7 +269,7 @@ export const StyleSettings = ({
               <div className="flex flex-col w-full gap-2">
                 <p className="text-sm">Border color</p>
                 <div
-                  className="flex flex-row gap-2 dropdown dropdown-left"
+                  className="flex flex-row gap-2 dropdown dropdown-end dropdown-top lg:dropdown-left"
                   onBlur={() => handleBorderColorChange(borderColor.hex)}
                 >
                   <input
@@ -287,7 +287,7 @@ export const StyleSettings = ({
                   />
                   <div
                     tabIndex={0}
-                    className="dropdown-content bg-base-100 -mr-11 -mt-56 rounded-lg z-[5] w-72 p-2 shadow-md border border-gray-300"
+                    className="dropdown-content bg-base-100 mb-2 lg:ml-11 lg:-mb-56 rounded-lg z-[5] w-72 p-2 shadow-md border border-gray-300"
                   >
                     <ColorPicker
                       color={borderColor}
@@ -299,7 +299,7 @@ export const StyleSettings = ({
               <div className="flex flex-col w-full gap-2">
                 <p className="text-sm">Accent color</p>
                 <div
-                  className="flex flex-row gap-2 dropdown dropdown-left"
+                  className="flex flex-row gap-2 dropdown dropdown-end dropdown-top lg:dropdown-left"
                   onBlur={() => handleAccentColorChange(accentColor.hex)}
                 >
                   <input
@@ -317,7 +317,7 @@ export const StyleSettings = ({
                   />
                   <div
                     tabIndex={0}
-                    className="dropdown-content bg-base-100 -mr-11 -mt-56 rounded-lg z-[5] w-72 p-2 shadow-md border border-gray-300"
+                    className="dropdown-content bg-base-100 mb-2 lg:ml-11 lg:-mb-48 rounded-lg z-[5] w-72 p-2 shadow-md border border-gray-300"
                   >
                     <ColorPicker
                       color={accentColor}

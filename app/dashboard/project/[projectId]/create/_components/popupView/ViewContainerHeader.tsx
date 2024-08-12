@@ -102,7 +102,7 @@ export default function ViewContainerHeader({
           </>
         )}
       </div>
-      <div tabIndex={0} className="dropdown dropdown-end">
+      <div tabIndex={0} className="dropdown dropdown-end -mr-2">
         <div
           className="p-2 rounded-lg cursor-pointer hover:bg-primary/20 mt-1"
           onClick={() => dropdownRef.current?.classList.remove("hidden")}

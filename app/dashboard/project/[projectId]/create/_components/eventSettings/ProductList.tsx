@@ -177,7 +177,7 @@ const ProductList = ({
         </div>
         {isShowProductsChecked && (
           <div
-            className="btn btn-sm lg:mt-0 mt-8 lg:w-auto w-full btn-ghost text-xs"
+            className="btn btn-sm w-auto btn-ghost text-xs"
             onClick={handleCreateProduct}
           >
             <CirclePlus height={14} width={14} />
