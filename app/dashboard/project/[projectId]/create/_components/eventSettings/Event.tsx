@@ -263,7 +263,7 @@ export default function Event({
             handleUpdateIntegration={handleUpdateIntegration}
           />
         </div>
-        {event.event_type === EventType.OnPurchase && (
+        {event.event_type === EventType.Purchase && (
           <div className="w-full flex flex-col gap-2">
             <ProductList
               currentEvent={event}
@@ -276,7 +276,7 @@ export default function Event({
           <div className="flex flex-row w-full justify-between">
             <div className="flex items-center gap-2 font-bold">Settings</div>
           </div>
-          {event.event_type === EventType.OnPurchase && (
+          {event.event_type === EventType.Purchase && (
             <div className="flex flex-col w-full gap-3 mt-2 px-2">
               <div className="flex flex-row items-center justify-between gap-2 text-sm">
                 Show price
@@ -305,20 +305,6 @@ export default function Event({
                   onChange={() =>
                     handleShowRecentlyViewedProductsNotifications(event)
                   }
-                />
-              </div>
-            </div>
-          )}
-          {event.event_type === EventType.OnReview && (
-            <div className="flex flex-col w-full gap-3 mt-2 px-2">
-              {" "}
-              <div className="flex flex-row items-center justify-between gap-2 text-sm">
-                Only show 4-5 star reviews{" "}
-                <input
-                  type="checkbox"
-                  checked={isShowPositiveReviewsChecked}
-                  className="toggle toggle-primary toggle-sm"
-                  onChange={() => handleShowPositiveReviews(event)}
                 />
               </div>
             </div>

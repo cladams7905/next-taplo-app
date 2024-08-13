@@ -56,19 +56,8 @@ export default function PopupViewer({
     let variableList: string[] = [];
     if (activeEvent) {
       switch (activeEvent.event_type) {
-        case EventType.OnPurchase:
+        case EventType.Purchase:
           variableList = ["person", "location", "product", "price"];
-          break;
-        case EventType.OnReview:
-          variableList = [
-            "person",
-            "location",
-            "rating",
-            "review",
-            "project",
-            "provider",
-            "numreviews",
-          ];
           break;
         case EventType.ActiveUsers:
           variableList = ["numusers", "recentusers"];

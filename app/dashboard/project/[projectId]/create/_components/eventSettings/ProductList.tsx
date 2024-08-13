@@ -42,7 +42,7 @@ const ProductList = ({
   );
 
   useEffect(() => {
-    if (currentEvent.event_type === EventType.OnPurchase) {
+    if (currentEvent.event_type === EventType.Purchase) {
       startProductTransition(() => {
         startEventTransition(async () => {
           const { data, error } = await getProducts(currentEvent.id);

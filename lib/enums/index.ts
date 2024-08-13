@@ -1,6 +1,7 @@
 export enum EventType {
-  OnPurchase = "On Purchase",
-  OnReview = "On Review",
+  Purchase = "Purchase",
+  AddToCart = "Add to Cart",
+  SomeoneViewing = "Someone is Viewing",
   ActiveUsers = "Active Users",
   Custom = "Custom",
 }

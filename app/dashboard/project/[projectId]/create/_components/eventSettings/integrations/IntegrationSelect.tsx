@@ -42,16 +42,11 @@ export default function IntegrationSelect({
   const filterIntegrationsByEventType = useCallback(() => {
     let filteredIntegrations: Tables<"Integrations">[] = integrations;
     switch (currentEvent.event_type) {
-      case EventType.OnPurchase:
+      case EventType.AddToCart:
+      case EventType.SomeoneViewing:
+      case EventType.Purchase:
         filteredIntegrations = integrations.filter(
           (integration) => integration.provider === Providers.Stripe
-        );
-        break;
-      case EventType.OnReview:
-        filteredIntegrations = integrations.filter(
-          (integration) =>
-            integration.provider === Providers.Google ||
-            integration.provider === Providers.TrustPilot
         );
         break;
       case EventType.ActiveUsers:

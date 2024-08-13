@@ -1,7 +1,11 @@
 "use client";
 
 import { hexToRgba } from "@/lib/actions";
-import { EventIcons } from "@/lib/enums";
+import { EventIcons, EventType } from "@/lib/enums";
+import { Tables, TablesInsert } from "@/supabase/types";
+import { showToastError } from "@/components/shared/showToast";
+import { sortByTimeCreated } from "@/lib/actions";
+import { createEvent } from "@/lib/actions/events";
 import {
   EyeIcon,
   Search,
@@ -9,20 +13,35 @@ import {
   ShoppingCart,
   UsersRound,
 } from "lucide-react";
-import { RefObject, useState, useTransition } from "react";
+import {
+  Dispatch,
+  RefObject,
+  SetStateAction,
+  useState,
+  useTransition,
+} from "react";
 
 type EventOption = {
   title: string;
   integrations: string;
   description: string;
+  type: EventType;
   icon: EventIcons;
   color: string;
 };
 
 export default function NewEventModal({
   eventModalRef,
+  activeProject,
+  events,
+  setEvents,
+  setActiveEvent,
 }: {
   eventModalRef: RefObject<HTMLDialogElement>;
+  activeProject: Tables<"Projects">;
+  events: Tables<"Events">[];
+  setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
+  setActiveEvent: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
 }) {
   const [isLoading, startLoadingTransition] = useTransition();
   const [searchQuery, setSearchQuery] = useState("");
@@ -32,6 +51,76 @@ export default function NewEventModal({
       event?.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       event?.integrations?.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const handleCreateEvent = (eventType: EventType) => {
+    startLoadingTransition(async () => {
+      setTimeout(() => {
+        eventModalRef.current?.classList.add("hidden");
+      }, 1000);
+      if (activeProject) {
+        const content = setEventContent(eventType);
+        const event: TablesInsert<"Events"> = {
+          user_id: activeProject.user_id,
+          project_id: activeProject.id,
+          event_type: eventType,
+          content_body: content,
+          show_products: eventType === EventType.Purchase ? true : null,
+          show_price: eventType === EventType.Purchase ? true : null,
+          show_add_to_cart: eventType === EventType.Purchase ? true : null,
+          show_viewed_products: eventType === EventType.Purchase ? true : null,
+          show_recently_active_users:
+            eventType === EventType.ActiveUsers ? true : null,
+        };
+        const { data, error } = await createEvent(event);
+        if (error) {
+          showToastError(error);
+        } else {
+          setEvents((prevEvents) => {
+            const updatedEvents = sortByTimeCreated([...prevEvents, data]);
+            setActiveEvent(updatedEvents[0]);
+            return updatedEvents;
+          });
+        }
+      }
+    });
+  };
+
+  const setEventContent = (eventType: EventType) => {
+    let content: string[];
+    switch (eventType) {
+      case EventType.Purchase:
+        content = [
+          "\\PERSON in \\LOCATION made a purchase.",
+          "\\PERSON in \\LOCATION purchased \\PRODUCT.",
+        ];
+        break;
+      case EventType.AddToCart:
+        content = ["\\PERSON in \\LOCATION added \\PRODUCT to cart."];
+      case EventType.SomeoneViewing:
+        content = ["\\PERSON in \\LOCATION recently viewed \\PRODUCT."];
+      case EventType.ActiveUsers:
+        content = [
+          "\\NUMUSERS people are online now.",
+          "\\RECENTUSERS people were recently active.",
+        ];
+        break;
+      case EventType.Custom:
+        content = ["Add your content here."];
+        break;
+    }
+    return content;
+  };
+
+  const isEventAlreadyCreated = (eventType: EventType) => {
+    let isEventAlreadyCreated = false;
+    events.forEach((event) => {
+      if (event.event_type === eventType) {
+        isEventAlreadyCreated = true;
+        return;
+      }
+    });
+    return isEventAlreadyCreated;
+  };
 
   return (
     <dialog className="modal" ref={eventModalRef}>
@@ -73,6 +162,10 @@ export default function NewEventModal({
               <div
                 key={i}
                 className="flex flex-row border border-gray-300 shadow-sm rounded-lg w-full lg:max-w-[352px] md:max-w-[352px] mb-1 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform"
+                onClick={() => {
+                  if (!isEventAlreadyCreated(eventOption.type))
+                    handleCreateEvent(eventOption.type);
+                }}
               >
                 <div
                   className="flex items-center justify-center w-16 min-w-16 h-full border-r border-gray-300"
@@ -113,6 +206,7 @@ const getEventOptions = () => {
       integrations: "Stripe",
       description:
         "Displays popup when a user makes a purchase or creates a checkout session.",
+      type: EventType.Purchase,
       icon: EventIcons.ShoppingBasket,
       color: "#3eb981",
     },
@@ -120,6 +214,7 @@ const getEventOptions = () => {
       title: "Add to Cart",
       integrations: "Stripe",
       description: "Shows what products users currently have in their cart.",
+      type: EventType.AddToCart,
       icon: EventIcons.ShoppingCart,
       color: "#3eb981",
     },
@@ -127,6 +222,7 @@ const getEventOptions = () => {
       title: "Someone is Viewing",
       integrations: "Stripe",
       description: "Shows what products users are curently viewing.",
+      type: EventType.SomeoneViewing,
       icon: EventIcons.EyeIcon,
       color: "#7A81EB",
     },
@@ -134,6 +230,7 @@ const getEventOptions = () => {
       title: "Active Users",
       integrations: "Google Analytics",
       description: "Displays the current number of active users on your site.",
+      type: EventType.ActiveUsers,
       icon: EventIcons.UsersRound,
       color: "#7A81EB",
     },
