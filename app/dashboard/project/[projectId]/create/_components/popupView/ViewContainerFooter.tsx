@@ -28,7 +28,7 @@ export default function ViewContainerFooter() {
           </li>
           <li>
             <a className="flex flex-col items-start rounded-md">
-              <div className="flex items-center gap-2 py-1">Ask for help</div>
+              <div className="flex items-center gap-2 py-1">Contact</div>
             </a>
           </li>
         </ul>

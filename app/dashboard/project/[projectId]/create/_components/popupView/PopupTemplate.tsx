@@ -16,7 +16,7 @@ export default function PopupTemplate({
   accentColor,
   borderColor,
   displayTime,
-  shouldAnimate,
+  isPreviewMode,
 }: {
   activeProject: Tables<"Projects">;
   backgroundColor: IColor;
@@ -24,7 +24,7 @@ export default function PopupTemplate({
   accentColor: IColor;
   borderColor: IColor;
   displayTime?: number;
-  shouldAnimate?: boolean;
+  isPreviewMode?: boolean;
 }) {
   const [animation, setAnimation] = useState(
     activeProject.screen_alignment === ScreenAlignment.BottomLeft ||
@@ -40,6 +40,8 @@ export default function PopupTemplate({
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
+    if (!isPreviewMode) return;
+
     const updateAnimation = () => {
       setAnimation((prevAnimation) => {
         const newAnimation = determineAnimationDirection(prevAnimation);
@@ -89,7 +91,7 @@ export default function PopupTemplate({
         clearInterval(intervalRef.current);
       }
     };
-  }, [animation, displayTime, activeProject.screen_alignment]);
+  }, [isPreviewMode, animation, displayTime, activeProject.screen_alignment]);
 
   switch (activeProject.template) {
     case TemplateTypes.SmPopup:
@@ -100,7 +102,7 @@ export default function PopupTemplate({
           textColor={textColor}
           borderColor={borderColor}
           animation={animation}
-          shouldAnimate={shouldAnimate}
+          isPreviewMode={isPreviewMode}
         />
       );
     case TemplateTypes.SmPopupNoImg:
@@ -111,7 +113,7 @@ export default function PopupTemplate({
           textColor={textColor}
           borderColor={borderColor}
           animation={animation}
-          shouldAnimate={shouldAnimate}
+          isPreviewMode={isPreviewMode}
         />
       );
     case TemplateTypes.LgPopup:
@@ -122,7 +124,7 @@ export default function PopupTemplate({
           textColor={textColor}
           borderColor={borderColor}
           animation={animation}
-          shouldAnimate={shouldAnimate}
+          isPreviewMode={isPreviewMode}
         />
       );
     case TemplateTypes.LgPopupNoImg:
@@ -133,7 +135,7 @@ export default function PopupTemplate({
           textColor={textColor}
           borderColor={borderColor}
           animation={animation}
-          shouldAnimate={shouldAnimate}
+          isPreviewMode={isPreviewMode}
         />
       );
     case TemplateTypes.Card:
@@ -144,7 +146,7 @@ export default function PopupTemplate({
           textColor={textColor}
           borderColor={borderColor}
           animation={animation}
-          shouldAnimate={shouldAnimate}
+          isPreviewMode={isPreviewMode}
         />
       );
     case TemplateTypes.CardNoImg:
@@ -155,7 +157,7 @@ export default function PopupTemplate({
           textColor={textColor}
           borderColor={borderColor}
           animation={animation}
-          shouldAnimate={shouldAnimate}
+          isPreviewMode={isPreviewMode}
         />
       );
     case TemplateTypes.Banner:
@@ -166,7 +168,7 @@ export default function PopupTemplate({
           textColor={textColor}
           borderColor={borderColor}
           animation={animation}
-          shouldAnimate={shouldAnimate}
+          isPreviewMode={isPreviewMode}
         />
       );
     case TemplateTypes.BannerNoImg:
@@ -177,7 +179,7 @@ export default function PopupTemplate({
           textColor={textColor}
           borderColor={borderColor}
           animation={animation}
-          shouldAnimate={shouldAnimate}
+          isPreviewMode={isPreviewMode}
         />
       );
     default:
@@ -191,14 +193,14 @@ const SmallPopupTemplate = ({
   accentColor,
   borderColor,
   animation,
-  shouldAnimate,
+  isPreviewMode,
 }: {
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
   borderColor: IColor;
   animation?: string;
-  shouldAnimate?: boolean;
+  isPreviewMode?: boolean;
 }) => {
   return (
     <div
@@ -207,7 +209,7 @@ const SmallPopupTemplate = ({
         borderColor: borderColor.hex.toString(),
       }}
       className={`relative flex flex-row w-fit h-fit pr-6 pl-4 max-w-[330px] rounded-lg border shadow-md py-4 gap-3 ${
-        shouldAnimate && animation
+        isPreviewMode && animation
       }`}
     >
       <div className="flex items-center justify-center">
@@ -277,14 +279,14 @@ const SmallPopupNoImageTemplate = ({
   accentColor,
   borderColor,
   animation,
-  shouldAnimate,
+  isPreviewMode,
 }: {
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
   borderColor: IColor;
   animation?: string;
-  shouldAnimate?: boolean;
+  isPreviewMode?: boolean;
 }) => {
   return (
     <div
@@ -293,7 +295,7 @@ const SmallPopupNoImageTemplate = ({
         borderColor: borderColor.hex.toString(),
       }}
       className={`relative flex w-fit h-fit pr-6 pl-4 max-w-[300px] rounded-lg border shadow-md py-4 ${
-        shouldAnimate && animation
+        isPreviewMode && animation
       }`}
     >
       <div className="flex w-full gap-4 items-center">
@@ -349,14 +351,14 @@ const LargePopupTemplate = ({
   accentColor,
   borderColor,
   animation,
-  shouldAnimate,
+  isPreviewMode,
 }: {
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
   borderColor: IColor;
   animation?: string;
-  shouldAnimate?: boolean;
+  isPreviewMode?: boolean;
 }) => {
   return (
     <div
@@ -365,7 +367,7 @@ const LargePopupTemplate = ({
         borderColor: borderColor.hex.toString(),
       }}
       className={`relative flex flex-row w-fit h-fit min-h-[110px] max-w-[380px] rounded-lg border shadow-md gap-3 ${
-        shouldAnimate && animation
+        isPreviewMode && animation
       }`}
     >
       <div className="flex items-center justify-center h-full w-full max-w-[110px]">
@@ -389,7 +391,7 @@ const LargePopupTemplate = ({
             style={{
               color: textColor.hex.toString(),
             }}
-            className="text-[15px] leading-5"
+            className="text-[14px] leading-5"
           >
             Jamie in Raleigh, North Carolina, USA purchased{" "}
             <span
@@ -436,14 +438,14 @@ const LargePopupNoImageTemplate = ({
   accentColor,
   borderColor,
   animation,
-  shouldAnimate,
+  isPreviewMode,
 }: {
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
   borderColor: IColor;
   animation?: string;
-  shouldAnimate?: boolean;
+  isPreviewMode?: boolean;
 }) => {
   return (
     <div
@@ -452,7 +454,7 @@ const LargePopupNoImageTemplate = ({
         borderColor: borderColor.hex.toString(),
       }}
       className={`relative flex flex-row w-fit h-fit min-h-[110px] max-w-[340px] rounded-lg border shadow-md gap-3 ${
-        shouldAnimate && animation
+        isPreviewMode && animation
       }`}
     >
       <div className="flex w-full gap-3 items-center mx-3">
@@ -461,7 +463,7 @@ const LargePopupNoImageTemplate = ({
             style={{
               color: textColor.hex.toString(),
             }}
-            className="text-[15px] leading-5"
+            className="text-[14px] leading-5"
           >
             Jamie in Raleigh, North Carolina, USA purchased{" "}
             <span
@@ -508,14 +510,14 @@ const CardTemplate = ({
   accentColor,
   borderColor,
   animation,
-  shouldAnimate,
+  isPreviewMode,
 }: {
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
   borderColor: IColor;
   animation?: string;
-  shouldAnimate?: boolean;
+  isPreviewMode?: boolean;
 }) => {
   return (
     <div
@@ -524,7 +526,7 @@ const CardTemplate = ({
         borderColor: borderColor.hex.toString(),
       }}
       className={`relative flex flex-col w-fit h-fit min-h-[270px] max-w-[280px] rounded-lg border shadow-md gap-3 ${
-        shouldAnimate && animation
+        isPreviewMode && animation
       }`}
     >
       <div className="flex items-center justify-center h-full w-full">
@@ -595,14 +597,14 @@ const CardNoImageTemplate = ({
   accentColor,
   borderColor,
   animation,
-  shouldAnimate,
+  isPreviewMode,
 }: {
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
   borderColor: IColor;
   animation?: string;
-  shouldAnimate?: boolean;
+  isPreviewMode?: boolean;
 }) => {
   return (
     <div
@@ -611,7 +613,7 @@ const CardNoImageTemplate = ({
         borderColor: borderColor.hex.toString(),
       }}
       className={`relative flex flex-col w-fit h-fit min-h-[160px] items-center justify-center max-w-[280px] rounded-lg border shadow-md gap-3 ${
-        shouldAnimate && animation
+        isPreviewMode && animation
       }`}
     >
       <div className="flex w-full gap-4 items-center">
@@ -667,14 +669,14 @@ const BannerTemplate = ({
   accentColor,
   borderColor,
   animation,
-  shouldAnimate,
+  isPreviewMode,
 }: {
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
   borderColor: IColor;
   animation?: string;
-  shouldAnimate?: boolean;
+  isPreviewMode?: boolean;
 }) => {
   return (
     <div
@@ -683,7 +685,7 @@ const BannerTemplate = ({
         borderColor: borderColor.hex.toString(),
       }}
       className={`relative flex flex-row px-5 h-fit min-h-[60px] items-center justify-center max-w-screen-md rounded-lg border shadow-md ${
-        shouldAnimate && animation
+        isPreviewMode && animation
       }`}
     >
       <div className="flex items-center justify-center">
@@ -754,14 +756,14 @@ const BannerNoImageTemplate = ({
   accentColor,
   borderColor,
   animation,
-  shouldAnimate,
+  isPreviewMode,
 }: {
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
   borderColor: IColor;
   animation?: string;
-  shouldAnimate?: boolean;
+  isPreviewMode?: boolean;
 }) => {
   return (
     <div
@@ -770,7 +772,7 @@ const BannerNoImageTemplate = ({
         borderColor: borderColor.hex.toString(),
       }}
       className={`relative flex flex-col h-fit min-h-[60px] items-center justify-center max-w-screen-md rounded-lg border shadow-md ${
-        shouldAnimate && animation
+        isPreviewMode && animation
       }`}
     >
       <div className="flex w-full items-center justify-center">
@@ -794,7 +796,7 @@ const BannerNoImageTemplate = ({
           </p>
           <div
             className={`flex flex-row gap-1 text-[12px] ${
-              shouldAnimate && "-mt-2"
+              isPreviewMode && "-mt-2"
             }`}
             style={{
               color: hexToRgba(textColor.hex.toString(), 0.65),

@@ -12,6 +12,7 @@ import {
   useRef,
   useState,
 } from "react";
+import NewEventModal from "./NewEventModal";
 
 export default function EventsHeader({
   activeProject,
@@ -20,7 +21,7 @@ export default function EventsHeader({
   setActiveEvent,
   startEventTransition,
   isEventPending,
-  isInPreview,
+  isPreviewMode,
 }: {
   activeProject: Tables<"Projects">;
   events: Tables<"Events">[];
@@ -28,14 +29,14 @@ export default function EventsHeader({
   setActiveEvent: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
   startEventTransition: TransitionStartFunction;
   isEventPending: boolean;
-  isInPreview: boolean;
+  isPreviewMode: boolean;
 }) {
-  const eventDropdownRef = useRef<HTMLUListElement>(null);
+  const eventModalRef = useRef<HTMLDialogElement>(null);
 
   const handleCreateEvent = (eventType: EventType) => {
     startEventTransition(async () => {
       setTimeout(() => {
-        eventDropdownRef.current?.classList.add("hidden");
+        eventModalRef.current?.classList.add("hidden");
       }, 1000);
       if (activeProject) {
         const content = setEventContent(eventType);
@@ -115,54 +116,66 @@ export default function EventsHeader({
           <span className="loading loading-spinner loading-xs bg-base-content"></span>
         )}
       </div>
-      <div className="dropdown dropdown-end">
-        <div
-          className="btn btn-sm lg:w-auto w-full btn-primary text-white text-xs"
-          onClick={() => {
-            eventDropdownRef.current?.classList.remove("hidden");
-          }}
-          tabIndex={0}
-        >
-          <CirclePlus height={18} width={18} /> New Event
+      <div
+        className="btn btn-sm w-auto btn-primary text-white text-xs"
+        onClick={() => {
+          eventModalRef.current?.showModal();
+        }}
+      >
+        <CirclePlus height={18} width={18} /> New Event
+      </div>
+      <NewEventModal eventModalRef={eventModalRef} />
+    </div>
+  );
+}
+
+{
+  /* <div className="dropdown dropdown-end">
+  <div
+    className="btn btn-sm lg:w-auto w-full btn-primary text-white text-xs"
+    onClick={() => {
+      eventDropdownRef.current?.classList.remove("hidden");
+    }}
+    tabIndex={0}
+  >
+    <CirclePlus height={18} width={18} /> New Event
+  </div>
+  <ul
+    tabIndex={0}
+    ref={eventDropdownRef}
+    className={`dropdown-content absolute bg-white ${
+      !isPreviewMode && "z-[20]"
+    } mt-1 rounded-lg menu w-full border border-gray-300 min-w-80 p-2 shadow-md`}
+  >
+    <li
+      className={`flex flex-col ${
+        isEventAlreadyCreated(EventType.OnPurchase) ? "hidden" : "mb-2"
+      }`}
+    >
+      <a
+        className="w-full"
+        onClick={() => {
+          if (!isEventAlreadyCreated(EventType.OnPurchase))
+            handleCreateEvent(EventType.OnPurchase);
+        }}
+      >
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-row items-center gap-1">
+            <div className="font-bold">On Purchase</div>
+            <EarIcon color="#9ca3af" width={18} height={18} />
+          </div>
+          <div className="flex flex-col gap-1">
+            {" "}
+            <div className="text-xs text-wrap">
+              Displays popup whenever a user makes a purchase or adds item to
+              cart.
+            </div>
+            <div className="text-xs text-gray-400">Integrations: Stripe</div>
+          </div>
         </div>
-        <ul
-          tabIndex={0}
-          ref={eventDropdownRef}
-          className={`dropdown-content absolute bg-white ${
-            !isInPreview && "z-[20]"
-          } mt-1 rounded-lg menu w-full border border-gray-300 min-w-80 p-2 shadow-md`}
-        >
-          <li
-            className={`flex flex-col ${
-              isEventAlreadyCreated(EventType.OnPurchase) ? "hidden" : "mb-2"
-            }`}
-          >
-            <a
-              className="w-full"
-              onClick={() => {
-                if (!isEventAlreadyCreated(EventType.OnPurchase))
-                  handleCreateEvent(EventType.OnPurchase);
-              }}
-            >
-              <div className="flex flex-col gap-2">
-                <div className="flex flex-row items-center gap-1">
-                  <div className="font-bold">On Purchase</div>
-                  <EarIcon color="#9ca3af" width={18} height={18} />
-                </div>
-                <div className="flex flex-col gap-1">
-                  {" "}
-                  <div className="text-xs text-wrap">
-                    Displays popup whenever a user makes a purchase or adds item
-                    to cart.
-                  </div>
-                  <div className="text-xs text-gray-400">
-                    Integrations: Stripe
-                  </div>
-                </div>
-              </div>
-            </a>
-          </li>
-          {/* <li className={`flex flex-col mb-2`}>
+      </a>
+    </li>
+     <li className={`flex flex-col mb-2`}>
             <a
               className="w-full"
               onClick={() => {
@@ -184,54 +197,48 @@ export default function EventsHeader({
                 </div>
               </div>
             </a>
-          </li> */}
-          <li
-            className={`flex flex-col ${
-              isEventAlreadyCreated(EventType.ActiveUsers) ? "hidden" : "mb-2"
-            }`}
-          >
-            <a
-              className="w-full"
-              onClick={() => {
-                if (!isEventAlreadyCreated(EventType.ActiveUsers))
-                  handleCreateEvent(EventType.ActiveUsers);
-              }}
-            >
-              <div className="flex flex-col gap-2">
-                <div className="flex flex-row items-center gap-1">
-                  <div className="font-bold">Active Users</div>
-                  <EarIcon color="#9ca3af" width={18} height={18} />
-                </div>
-                <div className="flex flex-col gap-1">
-                  <div className="text-xs text-wrap">
-                    Displays popup that shows the number of active users on your
-                    site.
-                  </div>
-                  <div className="text-xs text-gray-400">
-                    Integrations: Google Analytics
-                  </div>
-                </div>
-              </div>
-            </a>
           </li>
-          <li>
-            <a
-              className="w-full"
-              onClick={() => handleCreateEvent(EventType.Custom)}
-            >
-              <div className="flex flex-col gap-2">
-                <div className="font-bold">Custom</div>
-                <div className="flex flex-col gap-1">
-                  <div className="text-xs text-wrap">
-                    Fully customizable popup, including header, content body,
-                    and image.
-                  </div>
-                </div>
-              </div>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  );
+    <li
+      className={`flex flex-col ${
+        isEventAlreadyCreated(EventType.ActiveUsers) ? "hidden" : "mb-2"
+      }`}
+    >
+      <a
+        className="w-full"
+        onClick={() => {
+          if (!isEventAlreadyCreated(EventType.ActiveUsers))
+            handleCreateEvent(EventType.ActiveUsers);
+        }}
+      >
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-row items-center gap-1">
+            <div className="font-bold">Active Users</div>
+            <EarIcon color="#9ca3af" width={18} height={18} />
+          </div>
+          <div className="flex flex-col gap-1">
+            <div className="text-xs text-wrap">
+              Displays popup that shows the number of active users on your site.
+            </div>
+            <div className="text-xs text-gray-400">
+              Integrations: Google Analytics
+            </div>
+          </div>
+        </div>
+      </a>
+    </li>
+    <li>
+      <a className="w-full" onClick={() => handleCreateEvent(EventType.Custom)}>
+        <div className="flex flex-col gap-2">
+          <div className="font-bold">Custom</div>
+          <div className="flex flex-col gap-1">
+            <div className="text-xs text-wrap">
+              Fully customizable popup, including header, content body, and
+              image.
+            </div>
+          </div>
+        </div>
+      </a>
+    </li>
+  </ul>
+</div>; */
 }

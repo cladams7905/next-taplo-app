@@ -10,7 +10,7 @@ import {
   TrashIcon,
 } from "lucide-react";
 import { IColor } from "react-color-palette";
-import { Dispatch, SetStateAction, useEffect, useRef } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import RenameProjectModal from "./RenameProjectModal";
 import DeleteProjectModal from "./DeleteProjectModal";
 import PreviewContainer from "./PreviewContainer";
@@ -23,8 +23,8 @@ export default function ViewContainerHeader({
   textColor,
   accentColor,
   borderColor,
-  isInPreview,
-  setIsInPreview,
+  isPreviewMode,
+  setPreviewMode,
   displayTime,
   isLoadPending,
 }: {
@@ -35,8 +35,8 @@ export default function ViewContainerHeader({
   textColor: IColor;
   accentColor: IColor;
   borderColor: IColor;
-  isInPreview: boolean;
-  setIsInPreview: Dispatch<SetStateAction<boolean>>;
+  isPreviewMode: boolean;
+  setPreviewMode: Dispatch<SetStateAction<boolean>>;
   displayTime: number;
   isLoadPending: boolean;
 }) {
@@ -53,7 +53,7 @@ export default function ViewContainerHeader({
       ) {
         previewRef.current.classList.add("hidden");
         previewRef.current.classList.remove("flex");
-        setIsInPreview(false);
+        setPreviewMode(false);
       }
     };
 
@@ -61,7 +61,7 @@ export default function ViewContainerHeader({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [setIsInPreview]);
+  }, [setPreviewMode]);
 
   return (
     <div className={`flex justify-between items-center`}>
@@ -82,7 +82,7 @@ export default function ViewContainerHeader({
               onClick={() => {
                 previewRef.current?.classList.remove("hidden");
                 previewRef.current?.classList.add("flex");
-                setIsInPreview(true);
+                setPreviewMode(true);
               }}
               data-tip="Preview"
             >
@@ -98,6 +98,7 @@ export default function ViewContainerHeader({
               borderColor={borderColor}
               previewRef={previewRef}
               displayTime={displayTime}
+              isPreviewMode={isPreviewMode}
             />
           </>
         )}

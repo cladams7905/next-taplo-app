@@ -25,6 +25,7 @@ const config: Config = {
           "accent-light": "#f9fafb",
           "accent-tab": "#ffffff",
           "link-hover": "var(--fallback-p,oklch(var(--p)/0.20))",
+          "purchase-event": "#3eb981",
         },
       },
     ],
@@ -53,6 +54,7 @@ const config: Config = {
         "accent-light": "#f9fafb",
         "accent-tab": "#ffffff",
         "link-hover": "var(--fallback-p,oklch(var(--p)/0.20))",
+        "purchase-event": "#3eb981",
       },
       keyframes: {
         slideInLeft: {

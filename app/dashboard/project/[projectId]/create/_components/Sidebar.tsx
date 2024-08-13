@@ -23,7 +23,7 @@ export default function Sidebar({
   setAccentColor,
   borderColor,
   setBorderColor,
-  isInPreview,
+  isPreviewMode,
   displayTime,
   setDisplayTime,
 }: {
@@ -42,7 +42,7 @@ export default function Sidebar({
   setAccentColor: Dispatch<SetStateAction<IColor>>;
   borderColor: IColor;
   setBorderColor: Dispatch<SetStateAction<IColor>>;
-  isInPreview: boolean;
+  isPreviewMode: boolean;
   displayTime: number;
   setDisplayTime: Dispatch<SetStateAction<number>>;
 }) {
@@ -105,7 +105,7 @@ export default function Sidebar({
         integrations={integrations}
         scrollRef={scrollParentRef}
         eventHeaderRef={eventHeaderRef}
-        isInPreview={isInPreview}
+        isPreviewMode={isPreviewMode}
       />
       <StyleSettings
         activeProject={activeProject}
@@ -121,14 +121,14 @@ export default function Sidebar({
         scrollRef={scrollParentRef}
         styleHeaderRef={styleHeaderRef}
         eventHeaderHeight={eventHeaderHeight}
-        isInPreview={isInPreview}
+        isPreviewMode={isPreviewMode}
       />
       <AdditionalSettings
         activeProject={activeProject}
         setActiveProject={setActiveProject}
         scrollRef={scrollParentRef}
         styleHeaderHeight={styleHeaderHeight}
-        isInPreview={isInPreview}
+        isPreviewMode={isPreviewMode}
         displayTime={displayTime}
         setDisplayTime={setDisplayTime}
       />

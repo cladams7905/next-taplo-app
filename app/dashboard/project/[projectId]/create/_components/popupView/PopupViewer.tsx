@@ -179,9 +179,9 @@ export default function PopupViewer({
 
   return (
     <div className="flex flex-col w-full items-center gap-3 lg:max-w-[45vw] py-4 rounded-lg">
-      <div className="flex flex-col w-full relative items-center rounded-lg gap-14 bg-white/40 lg:max-w-[35vw] mb-12 mt-6 lg:my-0 md:my-0 border border-gray-300 pb-28 px-4">
+      <div className="flex flex-col w-full relative items-center rounded-lg gap-14 bg-white/40 shadow-md lg:max-w-[35vw] mb-12 mt-6 lg:my-0 md:my-0 pb-28 px-4">
         <div className="w-full mt-1 ml-2">
-          <div className="px-4 py-2 w-fit text-sm font-bold">
+          <div className="py-2 w-fit text-sm font-bold">
             {activeEvent ? activeEvent.event_type : ""}
           </div>
         </div>
@@ -193,7 +193,7 @@ export default function PopupViewer({
           borderColor={borderColor}
         />
         <div
-          className="flex flex-row gap-2 items-center justify-center absolute w-full h-fit px-10 py-4 border-t border-gray-300 bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold cursor-pointer"
+          className="flex flex-row gap-2 items-center justify-center absolute w-full h-fit px-10 py-4 outline-1 outline-primary bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold cursor-pointer"
           onClick={() => templateModalRef.current?.showModal()}
         >
           Template: {activeProject.template}

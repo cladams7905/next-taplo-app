@@ -17,7 +17,7 @@ export default function AdditionalSettings({
   setActiveProject,
   scrollRef,
   styleHeaderHeight,
-  isInPreview,
+  isPreviewMode,
   displayTime,
   setDisplayTime,
 }: {
@@ -25,7 +25,7 @@ export default function AdditionalSettings({
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
   scrollRef: RefObject<HTMLDivElement>;
   styleHeaderHeight: number | undefined;
-  isInPreview: boolean;
+  isPreviewMode: boolean;
   displayTime: number;
   setDisplayTime: Dispatch<SetStateAction<number>>;
 }) {
@@ -78,7 +78,7 @@ export default function AdditionalSettings({
         <div
           className={`flex items-center sticky top-[-1px] text-xs px-4 py-6 gap-2 bg-white border-gray-300 ${
             scrolled ? "border-b -mb-[1px] shadow-sm" : ""
-          } ${isInPreview ? "z-[1]" : "z-[2]"}`}
+          } ${isPreviewMode ? "z-[1]" : "z-[2]"}`}
         >
           <div className="font-semibold text-gray-400 ml-2">Settings</div>
           {isSettingsPending && (

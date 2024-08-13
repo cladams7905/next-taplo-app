@@ -18,8 +18,8 @@ export default function ViewContainer({
   textColor,
   accentColor,
   borderColor,
-  isInPreview,
-  setIsInPreview,
+  isPreviewMode,
+  setPreviewMode,
   displayTime,
 }: {
   activeProject: Tables<"Projects">;
@@ -32,8 +32,8 @@ export default function ViewContainer({
   textColor: IColor;
   accentColor: IColor;
   borderColor: IColor;
-  isInPreview: boolean;
-  setIsInPreview: Dispatch<SetStateAction<boolean>>;
+  isPreviewMode: boolean;
+  setPreviewMode: Dispatch<SetStateAction<boolean>>;
   displayTime: number;
 }) {
   const [isLoadPending, startLoadTransition] = useTransition();
@@ -48,8 +48,8 @@ export default function ViewContainer({
         accentColor={accentColor}
         textColor={textColor}
         borderColor={borderColor}
-        isInPreview={isInPreview}
-        setIsInPreview={setIsInPreview}
+        isPreviewMode={isPreviewMode}
+        setPreviewMode={setPreviewMode}
         displayTime={displayTime}
         isLoadPending={isLoadPending}
       />

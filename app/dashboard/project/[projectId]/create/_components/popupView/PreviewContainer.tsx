@@ -16,6 +16,7 @@ export default function PreviewContainer({
   borderColor,
   previewRef,
   displayTime,
+  isPreviewMode,
 }: {
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
@@ -26,6 +27,7 @@ export default function PreviewContainer({
   borderColor: IColor;
   previewRef: RefObject<HTMLDivElement>;
   displayTime: number;
+  isPreviewMode: boolean;
 }) {
   return (
     <div
@@ -57,7 +59,7 @@ export default function PreviewContainer({
           accentColor={accentColor}
           borderColor={borderColor}
           displayTime={displayTime}
-          shouldAnimate={true}
+          isPreviewMode={isPreviewMode}
         />
       </div>
     </div>

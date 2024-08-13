@@ -107,7 +107,7 @@ export default function TemplateModal({
               (activeTemplate === TemplateTypes.SmPopup ||
                 activeTemplate === TemplateTypes.SmPopupNoImg) &&
               "outline outline-[3px] outline-primary"
-            } bg-primary/20 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:drop-shadow-md hover:-translate-y-1 transition-transform`}
+            } bg-primary/15 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:drop-shadow-md hover:-translate-y-1 transition-transform`}
             onClick={() =>
               isShowImageTemplates
                 ? handleSetActiveTemplate(TemplateTypes.SmPopup)
@@ -137,7 +137,7 @@ export default function TemplateModal({
               (activeTemplate === TemplateTypes.LgPopup ||
                 activeTemplate === TemplateTypes.LgPopupNoImg) &&
               "outline outline-[3px] outline-primary"
-            } bg-primary/20 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:drop-shadow-md hover:-translate-y-1 transition-transform`}
+            } bg-primary/15 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:drop-shadow-md hover:-translate-y-1 transition-transform`}
             onClick={() =>
               isShowImageTemplates
                 ? handleSetActiveTemplate(TemplateTypes.LgPopup)
@@ -167,7 +167,7 @@ export default function TemplateModal({
               (activeTemplate === TemplateTypes.Card ||
                 activeTemplate === TemplateTypes.CardNoImg) &&
               "outline outline-[3px] outline-primary"
-            } bg-primary/20 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:drop-shadow-md hover:-translate-y-1 transition-transform`}
+            } bg-primary/15 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:drop-shadow-md hover:-translate-y-1 transition-transform`}
             onClick={() =>
               isShowImageTemplates
                 ? handleSetActiveTemplate(TemplateTypes.Card)
@@ -197,7 +197,7 @@ export default function TemplateModal({
               (activeTemplate === TemplateTypes.Banner ||
                 activeTemplate === TemplateTypes.BannerNoImg) &&
               "outline outline-[3px] outline-primary"
-            } bg-primary/20 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:drop-shadow-md hover:-translate-y-1 transition-transform`}
+            } bg-primary/15 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:drop-shadow-md hover:-translate-y-1 transition-transform`}
             onClick={() =>
               isShowImageTemplates
                 ? handleSetActiveTemplate(TemplateTypes.Banner)

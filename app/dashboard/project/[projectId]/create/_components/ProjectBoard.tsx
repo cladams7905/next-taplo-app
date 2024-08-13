@@ -58,7 +58,7 @@ export default function ProjectBoard({
   const [borderColor, setBorderColor] = useColor(
     activeProject?.border_color ? activeProject.border_color : "#D1D3D7"
   );
-  const [isInPreview, setIsInPreview] = useState(false);
+  const [isPreviewMode, setPreviewMode] = useState(false);
 
   return (
     <main className="flex lg:flex-row md:flex-row flex-col w-full h-screen-minus-navbar">
@@ -74,8 +74,8 @@ export default function ProjectBoard({
           textColor={textColor}
           accentColor={accentColor}
           borderColor={borderColor}
-          isInPreview={isInPreview}
-          setIsInPreview={setIsInPreview}
+          isPreviewMode={isPreviewMode}
+          setPreviewMode={setPreviewMode}
           displayTime={displayTime}
         />
       </div>
@@ -96,7 +96,7 @@ export default function ProjectBoard({
           setAccentColor={setAccentColor}
           borderColor={borderColor}
           setBorderColor={setBorderColor}
-          isInPreview={isInPreview}
+          isPreviewMode={isPreviewMode}
           displayTime={displayTime}
           setDisplayTime={setDisplayTime}
         />

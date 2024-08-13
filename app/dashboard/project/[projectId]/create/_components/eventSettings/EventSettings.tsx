@@ -20,7 +20,7 @@ const EventSettings = ({
   integrations,
   scrollRef,
   eventHeaderRef,
-  isInPreview,
+  isPreviewMode,
   activeEvent,
   setActiveEvent,
 }: {
@@ -33,7 +33,7 @@ const EventSettings = ({
   integrations: Tables<"Integrations">[];
   scrollRef: RefObject<HTMLDivElement>;
   eventHeaderRef: RefObject<HTMLDivElement>;
-  isInPreview: boolean;
+  isPreviewMode: boolean;
 }) => {
   const [isEventPending, startEventTransition] = useTransition();
   const scrolled = useScroll(1, scrollRef);
@@ -41,13 +41,13 @@ const EventSettings = ({
     <div
       ref={eventHeaderRef}
       className={`flex relative ${
-        isInPreview && "z-[0]"
+        isPreviewMode && "z-[0]"
       } flex-col w-full h-fit`}
     >
       <div
         className={`sticky top-0 w-full min-h-[65px] p-4 bg-white ${
           scrolled ? "border-b border-gray-300 -mb-[1px] shadow-sm" : ""
-        } ${isInPreview ? "z-[1]" : "z-[2]"}`}
+        } ${isPreviewMode ? "z-[1]" : "z-[2]"}`}
       >
         <EventsHeader
           activeProject={activeProject}
@@ -56,7 +56,7 @@ const EventSettings = ({
           setActiveEvent={setActiveEvent}
           startEventTransition={startEventTransition}
           isEventPending={isEventPending}
-          isInPreview={isInPreview}
+          isPreviewMode={isPreviewMode}
         />
       </div>
       <div className="flex flex-col min-w-full p-4 pb-10 gap-3">
@@ -81,20 +81,20 @@ function areEqual(
     events: Tables<"Events">[];
     setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
     integrations: Tables<"Integrations">[];
-    isInPreview: boolean;
+    isPreviewMode: boolean;
   },
   nextProps: {
     events: Tables<"Events">[];
     setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
     integrations: Tables<"Integrations">[];
-    isInPreview: boolean;
+    isPreviewMode: boolean;
   }
 ) {
   return (
     prevProps.events === nextProps.events &&
     prevProps.setEvents === nextProps.setEvents &&
     prevProps.integrations === nextProps.integrations &&
-    prevProps.isInPreview === nextProps.isInPreview
+    prevProps.isPreviewMode === nextProps.isPreviewMode
   );
 }
 
