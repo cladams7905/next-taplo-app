@@ -45,10 +45,11 @@ export default function PopupViewer({
   const [activeContent, setActiveContent] = useState<string>(
     activeEvent ? (activeEvent?.content_body as string[])[0] : ""
   );
-
   const [activeTemplate, setActiveTemplate] = useState<TemplateTypes>(
     activeProject.template as TemplateTypes
   );
+  const [shouldTriggerBounceAnimation, setTriggerBounceAnimation] =
+    useState<boolean>(false);
 
   const templateModalRef = useRef<HTMLDialogElement>(null);
 
@@ -71,6 +72,7 @@ export default function PopupViewer({
 
   useEffect(() => {
     if (activeEvent) {
+      setTriggerBounceAnimation(true);
       const newContentBody: string[] =
         (activeEvent.content_body as string[]) || [];
 
@@ -79,6 +81,9 @@ export default function PopupViewer({
       if (newContentBody.length > 0) {
         setActiveContent(newContentBody[0]);
       }
+      setTimeout(() => {
+        setTriggerBounceAnimation(false);
+      }, 1000);
     }
   }, [activeEvent, getVariableList]);
 
@@ -180,6 +185,7 @@ export default function PopupViewer({
           accentColor={accentColor}
           textColor={textColor}
           borderColor={borderColor}
+          bounceAnimation={shouldTriggerBounceAnimation}
         />
         <div
           className="flex flex-row gap-2 items-center justify-center absolute w-full h-fit px-10 py-4 outline-1 outline-primary bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold cursor-pointer"

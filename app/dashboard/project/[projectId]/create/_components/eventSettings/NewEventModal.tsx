@@ -54,9 +54,6 @@ export default function NewEventModal({
 
   const handleCreateEvent = (eventType: EventType) => {
     startLoadingTransition(async () => {
-      setTimeout(() => {
-        eventModalRef.current?.classList.add("hidden");
-      }, 1000);
       if (activeProject) {
         const content = setEventContent(eventType);
         const event: TablesInsert<"Events"> = {
@@ -80,6 +77,7 @@ export default function NewEventModal({
             setActiveEvent(updatedEvents[0]);
             return updatedEvents;
           });
+          eventModalRef.current?.close();
         }
       }
     });
@@ -137,10 +135,12 @@ export default function NewEventModal({
                 ✕
               </button>
             </form>
-            <h3 className="font-semibold text-lg">Select Event Type</h3>
-            {isLoading && (
-              <span className="loading loading-spinner loading-sm bg-base-content"></span>
-            )}
+            <div className="flex flex-row items-center gap-2">
+              <h3 className="font-semibold text-lg">Select Event Type</h3>
+              {isLoading && (
+                <span className="loading loading-spinner loading-sm bg-base-content"></span>
+              )}
+            </div>
             <label className="input input-bordered flex items-center mt-6 mb-4">
               <Search
                 strokeWidth={2}
@@ -161,20 +161,35 @@ export default function NewEventModal({
             {filteredEvents.map((eventOption, i) => (
               <div
                 key={i}
-                className="flex flex-row border border-gray-300 shadow-sm rounded-lg w-full lg:max-w-[352px] md:max-w-[352px] mb-1 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform"
+                className={`flex flex-row border border-gray-300 shadow-sm rounded-lg w-full lg:max-w-[352px] md:max-w-[352px] mb-1 ${
+                  isEventAlreadyCreated(eventOption.type)
+                    ? " bg-gray-100 text-gray-400"
+                    : "cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform"
+                }`}
                 onClick={() => {
                   if (!isEventAlreadyCreated(eventOption.type))
                     handleCreateEvent(eventOption.type);
                 }}
               >
-                <div
-                  className="flex items-center justify-center w-16 min-w-16 h-full border-r border-gray-300"
-                  style={{
-                    backgroundColor: hexToRgba(eventOption.color, 0.3),
-                  }}
-                >
-                  {getEventIcon(eventOption.icon, eventOption.color)}
-                </div>
+                {isEventAlreadyCreated(eventOption.type) ? (
+                  <div
+                    className="flex items-center justify-center rounded-l-lg w-16 min-w-16 h-full border-r border-gray-300"
+                    style={{
+                      backgroundColor: hexToRgba("#f3f4f6"),
+                    }}
+                  >
+                    {getEventIcon(eventOption.icon, "#9ca3af")}
+                  </div>
+                ) : (
+                  <div
+                    className="flex items-center justify-center rounded-l-lg w-16 min-w-16 h-full border-r border-gray-300"
+                    style={{
+                      backgroundColor: hexToRgba(eventOption.color, 0.3),
+                    }}
+                  >
+                    {getEventIcon(eventOption.icon, eventOption.color)}
+                  </div>
+                )}
                 <div className="flex flex-col py-4 px-2 gap-2">
                   <div className="font-bold text-sm">{eventOption.title}</div>
                   <div className="text-xs">
@@ -188,7 +203,7 @@ export default function NewEventModal({
             ))}
           </div>
           <div className="flex flex-col items-center justify-center border-t border-gray-300 sticky bottom-0 bg-white pb-6 mt-2">
-            <div className="flex items-center rounded-lg bg-white px-8 -mt-[10px] text-sm text-gray-500">
+            <div className="flex items-center rounded-lg bg-white px-4 -mt-[10px] text-sm text-gray-500">
               or
             </div>
             <div className="btn btn-ghost mt-2">Create your own</div>

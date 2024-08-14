@@ -2,10 +2,11 @@
 
 import { Tables } from "@/supabase/types";
 import { BadgeCheck, ShoppingBasket } from "lucide-react";
-import { act, SetStateAction, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IColor } from "react-color-palette";
 import confetti from "canvas-confetti";
 import Image from "next/image";
+import "animate.css";
 import { ScreenAlignment, TemplateTypes } from "@/lib/enums";
 import { hexToRgba } from "@/lib/actions";
 
@@ -17,6 +18,7 @@ export default function PopupTemplate({
   borderColor,
   displayTime,
   isPreviewMode,
+  bounceAnimation,
 }: {
   activeProject: Tables<"Projects">;
   backgroundColor: IColor;
@@ -25,6 +27,7 @@ export default function PopupTemplate({
   borderColor: IColor;
   displayTime?: number;
   isPreviewMode?: boolean;
+  bounceAnimation?: boolean;
 }) {
   const [animation, setAnimation] = useState(
     activeProject.screen_alignment === ScreenAlignment.BottomLeft ||
@@ -103,6 +106,7 @@ export default function PopupTemplate({
           borderColor={borderColor}
           animation={animation}
           isPreviewMode={isPreviewMode}
+          bounceAnimation={bounceAnimation}
         />
       );
     case TemplateTypes.SmPopupNoImg:
@@ -114,6 +118,7 @@ export default function PopupTemplate({
           borderColor={borderColor}
           animation={animation}
           isPreviewMode={isPreviewMode}
+          bounceAnimation={bounceAnimation}
         />
       );
     case TemplateTypes.LgPopup:
@@ -125,6 +130,7 @@ export default function PopupTemplate({
           borderColor={borderColor}
           animation={animation}
           isPreviewMode={isPreviewMode}
+          bounceAnimation={bounceAnimation}
         />
       );
     case TemplateTypes.LgPopupNoImg:
@@ -136,6 +142,7 @@ export default function PopupTemplate({
           borderColor={borderColor}
           animation={animation}
           isPreviewMode={isPreviewMode}
+          bounceAnimation={bounceAnimation}
         />
       );
     case TemplateTypes.Card:
@@ -147,6 +154,7 @@ export default function PopupTemplate({
           borderColor={borderColor}
           animation={animation}
           isPreviewMode={isPreviewMode}
+          bounceAnimation={bounceAnimation}
         />
       );
     case TemplateTypes.CardNoImg:
@@ -158,6 +166,7 @@ export default function PopupTemplate({
           borderColor={borderColor}
           animation={animation}
           isPreviewMode={isPreviewMode}
+          bounceAnimation={bounceAnimation}
         />
       );
     case TemplateTypes.Banner:
@@ -169,6 +178,7 @@ export default function PopupTemplate({
           borderColor={borderColor}
           animation={animation}
           isPreviewMode={isPreviewMode}
+          bounceAnimation={bounceAnimation}
         />
       );
     case TemplateTypes.BannerNoImg:
@@ -180,6 +190,7 @@ export default function PopupTemplate({
           borderColor={borderColor}
           animation={animation}
           isPreviewMode={isPreviewMode}
+          bounceAnimation={bounceAnimation}
         />
       );
     default:
@@ -194,6 +205,7 @@ const SmallPopupTemplate = ({
   borderColor,
   animation,
   isPreviewMode,
+  bounceAnimation,
 }: {
   backgroundColor: IColor;
   textColor: IColor;
@@ -201,6 +213,7 @@ const SmallPopupTemplate = ({
   borderColor: IColor;
   animation?: string;
   isPreviewMode?: boolean;
+  bounceAnimation?: boolean;
 }) => {
   return (
     <div
@@ -209,7 +222,11 @@ const SmallPopupTemplate = ({
         borderColor: borderColor.hex.toString(),
       }}
       className={`relative flex flex-row w-fit h-fit pr-6 pl-4 max-w-[330px] rounded-lg border shadow-md py-4 gap-3 ${
-        isPreviewMode && animation
+        isPreviewMode ? animation : ""
+      } ${
+        bounceAnimation
+          ? "animate__animated animate__pulse animate__faster"
+          : ""
       }`}
     >
       <div className="flex items-center justify-center">
@@ -280,6 +297,7 @@ const SmallPopupNoImageTemplate = ({
   borderColor,
   animation,
   isPreviewMode,
+  bounceAnimation,
 }: {
   backgroundColor: IColor;
   textColor: IColor;
@@ -287,6 +305,7 @@ const SmallPopupNoImageTemplate = ({
   borderColor: IColor;
   animation?: string;
   isPreviewMode?: boolean;
+  bounceAnimation?: boolean;
 }) => {
   return (
     <div
@@ -295,7 +314,11 @@ const SmallPopupNoImageTemplate = ({
         borderColor: borderColor.hex.toString(),
       }}
       className={`relative flex w-fit h-fit pr-6 pl-4 max-w-[300px] rounded-lg border shadow-md py-4 ${
-        isPreviewMode && animation
+        isPreviewMode ? animation : ""
+      } ${
+        bounceAnimation
+          ? "animate__animated animate__pulse animate__faster"
+          : ""
       }`}
     >
       <div className="flex w-full gap-4 items-center">
@@ -352,6 +375,7 @@ const LargePopupTemplate = ({
   borderColor,
   animation,
   isPreviewMode,
+  bounceAnimation,
 }: {
   backgroundColor: IColor;
   textColor: IColor;
@@ -359,6 +383,7 @@ const LargePopupTemplate = ({
   borderColor: IColor;
   animation?: string;
   isPreviewMode?: boolean;
+  bounceAnimation?: boolean;
 }) => {
   return (
     <div
@@ -367,7 +392,11 @@ const LargePopupTemplate = ({
         borderColor: borderColor.hex.toString(),
       }}
       className={`relative flex flex-row w-fit h-fit min-h-[110px] max-w-[380px] rounded-lg border shadow-md gap-3 ${
-        isPreviewMode && animation
+        isPreviewMode ? animation : ""
+      } ${
+        bounceAnimation
+          ? "animate__animated animate__pulse animate__faster"
+          : ""
       }`}
     >
       <div className="flex items-center justify-center h-full w-full max-w-[110px]">
@@ -439,6 +468,7 @@ const LargePopupNoImageTemplate = ({
   borderColor,
   animation,
   isPreviewMode,
+  bounceAnimation,
 }: {
   backgroundColor: IColor;
   textColor: IColor;
@@ -446,6 +476,7 @@ const LargePopupNoImageTemplate = ({
   borderColor: IColor;
   animation?: string;
   isPreviewMode?: boolean;
+  bounceAnimation?: boolean;
 }) => {
   return (
     <div
@@ -454,7 +485,11 @@ const LargePopupNoImageTemplate = ({
         borderColor: borderColor.hex.toString(),
       }}
       className={`relative flex flex-row w-fit h-fit min-h-[110px] max-w-[340px] rounded-lg border shadow-md gap-3 ${
-        isPreviewMode && animation
+        isPreviewMode ? animation : ""
+      } ${
+        bounceAnimation
+          ? "animate__animated animate__pulse animate__faster"
+          : ""
       }`}
     >
       <div className="flex w-full gap-3 items-center mx-3">
@@ -511,6 +546,7 @@ const CardTemplate = ({
   borderColor,
   animation,
   isPreviewMode,
+  bounceAnimation,
 }: {
   backgroundColor: IColor;
   textColor: IColor;
@@ -518,6 +554,7 @@ const CardTemplate = ({
   borderColor: IColor;
   animation?: string;
   isPreviewMode?: boolean;
+  bounceAnimation?: boolean;
 }) => {
   return (
     <div
@@ -526,7 +563,11 @@ const CardTemplate = ({
         borderColor: borderColor.hex.toString(),
       }}
       className={`relative flex flex-col w-fit h-fit min-h-[270px] max-w-[280px] rounded-lg border shadow-md gap-3 ${
-        isPreviewMode && animation
+        isPreviewMode ? animation : ""
+      } ${
+        bounceAnimation
+          ? "animate__animated animate__pulse animate__faster"
+          : ""
       }`}
     >
       <div className="flex items-center justify-center h-full w-full">
@@ -598,6 +639,7 @@ const CardNoImageTemplate = ({
   borderColor,
   animation,
   isPreviewMode,
+  bounceAnimation,
 }: {
   backgroundColor: IColor;
   textColor: IColor;
@@ -605,6 +647,7 @@ const CardNoImageTemplate = ({
   borderColor: IColor;
   animation?: string;
   isPreviewMode?: boolean;
+  bounceAnimation?: boolean;
 }) => {
   return (
     <div
@@ -613,7 +656,11 @@ const CardNoImageTemplate = ({
         borderColor: borderColor.hex.toString(),
       }}
       className={`relative flex flex-col w-fit h-fit min-h-[160px] items-center justify-center max-w-[280px] rounded-lg border shadow-md gap-3 ${
-        isPreviewMode && animation
+        isPreviewMode ? animation : ""
+      } ${
+        bounceAnimation
+          ? "animate__animated animate__pulse animate__faster"
+          : ""
       }`}
     >
       <div className="flex w-full gap-4 items-center">
@@ -670,6 +717,7 @@ const BannerTemplate = ({
   borderColor,
   animation,
   isPreviewMode,
+  bounceAnimation,
 }: {
   backgroundColor: IColor;
   textColor: IColor;
@@ -677,6 +725,7 @@ const BannerTemplate = ({
   borderColor: IColor;
   animation?: string;
   isPreviewMode?: boolean;
+  bounceAnimation?: boolean;
 }) => {
   return (
     <div
@@ -685,7 +734,11 @@ const BannerTemplate = ({
         borderColor: borderColor.hex.toString(),
       }}
       className={`relative flex flex-row px-5 h-fit min-h-[60px] items-center justify-center max-w-screen-md rounded-lg border shadow-md ${
-        isPreviewMode && animation
+        isPreviewMode ? animation : ""
+      } ${
+        bounceAnimation
+          ? "animate__animated animate__pulse animate__faster"
+          : ""
       }`}
     >
       <div className="flex items-center justify-center">
@@ -757,6 +810,7 @@ const BannerNoImageTemplate = ({
   borderColor,
   animation,
   isPreviewMode,
+  bounceAnimation,
 }: {
   backgroundColor: IColor;
   textColor: IColor;
@@ -764,6 +818,7 @@ const BannerNoImageTemplate = ({
   borderColor: IColor;
   animation?: string;
   isPreviewMode?: boolean;
+  bounceAnimation?: boolean;
 }) => {
   return (
     <div
@@ -772,7 +827,11 @@ const BannerNoImageTemplate = ({
         borderColor: borderColor.hex.toString(),
       }}
       className={`relative flex flex-col h-fit min-h-[60px] items-center justify-center max-w-screen-md rounded-lg border shadow-md ${
-        isPreviewMode && animation
+        isPreviewMode ? animation : ""
+      } ${
+        bounceAnimation
+          ? "animate__animated animate__pulse animate__faster"
+          : ""
       }`}
     >
       <div className="flex w-full items-center justify-center">

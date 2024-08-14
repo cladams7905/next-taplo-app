@@ -54,9 +54,7 @@ const EventSettings = ({
           events={events}
           setEvents={setEvents}
           setActiveEvent={setActiveEvent}
-          startEventTransition={startEventTransition}
           isEventPending={isEventPending}
-          isPreviewMode={isPreviewMode}
         />
       </div>
       <div className="flex flex-col min-w-full p-4 pb-10 gap-3">

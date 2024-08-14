@@ -111,7 +111,9 @@ export const sortByTimeCreated = (arr: any[]) => {
  * @param opacity the opacity value (between 0 and 1)
  * @returns the rgba string
  */
-export function hexToRgba(hex: string, opacity: number) {
+export function hexToRgba(hex: string, opacity?: number) {
+  if (!opacity) opacity = 1;
+
   // Remove the "#" if present
   hex = hex.replace(/^#/, "");
 
