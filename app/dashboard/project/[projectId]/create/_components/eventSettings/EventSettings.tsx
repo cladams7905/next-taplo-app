@@ -37,6 +37,7 @@ const EventSettings = ({
 }) => {
   const [isEventPending, startEventTransition] = useTransition();
   const scrolled = useScroll(1, scrollRef);
+
   return (
     <div
       ref={eventHeaderRef}

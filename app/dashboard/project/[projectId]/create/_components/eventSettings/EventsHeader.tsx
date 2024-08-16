@@ -1,6 +1,6 @@
 import { Tables } from "@/supabase/types";
 import { CirclePlus } from "lucide-react";
-import { Dispatch, SetStateAction, useRef } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import NewEventModal from "./NewEventModal";
 
 export default function EventsHeader({
@@ -17,6 +17,12 @@ export default function EventsHeader({
   isEventPending: boolean;
 }) {
   const eventModalRef = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    if (events.length === 0) {
+      eventModalRef.current?.showModal();
+    }
+  }, [events]);
 
   return (
     <div className="flex flex-row justify-between items-center">

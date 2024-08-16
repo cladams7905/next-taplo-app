@@ -39,7 +39,7 @@ export default function ViewContainer({
   const [isLoadPending, startLoadTransition] = useTransition();
 
   return (
-    <div className="relative flex flex-col !rounded-none bg-gradient-to-tr from-primary/50 to-purple-100 h-full z-[1] py-2 px-5">
+    <div className="relative flex flex-col !rounded-none bg-gradient-to-tr from-primary/90 to-purple-100 h-full z-[1] py-2 px-5">
       <ViewContainerHeader
         activeProject={activeProject}
         setActiveProject={setActiveProject}

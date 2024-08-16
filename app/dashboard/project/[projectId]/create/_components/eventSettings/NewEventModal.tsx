@@ -136,7 +136,7 @@ export default function NewEventModal({
               </button>
             </form>
             <div className="flex flex-row items-center gap-2">
-              <h3 className="font-semibold text-lg">Select Event Type</h3>
+              <h3 className="font-semibold text-lg">Create New Event</h3>
               {isLoading && (
                 <span className="loading loading-spinner loading-sm bg-base-content"></span>
               )}
@@ -161,9 +161,9 @@ export default function NewEventModal({
             {filteredEvents.map((eventOption, i) => (
               <div
                 key={i}
-                className={`flex flex-row border border-gray-300 shadow-sm rounded-lg w-full lg:max-w-[352px] md:max-w-[352px] mb-1 ${
+                className={`flex flex-row border border-gray-300 shadow-md rounded-lg w-full lg:max-w-[352px] md:max-w-[352px] mb-1 ${
                   isEventAlreadyCreated(eventOption.type)
-                    ? " bg-gray-100 text-gray-400"
+                    ? " hidden"
                     : "cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform"
                 }`}
                 onClick={() => {
@@ -171,26 +171,15 @@ export default function NewEventModal({
                     handleCreateEvent(eventOption.type);
                 }}
               >
-                {isEventAlreadyCreated(eventOption.type) ? (
-                  <div
-                    className="flex items-center justify-center rounded-l-lg w-16 min-w-16 h-full border-r border-gray-300"
-                    style={{
-                      backgroundColor: hexToRgba("#f3f4f6"),
-                    }}
-                  >
-                    {getEventIcon(eventOption.icon, "#9ca3af")}
-                  </div>
-                ) : (
-                  <div
-                    className="flex items-center justify-center rounded-l-lg w-16 min-w-16 h-full border-r border-gray-300"
-                    style={{
-                      backgroundColor: hexToRgba(eventOption.color, 0.3),
-                    }}
-                  >
-                    {getEventIcon(eventOption.icon, eventOption.color)}
-                  </div>
-                )}
-                <div className="flex flex-col py-4 px-2 gap-2">
+                <div
+                  className="flex items-center justify-center rounded-l-lg w-16 min-w-16 h-full border-r bg-gradient-to-t from-primary/80 to-purple-200 border-gray-300"
+                  // style={{
+                  //   backgroundColor: hexToRgba(eventOption.color, 0.3),
+                  // }}
+                >
+                  {getEventIcon(eventOption.icon, "#FFFFFF")}
+                </div>
+                <div className="flex flex-col py-4 px-2 ml-3 gap-2">
                   <div className="font-bold text-sm">{eventOption.title}</div>
                   <div className="text-xs">
                     Integrations: {eventOption.integrations}
@@ -256,12 +245,12 @@ const getEventOptions = () => {
 const getEventIcon = (icon: EventIcons, color: string) => {
   switch (icon) {
     case EventIcons.EyeIcon:
-      return <EyeIcon color={color} />;
+      return <EyeIcon color={color} width={28} height={28} />;
     case EventIcons.ShoppingBasket:
-      return <ShoppingBasket color={color} />;
+      return <ShoppingBasket color={color} width={28} height={28} />;
     case EventIcons.ShoppingCart:
-      return <ShoppingCart color={color} />;
+      return <ShoppingCart color={color} width={28} height={28} />;
     case EventIcons.UsersRound:
-      return <UsersRound color={color} />;
+      return <UsersRound color={color} width={28} height={28} />;
   }
 };
