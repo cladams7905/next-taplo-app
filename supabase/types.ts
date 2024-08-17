@@ -11,48 +11,36 @@ export type Database = {
     Tables: {
       Events: {
         Row: {
-          content_body: Json
+          content_body: string
           created_at: string
           event_type: string
           id: number
           integration_id: number | null
           project_id: number
-          show_add_to_cart: boolean | null
-          show_positive_reviews: boolean | null
           show_price: boolean | null
           show_products: boolean | null
-          show_recently_active_users: boolean | null
-          show_viewed_products: boolean | null
           user_id: string
         }
         Insert: {
-          content_body?: Json
+          content_body?: string
           created_at?: string
           event_type?: string
           id?: number
           integration_id?: number | null
           project_id: number
-          show_add_to_cart?: boolean | null
-          show_positive_reviews?: boolean | null
           show_price?: boolean | null
           show_products?: boolean | null
-          show_recently_active_users?: boolean | null
-          show_viewed_products?: boolean | null
           user_id: string
         }
         Update: {
-          content_body?: Json
+          content_body?: string
           created_at?: string
           event_type?: string
           id?: number
           integration_id?: number | null
           project_id?: number
-          show_add_to_cart?: boolean | null
-          show_positive_reviews?: boolean | null
           show_price?: boolean | null
           show_products?: boolean | null
-          show_recently_active_users?: boolean | null
-          show_viewed_products?: boolean | null
           user_id?: string
         }
         Relationships: [

@@ -1,7 +1,7 @@
 "use client";
 
 import { hexToRgba } from "@/lib/actions";
-import { EventIcons, EventType } from "@/lib/enums";
+import { EventType } from "@/lib/enums";
 import { Tables, TablesInsert } from "@/supabase/types";
 import { showToastError } from "@/components/shared/showToast";
 import { sortByTimeCreated } from "@/lib/actions";
@@ -9,7 +9,7 @@ import { createEvent } from "@/lib/actions/events";
 import {
   EyeIcon,
   Search,
-  ShoppingBasket,
+  ShoppingBag,
   ShoppingCart,
   UsersRound,
 } from "lucide-react";
@@ -26,7 +26,6 @@ type EventOption = {
   integrations: string;
   description: string;
   type: EventType;
-  icon: EventIcons;
   color: string;
 };
 
@@ -63,10 +62,6 @@ export default function NewEventModal({
           content_body: content,
           show_products: eventType === EventType.Purchase ? true : null,
           show_price: eventType === EventType.Purchase ? true : null,
-          show_add_to_cart: eventType === EventType.Purchase ? true : null,
-          show_viewed_products: eventType === EventType.Purchase ? true : null,
-          show_recently_active_users:
-            eventType === EventType.ActiveUsers ? true : null,
         };
         const { data, error } = await createEvent(event);
         if (error) {
@@ -84,26 +79,22 @@ export default function NewEventModal({
   };
 
   const setEventContent = (eventType: EventType) => {
-    let content: string[];
+    let content: string;
     switch (eventType) {
       case EventType.Purchase:
-        content = [
-          "\\PERSON in \\LOCATION made a purchase.",
-          "\\PERSON in \\LOCATION purchased \\PRODUCT.",
-        ];
+        content = "\\PERSON in \\LOCATION made a purchase.";
         break;
       case EventType.AddToCart:
-        content = ["\\PERSON in \\LOCATION added \\PRODUCT to cart."];
+        content = "\\PERSON in \\LOCATION added \\PRODUCT to cart.";
+        break;
       case EventType.SomeoneViewing:
-        content = ["\\PERSON in \\LOCATION recently viewed \\PRODUCT."];
+        content = "\\PERSON in \\LOCATION recently viewed \\PRODUCT.";
+        break;
       case EventType.ActiveUsers:
-        content = [
-          "\\NUMUSERS people are online now.",
-          "\\RECENTUSERS people were recently active.",
-        ];
+        content = "\\NUMUSERS people are online now.";
         break;
       case EventType.Custom:
-        content = ["Add your content here."];
+        content = "Add your content here.";
         break;
     }
     return content;
@@ -136,7 +127,7 @@ export default function NewEventModal({
               </button>
             </form>
             <div className="flex flex-row items-center gap-2">
-              <h3 className="font-semibold text-lg">Create New Event</h3>
+              <h3 className="font-semibold text-lg">Select Event Type</h3>
               {isLoading && (
                 <span className="loading loading-spinner loading-sm bg-base-content"></span>
               )}
@@ -172,12 +163,12 @@ export default function NewEventModal({
                 }}
               >
                 <div
-                  className="flex items-center justify-center rounded-l-lg w-16 min-w-16 h-full border-r bg-gradient-to-t from-primary/80 to-purple-200 border-gray-300"
+                  className="flex items-center justify-center rounded-l-lg w-14 min-w-14 h-full border-r bg-primary border-gray-300"
                   // style={{
                   //   backgroundColor: hexToRgba(eventOption.color, 0.3),
                   // }}
                 >
-                  {getEventIcon(eventOption.icon, "#FFFFFF")}
+                  {getEventIcon(eventOption.type, "#FFFFFF")}
                 </div>
                 <div className="flex flex-col py-4 px-2 ml-3 gap-2">
                   <div className="font-bold text-sm">{eventOption.title}</div>
@@ -211,7 +202,6 @@ const getEventOptions = () => {
       description:
         "Displays popup when a user makes a purchase or creates a checkout session.",
       type: EventType.Purchase,
-      icon: EventIcons.ShoppingBasket,
       color: "#3eb981",
     },
     {
@@ -219,7 +209,6 @@ const getEventOptions = () => {
       integrations: "Stripe",
       description: "Shows what products users currently have in their cart.",
       type: EventType.AddToCart,
-      icon: EventIcons.ShoppingCart,
       color: "#3eb981",
     },
     {
@@ -227,7 +216,6 @@ const getEventOptions = () => {
       integrations: "Stripe",
       description: "Shows what products users are curently viewing.",
       type: EventType.SomeoneViewing,
-      icon: EventIcons.EyeIcon,
       color: "#7A81EB",
     },
     {
@@ -235,22 +223,21 @@ const getEventOptions = () => {
       integrations: "Google Analytics",
       description: "Displays the current number of active users on your site.",
       type: EventType.ActiveUsers,
-      icon: EventIcons.UsersRound,
       color: "#7A81EB",
     },
   ] as EventOption[];
   return eventOptions;
 };
 
-const getEventIcon = (icon: EventIcons, color: string) => {
-  switch (icon) {
-    case EventIcons.EyeIcon:
-      return <EyeIcon color={color} width={28} height={28} />;
-    case EventIcons.ShoppingBasket:
-      return <ShoppingBasket color={color} width={28} height={28} />;
-    case EventIcons.ShoppingCart:
+const getEventIcon = (eventType: EventType, color: string) => {
+  switch (eventType) {
+    case EventType.Purchase:
+      return <ShoppingBag color={color} width={28} height={28} />;
+    case EventType.AddToCart:
       return <ShoppingCart color={color} width={28} height={28} />;
-    case EventIcons.UsersRound:
+    case EventType.ActiveUsers:
       return <UsersRound color={color} width={28} height={28} />;
+    case EventType.SomeoneViewing:
+      return <EyeIcon color={color} width={28} height={28} />;
   }
 };

@@ -19,7 +19,7 @@ export default async function CreatePopupPage({ params }: { params: string }) {
   return (
     <ProjectBoard
       fetchedActiveProject={activeProject}
-      integrations={integrations}
+      fetchedIntegrations={integrations}
       fetchedEvents={events}
     />
   );

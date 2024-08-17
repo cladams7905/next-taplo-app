@@ -6,14 +6,13 @@ import {
   memo,
   SetStateAction,
   TransitionStartFunction,
-  useEffect,
   useRef,
   useState,
 } from "react";
-import Event from "./Event";
 import { deleteEvent } from "@/lib/actions/events";
 import { showToast, showToastError } from "@/components/shared/showToast";
 import { sortByTimeCreated } from "@/lib/actions";
+import Event from "../Event";
 
 const EventsList = ({
   activeProject,
@@ -22,7 +21,8 @@ const EventsList = ({
   setActiveEvent,
   events,
   setEvents,
-  fetchedIntegrations,
+  integrations,
+  setIntegrations,
   startEventTransition,
 }: {
   activeProject: Tables<"Projects">;
@@ -31,7 +31,8 @@ const EventsList = ({
   setActiveEvent: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
   events: Tables<"Events">[];
   setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
-  fetchedIntegrations: Tables<"Integrations">[];
+  integrations: Tables<"Integrations">[];
+  setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
   startEventTransition: TransitionStartFunction;
 }) => {
   const [isCollapseOpen, setCollapseOpen] = useState(false);
@@ -81,26 +82,27 @@ const EventsList = ({
     events.map((event, i) => (
       <div
         key={i}
-        className={`relative collapse collapse-arrow text-sm border border-gray-300 rounded-lg shadow-sm`}
+        className={`relative collapse collapse-arrow text-sm border border-gray-300 rounded-lg shadow-sm pl-2`}
         onClick={(e) => toggleAccordion(e.currentTarget.classList)}
       >
         <div
-          className={`absolute w-[6px] h-full ${
+          className={`absolute w-[8px] h-full ${
             activeEvent && activeEvent.id === event.id
               ? "block bg-primary"
               : "hidden"
           }`}
         />
         <Event
+          currentEvent={event}
           activeProject={activeProject}
           setActiveProject={setActiveProject}
-          fetchedEvent={event}
-          events={events}
           activeEvent={activeEvent}
           setActiveEvent={setActiveEvent}
-          fetchedIntegrations={fetchedIntegrations}
-          startEventTransition={startEventTransition}
+          events={events}
           isCollapseOpen={isCollapseOpen}
+          integrations={integrations}
+          setIntegrations={setIntegrations}
+          startEventTransition={startEventTransition}
           handleEventDelete={handleEventDelete}
           toggleElement={toggleElement}
         />
@@ -118,18 +120,18 @@ function areEqual(
   prevProps: {
     events: Tables<"Events">[];
     setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
-    fetchedIntegrations: Tables<"Integrations">[];
+    integrations: Tables<"Integrations">[];
   },
   nextProps: {
     events: Tables<"Events">[];
     setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
-    fetchedIntegrations: Tables<"Integrations">[];
+    integrations: Tables<"Integrations">[];
   }
 ) {
   return (
     prevProps.events === nextProps.events &&
     prevProps.setEvents === nextProps.setEvents &&
-    prevProps.fetchedIntegrations === nextProps.fetchedIntegrations
+    prevProps.integrations === nextProps.integrations
   );
 }
 

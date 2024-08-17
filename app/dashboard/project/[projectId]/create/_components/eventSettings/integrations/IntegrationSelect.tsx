@@ -72,8 +72,8 @@ export default function IntegrationSelect({
   return (
     <>
       {" "}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1 font-bold">Integration</div>
+      <div className="flex items-center justify-between mt-4">
+        <div className="flex items-center gap-1">Integration</div>
         <div
           className="btn btn-sm w-auto btn-ghost text-xs"
           onClick={() => newIntegrationModalRef.current?.showModal()}

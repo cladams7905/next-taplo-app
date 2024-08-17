@@ -18,6 +18,7 @@ const EventSettings = ({
   events,
   setEvents,
   integrations,
+  setIntegrations,
   scrollRef,
   eventHeaderRef,
   isPreviewMode,
@@ -31,6 +32,7 @@ const EventSettings = ({
   events: Tables<"Events">[];
   setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
   integrations: Tables<"Integrations">[];
+  setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
   scrollRef: RefObject<HTMLDivElement>;
   eventHeaderRef: RefObject<HTMLDivElement>;
   isPreviewMode: boolean;
@@ -66,7 +68,8 @@ const EventSettings = ({
           setActiveEvent={setActiveEvent}
           events={events}
           setEvents={setEvents}
-          fetchedIntegrations={integrations}
+          integrations={integrations}
+          setIntegrations={setIntegrations}
           startEventTransition={startEventTransition}
         />
       </div>

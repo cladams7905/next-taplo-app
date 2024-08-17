@@ -6,13 +6,6 @@ export enum EventType {
   Custom = "Custom",
 }
 
-export enum EventIcons {
-  EyeIcon,
-  ShoppingBasket,
-  ShoppingCart,
-  UsersRound,
-}
-
 export enum Providers {
   Stripe = "Stripe",
   Google = "Google",

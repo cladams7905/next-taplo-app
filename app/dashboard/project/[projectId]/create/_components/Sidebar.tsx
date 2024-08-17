@@ -15,6 +15,7 @@ export default function Sidebar({
   events,
   setEvents,
   integrations,
+  setIntegrations,
   backgroundColor,
   setBackgroundColor,
   textColor,
@@ -34,6 +35,7 @@ export default function Sidebar({
   events: Tables<"Events">[];
   setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
   integrations: Tables<"Integrations">[];
+  setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
   backgroundColor: IColor;
   setBackgroundColor: Dispatch<SetStateAction<IColor>>;
   textColor: IColor;
@@ -103,6 +105,7 @@ export default function Sidebar({
         events={events}
         setEvents={setEvents}
         integrations={integrations}
+        setIntegrations={setIntegrations}
         scrollRef={scrollParentRef}
         eventHeaderRef={eventHeaderRef}
         isPreviewMode={isPreviewMode}

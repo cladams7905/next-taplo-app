@@ -4,6 +4,7 @@ import React, {
   RefObject,
   SetStateAction,
   TransitionStartFunction,
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -11,30 +12,23 @@ import React, {
 import { updateEvent } from "@/lib/actions/events";
 import { showToastError } from "@/components/shared/showToast";
 import { Tables } from "@/supabase/types";
+import { EventType } from "@/lib/enums";
 
 export default function ContentBodyEditor({
-  activeEvent,
+  currentEvent,
   setActiveEvent,
-  activeContent,
-  contentBody,
-  variableList,
-  modalRef,
   editContentTextAreaRef,
   startLoadTransition,
 }: {
-  activeEvent: Tables<"Events"> | undefined;
+  currentEvent: Tables<"Events"> | undefined;
   setActiveEvent: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
-  activeContent: string;
-  contentBody: string[];
-  variableList: string[];
-  modalRef: RefObject<HTMLDialogElement>;
   editContentTextAreaRef: RefObject<HTMLTextAreaElement>;
   startLoadTransition: TransitionStartFunction;
 }) {
   const VARCHECK = "\\";
   const MAXINPUTCHARS = 80;
   const [currentNumChars, setCurrentNumChars] = useState(
-    activeContent?.length || 0
+    currentEvent?.content_body?.length || 0
   );
   const [isValidInput, setIsValidInput] = useState(true);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -43,21 +37,17 @@ export default function ContentBodyEditor({
   const varDropdownRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
-    if (editContentTextAreaRef?.current) {
-      editContentTextAreaRef.current.value = activeContent;
+    if (editContentTextAreaRef?.current && currentEvent) {
+      editContentTextAreaRef.current.value = currentEvent?.content_body;
       setCurrentNumChars(editContentTextAreaRef.current.defaultValue.length);
     }
-  }, [activeContent, editContentTextAreaRef]);
+  }, [editContentTextAreaRef]);
 
   const handleContentSave = () => {
     startLoadTransition(async () => {
-      if (activeEvent) {
-        const updatedContentBody = contentBody.map((content) =>
-          content === activeContent
-            ? editContentTextAreaRef.current!.value
-            : content
-        );
-        const { data, error } = await updateEvent(activeEvent.id, {
+      if (currentEvent) {
+        const updatedContentBody = editContentTextAreaRef.current!.value;
+        const { data, error } = await updateEvent(currentEvent.id, {
           content_body: updatedContentBody,
         });
         if (error) {
@@ -71,11 +61,27 @@ export default function ContentBodyEditor({
                 }
               : prevEvent
           );
-          modalRef.current?.close();
         }
       }
     });
   };
+
+  const getVariableList = useCallback(() => {
+    let variableList: string[] = [];
+    if (currentEvent) {
+      switch (currentEvent.event_type) {
+        case EventType.Purchase:
+          variableList = ["person", "location", "product", "price"];
+          break;
+        case EventType.ActiveUsers:
+          variableList = ["numusers", "recentusers"];
+          break;
+      }
+    }
+    return variableList;
+  }, [currentEvent]);
+
+  const [variableList, setVariableList] = useState<string[]>(getVariableList());
 
   const getCaretCoordinates = (
     element: HTMLTextAreaElement,
@@ -222,7 +228,7 @@ export default function ContentBodyEditor({
         className="textarea textarea-bordered rounded-lg"
         placeholder="Type your content body here."
         onInput={handleInputChange}
-        defaultValue={activeContent || ""}
+        defaultValue={currentEvent?.content_body || ""}
       ></textarea>
       {dropdownVisible && (
         <ul
