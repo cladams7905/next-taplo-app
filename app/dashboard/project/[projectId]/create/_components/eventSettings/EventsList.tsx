@@ -62,14 +62,9 @@ const EventsList = ({
             const updatedEvents = sortByTimeCreated(
               prevEvents.filter((event) => event.id !== data.id)
             );
-
-            // Check if there are remaining events before setting the active event
-            if (updatedEvents.length > 0) {
-              setActiveEvent(updatedEvents[0]);
-            } else {
-              setActiveEvent(undefined);
-            }
-
+            setActiveEvent(
+              updatedEvents.length > 0 ? updatedEvents[0] : undefined
+            );
             return updatedEvents;
           });
           showToast(`Successfully deleted \"${data.event_type}\" event`);

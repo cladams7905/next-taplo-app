@@ -6,14 +6,22 @@ import {
   RefObject,
   SetStateAction,
   TransitionStartFunction,
-  useEffect,
-  useRef,
   useState,
 } from "react";
-import { Ellipsis, ShoppingBag, Trash } from "lucide-react";
+import {
+  DoorOpen,
+  Ellipsis,
+  Redo,
+  ShoppingBag,
+  StopCircle,
+  Trash,
+  Undo2,
+  X,
+  XCircle,
+} from "lucide-react";
 import { updateEvent } from "@/lib/actions/events";
 import { showToastError } from "@/components/shared/showToast";
-import { Pencil1Icon } from "@radix-ui/react-icons";
+import { ExitIcon, Pencil1Icon } from "@radix-ui/react-icons";
 import IntegrationSelect from "./eventSettings/integrations/IntegrationSelect";
 import ContentBodyEditor from "./eventSettings/contentEditor/ContentBodyEditor";
 
@@ -44,7 +52,7 @@ export default function currentEvent({
   handleEventDelete: (eventId: number) => void;
   toggleElement: RefObject<HTMLDivElement>;
 }) {
-  const editContentTextAreaRef = useRef<HTMLTextAreaElement>(null);
+  const [isEditContentMode, setEditContentMode] = useState<boolean>(false);
 
   const getIntegrationById = (integrationId: number) => {
     return integrations.find((integration) => integration.id === integrationId);
@@ -72,6 +80,69 @@ export default function currentEvent({
         setActiveEvent({ ...currentEvent, integration_id: integrationId });
       }
     }
+  };
+
+  const replaceVariablesInContentBody = (
+    contentStr?: string | null,
+    shouldReturnHTML?: boolean
+  ) => {
+    if (!contentStr) return "";
+
+    const words = contentStr.split(" ");
+
+    // Check to contain if string contains non-alphanumeric chars other than a backslash
+    const checkForInvalidCharsRegex = /[^a-zA-Z0-9\\]/;
+    // Check used to split string by non-alphanumeric chars other than a backslash
+    const filterInvalidCharsRegex = /(\\\w+|\w+|[^\w\s])/g;
+
+    const transformedWords = words.flatMap((word, i) => {
+      if (word.startsWith("\\") && checkForInvalidCharsRegex.test(word)) {
+        const cleanedWord = word.split(filterInvalidCharsRegex).filter(Boolean);
+        return cleanedWord
+          .map((val) => {
+            return val.startsWith("\\")
+              ? shouldReturnHTML
+                ? getVariableHTML(val, i)
+                : replaceVariable(val.substring(1).toLocaleLowerCase())
+              : val;
+          })
+          .join("");
+      } else {
+        return word.startsWith("\\")
+          ? shouldReturnHTML
+            ? getVariableHTML(word, i)
+            : replaceVariable(word.substring(1).toLocaleLowerCase())
+          : word;
+      }
+    });
+    return transformedWords.join(" ");
+  };
+
+  const getVariableHTML = (word: string, index: number) => {
+    return `<span key=${index} class="text-primary px-1 rounded-lg">${
+      "[" + replaceVariable(word.substring(1).toLocaleLowerCase()) + "]"
+    }</span>`;
+  };
+
+  const replaceVariable = (variable: string) => {
+    let returnWord = "";
+    switch (variable) {
+      case "person":
+        returnWord = "Person";
+        break;
+      case "location":
+        returnWord = "City, Country";
+        break;
+      case "product":
+        returnWord = "My Product";
+        break;
+      case "project":
+        returnWord = activeProject.name;
+        break;
+      default:
+        returnWord = "undefined";
+    }
+    return returnWord;
   };
 
   return (
@@ -155,20 +226,46 @@ export default function currentEvent({
             handleUpdateIntegration={handleUpdateIntegration}
           />
         </div>
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1">Text Content</div>
-            <div className="btn btn-sm w-auto btn-ghost text-xs">
-              <Pencil1Icon height={14} width={14} />
-              Edit
+            <div className="flex items-center">Text Content</div>
+            <div
+              className="btn btn-sm w-auto btn-ghost text-xs"
+              onClick={() => setEditContentMode(!isEditContentMode)}
+            >
+              {isEditContentMode ? (
+                <>
+                  {" "}
+                  Cancel
+                  <XCircle height={16} width={16} />
+                </>
+              ) : (
+                <>
+                  {" "}
+                  Edit
+                  <Pencil1Icon height={16} width={16} />
+                </>
+              )}
             </div>
           </div>
-          <ContentBodyEditor
-            currentEvent={currentEvent}
-            setActiveEvent={setActiveEvent}
-            startLoadTransition={startEventTransition}
-            editContentTextAreaRef={editContentTextAreaRef}
-          />
+          {isEditContentMode ? (
+            <ContentBodyEditor
+              currentEvent={currentEvent}
+              setActiveEvent={setActiveEvent}
+              setEditContentMode={setEditContentMode}
+              startLoadTransition={startEventTransition}
+            />
+          ) : (
+            <p
+              className="border border-gray-300 rounded-lg p-2"
+              dangerouslySetInnerHTML={{
+                __html: replaceVariablesInContentBody(
+                  currentEvent.content_body,
+                  true
+                ),
+              }}
+            ></p>
+          )}
         </div>
       </div>
     </>

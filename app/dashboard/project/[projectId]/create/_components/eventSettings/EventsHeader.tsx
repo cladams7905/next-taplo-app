@@ -38,7 +38,8 @@ export default function EventsHeader({
           eventModalRef.current?.showModal();
         }}
       >
-        <CirclePlus height={18} width={18} /> New Event
+        New Event
+        <CirclePlus height={18} width={18} />
       </div>
       <NewEventModal
         eventModalRef={eventModalRef}

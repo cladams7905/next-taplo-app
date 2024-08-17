@@ -78,8 +78,8 @@ export default function IntegrationSelect({
           className="btn btn-sm w-auto btn-ghost text-xs"
           onClick={() => newIntegrationModalRef.current?.showModal()}
         >
-          <CirclePlus height={14} width={14} />
           New
+          <CirclePlus height={16} width={16} />
         </div>
         <NewIntegrationModal
           newIntegrationModalRef={newIntegrationModalRef}

@@ -17,12 +17,12 @@ import { EventType } from "@/lib/enums";
 export default function ContentBodyEditor({
   currentEvent,
   setActiveEvent,
-  editContentTextAreaRef,
+  setEditContentMode,
   startLoadTransition,
 }: {
   currentEvent: Tables<"Events"> | undefined;
   setActiveEvent: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
-  editContentTextAreaRef: RefObject<HTMLTextAreaElement>;
+  setEditContentMode: Dispatch<SetStateAction<boolean>>;
   startLoadTransition: TransitionStartFunction;
 }) {
   const VARCHECK = "\\";
@@ -35,18 +35,22 @@ export default function ContentBodyEditor({
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const [dropdownIndex, setDropdownIndex] = useState(0);
   const varDropdownRef = useRef<HTMLUListElement>(null);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    if (editContentTextAreaRef?.current && currentEvent) {
-      editContentTextAreaRef.current.value = currentEvent?.content_body;
-      setCurrentNumChars(editContentTextAreaRef.current.defaultValue.length);
+    if (textAreaRef?.current && currentEvent) {
+      textAreaRef.current.value = currentEvent?.content_body;
+      setCurrentNumChars(textAreaRef.current.defaultValue.length);
     }
-  }, [editContentTextAreaRef]);
+  }, [textAreaRef, currentEvent]);
 
   const handleContentSave = () => {
     startLoadTransition(async () => {
-      if (currentEvent) {
-        const updatedContentBody = editContentTextAreaRef.current!.value;
+      if (
+        currentEvent &&
+        textAreaRef.current?.value != currentEvent.content_body
+      ) {
+        const updatedContentBody = textAreaRef.current!.value;
         const { data, error } = await updateEvent(currentEvent.id, {
           content_body: updatedContentBody,
         });
@@ -61,6 +65,7 @@ export default function ContentBodyEditor({
                 }
               : prevEvent
           );
+          setEditContentMode(false);
         }
       }
     });
@@ -76,12 +81,16 @@ export default function ContentBodyEditor({
         case EventType.ActiveUsers:
           variableList = ["numusers", "recentusers"];
           break;
+        case EventType.AddToCart:
+        case EventType.SomeoneViewing:
+          variableList = ["person", "location", "product"];
+          break;
       }
     }
     return variableList;
   }, [currentEvent]);
 
-  const [variableList, setVariableList] = useState<string[]>(getVariableList());
+  const variableList = getVariableList();
 
   const getCaretCoordinates = (
     element: HTMLTextAreaElement,
@@ -174,13 +183,10 @@ export default function ContentBodyEditor({
 
       if (
         index !== -1 &&
-        editContentTextAreaRef.current &&
+        textAreaRef.current &&
         !variableList.includes(currVar.toLocaleLowerCase())
       ) {
-        const { top, left } = getCaretCoordinates(
-          editContentTextAreaRef.current,
-          index
-        );
+        const { top, left } = getCaretCoordinates(textAreaRef.current, index);
         const lineHeight = 20;
 
         setDropdownPosition({
@@ -189,6 +195,7 @@ export default function ContentBodyEditor({
         });
 
         setDropdownVisible(true);
+        varDropdownRef.current?.classList.remove("hidden");
         return true; //break out of loop
       } else {
         setDropdownVisible(false);
@@ -198,33 +205,44 @@ export default function ContentBodyEditor({
 
   const getCurrentVariable = (content: string, index: number) => {
     let currVar = "";
-    const regex = /^[A-Z]$/;
-    for (let i = index; i < content.length; i++) {
-      if (!regex.test(content[i])) {
-        break;
-      } else {
+    const regex = /^[A-Za-z]$/;
+
+    if (index < content.length && regex.test(content[index])) {
+      for (let i = index; i < content.length; i++) {
+        if (!regex.test(content[i])) {
+          // Stop if the current character is not part of the variable
+          break;
+        }
         currVar += content[i];
       }
     }
+
     return currVar;
   };
 
   const handleAddVariableFromDropdown = (variable: string) => {
-    if (editContentTextAreaRef.current?.value) {
-      const content = editContentTextAreaRef.current.value;
-      const currVar = getCurrentVariable(content, dropdownIndex);
-      const beforeInsert = content.substring(0, dropdownIndex);
-      const afterInsert = content.substring(dropdownIndex + currVar.length + 1);
-      editContentTextAreaRef.current.value =
-        beforeInsert + "\\" + variable.toLocaleUpperCase() + afterInsert;
-      varDropdownRef.current?.classList.add("hidden");
+    if (textAreaRef.current?.value) {
+      const content = textAreaRef.current.value;
+      const currVar = getCurrentVariable(content, dropdownIndex + 1);
+
+      if (dropdownIndex >= 0) {
+        const beforeInsert = content.substring(0, dropdownIndex);
+        const afterInsert = content.substring(
+          dropdownIndex + currVar.length + 1
+        );
+
+        textAreaRef.current.value =
+          beforeInsert + "\\" + variable.toLocaleUpperCase() + afterInsert;
+
+        varDropdownRef.current?.classList.add("hidden");
+      }
     }
   };
 
   return (
     <div className="relative flex flex-col gap-2 mb-6">
       <textarea
-        ref={editContentTextAreaRef}
+        ref={textAreaRef}
         className="textarea textarea-bordered rounded-lg"
         placeholder="Type your content body here."
         onInput={handleInputChange}
@@ -251,12 +269,14 @@ export default function ContentBodyEditor({
         </ul>
       )}
       <div className="flex w-full justify-between">
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-1">
           <div className="text-xs text-gray-400 max-w-[360px]">
             Available variables:{" "}
             {variableList.map((variable, i) => (
               <span key={i} className="text-primary uppercase">
-                {variable + `${i != variableList.length - 1 ? ", " : ""}`}
+                {"\\" +
+                  variable +
+                  `${i != variableList.length - 1 ? ", " : ""}`}
               </span>
             ))}
           </div>
