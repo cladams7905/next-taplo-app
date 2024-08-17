@@ -9,7 +9,7 @@ import { TemplateTypes, ScreenAlignment } from "@/lib/enums";
 export default function PreviewContainer({
   activeProject,
   setActiveProject,
-  events,
+  activeEvent,
   backgroundColor,
   textColor,
   accentColor,
@@ -17,10 +17,11 @@ export default function PreviewContainer({
   previewRef,
   displayTime,
   isPreviewMode,
+  replaceVariablesInContentBody,
 }: {
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
-  events: Tables<"Events">[];
+  activeEvent: Tables<"Events"> | undefined;
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
@@ -28,6 +29,10 @@ export default function PreviewContainer({
   previewRef: RefObject<HTMLDivElement>;
   displayTime: number;
   isPreviewMode: boolean;
+  replaceVariablesInContentBody: (
+    contentStr?: string | null,
+    shouldReturnHTML?: boolean
+  ) => string;
 }) {
   return (
     <div
@@ -53,6 +58,7 @@ export default function PreviewContainer({
           }`}
       >
         <PopupTemplate
+          activeEvent={activeEvent}
           activeProject={activeProject}
           backgroundColor={backgroundColor}
           textColor={textColor}
@@ -60,6 +66,7 @@ export default function PreviewContainer({
           borderColor={borderColor}
           displayTime={displayTime}
           isPreviewMode={isPreviewMode}
+          replaceVariablesInContentBody={replaceVariablesInContentBody}
         />
       </div>
     </div>

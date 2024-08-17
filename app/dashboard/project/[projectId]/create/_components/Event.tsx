@@ -8,20 +8,10 @@ import {
   TransitionStartFunction,
   useState,
 } from "react";
-import {
-  DoorOpen,
-  Ellipsis,
-  Redo,
-  ShoppingBag,
-  StopCircle,
-  Trash,
-  Undo2,
-  X,
-  XCircle,
-} from "lucide-react";
+import { Ellipsis, ShoppingBag, Trash, XCircle } from "lucide-react";
 import { updateEvent } from "@/lib/actions/events";
 import { showToastError } from "@/components/shared/showToast";
-import { ExitIcon, Pencil1Icon } from "@radix-ui/react-icons";
+import { Pencil1Icon } from "@radix-ui/react-icons";
 import IntegrationSelect from "./eventSettings/integrations/IntegrationSelect";
 import ContentBodyEditor from "./eventSettings/contentEditor/ContentBodyEditor";
 
@@ -38,6 +28,7 @@ export default function currentEvent({
   isCollapseOpen,
   handleEventDelete,
   toggleElement,
+  replaceVariablesInContentBody,
 }: {
   currentEvent: Tables<"Events">;
   events: Tables<"Events">[];
@@ -51,6 +42,10 @@ export default function currentEvent({
   isCollapseOpen: boolean;
   handleEventDelete: (eventId: number) => void;
   toggleElement: RefObject<HTMLDivElement>;
+  replaceVariablesInContentBody: (
+    contentStr?: string | null,
+    shouldReturnHTML?: boolean
+  ) => string;
 }) {
   const [isEditContentMode, setEditContentMode] = useState<boolean>(false);
 
@@ -80,69 +75,6 @@ export default function currentEvent({
         setActiveEvent({ ...currentEvent, integration_id: integrationId });
       }
     }
-  };
-
-  const replaceVariablesInContentBody = (
-    contentStr?: string | null,
-    shouldReturnHTML?: boolean
-  ) => {
-    if (!contentStr) return "";
-
-    const words = contentStr.split(" ");
-
-    // Check to contain if string contains non-alphanumeric chars other than a backslash
-    const checkForInvalidCharsRegex = /[^a-zA-Z0-9\\]/;
-    // Check used to split string by non-alphanumeric chars other than a backslash
-    const filterInvalidCharsRegex = /(\\\w+|\w+|[^\w\s])/g;
-
-    const transformedWords = words.flatMap((word, i) => {
-      if (word.startsWith("\\") && checkForInvalidCharsRegex.test(word)) {
-        const cleanedWord = word.split(filterInvalidCharsRegex).filter(Boolean);
-        return cleanedWord
-          .map((val) => {
-            return val.startsWith("\\")
-              ? shouldReturnHTML
-                ? getVariableHTML(val, i)
-                : replaceVariable(val.substring(1).toLocaleLowerCase())
-              : val;
-          })
-          .join("");
-      } else {
-        return word.startsWith("\\")
-          ? shouldReturnHTML
-            ? getVariableHTML(word, i)
-            : replaceVariable(word.substring(1).toLocaleLowerCase())
-          : word;
-      }
-    });
-    return transformedWords.join(" ");
-  };
-
-  const getVariableHTML = (word: string, index: number) => {
-    return `<span key=${index} class="text-primary px-1 rounded-lg">${
-      "[" + replaceVariable(word.substring(1).toLocaleLowerCase()) + "]"
-    }</span>`;
-  };
-
-  const replaceVariable = (variable: string) => {
-    let returnWord = "";
-    switch (variable) {
-      case "person":
-        returnWord = "Person";
-        break;
-      case "location":
-        returnWord = "City, Country";
-        break;
-      case "product":
-        returnWord = "My Product";
-        break;
-      case "project":
-        returnWord = activeProject.name;
-        break;
-      default:
-        returnWord = "undefined";
-    }
-    return returnWord;
   };
 
   return (

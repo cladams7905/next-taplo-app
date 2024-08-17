@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useColor } from "react-color-palette";
 import ViewContainer from "./popupView/ViewContainer";
 import { sortByTimeCreated } from "@/lib/actions";
+import { ContentVars } from "@/lib/enums";
 
 export default function ProjectBoard({
   fetchedActiveProject,
@@ -62,6 +63,70 @@ export default function ProjectBoard({
   );
   const [isPreviewMode, setPreviewMode] = useState(false);
 
+  const replaceVariablesInContentBody = (
+    contentStr?: string | null,
+    shouldReturnHTML?: boolean
+  ) => {
+    if (!contentStr) return "";
+
+    const getVariableHTML = (word: string, index: number) => {
+      return `<span key=${index} class="text-primary px-1 rounded-lg">${
+        "[" +
+        replaceVariable(word.substring(1).toLocaleLowerCase() as ContentVars) +
+        "]"
+      }</span>`;
+    };
+
+    const replaceVariable = (variable: ContentVars) => {
+      let returnWord = "";
+      switch (variable) {
+        case ContentVars.Person:
+          returnWord = "Person";
+          break;
+        case ContentVars.Location:
+          returnWord = "City, Country";
+          break;
+        case ContentVars.Product:
+          returnWord = "My Product";
+          break;
+        default:
+          returnWord = "undefined";
+      }
+      return returnWord;
+    };
+
+    const words = contentStr.split(" ");
+
+    const checkForInvalidCharsRegex = /[^a-zA-Z0-9\\]/;
+    const filterInvalidCharsRegex = /(\\\w+|\w+|[^\w\s])/g;
+
+    const transformedWords = words.flatMap((word, i) => {
+      if (word.startsWith("\\") && checkForInvalidCharsRegex.test(word)) {
+        const cleanedWord = word.split(filterInvalidCharsRegex).filter(Boolean);
+        return cleanedWord
+          .map((val) => {
+            return val.startsWith("\\")
+              ? shouldReturnHTML
+                ? getVariableHTML(val, i)
+                : replaceVariable(
+                    val.substring(1).toLocaleLowerCase() as ContentVars
+                  )
+              : val;
+          })
+          .join("");
+      } else {
+        return word.startsWith("\\")
+          ? shouldReturnHTML
+            ? getVariableHTML(word, i)
+            : replaceVariable(
+                word.substring(1).toLocaleLowerCase() as ContentVars
+              )
+          : word;
+      }
+    });
+    return transformedWords.join(" ");
+  };
+
   return (
     <main className="flex lg:flex-row md:flex-row flex-col w-full h-screen-minus-navbar">
       <div className="lg:w-[60%] w-full">
@@ -79,6 +144,7 @@ export default function ProjectBoard({
           isPreviewMode={isPreviewMode}
           setPreviewMode={setPreviewMode}
           displayTime={displayTime}
+          replaceVariablesInContentBody={replaceVariablesInContentBody}
         />
       </div>
       <div className="relative lg:w-[40%] w-full">
@@ -102,6 +168,7 @@ export default function ProjectBoard({
           isPreviewMode={isPreviewMode}
           displayTime={displayTime}
           setDisplayTime={setDisplayTime}
+          replaceVariablesInContentBody={replaceVariablesInContentBody}
         />
       </div>
     </main>

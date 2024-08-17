@@ -12,6 +12,7 @@ import { hexToRgba } from "@/lib/actions";
 
 export default function PopupTemplate({
   activeProject,
+  activeEvent,
   backgroundColor,
   textColor,
   accentColor,
@@ -19,8 +20,10 @@ export default function PopupTemplate({
   displayTime,
   isPreviewMode,
   bounceAnimation,
+  replaceVariablesInContentBody,
 }: {
   activeProject: Tables<"Projects">;
+  activeEvent: Tables<"Events"> | undefined;
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
@@ -28,6 +31,10 @@ export default function PopupTemplate({
   displayTime?: number;
   isPreviewMode?: boolean;
   bounceAnimation?: boolean;
+  replaceVariablesInContentBody: (
+    contentStr?: string | null,
+    shouldReturnHTML?: boolean
+  ) => string;
 }) {
   const [animation, setAnimation] = useState(
     activeProject.screen_alignment === ScreenAlignment.BottomLeft ||
@@ -100,6 +107,7 @@ export default function PopupTemplate({
     case TemplateTypes.SmPopup:
       return (
         <SmallPopupTemplate
+          activeEvent={activeEvent}
           backgroundColor={backgroundColor}
           accentColor={accentColor}
           textColor={textColor}
@@ -107,11 +115,13 @@ export default function PopupTemplate({
           animation={animation}
           isPreviewMode={isPreviewMode}
           bounceAnimation={bounceAnimation}
+          replaceVariablesInContentBody={replaceVariablesInContentBody}
         />
       );
     case TemplateTypes.SmPopupNoImg:
       return (
         <SmallPopupNoImageTemplate
+          activeEvent={activeEvent}
           backgroundColor={backgroundColor}
           accentColor={accentColor}
           textColor={textColor}
@@ -119,11 +129,13 @@ export default function PopupTemplate({
           animation={animation}
           isPreviewMode={isPreviewMode}
           bounceAnimation={bounceAnimation}
+          replaceVariablesInContentBody={replaceVariablesInContentBody}
         />
       );
     case TemplateTypes.LgPopup:
       return (
         <LargePopupTemplate
+          activeEvent={activeEvent}
           backgroundColor={backgroundColor}
           accentColor={accentColor}
           textColor={textColor}
@@ -131,11 +143,13 @@ export default function PopupTemplate({
           animation={animation}
           isPreviewMode={isPreviewMode}
           bounceAnimation={bounceAnimation}
+          replaceVariablesInContentBody={replaceVariablesInContentBody}
         />
       );
     case TemplateTypes.LgPopupNoImg:
       return (
         <LargePopupNoImageTemplate
+          activeEvent={activeEvent}
           backgroundColor={backgroundColor}
           accentColor={accentColor}
           textColor={textColor}
@@ -143,11 +157,13 @@ export default function PopupTemplate({
           animation={animation}
           isPreviewMode={isPreviewMode}
           bounceAnimation={bounceAnimation}
+          replaceVariablesInContentBody={replaceVariablesInContentBody}
         />
       );
     case TemplateTypes.Card:
       return (
         <CardTemplate
+          activeEvent={activeEvent}
           backgroundColor={backgroundColor}
           accentColor={accentColor}
           textColor={textColor}
@@ -155,11 +171,13 @@ export default function PopupTemplate({
           animation={animation}
           isPreviewMode={isPreviewMode}
           bounceAnimation={bounceAnimation}
+          replaceVariablesInContentBody={replaceVariablesInContentBody}
         />
       );
     case TemplateTypes.CardNoImg:
       return (
         <CardNoImageTemplate
+          activeEvent={activeEvent}
           backgroundColor={backgroundColor}
           accentColor={accentColor}
           textColor={textColor}
@@ -167,11 +185,13 @@ export default function PopupTemplate({
           animation={animation}
           isPreviewMode={isPreviewMode}
           bounceAnimation={bounceAnimation}
+          replaceVariablesInContentBody={replaceVariablesInContentBody}
         />
       );
     case TemplateTypes.Banner:
       return (
         <BannerTemplate
+          activeEvent={activeEvent}
           backgroundColor={backgroundColor}
           accentColor={accentColor}
           textColor={textColor}
@@ -179,11 +199,13 @@ export default function PopupTemplate({
           animation={animation}
           isPreviewMode={isPreviewMode}
           bounceAnimation={bounceAnimation}
+          replaceVariablesInContentBody={replaceVariablesInContentBody}
         />
       );
     case TemplateTypes.BannerNoImg:
       return (
         <BannerNoImageTemplate
+          activeEvent={activeEvent}
           backgroundColor={backgroundColor}
           accentColor={accentColor}
           textColor={textColor}
@@ -191,6 +213,7 @@ export default function PopupTemplate({
           animation={animation}
           isPreviewMode={isPreviewMode}
           bounceAnimation={bounceAnimation}
+          replaceVariablesInContentBody={replaceVariablesInContentBody}
         />
       );
     default:
@@ -199,6 +222,7 @@ export default function PopupTemplate({
 }
 
 const SmallPopupTemplate = ({
+  activeEvent,
   backgroundColor,
   textColor,
   accentColor,
@@ -206,7 +230,9 @@ const SmallPopupTemplate = ({
   animation,
   isPreviewMode,
   bounceAnimation,
+  replaceVariablesInContentBody,
 }: {
+  activeEvent: Tables<"Events"> | undefined;
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
@@ -214,6 +240,10 @@ const SmallPopupTemplate = ({
   animation?: string;
   isPreviewMode?: boolean;
   bounceAnimation?: boolean;
+  replaceVariablesInContentBody: (
+    contentStr?: string | null,
+    shouldReturnHTML?: boolean
+  ) => string;
 }) => {
   return (
     <div
@@ -250,18 +280,13 @@ const SmallPopupTemplate = ({
               color: textColor.hex.toString(),
             }}
             className="text-[13px] leading-5"
-          >
-            Jamie in Raleigh, North Carolina, USA purchased{" "}
-            <span
-              className="font-bold underline"
-              style={{
-                color: accentColor.hex.toString(),
-              }}
-            >
-              Running shoes
-            </span>
-            .
-          </p>
+            dangerouslySetInnerHTML={{
+              __html: replaceVariablesInContentBody(
+                activeEvent?.content_body,
+                false
+              ),
+            }}
+          ></p>
           <div
             className="text-xs flex items-center gap-4"
             style={{
@@ -291,6 +316,7 @@ const SmallPopupTemplate = ({
 };
 
 const SmallPopupNoImageTemplate = ({
+  activeEvent,
   backgroundColor,
   textColor,
   accentColor,
@@ -298,7 +324,9 @@ const SmallPopupNoImageTemplate = ({
   animation,
   isPreviewMode,
   bounceAnimation,
+  replaceVariablesInContentBody,
 }: {
+  activeEvent: Tables<"Events"> | undefined;
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
@@ -306,6 +334,10 @@ const SmallPopupNoImageTemplate = ({
   animation?: string;
   isPreviewMode?: boolean;
   bounceAnimation?: boolean;
+  replaceVariablesInContentBody: (
+    contentStr?: string | null,
+    shouldReturnHTML?: boolean
+  ) => string;
 }) => {
   return (
     <div
@@ -328,18 +360,13 @@ const SmallPopupNoImageTemplate = ({
               color: textColor.hex.toString(),
             }}
             className="text-[13px] leading-5"
-          >
-            Jamie in Raleigh, North Carolina, USA purchased{" "}
-            <span
-              className="font-bold"
-              style={{
-                color: accentColor.hex.toString(),
-              }}
-            >
-              Running shoes
-            </span>
-            .
-          </p>
+            dangerouslySetInnerHTML={{
+              __html: replaceVariablesInContentBody(
+                activeEvent?.content_body,
+                false
+              ),
+            }}
+          ></p>
           <div
             className="text-xs flex items-center gap-4"
             style={{
@@ -369,6 +396,7 @@ const SmallPopupNoImageTemplate = ({
 };
 
 const LargePopupTemplate = ({
+  activeEvent,
   backgroundColor,
   textColor,
   accentColor,
@@ -376,7 +404,9 @@ const LargePopupTemplate = ({
   animation,
   isPreviewMode,
   bounceAnimation,
+  replaceVariablesInContentBody,
 }: {
+  activeEvent: Tables<"Events"> | undefined;
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
@@ -384,6 +414,10 @@ const LargePopupTemplate = ({
   animation?: string;
   isPreviewMode?: boolean;
   bounceAnimation?: boolean;
+  replaceVariablesInContentBody: (
+    contentStr?: string | null,
+    shouldReturnHTML?: boolean
+  ) => string;
 }) => {
   return (
     <div
@@ -420,19 +454,14 @@ const LargePopupTemplate = ({
             style={{
               color: textColor.hex.toString(),
             }}
-            className="text-[14px] leading-5"
-          >
-            Jamie in Raleigh, North Carolina, USA purchased{" "}
-            <span
-              className="font-bold underline"
-              style={{
-                color: accentColor.hex.toString(),
-              }}
-            >
-              Running shoes
-            </span>
-            .
-          </p>
+            className="text-[13px] leading-5"
+            dangerouslySetInnerHTML={{
+              __html: replaceVariablesInContentBody(
+                activeEvent?.content_body,
+                false
+              ),
+            }}
+          ></p>
           <div
             className="text-[13px] flex items-center gap-4"
             style={{
@@ -462,6 +491,7 @@ const LargePopupTemplate = ({
 };
 
 const LargePopupNoImageTemplate = ({
+  activeEvent,
   backgroundColor,
   textColor,
   accentColor,
@@ -469,7 +499,9 @@ const LargePopupNoImageTemplate = ({
   animation,
   isPreviewMode,
   bounceAnimation,
+  replaceVariablesInContentBody,
 }: {
+  activeEvent: Tables<"Events"> | undefined;
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
@@ -477,6 +509,10 @@ const LargePopupNoImageTemplate = ({
   animation?: string;
   isPreviewMode?: boolean;
   bounceAnimation?: boolean;
+  replaceVariablesInContentBody: (
+    contentStr?: string | null,
+    shouldReturnHTML?: boolean
+  ) => string;
 }) => {
   return (
     <div
@@ -498,19 +534,14 @@ const LargePopupNoImageTemplate = ({
             style={{
               color: textColor.hex.toString(),
             }}
-            className="text-[14px] leading-5"
-          >
-            Jamie in Raleigh, North Carolina, USA purchased{" "}
-            <span
-              className="font-bold underline"
-              style={{
-                color: accentColor.hex.toString(),
-              }}
-            >
-              Running shoes
-            </span>
-            .
-          </p>
+            className="text-[13px] leading-5"
+            dangerouslySetInnerHTML={{
+              __html: replaceVariablesInContentBody(
+                activeEvent?.content_body,
+                false
+              ),
+            }}
+          ></p>
           <div
             className="text-[13px] flex items-center"
             style={{
@@ -540,6 +571,7 @@ const LargePopupNoImageTemplate = ({
 };
 
 const CardTemplate = ({
+  activeEvent,
   backgroundColor,
   textColor,
   accentColor,
@@ -547,7 +579,9 @@ const CardTemplate = ({
   animation,
   isPreviewMode,
   bounceAnimation,
+  replaceVariablesInContentBody,
 }: {
+  activeEvent: Tables<"Events"> | undefined;
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
@@ -555,6 +589,10 @@ const CardTemplate = ({
   animation?: string;
   isPreviewMode?: boolean;
   bounceAnimation?: boolean;
+  replaceVariablesInContentBody: (
+    contentStr?: string | null,
+    shouldReturnHTML?: boolean
+  ) => string;
 }) => {
   return (
     <div
@@ -591,19 +629,14 @@ const CardTemplate = ({
             style={{
               color: textColor.hex.toString(),
             }}
-            className="text-[14px] leading-5"
-          >
-            Jamie in Raleigh, North Carolina, USA purchased{" "}
-            <span
-              className="font-bold underline"
-              style={{
-                color: accentColor.hex.toString(),
-              }}
-            >
-              Running shoes
-            </span>
-            .
-          </p>
+            className="text-[13px] leading-5"
+            dangerouslySetInnerHTML={{
+              __html: replaceVariablesInContentBody(
+                activeEvent?.content_body,
+                false
+              ),
+            }}
+          ></p>
           <div
             className="text-[12px] flex items-center gap-4"
             style={{
@@ -633,6 +666,7 @@ const CardTemplate = ({
 };
 
 const CardNoImageTemplate = ({
+  activeEvent,
   backgroundColor,
   textColor,
   accentColor,
@@ -640,7 +674,9 @@ const CardNoImageTemplate = ({
   animation,
   isPreviewMode,
   bounceAnimation,
+  replaceVariablesInContentBody,
 }: {
+  activeEvent: Tables<"Events"> | undefined;
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
@@ -648,6 +684,10 @@ const CardNoImageTemplate = ({
   animation?: string;
   isPreviewMode?: boolean;
   bounceAnimation?: boolean;
+  replaceVariablesInContentBody: (
+    contentStr?: string | null,
+    shouldReturnHTML?: boolean
+  ) => string;
 }) => {
   return (
     <div
@@ -669,19 +709,14 @@ const CardNoImageTemplate = ({
             style={{
               color: textColor.hex.toString(),
             }}
-            className="text-[14px] leading-5"
-          >
-            Jamie in Raleigh, North Carolina, USA purchased{" "}
-            <span
-              className="font-bold underline"
-              style={{
-                color: accentColor.hex.toString(),
-              }}
-            >
-              Running shoes
-            </span>
-            .
-          </p>
+            className="text-[13px] leading-5"
+            dangerouslySetInnerHTML={{
+              __html: replaceVariablesInContentBody(
+                activeEvent?.content_body,
+                false
+              ),
+            }}
+          ></p>
           <div
             className="text-[12px] flex items-center gap-4"
             style={{
@@ -711,6 +746,7 @@ const CardNoImageTemplate = ({
 };
 
 const BannerTemplate = ({
+  activeEvent,
   backgroundColor,
   textColor,
   accentColor,
@@ -718,7 +754,9 @@ const BannerTemplate = ({
   animation,
   isPreviewMode,
   bounceAnimation,
+  replaceVariablesInContentBody,
 }: {
+  activeEvent: Tables<"Events"> | undefined;
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
@@ -726,6 +764,10 @@ const BannerTemplate = ({
   animation?: string;
   isPreviewMode?: boolean;
   bounceAnimation?: boolean;
+  replaceVariablesInContentBody: (
+    contentStr?: string | null,
+    shouldReturnHTML?: boolean
+  ) => string;
 }) => {
   return (
     <div
@@ -761,19 +803,14 @@ const BannerTemplate = ({
             style={{
               color: textColor.hex.toString(),
             }}
-            className="text-[14px] leading-[18px] mt-2"
-          >
-            Jamie in Raleigh, North Carolina, USA purchased{" "}
-            <span
-              className="font-bold underline"
-              style={{
-                color: accentColor.hex.toString(),
-              }}
-            >
-              Running shoes
-            </span>
-            .
-          </p>
+            className="text-[13px] leading-5"
+            dangerouslySetInnerHTML={{
+              __html: replaceVariablesInContentBody(
+                activeEvent?.content_body,
+                false
+              ),
+            }}
+          ></p>
           <div
             className={`flex flex-row gap-1 text-[12px]`}
             style={{
@@ -804,6 +841,7 @@ const BannerTemplate = ({
 };
 
 const BannerNoImageTemplate = ({
+  activeEvent,
   backgroundColor,
   textColor,
   accentColor,
@@ -811,7 +849,9 @@ const BannerNoImageTemplate = ({
   animation,
   isPreviewMode,
   bounceAnimation,
+  replaceVariablesInContentBody,
 }: {
+  activeEvent: Tables<"Events"> | undefined;
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
@@ -819,6 +859,10 @@ const BannerNoImageTemplate = ({
   animation?: string;
   isPreviewMode?: boolean;
   bounceAnimation?: boolean;
+  replaceVariablesInContentBody: (
+    contentStr?: string | null,
+    shouldReturnHTML?: boolean
+  ) => string;
 }) => {
   return (
     <div
@@ -840,19 +884,14 @@ const BannerNoImageTemplate = ({
             style={{
               color: textColor.hex.toString(),
             }}
-            className="text-[14px]"
-          >
-            Jamie in Raleigh, North Carolina, USA purchased{" "}
-            <span
-              className="font-bold underline"
-              style={{
-                color: accentColor.hex.toString(),
-              }}
-            >
-              Running shoes
-            </span>
-            .
-          </p>
+            className="text-[13px] leading-5"
+            dangerouslySetInnerHTML={{
+              __html: replaceVariablesInContentBody(
+                activeEvent?.content_body,
+                false
+              ),
+            }}
+          ></p>
           <div
             className={`flex flex-row gap-1 text-[12px] ${
               isPreviewMode && "-mt-2"

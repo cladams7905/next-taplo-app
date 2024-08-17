@@ -24,6 +24,7 @@ const EventsList = ({
   integrations,
   setIntegrations,
   startEventTransition,
+  replaceVariablesInContentBody,
 }: {
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
@@ -34,6 +35,10 @@ const EventsList = ({
   integrations: Tables<"Integrations">[];
   setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
   startEventTransition: TransitionStartFunction;
+  replaceVariablesInContentBody: (
+    contentStr?: string | null,
+    shouldReturnHTML?: boolean
+  ) => string;
 }) => {
   const [isCollapseOpen, setCollapseOpen] = useState(false);
   const toggleElement = useRef<HTMLDivElement>(null);
@@ -100,6 +105,7 @@ const EventsList = ({
           startEventTransition={startEventTransition}
           handleEventDelete={handleEventDelete}
           toggleElement={toggleElement}
+          replaceVariablesInContentBody={replaceVariablesInContentBody}
         />
       </div>
     ))

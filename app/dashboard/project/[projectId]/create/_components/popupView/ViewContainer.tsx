@@ -21,6 +21,7 @@ export default function ViewContainer({
   isPreviewMode,
   setPreviewMode,
   displayTime,
+  replaceVariablesInContentBody,
 }: {
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
@@ -35,6 +36,10 @@ export default function ViewContainer({
   isPreviewMode: boolean;
   setPreviewMode: Dispatch<SetStateAction<boolean>>;
   displayTime: number;
+  replaceVariablesInContentBody: (
+    contentStr?: string | null,
+    shouldReturnHTML?: boolean
+  ) => string;
 }) {
   const [isLoadPending, startLoadTransition] = useTransition();
 
@@ -44,6 +49,7 @@ export default function ViewContainer({
         activeProject={activeProject}
         setActiveProject={setActiveProject}
         events={events}
+        activeEvent={activeEvent}
         backgroundColor={backgroundColor}
         accentColor={accentColor}
         textColor={textColor}
@@ -52,13 +58,13 @@ export default function ViewContainer({
         setPreviewMode={setPreviewMode}
         displayTime={displayTime}
         isLoadPending={isLoadPending}
+        replaceVariablesInContentBody={replaceVariablesInContentBody}
       />
       <div className="flex justify-center items-center w-full h-full">
         {events.length > 0 && (
           <PopupViewer
             activeProject={activeProject}
             setActiveProject={setActiveProject}
-            events={events}
             activeEvent={activeEvent}
             setActiveEvent={setActiveEvent}
             backgroundColor={backgroundColor}
@@ -66,6 +72,7 @@ export default function ViewContainer({
             textColor={textColor}
             borderColor={borderColor}
             startLoadTransition={startLoadTransition}
+            replaceVariablesInContentBody={replaceVariablesInContentBody}
           />
         )}
       </div>

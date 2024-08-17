@@ -12,7 +12,7 @@ import React, {
 import { updateEvent } from "@/lib/actions/events";
 import { showToastError } from "@/components/shared/showToast";
 import { Tables } from "@/supabase/types";
-import { EventType } from "@/lib/enums";
+import { ContentVars, EventType } from "@/lib/enums";
 
 export default function ContentBodyEditor({
   currentEvent,
@@ -76,14 +76,23 @@ export default function ContentBodyEditor({
     if (currentEvent) {
       switch (currentEvent.event_type) {
         case EventType.Purchase:
-          variableList = ["person", "location", "product", "price"];
+          variableList = [
+            ContentVars.Person,
+            ContentVars.Location,
+            ContentVars.Product,
+            ContentVars.Price,
+          ];
           break;
         case EventType.ActiveUsers:
-          variableList = ["numusers", "recentusers"];
+          variableList = [ContentVars.NumUsers, ContentVars.RecentUsers];
           break;
         case EventType.AddToCart:
         case EventType.SomeoneViewing:
-          variableList = ["person", "location", "product"];
+          variableList = [
+            ContentVars.Person,
+            ContentVars.Location,
+            ContentVars.Product,
+          ];
           break;
       }
     }

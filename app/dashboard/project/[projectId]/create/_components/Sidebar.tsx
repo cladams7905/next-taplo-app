@@ -27,6 +27,7 @@ export default function Sidebar({
   isPreviewMode,
   displayTime,
   setDisplayTime,
+  replaceVariablesInContentBody,
 }: {
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
@@ -47,6 +48,10 @@ export default function Sidebar({
   isPreviewMode: boolean;
   displayTime: number;
   setDisplayTime: Dispatch<SetStateAction<number>>;
+  replaceVariablesInContentBody: (
+    contentStr?: string | null,
+    shouldReturnHTML?: boolean
+  ) => string;
 }) {
   const scrollParentRef = useRef<HTMLDivElement>(null);
   const eventHeaderRef = useRef<HTMLDivElement>(null);
@@ -109,6 +114,7 @@ export default function Sidebar({
         scrollRef={scrollParentRef}
         eventHeaderRef={eventHeaderRef}
         isPreviewMode={isPreviewMode}
+        replaceVariablesInContentBody={replaceVariablesInContentBody}
       />
       <StyleSettings
         activeProject={activeProject}

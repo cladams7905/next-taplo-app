@@ -24,6 +24,7 @@ const EventSettings = ({
   isPreviewMode,
   activeEvent,
   setActiveEvent,
+  replaceVariablesInContentBody,
 }: {
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
@@ -36,6 +37,10 @@ const EventSettings = ({
   scrollRef: RefObject<HTMLDivElement>;
   eventHeaderRef: RefObject<HTMLDivElement>;
   isPreviewMode: boolean;
+  replaceVariablesInContentBody: (
+    contentStr?: string | null,
+    shouldReturnHTML?: boolean
+  ) => string;
 }) => {
   const [isEventPending, startEventTransition] = useTransition();
   const scrolled = useScroll(1, scrollRef);
@@ -71,6 +76,7 @@ const EventSettings = ({
           integrations={integrations}
           setIntegrations={setIntegrations}
           startEventTransition={startEventTransition}
+          replaceVariablesInContentBody={replaceVariablesInContentBody}
         />
       </div>
     </div>

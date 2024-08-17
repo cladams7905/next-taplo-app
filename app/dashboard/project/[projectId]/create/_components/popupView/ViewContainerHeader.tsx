@@ -19,6 +19,7 @@ export default function ViewContainerHeader({
   activeProject,
   setActiveProject,
   events,
+  activeEvent,
   backgroundColor,
   textColor,
   accentColor,
@@ -27,10 +28,12 @@ export default function ViewContainerHeader({
   setPreviewMode,
   displayTime,
   isLoadPending,
+  replaceVariablesInContentBody,
 }: {
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
   events: Tables<"Events">[];
+  activeEvent: Tables<"Events"> | undefined;
   backgroundColor: IColor;
   textColor: IColor;
   accentColor: IColor;
@@ -39,6 +42,10 @@ export default function ViewContainerHeader({
   setPreviewMode: Dispatch<SetStateAction<boolean>>;
   displayTime: number;
   isLoadPending: boolean;
+  replaceVariablesInContentBody: (
+    contentStr?: string | null,
+    shouldReturnHTML?: boolean
+  ) => string;
 }) {
   const deleteModalRef = useRef<HTMLDialogElement>(null);
   const renameModalRef = useRef<HTMLDialogElement>(null);
@@ -91,7 +98,7 @@ export default function ViewContainerHeader({
             <PreviewContainer
               activeProject={activeProject}
               setActiveProject={setActiveProject}
-              events={events}
+              activeEvent={activeEvent}
               backgroundColor={backgroundColor}
               accentColor={accentColor}
               textColor={textColor}
@@ -99,6 +106,7 @@ export default function ViewContainerHeader({
               previewRef={previewRef}
               displayTime={displayTime}
               isPreviewMode={isPreviewMode}
+              replaceVariablesInContentBody={replaceVariablesInContentBody}
             />
           </>
         )}

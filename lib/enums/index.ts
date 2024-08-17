@@ -32,3 +32,12 @@ export enum TemplateTypes {
   Banner = "Banner",
   BannerNoImg = "Banner (no image)",
 }
+
+export enum ContentVars {
+  Person = "person",
+  Location = "location",
+  Product = "product",
+  Price = "price",
+  NumUsers = "numusers",
+  RecentUsers = "recentusers",
+}

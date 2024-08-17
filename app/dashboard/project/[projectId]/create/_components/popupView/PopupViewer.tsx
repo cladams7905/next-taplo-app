@@ -19,7 +19,6 @@ import PopupTemplate from "./PopupTemplate";
 export default function PopupViewer({
   activeProject,
   setActiveProject,
-  events,
   activeEvent,
   setActiveEvent,
   backgroundColor,
@@ -27,10 +26,10 @@ export default function PopupViewer({
   accentColor,
   borderColor,
   startLoadTransition,
+  replaceVariablesInContentBody,
 }: {
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
-  events: Tables<"Events">[];
   activeEvent: Tables<"Events"> | undefined;
   setActiveEvent: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
   backgroundColor: IColor;
@@ -38,6 +37,10 @@ export default function PopupViewer({
   accentColor: IColor;
   borderColor: IColor;
   startLoadTransition: TransitionStartFunction;
+  replaceVariablesInContentBody: (
+    contentStr?: string | null,
+    shouldReturnHTML?: boolean
+  ) => string;
 }) {
   const templateModalRef = useRef<HTMLDialogElement>(null);
   const [activeTemplate, setActiveTemplate] = useState<TemplateTypes>(
@@ -63,11 +66,13 @@ export default function PopupViewer({
         </div>
         <PopupTemplate
           activeProject={activeProject}
+          activeEvent={activeEvent}
           backgroundColor={backgroundColor}
           accentColor={accentColor}
           textColor={textColor}
           borderColor={borderColor}
           bounceAnimation={shouldTriggerBounceAnimation}
+          replaceVariablesInContentBody={replaceVariablesInContentBody}
         />
         <div
           className="flex flex-row gap-2 items-center justify-center absolute w-full h-fit px-10 py-3 outline-1 outline-primary bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold cursor-pointer"
