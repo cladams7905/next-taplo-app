@@ -1,52 +1,34 @@
 "use client";
 
 import { Tables } from "@/supabase/types";
-import {
-  Dispatch,
-  RefObject,
-  SetStateAction,
-  TransitionStartFunction,
-  useState,
-} from "react";
+import { RefObject, TransitionStartFunction, useState } from "react";
 import { Ellipsis, ShoppingBag, Trash, XCircle } from "lucide-react";
 import { updateEvent } from "@/lib/actions/events";
 import { showToastError } from "@/components/shared/showToast";
 import { Pencil1Icon } from "@radix-ui/react-icons";
 import IntegrationSelect from "./eventSettings/integrations/IntegrationSelect";
 import ContentBodyEditor from "./eventSettings/contentEditor/ContentBodyEditor";
+import { useProjectContext } from "./ProjectBoard";
 
-export default function currentEvent({
+export default function Event({
   currentEvent,
-  events,
-  activeEvent,
-  setActiveEvent,
-  activeProject,
-  setActiveProject,
-  integrations,
-  setIntegrations,
   startEventTransition,
   isCollapseOpen,
   handleEventDelete,
   toggleElement,
-  replaceVariablesInContentBody,
 }: {
   currentEvent: Tables<"Events">;
-  events: Tables<"Events">[];
-  activeEvent: Tables<"Events"> | undefined;
-  setActiveEvent: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
-  activeProject: Tables<"Projects">;
-  setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
-  integrations: Tables<"Integrations">[];
-  setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
   startEventTransition: TransitionStartFunction;
   isCollapseOpen: boolean;
   handleEventDelete: (eventId: number) => void;
   toggleElement: RefObject<HTMLDivElement>;
-  replaceVariablesInContentBody: (
-    contentStr?: string | null,
-    shouldReturnHTML?: boolean
-  ) => string;
 }) {
+  const {
+    activeEvent,
+    setActiveEvent,
+    integrations,
+    replaceVariablesInContentBody,
+  } = useProjectContext();
   const [isEditContentMode, setEditContentMode] = useState<boolean>(false);
 
   const getIntegrationById = (integrationId: number) => {
@@ -148,12 +130,7 @@ export default function currentEvent({
       >
         <div className="w-full flex flex-col gap-2">
           <IntegrationSelect
-            activeProject={activeProject}
-            setActiveProject={setActiveProject}
             currentEvent={currentEvent}
-            events={events}
-            integrations={integrations}
-            setIntegrations={setIntegrations}
             startEventTransition={startEventTransition}
             handleUpdateIntegration={handleUpdateIntegration}
           />
@@ -183,7 +160,6 @@ export default function currentEvent({
           {isEditContentMode ? (
             <ContentBodyEditor
               currentEvent={currentEvent}
-              setActiveEvent={setActiveEvent}
               setEditContentMode={setEditContentMode}
               startLoadTransition={startEventTransition}
             />

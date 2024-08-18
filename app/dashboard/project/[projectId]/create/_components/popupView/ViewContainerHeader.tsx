@@ -1,6 +1,5 @@
 "use client";
 
-import { Tables } from "@/supabase/types";
 import "react-color-palette/css";
 import {
   Code2Icon,
@@ -9,44 +8,15 @@ import {
   Pencil,
   TrashIcon,
 } from "lucide-react";
-import { IColor } from "react-color-palette";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import RenameProjectModal from "./RenameProjectModal";
 import DeleteProjectModal from "./DeleteProjectModal";
 import PreviewContainer from "./PreviewContainer";
+import { useProjectContext } from "../ProjectBoard";
 
-export default function ViewContainerHeader({
-  activeProject,
-  setActiveProject,
-  events,
-  activeEvent,
-  backgroundColor,
-  textColor,
-  accentColor,
-  borderColor,
-  isPreviewMode,
-  setPreviewMode,
-  displayTime,
-  isLoadPending,
-  replaceVariablesInContentBody,
-}: {
-  activeProject: Tables<"Projects">;
-  setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
-  events: Tables<"Events">[];
-  activeEvent: Tables<"Events"> | undefined;
-  backgroundColor: IColor;
-  textColor: IColor;
-  accentColor: IColor;
-  borderColor: IColor;
-  isPreviewMode: boolean;
-  setPreviewMode: Dispatch<SetStateAction<boolean>>;
-  displayTime: number;
-  isLoadPending: boolean;
-  replaceVariablesInContentBody: (
-    contentStr?: string | null,
-    shouldReturnHTML?: boolean
-  ) => string;
-}) {
+export default function ViewContainerHeader() {
+  const { events, setPreviewMode } = useProjectContext();
+
   const deleteModalRef = useRef<HTMLDialogElement>(null);
   const renameModalRef = useRef<HTMLDialogElement>(null);
   const dropdownRef = useRef<HTMLUListElement>(null);
@@ -72,9 +42,6 @@ export default function ViewContainerHeader({
 
   return (
     <div className={`flex justify-between items-center`}>
-      {isLoadPending && (
-        <span className="loading loading-spinner loading-sm bg-base-content ml-2" />
-      )}
       <div className="flex items-center gap-2">
         {events.length > 0 && (
           <>
@@ -95,19 +62,7 @@ export default function ViewContainerHeader({
             >
               <Fullscreen width={18} height={18} />
             </div>
-            <PreviewContainer
-              activeProject={activeProject}
-              setActiveProject={setActiveProject}
-              activeEvent={activeEvent}
-              backgroundColor={backgroundColor}
-              accentColor={accentColor}
-              textColor={textColor}
-              borderColor={borderColor}
-              previewRef={previewRef}
-              displayTime={displayTime}
-              isPreviewMode={isPreviewMode}
-              replaceVariablesInContentBody={replaceVariablesInContentBody}
-            />
+            <PreviewContainer previewRef={previewRef} />
           </>
         )}
       </div>
@@ -136,11 +91,8 @@ export default function ViewContainerHeader({
                 Rename Project
               </div>
               <RenameProjectModal
-                activeProject={activeProject}
-                setActiveProject={setActiveProject}
                 renameModalRef={renameModalRef}
                 dropdownRef={dropdownRef}
-                project={activeProject}
               />
             </a>
           </li>
@@ -159,7 +111,6 @@ export default function ViewContainerHeader({
               <DeleteProjectModal
                 deleteModalRef={deleteModalRef}
                 dropdownRef={dropdownRef}
-                project={activeProject}
               />
             </a>
           </li>

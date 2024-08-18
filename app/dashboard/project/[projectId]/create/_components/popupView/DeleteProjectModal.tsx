@@ -13,21 +13,20 @@ import {
 import * as z from "zod";
 import LoadingDots from "@/components/shared/loadingdots";
 import { Trash } from "lucide-react";
-import { Tables } from "@/supabase/types";
 import { showToast, showToastError } from "@/components/shared/showToast";
 import { useRouter } from "next/navigation";
 import { getRedirectPathname } from "@/app/(auth)/_actions";
 import { deleteProject } from "@/lib/actions/projects";
+import { useProjectContext } from "../ProjectBoard";
 
 export default function DeleteProjectModal({
   deleteModalRef,
   dropdownRef,
-  project,
 }: {
   deleteModalRef: RefObject<HTMLDialogElement>;
   dropdownRef: RefObject<HTMLUListElement>;
-  project: Tables<"Projects">;
 }) {
+  const { activeProject } = useProjectContext();
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
@@ -35,7 +34,7 @@ export default function DeleteProjectModal({
     .object({
       projectName: z.string(),
     })
-    .refine((data) => data.projectName === project.name, {
+    .refine((data) => data.projectName === activeProject.name, {
       message: "Project name does not match.",
       path: ["projectName"],
     });
@@ -49,13 +48,13 @@ export default function DeleteProjectModal({
 
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
     startTransition(async () => {
-      const { data, error } = await deleteProject(project.id);
+      const { data, error } = await deleteProject(activeProject.id);
       if (error) {
         showToastError(error);
       } else {
-        router.push(await getRedirectPathname(project.user_id));
+        router.push(await getRedirectPathname(activeProject.user_id));
         deleteModalRef.current?.close();
-        showToast(`Successfully deleted project ${project.name}.`);
+        showToast(`Successfully deleted project ${activeProject.name}.`);
       }
     });
   }
@@ -76,8 +75,8 @@ export default function DeleteProjectModal({
         <h3 className="font-semibold text-lg">Delete Project</h3>
         <p className="py-4">
           If you are sure you want to delete project{" "}
-          <span className="font-semibold">{`${project.name}`}</span>, please
-          enter the project name below. This action cannot be undone!
+          <span className="font-semibold">{`${activeProject.name}`}</span>,
+          please enter the project name below. This action cannot be undone!
         </p>
         <div className="flex flex-col items-center justify-center w-full max-w-md">
           <Form {...form}>
@@ -93,7 +92,7 @@ export default function DeleteProjectModal({
                   <FormItem>
                     <FormControl>
                       <input
-                        placeholder={project.name}
+                        placeholder={activeProject.name}
                         className="input input-bordered flex items-center gap-2 w-full"
                         {...field}
                         type="text"

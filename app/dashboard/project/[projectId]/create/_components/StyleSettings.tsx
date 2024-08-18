@@ -4,43 +4,34 @@ import { showToastError } from "@/components/shared/showToast";
 import { updateProject } from "@/lib/actions/projects";
 import { TemplateTypes, ScreenAlignment } from "@/lib/enums";
 import useScroll from "@/lib/hooks/use-scroll";
-import { Tables } from "@/supabase/types";
 import { Undo2 } from "lucide-react";
-import { Dispatch, RefObject, SetStateAction, useTransition } from "react";
-import { ColorPicker, IColor } from "react-color-palette";
+import { RefObject, useTransition } from "react";
+import { ColorPicker } from "react-color-palette";
 import "react-color-palette/css";
+import { useProjectContext } from "./ProjectBoard";
 
 export const StyleSettings = ({
-  activeProject,
-  setActiveProject,
-  backgroundColor,
-  setBackgroundColor,
-  textColor,
-  setTextColor,
-  accentColor,
-  setAccentColor,
-  borderColor,
-  setBorderColor,
   scrollRef,
   styleHeaderRef,
   eventHeaderHeight,
-  isPreviewMode,
 }: {
-  activeProject: Tables<"Projects"> | undefined;
-  setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
-  backgroundColor: IColor;
-  setBackgroundColor: Dispatch<SetStateAction<IColor>>;
-  textColor: IColor;
-  setTextColor: Dispatch<SetStateAction<IColor>>;
-  accentColor: IColor;
-  setAccentColor: Dispatch<SetStateAction<IColor>>;
-  borderColor: IColor;
-  setBorderColor: Dispatch<SetStateAction<IColor>>;
   scrollRef: RefObject<HTMLDivElement>;
   styleHeaderRef: RefObject<HTMLDivElement>;
   eventHeaderHeight: number | undefined;
-  isPreviewMode: boolean;
 }) => {
+  const {
+    activeProject,
+    setActiveProject,
+    backgroundColor,
+    setBackgroundColor,
+    textColor,
+    setTextColor,
+    accentColor,
+    setAccentColor,
+    borderColor,
+    setBorderColor,
+    isPreviewMode,
+  } = useProjectContext();
   const screenAlignmentTypes = Object.values(ScreenAlignment);
   const templateTypes = Object.values(TemplateTypes);
   const [isStylePending, startStyleTransition] = useTransition();

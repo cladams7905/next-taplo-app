@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Dispatch, RefObject, SetStateAction, useTransition } from "react";
+import { RefObject, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import {
   Form,
@@ -12,26 +12,21 @@ import {
 } from "@/components/shared/form";
 import * as z from "zod";
 import LoadingDots from "@/components/shared/loadingdots";
-import { Tables } from "@/supabase/types";
 import { showToast, showToastError } from "@/components/shared/showToast";
-import { useRouter } from "next/navigation";
 import { Pencil } from "lucide-react";
-import { setActiveProject, updateProject } from "@/lib/actions/projects";
+import { updateProject } from "@/lib/actions/projects";
+import { useProjectContext } from "../ProjectBoard";
 
 export default function RenameProjectModal({
-  activeProject,
-  setActiveProject,
   renameModalRef,
   dropdownRef,
-  project,
 }: {
-  activeProject: Tables<"Projects">;
-  setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
   renameModalRef: RefObject<HTMLDialogElement>;
   dropdownRef: RefObject<HTMLUListElement>;
-  project: Tables<"Projects">;
 }) {
+  const { activeProject, setActiveProject } = useProjectContext();
   const [isPending, startTransition] = useTransition();
+  const originalProjectName = activeProject.name;
 
   const FormSchema = z
     .object({
@@ -44,7 +39,7 @@ export default function RenameProjectModal({
           message: "Project name must be at least 3 characters.",
         }),
     })
-    .refine((data) => data.projectName !== project.name, {
+    .refine((data) => data.projectName !== originalProjectName, {
       message: "Project name must be different.",
       path: ["projectName"],
     });
@@ -63,7 +58,7 @@ export default function RenameProjectModal({
         name: formData.projectName,
       });
       const { error } = await updateProject(
-        project.id,
+        activeProject.id,
         {
           name: formData.projectName,
         },
@@ -74,7 +69,7 @@ export default function RenameProjectModal({
       } else {
         renameModalRef.current?.close();
         showToast(
-          `Successfully renamed project ${project.name} to ${formData.projectName}.`
+          `Successfully renamed project ${originalProjectName} to ${formData.projectName}.`
         );
       }
     });

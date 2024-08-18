@@ -11,24 +11,22 @@ import {
   useState,
   useTransition,
 } from "react";
+import { useProjectContext } from "./ProjectBoard";
 
 export default function AdditionalSettings({
-  activeProject,
-  setActiveProject,
   scrollRef,
   styleHeaderHeight,
-  isPreviewMode,
-  displayTime,
-  setDisplayTime,
 }: {
-  activeProject: Tables<"Projects">;
-  setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
   scrollRef: RefObject<HTMLDivElement>;
   styleHeaderHeight: number | undefined;
-  isPreviewMode: boolean;
-  displayTime: number;
-  setDisplayTime: Dispatch<SetStateAction<number>>;
 }) {
+  const {
+    activeProject,
+    setActiveProject,
+    displayTime,
+    setDisplayTime,
+    isPreviewMode,
+  } = useProjectContext();
   const [isSettingsPending, startSettingsTransition] = useTransition();
   const [eventInterval, setEventInterval] = useState<number>(
     activeProject.event_interval

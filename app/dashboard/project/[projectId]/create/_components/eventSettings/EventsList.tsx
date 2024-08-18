@@ -1,45 +1,19 @@
 "use client";
 
-import { Tables } from "@/supabase/types";
-import {
-  Dispatch,
-  memo,
-  SetStateAction,
-  TransitionStartFunction,
-  useRef,
-  useState,
-} from "react";
+import { TransitionStartFunction, useRef, useState } from "react";
 import { deleteEvent } from "@/lib/actions/events";
 import { showToast, showToastError } from "@/components/shared/showToast";
 import { sortByTimeCreated } from "@/lib/actions";
 import Event from "../Event";
+import { useProjectContext } from "../ProjectBoard";
 
 const EventsList = ({
-  activeProject,
-  setActiveProject,
-  activeEvent,
-  setActiveEvent,
-  events,
-  setEvents,
-  integrations,
-  setIntegrations,
   startEventTransition,
-  replaceVariablesInContentBody,
 }: {
-  activeProject: Tables<"Projects">;
-  setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
-  activeEvent: Tables<"Events"> | undefined;
-  setActiveEvent: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
-  events: Tables<"Events">[];
-  setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
-  integrations: Tables<"Integrations">[];
-  setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
   startEventTransition: TransitionStartFunction;
-  replaceVariablesInContentBody: (
-    contentStr?: string | null,
-    shouldReturnHTML?: boolean
-  ) => string;
 }) => {
+  const { activeProject, activeEvent, setActiveEvent, events, setEvents } =
+    useProjectContext();
   const [isCollapseOpen, setCollapseOpen] = useState(false);
   const toggleElement = useRef<HTMLDivElement>(null);
 
@@ -94,18 +68,10 @@ const EventsList = ({
         />
         <Event
           currentEvent={event}
-          activeProject={activeProject}
-          setActiveProject={setActiveProject}
-          activeEvent={activeEvent}
-          setActiveEvent={setActiveEvent}
-          events={events}
           isCollapseOpen={isCollapseOpen}
-          integrations={integrations}
-          setIntegrations={setIntegrations}
           startEventTransition={startEventTransition}
           handleEventDelete={handleEventDelete}
           toggleElement={toggleElement}
-          replaceVariablesInContentBody={replaceVariablesInContentBody}
         />
       </div>
     ))
@@ -117,23 +83,4 @@ const EventsList = ({
   );
 };
 
-function areEqual(
-  prevProps: {
-    events: Tables<"Events">[];
-    setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
-    integrations: Tables<"Integrations">[];
-  },
-  nextProps: {
-    events: Tables<"Events">[];
-    setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
-    integrations: Tables<"Integrations">[];
-  }
-) {
-  return (
-    prevProps.events === nextProps.events &&
-    prevProps.setEvents === nextProps.setEvents &&
-    prevProps.integrations === nextProps.integrations
-  );
-}
-
-export default memo(EventsList, areEqual);
+export default EventsList;

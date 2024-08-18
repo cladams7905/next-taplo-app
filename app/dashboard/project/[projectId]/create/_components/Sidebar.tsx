@@ -1,58 +1,11 @@
 "use client";
 
-import { Tables } from "@/supabase/types";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import EventSettings from "./eventSettings/EventSettings";
 import { StyleSettings } from "./StyleSettings";
-import { IColor } from "react-color-palette";
 import AdditionalSettings from "./AdditionalSettings";
 
-export default function Sidebar({
-  activeProject,
-  setActiveProject,
-  activeEvent,
-  setActiveEvent,
-  events,
-  setEvents,
-  integrations,
-  setIntegrations,
-  backgroundColor,
-  setBackgroundColor,
-  textColor,
-  setTextColor,
-  accentColor,
-  setAccentColor,
-  borderColor,
-  setBorderColor,
-  isPreviewMode,
-  displayTime,
-  setDisplayTime,
-  replaceVariablesInContentBody,
-}: {
-  activeProject: Tables<"Projects">;
-  setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
-  activeEvent: Tables<"Events"> | undefined;
-  setActiveEvent: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
-  events: Tables<"Events">[];
-  setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
-  integrations: Tables<"Integrations">[];
-  setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
-  backgroundColor: IColor;
-  setBackgroundColor: Dispatch<SetStateAction<IColor>>;
-  textColor: IColor;
-  setTextColor: Dispatch<SetStateAction<IColor>>;
-  accentColor: IColor;
-  setAccentColor: Dispatch<SetStateAction<IColor>>;
-  borderColor: IColor;
-  setBorderColor: Dispatch<SetStateAction<IColor>>;
-  isPreviewMode: boolean;
-  displayTime: number;
-  setDisplayTime: Dispatch<SetStateAction<number>>;
-  replaceVariablesInContentBody: (
-    contentStr?: string | null,
-    shouldReturnHTML?: boolean
-  ) => string;
-}) {
+export default function Sidebar() {
   const scrollParentRef = useRef<HTMLDivElement>(null);
   const eventHeaderRef = useRef<HTMLDivElement>(null);
   const styleHeaderRef = useRef<HTMLDivElement>(null);
@@ -103,43 +56,17 @@ export default function Sidebar({
       className="rounded-none relative w-full h-full border-l border-gray-300 bg-white overflow-y-scroll overflow-x-hidden shadow-xl"
     >
       <EventSettings
-        activeProject={activeProject}
-        setActiveProject={setActiveProject}
-        activeEvent={activeEvent}
-        setActiveEvent={setActiveEvent}
-        events={events}
-        setEvents={setEvents}
-        integrations={integrations}
-        setIntegrations={setIntegrations}
         scrollRef={scrollParentRef}
         eventHeaderRef={eventHeaderRef}
-        isPreviewMode={isPreviewMode}
-        replaceVariablesInContentBody={replaceVariablesInContentBody}
       />
       <StyleSettings
-        activeProject={activeProject}
-        setActiveProject={setActiveProject}
-        backgroundColor={backgroundColor}
-        setBackgroundColor={setBackgroundColor}
-        textColor={textColor}
-        setTextColor={setTextColor}
-        accentColor={accentColor}
-        setAccentColor={setAccentColor}
-        borderColor={borderColor}
-        setBorderColor={setBorderColor}
         scrollRef={scrollParentRef}
         styleHeaderRef={styleHeaderRef}
         eventHeaderHeight={eventHeaderHeight}
-        isPreviewMode={isPreviewMode}
       />
       <AdditionalSettings
-        activeProject={activeProject}
-        setActiveProject={setActiveProject}
         scrollRef={scrollParentRef}
         styleHeaderHeight={styleHeaderHeight}
-        isPreviewMode={isPreviewMode}
-        displayTime={displayTime}
-        setDisplayTime={setDisplayTime}
       />
     </div>
   );

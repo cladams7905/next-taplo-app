@@ -1,41 +1,19 @@
 "use client";
 
-import { Tables } from "@/supabase/types";
 import { BadgeCheck, ShoppingBasket } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { IColor } from "react-color-palette";
-import confetti from "canvas-confetti";
-import Image from "next/image";
-import "animate.css";
 import { ScreenAlignment, TemplateTypes } from "@/lib/enums";
 import { hexToRgba } from "@/lib/actions";
+import { useProjectContext } from "../ProjectBoard";
+import "animate.css";
 
 export default function PopupTemplate({
-  activeProject,
-  activeEvent,
-  backgroundColor,
-  textColor,
-  accentColor,
-  borderColor,
-  displayTime,
-  isPreviewMode,
-  bounceAnimation,
-  replaceVariablesInContentBody,
+  isAnimatePulse,
 }: {
-  activeProject: Tables<"Projects">;
-  activeEvent: Tables<"Events"> | undefined;
-  backgroundColor: IColor;
-  textColor: IColor;
-  accentColor: IColor;
-  borderColor: IColor;
-  displayTime?: number;
-  isPreviewMode?: boolean;
-  bounceAnimation?: boolean;
-  replaceVariablesInContentBody: (
-    contentStr?: string | null,
-    shouldReturnHTML?: boolean
-  ) => string;
+  isAnimatePulse?: boolean;
 }) {
+  const { activeProject, displayTime, isPreviewMode } = useProjectContext();
+
   const [animation, setAnimation] = useState(
     activeProject.screen_alignment === ScreenAlignment.BottomLeft ||
       activeProject.screen_alignment === ScreenAlignment.TopLeft
@@ -107,113 +85,51 @@ export default function PopupTemplate({
     case TemplateTypes.SmPopup:
       return (
         <SmallPopupTemplate
-          activeEvent={activeEvent}
-          backgroundColor={backgroundColor}
-          accentColor={accentColor}
-          textColor={textColor}
-          borderColor={borderColor}
           animation={animation}
-          isPreviewMode={isPreviewMode}
-          bounceAnimation={bounceAnimation}
-          replaceVariablesInContentBody={replaceVariablesInContentBody}
+          isAnimatePulse={isAnimatePulse}
         />
       );
     case TemplateTypes.SmPopupNoImg:
       return (
         <SmallPopupNoImageTemplate
-          activeEvent={activeEvent}
-          backgroundColor={backgroundColor}
-          accentColor={accentColor}
-          textColor={textColor}
-          borderColor={borderColor}
           animation={animation}
-          isPreviewMode={isPreviewMode}
-          bounceAnimation={bounceAnimation}
-          replaceVariablesInContentBody={replaceVariablesInContentBody}
+          isAnimatePulse={isAnimatePulse}
         />
       );
     case TemplateTypes.LgPopup:
       return (
         <LargePopupTemplate
-          activeEvent={activeEvent}
-          backgroundColor={backgroundColor}
-          accentColor={accentColor}
-          textColor={textColor}
-          borderColor={borderColor}
           animation={animation}
-          isPreviewMode={isPreviewMode}
-          bounceAnimation={bounceAnimation}
-          replaceVariablesInContentBody={replaceVariablesInContentBody}
+          isAnimatePulse={isAnimatePulse}
         />
       );
     case TemplateTypes.LgPopupNoImg:
       return (
         <LargePopupNoImageTemplate
-          activeEvent={activeEvent}
-          backgroundColor={backgroundColor}
-          accentColor={accentColor}
-          textColor={textColor}
-          borderColor={borderColor}
           animation={animation}
-          isPreviewMode={isPreviewMode}
-          bounceAnimation={bounceAnimation}
-          replaceVariablesInContentBody={replaceVariablesInContentBody}
+          isAnimatePulse={isAnimatePulse}
         />
       );
     case TemplateTypes.Card:
       return (
-        <CardTemplate
-          activeEvent={activeEvent}
-          backgroundColor={backgroundColor}
-          accentColor={accentColor}
-          textColor={textColor}
-          borderColor={borderColor}
-          animation={animation}
-          isPreviewMode={isPreviewMode}
-          bounceAnimation={bounceAnimation}
-          replaceVariablesInContentBody={replaceVariablesInContentBody}
-        />
+        <CardTemplate animation={animation} isAnimatePulse={isAnimatePulse} />
       );
     case TemplateTypes.CardNoImg:
       return (
         <CardNoImageTemplate
-          activeEvent={activeEvent}
-          backgroundColor={backgroundColor}
-          accentColor={accentColor}
-          textColor={textColor}
-          borderColor={borderColor}
           animation={animation}
-          isPreviewMode={isPreviewMode}
-          bounceAnimation={bounceAnimation}
-          replaceVariablesInContentBody={replaceVariablesInContentBody}
+          isAnimatePulse={isAnimatePulse}
         />
       );
     case TemplateTypes.Banner:
       return (
-        <BannerTemplate
-          activeEvent={activeEvent}
-          backgroundColor={backgroundColor}
-          accentColor={accentColor}
-          textColor={textColor}
-          borderColor={borderColor}
-          animation={animation}
-          isPreviewMode={isPreviewMode}
-          bounceAnimation={bounceAnimation}
-          replaceVariablesInContentBody={replaceVariablesInContentBody}
-        />
+        <BannerTemplate animation={animation} isAnimatePulse={isAnimatePulse} />
       );
     case TemplateTypes.BannerNoImg:
       return (
         <BannerNoImageTemplate
-          activeEvent={activeEvent}
-          backgroundColor={backgroundColor}
-          accentColor={accentColor}
-          textColor={textColor}
-          borderColor={borderColor}
           animation={animation}
-          isPreviewMode={isPreviewMode}
-          bounceAnimation={bounceAnimation}
-          replaceVariablesInContentBody={replaceVariablesInContentBody}
+          isAnimatePulse={isAnimatePulse}
         />
       );
     default:
@@ -222,29 +138,22 @@ export default function PopupTemplate({
 }
 
 const SmallPopupTemplate = ({
-  activeEvent,
-  backgroundColor,
-  textColor,
-  accentColor,
-  borderColor,
   animation,
-  isPreviewMode,
-  bounceAnimation,
-  replaceVariablesInContentBody,
+  isAnimatePulse,
 }: {
-  activeEvent: Tables<"Events"> | undefined;
-  backgroundColor: IColor;
-  textColor: IColor;
-  accentColor: IColor;
-  borderColor: IColor;
   animation?: string;
-  isPreviewMode?: boolean;
-  bounceAnimation?: boolean;
-  replaceVariablesInContentBody: (
-    contentStr?: string | null,
-    shouldReturnHTML?: boolean
-  ) => string;
+  isAnimatePulse?: boolean;
 }) => {
+  const {
+    activeEvent,
+    backgroundColor,
+    textColor,
+    accentColor,
+    borderColor,
+    isPreviewMode,
+    replaceVariablesInContentBody,
+  } = useProjectContext();
+
   return (
     <div
       style={{
@@ -254,9 +163,7 @@ const SmallPopupTemplate = ({
       className={`relative flex flex-row w-fit h-fit pr-6 pl-4 max-w-[330px] rounded-lg border shadow-lg py-4 gap-3 ${
         isPreviewMode ? animation : ""
       } ${
-        bounceAnimation
-          ? "animate__animated animate__pulse animate__faster"
-          : ""
+        isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""
       }`}
     >
       <div className="flex items-center justify-center">
@@ -316,29 +223,21 @@ const SmallPopupTemplate = ({
 };
 
 const SmallPopupNoImageTemplate = ({
-  activeEvent,
-  backgroundColor,
-  textColor,
-  accentColor,
-  borderColor,
   animation,
-  isPreviewMode,
-  bounceAnimation,
-  replaceVariablesInContentBody,
+  isAnimatePulse,
 }: {
-  activeEvent: Tables<"Events"> | undefined;
-  backgroundColor: IColor;
-  textColor: IColor;
-  accentColor: IColor;
-  borderColor: IColor;
   animation?: string;
-  isPreviewMode?: boolean;
-  bounceAnimation?: boolean;
-  replaceVariablesInContentBody: (
-    contentStr?: string | null,
-    shouldReturnHTML?: boolean
-  ) => string;
+  isAnimatePulse?: boolean;
 }) => {
+  const {
+    activeEvent,
+    backgroundColor,
+    textColor,
+    accentColor,
+    borderColor,
+    isPreviewMode,
+    replaceVariablesInContentBody,
+  } = useProjectContext();
   return (
     <div
       style={{
@@ -348,9 +247,7 @@ const SmallPopupNoImageTemplate = ({
       className={`relative flex w-fit h-fit pr-6 pl-4 max-w-[300px] rounded-lg border shadow-lg py-4 ${
         isPreviewMode ? animation : ""
       } ${
-        bounceAnimation
-          ? "animate__animated animate__pulse animate__faster"
-          : ""
+        isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""
       }`}
     >
       <div className="flex w-full gap-4 items-center">
@@ -396,29 +293,21 @@ const SmallPopupNoImageTemplate = ({
 };
 
 const LargePopupTemplate = ({
-  activeEvent,
-  backgroundColor,
-  textColor,
-  accentColor,
-  borderColor,
   animation,
-  isPreviewMode,
-  bounceAnimation,
-  replaceVariablesInContentBody,
+  isAnimatePulse,
 }: {
-  activeEvent: Tables<"Events"> | undefined;
-  backgroundColor: IColor;
-  textColor: IColor;
-  accentColor: IColor;
-  borderColor: IColor;
   animation?: string;
-  isPreviewMode?: boolean;
-  bounceAnimation?: boolean;
-  replaceVariablesInContentBody: (
-    contentStr?: string | null,
-    shouldReturnHTML?: boolean
-  ) => string;
+  isAnimatePulse?: boolean;
 }) => {
+  const {
+    activeEvent,
+    backgroundColor,
+    textColor,
+    accentColor,
+    borderColor,
+    isPreviewMode,
+    replaceVariablesInContentBody,
+  } = useProjectContext();
   return (
     <div
       style={{
@@ -428,9 +317,7 @@ const LargePopupTemplate = ({
       className={`relative flex flex-row w-fit h-fit min-h-[110px] max-w-[380px] rounded-lg border shadow-lg gap-3 ${
         isPreviewMode ? animation : ""
       } ${
-        bounceAnimation
-          ? "animate__animated animate__pulse animate__faster"
-          : ""
+        isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""
       }`}
     >
       <div className="flex items-center justify-center h-full w-full max-w-[110px]">
@@ -491,29 +378,21 @@ const LargePopupTemplate = ({
 };
 
 const LargePopupNoImageTemplate = ({
-  activeEvent,
-  backgroundColor,
-  textColor,
-  accentColor,
-  borderColor,
   animation,
-  isPreviewMode,
-  bounceAnimation,
-  replaceVariablesInContentBody,
+  isAnimatePulse,
 }: {
-  activeEvent: Tables<"Events"> | undefined;
-  backgroundColor: IColor;
-  textColor: IColor;
-  accentColor: IColor;
-  borderColor: IColor;
   animation?: string;
-  isPreviewMode?: boolean;
-  bounceAnimation?: boolean;
-  replaceVariablesInContentBody: (
-    contentStr?: string | null,
-    shouldReturnHTML?: boolean
-  ) => string;
+  isAnimatePulse?: boolean;
 }) => {
+  const {
+    activeEvent,
+    backgroundColor,
+    textColor,
+    accentColor,
+    borderColor,
+    isPreviewMode,
+    replaceVariablesInContentBody,
+  } = useProjectContext();
   return (
     <div
       style={{
@@ -523,9 +402,7 @@ const LargePopupNoImageTemplate = ({
       className={`relative flex flex-row w-fit h-fit min-h-[110px] max-w-[340px] rounded-lg border shadow-lg gap-3 ${
         isPreviewMode ? animation : ""
       } ${
-        bounceAnimation
-          ? "animate__animated animate__pulse animate__faster"
-          : ""
+        isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""
       }`}
     >
       <div className="flex w-full gap-3 items-center mx-3">
@@ -571,29 +448,21 @@ const LargePopupNoImageTemplate = ({
 };
 
 const CardTemplate = ({
-  activeEvent,
-  backgroundColor,
-  textColor,
-  accentColor,
-  borderColor,
   animation,
-  isPreviewMode,
-  bounceAnimation,
-  replaceVariablesInContentBody,
+  isAnimatePulse,
 }: {
-  activeEvent: Tables<"Events"> | undefined;
-  backgroundColor: IColor;
-  textColor: IColor;
-  accentColor: IColor;
-  borderColor: IColor;
   animation?: string;
-  isPreviewMode?: boolean;
-  bounceAnimation?: boolean;
-  replaceVariablesInContentBody: (
-    contentStr?: string | null,
-    shouldReturnHTML?: boolean
-  ) => string;
+  isAnimatePulse?: boolean;
 }) => {
+  const {
+    activeEvent,
+    backgroundColor,
+    textColor,
+    accentColor,
+    borderColor,
+    isPreviewMode,
+    replaceVariablesInContentBody,
+  } = useProjectContext();
   return (
     <div
       style={{
@@ -603,9 +472,7 @@ const CardTemplate = ({
       className={`relative flex flex-col w-fit h-fit min-h-[270px] max-w-[280px] rounded-lg border shadow-lg gap-3 ${
         isPreviewMode ? animation : ""
       } ${
-        bounceAnimation
-          ? "animate__animated animate__pulse animate__faster"
-          : ""
+        isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""
       }`}
     >
       <div className="flex items-center justify-center h-full w-full">
@@ -666,29 +533,21 @@ const CardTemplate = ({
 };
 
 const CardNoImageTemplate = ({
-  activeEvent,
-  backgroundColor,
-  textColor,
-  accentColor,
-  borderColor,
   animation,
-  isPreviewMode,
-  bounceAnimation,
-  replaceVariablesInContentBody,
+  isAnimatePulse,
 }: {
-  activeEvent: Tables<"Events"> | undefined;
-  backgroundColor: IColor;
-  textColor: IColor;
-  accentColor: IColor;
-  borderColor: IColor;
   animation?: string;
-  isPreviewMode?: boolean;
-  bounceAnimation?: boolean;
-  replaceVariablesInContentBody: (
-    contentStr?: string | null,
-    shouldReturnHTML?: boolean
-  ) => string;
+  isAnimatePulse?: boolean;
 }) => {
+  const {
+    activeEvent,
+    backgroundColor,
+    textColor,
+    accentColor,
+    borderColor,
+    isPreviewMode,
+    replaceVariablesInContentBody,
+  } = useProjectContext();
   return (
     <div
       style={{
@@ -698,9 +557,7 @@ const CardNoImageTemplate = ({
       className={`relative flex flex-col w-fit h-fit min-h-[160px] items-center justify-center max-w-[280px] rounded-lg border shadow-lg gap-3 ${
         isPreviewMode ? animation : ""
       } ${
-        bounceAnimation
-          ? "animate__animated animate__pulse animate__faster"
-          : ""
+        isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""
       }`}
     >
       <div className="flex w-full gap-4 items-center">
@@ -746,29 +603,21 @@ const CardNoImageTemplate = ({
 };
 
 const BannerTemplate = ({
-  activeEvent,
-  backgroundColor,
-  textColor,
-  accentColor,
-  borderColor,
   animation,
-  isPreviewMode,
-  bounceAnimation,
-  replaceVariablesInContentBody,
+  isAnimatePulse,
 }: {
-  activeEvent: Tables<"Events"> | undefined;
-  backgroundColor: IColor;
-  textColor: IColor;
-  accentColor: IColor;
-  borderColor: IColor;
   animation?: string;
-  isPreviewMode?: boolean;
-  bounceAnimation?: boolean;
-  replaceVariablesInContentBody: (
-    contentStr?: string | null,
-    shouldReturnHTML?: boolean
-  ) => string;
+  isAnimatePulse?: boolean;
 }) => {
+  const {
+    activeEvent,
+    backgroundColor,
+    textColor,
+    accentColor,
+    borderColor,
+    isPreviewMode,
+    replaceVariablesInContentBody,
+  } = useProjectContext();
   return (
     <div
       style={{
@@ -778,9 +627,7 @@ const BannerTemplate = ({
       className={`relative flex flex-row px-5 h-fit min-h-[60px] items-center justify-center max-w-screen-md rounded-lg border shadow-lg ${
         isPreviewMode ? animation : ""
       } ${
-        bounceAnimation
-          ? "animate__animated animate__pulse animate__faster"
-          : ""
+        isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""
       }`}
     >
       <div className="flex items-center justify-center">
@@ -841,29 +688,21 @@ const BannerTemplate = ({
 };
 
 const BannerNoImageTemplate = ({
-  activeEvent,
-  backgroundColor,
-  textColor,
-  accentColor,
-  borderColor,
   animation,
-  isPreviewMode,
-  bounceAnimation,
-  replaceVariablesInContentBody,
+  isAnimatePulse,
 }: {
-  activeEvent: Tables<"Events"> | undefined;
-  backgroundColor: IColor;
-  textColor: IColor;
-  accentColor: IColor;
-  borderColor: IColor;
   animation?: string;
-  isPreviewMode?: boolean;
-  bounceAnimation?: boolean;
-  replaceVariablesInContentBody: (
-    contentStr?: string | null,
-    shouldReturnHTML?: boolean
-  ) => string;
+  isAnimatePulse?: boolean;
 }) => {
+  const {
+    activeEvent,
+    backgroundColor,
+    textColor,
+    accentColor,
+    borderColor,
+    isPreviewMode,
+    replaceVariablesInContentBody,
+  } = useProjectContext();
   return (
     <div
       style={{
@@ -873,9 +712,7 @@ const BannerNoImageTemplate = ({
       className={`relative flex flex-col h-fit min-h-[60px] items-center justify-center max-w-screen-md rounded-lg border shadow-lg ${
         isPreviewMode ? animation : ""
       } ${
-        bounceAnimation
-          ? "animate__animated animate__pulse animate__faster"
-          : ""
+        isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""
       }`}
     >
       <div className="flex w-full items-center justify-center">

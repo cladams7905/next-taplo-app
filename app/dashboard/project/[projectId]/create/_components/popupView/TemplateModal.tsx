@@ -4,8 +4,7 @@ import { showToastError } from "@/components/shared/showToast";
 import { hexToRgba } from "@/lib/actions";
 import { updateProject } from "@/lib/actions/projects";
 import { ScreenAlignment, TemplateTypes } from "@/lib/enums";
-import { Tables } from "@/supabase/types";
-import { BadgeCheck, CheckIcon, ImageIcon, ShoppingBasket } from "lucide-react";
+import { BadgeCheck, CheckIcon, ShoppingBasket } from "lucide-react";
 import {
   Dispatch,
   RefObject,
@@ -13,29 +12,18 @@ import {
   useState,
   useTransition,
 } from "react";
-import { IColor } from "react-color-palette";
+import { useProjectContext } from "../ProjectBoard";
 
 export default function TemplateModal({
-  activeProject,
-  setActiveProject,
   templateModalRef,
   activeTemplate,
   setActiveTemplate,
-  backgroundColor,
-  textColor,
-  accentColor,
-  borderColor,
 }: {
-  activeProject: Tables<"Projects">;
-  setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
   templateModalRef: RefObject<HTMLDialogElement>;
   activeTemplate: TemplateTypes;
   setActiveTemplate: Dispatch<SetStateAction<TemplateTypes>>;
-  backgroundColor: IColor;
-  textColor: IColor;
-  accentColor: IColor;
-  borderColor: IColor;
 }) {
+  const { activeProject, setActiveProject } = useProjectContext();
   const [isShowImageTemplates, setShowImageTemplates] = useState<boolean>(true);
   const [isLoading, startLoadingTransition] = useTransition();
 
@@ -120,13 +108,7 @@ export default function TemplateModal({
                 <CheckIcon width={20} height={20} strokeWidth={3} />
               </div>
             )}
-            <SmallPopupTemplate
-              backgroundColor={backgroundColor}
-              borderColor={borderColor}
-              textColor={textColor}
-              accentColor={accentColor}
-              isShowImages={isShowImageTemplates}
-            />
+            <SmallPopupTemplate isShowImages={isShowImageTemplates} />
             <div className="flex items-center justify-center absolute w-full h-fit px-10 py-4 outline outline-1 outline-primary bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold">
               {isShowImageTemplates ? "Small popup" : "Small popup (no image)"}
             </div>
@@ -150,13 +132,7 @@ export default function TemplateModal({
                 <CheckIcon width={20} height={20} strokeWidth={3} />
               </div>
             )}
-            <LargePopupTemplate
-              backgroundColor={backgroundColor}
-              borderColor={borderColor}
-              textColor={textColor}
-              accentColor={accentColor}
-              isShowImages={isShowImageTemplates}
-            />
+            <LargePopupTemplate isShowImages={isShowImageTemplates} />
             <div className="flex items-center justify-center absolute w-full h-fit px-10 py-4 outline outline-1 outline-primary bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold">
               {isShowImageTemplates ? "Large popup" : "Large popup (no image)"}
             </div>
@@ -180,13 +156,7 @@ export default function TemplateModal({
                 <CheckIcon width={20} height={20} strokeWidth={3} />
               </div>
             )}
-            <CardTemplate
-              backgroundColor={backgroundColor}
-              borderColor={borderColor}
-              textColor={textColor}
-              accentColor={accentColor}
-              isShowImages={isShowImageTemplates}
-            />
+            <CardTemplate isShowImages={isShowImageTemplates} />
             <div className="flex items-center justify-center absolute w-full h-fit px-10 py-4 outline outline-1 outline-primary bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold">
               {isShowImageTemplates ? "Card" : "Card (no image)"}
             </div>
@@ -210,13 +180,7 @@ export default function TemplateModal({
                 <CheckIcon width={20} height={20} strokeWidth={3} />
               </div>
             )}
-            <BannerTemplate
-              backgroundColor={backgroundColor}
-              borderColor={borderColor}
-              textColor={textColor}
-              accentColor={accentColor}
-              isShowImages={isShowImageTemplates}
-            />
+            <BannerTemplate isShowImages={isShowImageTemplates} />
             <div className="flex items-center justify-center absolute w-full h-fit px-10 py-4 outline outline-1 outline-primary bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold">
               {isShowImageTemplates ? "Banner" : "Banner (no image)"}
             </div>
@@ -227,19 +191,9 @@ export default function TemplateModal({
   );
 }
 
-const SmallPopupTemplate = ({
-  backgroundColor,
-  textColor,
-  accentColor,
-  borderColor,
-  isShowImages,
-}: {
-  backgroundColor: IColor;
-  textColor: IColor;
-  accentColor: IColor;
-  borderColor: IColor;
-  isShowImages: boolean;
-}) => {
+const SmallPopupTemplate = ({ isShowImages }: { isShowImages: boolean }) => {
+  const { backgroundColor, textColor, accentColor, borderColor } =
+    useProjectContext();
   return (
     <div
       style={{
@@ -315,19 +269,9 @@ const SmallPopupTemplate = ({
   );
 };
 
-const LargePopupTemplate = ({
-  backgroundColor,
-  textColor,
-  accentColor,
-  borderColor,
-  isShowImages,
-}: {
-  backgroundColor: IColor;
-  textColor: IColor;
-  accentColor: IColor;
-  borderColor: IColor;
-  isShowImages: boolean;
-}) => {
+const LargePopupTemplate = ({ isShowImages }: { isShowImages: boolean }) => {
+  const { backgroundColor, textColor, accentColor, borderColor } =
+    useProjectContext();
   return (
     <div
       style={{
@@ -404,19 +348,9 @@ const LargePopupTemplate = ({
   );
 };
 
-const CardTemplate = ({
-  backgroundColor,
-  textColor,
-  accentColor,
-  borderColor,
-  isShowImages,
-}: {
-  backgroundColor: IColor;
-  textColor: IColor;
-  accentColor: IColor;
-  borderColor: IColor;
-  isShowImages: boolean;
-}) => {
+const CardTemplate = ({ isShowImages }: { isShowImages: boolean }) => {
+  const { backgroundColor, textColor, accentColor, borderColor } =
+    useProjectContext();
   return (
     <div
       style={{
@@ -498,19 +432,9 @@ const CardTemplate = ({
   );
 };
 
-const BannerTemplate = ({
-  backgroundColor,
-  textColor,
-  accentColor,
-  borderColor,
-  isShowImages,
-}: {
-  backgroundColor: IColor;
-  textColor: IColor;
-  accentColor: IColor;
-  borderColor: IColor;
-  isShowImages: boolean;
-}) => {
+const BannerTemplate = ({ isShowImages }: { isShowImages: boolean }) => {
+  const { backgroundColor, textColor, accentColor, borderColor } =
+    useProjectContext();
   return (
     <div
       style={{

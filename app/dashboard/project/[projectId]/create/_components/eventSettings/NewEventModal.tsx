@@ -1,8 +1,7 @@
 "use client";
 
-import { hexToRgba } from "@/lib/actions";
 import { EventType } from "@/lib/enums";
-import { Tables, TablesInsert } from "@/supabase/types";
+import { TablesInsert } from "@/supabase/types";
 import { showToastError } from "@/components/shared/showToast";
 import { sortByTimeCreated } from "@/lib/actions";
 import { createEvent } from "@/lib/actions/events";
@@ -13,13 +12,8 @@ import {
   ShoppingCart,
   UsersRound,
 } from "lucide-react";
-import {
-  Dispatch,
-  RefObject,
-  SetStateAction,
-  useState,
-  useTransition,
-} from "react";
+import { RefObject, useState, useTransition } from "react";
+import { useProjectContext } from "../ProjectBoard";
 
 type EventOption = {
   title: string;
@@ -31,17 +25,11 @@ type EventOption = {
 
 export default function NewEventModal({
   eventModalRef,
-  activeProject,
-  events,
-  setEvents,
-  setActiveEvent,
 }: {
   eventModalRef: RefObject<HTMLDialogElement>;
-  activeProject: Tables<"Projects">;
-  events: Tables<"Events">[];
-  setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
-  setActiveEvent: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
 }) {
+  const { activeProject, events, setEvents, setActiveEvent } =
+    useProjectContext();
   const [isLoading, startLoadingTransition] = useTransition();
   const [searchQuery, setSearchQuery] = useState("");
   const eventOptions = getEventOptions();

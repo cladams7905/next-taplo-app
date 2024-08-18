@@ -12,13 +12,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/shared/form";
-import {
-  Dispatch,
-  RefObject,
-  SetStateAction,
-  useState,
-  useTransition,
-} from "react";
+import { RefObject, useState, useTransition } from "react";
 import { showToast, showToastError } from "@/components/shared/showToast";
 import { CirclePlus } from "lucide-react";
 import Image from "next/image";
@@ -28,6 +22,7 @@ import { Tables } from "@/supabase/types";
 import { createIntegration } from "@/lib/actions/integrations";
 import { checkDuplicateTitle } from "@/lib/actions";
 import { Providers } from "@/lib/enums";
+import { useProjectContext } from "../../ProjectBoard";
 
 const PROVIDERS = Object.values(Providers) as [string, ...string[]];
 const providersEnum = z.enum(PROVIDERS, {
@@ -42,23 +37,18 @@ const FormSchema = z.object({
 });
 
 export default function NewIntegrationForm({
-  newIntegrationModalRef,
-  integrations,
-  setIntegrations,
-  activeProject,
   currentEvent,
+  newIntegrationModalRef,
   handleUpdateIntegration,
 }: {
-  newIntegrationModalRef: RefObject<HTMLDialogElement>;
-  integrations: Tables<"Integrations">[];
-  setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
-  activeProject: Tables<"Projects">;
   currentEvent?: Tables<"Events">;
+  newIntegrationModalRef: RefObject<HTMLDialogElement>;
   handleUpdateIntegration?: (
     event: Tables<"Events">,
     integrationId: number
   ) => void;
 }) {
+  const { activeProject, integrations, setIntegrations } = useProjectContext();
   const [isPending, startTransition] = useTransition();
   const [provider, setProvider] = useState<ProvidersEnum>();
 

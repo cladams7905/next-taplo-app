@@ -1,7 +1,8 @@
+"use client";
+
 import React, {
   Dispatch,
   FormEvent,
-  RefObject,
   SetStateAction,
   TransitionStartFunction,
   useCallback,
@@ -13,18 +14,18 @@ import { updateEvent } from "@/lib/actions/events";
 import { showToastError } from "@/components/shared/showToast";
 import { Tables } from "@/supabase/types";
 import { ContentVars, EventType } from "@/lib/enums";
+import { useProjectContext } from "../../ProjectBoard";
 
 export default function ContentBodyEditor({
   currentEvent,
-  setActiveEvent,
   setEditContentMode,
   startLoadTransition,
 }: {
   currentEvent: Tables<"Events"> | undefined;
-  setActiveEvent: Dispatch<SetStateAction<Tables<"Events"> | undefined>>;
   setEditContentMode: Dispatch<SetStateAction<boolean>>;
   startLoadTransition: TransitionStartFunction;
 }) {
+  const { setActiveEvent } = useProjectContext();
   const VARCHECK = "\\";
   const MAXINPUTCHARS = 80;
   const [currentNumChars, setCurrentNumChars] = useState(

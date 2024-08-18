@@ -3,8 +3,6 @@
 import { Tables } from "@/supabase/types";
 import { ChevronDown, CirclePlus } from "lucide-react";
 import {
-  Dispatch,
-  SetStateAction,
   TransitionStartFunction,
   useCallback,
   useEffect,
@@ -13,29 +11,21 @@ import {
 } from "react";
 import NewIntegrationModal from "./NewIntegrationModal";
 import { EventType, Providers } from "@/lib/enums";
+import { useProjectContext } from "../../ProjectBoard";
 
 export default function IntegrationSelect({
-  activeProject,
-  setActiveProject,
   currentEvent,
-  events,
-  integrations,
-  setIntegrations,
   startEventTransition,
   handleUpdateIntegration,
 }: {
-  activeProject: Tables<"Projects">;
-  setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
   currentEvent: Tables<"Events">;
-  events: Tables<"Events">[];
-  integrations: Tables<"Integrations">[];
-  setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
   startEventTransition: TransitionStartFunction;
   handleUpdateIntegration: (
     event: Tables<"Events">,
     integrationId: number
   ) => void;
 }) {
+  const { events, integrations } = useProjectContext();
   const toggleModalRef = useRef<HTMLDivElement>(null);
   const newIntegrationModalRef = useRef<HTMLDialogElement>(null);
 
@@ -82,11 +72,8 @@ export default function IntegrationSelect({
           <CirclePlus height={16} width={16} />
         </div>
         <NewIntegrationModal
-          newIntegrationModalRef={newIntegrationModalRef}
-          integrations={integrations}
-          setIntegrations={setIntegrations}
-          activeProject={activeProject}
           currentEvent={currentEvent}
+          newIntegrationModalRef={newIntegrationModalRef}
           handleUpdateIntegration={handleUpdateIntegration}
         />
       </div>
