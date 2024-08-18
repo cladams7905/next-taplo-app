@@ -6,9 +6,9 @@ import { Ellipsis, ShoppingBag, Trash, XCircle } from "lucide-react";
 import { updateEvent } from "@/lib/actions/events";
 import { showToastError } from "@/components/shared/showToast";
 import { Pencil1Icon } from "@radix-ui/react-icons";
-import IntegrationSelect from "./eventSettings/integrations/IntegrationSelect";
-import ContentBodyEditor from "./eventSettings/contentEditor/ContentBodyEditor";
-import { useProjectContext } from "./ProjectBoard";
+import IntegrationSelect from "./integrations/IntegrationSelect";
+import ContentBodyEditor from "./contentEditor/ContentBodyEditor";
+import { useProjectContext } from "../ProjectBoard";
 
 export default function Event({
   currentEvent,

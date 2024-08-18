@@ -48,6 +48,21 @@ interface ProjectContextType {
  */
 const ProjectContext = createContext<ProjectContextType | undefined>(undefined);
 
+/**
+ * @interface ProjectContextType
+ * @prop activeProject
+ * @prop activeEvent
+ * @prop events
+ * @prop integrations
+ * @prop backgroundColor
+ * @prop textColor
+ * @prop borderColor
+ * @prop accentColor
+ * @prop isPreviewMode
+ * @prop displayTime
+ * @prop replaceVarsInContentBody
+ * @returns the project context
+ */
 export const useProjectContext = () => {
   const context = useContext(ProjectContext);
   if (!context) {

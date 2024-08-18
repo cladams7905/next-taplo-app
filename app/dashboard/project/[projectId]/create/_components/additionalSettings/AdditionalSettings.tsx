@@ -3,15 +3,8 @@
 import { showToastError } from "@/components/shared/showToast";
 import { updateProject } from "@/lib/actions/projects";
 import useScroll from "@/lib/hooks/use-scroll";
-import { Tables } from "@/supabase/types";
-import {
-  Dispatch,
-  RefObject,
-  SetStateAction,
-  useState,
-  useTransition,
-} from "react";
-import { useProjectContext } from "./ProjectBoard";
+import { RefObject, useState, useTransition } from "react";
+import { useProjectContext } from "../ProjectBoard";
 
 export default function AdditionalSettings({
   scrollRef,

@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import EventSettings from "./eventSettings/EventSettings";
-import { StyleSettings } from "./StyleSettings";
-import AdditionalSettings from "./AdditionalSettings";
+import { StyleSettings } from "./styleSettings/StyleSettings";
+import AdditionalSettings from "./additionalSettings/AdditionalSettings";
 
 export default function Sidebar() {
   const scrollParentRef = useRef<HTMLDivElement>(null);
