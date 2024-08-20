@@ -9,17 +9,14 @@ import { useProjectContext } from "../ProjectBoard";
 export default function AdditionalSettings({
   scrollRef,
   styleHeaderHeight,
+  isPreviewMode,
 }: {
   scrollRef: RefObject<HTMLDivElement>;
   styleHeaderHeight: number | undefined;
+  isPreviewMode: boolean;
 }) {
-  const {
-    activeProject,
-    setActiveProject,
-    displayTime,
-    setDisplayTime,
-    isPreviewMode,
-  } = useProjectContext();
+  const { activeProject, setActiveProject, displayTime, setDisplayTime } =
+    useProjectContext();
   const [isSettingsPending, startSettingsTransition] = useTransition();
   const [eventInterval, setEventInterval] = useState<number>(
     activeProject.event_interval

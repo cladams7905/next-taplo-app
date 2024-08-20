@@ -8,14 +8,18 @@ import {
   Pencil,
   TrashIcon,
 } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import RenameProjectModal from "./RenameProjectModal";
 import DeleteProjectModal from "./DeleteProjectModal";
 import PreviewContainer from "./PreviewContainer";
 import { useProjectContext } from "../ProjectBoard";
 
-export default function ViewContainerHeader() {
-  const { events, setPreviewMode } = useProjectContext();
+export default function ViewContainerHeader({
+  setPreviewMode,
+}: {
+  setPreviewMode: Dispatch<SetStateAction<boolean>>;
+}) {
+  const { events } = useProjectContext();
 
   const deleteModalRef = useRef<HTMLDialogElement>(null);
   const renameModalRef = useRef<HTMLDialogElement>(null);

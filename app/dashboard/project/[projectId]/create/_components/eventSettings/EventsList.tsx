@@ -1,6 +1,6 @@
 "use client";
 
-import { TransitionStartFunction, useRef, useState } from "react";
+import { memo, TransitionStartFunction, useRef, useState } from "react";
 import { deleteEvent } from "@/lib/actions/events";
 import { showToast, showToastError } from "@/components/shared/showToast";
 import { sortByTimeCreated } from "@/lib/actions";
@@ -83,4 +83,11 @@ const EventsList = ({
   );
 };
 
-export default EventsList;
+const areEqual = (prevProps: any, nextProps: any) => {
+  const { activeEvent: prevActiveEvent } = prevProps;
+  const { activeEvent: nextActiveEvent } = nextProps;
+  const activeEventChanged = prevActiveEvent?.id !== nextActiveEvent?.id;
+  return !activeEventChanged;
+};
+
+export default memo(EventsList, areEqual);

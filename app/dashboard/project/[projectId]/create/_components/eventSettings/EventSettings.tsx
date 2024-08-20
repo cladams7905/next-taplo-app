@@ -9,11 +9,12 @@ import { useProjectContext } from "../ProjectBoard";
 const EventSettings = ({
   scrollRef,
   eventHeaderRef,
+  isPreviewMode,
 }: {
   scrollRef: RefObject<HTMLDivElement>;
   eventHeaderRef: RefObject<HTMLDivElement>;
+  isPreviewMode: boolean;
 }) => {
-  const { isPreviewMode } = useProjectContext();
   const [isEventPending, startEventTransition] = useTransition();
   const scrolled = useScroll(1, scrollRef);
 

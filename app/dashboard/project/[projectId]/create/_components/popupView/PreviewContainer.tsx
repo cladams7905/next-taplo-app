@@ -34,7 +34,7 @@ export default function PreviewContainer({
               : ""
           }`}
       >
-        <PopupTemplate />
+        <PopupTemplate isPreviewMode={true} />
       </div>
     </div>
   );

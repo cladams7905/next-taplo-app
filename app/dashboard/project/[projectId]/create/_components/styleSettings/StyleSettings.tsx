@@ -14,10 +14,12 @@ export const StyleSettings = ({
   scrollRef,
   styleHeaderRef,
   eventHeaderHeight,
+  isPreviewMode,
 }: {
   scrollRef: RefObject<HTMLDivElement>;
   styleHeaderRef: RefObject<HTMLDivElement>;
   eventHeaderHeight: number | undefined;
+  isPreviewMode: boolean;
 }) => {
   const {
     activeProject,
@@ -30,7 +32,6 @@ export const StyleSettings = ({
     setAccentColor,
     borderColor,
     setBorderColor,
-    isPreviewMode,
   } = useProjectContext();
   const screenAlignmentTypes = Object.values(ScreenAlignment);
   const templateTypes = Object.values(TemplateTypes);

@@ -31,6 +31,11 @@ export default function Event({
   } = useProjectContext();
   const [isEditContentMode, setEditContentMode] = useState<boolean>(false);
 
+  const contentBodyHtml = replaceVariablesInContentBody(
+    currentEvent.content_body,
+    true
+  );
+
   const getIntegrationById = (integrationId: number) => {
     return integrations.find((integration) => integration.id === integrationId);
   };
@@ -167,10 +172,7 @@ export default function Event({
             <p
               className="border border-gray-300 rounded-lg p-2"
               dangerouslySetInnerHTML={{
-                __html: replaceVariablesInContentBody(
-                  currentEvent.content_body,
-                  true
-                ),
+                __html: contentBodyHtml,
               }}
             ></p>
           )}

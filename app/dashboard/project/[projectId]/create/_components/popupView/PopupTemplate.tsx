@@ -9,10 +9,23 @@ import "animate.css";
 
 export default function PopupTemplate({
   isAnimatePulse,
+  isPreviewMode,
 }: {
   isAnimatePulse?: boolean;
+  isPreviewMode: boolean;
 }) {
-  const { activeProject, displayTime, isPreviewMode } = useProjectContext();
+  const {
+    activeProject,
+    activeEvent,
+    displayTime,
+    replaceVariablesInContentBody,
+  } = useProjectContext();
+
+  const contentBodyHtml = replaceVariablesInContentBody(
+    activeEvent?.content_body,
+    false,
+    true
+  );
 
   const [animation, setAnimation] = useState(
     activeProject.screen_alignment === ScreenAlignment.BottomLeft ||
@@ -87,6 +100,8 @@ export default function PopupTemplate({
         <SmallPopupTemplate
           animation={animation}
           isAnimatePulse={isAnimatePulse}
+          isPreviewMode={isPreviewMode}
+          contentBody={contentBodyHtml}
         />
       );
     case TemplateTypes.SmPopupNoImg:
@@ -94,6 +109,8 @@ export default function PopupTemplate({
         <SmallPopupNoImageTemplate
           animation={animation}
           isAnimatePulse={isAnimatePulse}
+          isPreviewMode={isPreviewMode}
+          contentBody={contentBodyHtml}
         />
       );
     case TemplateTypes.LgPopup:
@@ -101,6 +118,8 @@ export default function PopupTemplate({
         <LargePopupTemplate
           animation={animation}
           isAnimatePulse={isAnimatePulse}
+          isPreviewMode={isPreviewMode}
+          contentBody={contentBodyHtml}
         />
       );
     case TemplateTypes.LgPopupNoImg:
@@ -108,28 +127,44 @@ export default function PopupTemplate({
         <LargePopupNoImageTemplate
           animation={animation}
           isAnimatePulse={isAnimatePulse}
+          isPreviewMode={isPreviewMode}
+          contentBody={contentBodyHtml}
         />
       );
     case TemplateTypes.Card:
       return (
-        <CardTemplate animation={animation} isAnimatePulse={isAnimatePulse} />
+        <CardTemplate
+          animation={animation}
+          isAnimatePulse={isAnimatePulse}
+          isPreviewMode={isPreviewMode}
+          contentBody={contentBodyHtml}
+        />
       );
     case TemplateTypes.CardNoImg:
       return (
         <CardNoImageTemplate
           animation={animation}
           isAnimatePulse={isAnimatePulse}
+          isPreviewMode={isPreviewMode}
+          contentBody={contentBodyHtml}
         />
       );
     case TemplateTypes.Banner:
       return (
-        <BannerTemplate animation={animation} isAnimatePulse={isAnimatePulse} />
+        <BannerTemplate
+          animation={animation}
+          isAnimatePulse={isAnimatePulse}
+          isPreviewMode={isPreviewMode}
+          contentBody={contentBodyHtml}
+        />
       );
     case TemplateTypes.BannerNoImg:
       return (
         <BannerNoImageTemplate
           animation={animation}
           isAnimatePulse={isAnimatePulse}
+          isPreviewMode={isPreviewMode}
+          contentBody={contentBodyHtml}
         />
       );
     default:
@@ -140,19 +175,16 @@ export default function PopupTemplate({
 const SmallPopupTemplate = ({
   animation,
   isAnimatePulse,
+  isPreviewMode,
+  contentBody,
 }: {
   animation?: string;
   isAnimatePulse?: boolean;
+  isPreviewMode: boolean;
+  contentBody: string;
 }) => {
-  const {
-    activeEvent,
-    backgroundColor,
-    textColor,
-    accentColor,
-    borderColor,
-    isPreviewMode,
-    replaceVariablesInContentBody,
-  } = useProjectContext();
+  const { backgroundColor, textColor, accentColor, borderColor } =
+    useProjectContext();
 
   return (
     <div
@@ -188,10 +220,7 @@ const SmallPopupTemplate = ({
             }}
             className="text-[13px] leading-5"
             dangerouslySetInnerHTML={{
-              __html: replaceVariablesInContentBody(
-                activeEvent?.content_body,
-                false
-              ),
+              __html: contentBody,
             }}
           ></p>
           <div
@@ -225,19 +254,16 @@ const SmallPopupTemplate = ({
 const SmallPopupNoImageTemplate = ({
   animation,
   isAnimatePulse,
+  isPreviewMode,
+  contentBody,
 }: {
   animation?: string;
   isAnimatePulse?: boolean;
+  isPreviewMode: boolean;
+  contentBody: string;
 }) => {
-  const {
-    activeEvent,
-    backgroundColor,
-    textColor,
-    accentColor,
-    borderColor,
-    isPreviewMode,
-    replaceVariablesInContentBody,
-  } = useProjectContext();
+  const { backgroundColor, textColor, accentColor, borderColor } =
+    useProjectContext();
   return (
     <div
       style={{
@@ -258,10 +284,7 @@ const SmallPopupNoImageTemplate = ({
             }}
             className="text-[13px] leading-5"
             dangerouslySetInnerHTML={{
-              __html: replaceVariablesInContentBody(
-                activeEvent?.content_body,
-                false
-              ),
+              __html: contentBody,
             }}
           ></p>
           <div
@@ -295,26 +318,23 @@ const SmallPopupNoImageTemplate = ({
 const LargePopupTemplate = ({
   animation,
   isAnimatePulse,
+  isPreviewMode,
+  contentBody,
 }: {
   animation?: string;
   isAnimatePulse?: boolean;
+  isPreviewMode: boolean;
+  contentBody: string;
 }) => {
-  const {
-    activeEvent,
-    backgroundColor,
-    textColor,
-    accentColor,
-    borderColor,
-    isPreviewMode,
-    replaceVariablesInContentBody,
-  } = useProjectContext();
+  const { backgroundColor, textColor, accentColor, borderColor } =
+    useProjectContext();
   return (
     <div
       style={{
         backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className={`relative flex flex-row w-fit h-fit min-h-[110px] max-w-[380px] rounded-lg border shadow-lg gap-3 ${
+      className={`relative flex flex-row w-fit h-fit min-h-[100px] max-w-[380px] rounded-lg border shadow-lg gap-3 ${
         isPreviewMode ? animation : ""
       } ${
         isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""
@@ -343,14 +363,11 @@ const LargePopupTemplate = ({
             }}
             className="text-[13px] leading-5"
             dangerouslySetInnerHTML={{
-              __html: replaceVariablesInContentBody(
-                activeEvent?.content_body,
-                false
-              ),
+              __html: contentBody,
             }}
           ></p>
           <div
-            className="text-[13px] flex items-center gap-4"
+            className="text-[14.5px] flex items-center gap-4"
             style={{
               color: hexToRgba(textColor.hex.toString(), 0.65),
             }}
@@ -380,19 +397,16 @@ const LargePopupTemplate = ({
 const LargePopupNoImageTemplate = ({
   animation,
   isAnimatePulse,
+  isPreviewMode,
+  contentBody,
 }: {
   animation?: string;
   isAnimatePulse?: boolean;
+  isPreviewMode: boolean;
+  contentBody: string;
 }) => {
-  const {
-    activeEvent,
-    backgroundColor,
-    textColor,
-    accentColor,
-    borderColor,
-    isPreviewMode,
-    replaceVariablesInContentBody,
-  } = useProjectContext();
+  const { backgroundColor, textColor, accentColor, borderColor } =
+    useProjectContext();
   return (
     <div
       style={{
@@ -411,12 +425,9 @@ const LargePopupNoImageTemplate = ({
             style={{
               color: textColor.hex.toString(),
             }}
-            className="text-[13px] leading-5"
+            className="text-[14.5px] leading-5 mt-1"
             dangerouslySetInnerHTML={{
-              __html: replaceVariablesInContentBody(
-                activeEvent?.content_body,
-                false
-              ),
+              __html: contentBody,
             }}
           ></p>
           <div
@@ -450,19 +461,16 @@ const LargePopupNoImageTemplate = ({
 const CardTemplate = ({
   animation,
   isAnimatePulse,
+  isPreviewMode,
+  contentBody,
 }: {
   animation?: string;
   isAnimatePulse?: boolean;
+  isPreviewMode: boolean;
+  contentBody: string;
 }) => {
-  const {
-    activeEvent,
-    backgroundColor,
-    textColor,
-    accentColor,
-    borderColor,
-    isPreviewMode,
-    replaceVariablesInContentBody,
-  } = useProjectContext();
+  const { backgroundColor, textColor, accentColor, borderColor } =
+    useProjectContext();
   return (
     <div
       style={{
@@ -498,10 +506,7 @@ const CardTemplate = ({
             }}
             className="text-[13px] leading-5"
             dangerouslySetInnerHTML={{
-              __html: replaceVariablesInContentBody(
-                activeEvent?.content_body,
-                false
-              ),
+              __html: contentBody,
             }}
           ></p>
           <div
@@ -535,19 +540,16 @@ const CardTemplate = ({
 const CardNoImageTemplate = ({
   animation,
   isAnimatePulse,
+  isPreviewMode,
+  contentBody,
 }: {
   animation?: string;
   isAnimatePulse?: boolean;
+  isPreviewMode: boolean;
+  contentBody: string;
 }) => {
-  const {
-    activeEvent,
-    backgroundColor,
-    textColor,
-    accentColor,
-    borderColor,
-    isPreviewMode,
-    replaceVariablesInContentBody,
-  } = useProjectContext();
+  const { backgroundColor, textColor, accentColor, borderColor } =
+    useProjectContext();
   return (
     <div
       style={{
@@ -568,10 +570,7 @@ const CardNoImageTemplate = ({
             }}
             className="text-[13px] leading-5"
             dangerouslySetInnerHTML={{
-              __html: replaceVariablesInContentBody(
-                activeEvent?.content_body,
-                false
-              ),
+              __html: contentBody,
             }}
           ></p>
           <div
@@ -605,19 +604,16 @@ const CardNoImageTemplate = ({
 const BannerTemplate = ({
   animation,
   isAnimatePulse,
+  isPreviewMode,
+  contentBody,
 }: {
   animation?: string;
   isAnimatePulse?: boolean;
+  isPreviewMode: boolean;
+  contentBody: string;
 }) => {
-  const {
-    activeEvent,
-    backgroundColor,
-    textColor,
-    accentColor,
-    borderColor,
-    isPreviewMode,
-    replaceVariablesInContentBody,
-  } = useProjectContext();
+  const { backgroundColor, textColor, accentColor, borderColor } =
+    useProjectContext();
   return (
     <div
       style={{
@@ -652,10 +648,7 @@ const BannerTemplate = ({
             }}
             className="text-[13px] leading-5"
             dangerouslySetInnerHTML={{
-              __html: replaceVariablesInContentBody(
-                activeEvent?.content_body,
-                false
-              ),
+              __html: contentBody,
             }}
           ></p>
           <div
@@ -690,19 +683,16 @@ const BannerTemplate = ({
 const BannerNoImageTemplate = ({
   animation,
   isAnimatePulse,
+  isPreviewMode,
+  contentBody,
 }: {
   animation?: string;
   isAnimatePulse?: boolean;
+  isPreviewMode: boolean;
+  contentBody: string;
 }) => {
-  const {
-    activeEvent,
-    backgroundColor,
-    textColor,
-    accentColor,
-    borderColor,
-    isPreviewMode,
-    replaceVariablesInContentBody,
-  } = useProjectContext();
+  const { backgroundColor, textColor, accentColor, borderColor } =
+    useProjectContext();
   return (
     <div
       style={{
@@ -723,10 +713,7 @@ const BannerNoImageTemplate = ({
             }}
             className="text-[13px] leading-5"
             dangerouslySetInnerHTML={{
-              __html: replaceVariablesInContentBody(
-                activeEvent?.content_body,
-                false
-              ),
+              __html: contentBody,
             }}
           ></p>
           <div

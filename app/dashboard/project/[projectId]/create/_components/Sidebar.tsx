@@ -5,7 +5,7 @@ import EventSettings from "./eventSettings/EventSettings";
 import { StyleSettings } from "./styleSettings/StyleSettings";
 import AdditionalSettings from "./additionalSettings/AdditionalSettings";
 
-export default function Sidebar() {
+export default function Sidebar({ isPreviewMode }: { isPreviewMode: boolean }) {
   const scrollParentRef = useRef<HTMLDivElement>(null);
   const eventHeaderRef = useRef<HTMLDivElement>(null);
   const styleHeaderRef = useRef<HTMLDivElement>(null);
@@ -58,15 +58,18 @@ export default function Sidebar() {
       <EventSettings
         scrollRef={scrollParentRef}
         eventHeaderRef={eventHeaderRef}
+        isPreviewMode={isPreviewMode}
       />
       <StyleSettings
         scrollRef={scrollParentRef}
         styleHeaderRef={styleHeaderRef}
         eventHeaderHeight={eventHeaderHeight}
+        isPreviewMode={isPreviewMode}
       />
       <AdditionalSettings
         scrollRef={scrollParentRef}
         styleHeaderHeight={styleHeaderHeight}
+        isPreviewMode={isPreviewMode}
       />
     </div>
   );

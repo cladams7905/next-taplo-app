@@ -30,7 +30,7 @@ export default function PopupViewer() {
             {activeEvent ? activeEvent.event_type : ""}
           </div>
         </div>
-        <PopupTemplate isAnimatePulse={isAnimatePulse} />
+        <PopupTemplate isAnimatePulse={isAnimatePulse} isPreviewMode={false} />
         <div
           className="flex flex-row gap-2 items-center justify-center absolute w-full h-fit px-10 py-3 outline-1 outline-primary bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold cursor-pointer"
           onClick={() => templateModalRef.current?.showModal()}

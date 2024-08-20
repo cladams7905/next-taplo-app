@@ -33,13 +33,12 @@ interface ProjectContextType {
   setAccentColor: Dispatch<SetStateAction<IColor>>;
   borderColor: IColor;
   setBorderColor: Dispatch<SetStateAction<IColor>>;
-  isPreviewMode: boolean;
-  setPreviewMode: Dispatch<SetStateAction<boolean>>;
   displayTime: number;
   setDisplayTime: Dispatch<SetStateAction<number>>;
   replaceVariablesInContentBody: (
     contentStr?: string | null,
-    shouldReturnHTML?: boolean
+    shouldReturnHTML?: boolean,
+    isPopupText?: boolean
   ) => string;
 }
 
@@ -163,34 +162,63 @@ export default function ProjectBoard({
    * example data inside of the popup viewer.
    * @param contentStr the content body text
    * @param shouldReturnHTML whether the variables should be replaced with HTML span elements
+   * @param isPopupText whether the content is appearing in the popup template or in the sidebar
    * @returns the revised content body (should be set inside of dangerouslySetHTML if
    * shouldReturnHTML is set to true)
    */
   const replaceVariablesInContentBody = (
     contentStr?: string | null,
-    shouldReturnHTML?: boolean
+    shouldReturnHTML?: boolean,
+    isPopupText?: boolean
   ) => {
     if (!contentStr) return "";
 
-    const getVariableHTML = (word: string, index: number) => {
+    const getVariableHTML = (
+      word: string,
+      index: number,
+      isPopupText = false
+    ) => {
       return `<span key=${index} class="text-primary px-1 rounded-lg">${
         "[" +
-        replaceVariable(word.substring(1).toLocaleLowerCase() as ContentVars) +
+        replaceVariable(
+          word.substring(1).toLocaleLowerCase() as ContentVars,
+          isPopupText
+        ) +
         "]"
       }</span>`;
     };
 
-    const replaceVariable = (variable: ContentVars) => {
+    const replaceVariable = (variable: ContentVars, isPopupText = false) => {
       let returnWord = "";
       switch (variable) {
         case ContentVars.Person:
-          returnWord = "Person";
+          returnWord = isPopupText ? "Jamie" : "Person";
           break;
         case ContentVars.Location:
-          returnWord = "City, Country";
+          returnWord = isPopupText
+            ? "Seattle, Washington, USA"
+            : "City, Country";
           break;
         case ContentVars.Product:
-          returnWord = "My Product";
+          returnWord = isPopupText
+            ? `<span style="color: ${accentColor.hex.toString()};" class="font-bold rounded-lg underline">Airpods Pro</span>
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  width="13" 
+                  height="13" 
+                  viewBox="0 0 24 24" 
+                  fill="${backgroundColor.hex.toString()}" 
+                  stroke="${accentColor.hex.toString()}" 
+                  stroke-width="3" 
+                  stroke-linecap="round" 
+                  stroke-linejoin="round"
+                  class="inline-flex mr-[2px] mb-[2px]"
+                >
+                  <path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6"/>
+                  <path d="M21 3l-9 9"/>
+                  <path d="M15 3h6v6"/>
+                </svg>`
+            : "My Product";
           break;
         default:
           returnWord = "undefined";
@@ -198,12 +226,10 @@ export default function ProjectBoard({
       return returnWord;
     };
 
-    const words = contentStr.split(" ");
-
     const checkForInvalidCharsRegex = /[^a-zA-Z0-9\\]/;
     const filterInvalidCharsRegex = /(\\\w+|\w+|[^\w\s])/g;
 
-    const transformedWords = words.flatMap((word, i) => {
+    const transformedWords = contentStr.split(" ").map((word, i) => {
       if (word.startsWith("\\") && checkForInvalidCharsRegex.test(word)) {
         const cleanedWord = word.split(filterInvalidCharsRegex).filter(Boolean);
         return cleanedWord
@@ -212,7 +238,8 @@ export default function ProjectBoard({
               ? shouldReturnHTML
                 ? getVariableHTML(val, i)
                 : replaceVariable(
-                    val.substring(1).toLocaleLowerCase() as ContentVars
+                    val.substring(1).toLocaleLowerCase() as ContentVars,
+                    isPopupText
                   )
               : val;
           })
@@ -222,7 +249,8 @@ export default function ProjectBoard({
           ? shouldReturnHTML
             ? getVariableHTML(word, i)
             : replaceVariable(
-                word.substring(1).toLocaleLowerCase() as ContentVars
+                word.substring(1).toLocaleLowerCase() as ContentVars,
+                isPopupText
               )
           : word;
       }
@@ -249,8 +277,6 @@ export default function ProjectBoard({
     setAccentColor,
     borderColor,
     setBorderColor,
-    isPreviewMode,
-    setPreviewMode,
     replaceVariablesInContentBody,
   };
 
@@ -258,10 +284,10 @@ export default function ProjectBoard({
     <ProjectContext.Provider value={contextValue}>
       <main className="flex lg:flex-row md:flex-row flex-col w-full h-screen-minus-navbar">
         <div className="lg:w-[60%] w-full">
-          <ViewContainer />
+          <ViewContainer setPreviewMode={setPreviewMode} />
         </div>
         <div className="relative lg:w-[40%] w-full">
-          <Sidebar />
+          <Sidebar isPreviewMode={isPreviewMode} />
         </div>
       </main>
     </ProjectContext.Provider>
