@@ -7,8 +7,10 @@ import { useProjectContext } from "../ProjectBoard";
 
 export default function PreviewContainer({
   previewRef,
+  isPreviewMode,
 }: {
   previewRef: RefObject<HTMLDivElement>;
+  isPreviewMode: boolean;
 }) {
   const { activeProject } = useProjectContext();
   return (
@@ -34,7 +36,11 @@ export default function PreviewContainer({
               : ""
           }`}
       >
-        <PopupTemplate isPreviewMode={true} />
+        <div className="hidden animate-slideOutLeft" />
+        <div className="hidden animate-slideOutRight" />
+        <div className="hidden animate-slideOutTop" />
+        <div className="hidden animate-slideOutBottom" />
+        <PopupTemplate isPreviewMode={isPreviewMode} />
       </div>
     </div>
   );

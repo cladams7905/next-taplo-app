@@ -4,7 +4,6 @@ import {
   BadgeCheck,
   Boxes,
   ShoppingBag,
-  ShoppingBasket,
   ShoppingCart,
   UserRoundSearch,
   UsersRound,
@@ -384,7 +383,7 @@ const LargePopupTemplate = ({
         backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className={`relative flex flex-row w-fit h-fit min-h-[100px] max-w-[380px] min-w-[380px] rounded-lg border shadow-lg gap-3 ${
+      className={`relative flex flex-row w-fit h-fit min-h-[100px] max-w-[380px] min-w-[340px] md:min-w-[380px] rounded-lg border shadow-lg ${
         isPreviewMode ? animation : ""
       } ${
         isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""
@@ -401,8 +400,8 @@ const LargePopupTemplate = ({
           {EventIcon()}
         </div>
       </div>
-      <div className="flex w-full gap-4 items-center">
-        <div className="flex flex-col w-full gap-[6px] mx-2">
+      <div className="flex w-full items-center px-3">
+        <div className="flex flex-col w-full lg:gap-[6px]">
           <p
             style={{
               color: textColor.hex.toString(),

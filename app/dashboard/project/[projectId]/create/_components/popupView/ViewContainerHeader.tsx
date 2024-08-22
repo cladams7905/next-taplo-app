@@ -15,8 +15,10 @@ import PreviewContainer from "./PreviewContainer";
 import { useProjectContext } from "../ProjectBoard";
 
 export default function ViewContainerHeader({
+  isPreviewMode,
   setPreviewMode,
 }: {
+  isPreviewMode: boolean;
   setPreviewMode: Dispatch<SetStateAction<boolean>>;
 }) {
   const { events } = useProjectContext();
@@ -66,7 +68,10 @@ export default function ViewContainerHeader({
             >
               <Fullscreen width={18} height={18} />
             </div>
-            <PreviewContainer previewRef={previewRef} />
+            <PreviewContainer
+              previewRef={previewRef}
+              isPreviewMode={isPreviewMode}
+            />
           </>
         )}
       </div>
