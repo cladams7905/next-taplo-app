@@ -13,12 +13,12 @@ import { useProjectContext } from "../ProjectBoard";
 export const StyleSettings = ({
   scrollRef,
   styleHeaderRef,
-  eventHeaderHeight,
+  productsHeaderHeight,
   isPreviewMode,
 }: {
   scrollRef: RefObject<HTMLDivElement>;
   styleHeaderRef: RefObject<HTMLDivElement>;
-  eventHeaderHeight: number | undefined;
+  productsHeaderHeight: number | undefined;
   isPreviewMode: boolean;
 }) => {
   const {
@@ -36,7 +36,7 @@ export const StyleSettings = ({
   const screenAlignmentTypes = Object.values(ScreenAlignment);
   const templateTypes = Object.values(TemplateTypes);
   const [isStylePending, startStyleTransition] = useTransition();
-  const scrolled = useScroll(eventHeaderHeight, scrollRef);
+  const scrolled = useScroll(productsHeaderHeight, scrollRef);
 
   const handleResetClick = () => {
     startStyleTransition(async () => {
@@ -184,7 +184,7 @@ export const StyleSettings = ({
           <span className="loading loading-spinner loading-xs bg-base-content"></span>
         )}
       </div>
-      <div className="flex flex-col p-4 gap-6">
+      <div className="flex flex-col p-4 gap-6 bg-white">
         <div className="flex flex-col gap-6 rounded-lg border border-gray-300 px-5 pt-3 pb-6">
           <div className="flex flex-row items-center w-full justify-between">
             <p className="text-sm font-bold">Colors</p>

@@ -2,13 +2,23 @@
 
 import { Tables } from "@/supabase/types";
 import { RefObject, TransitionStartFunction, useState } from "react";
-import { Ellipsis, ShoppingBag, Trash, XCircle } from "lucide-react";
+import {
+  Boxes,
+  Ellipsis,
+  ShoppingBag,
+  ShoppingCart,
+  Trash,
+  UserRoundSearch,
+  UsersRound,
+  XCircle,
+} from "lucide-react";
 import { updateEvent } from "@/lib/actions/events";
 import { showToastError } from "@/components/shared/showToast";
 import { Pencil1Icon } from "@radix-ui/react-icons";
 import IntegrationSelect from "./integrations/IntegrationSelect";
-import ContentBodyEditor from "./contentEditor/ContentBodyEditor";
+import ContentBodyEditor from "./ContentBodyEditor";
 import { useProjectContext } from "../ProjectBoard";
+import { EventType } from "@/lib/enums";
 
 export default function Event({
   currentEvent,
@@ -64,6 +74,21 @@ export default function Event({
     }
   };
 
+  const getEventIcon = (eventType: EventType) => {
+    switch (eventType) {
+      case EventType.Purchase:
+        return <ShoppingBag width={20} height={20} />;
+      case EventType.AddToCart:
+        return <ShoppingCart width={20} height={20} />;
+      case EventType.SomeoneViewing:
+        return <UserRoundSearch width={20} height={20} />;
+      case EventType.ActiveUsers:
+        return <UsersRound width={20} height={20} />;
+      case EventType.Custom:
+        return <Boxes width={20} height={20} />;
+    }
+  };
+
   return (
     <>
       <input type="radio" className="-z-10" />
@@ -73,7 +98,7 @@ export default function Event({
       >
         <div className="flex flex-row gap-3">
           <div className="flex items-center">
-            <ShoppingBag />
+            {getEventIcon(currentEvent.event_type as EventType)}
           </div>
           <div className="flex flex-col gap-1">
             <div className="font-bold">{currentEvent.event_type}</div>

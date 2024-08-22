@@ -15,6 +15,7 @@ import { IColor, useColor } from "react-color-palette";
 import ViewContainer from "./popupView/ViewContainer";
 import { sortByTimeCreated } from "@/lib/actions";
 import { ContentVars } from "@/lib/enums";
+import DOMPurify from "isomorphic-dompurify";
 
 interface ProjectContextType {
   activeProject: Tables<"Projects">;
@@ -25,6 +26,10 @@ interface ProjectContextType {
   setEvents: Dispatch<SetStateAction<Tables<"Events">[]>>;
   integrations: Tables<"Integrations">[];
   setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
+  products: Tables<"Products">[];
+  setProducts: Dispatch<SetStateAction<Tables<"Products">[]>>;
+  isShowProductsChecked: boolean;
+  setShowProductsChecked: Dispatch<SetStateAction<boolean>>;
   backgroundColor: IColor;
   setBackgroundColor: Dispatch<SetStateAction<IColor>>;
   textColor: IColor;
@@ -41,7 +46,6 @@ interface ProjectContextType {
     isPopupText?: boolean
   ) => string;
 }
-
 /**
  * Project context and custom hook to access context
  */
@@ -74,10 +78,12 @@ export default function ProjectBoard({
   fetchedActiveProject,
   fetchedIntegrations,
   fetchedEvents,
+  fetchedProducts,
 }: {
   fetchedActiveProject: Tables<"Projects">;
   fetchedIntegrations: Tables<"Integrations">[];
   fetchedEvents: Tables<"Events">[];
+  fetchedProducts: Tables<"Products">[];
 }) {
   /**
    * Active Project: the project which is currently being displayed from
@@ -106,6 +112,19 @@ export default function ProjectBoard({
    */
   const [integrations, setIntegrations] =
     useState<Tables<"Integrations">[]>(fetchedIntegrations);
+
+  /**
+   * Products: all products associated with a project.
+   */
+  const [products, setProducts] =
+    useState<Tables<"Products">[]>(fetchedProducts);
+
+  /**
+   * isShowProductsChecked: toggles whether to show products inside of popups.
+   */
+  const [isShowProductsChecked, setShowProductsChecked] = useState<boolean>(
+    fetchedActiveProject.show_products
+  );
 
   /**
    * Display time: the time allotted for each popup to display to a user.
@@ -178,7 +197,7 @@ export default function ProjectBoard({
       index: number,
       isPopupText = false
     ) => {
-      return `<span key=${index} class="text-primary px-1 rounded-lg">${
+      const returnHTML = `<span key=${index} class="text-primary px-1 rounded-lg">${
         "[" +
         replaceVariable(
           word.substring(1).toLocaleLowerCase() as ContentVars,
@@ -186,6 +205,7 @@ export default function ProjectBoard({
         ) +
         "]"
       }</span>`;
+      return DOMPurify.sanitize(returnHTML);
     };
 
     const replaceVariable = (variable: ContentVars, isPopupText = false) => {
@@ -201,7 +221,7 @@ export default function ProjectBoard({
           break;
         case ContentVars.Product:
           returnWord = isPopupText
-            ? `<span style="color: ${accentColor.hex.toString()};" class="font-bold rounded-lg underline">Airpods Pro</span>
+            ? DOMPurify.sanitize(`<span style="color: ${accentColor.hex.toString()};" class="font-bold rounded-lg underline">Airpods Pro</span>
                 <svg 
                   xmlns="http://www.w3.org/2000/svg" 
                   width="13" 
@@ -217,7 +237,7 @@ export default function ProjectBoard({
                   <path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6"/>
                   <path d="M21 3l-9 9"/>
                   <path d="M15 3h6v6"/>
-                </svg>`
+                </svg>`)
             : "My Product";
           break;
         default:
@@ -267,6 +287,10 @@ export default function ProjectBoard({
     setEvents,
     integrations,
     setIntegrations,
+    products,
+    setProducts,
+    isShowProductsChecked,
+    setShowProductsChecked,
     displayTime,
     setDisplayTime,
     backgroundColor,

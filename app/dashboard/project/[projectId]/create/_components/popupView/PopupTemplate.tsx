@@ -1,8 +1,16 @@
 "use client";
 
-import { BadgeCheck, ShoppingBasket } from "lucide-react";
+import {
+  BadgeCheck,
+  Boxes,
+  ShoppingBag,
+  ShoppingBasket,
+  ShoppingCart,
+  UserRoundSearch,
+  UsersRound,
+} from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { ScreenAlignment, TemplateTypes } from "@/lib/enums";
+import { EventType, ScreenAlignment, TemplateTypes } from "@/lib/enums";
 import { hexToRgba } from "@/lib/actions";
 import { useProjectContext } from "../ProjectBoard";
 import "animate.css";
@@ -172,6 +180,52 @@ export default function PopupTemplate({
   }
 }
 
+const getEventIcon = () => {
+  const { activeEvent, accentColor } = useProjectContext();
+  switch (activeEvent?.event_type) {
+    case EventType.Purchase:
+      return (
+        <ShoppingBag
+          color={hexToRgba(accentColor.hex.toString(), 0.85)}
+          height={24}
+          width={24}
+        />
+      );
+    case EventType.AddToCart:
+      return (
+        <ShoppingCart
+          color={hexToRgba(accentColor.hex.toString(), 0.85)}
+          height={24}
+          width={24}
+        />
+      );
+    case EventType.SomeoneViewing:
+      return (
+        <UserRoundSearch
+          color={hexToRgba(accentColor.hex.toString(), 0.85)}
+          height={24}
+          width={24}
+        />
+      );
+    case EventType.ActiveUsers:
+      return (
+        <UsersRound
+          color={hexToRgba(accentColor.hex.toString(), 0.85)}
+          height={24}
+          width={24}
+        />
+      );
+    case EventType.Custom:
+      return (
+        <Boxes
+          color={hexToRgba(accentColor.hex.toString(), 0.85)}
+          height={24}
+          width={24}
+        />
+      );
+  }
+};
+
 const SmallPopupTemplate = ({
   animation,
   isAnimatePulse,
@@ -205,11 +259,7 @@ const SmallPopupTemplate = ({
             backgroundColor: hexToRgba(accentColor.hex.toString(), 0.2),
           }}
         >
-          <ShoppingBasket
-            color={hexToRgba(accentColor.hex.toString(), 0.85)}
-            height={24}
-            width={24}
-          />
+          {getEventIcon()}
         </div>
       </div>
       <div className="flex w-full gap-4 items-center ml-2">
@@ -218,13 +268,13 @@ const SmallPopupTemplate = ({
             style={{
               color: textColor.hex.toString(),
             }}
-            className="text-[13px] leading-5"
+            className="text-[12.5px] leading-5"
             dangerouslySetInnerHTML={{
               __html: contentBody,
             }}
           ></p>
           <div
-            className="text-xs flex items-center gap-4"
+            className="text-xs text-[11.5px] flex items-center gap-4"
             style={{
               color: hexToRgba(textColor.hex.toString(), 0.65),
             }}
@@ -348,11 +398,7 @@ const LargePopupTemplate = ({
             outlineColor: hexToRgba(accentColor.hex.toString(), 0.2),
           }}
         >
-          <ShoppingBasket
-            color={hexToRgba(accentColor.hex.toString(), 0.85)}
-            height={32}
-            width={32}
-          />
+          {getEventIcon()}
         </div>
       </div>
       <div className="flex w-full gap-4 items-center">
@@ -361,13 +407,13 @@ const LargePopupTemplate = ({
             style={{
               color: textColor.hex.toString(),
             }}
-            className="text-[13px] leading-5"
+            className="text-[14.5px] leading-5"
             dangerouslySetInnerHTML={{
               __html: contentBody,
             }}
           ></p>
           <div
-            className="text-[14.5px] flex items-center gap-4"
+            className="text-[13px] flex items-center gap-4"
             style={{
               color: hexToRgba(textColor.hex.toString(), 0.65),
             }}
@@ -491,11 +537,7 @@ const CardTemplate = ({
             outlineColor: hexToRgba(accentColor.hex.toString(), 0.2),
           }}
         >
-          <ShoppingBasket
-            color={hexToRgba(accentColor.hex.toString(), 0.85)}
-            height={36}
-            width={36}
-          />
+          {getEventIcon()}
         </div>
       </div>
       <div className="flex w-full gap-4 items-center">
@@ -633,11 +675,7 @@ const BannerTemplate = ({
             backgroundColor: hexToRgba(accentColor.hex.toString(), 0.2),
           }}
         >
-          <ShoppingBasket
-            color={hexToRgba(accentColor.hex.toString(), 0.85)}
-            height={20}
-            width={20}
-          />
+          {getEventIcon()}
         </div>
       </div>
       <div className="flex w-full items-center justify-center">

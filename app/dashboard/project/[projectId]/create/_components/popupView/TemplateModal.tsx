@@ -4,7 +4,7 @@ import { showToastError } from "@/components/shared/showToast";
 import { hexToRgba } from "@/lib/actions";
 import { updateProject } from "@/lib/actions/projects";
 import { ScreenAlignment, TemplateTypes } from "@/lib/enums";
-import { BadgeCheck, CheckIcon, ShoppingBasket } from "lucide-react";
+import { BadgeCheck, CheckIcon, ShoppingBag } from "lucide-react";
 import {
   Dispatch,
   RefObject,
@@ -212,7 +212,7 @@ const SmallPopupTemplate = ({ isShowImages }: { isShowImages: boolean }) => {
               backgroundColor: hexToRgba(accentColor.hex.toString(), 0.2),
             }}
           >
-            <ShoppingBasket
+            <ShoppingBag
               color={hexToRgba(accentColor.hex.toString(), 0.85)}
               height={18}
               width={18}
@@ -291,7 +291,7 @@ const LargePopupTemplate = ({ isShowImages }: { isShowImages: boolean }) => {
               outlineColor: hexToRgba(accentColor.hex.toString(), 0.2),
             }}
           >
-            <ShoppingBasket
+            <ShoppingBag
               color={hexToRgba(accentColor.hex.toString(), 0.85)}
               height={24}
               width={24}
@@ -334,7 +334,7 @@ const LargePopupTemplate = ({ isShowImages }: { isShowImages: boolean }) => {
               }}
             >
               Verified by TapInsight
-              <BadgeCheck
+              <ShoppingBag
                 width={14}
                 height={14}
                 fill={accentColor.hex.toString()}
@@ -370,7 +370,7 @@ const CardTemplate = ({ isShowImages }: { isShowImages: boolean }) => {
               outlineColor: hexToRgba(accentColor.hex.toString(), 0.2),
             }}
           >
-            <ShoppingBasket
+            <ShoppingBag
               color={hexToRgba(accentColor.hex.toString(), 0.85)}
               height={28}
               width={28}
@@ -451,7 +451,7 @@ const BannerTemplate = ({ isShowImages }: { isShowImages: boolean }) => {
               backgroundColor: hexToRgba(accentColor.hex.toString(), 0.2),
             }}
           >
-            <ShoppingBasket
+            <ShoppingBag
               color={hexToRgba(accentColor.hex.toString(), 0.85)}
               height={14}
               width={14}

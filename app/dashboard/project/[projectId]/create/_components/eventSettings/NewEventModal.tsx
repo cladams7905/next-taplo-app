@@ -6,10 +6,11 @@ import { showToastError } from "@/components/shared/showToast";
 import { sortByTimeCreated } from "@/lib/actions";
 import { createEvent } from "@/lib/actions/events";
 import {
-  EyeIcon,
+  Boxes,
   Search,
   ShoppingBag,
   ShoppingCart,
+  UserRoundSearch,
   UsersRound,
 } from "lucide-react";
 import { RefObject, useState, useTransition } from "react";
@@ -48,8 +49,6 @@ export default function NewEventModal({
           project_id: activeProject.id,
           event_type: eventType,
           content_body: content,
-          show_products: eventType === EventType.Purchase ? true : null,
-          show_price: eventType === EventType.Purchase ? true : null,
         };
         const { data, error } = await createEvent(event);
         if (error) {
@@ -151,7 +150,7 @@ export default function NewEventModal({
                 }}
               >
                 <div
-                  className="flex items-center justify-center rounded-l-lg w-14 min-w-14 h-full border-r bg-primary border-gray-300"
+                  className="flex items-center justify-center rounded-l-lg outline outline-[1px] outline-primary w-14 min-w-14 h-full bg-primary"
                   // style={{
                   //   backgroundColor: hexToRgba(eventOption.color, 0.3),
                   // }}
@@ -220,12 +219,14 @@ const getEventOptions = () => {
 const getEventIcon = (eventType: EventType, color: string) => {
   switch (eventType) {
     case EventType.Purchase:
-      return <ShoppingBag color={color} width={28} height={28} />;
+      return <ShoppingBag width={28} height={28} color="#FFFFFF" />;
     case EventType.AddToCart:
-      return <ShoppingCart color={color} width={28} height={28} />;
-    case EventType.ActiveUsers:
-      return <UsersRound color={color} width={28} height={28} />;
+      return <ShoppingCart width={28} height={28} color="#FFFFFF" />;
     case EventType.SomeoneViewing:
-      return <EyeIcon color={color} width={28} height={28} />;
+      return <UserRoundSearch width={28} height={28} color="#FFFFFF" />;
+    case EventType.ActiveUsers:
+      return <UsersRound width={28} height={28} color="#FFFFFF" />;
+    case EventType.Custom:
+      return <Boxes width={28} height={28} color="#FFFFFF" />;
   }
 };

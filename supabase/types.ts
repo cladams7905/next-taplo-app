@@ -17,8 +17,6 @@ export type Database = {
           id: number
           integration_id: number | null
           project_id: number
-          show_price: boolean | null
-          show_products: boolean | null
           user_id: string
         }
         Insert: {
@@ -28,8 +26,6 @@ export type Database = {
           id?: number
           integration_id?: number | null
           project_id: number
-          show_price?: boolean | null
-          show_products?: boolean | null
           user_id: string
         }
         Update: {
@@ -39,8 +35,6 @@ export type Database = {
           id?: number
           integration_id?: number | null
           project_id?: number
-          show_price?: boolean | null
-          show_products?: boolean | null
           user_id?: string
         }
         Relationships: [
@@ -116,42 +110,42 @@ export type Database = {
         Row: {
           created_at: string
           currency: string | null
-          event_id: number
           id: number
           image_url: string | null
           link: string | null
           name: string | null
           price: number | null
+          project_id: number
           user_id: string
         }
         Insert: {
           created_at?: string
           currency?: string | null
-          event_id: number
           id?: number
           image_url?: string | null
           link?: string | null
           name?: string | null
           price?: number | null
+          project_id: number
           user_id: string
         }
         Update: {
           created_at?: string
           currency?: string | null
-          event_id?: number
           id?: number
           image_url?: string | null
           link?: string | null
           name?: string | null
           price?: number | null
+          project_id?: number
           user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: "Products_event_id_fkey"
-            columns: ["event_id"]
+            foreignKeyName: "Products_project_id_fkey"
+            columns: ["project_id"]
             isOneToOne: false
-            referencedRelation: "Events"
+            referencedRelation: "Projects"
             referencedColumns: ["id"]
           },
           {
@@ -175,6 +169,7 @@ export type Database = {
           is_active: boolean
           name: string
           screen_alignment: string | null
+          show_products: boolean
           template: string | null
           text_color: string | null
           user_id: string
@@ -190,6 +185,7 @@ export type Database = {
           is_active?: boolean
           name?: string
           screen_alignment?: string | null
+          show_products?: boolean
           template?: string | null
           text_color?: string | null
           user_id?: string
@@ -205,6 +201,7 @@ export type Database = {
           is_active?: boolean
           name?: string
           screen_alignment?: string | null
+          show_products?: boolean
           template?: string | null
           text_color?: string | null
           user_id?: string

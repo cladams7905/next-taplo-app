@@ -13,12 +13,12 @@ export async function createProduct(product: TablesInsert<"Products">) {
   return JSON.parse(JSON.stringify(result));
 }
 
-export async function getProducts(eventId: number) {
+export async function getProducts(projectId: number) {
   const supabase = createClient();
   const result = await supabase
     .from("Products")
     .select()
-    .eq("event_id", eventId);
+    .eq("project_id", projectId);
   return JSON.parse(JSON.stringify(result));
 }
 

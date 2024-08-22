@@ -4,6 +4,7 @@ import { createClient } from "@/supabase/server";
 import { redirect } from "next/navigation";
 import { getIntegrations } from "@/lib/actions/integrations";
 import { getEvents } from "@/lib/actions/events";
+import { getProducts } from "@/lib/actions/products";
 
 export default async function CreatePopupPage({ params }: { params: string }) {
   const supabase = createClient();
@@ -15,12 +16,14 @@ export default async function CreatePopupPage({ params }: { params: string }) {
   const activeProject = (await getActiveProject(data.user.id)).data;
   const integrations = (await getIntegrations(activeProject.id)).data;
   const events = (await getEvents(activeProject.id)).data;
+  const products = (await getProducts(activeProject.id)).data;
 
   return (
     <ProjectBoard
       fetchedActiveProject={activeProject}
       fetchedIntegrations={integrations}
       fetchedEvents={events}
+      fetchedProducts={products}
     />
   );
 }
