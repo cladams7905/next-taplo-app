@@ -1,12 +1,13 @@
 "use client";
 
 import { EventType } from "@/lib/enums";
-import { TablesInsert } from "@/supabase/types";
+import { Tables, TablesInsert } from "@/supabase/types";
 import { showToastError } from "@/components/shared/showToast";
 import { sortByTimeCreated } from "@/lib/actions";
 import { createEvent } from "@/lib/actions/events";
 import {
   Boxes,
+  CheckIcon,
   Search,
   ShoppingBag,
   ShoppingCart,
@@ -31,6 +32,7 @@ export default function NewEventModal({
 }) {
   const { activeProject, events, setEvents, setActiveEvent } =
     useProjectContext();
+
   const [isLoading, startLoadingTransition] = useTransition();
   const [searchQuery, setSearchQuery] = useState("");
   const eventOptions = getEventOptions();
@@ -39,6 +41,8 @@ export default function NewEventModal({
       event?.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       event?.integrations?.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const [eventsToCreate, setEventsToCreate] = useState<EventType[]>([]);
 
   const handleCreateEvent = (eventType: EventType) => {
     startLoadingTransition(async () => {
@@ -59,10 +63,30 @@ export default function NewEventModal({
             setActiveEvent(updatedEvents[0]);
             return updatedEvents;
           });
-          eventModalRef.current?.close();
         }
       }
     });
+  };
+
+  const addEventToCreate = (eventType: EventType) => {
+    setEventsToCreate((prevEventsToCreate) => {
+      return [...prevEventsToCreate, eventType];
+    });
+  };
+
+  const removeEventToCreate = (eventType: EventType) => {
+    setEventsToCreate((prevEventsToCreate) => {
+      return prevEventsToCreate.filter((e) => e != eventType);
+    });
+  };
+
+  const createSelectedEvents = () => {
+    eventsToCreate.forEach((ev) => {
+      handleCreateEvent(ev);
+    });
+    setTimeout(() => {
+      eventModalRef.current?.close();
+    }, 2000);
   };
 
   const setEventContent = (eventType: EventType) => {
@@ -107,6 +131,7 @@ export default function NewEventModal({
               <button
                 className="btn btn-sm btn-circle btn-ghost absolute -right-2 top-2 text-base-content !outline-none"
                 onClick={() => {
+                  setEventsToCreate([]);
                   eventModalRef?.current?.close();
                 }}
               >
@@ -114,7 +139,9 @@ export default function NewEventModal({
               </button>
             </form>
             <div className="flex flex-row items-center gap-2">
-              <h3 className="font-semibold text-lg">Select Event Type</h3>
+              <h3 className="font-semibold text-lg">
+                Select Event(s) to Create
+              </h3>
               {isLoading && (
                 <span className="loading loading-spinner loading-sm bg-base-content"></span>
               )}
@@ -139,22 +166,30 @@ export default function NewEventModal({
             {filteredEvents.map((eventOption, i) => (
               <div
                 key={i}
-                className={`flex flex-row border border-gray-300 shadow-md rounded-lg w-full lg:max-w-[352px] md:max-w-[352px] mb-1 ${
+                className={`relative flex flex-row border border-gray-300 shadow-md rounded-lg w-full lg:max-w-[352px] md:max-w-[352px] mb-1 ${
                   isEventAlreadyCreated(eventOption.type)
                     ? " hidden"
                     : "cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform"
+                } ${
+                  eventsToCreate.includes(eventOption.type) &&
+                  "outline outline-[3px] outline-primary"
                 }`}
                 onClick={() => {
-                  if (!isEventAlreadyCreated(eventOption.type))
-                    handleCreateEvent(eventOption.type);
+                  if (!isEventAlreadyCreated(eventOption.type)) {
+                    if (!eventsToCreate.includes(eventOption.type)) {
+                      addEventToCreate(eventOption.type);
+                    } else {
+                      removeEventToCreate(eventOption.type);
+                    }
+                  }
                 }}
               >
-                <div
-                  className="flex items-center justify-center rounded-l-lg outline outline-[1px] outline-primary w-14 min-w-14 h-full bg-primary"
-                  // style={{
-                  //   backgroundColor: hexToRgba(eventOption.color, 0.3),
-                  // }}
-                >
+                {eventsToCreate.includes(eventOption.type) && (
+                  <div className="flex items-center justify-center absolute top-0 z-[2] right-0 aspect-square w-10 h-10 rounded-bl-lg rounded-tr-lg bg-primary text-white outline outline-[1px] outline-primary">
+                    <CheckIcon width={20} height={20} strokeWidth={3} />
+                  </div>
+                )}
+                <div className="flex items-center justify-center rounded-l-lg w-14 min-w-14 h-full bg-gradient-to-tr from-primary/90 to-purple-100 border-r border-gray-300">
                   {getEventIcon(eventOption.type, "#FFFFFF")}
                 </div>
                 <div className="flex flex-col py-4 px-2 ml-3 gap-2">
@@ -169,7 +204,16 @@ export default function NewEventModal({
               </div>
             ))}
           </div>
-          <div className="flex flex-col items-center justify-center border-t border-gray-300 sticky bottom-0 bg-white pb-6 mt-2">
+          <div className="flex flex-col items-center justify-center sticky bottom-0 bg-white pb-6">
+            {eventsToCreate.length > 0 && (
+              <div
+                className="btn btn-primary mb-8 text-white"
+                onClick={() => createSelectedEvents()}
+              >
+                Create {eventsToCreate.length} event(s)
+              </div>
+            )}
+            <div className="border-t border-gray-300 w-full"></div>
             <div className="flex items-center rounded-lg bg-white px-4 -mt-[10px] text-sm text-gray-500">
               or
             </div>
