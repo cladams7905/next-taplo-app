@@ -70,6 +70,11 @@ input:not(.toggle-primary), select, textarea {
   @apply border !border-gray-300
 }
 
+[type="checkbox"]:not(:checked) {
+  background-color: rgb(156 163 175) !important;
+  border-color: rgb(156 163 175) !important;
+}
+
 .toggle-primary{
   @apply !text-purple-100
 }

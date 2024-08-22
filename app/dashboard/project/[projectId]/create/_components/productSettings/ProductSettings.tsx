@@ -47,13 +47,13 @@ export default function ProductSettings({
   return (
     <div
       ref={productsHeaderRef}
-      className={`sticky top-0 w-full min-h-[65px] flex flex-col border-t border-gray-300 bg-white pb-4 z-[0] ${
-        scrolled && "border-t-0"
-      }`}
+      className={`flex relative border-t border-gray-300 ${
+        isPreviewMode && "z-[0]"
+      } flex-col w-full h-fit`}
     >
       <div
-        className={`flex flex-row w-full h-fit items-center justify-between px-4 py-6 ${
-          scrolled ? "border-b -mb-[1px] shadow-sm border-gray-300" : ""
+        className={`sticky top-0 w-full min-h-[65px] p-4 bg-white flex items-center justify-between ${
+          scrolled ? "border-b border-gray-300 -mb-[1px] shadow-sm" : ""
         } ${isPreviewMode ? "z-[1]" : "z-[2]"}`}
       >
         <div className="flex items-center sticky top-[-1px] text-xs gap-2 bg-white">
@@ -63,7 +63,7 @@ export default function ProductSettings({
           )}
         </div>
         <div className="flex items-center gap-2">
-          <div className="text-xs text-gray-400">Show products?</div>
+          <div className="text-xs">Show products?</div>
           <input
             type="checkbox"
             checked={isShowProductsChecked}
