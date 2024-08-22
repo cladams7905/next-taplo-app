@@ -1,14 +1,10 @@
 "use client";
 
-import { Tables, TablesInsert } from "@/supabase/types";
+import { Tables } from "@/supabase/types";
 import { ChangeEvent, TransitionStartFunction, useTransition } from "react";
-import {
-  createProduct,
-  deleteProduct,
-  updateProduct,
-} from "@/lib/actions/products";
+import { deleteProduct, updateProduct } from "@/lib/actions/products";
 import { showToastError } from "@/components/shared/showToast";
-import { Camera, CirclePlus, Trash2 } from "lucide-react";
+import { Camera, Trash2 } from "lucide-react";
 import { createClient } from "@/supabase/client";
 import Image from "next/image";
 import { useProjectContext } from "../ProjectBoard";
@@ -18,8 +14,7 @@ const ProductList = ({
 }: {
   startLoadTransition: TransitionStartFunction;
 }) => {
-  const { activeProject, products, setProducts, isShowProductsChecked } =
-    useProjectContext();
+  const { activeProject, products, setProducts } = useProjectContext();
   const [isProductListPending, startProductTransition] = useTransition();
 
   const handleFileUpload = (

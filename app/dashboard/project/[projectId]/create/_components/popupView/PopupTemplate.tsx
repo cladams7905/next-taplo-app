@@ -187,40 +187,40 @@ const EventIcon = () => {
       return (
         <ShoppingBag
           color={hexToRgba(accentColor.hex.toString(), 0.85)}
-          height={24}
-          width={24}
+          height={28}
+          width={28}
         />
       );
     case EventType.AddToCart:
       return (
         <ShoppingCart
           color={hexToRgba(accentColor.hex.toString(), 0.85)}
-          height={24}
-          width={24}
+          height={28}
+          width={28}
         />
       );
     case EventType.SomeoneViewing:
       return (
         <UserRoundSearch
           color={hexToRgba(accentColor.hex.toString(), 0.85)}
-          height={24}
-          width={24}
+          height={28}
+          width={28}
         />
       );
     case EventType.ActiveUsers:
       return (
         <UsersRound
           color={hexToRgba(accentColor.hex.toString(), 0.85)}
-          height={24}
-          width={24}
+          height={28}
+          width={28}
         />
       );
     case EventType.Custom:
       return (
         <Boxes
           color={hexToRgba(accentColor.hex.toString(), 0.85)}
-          height={24}
-          width={24}
+          height={28}
+          width={28}
         />
       );
   }

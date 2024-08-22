@@ -28,8 +28,6 @@ interface ProjectContextType {
   setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
   products: Tables<"Products">[];
   setProducts: Dispatch<SetStateAction<Tables<"Products">[]>>;
-  isShowProductsChecked: boolean;
-  setShowProductsChecked: Dispatch<SetStateAction<boolean>>;
   backgroundColor: IColor;
   setBackgroundColor: Dispatch<SetStateAction<IColor>>;
   textColor: IColor;
@@ -118,13 +116,6 @@ export default function ProjectBoard({
    */
   const [products, setProducts] =
     useState<Tables<"Products">[]>(fetchedProducts);
-
-  /**
-   * isShowProductsChecked: toggles whether to show products inside of popups.
-   */
-  const [isShowProductsChecked, setShowProductsChecked] = useState<boolean>(
-    fetchedActiveProject.show_products
-  );
 
   /**
    * Display time: the time allotted for each popup to display to a user.
@@ -240,6 +231,13 @@ export default function ProjectBoard({
                 </svg>`)
             : "My Product";
           break;
+        case ContentVars.NumUsers:
+        case ContentVars.RecentUsers:
+          returnWord = isPopupText ? "20" : "#";
+          break;
+        case ContentVars.Price:
+          returnWord = isPopupText ? "$29.99" : "$";
+          break;
         default:
           returnWord = "undefined";
       }
@@ -289,8 +287,6 @@ export default function ProjectBoard({
     setIntegrations,
     products,
     setProducts,
-    isShowProductsChecked,
-    setShowProductsChecked,
     displayTime,
     setDisplayTime,
     backgroundColor,

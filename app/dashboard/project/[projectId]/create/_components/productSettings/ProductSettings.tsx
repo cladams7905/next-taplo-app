@@ -21,35 +21,9 @@ export default function ProductSettings({
   eventHeaderHeight: number | undefined;
   isPreviewMode: boolean;
 }) {
-  const {
-    activeProject,
-    setActiveProject,
-    events,
-    products,
-    setProducts,
-    isShowProductsChecked,
-    setShowProductsChecked,
-  } = useProjectContext();
+  const { activeProject, events, products, setProducts } = useProjectContext();
   const scrolled = useScroll(eventHeaderHeight, scrollRef);
   const [isProductPending, startProductTransition] = useTransition();
-
-  const handleShowProductsToggle = () => {
-    startProductTransition(async () => {
-      setShowProductsChecked(!isShowProductsChecked);
-      const updateResult = await updateProject(activeProject.id, {
-        show_products: !isShowProductsChecked,
-      });
-
-      if (updateResult.error) {
-        showToastError(updateResult.error);
-      } else {
-        setActiveProject({
-          ...activeProject,
-          show_products: !isShowProductsChecked,
-        });
-      }
-    });
-  };
 
   const handleCreateProduct = () => {
     startProductTransition(async () => {
@@ -86,13 +60,6 @@ export default function ProductSettings({
           )}
         </div>
         <div className="flex items-center gap-2">
-          {/* <div className="text-xs">Show products?</div>
-          <input
-            type="checkbox"
-            checked={isShowProductsChecked}
-            className="toggle toggle-primary toggle-md"
-            onChange={handleShowProductsToggle}
-          /> */}
           {events.length > 0 && (
             <div
               className="btn btn-sm w-auto btn-primary text-white text-xs"
@@ -105,9 +72,14 @@ export default function ProductSettings({
         </div>
       </div>
       <div className="flex flex-col p-4 gap-6">
-        {isShowProductsChecked ? (
+        {products.length > 0 ? (
           <div className="flex flex-col w-full gap-3 mb-4">
             <ProductList startLoadTransition={startProductTransition} />
+          </div>
+        ) : events.length > 0 ? (
+          <div className="px-4 text-[12px] text-gray-400 w-full text-center">
+            You haven&apos;t created any events yet. Click &quot;+&quot; to
+            create a new one!
           </div>
         ) : (
           <div className="px-4 text-[12px] text-gray-400 w-full text-center">

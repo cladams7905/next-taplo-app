@@ -249,6 +249,37 @@ export default function ContentBodyEditor({
     }
   };
 
+  const getVariableTooltip = (variable: ContentVars) => {
+    let returnStr = "";
+    switch (variable) {
+      case ContentVars.Person:
+        returnStr =
+          'The first name of the user (ex: "Jamie"). If this field is unknown, it will be replaced with "Someone".';
+        break;
+      case ContentVars.Location:
+        returnStr =
+          'The location of the user, displayed as City, Country (ex: "Seattle, USA").';
+        break;
+      case ContentVars.Product:
+        returnStr =
+          'The name of the product (ex: "Airpods Pro"). If there is no corresponding product found, this field will default to "an item".';
+        break;
+      case ContentVars.Price:
+        returnStr =
+          "The price associated with a purchase. If there is no price found, this field will be left blank.";
+        break;
+      case ContentVars.NumUsers:
+        returnStr =
+          "The total number of users online now. If this number is not found, this field will default to 0.";
+        break;
+      case ContentVars.RecentUsers:
+        returnStr =
+          "The total number of users online within the past 24 hours. If this number is not found, this field will default to 0.";
+        break;
+    }
+    return returnStr;
+  };
+
   return (
     <div className="relative flex flex-col gap-2 mb-6">
       <textarea
@@ -283,7 +314,11 @@ export default function ContentBodyEditor({
           <div className="text-xs text-gray-400 max-w-[360px]">
             Available variables:{" "}
             {variableList.map((variable, i) => (
-              <span key={i} className="text-primary uppercase">
+              <span
+                key={i}
+                className="text-primary uppercase tooltip tooltip-bottom tooltip-info mr-1"
+                data-tip={getVariableTooltip(variable as ContentVars)}
+              >
                 {"\\" +
                   variable +
                   `${i != variableList.length - 1 ? ", " : ""}`}
