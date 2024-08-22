@@ -180,7 +180,7 @@ export default function PopupTemplate({
   }
 }
 
-const getEventIcon = () => {
+const EventIcon = () => {
   const { activeEvent, accentColor } = useProjectContext();
   switch (activeEvent?.event_type) {
     case EventType.Purchase:
@@ -259,7 +259,7 @@ const SmallPopupTemplate = ({
             backgroundColor: hexToRgba(accentColor.hex.toString(), 0.2),
           }}
         >
-          {getEventIcon()}
+          {EventIcon()}
         </div>
       </div>
       <div className="flex w-full gap-4 items-center ml-2">
@@ -384,7 +384,7 @@ const LargePopupTemplate = ({
         backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className={`relative flex flex-row w-fit h-fit min-h-[100px] max-w-[380px] rounded-lg border shadow-lg gap-3 ${
+      className={`relative flex flex-row w-fit h-fit min-h-[100px] max-w-[380px] min-w-[380px] rounded-lg border shadow-lg gap-3 ${
         isPreviewMode ? animation : ""
       } ${
         isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""
@@ -398,7 +398,7 @@ const LargePopupTemplate = ({
             outlineColor: hexToRgba(accentColor.hex.toString(), 0.2),
           }}
         >
-          {getEventIcon()}
+          {EventIcon()}
         </div>
       </div>
       <div className="flex w-full gap-4 items-center">
@@ -537,7 +537,7 @@ const CardTemplate = ({
             outlineColor: hexToRgba(accentColor.hex.toString(), 0.2),
           }}
         >
-          {getEventIcon()}
+          {EventIcon()}
         </div>
       </div>
       <div className="flex w-full gap-4 items-center">
@@ -675,7 +675,7 @@ const BannerTemplate = ({
             backgroundColor: hexToRgba(accentColor.hex.toString(), 0.2),
           }}
         >
-          {getEventIcon()}
+          {EventIcon()}
         </div>
       </div>
       <div className="flex w-full items-center justify-center">

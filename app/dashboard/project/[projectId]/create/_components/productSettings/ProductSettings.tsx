@@ -6,6 +6,9 @@ import ProductList from "./ProductList";
 import { useProjectContext } from "../ProjectBoard";
 import { updateProject } from "@/lib/actions/projects";
 import { showToastError } from "@/components/shared/showToast";
+import { CirclePlus } from "lucide-react";
+import { TablesInsert } from "@/supabase/types";
+import { createProduct } from "@/lib/actions/products";
 
 export default function ProductSettings({
   scrollRef,
@@ -21,6 +24,9 @@ export default function ProductSettings({
   const {
     activeProject,
     setActiveProject,
+    events,
+    products,
+    setProducts,
     isShowProductsChecked,
     setShowProductsChecked,
   } = useProjectContext();
@@ -44,6 +50,21 @@ export default function ProductSettings({
       }
     });
   };
+
+  const handleCreateProduct = () => {
+    startProductTransition(async () => {
+      const product: TablesInsert<"Products"> = {
+        project_id: activeProject.id,
+        user_id: activeProject.user_id,
+      };
+      const { data, error } = await createProduct(product);
+      if (error) {
+        showToastError(error);
+      } else {
+        setProducts((prevProducts) => [...prevProducts, data]);
+      }
+    });
+  };
   return (
     <div
       ref={productsHeaderRef}
@@ -57,24 +78,35 @@ export default function ProductSettings({
         } ${isPreviewMode ? "z-[1]" : "z-[2]"}`}
       >
         <div className="flex items-center sticky top-[-1px] text-xs gap-2 bg-white">
-          <div className="font-semibold text-gray-400 ml-2">Products</div>
+          <div className="font-semibold text-gray-400 ml-2">
+            Products ({products.length})
+          </div>
           {isProductPending && (
             <span className="loading loading-spinner loading-xs bg-base-content"></span>
           )}
         </div>
         <div className="flex items-center gap-2">
-          <div className="text-xs">Show products?</div>
+          {/* <div className="text-xs">Show products?</div>
           <input
             type="checkbox"
             checked={isShowProductsChecked}
             className="toggle toggle-primary toggle-md"
             onChange={handleShowProductsToggle}
-          />
+          /> */}
+          {events.length > 0 && (
+            <div
+              className="btn btn-sm w-auto btn-primary text-white text-xs"
+              onClick={() => handleCreateProduct()}
+            >
+              New Product
+              <CirclePlus height={18} width={18} />
+            </div>
+          )}
         </div>
       </div>
       <div className="flex flex-col p-4 gap-6">
         {isShowProductsChecked ? (
-          <div className="flex flex-col w-full gap-3 rounded-lg bg-white border border-gray-300 py-4 px-5">
+          <div className="flex flex-col w-full gap-3 mb-4">
             <ProductList startLoadTransition={startProductTransition} />
           </div>
         ) : (

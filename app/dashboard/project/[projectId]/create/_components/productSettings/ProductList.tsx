@@ -52,21 +52,6 @@ const ProductList = ({
     });
   };
 
-  const handleCreateProduct = () => {
-    startLoadTransition(async () => {
-      const product: TablesInsert<"Products"> = {
-        project_id: activeProject.id,
-        user_id: activeProject.user_id,
-      };
-      const { data, error } = await createProduct(product);
-      if (error) {
-        showToastError(error);
-      } else {
-        setProducts((prevProducts) => [...prevProducts, data]);
-      }
-    });
-  };
-
   const handleDeleteProduct = (productId: number) => {
     startLoadTransition(async () => {
       const { data, error } = await deleteProduct(productId);
@@ -112,24 +97,15 @@ const ProductList = ({
 
   return (
     <div className="w-full flex flex-col gap-2">
-      <div className="flex flex-row w-full justify-between">
-        <div
-          className="btn btn-sm w-auto btn-ghost text-xs"
-          onClick={handleCreateProduct}
-        >
-          <CirclePlus height={14} width={14} />
-          New
-        </div>
-      </div>
       {!products || products.length === 0 ? (
-        <div className="text-gray-400 text-xs">
-          You haven&apos;t created any products yet.
+        <div className="px-4 text-xs text-center text-gray-400">
+          To enable products, first create a new event.
         </div>
       ) : !isProductListPending ? (
         products.map((product, i) => (
           <div
             key={product.id}
-            className="flex flex-row w-full items-center mb-4"
+            className="flex flex-row w-full items-center mb-4 rounded-lg bg-white border border-gray-300 py-5 pr-2 pl-4"
           >
             <div className="flex w-fit items-center">
               <label
@@ -168,7 +144,7 @@ const ProductList = ({
             <div className="flex flex-col w-full gap-1">
               <div className="flex flex-row gap-2">
                 <div className="flex flex-col w-full gap-1">
-                  <p className="text-xs mt-4">Product Name</p>
+                  <p className="text-xs">Product Name</p>
                   <input
                     type="text"
                     name="name"
@@ -179,7 +155,7 @@ const ProductList = ({
                   />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <p className="text-xs mt-4">Price</p>
+                  <p className="text-xs">Price</p>
                   <input
                     type="text"
                     name="price"

@@ -76,7 +76,7 @@ const EventsList = ({
       </div>
     ))
   ) : (
-    <div className="px-4 text-sm text-gray-400">
+    <div className="px-4 text-xs text-center text-gray-400">
       You haven&apos;t created any events yet. Click &quot;+&quot; to create a
       new one!
     </div>

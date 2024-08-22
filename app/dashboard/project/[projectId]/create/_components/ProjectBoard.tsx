@@ -148,7 +148,7 @@ export default function ProjectBoard({
     activeProject?.text_color ? activeProject.text_color : "#172554"
   );
   const [accentColor, setAccentColor] = useColor(
-    activeProject?.accent_color ? activeProject.accent_color : "#6b7280"
+    activeProject?.accent_color ? activeProject.accent_color : "#7A81EB"
   );
   const [borderColor, setBorderColor] = useColor(
     activeProject?.border_color ? activeProject.border_color : "#D1D3D7"

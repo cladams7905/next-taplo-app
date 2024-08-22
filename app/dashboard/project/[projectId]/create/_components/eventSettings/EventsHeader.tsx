@@ -25,9 +25,11 @@ export default function EventsHeader({
         <div className="text-xs ml-2 font-semibold text-gray-400">
           Events ({events.length})
         </div>
-        <div className="text-xs ml-2 text-gray-400">
-          Viewing: {activeEvent?.event_type}{" "}
-        </div>
+        {events.length > 0 && (
+          <div className="text-xs ml-2 text-gray-400">
+            Viewing: {activeEvent?.event_type}{" "}
+          </div>
+        )}
         {isEventPending && (
           <span className="loading loading-spinner loading-xs bg-base-content"></span>
         )}
