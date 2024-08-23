@@ -237,8 +237,14 @@ const SmallPopupTemplate = ({
   isPreviewMode: boolean;
   contentBody: string;
 }) => {
-  const { backgroundColor, textColor, accentColor, borderColor } =
-    useProjectContext();
+  const {
+    activeProduct,
+    activeEvent,
+    backgroundColor,
+    textColor,
+    accentColor,
+    borderColor,
+  } = useProjectContext();
 
   return (
     <div
@@ -253,14 +259,28 @@ const SmallPopupTemplate = ({
       }`}
     >
       <div className="flex items-center justify-center">
-        <div
-          className="rounded-full flex items-center justify-center w-16 h-16 min-w-16 aspect-square"
-          style={{
-            backgroundColor: hexToRgba(accentColor.hex.toString(), 0.2),
-          }}
-        >
-          {EventIcon()}
-        </div>
+        {activeProduct?.image_url &&
+        activeProduct.image_url !== "" &&
+        activeEvent?.event_type !== EventType.ActiveUsers ? (
+          <div className="w-16 h-16 min-w-16">
+            <Image
+              width={110}
+              height={110}
+              alt="product-img"
+              src={activeProduct.image_url}
+              className="object-cover w-full h-full rounded-full"
+            />
+          </div>
+        ) : (
+          <div
+            className="rounded-full flex items-center justify-center w-16 h-16 min-w-16 aspect-square"
+            style={{
+              backgroundColor: hexToRgba(accentColor.hex.toString(), 0.2),
+            }}
+          >
+            {EventIcon()}
+          </div>
+        )}
       </div>
       <div className="flex w-full gap-4 items-center ml-2">
         <div className="flex flex-col w-full gap-2">
@@ -421,7 +441,7 @@ const LargePopupTemplate = ({
           </div>
         )}
       </div>
-      <div className="flex w-full items-center px-3">
+      <div className="flex w-full items-center pr-3 pl-5">
         <div className="flex flex-col w-full lg:gap-[6px]">
           <p
             style={{
@@ -535,8 +555,14 @@ const CardTemplate = ({
   isPreviewMode: boolean;
   contentBody: string;
 }) => {
-  const { backgroundColor, textColor, accentColor, borderColor } =
-    useProjectContext();
+  const {
+    activeEvent,
+    activeProduct,
+    backgroundColor,
+    textColor,
+    accentColor,
+    borderColor,
+  } = useProjectContext();
   return (
     <div
       style={{
@@ -549,16 +575,30 @@ const CardTemplate = ({
         isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""
       }`}
     >
-      <div className="flex items-center justify-center h-full w-full">
-        <div
-          className="flex h-full w-full max-h-[160px] items-center justify-center aspect-square rounded-t-lg outline-1 outline"
-          style={{
-            backgroundColor: hexToRgba(accentColor.hex.toString(), 0.2),
-            outlineColor: hexToRgba(accentColor.hex.toString(), 0.2),
-          }}
-        >
-          {EventIcon()}
-        </div>
+      <div className="flex items-center justify-center h-full min-w-[270px]">
+        {activeProduct?.image_url &&
+        activeProduct.image_url !== "" &&
+        activeEvent?.event_type !== EventType.ActiveUsers ? (
+          <div className="h-[160px] w-full">
+            <Image
+              width={90}
+              height={90}
+              alt="product-img"
+              src={activeProduct.image_url}
+              className="object-cover w-full h-full rounded-t-lg"
+            />
+          </div>
+        ) : (
+          <div
+            className="flex h-full w-full max-h-[160px] items-center justify-center aspect-square rounded-t-lg outline-1 outline"
+            style={{
+              backgroundColor: hexToRgba(accentColor.hex.toString(), 0.2),
+              outlineColor: hexToRgba(accentColor.hex.toString(), 0.2),
+            }}
+          >
+            {EventIcon()}
+          </div>
+        )}
       </div>
       <div className="flex w-full gap-4 items-center">
         <div className="flex flex-col w-full gap-[4px] mx-2 p-2">
@@ -674,8 +714,14 @@ const BannerTemplate = ({
   isPreviewMode: boolean;
   contentBody: string;
 }) => {
-  const { backgroundColor, textColor, accentColor, borderColor } =
-    useProjectContext();
+  const {
+    activeEvent,
+    activeProduct,
+    backgroundColor,
+    textColor,
+    accentColor,
+    borderColor,
+  } = useProjectContext();
   return (
     <div
       style={{
@@ -689,14 +735,28 @@ const BannerTemplate = ({
       }`}
     >
       <div className="flex items-center justify-center">
-        <div
-          className="rounded-full flex items-center justify-center w-12 h-12 min-w-12 aspect-square"
-          style={{
-            backgroundColor: hexToRgba(accentColor.hex.toString(), 0.2),
-          }}
-        >
-          {EventIcon()}
-        </div>
+        {activeProduct?.image_url &&
+        activeProduct.image_url !== "" &&
+        activeEvent?.event_type !== EventType.ActiveUsers ? (
+          <div className="w-12 h-12">
+            <Image
+              width={48}
+              height={48}
+              alt="product-img"
+              src={activeProduct.image_url}
+              className="object-cover w-full h-full rounded-full"
+            />
+          </div>
+        ) : (
+          <div
+            className="rounded-full flex items-center justify-center w-12 h-12 min-w-12 aspect-square"
+            style={{
+              backgroundColor: hexToRgba(accentColor.hex.toString(), 0.2),
+            }}
+          >
+            {EventIcon()}
+          </div>
+        )}
       </div>
       <div className="flex w-full items-center justify-center">
         <div className="flex flex-col items-center justify-center w-full px-5 py-2 gap-1">
@@ -710,7 +770,7 @@ const BannerTemplate = ({
             }}
           ></p>
           <div
-            className={`flex flex-row gap-1 text-[12px]`}
+            className={`flex flex-row gap-1 md:text-[12px] lg:text-[12px] text-[11px] leading-5`}
             style={{
               color: hexToRgba(textColor.hex.toString(), 0.65),
             }}
