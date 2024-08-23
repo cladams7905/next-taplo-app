@@ -281,7 +281,7 @@ export default function ContentBodyEditor({
   };
 
   return (
-    <div className="relative flex flex-col gap-2 mb-6">
+    <div className="relative flex flex-col gap-2">
       <textarea
         ref={textAreaRef}
         className="textarea textarea-bordered rounded-lg"

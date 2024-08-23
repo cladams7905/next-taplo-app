@@ -8,7 +8,7 @@ import PopupTemplate from "./PopupTemplate";
 import { useProjectContext } from "../ProjectBoard";
 
 export default function PopupViewer() {
-  const { activeProject, activeEvent } = useProjectContext();
+  const { activeProject, activeEvent, activeProduct } = useProjectContext();
   const templateModalRef = useRef<HTMLDialogElement>(null);
   const [activeTemplate, setActiveTemplate] = useState<TemplateTypes>(
     activeProject.template as TemplateTypes
@@ -20,7 +20,7 @@ export default function PopupViewer() {
     setTimeout(() => {
       setAnimatePulse(false);
     }, 1000);
-  }, [activeEvent]);
+  }, [activeEvent, activeProduct]);
 
   return (
     <div className="flex flex-col w-full items-center gap-3 py-4 rounded-lg">

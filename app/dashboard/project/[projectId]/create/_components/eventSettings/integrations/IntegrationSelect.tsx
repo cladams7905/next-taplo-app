@@ -1,7 +1,7 @@
 "use client";
 
 import { Tables } from "@/supabase/types";
-import { ChevronDown, CirclePlus } from "lucide-react";
+import { ChevronDown, PlusIcon } from "lucide-react";
 import {
   TransitionStartFunction,
   useCallback,
@@ -69,7 +69,7 @@ export default function IntegrationSelect({
           onClick={() => newIntegrationModalRef.current?.showModal()}
         >
           New
-          <CirclePlus height={16} width={16} />
+          <PlusIcon height={16} width={16} />
         </div>
         <NewIntegrationModal
           currentEvent={currentEvent}

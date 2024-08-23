@@ -101,7 +101,7 @@ export default function Event({
             {getEventIcon(currentEvent.event_type as EventType)}
           </div>
           <div className="flex flex-col gap-1">
-            <div className="font-bold">{currentEvent.event_type}</div>
+            {currentEvent.event_type}
             <div className="text-xs text-gray-400">
               {currentEvent.integration_id ? (
                 getIntegrationById(currentEvent.integration_id)?.provider

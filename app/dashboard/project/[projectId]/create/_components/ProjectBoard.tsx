@@ -219,7 +219,9 @@ export default function ProjectBoard({
       index: number,
       isPopupText = false
     ) => {
-      const returnHTML = `<span key=${index} class="text-primary px-1 rounded-lg">${
+      const returnHTML = `<span key=${index} class="text-primary ${
+        !isPopupText || activeProduct?.link ? "px-1 rounded-lg" : ""
+      }">${
         "[" +
         replaceVariable(
           word.substring(1).toLocaleLowerCase() as ContentVars,

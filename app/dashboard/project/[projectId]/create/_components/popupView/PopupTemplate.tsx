@@ -14,6 +14,7 @@ import { hexToRgba } from "@/lib/actions";
 import { useProjectContext } from "../ProjectBoard";
 import "animate.css";
 import Image from "next/image";
+import { Tables } from "@/supabase/types";
 
 export default function PopupTemplate({
   isAnimatePulse,
@@ -25,16 +26,68 @@ export default function PopupTemplate({
   const {
     activeProject,
     activeEvent,
+    events,
     displayTime,
     replaceVariablesInContentBody,
   } = useProjectContext();
 
+  /**
+   * This is the content body of the popup displayed in the popup viewer (NOT during preview mode).
+   */
   const contentBodyHtml = replaceVariablesInContentBody(
     activeEvent?.content_body,
     false,
     true
   );
 
+  /**
+   * This event changes on every animation during preview mode to create a
+   * cycling effect through different events.
+   */
+  const [previewEvent, setPreviewEvent] = useState<
+    Tables<"Events"> | undefined
+  >(activeEvent);
+
+  /**
+   * This is the content body of the displayed event during preview mode.
+   */
+  const [previewContentBody, setPreviewContentBody] =
+    useState<string>(contentBodyHtml);
+
+  /**
+   * Whenever preview mode is toggled on or off, this guarantees that the active event
+   * will be the first event shown in preview mode.
+   */
+  useEffect(() => {
+    setPreviewEvent(activeEvent);
+  }, [isPreviewMode]);
+
+  /**
+   * Whenever a preview event changes, this changes the corresponding content body
+   * of the new preview event.
+   */
+  useEffect(() => {
+    setPreviewContentBody(
+      replaceVariablesInContentBody(previewEvent?.content_body, false, true)
+    );
+  }, [previewEvent]);
+
+  /**
+   * This check determines whether an event should display a product's image if an image is available.
+   * If it is in preview mode, then it should check according to the preview event.
+   * If it is not in preview mode, then it should check the active event.
+   * @returns boolean
+   */
+  const shouldDisplayImage = () => {
+    return (
+      (!isPreviewMode && activeEvent?.event_type !== EventType.ActiveUsers) ||
+      (isPreviewMode && previewEvent?.event_type !== EventType.ActiveUsers)
+    );
+  };
+
+  /**
+   * This is the animation that is played during preview mode to show a slide in/out effect.
+   */
   const [animation, setAnimation] = useState(
     activeProject.screen_alignment === ScreenAlignment.BottomLeft ||
       activeProject.screen_alignment === ScreenAlignment.TopLeft
@@ -46,12 +99,28 @@ export default function PopupTemplate({
       ? "animate-slideInTop"
       : "animate-slideInBottom"
   );
+
+  /**
+   * The interval allows the updateAnimation function to trigger in a loop every [displayTime] seconds.
+   */
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
+  /**
+   * This controls the updating of the preview animation based on the time interval provided.
+   */
   useEffect(() => {
     if (!isPreviewMode) return;
 
     const updateAnimation = () => {
+      if (animation.includes("Out")) {
+        setPreviewEvent((prevEvent) => {
+          const currentIndex = events.findIndex(
+            (event) => event.id === prevEvent?.id
+          );
+          const nextIndex = (currentIndex + 1) % events.length;
+          return events[nextIndex];
+        });
+      }
       setAnimation((prevAnimation) => {
         const newAnimation = determineAnimationDirection(prevAnimation);
         return newAnimation;
@@ -110,6 +179,8 @@ export default function PopupTemplate({
           isAnimatePulse={isAnimatePulse}
           isPreviewMode={isPreviewMode}
           contentBody={contentBodyHtml}
+          previewContentBody={previewContentBody}
+          shouldDisplayImage={shouldDisplayImage}
         />
       );
     case TemplateTypes.SmPopupNoImg:
@@ -119,6 +190,7 @@ export default function PopupTemplate({
           isAnimatePulse={isAnimatePulse}
           isPreviewMode={isPreviewMode}
           contentBody={contentBodyHtml}
+          previewContentBody={previewContentBody}
         />
       );
     case TemplateTypes.LgPopup:
@@ -128,6 +200,8 @@ export default function PopupTemplate({
           isAnimatePulse={isAnimatePulse}
           isPreviewMode={isPreviewMode}
           contentBody={contentBodyHtml}
+          previewContentBody={previewContentBody}
+          shouldDisplayImage={shouldDisplayImage}
         />
       );
     case TemplateTypes.LgPopupNoImg:
@@ -137,6 +211,7 @@ export default function PopupTemplate({
           isAnimatePulse={isAnimatePulse}
           isPreviewMode={isPreviewMode}
           contentBody={contentBodyHtml}
+          previewContentBody={previewContentBody}
         />
       );
     case TemplateTypes.Card:
@@ -146,6 +221,8 @@ export default function PopupTemplate({
           isAnimatePulse={isAnimatePulse}
           isPreviewMode={isPreviewMode}
           contentBody={contentBodyHtml}
+          previewContentBody={previewContentBody}
+          shouldDisplayImage={shouldDisplayImage}
         />
       );
     case TemplateTypes.CardNoImg:
@@ -155,6 +232,7 @@ export default function PopupTemplate({
           isAnimatePulse={isAnimatePulse}
           isPreviewMode={isPreviewMode}
           contentBody={contentBodyHtml}
+          previewContentBody={previewContentBody}
         />
       );
     case TemplateTypes.Banner:
@@ -164,6 +242,8 @@ export default function PopupTemplate({
           isAnimatePulse={isAnimatePulse}
           isPreviewMode={isPreviewMode}
           contentBody={contentBodyHtml}
+          previewContentBody={previewContentBody}
+          shouldDisplayImage={shouldDisplayImage}
         />
       );
     case TemplateTypes.BannerNoImg:
@@ -173,6 +253,7 @@ export default function PopupTemplate({
           isAnimatePulse={isAnimatePulse}
           isPreviewMode={isPreviewMode}
           contentBody={contentBodyHtml}
+          previewContentBody={previewContentBody}
         />
       );
     default:
@@ -231,15 +312,18 @@ const SmallPopupTemplate = ({
   isAnimatePulse,
   isPreviewMode,
   contentBody,
+  previewContentBody,
+  shouldDisplayImage,
 }: {
   animation?: string;
   isAnimatePulse?: boolean;
   isPreviewMode: boolean;
   contentBody: string;
+  previewContentBody: string;
+  shouldDisplayImage: () => boolean;
 }) => {
   const {
     activeProduct,
-    activeEvent,
     backgroundColor,
     textColor,
     accentColor,
@@ -261,7 +345,7 @@ const SmallPopupTemplate = ({
       <div className="flex items-center justify-center">
         {activeProduct?.image_url &&
         activeProduct.image_url !== "" &&
-        activeEvent?.event_type !== EventType.ActiveUsers ? (
+        shouldDisplayImage() ? (
           <div className="w-16 h-16 min-w-16">
             <Image
               width={110}
@@ -290,7 +374,7 @@ const SmallPopupTemplate = ({
             }}
             className="text-[12.5px] leading-5"
             dangerouslySetInnerHTML={{
-              __html: contentBody,
+              __html: isPreviewMode ? previewContentBody : contentBody,
             }}
           ></p>
           <div
@@ -326,11 +410,13 @@ const SmallPopupNoImageTemplate = ({
   isAnimatePulse,
   isPreviewMode,
   contentBody,
+  previewContentBody,
 }: {
   animation?: string;
   isAnimatePulse?: boolean;
   isPreviewMode: boolean;
   contentBody: string;
+  previewContentBody: string;
 }) => {
   const { backgroundColor, textColor, accentColor, borderColor } =
     useProjectContext();
@@ -354,7 +440,7 @@ const SmallPopupNoImageTemplate = ({
             }}
             className="text-[13px] leading-5"
             dangerouslySetInnerHTML={{
-              __html: contentBody,
+              __html: isPreviewMode ? previewContentBody : contentBody,
             }}
           ></p>
           <div
@@ -390,15 +476,18 @@ const LargePopupTemplate = ({
   isAnimatePulse,
   isPreviewMode,
   contentBody,
+  previewContentBody,
+  shouldDisplayImage,
 }: {
   animation?: string;
   isAnimatePulse?: boolean;
   isPreviewMode: boolean;
   contentBody: string;
+  previewContentBody: string;
+  shouldDisplayImage: () => boolean;
 }) => {
   const {
     activeProduct,
-    activeEvent,
     backgroundColor,
     textColor,
     accentColor,
@@ -419,7 +508,7 @@ const LargePopupTemplate = ({
       <div className="flex items-center justify-center h-full w-full max-w-[110px]">
         {activeProduct?.image_url &&
         activeProduct.image_url !== "" &&
-        activeEvent?.event_type !== EventType.ActiveUsers ? (
+        shouldDisplayImage() ? (
           <div className="h-[110px] w-[110px]">
             <Image
               width={110}
@@ -449,7 +538,7 @@ const LargePopupTemplate = ({
             }}
             className="text-[14.5px] leading-5"
             dangerouslySetInnerHTML={{
-              __html: contentBody,
+              __html: isPreviewMode ? previewContentBody : contentBody,
             }}
           ></p>
           <div
@@ -485,11 +574,13 @@ const LargePopupNoImageTemplate = ({
   isAnimatePulse,
   isPreviewMode,
   contentBody,
+  previewContentBody,
 }: {
   animation?: string;
   isAnimatePulse?: boolean;
   isPreviewMode: boolean;
   contentBody: string;
+  previewContentBody: string;
 }) => {
   const { backgroundColor, textColor, accentColor, borderColor } =
     useProjectContext();
@@ -513,7 +604,7 @@ const LargePopupNoImageTemplate = ({
             }}
             className="text-[14.5px] leading-5 mt-1"
             dangerouslySetInnerHTML={{
-              __html: contentBody,
+              __html: isPreviewMode ? previewContentBody : contentBody,
             }}
           ></p>
           <div
@@ -549,14 +640,17 @@ const CardTemplate = ({
   isAnimatePulse,
   isPreviewMode,
   contentBody,
+  previewContentBody,
+  shouldDisplayImage,
 }: {
   animation?: string;
   isAnimatePulse?: boolean;
   isPreviewMode: boolean;
   contentBody: string;
+  previewContentBody: string;
+  shouldDisplayImage: () => boolean;
 }) => {
   const {
-    activeEvent,
     activeProduct,
     backgroundColor,
     textColor,
@@ -578,7 +672,7 @@ const CardTemplate = ({
       <div className="flex items-center justify-center h-full min-w-[270px]">
         {activeProduct?.image_url &&
         activeProduct.image_url !== "" &&
-        activeEvent?.event_type !== EventType.ActiveUsers ? (
+        shouldDisplayImage() ? (
           <div className="h-[160px] w-full">
             <Image
               width={90}
@@ -608,7 +702,7 @@ const CardTemplate = ({
             }}
             className="text-[13px] leading-5"
             dangerouslySetInnerHTML={{
-              __html: contentBody,
+              __html: isPreviewMode ? previewContentBody : contentBody,
             }}
           ></p>
           <div
@@ -644,11 +738,13 @@ const CardNoImageTemplate = ({
   isAnimatePulse,
   isPreviewMode,
   contentBody,
+  previewContentBody,
 }: {
   animation?: string;
   isAnimatePulse?: boolean;
   isPreviewMode: boolean;
   contentBody: string;
+  previewContentBody: string;
 }) => {
   const { backgroundColor, textColor, accentColor, borderColor } =
     useProjectContext();
@@ -672,7 +768,7 @@ const CardNoImageTemplate = ({
             }}
             className="text-[13px] leading-5"
             dangerouslySetInnerHTML={{
-              __html: contentBody,
+              __html: isPreviewMode ? previewContentBody : contentBody,
             }}
           ></p>
           <div
@@ -708,14 +804,17 @@ const BannerTemplate = ({
   isAnimatePulse,
   isPreviewMode,
   contentBody,
+  previewContentBody,
+  shouldDisplayImage,
 }: {
   animation?: string;
   isAnimatePulse?: boolean;
   isPreviewMode: boolean;
   contentBody: string;
+  previewContentBody: string;
+  shouldDisplayImage: () => boolean;
 }) => {
   const {
-    activeEvent,
     activeProduct,
     backgroundColor,
     textColor,
@@ -737,7 +836,7 @@ const BannerTemplate = ({
       <div className="flex items-center justify-center">
         {activeProduct?.image_url &&
         activeProduct.image_url !== "" &&
-        activeEvent?.event_type !== EventType.ActiveUsers ? (
+        shouldDisplayImage() ? (
           <div className="w-12 h-12">
             <Image
               width={48}
@@ -766,7 +865,7 @@ const BannerTemplate = ({
             }}
             className="text-[13px] leading-5"
             dangerouslySetInnerHTML={{
-              __html: contentBody,
+              __html: isPreviewMode ? previewContentBody : contentBody,
             }}
           ></p>
           <div
@@ -803,11 +902,13 @@ const BannerNoImageTemplate = ({
   isAnimatePulse,
   isPreviewMode,
   contentBody,
+  previewContentBody,
 }: {
   animation?: string;
   isAnimatePulse?: boolean;
   isPreviewMode: boolean;
   contentBody: string;
+  previewContentBody: string;
 }) => {
   const { backgroundColor, textColor, accentColor, borderColor } =
     useProjectContext();
@@ -831,7 +932,7 @@ const BannerNoImageTemplate = ({
             }}
             className="text-[13px] leading-5"
             dangerouslySetInnerHTML={{
-              __html: contentBody,
+              __html: isPreviewMode ? previewContentBody : contentBody,
             }}
           ></p>
           <div
