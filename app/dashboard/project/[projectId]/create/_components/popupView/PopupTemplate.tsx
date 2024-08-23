@@ -175,6 +175,7 @@ export default function PopupTemplate({
     case TemplateTypes.SmPopup:
       return (
         <SmallPopupTemplate
+          previewEvent={previewEvent}
           animation={animation}
           isAnimatePulse={isAnimatePulse}
           isPreviewMode={isPreviewMode}
@@ -196,6 +197,7 @@ export default function PopupTemplate({
     case TemplateTypes.LgPopup:
       return (
         <LargePopupTemplate
+          previewEvent={previewEvent}
           animation={animation}
           isAnimatePulse={isAnimatePulse}
           isPreviewMode={isPreviewMode}
@@ -217,6 +219,7 @@ export default function PopupTemplate({
     case TemplateTypes.Card:
       return (
         <CardTemplate
+          previewEvent={previewEvent}
           animation={animation}
           isAnimatePulse={isAnimatePulse}
           isPreviewMode={isPreviewMode}
@@ -238,6 +241,7 @@ export default function PopupTemplate({
     case TemplateTypes.Banner:
       return (
         <BannerTemplate
+          previewEvent={previewEvent}
           animation={animation}
           isAnimatePulse={isAnimatePulse}
           isPreviewMode={isPreviewMode}
@@ -261,9 +265,9 @@ export default function PopupTemplate({
   }
 }
 
-const EventIcon = () => {
-  const { activeEvent, accentColor } = useProjectContext();
-  switch (activeEvent?.event_type) {
+const EventIcon = (eventType: EventType) => {
+  const { accentColor } = useProjectContext();
+  switch (eventType) {
     case EventType.Purchase:
       return (
         <ShoppingBag
@@ -308,6 +312,7 @@ const EventIcon = () => {
 };
 
 const SmallPopupTemplate = ({
+  previewEvent,
   animation,
   isAnimatePulse,
   isPreviewMode,
@@ -315,6 +320,7 @@ const SmallPopupTemplate = ({
   previewContentBody,
   shouldDisplayImage,
 }: {
+  previewEvent: Tables<"Events"> | undefined;
   animation?: string;
   isAnimatePulse?: boolean;
   isPreviewMode: boolean;
@@ -323,6 +329,7 @@ const SmallPopupTemplate = ({
   shouldDisplayImage: () => boolean;
 }) => {
   const {
+    activeEvent,
     activeProduct,
     backgroundColor,
     textColor,
@@ -362,7 +369,11 @@ const SmallPopupTemplate = ({
               backgroundColor: hexToRgba(accentColor.hex.toString(), 0.2),
             }}
           >
-            {EventIcon()}
+            {EventIcon(
+              isPreviewMode
+                ? (previewEvent?.event_type as EventType)
+                : (activeEvent?.event_type as EventType)
+            )}
           </div>
         )}
       </div>
@@ -472,6 +483,7 @@ const SmallPopupNoImageTemplate = ({
 };
 
 const LargePopupTemplate = ({
+  previewEvent,
   animation,
   isAnimatePulse,
   isPreviewMode,
@@ -479,6 +491,7 @@ const LargePopupTemplate = ({
   previewContentBody,
   shouldDisplayImage,
 }: {
+  previewEvent: Tables<"Events"> | undefined;
   animation?: string;
   isAnimatePulse?: boolean;
   isPreviewMode: boolean;
@@ -487,6 +500,7 @@ const LargePopupTemplate = ({
   shouldDisplayImage: () => boolean;
 }) => {
   const {
+    activeEvent,
     activeProduct,
     backgroundColor,
     textColor,
@@ -526,7 +540,11 @@ const LargePopupTemplate = ({
               outlineColor: hexToRgba(accentColor.hex.toString(), 0.2),
             }}
           >
-            {EventIcon()}
+            {EventIcon(
+              isPreviewMode
+                ? (previewEvent?.event_type as EventType)
+                : (activeEvent?.event_type as EventType)
+            )}
           </div>
         )}
       </div>
@@ -636,6 +654,7 @@ const LargePopupNoImageTemplate = ({
 };
 
 const CardTemplate = ({
+  previewEvent,
   animation,
   isAnimatePulse,
   isPreviewMode,
@@ -643,6 +662,7 @@ const CardTemplate = ({
   previewContentBody,
   shouldDisplayImage,
 }: {
+  previewEvent: Tables<"Events"> | undefined;
   animation?: string;
   isAnimatePulse?: boolean;
   isPreviewMode: boolean;
@@ -651,6 +671,7 @@ const CardTemplate = ({
   shouldDisplayImage: () => boolean;
 }) => {
   const {
+    activeEvent,
     activeProduct,
     backgroundColor,
     textColor,
@@ -690,7 +711,11 @@ const CardTemplate = ({
               outlineColor: hexToRgba(accentColor.hex.toString(), 0.2),
             }}
           >
-            {EventIcon()}
+            {EventIcon(
+              isPreviewMode
+                ? (previewEvent?.event_type as EventType)
+                : (activeEvent?.event_type as EventType)
+            )}
           </div>
         )}
       </div>
@@ -800,6 +825,7 @@ const CardNoImageTemplate = ({
 };
 
 const BannerTemplate = ({
+  previewEvent,
   animation,
   isAnimatePulse,
   isPreviewMode,
@@ -807,6 +833,7 @@ const BannerTemplate = ({
   previewContentBody,
   shouldDisplayImage,
 }: {
+  previewEvent: Tables<"Events"> | undefined;
   animation?: string;
   isAnimatePulse?: boolean;
   isPreviewMode: boolean;
@@ -815,6 +842,7 @@ const BannerTemplate = ({
   shouldDisplayImage: () => boolean;
 }) => {
   const {
+    activeEvent,
     activeProduct,
     backgroundColor,
     textColor,
@@ -853,7 +881,11 @@ const BannerTemplate = ({
               backgroundColor: hexToRgba(accentColor.hex.toString(), 0.2),
             }}
           >
-            {EventIcon()}
+            {EventIcon(
+              isPreviewMode
+                ? (previewEvent?.event_type as EventType)
+                : (activeEvent?.event_type as EventType)
+            )}
           </div>
         )}
       </div>
