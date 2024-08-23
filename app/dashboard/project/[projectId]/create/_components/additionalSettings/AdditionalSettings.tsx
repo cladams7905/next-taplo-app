@@ -64,11 +64,11 @@ export default function AdditionalSettings({
     <div className="sticky top-[128px] flex flex-col border-t bg-white border-b border-gray-300 pb-4 z-[0]">
       <div className="flex flex-col w-full h-fit">
         <div
-          className={`flex items-center sticky top-[-1px] text-xs px-4 py-6 gap-2 bg-white border-gray-300 ${
+          className={`flex items-center sticky top-[-1px] px-4 py-6 gap-2 bg-white border-gray-300 ${
             scrolled ? "border-b -mb-[1px] shadow-sm" : ""
           } ${isPreviewMode ? "z-[1]" : "z-[2]"}`}
         >
-          <div className="font-semibold text-gray-400 ml-2">Settings</div>
+          <div className="font-semibold ml-2">Settings</div>
           {isSettingsPending && (
             <span className="loading loading-spinner loading-xs bg-base-content"></span>
           )}

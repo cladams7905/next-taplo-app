@@ -13,6 +13,7 @@ import { EventType, ScreenAlignment, TemplateTypes } from "@/lib/enums";
 import { hexToRgba } from "@/lib/actions";
 import { useProjectContext } from "../ProjectBoard";
 import "animate.css";
+import Image from "next/image";
 
 export default function PopupTemplate({
   isAnimatePulse,
@@ -375,30 +376,50 @@ const LargePopupTemplate = ({
   isPreviewMode: boolean;
   contentBody: string;
 }) => {
-  const { backgroundColor, textColor, accentColor, borderColor } =
-    useProjectContext();
+  const {
+    activeProduct,
+    activeEvent,
+    backgroundColor,
+    textColor,
+    accentColor,
+    borderColor,
+  } = useProjectContext();
   return (
     <div
       style={{
         backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className={`relative flex flex-row w-fit h-fit min-h-[100px] max-w-[380px] min-w-[340px] md:min-w-[380px] rounded-lg border shadow-lg ${
+      className={`relative flex flex-row w-fit h-fit min-h-[100px] max-w-[380px] min-w-[330px] md:min-w-[380px] rounded-lg border shadow-lg ${
         isPreviewMode ? animation : ""
       } ${
         isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""
       }`}
     >
       <div className="flex items-center justify-center h-full w-full max-w-[110px]">
-        <div
-          className="flex h-full w-full items-center justify-center aspect-square rounded-l-lg outline-1 outline"
-          style={{
-            backgroundColor: hexToRgba(accentColor.hex.toString(), 0.2),
-            outlineColor: hexToRgba(accentColor.hex.toString(), 0.2),
-          }}
-        >
-          {EventIcon()}
-        </div>
+        {activeProduct?.image_url &&
+        activeProduct.image_url !== "" &&
+        activeEvent?.event_type !== EventType.ActiveUsers ? (
+          <div className="h-[110px] w-[110px]">
+            <Image
+              width={110}
+              height={110}
+              alt="product-img"
+              src={activeProduct.image_url}
+              className="object-cover w-full h-full rounded-l-lg"
+            />
+          </div>
+        ) : (
+          <div
+            className="flex h-full w-full items-center justify-center aspect-square rounded-l-lg outline-1 outline"
+            style={{
+              backgroundColor: hexToRgba(accentColor.hex.toString(), 0.2),
+              outlineColor: hexToRgba(accentColor.hex.toString(), 0.2),
+            }}
+          >
+            {EventIcon()}
+          </div>
+        )}
       </div>
       <div className="flex w-full items-center px-3">
         <div className="flex flex-col w-full lg:gap-[6px]">

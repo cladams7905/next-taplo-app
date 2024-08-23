@@ -262,7 +262,7 @@ export default function ContentBodyEditor({
         break;
       case ContentVars.Product:
         returnStr =
-          'The name of the product (ex: "Airpods Pro"). If there is no corresponding product found, this field will default to "an item".';
+          'The name of the product (ex: "Airpods Pro"). If there is no corresponding product found, this field will default to "a product".';
         break;
       case ContentVars.Price:
         returnStr =

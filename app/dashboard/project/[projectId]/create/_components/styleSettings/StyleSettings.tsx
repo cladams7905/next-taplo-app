@@ -175,11 +175,11 @@ export const StyleSettings = ({
       className="flex flex-col w-full h-fit mb-8 relative z-[0]"
     >
       <div
-        className={`flex items-center sticky top-[-1px] text-xs px-4 py-6 gap-2 bg-white border-t border-gray-300 ${
+        className={`flex items-center sticky top-[-1px] px-4 py-6 gap-2 bg-white border-t border-gray-300 ${
           scrolled ? "border-b -mb-[1px] shadow-sm" : ""
         } ${isPreviewMode ? "z-[1]" : "z-[2]"}`}
       >
-        <div className="font-semibold text-gray-400 ml-2">Style</div>
+        <div className="font-semibold ml-2">Style</div>
         {isStylePending && (
           <span className="loading loading-spinner loading-xs bg-base-content"></span>
         )}

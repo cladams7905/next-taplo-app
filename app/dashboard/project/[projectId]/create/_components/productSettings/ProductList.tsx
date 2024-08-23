@@ -14,8 +14,21 @@ const ProductList = ({
 }: {
   startLoadTransition: TransitionStartFunction;
 }) => {
-  const { activeProject, products, setProducts } = useProjectContext();
+  const {
+    activeProject,
+    products,
+    setProducts,
+    activeProduct,
+    setActiveProduct,
+  } = useProjectContext();
+
   const [isProductListPending, startProductTransition] = useTransition();
+
+  const handleToggleActiveProduct = (currentProduct: Tables<"Products">) => {
+    if (!activeProduct || activeProduct.id !== currentProduct.id) {
+      setActiveProduct(currentProduct);
+    }
+  };
 
   const handleFileUpload = (
     e: ChangeEvent<HTMLInputElement>,
@@ -42,6 +55,11 @@ const ProductList = ({
 
         if (updateError) {
           showToastError(updateError);
+        } else {
+          setActiveProduct({
+            ...activeProduct!,
+            image_url: newImageUrl,
+          });
         }
       }
     });
@@ -86,6 +104,10 @@ const ProductList = ({
     if (shouldUpdate) {
       startLoadTransition(() => {
         updateProduct(product.id, updatedProduct);
+        setActiveProduct({
+          ...activeProduct,
+          ...updatedProduct,
+        });
       });
     }
   };
@@ -97,15 +119,23 @@ const ProductList = ({
           To enable products, first create a new event.
         </div>
       ) : !isProductListPending ? (
-        products.map((product, i) => (
+        products.map((product) => (
           <div
             key={product.id}
-            className="flex flex-row w-full items-center mb-4 rounded-lg bg-white border border-gray-300 py-5 pr-2 pl-4"
+            onClick={() => handleToggleActiveProduct(product)}
+            className="relative flex flex-row w-full items-center mb-4 rounded-lg bg-white border border-gray-300 py-5 pr-2 pl-5"
           >
+            <div
+              className={`absolute left-0 rounded-l-lg w-[8px] h-full ${
+                activeProduct && activeProduct.id === product.id
+                  ? "block bg-primary"
+                  : "hidden"
+              }`}
+            />
             <div className="flex w-fit items-center">
               <label
                 htmlFor="product-image-file-input"
-                className={`flex justify-center mr-3 cursor-pointer items-center min-w-[48px] max-h-[48px] aspect-square rounded-lg ${
+                className={`flex justify-center mr-3 -mt-5 cursor-pointer items-center min-w-[48px] max-h-[48px] aspect-square rounded-lg ${
                   !product.image_url || product.image_url === ""
                     ? "bg-primary/35"
                     : "bg-white"
@@ -124,7 +154,7 @@ const ProductList = ({
                     height={48}
                     alt="product-img"
                     src={product.image_url}
-                    className="rounded-lg"
+                    className="rounded-lg aspect-square object-cover"
                   />
                 ) : (
                   <Camera
@@ -174,7 +204,7 @@ const ProductList = ({
               </div>
             </div>
             <div
-              className="hover:bg-link-hover p-2 ml-1 rounded-lg cursor-pointer -mt-[20px]"
+              className="hover:bg-link-hover p-2 ml-1 rounded-lg cursor-pointer -mt-10"
               onClick={() => handleDeleteProduct(product.id)}
             >
               <Trash2 width={18} height={18} />

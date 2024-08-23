@@ -1,6 +1,6 @@
 "use client";
 
-import { CirclePlus } from "lucide-react";
+import { CirclePlus, EyeIcon } from "lucide-react";
 import { useEffect, useRef } from "react";
 import NewEventModal from "./NewEventModal";
 import { useProjectContext } from "../ProjectBoard";
@@ -22,12 +22,10 @@ export default function EventsHeader({
   return (
     <div className="flex flex-row justify-between items-center">
       <div className="flex items-center gap-2">
-        <div className="text-xs ml-2 font-semibold text-gray-400">
-          Events ({events.length})
-        </div>
+        <div className="ml-2 font-semibold">Events ({events.length})</div>
         {events.length > 0 && (
-          <div className="text-xs ml-2 text-gray-400">
-            Viewing: {activeEvent?.event_type}{" "}
+          <div className="flex items-center font-semibold gap-1 text-xs ml-2 bg-primary/20 rounded-lg p-1 px-3">
+            <EyeIcon width={18} height={18} /> {activeEvent?.event_type}{" "}
           </div>
         )}
         {isEventPending && (

@@ -28,6 +28,8 @@ interface ProjectContextType {
   setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
   products: Tables<"Products">[];
   setProducts: Dispatch<SetStateAction<Tables<"Products">[]>>;
+  activeProduct: Tables<"Products"> | undefined;
+  setActiveProduct: Dispatch<SetStateAction<Tables<"Products"> | undefined>>;
   backgroundColor: IColor;
   setBackgroundColor: Dispatch<SetStateAction<IColor>>;
   textColor: IColor;
@@ -118,6 +120,13 @@ export default function ProjectBoard({
     useState<Tables<"Products">[]>(fetchedProducts);
 
   /**
+   * Active product: the current product that is displayed in the popup view window.
+   */
+  const [activeProduct, setActiveProduct] = useState<
+    Tables<"Products"> | undefined
+  >(products[0] || undefined);
+
+  /**
    * Display time: the time allotted for each popup to display to a user.
    */
   const [displayTime, setDisplayTime] = useState<number>(
@@ -168,6 +177,28 @@ export default function ProjectBoard({
   }, [activeEvent, updateEvents]);
 
   /**
+   * When the active product changes, this callback/useEffect makes sure that
+   * anything changed in the active product is set within the corresponding product in
+   * the products array.
+   */
+  const updateProducts = useCallback(
+    (newProduct: Tables<"Products">) => {
+      setProducts((prevProducts) =>
+        prevProducts.map((prev) =>
+          prev.id === newProduct.id ? { ...prev, ...newProduct } : prev
+        )
+      );
+    },
+    [setProducts]
+  );
+
+  useEffect(() => {
+    if (activeProduct) {
+      updateProducts(activeProduct);
+    }
+  }, [activeProduct, updateProducts]);
+
+  /**
    * Searches for variables inside of the text content body and replaces them with
    * example data inside of the popup viewer.
    * @param contentStr the content body text
@@ -212,8 +243,22 @@ export default function ProjectBoard({
           break;
         case ContentVars.Product:
           returnWord = isPopupText
-            ? DOMPurify.sanitize(`<span style="color: ${accentColor.hex.toString()};" class="font-bold rounded-lg underline">Airpods Pro</span>
-                <svg 
+            ? DOMPurify.sanitize(`${
+                activeProduct?.link
+                  ? `<a href="${activeProduct.link}" target="_blank">`
+                  : ""
+              }<span ${
+                activeProduct?.name
+                  ? `style="color: ${accentColor.hex.toString()};"`
+                  : ""
+              } class="rounded-lg ${activeProduct?.name ? "font-bold" : ""} ${
+                activeProduct?.link ? "underline" : ""
+              }">${
+                activeProduct?.name ? activeProduct.name : "a product"
+              }</span>
+                ${
+                  activeProduct?.link
+                    ? `<svg 
                   xmlns="http://www.w3.org/2000/svg" 
                   width="13" 
                   height="13" 
@@ -228,8 +273,10 @@ export default function ProjectBoard({
                   <path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6"/>
                   <path d="M21 3l-9 9"/>
                   <path d="M15 3h6v6"/>
-                </svg>`)
-            : "My Product";
+                </svg>`
+                    : ""
+                }${activeProduct?.link ? "</a>" : ""}`)
+            : "Product";
           break;
         case ContentVars.NumUsers:
         case ContentVars.RecentUsers:
@@ -287,6 +334,8 @@ export default function ProjectBoard({
     setIntegrations,
     products,
     setProducts,
+    activeProduct,
+    setActiveProduct,
     displayTime,
     setDisplayTime,
     backgroundColor,
