@@ -71,9 +71,15 @@ const ProductList = ({
       if (error) {
         showToastError(error);
       } else {
-        setProducts((prevProducts) =>
-          prevProducts.filter((product) => product.id !== data.id)
-        );
+        setProducts((prevProducts) => {
+          const updatedProducts = prevProducts.filter(
+            (product) => product.id !== data.id
+          );
+          setActiveProduct(
+            updatedProducts.length > 0 ? updatedProducts[0] : undefined
+          );
+          return updatedProducts;
+        });
       }
     });
   };
