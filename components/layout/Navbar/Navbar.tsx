@@ -1,6 +1,5 @@
 "use client";
 
-import { Logo } from "@/components/shared/icons/logo";
 import useScroll from "@/lib/hooks/use-scroll";
 
 import s from "./Navbar.module.css";
@@ -8,15 +7,15 @@ import { ArrowRight, Menu } from "lucide-react";
 import Link from "next/link";
 
 export default function Navbar() {
-  const scrolled = useScroll(50);
+  const scrolled = useScroll(20);
 
   return (
     <main>
       <div
-        className={`navbar bg-base-100 fixed lg:px-20 font-sans ${
+        className={`navbar bg-base-100 fixed lg:px-20 font-sans shadow-sm ${
           scrolled
-            ? "border-b border-gray-300 bg-white/80 backdrop-blur-xl"
-            : "bg-white/0"
+            ? "backdrop-blur-2xl bg-gradient-to-b from-white to-primary/5"
+            : "bg-white/90 backdrop-blur-lg"
         } z-30 transition-all`}
       >
         <div className="navbar-start">
@@ -26,7 +25,7 @@ export default function Navbar() {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 font-sans rounded-box w-52"
             >
               <li>
                 <a>Features</a>
@@ -40,7 +39,7 @@ export default function Navbar() {
             </ul>
           </div>
           {/* <Logo/> */}
-          <div className="ml-2 font-bold">Taplo</div>
+          <div className="ml-2 font-bold font-logo text-xl">Taplo</div>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
@@ -62,7 +61,7 @@ export default function Navbar() {
             </div>
           </Link>
           <Link href={"/signup"}>
-            <div className="btn btn-primary btn-sm max-w-fit ml-2">
+            <div className="btn btn-primary text-white btn-sm max-w-fit ml-2">
               Try for free
               <ArrowRight size={20} />
             </div>
