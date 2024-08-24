@@ -94,13 +94,13 @@ export default function Navbar({
               </button>
             </div>
           </div>
-          <div className="font-bold">TapInsight</div>
+          <div className="font-bold font-logo text-lg lg:text-xl">Taplo</div>
           <div className="text-gray-500 text-xl ml-6 font-thin">
             <ChevronRight
               height={16}
               width={16}
               strokeWidth={2}
-              color="oklch(var(--bc))"
+              color="#d1d5db"
             />
           </div>
           <ProjectDropdown

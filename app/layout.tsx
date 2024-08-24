@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import { Toaster } from "@/components/shared/toaster";
-import { Gayathri, Noto_Sans } from "next/font/google";
+import { Gayathri, Georama, Noto_Sans } from "next/font/google";
 import cx from "classnames";
 import "./globals.css";
 import ProgressBarProvider from "@/components/shared/progressbar";
@@ -17,9 +17,15 @@ const changaOne = Gayathri({
   subsets: ["latin"],
 });
 
+const geograma = Georama({
+  variable: "--font-georama",
+  weight: "700",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
-  title: "TapInsight",
-  description: "Real-time sales notifications",
+  title: "Taplo",
+  description: "Social proof notifications made easy",
 };
 
 export default function RootLayout({
@@ -29,7 +35,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-theme="default">
-      <body className={`${cx(openSans.variable, changaOne.variable)}`}>
+      <body
+        className={`${cx(
+          openSans.variable,
+          changaOne.variable,
+          geograma.variable
+        )}`}
+      >
         <ProgressBarProvider>{children}</ProgressBarProvider>
         <Toaster />
         <Analytics />

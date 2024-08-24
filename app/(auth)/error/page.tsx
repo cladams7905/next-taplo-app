@@ -6,7 +6,7 @@ export default async function AuthCodeError() {
       <div className="navbar fixed lg:px-20 font-sans">
         <div className="navbar-start">
           {/* <Logo/> */}
-          <div className="ml-2 font-bold">TapInsight</div>
+          <div className="ml-2 font-bold">Taplo</div>
         </div>
       </div>
       <div className="flex min-h-screen w-full flex-col items-center justify-between p-24 font-sans">

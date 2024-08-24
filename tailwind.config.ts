@@ -44,6 +44,7 @@ const config: Config = {
       fontFamily: {
         heading: ["var(--font-changaOne)"],
         sans: ["var(--font-openSans)"],
+        logo: ["var(--font-georama)"],
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

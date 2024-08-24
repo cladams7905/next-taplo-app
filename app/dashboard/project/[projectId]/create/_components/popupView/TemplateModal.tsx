@@ -254,7 +254,7 @@ const SmallPopupTemplate = ({ isShowImages }: { isShowImages: boolean }) => {
                 color: hexToRgba(textColor.hex.toString(), 0.65),
               }}
             >
-              Verified by TapInsight
+              Verified by Taplo
               <BadgeCheck
                 width={14}
                 height={14}
@@ -333,7 +333,7 @@ const LargePopupTemplate = ({ isShowImages }: { isShowImages: boolean }) => {
                 color: hexToRgba(textColor.hex.toString(), 0.65),
               }}
             >
-              Verified by TapInsight
+              Verified by Taplo
               <ShoppingBag
                 width={14}
                 height={14}
@@ -417,7 +417,7 @@ const CardTemplate = ({ isShowImages }: { isShowImages: boolean }) => {
                 color: hexToRgba(textColor.hex.toString(), 0.65),
               }}
             >
-              Verified by TapInsight
+              Verified by Taplo
               <BadgeCheck
                 width={14}
                 height={14}
@@ -496,7 +496,7 @@ const BannerTemplate = ({ isShowImages }: { isShowImages: boolean }) => {
                 color: hexToRgba(textColor.hex.toString(), 0.65),
               }}
             >
-              Verified by TapInsight
+              Verified by Taplo
               <BadgeCheck
                 width={14}
                 height={14}

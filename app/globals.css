@@ -53,7 +53,7 @@ li > a:hover:not(.tab) {
 }
 
 .rcp-field-input{
-  @apply !border !border-gray-300 !text-base-content
+  @apply !border !border-gray-200 !text-base-content
 }
 
 input:-webkit-autofill,
@@ -67,7 +67,7 @@ input:-webkit-autofill {
   -webkit-text-fill-color: oklch(var(--bc)) !important;
 }
 input:not(.toggle-primary), select, textarea {
-  @apply border !border-gray-300
+  @apply border !border-gray-200
 }
 
 [type="checkbox"]:not(:checked) {
@@ -80,5 +80,5 @@ input:not(.toggle-primary), select, textarea {
 }
 
 .tooltip::before {
-  @apply shadow-md border border-gray-300 normal-case text-xs
+  @apply shadow-md border border-gray-200 normal-case text-xs
 }

@@ -87,7 +87,7 @@ export default function IntegrationSelect({
       >
         <div
           tabIndex={0}
-          className="flex p-2 px-3 items-center justify-between cursor-pointer border bg-white border-gray-300 rounded-lg text-sm"
+          className="flex p-2 px-3 items-center justify-between cursor-pointer border bg-white border-gray-200 rounded-lg text-sm"
         >
           {currentEvent.integration_id ? (
             getIntegrationById(currentEvent.integration_id)?.name

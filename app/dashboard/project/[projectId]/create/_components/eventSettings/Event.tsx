@@ -195,7 +195,7 @@ export default function Event({
             />
           ) : (
             <p
-              className="border border-gray-300 rounded-lg p-2"
+              className="border border-gray-200 rounded-lg p-2"
               dangerouslySetInnerHTML={{
                 __html: contentBodyHtml,
               }}

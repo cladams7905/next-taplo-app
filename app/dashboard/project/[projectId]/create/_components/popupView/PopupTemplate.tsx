@@ -401,7 +401,7 @@ const SmallPopupTemplate = ({
                 color: hexToRgba(textColor.hex.toString(), 0.65),
               }}
             >
-              Verified by TapInsight
+              Verified by Taplo
               <BadgeCheck
                 width={18}
                 height={18}
@@ -467,7 +467,7 @@ const SmallPopupNoImageTemplate = ({
                 color: hexToRgba(textColor.hex.toString(), 0.65),
               }}
             >
-              Verified by TapInsight
+              Verified by Taplo
               <BadgeCheck
                 width={18}
                 height={18}
@@ -572,7 +572,7 @@ const LargePopupTemplate = ({
                 color: hexToRgba(textColor.hex.toString(), 0.65),
               }}
             >
-              Verified by TapInsight
+              Verified by Taplo
               <BadgeCheck
                 width={18}
                 height={18}
@@ -638,7 +638,7 @@ const LargePopupNoImageTemplate = ({
                 color: hexToRgba(textColor.hex.toString(), 0.65),
               }}
             >
-              Verified by TapInsight
+              Verified by Taplo
               <BadgeCheck
                 width={18}
                 height={18}
@@ -743,7 +743,7 @@ const CardTemplate = ({
                 color: hexToRgba(textColor.hex.toString(), 0.65),
               }}
             >
-              Verified by TapInsight
+              Verified by Taplo
               <BadgeCheck
                 width={18}
                 height={18}
@@ -809,7 +809,7 @@ const CardNoImageTemplate = ({
                 color: hexToRgba(textColor.hex.toString(), 0.65),
               }}
             >
-              Verified by TapInsight
+              Verified by Taplo
               <BadgeCheck
                 width={18}
                 height={18}
@@ -914,7 +914,7 @@ const BannerTemplate = ({
                 color: hexToRgba(textColor.hex.toString(), 0.65),
               }}
             >
-              Verified by TapInsight
+              Verified by Taplo
               <BadgeCheck
                 width={18}
                 height={18}
@@ -983,7 +983,7 @@ const BannerNoImageTemplate = ({
                 color: hexToRgba(textColor.hex.toString(), 0.65),
               }}
             >
-              Verified by TapInsight
+              Verified by Taplo
               <BadgeCheck
                 width={18}
                 height={18}

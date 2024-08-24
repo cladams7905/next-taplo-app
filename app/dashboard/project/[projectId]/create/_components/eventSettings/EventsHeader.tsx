@@ -22,10 +22,12 @@ export default function EventsHeader({
   return (
     <div className="flex flex-row justify-between items-center">
       <div className="flex items-center gap-2">
-        <div className="ml-2 font-semibold">Events ({events.length})</div>
+        <div className="ml-2 font-semibold text-sm">
+          Events ({events.length})
+        </div>
         {events.length > 0 && (
-          <div className="flex items-center font-semibold gap-1 text-xs ml-2 bg-primary/20 rounded-lg p-1 px-3">
-            <EyeIcon width={18} height={18} /> {activeEvent?.event_type}{" "}
+          <div className="flex items-center font-semibold gap-2 text-[11px] ml-2 bg-primary/20 rounded-lg p-1 px-3">
+            {activeEvent?.event_type}
           </div>
         )}
         {isEventPending && (

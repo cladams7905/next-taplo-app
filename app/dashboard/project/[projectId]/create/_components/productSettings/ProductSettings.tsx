@@ -53,10 +53,11 @@ export default function ProductSettings({
         } ${isPreviewMode ? "z-[1]" : "z-[2]"}`}
       >
         <div className="flex items-center sticky top-[-1px] gap-2 bg-white">
-          <div className="font-semibold ml-2">Products ({products.length})</div>
+          <div className="font-semibold ml-2 text-sm">
+            Products ({products.length})
+          </div>
           {products.length > 0 && (
-            <div className="flex items-center font-semibold gap-1 text-xs ml-2 bg-primary/20 rounded-lg p-1 px-3">
-              <EyeIcon width={18} height={18} />
+            <div className="flex items-center font-semibold gap-1 text-[11px] ml-2 bg-primary/20 rounded-lg p-1 px-3">
               {activeProduct?.name
                 ? activeProduct.name
                 : `Unnamed Product (${
