@@ -19,7 +19,7 @@ import Image from "next/image";
 import StripeLogo from "@/public/images/stripe-logo.svg";
 import LemonSqueezyLogo from "@/public/images/lemonsqueezy-logo.jpeg";
 import { Tables } from "@/supabase/types";
-import { createIntegration } from "@/lib/actions/integrations";
+import { createIntegration } from "../../../../../../../../lib/actions/integrations";
 import { checkDuplicateTitle } from "@/lib/actions";
 import { Providers } from "@/lib/enums";
 import { useProjectContext } from "../../ProjectBoard";
