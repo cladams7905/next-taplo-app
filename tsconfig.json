@@ -19,7 +19,10 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["*"]
+      "@/lib/*": ["lib/*"],
+      "@/supabase/*": ["supabase/*"],
+      "@/components/*": ["components/*"],
+      "@/public/*": ["public/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
