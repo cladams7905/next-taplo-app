@@ -79,8 +79,8 @@ export default function Footer() {
           className="rounded-full"
         />
         <div className="text-sm">
-          Hey friend! 👋 I'm Carter, the founder of Taplo. <br /> If you want to
-          check out my other work, you can follow me on X or LinkedIn.
+          Hey friend! 👋 I&apos;m Carter, the founder of Taplo. <br /> If you
+          want to check out my other work, you can follow me on X or LinkedIn.
         </div>
       </div>
     </div>

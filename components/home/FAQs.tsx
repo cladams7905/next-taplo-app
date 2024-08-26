@@ -49,7 +49,7 @@ export default function FAQs() {
             <p>
               While each Taplo user has varying success rates, users on average
               experience a 10%-15% boost in their conversions after installing
-              Taplo's plugin on their website.
+              Taplo&apos;s plugin on their website.
             </p>
           </div>
         </div>
@@ -74,8 +74,8 @@ export default function FAQs() {
           <div className="collapse-content">
             <p>
               Taplo only stores data related to visitor interactions on a page.
-              We do not store visitor's personal information, and we do not sell
-              data to any 3rd parties.
+              We do not store visitor&apos;s personal information, and we do not
+              sell data to any 3rd parties.
             </p>
           </div>
         </div>
@@ -89,7 +89,7 @@ export default function FAQs() {
               Refunds are accepted if they are requested within 7 days of the
               initial payment. To request a refund, please email *EMAIL*. Should
               you wish to cancel your subscription, you can do so at any time
-              from your "Account" page.
+              from your &quot;Account&quot; page.
             </p>
           </div>
         </div>
@@ -102,7 +102,7 @@ export default function FAQs() {
             <p>
               Yes! You can choose how many days you wish to display
               notifications before they expire. All of this can be adjusted from
-              the settings on the "Create" page.
+              the settings on the &quot;Create&quot; page.
             </p>
           </div>
         </div>

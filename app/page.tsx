@@ -29,7 +29,7 @@ export default function Home() {
               Boost conversions & gain trust with real-time sales popups.
             </h1>
             <p className="text-xl mb-12 pr-4">
-              Taplo's simple, automated social proof plugin allows you to
+              Taplo&apos;s simple, automated social proof plugin allows you to
               effortlessly turn new visitors on your site into paying customers.
             </p>
             <div className="flex flex-row items-center mb-2 gap-16">

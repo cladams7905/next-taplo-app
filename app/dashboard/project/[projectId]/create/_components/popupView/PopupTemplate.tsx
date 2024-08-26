@@ -60,7 +60,7 @@ export default function PopupTemplate({
    */
   useEffect(() => {
     setPreviewEvent(activeEvent);
-  }, [isPreviewMode]);
+  }, [isPreviewMode, activeEvent]);
 
   /**
    * Whenever a preview event changes, this changes the corresponding content body
@@ -70,7 +70,7 @@ export default function PopupTemplate({
     setPreviewContentBody(
       replaceVariablesInContentBody(previewEvent?.content_body, false, true)
     );
-  }, [previewEvent]);
+  }, [previewEvent, replaceVariablesInContentBody]);
 
   /**
    * This check determines whether an event should display a product's image if an image is available.
@@ -169,7 +169,13 @@ export default function PopupTemplate({
         clearInterval(intervalRef.current);
       }
     };
-  }, [isPreviewMode, animation, displayTime, activeProject.screen_alignment]);
+  }, [
+    isPreviewMode,
+    events,
+    animation,
+    displayTime,
+    activeProject.screen_alignment,
+  ]);
 
   switch (activeProject.template) {
     case TemplateTypes.SmPopup:
