@@ -5,18 +5,14 @@ import useScroll from "@/lib/hooks/use-scroll";
 import s from "./Navbar.module.css";
 import { ArrowRight, Menu } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+import Logo from "@/public/images/Taplo-logo (1).svg";
 
 export default function Navbar() {
-  const scrolled = useScroll(20);
-
   return (
     <main>
       <div
-        className={`navbar bg-base-100 fixed lg:px-20 font-sans shadow-sm ${
-          scrolled
-            ? "backdrop-blur-2xl bg-gradient-to-b from-white to-primary/5"
-            : "bg-white/90 backdrop-blur-lg"
-        } z-30 transition-all`}
+        className={`navbar bg-base-100 fixed lg:px-20 font-sans shadow-sm bg-white/90 backdrop-blur-lg border-b border-gray-200 z-30 transition-all`}
       >
         <div className="navbar-start">
           <div className="dropdown">
@@ -25,32 +21,32 @@ export default function Navbar() {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 font-sans rounded-box w-52"
+              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 font-sans rounded-box w-52 font-semibold"
             >
               <li>
                 <a>Features</a>
               </li>
               <li>
-                <a>Wall of Love</a>
+                <a>Pricing</a>
               </li>
               <li>
-                <a>Pricing</a>
+                <a>FAQs</a>
               </li>
             </ul>
           </div>
-          {/* <Logo/> */}
-          <div className="ml-2 font-bold font-logo text-xl">Taplo</div>
+          <div className="ml-2 font-bold font-logo text-xl mr-2">Taplo</div>
+          <Image width={40} height={40} alt="logo" src={Logo} />
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">
+          <ul className="menu menu-horizontal px-1 font-semibold">
             <li>
               <a>Features</a>
             </li>
             <li>
-              <a>Wall of Love</a>
+              <a>Pricing</a>
             </li>
             <li>
-              <a>Pricing</a>
+              <a>FAQs</a>
             </li>
           </ul>
         </div>

@@ -90,6 +90,10 @@ const config: Config = {
           "0%": { transform: "translateY(0)", opacity: "1" },
           "100%": { transform: "translateY(20%)", opacity: "0" },
         },
+        fadeInLeftToRight: {
+          "0%": { backgroundSize: "0% 100%" },
+          "100%": { backgroundSize: "100% 100%" },
+        },
       },
       animation: {
         slideInLeft: "slideInLeft 0.3s ease-in-out forwards",
@@ -100,6 +104,7 @@ const config: Config = {
         slideOutTop: "slideOutTop 0.2s ease-in-out forwards",
         slideInBottom: "slideInBottom 0.3s ease-in-out forwards",
         slideOutBottom: "slideOutBottom 0.2s ease-in-out forwards",
+        fadeInLeftToRight: "fadeInLeftToRight 0.2s ease-out forwards",
       },
     },
   },
