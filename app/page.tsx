@@ -30,7 +30,7 @@ export default function Home() {
               <h1 className="font-logo lg:text-5xl text-3xl">
                 Boost conversions & gain trust with real-time sales popups.
               </h1>
-              <p className="lg:text-xl text-md pr-4">
+              <p className="lg:text-xl text-lg pr-4">
                 Taplo&apos;s simple, automated social proof plugin allows you to
                 effortlessly turn new visitors on your site into paying
                 customers.
