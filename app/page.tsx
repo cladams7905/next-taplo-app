@@ -31,7 +31,7 @@ export default function Home() {
                 Attention-grabbing popups that increase your conversion rate.
               </h1>
               <p className="lg:text-xl text-lg pr-4">
-                Taplo&apos;s customizable popup notifications provide the social
+                Taplo&apos;s popup notifications provide the well-timed social
                 validation your site&apos;s visitors are looking for.
               </p>
             </div>
@@ -61,7 +61,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        {/* <PopupDemo /> */}
+        <PopupDemo />
         <div
           className="absolute lg:block md:block sm:block hidden flex-wrap gap-3 h-full top-0 bg-white/20 w-[110vw]"
           style={{
@@ -69,7 +69,7 @@ export default function Home() {
           }}
         ></div>
       </div>
-      <div className="relative flex z-[5] flex-col items-center justify-center w-full min-h-[55vh] bg-base-content md:px-64 py-12 md:pt-6 pt-12 px-8 mb-12 gap-12 overflow-x-clip">
+      <div className="relative flex z-[5] flex-col items-center justify-center w-full min-h-[55vh] bg-base-content md:px-24 py-12 md:pt-6 pt-12 px-8 mb-12 gap-12 overflow-x-clip">
         <div className="flex flex-col items-center gap-4">
           {" "}
           <p className="text-white uppercase font-logo text-lg">Why Taplo?</p>

@@ -14,16 +14,19 @@ import {
 import Link from "next/link";
 
 export default function Integrations() {
+  const isMediumScreen = window.matchMedia("(min-width: 768px)").matches;
   return (
     <div
       className="flex flex-col items-center bg-gradient-to-tr from-primary/80 to-purple-100 py-12 w-full min-h-[100vh] gap-12 font-sans lg:px-32"
       style={{
-        clipPath: "polygon(0 10%, 100% 0%, 100% 100%, 0% 90%)",
+        clipPath: isMediumScreen
+          ? "polygon(0 10%, 100% 0%, 100% 100%, 0% 90%)"
+          : "polygon(0 5%, 100% 0%, 100% 100%, 0% 95%)",
       }}
     >
-      <div className="flex flex-col items-center py-12 w-full gap-12 font-sans mt-12 lg:px-32">
+      <div className="flex flex-col items-center py-12 w-full gap-12 font-sans mt-12 lg:px-32 px-8">
         <p className="uppercase font-logo text-lg">Cool integrations</p>
-        <div className="columns-2 w-full lg:px-16">
+        <div className="md:columns-2 md:gap-4 md:max-w-full max-w-[450px] flex md:flex-row flex-col w-full lg:px-16">
           <div className="flex flex-col w-full justify-center gap-6">
             <div className="flex flex-col w-full h-fit items-center gap-3 min-h-[212px] hover:-translate-y-1 transition-transform justify-center bg-gradient-to-tl from-cyan-50 via-white to-white shadow-md p-4 rounded-lg">
               <ShoppingBag width={48} height={48} />
@@ -67,7 +70,7 @@ export default function Integrations() {
             </div>
           </div>
           <div className="flex flex-col w-full justify-center gap-6">
-            <div className="flex flex-col w-full h-fit items-center gap-3 min-h-[212px] mt-16 hover:-translate-y-1 transition-transform justify-center bg-gradient-to-tl from-purple-100 via-white to-white shadow-md p-4 rounded-lg">
+            <div className="flex flex-col w-full h-fit items-center gap-3 min-h-[212px] md:mt-16 mt-6 hover:-translate-y-1 transition-transform justify-center bg-gradient-to-tl from-purple-100 via-white to-white shadow-md p-4 rounded-lg">
               <UsersRound width={48} height={48} />
               <p className="font-logo text-xl">Active Visitors</p>
               <p className="text-center">

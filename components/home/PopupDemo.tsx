@@ -9,7 +9,7 @@ export default function PopupDemo() {
   const [isDemoClosed, setDemoClosed] = useState<boolean>(false);
   return (
     <div
-      className={`fixed left-8 bottom-40 shadow-md z-[10] font-sans flex items-center p-3 bg-white backdrop-blur-lg rounded-lg ${
+      className={`fixed left-8 md:bottom-40 bottom-28 shadow-md z-[10] font-sans flex items-center p-3 bg-white backdrop-blur-lg rounded-lg ${
         isDemoClosed ? "animate-slideOutLeft" : ""
       }`}
     >

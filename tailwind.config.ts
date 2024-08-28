@@ -104,7 +104,7 @@ const config: Config = {
         slideOutTop: "slideOutTop 0.2s ease-in-out forwards",
         slideInBottom: "slideInBottom 0.3s ease-in-out forwards",
         slideOutBottom: "slideOutBottom 0.2s ease-in-out forwards",
-        fadeInLeftToRight: "fadeInLeftToRight 0.2s ease-out forwards",
+        fadeInLeftToRight: "fadeInLeftToRight 0.1s ease-out forwards",
       },
     },
   },

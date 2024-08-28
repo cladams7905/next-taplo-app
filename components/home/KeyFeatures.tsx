@@ -136,8 +136,8 @@ export default function KeyFeatures() {
                 personal brand.
               </p>
             </div>
-            <div className="flex flex-col order-1 items-center w-full md:mb-0 mb-12 justify-center animate-slideInBottom">
-              <div className="w-full h-[35vh] bg-gradient-to-tr from-primary/60 to-purple-100 rounded-lg"></div>
+            <div className="flex flex-col max-w-[450px] order-1 items-center w-full md:mb-0 mb-12 justify-center animate-slideInBottom">
+              <div className="w-full h-[40vh] bg-gradient-to-tr from-primary/60 to-purple-100 rounded-lg"></div>
             </div>
           </>
         )}
@@ -151,8 +151,8 @@ export default function KeyFeatures() {
                 to display your Taplo notifications. No sweat!
               </p>
             </div>
-            <div className="flex flex-col order-1 items-center md:mb-0 mb-12 w-full justify-center animate-slideInBottom">
-              <div className="w-full h-[35vh] bg-gradient-to-tr from-primary/60 to-purple-100 rounded-lg"></div>
+            <div className="flex flex-col max-w-[450px] order-1 items-center md:mb-0 mb-12 w-full justify-center animate-slideInBottom">
+              <div className="w-full h-[40vh] bg-gradient-to-tr from-primary/60 to-purple-100 rounded-lg"></div>
             </div>
           </>
         )}
@@ -168,8 +168,8 @@ export default function KeyFeatures() {
                 Google Analytics. More integrations will be coming soon!
               </p>
             </div>
-            <div className="flex flex-col order-1 items-center md:mb-0 mb-12 w-full justify-center animate-slideInBottom">
-              <div className="w-full h-[35vh] bg-gradient-to-tr from-primary/60 to-purple-100 rounded-lg"></div>
+            <div className="flex flex-col max-w-[450px] order-1 items-center md:mb-0 mb-12 w-full justify-center animate-slideInBottom">
+              <div className="w-full h-[40vh] bg-gradient-to-tr from-primary/60 to-purple-100 rounded-lg"></div>
             </div>
           </>
         )}
@@ -187,8 +187,8 @@ export default function KeyFeatures() {
                 project!
               </p>
             </div>
-            <div className="flex flex-col order-1 items-center md:mb-0 mb-12 w-full justify-center animate-slideInBottom">
-              <div className="w-full h-[35vh] bg-gradient-to-tr from-primary/60 to-purple-100 rounded-lg"></div>
+            <div className="flex flex-col max-w-[450px] order-1 items-center md:mb-0 mb-12 w-full justify-center animate-slideInBottom">
+              <div className="w-full h-[40vh] bg-gradient-to-tr from-primary/60 to-purple-100 rounded-lg"></div>
             </div>
           </>
         )}
@@ -207,8 +207,8 @@ export default function KeyFeatures() {
                 with the Taplo notifications on your page.
               </p>
             </div>
-            <div className="flex flex-col order-1 items-center md:mb-0 mb-12 w-full justify-center animate-slideInBottom">
-              <div className="w-full h-[35vh] bg-gradient-to-tr from-primary/60 to-purple-100 rounded-lg"></div>
+            <div className="flex flex-col max-w-[450px] order-1 items-center md:mb-0 mb-12 w-full justify-center animate-slideInBottom">
+              <div className="w-full h-[40vh] bg-gradient-to-tr from-primary/60 to-purple-100 rounded-lg"></div>
             </div>
           </>
         )}
