@@ -36,9 +36,8 @@ export default function Home() {
                     rate.
                   </h1>
                   <p className="lg:text-xl text-lg pr-4">
-                    Taplo&apos;s popup notifications provide the social
-                    validation people are searching for before purchasing your
-                    product.
+                    Taplo&apos;s popup notifications show off real-time customer
+                    interactions to your site&apos;s visitors.
                   </p>
                 </div>
                 <div className="flex lg:flex-row md:flex-row w-full flex-col items-center justify-center mb-2 lg:gap-16 md:gap-16 gap-8">
@@ -50,7 +49,7 @@ export default function Home() {
                       </div>
                     </Link>
                     <p className="text-sm lg:ml-6">
-                      5-minute setup + free plan!
+                      5-minute setup + free trial!
                     </p>
                   </div>
                   <div className="flex flex-col items-center text-sm gap-2">
@@ -126,7 +125,7 @@ export default function Home() {
               <p className="text-3xl font-logo text-center">
                 Boost your conversion rate overnight with Taplo.
               </p>
-              <p className="text-xl text-center">
+              <p className="md:text-xl text-lg text-center">
                 Just create an account, add a new Taplo project, customize your
                 notifications, and embed your script. It only takes 5 minutes!
               </p>
