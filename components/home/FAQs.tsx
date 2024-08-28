@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export default function FAQs() {
   return (
-    <div className="flex flex-col w-full bg-accent pt-12 pb-20 gap-8 lg:px-64 font-sans">
+    <div className="flex flex-col w-full bg-accent pt-12 pb-20 gap-8 lg:px-64 px-8 font-sans">
       <div className="flex flex-col items-center gap-4">
         {" "}
         <p className="text-white uppercase font-logo text-lg">FAQs</p>
@@ -28,7 +28,7 @@ export default function FAQs() {
       <div className="flex flex-col w-full items-center gap-4">
         <div className="collapse collapse-plus bg-transparent text-white rounded-none border-b border-white/40">
           <input type="radio" name="my-accordion-3" defaultChecked />
-          <div className="collapse-title text-xl font-medium">
+          <div className="collapse-title md:text-xl text-lg font-medium">
             Who would benefit from using Taplo?
           </div>
           <div className="collapse-content">
@@ -36,13 +36,13 @@ export default function FAQs() {
               Any saas or ecommerce business who wishes to boost their sales or
               conversions would greatly benefit from using Taplo! Since its
               launch, Taplo is quickly gaining the trust of entreprenuers,
-              marketers, and many other users.
+              marketers, and many others.
             </p>
           </div>
         </div>
         <div className="collapse collapse-plus bg-transparent text-white rounded-none border-b border-white/40">
           <input type="radio" name="my-accordion-3" />
-          <div className="collapse-title text-xl font-medium">
+          <div className="collapse-title md:text-xl text-lg font-medium">
             How much of a conversion boost should I expect?
           </div>
           <div className="collapse-content">
@@ -55,7 +55,7 @@ export default function FAQs() {
         </div>
         <div className="collapse collapse-plus bg-transparent text-white rounded-none border-b border-white/40">
           <input type="radio" name="my-accordion-3" />
-          <div className="collapse-title text-xl font-medium">
+          <div className="collapse-title md:text-xl text-lg font-medium">
             What integrations does Taplo support?
           </div>
           <div className="collapse-content">
@@ -68,7 +68,7 @@ export default function FAQs() {
         </div>
         <div className="collapse collapse-plus bg-transparent text-white rounded-none border-b border-white/40">
           <input type="radio" name="my-accordion-3" />
-          <div className="collapse-title text-xl font-medium">
+          <div className="collapse-title md:text-xl text-lg font-medium">
             How does Taplo handle privacy?
           </div>
           <div className="collapse-content">
@@ -81,7 +81,7 @@ export default function FAQs() {
         </div>
         <div className="collapse collapse-plus bg-transparent text-white rounded-none border-b border-white/40">
           <input type="radio" name="my-accordion-3" />
-          <div className="collapse-title text-xl font-medium">
+          <div className="collapse-title md:text-xl text-lg font-medium">
             Can I get a refund?
           </div>
           <div className="collapse-content">
@@ -95,7 +95,7 @@ export default function FAQs() {
         </div>
         <div className="collapse collapse-plus bg-transparent text-white rounded-none border-b border-white/40">
           <input type="radio" name="my-accordion-3" />
-          <div className="collapse-title text-xl font-medium">
+          <div className="collapse-title md:text-xl text-lg font-medium">
             Can I hide notifications older than X days?
           </div>
           <div className="collapse-content">
@@ -108,7 +108,7 @@ export default function FAQs() {
         </div>
         <div className="collapse collapse-plus bg-transparent text-white rounded-none border-b border-white/40">
           <input type="radio" name="my-accordion-3" />
-          <div className="collapse-title text-xl font-medium">
+          <div className="collapse-title md:text-xl text-lg font-medium">
             How can I get in contact?
           </div>
           <div className="collapse-content">
