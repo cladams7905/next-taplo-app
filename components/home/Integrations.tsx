@@ -12,9 +12,22 @@ import {
   UsersRound,
 } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function Integrations() {
-  const isMediumScreen = window.matchMedia("(min-width: 768px)").matches;
+  const [isMediumScreen, setIsMediumScreen] = useState(false);
+
+  useEffect(() => {
+    const updateMedia = () => {
+      setIsMediumScreen(window.matchMedia("(min-width: 768px)").matches);
+    };
+
+    updateMedia(); // Initial check
+    window.addEventListener("resize", updateMedia);
+
+    return () => window.removeEventListener("resize", updateMedia);
+  }, []);
+
   return (
     <div
       className="flex flex-col items-center bg-gradient-to-tr from-primary/80 to-purple-100 py-12 w-full min-h-[100vh] gap-12 font-sans lg:px-32"
