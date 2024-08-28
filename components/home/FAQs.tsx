@@ -87,9 +87,10 @@ export default function FAQs() {
           <div className="collapse-content">
             <p>
               Refunds are accepted if they are requested within 7 days of the
-              initial payment. To request a refund, please email *EMAIL*. Should
-              you wish to cancel your subscription, you can do so at any time
-              from your &quot;Account&quot; page.
+              initial payment. To request a refund, please email{" "}
+              <span className="font-bold">help@taplo.io</span>. Should you wish
+              to cancel your subscription, you can do so at any time from your
+              &quot;Account&quot; page.
             </p>
           </div>
         </div>
@@ -114,8 +115,9 @@ export default function FAQs() {
           <div className="collapse-content">
             <p>
               Should you wish to get in contact with a business inquiry or other
-              question, you can email me at *EMAIL*. You can typically expect a
-              response within 24 hours Monday thru Friday.
+              question, you can email me at{" "}
+              <span className="font-bold">help@taplo.io</span>. You can
+              typically expect a response within 24 hours Monday thru Friday.
             </p>
           </div>
         </div>

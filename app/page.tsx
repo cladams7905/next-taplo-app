@@ -20,7 +20,7 @@ export default function Home() {
       </Suspense>
       <div
         className="relative flex lg:h-[95vh] h-fit pb-12 w-full flex-col items-center justify-between px-8 md:px-24 lg:px-24 pt-24 overflow-x-clip
-      bg-gradient-to-tr from-purple-200 via-primary/80 to-purple-100 font-sans"
+      bg-gradient-to-tr from-purple-200 via-primary/60 to-purple-100 font-sans"
       >
         <div className="z-[2] relative flex flex-row flex-wrap font-sans lg:mb-32 md:mb-16 sm:mb-12 lg:gap-12 md:gap-8 sm:gap-4 items-center justify-center w-full">
           <div className="flex flex-1 flex-col justify-center items-center gap-12 md:gap-16 lg:gap-20 lg:px-64 lg:w-1/2 w-full min-h-[80vh]">
@@ -63,7 +63,7 @@ export default function Home() {
         </div>
         <PopupDemo />
         <div
-          className="absolute lg:block md:block sm:block hidden flex-wrap gap-3 h-full top-0 bg-white/20 w-[110vw]"
+          className="absolute md:block hidden flex-wrap gap-3 h-full top-0 bg-white/20 w-[110vw]"
           style={{
             clipPath: "polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%)",
           }}
@@ -106,12 +106,12 @@ export default function Home() {
       <Pricing />
       <FAQs />
       <div
-        className="relative flex lg:h-[65vh] h-[100vh] w-full flex-col items-center justify-center lg:p-64 lg:px-96 gap-8 overflow-x-clip
+        className="relative flex lg:h-[65vh] h-[100vh] w-full flex-col items-center justify-center lg:p-64 lg:px-96 px-8 gap-8 overflow-x-clip
       bg-gradient-to-tr from-purple-200 via-primary/60 to-purple-100 font-sans"
       >
         <div className="relative z-[4] flex flex-col items-center justify-center w-full h-full gap-6">
           {" "}
-          <p className="text-3xl font-logo">
+          <p className="text-3xl font-logo text-center">
             Boost your conversion rate instantly with Taplo.
           </p>
           <p className="text-xl text-center">
