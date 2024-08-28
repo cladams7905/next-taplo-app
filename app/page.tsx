@@ -28,12 +28,11 @@ export default function Home() {
             <div className="flex flex-col gap-10">
               {" "}
               <h1 className="font-logo lg:text-5xl text-3xl">
-                Boost conversions & gain trust with real-time sales popups.
+                Attention-grabbing popups that increase your conversion rate.
               </h1>
               <p className="lg:text-xl text-lg pr-4">
-                Taplo&apos;s simple, automated social proof plugin allows you to
-                effortlessly turn new visitors on your site into paying
-                customers.
+                Taplo&apos;s customizable popup notifications provide the social
+                validation your site&apos;s visitors are looking for.
               </p>
             </div>
             <div className="flex lg:flex-row md:flex-row w-full flex-col items-center justify-center mb-2 lg:gap-16 md:gap-16 gap-8">
@@ -62,15 +61,15 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <PopupDemo />
+        {/* <PopupDemo /> */}
         <div
-          className="absolute lg:block md:block sm:block hidden flex-wrap gap-3 h-[100vh] top-0 bg-white/20 w-[110vw]"
+          className="absolute lg:block md:block sm:block hidden flex-wrap gap-3 h-full top-0 bg-white/20 w-[110vw]"
           style={{
             clipPath: "polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%)",
           }}
         ></div>
       </div>
-      <div className="relative flex z-[5] flex-col items-center justify-center w-full min-h-[55vh] bg-base-content lg:px-64 py-12 pt-6 mb-12 gap-12 overflow-x-clip">
+      <div className="relative flex z-[5] flex-col items-center justify-center w-full min-h-[55vh] bg-base-content md:px-64 py-12 md:pt-6 pt-12 px-8 mb-12 gap-12 overflow-x-clip">
         <div className="flex flex-col items-center gap-4">
           {" "}
           <p className="text-white uppercase font-logo text-lg">Why Taplo?</p>
@@ -89,16 +88,16 @@ export default function Home() {
             <Dot color="oklch(var(--s))" width={40} height={40} />
           </div>
         </div>
-        <p className="text-xl text-white font-sans">
-          The fastest way to convert leads into sales on your site is by using
-          social proof. With Taplo, vistors get to see personalized
-          notifications at a fraction of the cost of other social proof
-          platforms.
+        <p className="md:text-xl text-lg text-white font-sans">
+          The fastest way to get more conversions on your site is by using
+          social proof. With Taplo, vistors get to see personalized social proof
+          notifications at a fraction of the cost of other similar platforms.
         </p>
-        <p className="text-xl text-white font-sans">
+        <p className="md:text-xl text-lg text-white font-sans">
           With Taplo,{" "}
           <span className="font-bold">
-            every customer on your site is working to boost your conversions.
+            every new customer on your site is working to boost your
+            conversions.
           </span>
         </p>
       </div>
