@@ -3,7 +3,7 @@
 import { ArrowRight, Check, Lock, X } from "lucide-react";
 import LaunchOfferBadge from "./LaunchOfferBadge";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Pricing() {
   const enum PricingType {
@@ -13,6 +13,13 @@ export default function Pricing() {
   const [pricingType, setPricingType] = useState<PricingType>(
     PricingType.Monthly
   );
+  const [isAnimate, setIsAnimate] = useState<boolean>(false);
+  useEffect(() => {
+    setIsAnimate(true);
+    setTimeout(() => {
+      setIsAnimate(false);
+    }, 1000);
+  }, [pricingType]);
   return (
     <div className="w-full min-h-[140vh] px-8">
       {" "}
@@ -43,7 +50,11 @@ export default function Pricing() {
           />
           <p>Yearly (save 30%)</p>
         </div>
-        <div className="lg:columns-2 md:columns-2 flex md:flex-row md:gap-6 flex-col items-center justify-center w-full mt-6">
+        <div
+          className={`lg:columns-2 md:columns-2 flex md:flex-row md:gap-6 flex-col items-center justify-center w-full mt-6 ${
+            isAnimate ? "animate-slideInBottom" : ""
+          }`}
+        >
           <div className="flex flex-col w-full min-h-[80vh] items-center max-w-[475px]">
             <div className="relative flex flex-col gap-6 items-center shadow-md border border-gray-300 rounded-lg p-6 w-full h-full mb-12">
               <div className="flex w-full items-center justify-center gap-3">

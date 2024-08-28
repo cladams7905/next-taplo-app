@@ -101,7 +101,7 @@ export default function Home() {
             <p className="md:text-xl text-lg text-white font-sans">
               The fastest way to get more conversions on your site is by using
               social proof. With Taplo, vistors get to see personalized social
-              proof notifications at a fraction of the cost of other similar
+              proof notifications at a fraction of the cost of similar
               platforms.
             </p>
             <p className="md:text-xl text-lg text-white font-sans">
