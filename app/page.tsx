@@ -19,7 +19,7 @@ export default function Home() {
         <Navbar />
       </Suspense>
       <div
-        className="relative flex lg:h-[95vh] h-fit pb-12 w-full flex-col items-center justify-between px-8 md:px-24 lg:px-24 lg:pt-24 md:pt-24 pt-32 overflow-x-clip
+        className="relative flex lg:h-[95vh] h-fit pb-12 w-full flex-col items-center justify-between px-8 md:px-24 lg:px-24 pt-24 overflow-x-clip
       bg-gradient-to-tr from-purple-200 via-primary/80 to-purple-100 font-sans"
       >
         <div className="z-[2] relative flex flex-row flex-wrap font-sans lg:mb-32 md:mb-16 sm:mb-12 lg:gap-12 md:gap-8 sm:gap-4 items-center justify-center w-full">
@@ -28,7 +28,7 @@ export default function Home() {
             <div className="flex flex-col gap-10">
               {" "}
               <h1 className="font-logo lg:text-5xl text-3xl">
-                Boost conversions & build trust with real-time sales popups.
+                Boost conversions & gain trust with real-time sales popups.
               </h1>
               <p className="lg:text-xl text-md pr-4">
                 Taplo&apos;s simple, automated social proof plugin allows you to
