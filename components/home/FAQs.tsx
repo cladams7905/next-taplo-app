@@ -15,8 +15,8 @@ export default function FAQs() {
           <Dot color="oklch(var(--s))" width={40} height={40} />
           <Dot color="oklch(var(--s))" width={60} height={60} />
           <Image
-            width={60}
-            height={60}
+            width={48}
+            height={48}
             src={Logo}
             alt="Logo"
             className="rounded-full"

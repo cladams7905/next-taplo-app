@@ -69,7 +69,7 @@ export default function Home() {
           }}
         ></div>
       </div>
-      <div className="relative flex z-[5] flex-col items-center justify-center w-full min-h-[55vh] bg-base-content md:px-24 py-12 md:pt-6 pt-12 px-8 mb-12 gap-12 overflow-x-clip">
+      <div className="relative flex z-[5] flex-col items-center justify-center w-full min-h-[55vh] bg-base-content lg:px-80 md:px-24 py-12 md:pt-6 pt-12 px-8 mb-12 gap-12 overflow-x-clip">
         <div className="flex flex-col items-center gap-4">
           {" "}
           <p className="text-white uppercase font-logo text-lg">Why Taplo?</p>
@@ -78,8 +78,8 @@ export default function Home() {
             <Dot color="oklch(var(--s))" width={40} height={40} />
             <Dot color="oklch(var(--s))" width={60} height={60} />
             <Image
-              width={60}
-              height={60}
+              width={48}
+              height={48}
               src={Logo}
               alt="Logo"
               className="rounded-full"
@@ -106,13 +106,13 @@ export default function Home() {
       <Pricing />
       <FAQs />
       <div
-        className="relative flex lg:h-[65vh] h-[100vh] w-full flex-col items-center justify-center lg:p-64 lg:px-96 px-8 gap-8 overflow-x-clip
+        className="relative flex lg:h-[65vh] h-[100vh] w-full flex-col items-center justify-center lg:p-64 lg:px-[370px] px-8 gap-8 overflow-x-clip
       bg-gradient-to-tr from-purple-200 via-primary/60 to-purple-100 font-sans"
       >
         <div className="relative z-[4] flex flex-col items-center justify-center w-full h-full gap-6">
           {" "}
           <p className="text-3xl font-logo text-center">
-            Boost your conversion rate instantly with Taplo.
+            Boost your conversion rate overnight with Taplo.
           </p>
           <p className="text-xl text-center">
             Just create an account, add a new Taplo project, customize your
