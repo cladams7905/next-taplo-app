@@ -6,10 +6,10 @@ export default function TermsOfService() {
       <p className="text-2xl">Taplo Terms of Service</p>
       <p>Last Updated: August 29th, 2024</p>
       <p>
-        Welcome to Taplo! These Terms of Service ("Terms") govern your use of
-        the Taplo website at https://taplo.io ("Website") and the services
-        provided by Taplo. By using our Website and services, you agree to these
-        Terms.
+        Welcome to Taplo! These Terms of Service (&quot;Terms&quot;) govern your
+        use of the Taplo website at https://taplo.io (&quot;Website&quot;) and
+        the services provided by Taplo. By using our Website and services, you
+        agree to these Terms.
       </p>
       <p>1. Use of the Service</p>{" "}
       <p>
@@ -45,8 +45,8 @@ export default function TermsOfService() {
       <p>5. Warranty Disclaimer</p>
       <p>
         {" "}
-        The Service is provided "as is" and makes no warranties, express or
-        implied, including but not limited to implied warranties of
+        The Service is provided &quot;as is&quot; and makes no warranties,
+        express or implied, including but not limited to implied warranties of
         merchantability and fitness for a particular purpose. Taplo does not
         warrant that the Service will be uninterrupted or error-free, and will
         not be liable for any interruptions or errors. Taplo does not endorse,

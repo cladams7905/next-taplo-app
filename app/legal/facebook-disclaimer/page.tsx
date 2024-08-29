@@ -54,11 +54,11 @@ export default function page() {
         Comments that are offensive or harmful towards a blogger or another
         participant; Irrelevant and repetitive comments, including promotion of
         unrelated events, groups, pages, websites, organizations, products, and
-        programs; Comments that use offensive language or "hate speech" (e.g.,
-        racial, ethnic or gender offensive language); Personal attacks,
-        defamation or false statements about a participant, rather than merely
-        criticizing their posting, opinion or comments; and Comments infringing
-        upon any individual&apos;s privacy.{" "}
+        programs; Comments that use offensive language or &quot;hate
+        speech&quot; (e.g., racial, ethnic or gender offensive language);
+        Personal attacks, defamation or false statements about a participant,
+        rather than merely criticizing their posting, opinion or comments; and
+        Comments infringing upon any individual&apos;s privacy.{" "}
       </p>
       <p>
         Information available on any of Taplo&apos;s platforms or on its

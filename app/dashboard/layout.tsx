@@ -3,6 +3,7 @@ import Navbar from "./_components/Navbar";
 import { redirect } from "next/navigation";
 import { createClient } from "@/supabase/server";
 import { getActiveProject, getProjects } from "@/lib/actions/projects";
+import { Analytics } from "@vercel/analytics/react";
 
 export default async function DashboardLayout({
   children,
@@ -31,6 +32,7 @@ export default async function DashboardLayout({
           {children}
         </div>
       </div>
+      <Analytics />
     </main>
   );
 }
