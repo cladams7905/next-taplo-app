@@ -50,7 +50,12 @@ export default function RegisterForm({ user }: { user: User }) {
       email: data.email,
       password: data.password,
       options: {
-        emailRedirectTo: `${window.location.origin}/dashboard/create-project/`,
+        emailRedirectTo:
+          `${
+            process.env.NODE_ENV === "production"
+              ? "https://taplo.io"
+              : "http://localhost:3000"
+          }` + "/dashboard/create-project",
       },
     });
     return JSON.stringify(result);

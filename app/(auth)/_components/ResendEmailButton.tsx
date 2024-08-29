@@ -16,7 +16,12 @@ export default function ResendEmailButton({ email }: { email?: string }) {
       type: "signup",
       email: data.email,
       options: {
-        emailRedirectTo: `${window.location.origin}/dashboard/create-project/`,
+        emailRedirectTo:
+          `${
+            process.env.NODE_ENV === "production"
+              ? "https://taplo.io"
+              : "http://localhost:3000"
+          }` + "/dashboard/create-project",
       },
     });
     return JSON.stringify(result);

@@ -27,7 +27,12 @@ export default function ForgotPasswordForm() {
 
   const resetPasswordWithEmail = (data: { email: string }) => {
     const result = supabase.auth.resetPasswordForEmail(data.email, {
-      redirectTo: `${window.location.origin}/account/update-password/`,
+      redirectTo:
+        `${
+          process.env.NODE_ENV === "production"
+            ? "https://taplo.io"
+            : "http://localhost:3000"
+        }` + "/account/update-password",
     });
     return JSON.stringify(result);
   };
