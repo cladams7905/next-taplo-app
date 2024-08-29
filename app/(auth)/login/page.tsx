@@ -13,7 +13,7 @@ export default async function Login() {
   const { data: userData, error: userError } = await supabase.auth.getUser();
 
   if (!userError && userData?.user) {
-    redirect(await getRedirectPathname(userData.user.id));
+    redirect(await getRedirectPathname(userData.user?.id));
   }
   return (
     <main className="bg-gradient-to-tr from-purple-200 via-primary/60 to-purple-100">

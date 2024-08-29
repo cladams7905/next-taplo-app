@@ -15,8 +15,8 @@ export default async function DashboardLayout({
   if (error || !data?.user) {
     redirect("/");
   }
-  const projects = (await getProjects(data.user?.id))?.data;
-  const activeProject = (await getActiveProject(data.user?.id))?.data;
+  const projects = (await getProjects(data.user.id)).data;
+  const activeProject = (await getActiveProject(data.user.id)).data;
 
   return (
     <main>
