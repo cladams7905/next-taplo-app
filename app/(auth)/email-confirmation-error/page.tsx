@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import Logo from "@/public/images/Taplo-logo (2).svg";
 
-export default async function AuthCodeError() {
+export default async function EmailConfirmationError() {
   return (
     <main className="bg-gradient-to-tr from-purple-200 via-primary/60 to-purple-100">
       <div className="navbar lg:px-20 font-sans">
@@ -16,10 +16,10 @@ export default async function AuthCodeError() {
       </div>
       <div className="flex min-h-screen w-full flex-col items-center justify-between p-24 font-sans">
         <div className="flex flex-col items-center justify-center w-full max-w-md">
-          <p className="font-logo text-3xl mb-4">Authorization error.</p>
+          <p className="font-logo text-3xl mb-4">Email Confirmation error.</p>
           <p>
-            Please try logging in or registering again in a while. We apologize
-            for the inconvenience. If this issue persists, please reach out at
+            Please try sending an email again in a while. We apologize for the
+            inconvenience. If this issue persists, please reach out at
             help@taplio.io.
           </p>
         </div>
