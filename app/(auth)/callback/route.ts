@@ -15,15 +15,15 @@ export async function GET(request: Request) {
       if (isLocalEnv) {
         // we can be sure that there is no load balancer in between, so no need to watch for X-Forwarded-Host
         return NextResponse.redirect(
-          `${origin}${await getRedirectPathname(data.user.id)}`
+          `${origin}${await getRedirectPathname(data?.user.id)}`
         );
       } else if (forwardedHost) {
         return NextResponse.redirect(
-          `https://${forwardedHost}${await getRedirectPathname(data.user.id)}`
+          `https://${forwardedHost}${await getRedirectPathname(data?.user.id)}`
         );
       } else {
         return NextResponse.redirect(
-          `${origin}${await getRedirectPathname(data.user.id)}`
+          `${origin}${await getRedirectPathname(data?.user.id)}`
         );
       }
     }

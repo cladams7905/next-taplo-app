@@ -34,7 +34,7 @@ export async function signOut() {
   return JSON.stringify(result);
 }
 
-export async function getRedirectPathname(userId: string | undefined) {
+export async function getRedirectPathname(userId: string | null) {
   if (userId) {
     const activeProject = await getActiveProject(userId);
     if (activeProject?.data?.id) {
