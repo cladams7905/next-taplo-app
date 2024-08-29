@@ -86,15 +86,15 @@ export default function Home() {
               <div className="flex flex-row items-center gap-1">
                 {" "}
                 <Dot color="oklch(var(--s))" width={40} height={40} />
-                <Dot color="oklch(var(--s))" width={60} height={60} />
+                <Dot color="oklch(var(--s))" width={40} height={40} />
                 <Image
-                  width={48}
-                  height={48}
+                  width={36}
+                  height={36}
                   src={Logo}
                   alt="Logo"
                   className="rounded-full"
                 />
-                <Dot color="oklch(var(--s))" width={60} height={60} />
+                <Dot color="oklch(var(--s))" width={40} height={40} />
                 <Dot color="oklch(var(--s))" width={40} height={40} />
               </div>
             </div>

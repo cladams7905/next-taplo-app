@@ -2,7 +2,6 @@
 
 import useScroll from "@/lib/hooks/use-scroll";
 
-import s from "./Navbar.module.css";
 import { ArrowRight, Menu } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -22,8 +21,8 @@ export default function Navbar({ drawerId }: { drawerId: string }) {
           >
             <Menu color="#6b7280" />
           </label>
+          <Image width={32} height={32} alt="logo" src={Logo} />
           <div className="ml-2 font-bold font-logo text-xl mr-2">Taplo</div>
-          <Image width={40} height={40} alt="logo" src={Logo} />
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">

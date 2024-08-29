@@ -11,8 +11,8 @@ export default function Footer() {
       <footer className="footer">
         <aside>
           <div className="flex items-center gap-2">
-            <p className="text-2xl font-logo">Taplo</p>
             <Image width={40} height={40} alt="logo" src={Logo} />
+            <p className="text-2xl font-logo">Taplo</p>
           </div>
           <p className="text-md">
             Attention-grabbing popups to increase your conversion rate.
@@ -55,10 +55,7 @@ export default function Footer() {
         <nav>
           <h6 className="footer-title">Social</h6>
           <div className="grid grid-flow-col gap-4">
-            <Link
-              href={"https://www.linkedin.com/in/carteradams/"}
-              target="_blank"
-            >
+            <Link href={"https://x.com/carteradaams"} target="_blank">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 512 462.799"
@@ -71,7 +68,10 @@ export default function Footer() {
                 />
               </svg>
             </Link>
-            <Link href={"https://x.com/carteradaams"} target="_blank">
+            <Link
+              href={"https://www.linkedin.com/in/carteradams/"}
+              target="_blank"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 shapeRendering="geometricPrecision"

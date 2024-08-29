@@ -3,6 +3,7 @@
 import { Dot } from "lucide-react";
 import Logo from "@/public/images/Taplo-logo (3).svg";
 import Image from "next/image";
+import { QuestionMarkIcon } from "@radix-ui/react-icons";
 
 export default function FAQs() {
   return (
@@ -15,15 +16,15 @@ export default function FAQs() {
         <div className="flex flex-row items-center gap-1">
           {" "}
           <Dot color="oklch(var(--s))" width={40} height={40} />
-          <Dot color="oklch(var(--s))" width={60} height={60} />
+          <Dot color="oklch(var(--s))" width={40} height={40} />
           <Image
-            width={48}
-            height={48}
+            width={36}
+            height={36}
             src={Logo}
             alt="Logo"
             className="rounded-full"
           />
-          <Dot color="oklch(var(--s))" width={60} height={60} />
+          <Dot color="oklch(var(--s))" width={40} height={40} />
           <Dot color="oklch(var(--s))" width={40} height={40} />
         </div>
       </div>
