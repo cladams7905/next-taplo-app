@@ -14,7 +14,7 @@ export default function OAuthForm() {
     supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `https://taplo.io/callback/`,
+        redirectTo: `${window.location.origin}/callback/`,
       },
     });
   };
