@@ -3,6 +3,7 @@
 import Image from "next/image";
 import ProfilePic from "@/public/images/Profile_LightGray.png";
 import Logo from "@/public/images/Taplo-logo.svg";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -32,9 +33,18 @@ export default function Footer() {
         <nav>
           <h6 className="footer-title">Legal</h6>
           <div className="grid grid-flow-row gap-4">
-            <p>Terms of Service</p>
-            <p>Privacy Policy</p>
-            <p>Facebook Disclaimer</p>
+            <Link href={"/legal/terms-of-service"} target="_blank">
+              {" "}
+              <p className="underline">Terms of Service</p>
+            </Link>
+            <Link href={"legal/privacy-policy"} target="_blank">
+              {" "}
+              <p className="underline">Privacy Policy</p>
+            </Link>
+            <Link href={"legal/facebook-disclaimer"} target="_blank">
+              {" "}
+              <p className="underline">Facebook Disclaimer</p>
+            </Link>
           </div>
         </nav>
         <nav>
