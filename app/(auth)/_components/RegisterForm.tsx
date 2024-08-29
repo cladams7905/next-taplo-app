@@ -92,8 +92,8 @@ export default function RegisterForm() {
     );
   } else {
     return (
-      <div className="flex flex-col items-center justify-center w-full max-w-md p-8 bg-white rounded-lg border border-gray-200 ">
-        <p className="font-bold sm:text-4xl text-3xl mb-4">
+      <div className="flex flex-col items-center justify-center w-full max-w-md p-8 bg-white rounded-lg border border-gray-200 my-8 mb-16">
+        <p className="font-logo text-center text-3xl mb-4">
           Get started for free!
         </p>
         <p className="">

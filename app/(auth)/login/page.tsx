@@ -24,10 +24,8 @@ export default async function Login() {
         </div>
       </div>
       <div className="flex min-h-screen w-full flex-col items-center justify-between sm:px-24 px-8 font-sans">
-        <div className="flex flex-col items-center justify-center w-full max-w-md bg-white rounded-lg border border-gray-200 p-8">
-          <p className="font-bold sm:text-4xl text-3xl mb-4 text-center">
-            Welcome back
-          </p>
+        <div className="flex flex-col items-center justify-center w-full max-w-md bg-white rounded-lg border border-gray-200 p-8 my-8 mb-16">
+          <p className="font-logo text-3xl mb-4 text-center">Welcome back</p>
           <p className="">
             Don&apos;t have an account?{" "}
             <Link href={"/signup"}>
