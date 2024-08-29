@@ -34,11 +34,12 @@ export async function signOut() {
   return JSON.stringify(result);
 }
 
-export async function getRedirectPathname(userId: string) {
-  const activeProject = await getActiveProject(userId);
-  if (activeProject?.data.id) {
-    return `/dashboard/project/${activeProject.data.id}/create`;
-  } else {
-    return `/dashboard/create-project`;
+export async function getRedirectPathname(userId: string | undefined) {
+  if (userId) {
+    const activeProject = await getActiveProject(userId);
+    if (activeProject?.data.id) {
+      return `/dashboard/project/${activeProject.data.id}/create`;
+    }
   }
+  return `/dashboard/create-project`;
 }

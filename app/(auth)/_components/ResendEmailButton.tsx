@@ -46,7 +46,7 @@ export default function ResendEmailButton({ email }: { email?: string }) {
   return (
     <div
       onClick={() => onSubmit()}
-      className="w-full btn btn-neutral"
+      className="w-full btn btn-primary text-white"
       style={{ marginTop: "2.5rem" }}
     >
       {isPending ? <LoadingDots color="#FFFFFF" /> : "Resend Link"}

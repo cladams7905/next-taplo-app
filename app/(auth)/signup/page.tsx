@@ -5,13 +5,14 @@ import { getRedirectPathname } from "../_actions";
 import Logo from "@/public/images/Taplo-logo (2).svg";
 import Image from "next/image";
 import Link from "next/link";
+import { User } from "@supabase/supabase-js";
 
 export default async function Signup() {
   const supabase = createClient();
 
-  const { data, error } = await supabase.auth.getUser();
-  if (!error && data?.user) {
-    redirect(await getRedirectPathname(data.user.id));
+  const { data: userData, error: userError } = await supabase.auth.getUser();
+  if (!userError && userData?.user) {
+    redirect(await getRedirectPathname(userData.user.id));
   }
 
   return (
@@ -25,7 +26,7 @@ export default async function Signup() {
         </Link>
       </div>
       <div className="flex min-h-screen w-full flex-col items-center justify-between sm:px-24 px-8 font-sans">
-        <RegisterForm />
+        <RegisterForm user={userData.user as User} />
       </div>
     </main>
   );

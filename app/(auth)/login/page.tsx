@@ -3,18 +3,19 @@ import OAuthForm from "../_components/OAuthForm";
 import Link from "next/link";
 import { createClient } from "@/supabase/server";
 import { redirect } from "next/navigation";
-import { getRedirectPathname } from "../_actions";
 import Logo from "@/public/images/Taplo-logo (2).svg";
 import Image from "next/image";
+import { getRedirectPathname } from "../_actions";
+import { User } from "@supabase/supabase-js";
 
 export default async function Login() {
   const supabase = createClient();
 
-  const { data, error } = await supabase.auth.getUser();
-  if (!error && data?.user) {
-    redirect(await getRedirectPathname(data.user.id));
-  }
+  const { data: userData, error: userError } = await supabase.auth.getUser();
 
+  if (!userError && userData?.user) {
+    redirect(await getRedirectPathname(userData.user.id));
+  }
   return (
     <main className="bg-gradient-to-tr from-purple-200 via-primary/60 to-purple-100">
       <div className="navbar lg:px-20 font-sans">
@@ -35,7 +36,7 @@ export default async function Login() {
             </Link>
           </p>
           <SignInForm />
-          <OAuthForm />
+          <OAuthForm user={userData.user as User} />
           <p className="mt-6 text-sm">
             By continuing, you agree to our{" "}
             <Link href={"/legal/terms-of-service"} target="_blank">

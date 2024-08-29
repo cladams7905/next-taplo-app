@@ -18,6 +18,7 @@ import Link from "next/link";
 import OAuthForm from "./OAuthForm";
 import { createClient } from "@/supabase/client";
 import { showToast, showToastError } from "@/components/shared/showToast";
+import { User } from "@supabase/supabase-js";
 
 const FormSchema = z
   .object({
@@ -38,7 +39,7 @@ const FormSchema = z
     path: ["confirm"],
   });
 
-export default function RegisterForm() {
+export default function RegisterForm({ user }: { user: User }) {
   const [isPending, startTransition] = useTransition();
   const [isRegisterSuccess, setIsRegisterSuccess] = useState(false);
 
@@ -84,8 +85,8 @@ export default function RegisterForm() {
 
   if (isRegisterSuccess) {
     return (
-      <div className="flex flex-col items-center justify-center w-full max-w-md">
-        <p className="font-bold text-4xl mb-4">Almost done!</p>
+      <div className="flex flex-col items-center justify-center w-full max-w-md p-8 bg-white rounded-lg border border-gray-200 my-8 mb-16">
+        <p className="font-logo text-center text-3xl mb-4">Almost done!</p>
         <p>Please check your inbox to confirm your email address.</p>
         <ResendEmailButton email={form.getValues().email} />
       </div>
@@ -175,7 +176,7 @@ export default function RegisterForm() {
             </div>
           </form>
         </Form>
-        <OAuthForm />
+        <OAuthForm user={user} />
         <p className="mt-6 text-sm">
           By continuing, you agree to our{" "}
           <Link href={"/legal/terms-of-service"} target="_blank">

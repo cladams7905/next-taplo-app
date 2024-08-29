@@ -4,16 +4,21 @@ import { useState } from "react";
 import LoadingDots from "@/components/shared/loadingdots";
 import Google from "@/components/shared/icons/google";
 import { createClient } from "@/supabase/client";
+import { User } from "@supabase/supabase-js";
 
-export default function OAuthForm() {
+export default function OAuthForm({ user }: { user: User }) {
   const [signInClicked, setSignInClicked] = useState(false);
 
   const supabase = createClient();
 
-  const logInWithGoogle = () => {
+  const logInWithGoogle = async () => {
     supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
+        queryParams: {
+          access_type: "offline",
+          prompt: "consent",
+        },
         redirectTo: `${window.location.origin}/callback/`,
       },
     });
