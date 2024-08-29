@@ -14,11 +14,7 @@ export default function OAuthForm() {
     supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        queryParams: {
-          access_type: "offline",
-          prompt: "consent",
-        },
-        redirectTo: `${window.location.origin}/callback/`,
+        redirectTo: `https://taplo.io/callback/`,
       },
     });
   };
