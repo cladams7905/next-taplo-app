@@ -28,13 +28,19 @@ export default function Navbar({ drawerId }: { drawerId: string }) {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
             <li>
-              <a>Features</a>
+              <Link href={"#key-features"} className="focus:bg-link-hover">
+                Features
+              </Link>
             </li>
             <li>
-              <a>Pricing</a>
+              <Link href={"#pricing"} className="focus:bg-link-hover">
+                Pricing
+              </Link>
             </li>
             <li>
-              <a>FAQs</a>
+              <Link href={"#faqs"} className="focus:bg-link-hover">
+                FAQs
+              </Link>
             </li>
           </ul>
         </div>

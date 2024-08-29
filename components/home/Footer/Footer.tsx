@@ -26,8 +26,13 @@ export default function Footer() {
         <nav>
           <h6 className="footer-title">Links</h6>
           <div className="grid grid-flow-row gap-4">
-            <p>Login</p>
-            <p>Pricing</p>
+            <Link href={"/login"}>
+              {" "}
+              <p className="underline">Login</p>
+            </Link>
+            <Link href={"#pricing"}>
+              <p className="underline">Pricing</p>
+            </Link>
           </div>
         </nav>
         <nav>
@@ -97,7 +102,22 @@ export default function Footer() {
         />
         <div className="text-sm">
           Hey friend! 👋 I&apos;m Carter, the founder of Taplo. <br /> If you
-          want to check out my other work, you can follow me on X or LinkedIn.
+          want to check out my other work, you can follow me on{" "}
+          <span className="underline">
+            <Link href={"https://x.com/carteradaams"} target="_blank">
+              X
+            </Link>
+          </span>{" "}
+          or{" "}
+          <span className="underline">
+            <Link
+              href={"https://www.linkedin.com/in/carteradams/"}
+              target="_blank"
+            >
+              LinkedIn
+            </Link>
+          </span>
+          .
         </div>
       </div>
     </div>

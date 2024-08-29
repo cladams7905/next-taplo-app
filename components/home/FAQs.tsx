@@ -9,7 +9,9 @@ export default function FAQs() {
     <div className="flex flex-col w-full bg-accent pt-12 pb-20 gap-8 lg:px-64 px-8 font-sans">
       <div className="flex flex-col items-center gap-4">
         {" "}
-        <p className="text-white uppercase font-logo text-lg">FAQs</p>
+        <p id="faqs" className="text-white uppercase font-logo text-lg">
+          FAQs
+        </p>
         <div className="flex flex-row items-center gap-1">
           {" "}
           <Dot color="oklch(var(--s))" width={40} height={40} />

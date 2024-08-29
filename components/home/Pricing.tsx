@@ -24,7 +24,9 @@ export default function Pricing() {
     <div className="w-full min-h-[140vh] px-8">
       {" "}
       <div className="flex flex-col items-center pb-12 w-full gap-12 font-sans lg:px-32">
-        <p className="uppercase font-logo text-lg">Pricing</p>
+        <p id="pricing" className="uppercase font-logo text-lg">
+          Pricing
+        </p>
         <div className="flex flex-col w-full items-center gap-6">
           {" "}
           <p className="text-3xl font-logo text-center">

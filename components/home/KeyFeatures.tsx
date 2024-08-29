@@ -31,7 +31,9 @@ export default function KeyFeatures() {
   }, [activeFeature]);
   return (
     <div className="flex flex-col items-center pt-6 w-full min-h-[100vh] gap-12 font-sans lg:px-32 px-8">
-      <p className="uppercase font-logo text-lg">Key Features</p>
+      <p id="key-features" className="uppercase font-logo text-lg">
+        Key Features
+      </p>
       <div className="flex overflow-x-scroll lg:justify-center w-full md:gap-12 gap-0 items-center">
         <div
           className={`flex flex-col h-fit items-center justify-center min-w-[150px] gap-3 mb-4 p-4 rounded-lg hover:-translate-y-1 transition-transform cursor-pointer ${

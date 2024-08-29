@@ -69,7 +69,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            <PopupDemo />
+            {/* <PopupDemo /> */}
             <div
               className="absolute md:block hidden flex-wrap gap-3 h-full top-0 bg-white/20 w-[110vw]"
               style={{
@@ -153,16 +153,16 @@ export default function Home() {
           ></label>
           <ul className="menu bg-white text-lg min-h-full w-80 p-4">
             <li>
-              <a>Login</a>
+              <Link href={"/login"}>Login</Link>
             </li>
             <li>
-              <a>Features</a>
+              <Link href={"#key-features"}>Features</Link>
             </li>
             <li>
-              <a>Pricing</a>
+              <Link href={"#pricing"}>Pricing</Link>
             </li>
             <li>
-              <a>FAQs</a>
+              <Link href={"#faqs"}>FAQs</Link>
             </li>
           </ul>
         </div>
