@@ -58,7 +58,7 @@ export default function ForgotPasswordForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full space-y-6 my-6 font-sans"
+        className="w-full space-y-6 mt-6 font-sans"
         autoComplete="on"
       >
         <FormField
@@ -82,7 +82,7 @@ export default function ForgotPasswordForm() {
         />
         <div
           onClick={form.handleSubmit(onSubmit)}
-          className="w-full btn btn-neutral"
+          className="w-full btn btn-primary text-white"
           style={{ marginTop: "2.5rem" }}
         >
           {isPending ? <LoadingDots color="#FFFFFF" /> : "Send Link"}
