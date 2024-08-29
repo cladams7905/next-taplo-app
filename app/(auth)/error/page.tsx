@@ -1,17 +1,22 @@
+import Image from "next/image";
+import Link from "next/link";
 import React from "react";
+import Logo from "@/public/images/Taplo-logo (2).svg";
 
 export default async function AuthCodeError() {
   return (
     <main className="bg-gradient-to-tr from-purple-200 via-primary/60 to-purple-100">
-      <div className="navbar fixed lg:px-20 font-sans">
-        <div className="navbar-start">
-          {/* <Logo/> */}
-          <div className="ml-2 font-bold">Taplo</div>
-        </div>
+      <div className="navbar lg:px-20 font-sans">
+        <Link href={"/"}>
+          <div className="navbar-start ml-8 w-full flex items-center">
+            <Image width={36} height={36} alt="logo" src={Logo} />
+            <div className="font-bold font-logo text-xl mx-2">Taplo</div>
+          </div>
+        </Link>
       </div>
       <div className="flex min-h-screen w-full flex-col items-center justify-between p-24 font-sans">
         <div className="flex flex-col items-center justify-center w-full max-w-md">
-          <p className="font-bold text-4xl mb-4">Authorization error.</p>
+          <p className="font-logo text-3xl mb-4">Authorization error.</p>
           <p>
             Please try logging in or registering again in a while. We apologize
             for the inconvenience.

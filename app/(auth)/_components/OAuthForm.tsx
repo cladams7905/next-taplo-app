@@ -41,7 +41,7 @@ export default function OAuthForm() {
           }}
         >
           {signInClicked ? (
-            <LoadingDots color="oklch(var(--pc))" />
+            <LoadingDots color="oklch(var(--a))" />
           ) : (
             <>
               <Google className="h-5 w-5" />
