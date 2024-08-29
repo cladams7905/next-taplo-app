@@ -15,24 +15,24 @@ export default async function DashboardLayout({
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
     redirect("/");
-  }
+  } else {
+    const projects = (await getProjects(data.user?.id)).data;
+    const activeProject = (await getActiveProject(data.user?.id)).data;
 
-  const projects = (await getProjects(data.user.id)).data;
-  const activeProject = (await getActiveProject(data.user.id)).data;
-
-  return (
-    <main>
-      <Navbar
-        user={data.user}
-        projects={projects}
-        fetchedActiveProject={activeProject}
-      />
-      <div className="flex flex-col h-screen-minus-navbar bg-white dark:bg-base-100 relative">
-        <div className="flex flex-col w-full h-full font-sans relative">
-          {children}
+    return (
+      <main>
+        <Navbar
+          user={data.user}
+          projects={projects}
+          fetchedActiveProject={activeProject}
+        />
+        <div className="flex flex-col h-screen-minus-navbar bg-white dark:bg-base-100 relative">
+          <div className="flex flex-col w-full h-full font-sans relative">
+            {children}
+          </div>
         </div>
-      </div>
-      <Analytics />
-    </main>
-  );
+        <Analytics />
+      </main>
+    );
+  }
 }
