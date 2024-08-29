@@ -49,7 +49,7 @@ export default function RegisterForm() {
       email: data.email,
       password: data.password,
       options: {
-        emailRedirectTo: `${location.origin}/dashboard/create-project`,
+        emailRedirectTo: `${window.location.origin}/dashboard/create-project`,
       },
     });
     return JSON.stringify(result);
