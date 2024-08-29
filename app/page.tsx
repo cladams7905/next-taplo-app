@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { ArrowRight, Dot, Star } from "lucide-react";
 import Link from "next/link";
-import Footer from "@/components/home/Footer/Footer";
+import Footer from "@/components/home/Footer";
 import Navbar from "@/components/home/Navbar";
 import KeyFeatures from "@/components/home/KeyFeatures";
 import Integrations from "@/components/home/Integrations";

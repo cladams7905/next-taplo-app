@@ -176,7 +176,7 @@ export default function RegisterForm({ user }: { user: User }) {
             </div>
           </form>
         </Form>
-        <OAuthForm user={user} />
+        <OAuthForm />
         <p className="mt-6 text-sm">
           By continuing, you agree to our{" "}
           <Link href={"/legal/terms-of-service"} target="_blank">

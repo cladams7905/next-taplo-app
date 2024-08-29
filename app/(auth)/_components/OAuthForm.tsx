@@ -4,9 +4,8 @@ import { useState } from "react";
 import LoadingDots from "@/components/shared/loadingdots";
 import Google from "@/components/shared/icons/google";
 import { createClient } from "@/supabase/client";
-import { User } from "@supabase/supabase-js";
 
-export default function OAuthForm({ user }: { user: User }) {
+export default function OAuthForm() {
   const [signInClicked, setSignInClicked] = useState(false);
 
   const supabase = createClient();
@@ -19,7 +18,12 @@ export default function OAuthForm({ user }: { user: User }) {
           access_type: "offline",
           prompt: "consent",
         },
-        redirectTo: `${window.location.origin}/callback/`,
+        redirectTo:
+          `${
+            process.env.NODE_ENV === "production"
+              ? "https://taplo.io"
+              : "http://localhost:3000"
+          }` + "/callback",
       },
     });
   };

@@ -6,7 +6,6 @@ import { redirect } from "next/navigation";
 import Logo from "@/public/images/Taplo-logo (2).svg";
 import Image from "next/image";
 import { getRedirectPathname } from "../_actions";
-import { User } from "@supabase/supabase-js";
 
 export default async function Login() {
   const supabase = createClient();
@@ -36,7 +35,7 @@ export default async function Login() {
             </Link>
           </p>
           <SignInForm />
-          <OAuthForm user={userData.user as User} />
+          <OAuthForm />
           <p className="mt-6 text-sm">
             By continuing, you agree to our{" "}
             <Link href={"/legal/terms-of-service"} target="_blank">
