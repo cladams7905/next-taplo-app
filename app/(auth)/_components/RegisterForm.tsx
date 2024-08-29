@@ -92,8 +92,10 @@ export default function RegisterForm() {
     );
   } else {
     return (
-      <div className="flex flex-col items-center justify-center w-full max-w-md">
-        <p className="font-bold text-4xl mb-4">Get started for free!</p>
+      <div className="flex flex-col items-center justify-center w-full max-w-md p-8 bg-white rounded-lg border border-gray-200 ">
+        <p className="font-bold sm:text-4xl text-3xl mb-4">
+          Get started for free!
+        </p>
         <p className="">
           Already have an account?{" "}
           <Link href={"/login"}>
@@ -166,7 +168,7 @@ export default function RegisterForm() {
             />
             <div
               onClick={form.handleSubmit(onSubmit)}
-              className="w-full btn btn-neutral"
+              className="w-full btn btn-primary text-white"
               style={{ marginTop: "2.5rem" }}
             >
               {isPending ? <LoadingDots color="#FFFFFF" /> : "Sign up"}
@@ -176,8 +178,15 @@ export default function RegisterForm() {
         <OAuthForm />
         <p className="mt-6 text-sm">
           By continuing, you agree to our{" "}
-          <span className="link">Terms of Use</span> and{" "}
-          <span className="link">Privacy Policy</span>.
+          <Link href={"/legal/terms-of-service"} target="_blank">
+            <span className="link">Terms of Service</span>
+          </Link>{" "}
+          and{" "}
+          <Link href={"/legal/privacy-policy"} target="_blank">
+            {" "}
+            <span className="link">Privacy Policy</span>
+          </Link>
+          .
         </p>
       </div>
     );

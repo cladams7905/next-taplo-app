@@ -34,7 +34,7 @@ export default function OAuthForm() {
         <button
           disabled={signInClicked}
           className={`btn
-			${signInClicked ? "cursor-not-allowed btn-disabled" : "btn-neutral"}`}
+			${signInClicked ? "cursor-not-allowed btn-disabled" : "btn-accent text-white"}`}
           onClick={() => {
             setSignInClicked(true);
             logInWithGoogle();

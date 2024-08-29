@@ -103,7 +103,7 @@ export default function SignInForm() {
         </Link>
         <div
           onClick={form.handleSubmit(onSubmit)}
-          className="w-full btn btn-neutral"
+          className="w-full btn btn-primary text-white"
           style={{ marginTop: "2.5rem" }}
         >
           {isPending ? <LoadingDots color="#FFFFFF" /> : "Login"}
