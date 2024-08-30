@@ -20,7 +20,7 @@ export default async function EmailConfirmationError() {
           <p>
             Please try sending an email again in a while. We apologize for the
             inconvenience. If this issue persists, please reach out at
-            help@taplio.io.
+            help@taplo.io.
           </p>
         </div>
       </div>

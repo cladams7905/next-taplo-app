@@ -1,6 +1,6 @@
 "use client";
 
-import { CircleUser, LogOut, Settings } from "lucide-react";
+import { CircleUserRound, LogOut, Settings } from "lucide-react";
 import { User } from "@supabase/supabase-js";
 import { signOut } from "@/app/(auth)/_actions";
 import Image from "next/image";
@@ -45,10 +45,10 @@ export default function UserDropdown(data: { user: User }) {
               />
             </div>
           ) : (
-            <CircleUser
+            <CircleUserRound
               height={26}
               width={26}
-              strokeWidth={1.75}
+              strokeWidth={2}
               className="mr-2 rounded-full"
             />
           )}
