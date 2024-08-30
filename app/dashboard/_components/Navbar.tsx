@@ -67,33 +67,35 @@ export default function Navbar({
     <main className="flex flex-col items-center w-full font-sans z-30 lg:px-3 md:px-3 sm:px-3 px-1 transition-all border-b border-gray-300 dark:bg-base-100 shadow-md bg-white">
       <div className="navbar flex">
         <div className="navbar-start">
-          <div className="dropdown">
-            <label
-              role="button"
-              className="mr-6 hover:bg-primary/20 active:bg-primary/20 lg:hidden md:hidden block rounded-lg p-2"
-              tabIndex={0}
-            >
-              <Menu color="oklch(var(--bc))" />
-            </label>
-            <div
-              tabIndex={0}
-              className="dropdown-content border mt-2 border-gray-300 dark:border-gray-600 z-[10] p-2 shadow-lg bg-base-100 rounded-md w-[180px]"
-            >
-              <Link
-                href={`/dashboard/project/${fetchedActiveProject.id}/create`}
+          {fetchedActiveProject && (
+            <div className="dropdown">
+              <label
+                role="button"
+                className="mr-6 hover:bg-primary/20 active:bg-primary/20 lg:hidden md:hidden block rounded-lg p-2"
+                tabIndex={0}
               >
+                <Menu color="oklch(var(--bc))" />
+              </label>
+              <div
+                tabIndex={0}
+                className="dropdown-content border mt-2 border-gray-300 dark:border-gray-600 z-[10] p-2 shadow-lg bg-base-100 rounded-md w-[180px]"
+              >
+                <Link
+                  href={`/dashboard/project/${fetchedActiveProject?.id}/create`}
+                >
+                  <button className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-link-hover">
+                    <p className="text-sm">Create</p>
+                  </button>
+                </Link>
                 <button className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-link-hover">
-                  <p className="text-sm">Create</p>
+                  <p className="text-sm">Insights</p>
+                  <div className="absolute right-0 badge badge-primary bg-primary/20 border-none text-primary text-xs">
+                    Coming soon!
+                  </div>
                 </button>
-              </Link>
-              <button className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-link-hover">
-                <p className="text-sm">Insights</p>
-                <div className="absolute right-0 badge badge-primary bg-primary/20 border-none text-primary text-xs">
-                  Coming soon!
-                </div>
-              </button>
+              </div>
             </div>
-          </div>
+          )}
           <div className="font-bold font-logo text-lg lg:text-xl">Taplo</div>
           <div className="text-gray-500 text-xl ml-6 font-thin">
             <ChevronRight
