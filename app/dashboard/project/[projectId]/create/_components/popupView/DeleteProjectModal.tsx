@@ -9,11 +9,11 @@ import {
   FormField,
   FormItem,
   FormMessage,
-} from "@/components/shared/form";
+} from "@/app/_components/shared/form";
 import * as z from "zod";
-import LoadingDots from "@/components/shared/loadingdots";
+import LoadingDots from "@/app/_components/shared/loadingdots";
 import { Trash } from "lucide-react";
-import { showToast, showToastError } from "@/components/shared/showToast";
+import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { useRouter } from "next/navigation";
 import { getRedirectPathname } from "@/app/(auth)/_actions";
 import { deleteProject } from "@/lib/actions/projects";

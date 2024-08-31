@@ -1,6 +1,6 @@
 "use client";
 
-import { showToastError } from "@/components/shared/showToast";
+import { showToastError } from "@/app/_components/shared/showToast";
 import { updateProject } from "@/lib/actions/projects";
 import useScroll from "@/lib/hooks/use-scroll";
 import { RefObject, useState, useTransition } from "react";

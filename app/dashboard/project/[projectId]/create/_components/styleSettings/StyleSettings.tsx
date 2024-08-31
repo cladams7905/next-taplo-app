@@ -1,6 +1,6 @@
 "use client";
 
-import { showToastError } from "@/components/shared/showToast";
+import { showToastError } from "@/app/_components/shared/showToast";
 import { updateProject } from "@/lib/actions/projects";
 import { TemplateTypes, ScreenAlignment } from "@/lib/enums";
 import useScroll from "@/lib/hooks/use-scroll";

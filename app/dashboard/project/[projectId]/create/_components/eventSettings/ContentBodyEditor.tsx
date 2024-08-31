@@ -11,7 +11,7 @@ import React, {
   useState,
 } from "react";
 import { updateEvent } from "@/lib/actions/events";
-import { showToastError } from "@/components/shared/showToast";
+import { showToastError } from "@/app/_components/shared/showToast";
 import { Tables } from "@/supabase/types";
 import { ContentVars, EventType } from "@/lib/enums";
 import { useProjectContext } from "../ProjectBoard";

@@ -10,8 +10,8 @@ import {
   useState,
   useTransition,
 } from "react";
-import { showToastError } from "@/components/shared/showToast";
-import LoadingDots from "@/components/shared/loadingdots";
+import { showToastError } from "@/app/_components/shared/showToast";
+import LoadingDots from "@/app/_components/shared/loadingdots";
 import { useRouter } from "next/navigation";
 import { checkStringLength } from "@/lib/actions";
 import { setActiveProject } from "@/lib/actions/projects";

@@ -2,7 +2,7 @@
 
 import { memo, TransitionStartFunction, useRef, useState } from "react";
 import { deleteEvent } from "@/lib/actions/events";
-import { showToast, showToastError } from "@/components/shared/showToast";
+import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { sortByTimeCreated } from "@/lib/actions";
 import Event from "./Event";
 import { useProjectContext } from "../ProjectBoard";

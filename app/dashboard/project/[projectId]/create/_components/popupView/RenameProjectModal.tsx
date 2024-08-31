@@ -9,10 +9,10 @@ import {
   FormField,
   FormItem,
   FormMessage,
-} from "@/components/shared/form";
+} from "@/app/_components/shared/form";
 import * as z from "zod";
-import LoadingDots from "@/components/shared/loadingdots";
-import { showToast, showToastError } from "@/components/shared/showToast";
+import LoadingDots from "@/app/_components/shared/loadingdots";
+import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { Pencil } from "lucide-react";
 import { updateProject } from "@/lib/actions/projects";
 import { useProjectContext } from "../ProjectBoard";

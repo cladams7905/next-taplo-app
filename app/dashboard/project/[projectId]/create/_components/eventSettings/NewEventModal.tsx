@@ -2,7 +2,7 @@
 
 import { EventType } from "@/lib/enums";
 import { Tables, TablesInsert } from "@/supabase/types";
-import { showToastError } from "@/components/shared/showToast";
+import { showToastError } from "@/app/_components/shared/showToast";
 import { sortByTimeCreated } from "@/lib/actions";
 import { createEvent } from "@/lib/actions/events";
 import {

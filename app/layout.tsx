@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/react";
-import { Toaster } from "@/components/shared/toaster";
+import { Toaster } from "@/app/_components/shared/toaster";
 import { Gayathri, Georama, Noto_Sans } from "next/font/google";
 import cx from "classnames";
 import "./globals.css";
-import ProgressBarProvider from "@/components/shared/progressbar";
+import ProgressBarProvider from "@/app/_components/shared/progressbar";
 
 const openSans = Noto_Sans({
   variable: "--font-openSans",

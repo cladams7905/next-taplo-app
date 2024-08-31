@@ -1,14 +1,14 @@
 import { Suspense } from "react";
 import { ArrowRight, Dot, Star } from "lucide-react";
 import Link from "next/link";
-import Footer from "@/components/home/Footer";
-import Navbar from "@/components/home/Navbar";
-import KeyFeatures from "@/components/home/KeyFeatures";
-import Integrations from "@/components/home/Integrations";
-import PopupDemo from "@/components/home/PopupDemo";
-import LaunchOfferBadge from "@/components/home/LaunchOfferBadge";
-import Pricing from "@/components/home/Pricing";
-import FAQs from "@/components/home/FAQs";
+import Footer from "@/app/_components/home/Footer";
+import Navbar from "@/app/_components/home/Navbar";
+import KeyFeatures from "@/app/_components/home/KeyFeatures";
+import Integrations from "@/app/_components/home/Integrations";
+import PopupDemo from "@/app/_components/home/PopupDemo";
+import LaunchOfferBadge from "@/app/_components/home/LaunchOfferBadge";
+import Pricing from "@/app/_components/home/Pricing";
+import FAQs from "@/app/_components/home/FAQs";
 import Image from "next/image";
 import Logo from "@/public/images/Taplo-logo (3).svg";
 

@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import LoadingDots from "@/components/shared/loadingdots";
-import Google from "@/components/shared/icons/google";
+import LoadingDots from "@/app/_components/shared/loadingdots";
+import Google from "@/app/_components/shared/icons/google";
 import { createClient } from "@/supabase/client";
 import { getURL } from "@/lib/actions";
 

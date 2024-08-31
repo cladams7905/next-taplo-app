@@ -10,11 +10,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/shared/form";
+} from "@/app/_components/shared/form";
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/supabase/client";
-import { showToast, showToastError } from "@/components/shared/showToast";
+import { showToast, showToastError } from "@/app/_components/shared/showToast";
 
 const FormSchema = z
   .object({

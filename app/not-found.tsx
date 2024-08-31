@@ -1,4 +1,4 @@
-import BackButton from "@/components/shared/backbutton";
+import BackButton from "@/app/_components/shared/backbutton";
 
 export default function NotFoundPage() {
   return (

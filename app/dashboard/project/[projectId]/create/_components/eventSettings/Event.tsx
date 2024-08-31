@@ -13,7 +13,7 @@ import {
   XCircle,
 } from "lucide-react";
 import { updateEvent } from "@/lib/actions/events";
-import { showToastError } from "@/components/shared/showToast";
+import { showToastError } from "@/app/_components/shared/showToast";
 import { Pencil1Icon } from "@radix-ui/react-icons";
 import IntegrationSelect from "./integrations/IntegrationSelect";
 import ContentBodyEditor from "./ContentBodyEditor";

@@ -2,9 +2,9 @@
 
 import React from "react";
 import { useTransition } from "react";
-import LoadingDots from "@/components/shared/loadingdots";
+import LoadingDots from "@/app/_components/shared/loadingdots";
 import { createClient } from "@/supabase/client";
-import { showToast, showToastError } from "@/components/shared/showToast";
+import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { getURL } from "@/lib/actions";
 
 export default function ResendEmailButton({ email }: { email?: string }) {

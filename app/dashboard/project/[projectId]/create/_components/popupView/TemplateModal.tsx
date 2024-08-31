@@ -1,6 +1,6 @@
 "use client";
 
-import { showToastError } from "@/components/shared/showToast";
+import { showToastError } from "@/app/_components/shared/showToast";
 import { hexToRgba } from "@/lib/actions";
 import { updateProject } from "@/lib/actions/projects";
 import { ScreenAlignment, TemplateTypes } from "@/lib/enums";

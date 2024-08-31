@@ -3,7 +3,7 @@
 import { Tables } from "@/supabase/types";
 import { ChangeEvent, TransitionStartFunction, useTransition } from "react";
 import { deleteProduct, updateProduct } from "@/lib/actions/products";
-import { showToastError } from "@/components/shared/showToast";
+import { showToastError } from "@/app/_components/shared/showToast";
 import { Camera, Trash2 } from "lucide-react";
 import { createClient } from "@/supabase/client";
 import Image from "next/image";

@@ -6,8 +6,8 @@ import { signOut } from "@/app/(auth)/_actions";
 import Image from "next/image";
 import { useTransition } from "react";
 import { redirect } from "next/navigation";
-import LoadingDots from "@/components/shared/loadingdots";
-import { showToastError } from "@/components/shared/showToast";
+import LoadingDots from "@/app/_components/shared/loadingdots";
+import { showToastError } from "@/app/_components/shared/showToast";
 import Link from "next/link";
 
 export default function UserDropdown(data: { user: User }) {

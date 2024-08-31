@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import LoadingDots from "@/components/shared/loadingdots";
+import LoadingDots from "@/app/_components/shared/loadingdots";
 import {
   Form,
   FormControl,
@@ -11,13 +11,13 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/shared/form";
+} from "@/app/_components/shared/form";
 import { useState, useTransition } from "react";
 import ResendEmailButton from "./ResendEmailButton";
 import Link from "next/link";
 import OAuthForm from "./OAuthForm";
 import { createClient } from "@/supabase/client";
-import { showToast, showToastError } from "@/components/shared/showToast";
+import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { User } from "@supabase/supabase-js";
 import { getURL } from "@/lib/actions";
 

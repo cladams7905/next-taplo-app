@@ -11,11 +11,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/shared/form";
+} from "@/app/_components/shared/form";
 import { useTransition } from "react";
-import LoadingDots from "@/components/shared/loadingdots";
+import LoadingDots from "@/app/_components/shared/loadingdots";
 import Link from "next/link";
-import { showToastError } from "@/components/shared/showToast";
+import { showToastError } from "@/app/_components/shared/showToast";
 
 const FormSchema = z.object({
   email: z.string().email(),

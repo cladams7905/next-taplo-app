@@ -7,8 +7,8 @@ import {
   ToastProvider,
   ToastTitle,
   ToastViewport,
-} from "@/components/shared/toast";
-import { useToast } from "@/components/shared/use-toast";
+} from "@/app/_components/shared/toast";
+import { useToast } from "@/app/_components/shared/use-toast";
 import { Check } from "lucide-react";
 
 export function Toaster() {
