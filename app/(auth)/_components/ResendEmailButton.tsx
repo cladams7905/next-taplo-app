@@ -5,6 +5,7 @@ import { useTransition } from "react";
 import LoadingDots from "@/components/shared/loadingdots";
 import { createClient } from "@/supabase/client";
 import { showToast, showToastError } from "@/components/shared/showToast";
+import { getURL } from "@/lib/actions";
 
 export default function ResendEmailButton({ email }: { email?: string }) {
   const [isPending, startTransition] = useTransition();
@@ -16,12 +17,7 @@ export default function ResendEmailButton({ email }: { email?: string }) {
       type: "signup",
       email: data.email,
       options: {
-        emailRedirectTo:
-          `${
-            process.env.NODE_ENV === "production"
-              ? "https://taplo.io"
-              : "http://localhost:3000"
-          }` + "/dashboard/create-project",
+        emailRedirectTo: getURL() + "/dashboard/create-project",
       },
     });
     return JSON.stringify(result);

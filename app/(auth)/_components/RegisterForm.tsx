@@ -19,6 +19,7 @@ import OAuthForm from "./OAuthForm";
 import { createClient } from "@/supabase/client";
 import { showToast, showToastError } from "@/components/shared/showToast";
 import { User } from "@supabase/supabase-js";
+import { getURL } from "@/lib/actions";
 
 const FormSchema = z
   .object({
@@ -50,12 +51,7 @@ export default function RegisterForm({ user }: { user: User }) {
       email: data.email,
       password: data.password,
       options: {
-        emailRedirectTo:
-          `${
-            process.env.NODE_ENV === "production"
-              ? "https://taplo.io"
-              : "http://localhost:3000"
-          }` + "/dashboard/create-project",
+        emailRedirectTo: getURL() + "/dashboard/create-project",
       },
     });
     return JSON.stringify(result);
