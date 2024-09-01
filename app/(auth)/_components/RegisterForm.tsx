@@ -96,7 +96,7 @@ export default function RegisterForm({ user }: { user: User }) {
     return (
       <div className="flex flex-col items-center justify-center w-full max-w-md p-8 bg-white rounded-lg border border-gray-200 my-8 mb-16">
         <p className="font-logo text-center text-3xl mb-4">
-          Get started for free!
+          Activate my free trial!
         </p>
         <p className="">
           Already have an account?{" "}
@@ -179,7 +179,8 @@ export default function RegisterForm({ user }: { user: User }) {
         </Form>
         <OAuthForm />
         <p className="mt-6 text-sm">
-          By continuing, you agree to our{" "}
+          Your 14-day free trial will begin after activating your account. By
+          continuing, you agree to our{" "}
           <Link href={"/legal/terms-of-service"} target="_blank">
             <span className="link">Terms of Service</span>
           </Link>{" "}

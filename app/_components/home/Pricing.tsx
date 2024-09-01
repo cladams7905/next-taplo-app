@@ -4,6 +4,7 @@ import { ArrowRight, Check, Lock, X } from "lucide-react";
 import LaunchOfferBadge from "./LaunchOfferBadge";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { PaymentPlans } from "@/lib/enums";
 
 export default function Pricing() {
   const enum PricingType {
@@ -144,9 +145,9 @@ export default function Pricing() {
                   <p>Inline style</p>
                 </div>
               </div>
-              <Link href={"/signup"}>
+              <Link href={`/signup`}>
                 <div className="btn btn-lg btn-primary text-white max-w-fit">
-                  Start free trial
+                  Start my free trial
                   <ArrowRight />
                 </div>
               </Link>
@@ -263,9 +264,9 @@ export default function Pricing() {
                   <p>Inline style</p>
                 </div>
               </div>
-              <Link href={"/signup"}>
+              <Link href={`/signup`}>
                 <div className="btn btn-lg btn-primary text-white">
-                  Start free trial
+                  Start my free trial
                   <ArrowRight />
                 </div>
               </Link>

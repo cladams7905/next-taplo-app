@@ -56,6 +56,17 @@ export function convertDateTime(timestampz: string): string {
 }
 
 /**
+ * converts seconds to DateTime object.
+ * @param secs seconds
+ * @returns DateTime object
+ */
+export const toDateTime = (secs: number) => {
+  var t = new Date("1970-01-01T00:30:00Z"); // Unix epoch start.
+  t.setSeconds(secs);
+  return t;
+};
+
+/**
  * Appends an ellipsis to the end of a string when str exceeds maxLength
  * @param str the string
  * @param maxLength default 25 chars
