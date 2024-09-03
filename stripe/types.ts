@@ -207,37 +207,37 @@ export type Database = {
       };
       users: {
         Row: {
-          avatar_url: string | null;
-          billing_address: Json | null;
-          full_name: string | null;
-          id: string;
+          email: string | null;
+          id: number;
           payment_method: Json | null;
+          payment_status: string | null;
           referral_source: string | null;
           renewal_date: string | null;
+          user_id: string;
         };
         Insert: {
-          avatar_url?: string | null;
-          billing_address?: Json | null;
-          full_name?: string | null;
-          id: string;
+          email?: string | null;
+          id?: number;
           payment_method?: Json | null;
+          payment_status?: string | null;
           referral_source?: string | null;
           renewal_date?: string | null;
+          user_id: string;
         };
         Update: {
-          avatar_url?: string | null;
-          billing_address?: Json | null;
-          full_name?: string | null;
-          id?: string;
+          email?: string | null;
+          id?: number;
           payment_method?: Json | null;
+          payment_status?: string | null;
           referral_source?: string | null;
           renewal_date?: string | null;
+          user_id?: string;
         };
         Relationships: [
           {
-            foreignKeyName: "users_id_fkey";
-            columns: ["id"];
-            isOneToOne: true;
+            foreignKeyName: "users_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
             referencedRelation: "users";
             referencedColumns: ["id"];
           }

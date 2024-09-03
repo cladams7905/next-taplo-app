@@ -1,6 +1,4 @@
 import { getStripeUser } from "@/stripe/actions";
-import PaymentModal from "../_components/PaymentModal";
-import NewProjectForm from "./_components/NewProjectForm";
 import { createClient } from "@/supabase/server";
 import { redirect } from "next/navigation";
 import { stripe } from "@/stripe/server";

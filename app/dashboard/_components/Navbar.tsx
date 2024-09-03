@@ -58,7 +58,7 @@ export default function Navbar({
     <main className="flex flex-col items-center w-full font-sans z-30 lg:px-3 md:px-3 sm:px-3 px-1 transition-all border-b border-gray-300 dark:bg-base-100 shadow-md bg-white">
       <div className="navbar flex">
         <div className="navbar-start">
-          {activeProject && (
+          {activeProject && pathname !== "/dashboard/create-project" && (
             <div className="dropdown">
               <label
                 role="button"

@@ -59,7 +59,7 @@ export default function PaymentModal({
   );
 
   const [referralSource, setReferralSource] = useState(
-    stripeUser.referral_source || ""
+    stripeUser?.referral_source || ""
   );
 
   // Handle changes in the payment plan selection
@@ -75,7 +75,7 @@ export default function PaymentModal({
     startReferralTransition(async () => {
       const selectedValue = event.target.value;
       const { error } = await updateStripeUser({
-        id: user.id,
+        user_id: user.id,
         referral_source: selectedValue,
       });
       if (error) {
@@ -88,17 +88,19 @@ export default function PaymentModal({
 
   // Open payment modal if renewal date is not set
   useEffect(() => {
-    if (isCheckoutComplete) {
+    if (isCheckoutComplete && renewalDate) {
       paymentModalRef.current?.classList.remove("modal-open");
+
       const updateUser = async () => {
         const { data, error } = await updateStripeUser({
-          id: user.id,
+          user_id: user.id,
           renewal_date: renewalDate,
         });
         if (error) {
           showToastError(error);
         }
       };
+
       updateUser();
     } else {
       if (!renewalDate) paymentModalRef.current?.classList.add("modal-open");
@@ -192,6 +194,7 @@ export default function PaymentModal({
         <div className="flex flex-col items-center w-full max-h-[90vh] rounded-lg md:overflow-y-scroll">
           {" "}
           <CheckoutSession
+            user={user}
             priceId={checkoutPriceId}
             email={user?.email}
             setRenewalDate={setRenewalDate}

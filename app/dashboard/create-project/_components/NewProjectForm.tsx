@@ -21,9 +21,12 @@ import { TemplateTypes, ScreenAlignment } from "@/lib/enums";
 import { Tables } from "@/stripe/types";
 
 const FormSchema = z.object({
-  projectName: z.string().max(32, {
-    message: "Project name cannot exceed 32 characters.",
-  }),
+  projectName: z
+    .string()
+    .max(32, {
+      message: "Project name cannot exceed 32 characters.",
+    })
+    .min(3, { message: "Project name must be at least 3 characters." }),
 });
 
 export default function NewProjectForm({

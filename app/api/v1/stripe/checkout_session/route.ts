@@ -28,6 +28,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       id: session.id,
       clientSecret: session.client_secret,
+      email: session.customer_email,
+      payment_method: session.payment_method_types,
+      payment_status: session.payment_status,
     });
   } catch (error: any) {
     return Response.json({

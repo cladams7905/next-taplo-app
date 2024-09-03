@@ -182,7 +182,7 @@ const getStripeUser = async (userId: string) => {
   const result = await supabaseAdmin
     .from("users")
     .select("*")
-    .eq("id", userId)
+    .eq("user_id", userId)
     .single();
   return JSON.parse(JSON.stringify(result));
 };
@@ -190,8 +190,8 @@ const getStripeUser = async (userId: string) => {
 const updateStripeUser = async (user: TablesInsert<"users">) => {
   const result = await supabaseAdmin
     .from("users")
-    .upsert([user])
-    .eq("id", user.id)
+    .update(user)
+    .eq("user_id", user.user_id)
     .single();
   return JSON.parse(JSON.stringify(result));
 };
