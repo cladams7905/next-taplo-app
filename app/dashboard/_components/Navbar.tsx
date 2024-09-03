@@ -8,6 +8,7 @@ import ProjectDropdown from "./ProjectDropdown";
 import { Tables } from "@/supabase/types";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Navbar({
   user,
@@ -18,6 +19,7 @@ export default function Navbar({
   projects: Tables<"Projects">[];
   fetchedActiveProject: Tables<"Projects">;
 }) {
+  const pathname = usePathname();
   const [activeProject, setActiveProject] = useState<
     Tables<"Projects"> | undefined
   >(fetchedActiveProject);
@@ -98,7 +100,7 @@ export default function Navbar({
             setActiveProjectRef={setActiveProject}
           />
         </div>
-        {activeProject && (
+        {activeProject && pathname !== "/dashboard/create-project" && (
           <div className="navbar-center hidden lg:block md:block lg:-mt-0 md:-mt-[10px]">
             <Tablist activeProject={activeProject} />
           </div>
