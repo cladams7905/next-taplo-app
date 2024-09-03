@@ -1,5 +1,3 @@
-"use server";
-
 import { getStripeUser } from "@/stripe/actions";
 import PaymentModal from "../_components/PaymentModal";
 import NewProjectForm from "./_components/NewProjectForm";
@@ -8,6 +6,7 @@ import { redirect } from "next/navigation";
 import { stripe } from "@/stripe/server";
 import Stripe from "stripe";
 import { PaymentPlans } from "@/lib/enums";
+import NewProjectPage from "./_components/NewProjectPage";
 
 export default async function CreateProject() {
   const supabase = createClient();
@@ -26,7 +25,7 @@ export default async function CreateProject() {
   });
 
   /**
-   * A simplified object that only contains necessary fields
+   * A simplified stripe product that aggregates necessary fields
    */
   const productsWithPrice = products.data.map((product) => {
     return {
@@ -36,21 +35,12 @@ export default async function CreateProject() {
       price: product.default_price as Stripe.Price,
     };
   });
+
   return (
-    <>
-      <PaymentModal
-        stripeUser={stripeUser}
-        products={productsWithPrice}
-        user={data.user}
-      />
-      <div className="flex items-start justify-center w-full h-screen-minus-navbar bg-gradient-to-tr from-primary/50 to-violet-100 font-sans">
-        <div className="border mt-36 border-gray-300 z-[1] p-2 shadow-lg bg-base-100 rounded-md w-full max-w-lg">
-          <div className="flex flex-col items-center justify-center w-full pt-6">
-            <p className="font-logo text-2xl mb-4">Create New Project</p>
-            <NewProjectForm stripeUser={stripeUser} />
-          </div>
-        </div>
-      </div>
-    </>
+    <NewProjectPage
+      stripeUser={stripeUser}
+      user={data.user}
+      products={productsWithPrice}
+    />
   );
 }

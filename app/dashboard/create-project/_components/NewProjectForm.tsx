@@ -28,8 +28,10 @@ const FormSchema = z.object({
 
 export default function NewProjectForm({
   stripeUser,
+  renewalDate,
 }: {
   stripeUser: Tables<"users">;
+  renewalDate: string | null;
 }) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -88,7 +90,7 @@ export default function NewProjectForm({
           <div
             onClick={form.handleSubmit(onSubmit)}
             className={`w-full btn btn-primary text-white ${
-              !stripeUser?.renewal_date && "btn-disabled"
+              !renewalDate && "btn-disabled"
             }`}
             style={{ marginTop: "2.5rem" }}
           >

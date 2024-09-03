@@ -31,9 +31,5 @@ export default async function CheckoutPage({
     throw new Error("No price_id found.");
   }
 
-  return (
-    <main>
-      <CheckoutSession priceId={priceId} />
-    </main>
-  );
+  return <main>{/* <CheckoutSession priceId={priceId} /> */}</main>;
 }

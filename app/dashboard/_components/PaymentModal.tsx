@@ -10,7 +10,15 @@ import { Tables } from "@/stripe/types";
 import { User } from "@supabase/supabase-js";
 import { Lock } from "lucide-react";
 import Image from "next/image";
-import { ChangeEvent, useEffect, useRef, useState, useTransition } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+  useTransition,
+} from "react";
 import Logo from "@/public/images/Taplo-logo (2).svg";
 import Stripe from "stripe";
 import { PaymentPlans } from "@/lib/enums";
@@ -21,6 +29,8 @@ export default function PaymentModal({
   stripeUser,
   user,
   products,
+  renewalDate,
+  setRenewalDate,
 }: {
   stripeUser: Tables<"users">;
   user: User;
@@ -30,33 +40,20 @@ export default function PaymentModal({
     payment_plan: PaymentPlans;
     price: Stripe.Price;
   }[];
+  renewalDate: string | null;
+  setRenewalDate: Dispatch<SetStateAction<string | null>>;
 }) {
   const paymentModalRef = useRef<HTMLDialogElement>(null);
   const [isReferralLoading, startReferralTransition] = useTransition();
   const [isPaymentLoading, startPaymentTransition] = useTransition();
-  /**
-   * The date when billing should begin. If null, then payment modal opens.
-   */
-  const [renewalDate, setRenewalDate] = useState<string | null>(
-    stripeUser?.renewal_date
-  );
 
-  /**
-   * Calculates a datetime two weeks from now to initiate the billing cycle.
-   */
-  const proposedBillingDate = convertDateTime(
+  const [isCheckoutComplete, setCheckoutComplete] = useState(false);
+  const formattedBillingDate = convertDateTime(
     toDateTime(calculateBillingCycle()).toUTCString()
   );
-
-  /**
-   * The selected payment plan (ids mapped to PaymentPlans enum).
-   */
   const [paymentPlan, setPaymentPlan] = useState<string | null>(
     products[2]?.payment_plan || null
   );
-  /**
-   * The selected stripe price_id that will be passed to the checkout session.
-   */
   const [checkoutPriceId, setCheckoutPriceId] = useState<string>(
     products[2].price.id || ""
   );
@@ -89,12 +86,24 @@ export default function PaymentModal({
     });
   };
 
-  // Open modal if renewal date is not set
+  // Open payment modal if renewal date is not set
   useEffect(() => {
-    if (!renewalDate) {
-      paymentModalRef.current?.classList.add("modal-open");
+    if (isCheckoutComplete) {
+      paymentModalRef.current?.classList.remove("modal-open");
+      const updateUser = async () => {
+        const { data, error } = await updateStripeUser({
+          id: user.id,
+          renewal_date: renewalDate,
+        });
+        if (error) {
+          showToastError(error);
+        }
+      };
+      updateUser();
+    } else {
+      if (!renewalDate) paymentModalRef.current?.classList.add("modal-open");
     }
-  }, [renewalDate]);
+  }, [renewalDate, isCheckoutComplete]);
 
   // Update the checkoutPriceId based on the selected payment plan
   useEffect(() => {
@@ -122,7 +131,7 @@ export default function PaymentModal({
           </p>
           <p className="text-sm">
             No payment will be processed until{" "}
-            <span className="font-bold">{proposedBillingDate}</span>. If you
+            <span className="font-bold">{formattedBillingDate}</span>. If you
             decide you want to cancel or change your subscription, you may do so
             from your Account page.
           </p>
@@ -185,6 +194,8 @@ export default function PaymentModal({
           <CheckoutSession
             priceId={checkoutPriceId}
             email={user?.email}
+            setRenewalDate={setRenewalDate}
+            setCheckoutComplete={setCheckoutComplete}
             startTransition={startPaymentTransition}
           />
         </div>

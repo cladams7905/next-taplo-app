@@ -16,7 +16,8 @@ export async function POST(request: NextRequest) {
       ],
       mode: "subscription",
       customer_email: email,
-      return_url: `${getURL()}/return?session_id={CHECKOUT_SESSION_ID}`,
+      return_url: `${getURL()}/dashboard/create-project/`,
+      redirect_on_completion: "if_required",
       subscription_data: {
         billing_cycle_anchor: billing_cycle,
         proration_behavior: "none",
@@ -25,6 +26,7 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json({
+      id: session.id,
       clientSecret: session.client_secret,
     });
   } catch (error: any) {
