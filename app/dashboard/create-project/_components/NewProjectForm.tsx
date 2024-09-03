@@ -18,6 +18,7 @@ import { createProject } from "@/lib/actions/projects";
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { useRouter } from "next/navigation";
 import { TemplateTypes, ScreenAlignment } from "@/lib/enums";
+import { Tables } from "@/stripe/types";
 
 const FormSchema = z.object({
   projectName: z.string().max(32, {
@@ -25,7 +26,11 @@ const FormSchema = z.object({
   }),
 });
 
-export default function NewProjectForm() {
+export default function NewProjectForm({
+  stripeUser,
+}: {
+  stripeUser: Tables<"users">;
+}) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
@@ -82,7 +87,9 @@ export default function NewProjectForm() {
           />
           <div
             onClick={form.handleSubmit(onSubmit)}
-            className="w-full btn btn-primary text-white"
+            className={`w-full btn btn-primary text-white ${
+              !stripeUser?.renewal_date && "btn-disabled"
+            }`}
             style={{ marginTop: "2.5rem" }}
           >
             {isPending ? (

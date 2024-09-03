@@ -3,7 +3,7 @@
 import { toDateTime } from "@/lib/actions";
 import { createClient } from "@supabase/supabase-js";
 import Stripe from "stripe";
-import { Database, Tables } from "./types";
+import { Database, Tables, TablesInsert } from "./types";
 import { stripe } from "./server";
 
 // Note: supabaseAdmin uses the SERVICE_ROLE_KEY which you must only use in a secure server-side context
@@ -178,9 +178,29 @@ const manageSubscriptionStatusChange = async (
     );
 };
 
+const getStripeUser = async (userId: string) => {
+  const result = await supabaseAdmin
+    .from("users")
+    .select("*")
+    .eq("id", userId)
+    .single();
+  return JSON.parse(JSON.stringify(result));
+};
+
+const updateStripeUser = async (user: TablesInsert<"users">) => {
+  const result = await supabaseAdmin
+    .from("users")
+    .upsert([user])
+    .eq("id", user.id)
+    .single();
+  return JSON.parse(JSON.stringify(result));
+};
+
 export {
   upsertProductRecord,
   upsertPriceRecord,
   createOrRetrieveCustomer,
   manageSubscriptionStatusChange,
+  getStripeUser,
+  updateStripeUser,
 };

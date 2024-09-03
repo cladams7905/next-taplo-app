@@ -67,6 +67,16 @@ export const toDateTime = (secs: number) => {
 };
 
 /**
+ * Calculates date two weeks from now for billing cycle.
+ * @returns date two weeks from now (in seconds)
+ */
+export const calculateBillingCycle = () => {
+  const now = Math.floor(Date.now() / 1000); // Get the current time in seconds since Unix epoch
+  const twoWeeksInSeconds = 2 * 7 * 24 * 60 * 60; // Two weeks in seconds
+  return now + twoWeeksInSeconds;
+};
+
+/**
  * Appends an ellipsis to the end of a string when str exceeds maxLength
  * @param str the string
  * @param maxLength default 25 chars

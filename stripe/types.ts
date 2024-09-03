@@ -212,6 +212,8 @@ export type Database = {
           full_name: string | null;
           id: string;
           payment_method: Json | null;
+          referral_source: string | null;
+          renewal_date: string | null;
         };
         Insert: {
           avatar_url?: string | null;
@@ -219,6 +221,8 @@ export type Database = {
           full_name?: string | null;
           id: string;
           payment_method?: Json | null;
+          referral_source?: string | null;
+          renewal_date?: string | null;
         };
         Update: {
           avatar_url?: string | null;
@@ -226,6 +230,8 @@ export type Database = {
           full_name?: string | null;
           id?: string;
           payment_method?: Json | null;
+          referral_source?: string | null;
+          renewal_date?: string | null;
         };
         Relationships: [
           {

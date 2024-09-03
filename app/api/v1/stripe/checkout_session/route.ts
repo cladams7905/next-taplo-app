@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
-    const { price_id } = await request.json();
+    const { price_id, email, billing_cycle } = await request.json();
 
     const session = await stripe.checkout.sessions.create({
       ui_mode: "embedded",
@@ -15,7 +15,12 @@ export async function POST(request: NextRequest) {
         },
       ],
       mode: "subscription",
+      customer_email: email,
       return_url: `${getURL()}/return?session_id={CHECKOUT_SESSION_ID}`,
+      subscription_data: {
+        billing_cycle_anchor: billing_cycle,
+        proration_behavior: "none",
+      },
       automatic_tax: { enabled: true },
     });
 

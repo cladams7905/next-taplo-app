@@ -7,7 +7,6 @@ import Tablist from "./NavbarTablist";
 import ProjectDropdown from "./ProjectDropdown";
 import { Tables } from "@/supabase/types";
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 export default function Navbar({
@@ -19,8 +18,6 @@ export default function Navbar({
   projects: Tables<"Projects">[];
   fetchedActiveProject: Tables<"Projects">;
 }) {
-  const pathname = usePathname();
-  const [isHiddenTabList, setIsHiddenTabList] = useState(false);
   const [activeProject, setActiveProject] = useState<
     Tables<"Projects"> | undefined
   >(fetchedActiveProject);
@@ -55,19 +52,11 @@ export default function Navbar({
     ];
   };
 
-  useEffect(() => {
-    /* This check is used for toggling the navbar tablist. 
-    On the create project page, the tablist should not show. */
-    if (typeof window !== "undefined") {
-      setIsHiddenTabList(pathname === "/dashboard/create-project");
-    }
-  }, [pathname]);
-
   return (
     <main className="flex flex-col items-center w-full font-sans z-30 lg:px-3 md:px-3 sm:px-3 px-1 transition-all border-b border-gray-300 dark:bg-base-100 shadow-md bg-white">
       <div className="navbar flex">
         <div className="navbar-start">
-          {fetchedActiveProject && (
+          {activeProject && (
             <div className="dropdown">
               <label
                 role="button"
@@ -80,9 +69,7 @@ export default function Navbar({
                 tabIndex={0}
                 className="dropdown-content border mt-2 border-gray-300 dark:border-gray-600 z-[10] p-2 shadow-lg bg-base-100 rounded-md w-[180px]"
               >
-                <Link
-                  href={`/dashboard/project/${fetchedActiveProject?.id}/create`}
-                >
+                <Link href={`/dashboard/project/${activeProject?.id}/create`}>
                   <button className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-link-hover">
                     <p className="text-sm">Create</p>
                   </button>
@@ -111,7 +98,7 @@ export default function Navbar({
             setActiveProjectRef={setActiveProject}
           />
         </div>
-        {!isHiddenTabList && (
+        {activeProject && (
           <div className="navbar-center hidden lg:block md:block lg:-mt-0 md:-mt-[10px]">
             <Tablist activeProject={activeProject} />
           </div>
