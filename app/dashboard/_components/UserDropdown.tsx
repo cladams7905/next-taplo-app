@@ -45,7 +45,7 @@ export default function UserDropdown(data: { user: User }) {
               />
             </div>
           ) : (
-            <div className="rounded-full items-center flex p-1 bg-primary/20 mr-2">
+            <div className="rounded-full items-center flex">
               <CircleUserRound
                 height={26}
                 width={26}

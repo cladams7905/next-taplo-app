@@ -88,20 +88,8 @@ export default function PaymentModal({
 
   // Open payment modal if renewal date is not set
   useEffect(() => {
-    if (isCheckoutComplete && renewalDate) {
+    if (isCheckoutComplete) {
       paymentModalRef.current?.classList.remove("modal-open");
-
-      const updateUser = async () => {
-        const { data, error } = await updateStripeUser({
-          user_id: user.id,
-          renewal_date: renewalDate,
-        });
-        if (error) {
-          showToastError(error);
-        }
-      };
-
-      updateUser();
     } else {
       if (!renewalDate) paymentModalRef.current?.classList.add("modal-open");
     }

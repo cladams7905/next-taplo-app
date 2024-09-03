@@ -50,12 +50,20 @@ export default function CheckoutSession({
             }),
           });
           const data = await res.json();
-          updateUser({
+
+          //send client secret initiate checkout session
+          resolve(data.clientSecret);
+
+          //update stripe user details
+          const { error } = await updateStripeUser({
+            user_id: user.id,
             email: data.email,
             payment_method: data.payment_method,
             payment_status: data.payment_status,
           });
-          resolve(data.clientSecret);
+          if (error) {
+            showToastError(error);
+          }
         } catch (error) {
           reject(error);
         }
@@ -63,36 +71,26 @@ export default function CheckoutSession({
     });
   }, [priceId, email, startTransition]);
 
-  const updateUser = async ({
-    email,
-    payment_method,
-    payment_status,
-  }: {
-    email: string;
-    payment_method: Json;
-    payment_status: string;
-  }) => {
+  const onComplete = useCallback(async () => {
+    setRenewalDate(renewalDate);
+    setCheckoutComplete(true);
+
+    //update renewal date on completion of checkout session.
     const { error } = await updateStripeUser({
       user_id: user.id,
-      email: email,
-      payment_method: payment_method,
-      payment_status: payment_status,
+      renewal_date: renewalDate,
     });
     if (error) {
       showToastError(error);
-    }
-  };
-
-  const onComplete = () => {
-    setRenewalDate(renewalDate);
-    setCheckoutComplete(true);
-    showToast(
-      `All set! Your free trial will end on ${convertDateTime(
-        renewalDate
-      )}. If you want to 
+    } else {
+      showToast(
+        `All set! Your free trial will end on ${convertDateTime(
+          renewalDate
+        )}. If you want to 
         change your subscription preferences, you may do so from your "Account" page.`
-    );
-  };
+      );
+    }
+  }, [setRenewalDate, setCheckoutComplete]);
 
   const options = {
     fetchClientSecret,
