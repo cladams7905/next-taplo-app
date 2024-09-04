@@ -12,9 +12,8 @@ import {
   toDateTime,
 } from "@/lib/actions";
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
-import { updateStripeUser } from "@/stripe/actions";
+import { createOrRetrieveCustomer, updateStripeUser } from "@/stripe/actions";
 import { User } from "@supabase/supabase-js";
-import { Json } from "@/supabase/types";
 
 const stripe = getStripe();
 
@@ -34,7 +33,11 @@ export default function CheckoutSession({
   startTransition: (callback: () => void) => void;
 }) {
   const renewalDate = toDateTime(calculateBillingCycle()).toUTCString();
-  const fetchClientSecret = useCallback(() => {
+  const fetchClientSecret = useCallback(async () => {
+    const customerId = await createOrRetrieveCustomer({
+      email: email,
+      uuid: user.id,
+    });
     return new Promise<string>((resolve, reject) => {
       startTransition(async () => {
         try {
@@ -45,7 +48,8 @@ export default function CheckoutSession({
             },
             body: JSON.stringify({
               price_id: priceId,
-              email: email,
+              customer: customerId ? customerId : undefined,
+              email: !customerId ? email : undefined,
               billing_cycle: calculateBillingCycle(),
             }),
           });
@@ -57,7 +61,7 @@ export default function CheckoutSession({
           //update stripe user details
           const { error } = await updateStripeUser({
             user_id: user.id,
-            email: data.email,
+            email: email,
             payment_method: data.payment_method,
             payment_status: data.payment_status,
           });

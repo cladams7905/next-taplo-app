@@ -55,7 +55,7 @@ const createOrRetrieveCustomer = async ({
   email,
   uuid,
 }: {
-  email: string;
+  email: string | undefined;
   uuid: string;
 }) => {
   const { data, error } = await supabaseAdmin
@@ -63,7 +63,9 @@ const createOrRetrieveCustomer = async ({
     .select("stripe_customer_id")
     .eq("id", uuid)
     .single();
+
   if (error || !data?.stripe_customer_id) {
+    console.log("here");
     // No customer record found, let's create one.
     const customerData: { metadata: { supabaseUUID: string }; email?: string } =
       {
@@ -112,13 +114,19 @@ const manageSubscriptionStatusChange = async (
   customerId: string,
   createAction = false
 ) => {
+  console.log(subscriptionId, customerId);
   // Get customer's UUID from mapping table.
   const { data: customerData, error: noCustomerError } = await supabaseAdmin
     .from("customers")
     .select("id")
     .eq("stripe_customer_id", customerId)
     .single();
-  if (noCustomerError) throw noCustomerError;
+  if (noCustomerError) {
+    console.log(noCustomerError);
+    throw noCustomerError;
+  }
+
+  console.log(customerData);
 
   const { id: uuid } = customerData!;
 

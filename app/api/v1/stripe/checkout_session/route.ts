@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
-    const { price_id, email, billing_cycle } = await request.json();
+    const { price_id, email, billing_cycle, customer } = await request.json();
 
     const session = await stripe.checkout.sessions.create({
       ui_mode: "embedded",
@@ -15,7 +15,9 @@ export async function POST(request: NextRequest) {
         },
       ],
       mode: "subscription",
-      customer_email: email,
+      customer: email ? undefined : customer,
+      customer_email: email || undefined,
+      customer_update: { address: "auto" },
       return_url: `${getURL()}/dashboard/create-project/`,
       redirect_on_completion: "if_required",
       subscription_data: {
@@ -33,6 +35,7 @@ export async function POST(request: NextRequest) {
       payment_status: session.payment_status,
     });
   } catch (error: any) {
+    console.log(error?.message);
     return Response.json({
       error: `Create Checkout Session Error: ${error?.message}`,
       status: 500,
