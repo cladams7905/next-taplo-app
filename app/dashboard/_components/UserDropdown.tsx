@@ -25,6 +25,7 @@ export default function UserDropdown({ user }: { user: User }) {
     startTransition(async () => {
       const { error } = JSON.parse(await signOut());
       if (error) {
+        console.log(error);
         showToastError(error);
       } else {
         redirect("/");
@@ -39,7 +40,10 @@ export default function UserDropdown({ user }: { user: User }) {
         const { data: subscriptionData, error: subscriptionError } =
           await getSubscription(user.id);
         if (subscriptionError) {
-          showToastError(subscriptionError);
+          console.log(subscriptionError);
+          if (subscriptionError.code !== "PGRST116")
+            //If returns 0 rows, its because the user hasn't signed up for a free trial yet
+            showToastError(subscriptionError);
           return;
         }
 
@@ -48,6 +52,7 @@ export default function UserDropdown({ user }: { user: User }) {
           subscriptionData.product_id
         );
         if (productError) {
+          console.log(productError);
           showToastError(productError);
           return;
         }
@@ -71,7 +76,7 @@ export default function UserDropdown({ user }: { user: User }) {
         }
         setAccountPlan(newAccountPlan);
       } catch (error) {
-        console.error("An unexpected error occurred:", error);
+        console.log("An unexpected error occurred:", error);
         showToastError(error);
       }
     };
@@ -112,9 +117,11 @@ export default function UserDropdown({ user }: { user: User }) {
                 <p className="truncate text-sm font-medium text-gray-900">
                   {name ? name : username}
                 </p>
-                <div className="badge badge-primary badge-sm text-white">
-                  {accountPlan ?? accountPlan}
-                </div>
+                {accountPlan && (
+                  <div className="badge badge-primary badge-sm text-white">
+                    {accountPlan}
+                  </div>
+                )}
               </div>
               <p className="truncate text-sm text-gray-400">{email}</p>
             </>

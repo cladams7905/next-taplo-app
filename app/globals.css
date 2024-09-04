@@ -16,7 +16,7 @@ html {
 }
 
 html {
-  @apply selection:!bg-primary/35
+  @apply selection:!bg-primary/35 !bg-gradient-to-tr !from-primary/50 !to-violet-100
 } 
 
 html,

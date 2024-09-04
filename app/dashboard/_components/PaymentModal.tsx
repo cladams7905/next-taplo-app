@@ -79,6 +79,7 @@ export default function PaymentModal({
         referral_source: selectedValue,
       });
       if (error) {
+        console.log(error);
         showToastError(error);
       } else {
         setReferralSource(selectedValue);

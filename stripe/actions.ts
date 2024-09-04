@@ -65,7 +65,6 @@ const createOrRetrieveCustomer = async ({
     .single();
 
   if (error || !data?.stripe_customer_id) {
-    console.log("here");
     // No customer record found, let's create one.
     const customerData: { metadata: { supabaseUUID: string }; email?: string } =
       {

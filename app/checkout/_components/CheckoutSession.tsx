@@ -66,6 +66,7 @@ export default function CheckoutSession({
             payment_status: data.payment_status,
           });
           if (error) {
+            console.log(error);
             showToastError(error);
           }
         } catch (error) {
@@ -85,11 +86,12 @@ export default function CheckoutSession({
       renewal_date: renewalDate,
     });
     if (error) {
+      console.log(error);
       showToastError(error);
     } else {
       showToast(
-        `All set! Your free trial will end on ${(
-          <span className="font-bold">{convertDateTime(renewalDate)}</span>
+        `All set! Your free trial will end on ${convertDateTime(
+          renewalDate
         )}. If you want to 
         change your subscription preferences, you may do so from your "Account" page.`
       );

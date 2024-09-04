@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/supabase/server";
+import { CreditCard, Pencil, Settings, UserRoundCog } from "lucide-react";
 
 export default async function AccountPage() {
   const supabase = createClient();
@@ -9,18 +10,8 @@ export default async function AccountPage() {
     redirect("/");
   }
   return (
-    <div className="flex items-start justify-center w-full">
-      <div className="flex flex-col w-1/4 h-full border border-gray-300 bg-base-100 rounded-md rounded-r-none border-r-transparent">
-        <ul className="menu">
-          <li>
-            <a>Settings</a>
-          </li>
-          <li>
-            <a>Billing</a>
-          </li>
-        </ul>
-      </div>
-      <div className="flex flex-col w-3/4 h-full border border-gray-300 bg-base-100 rounded-md rounded-l-none"></div>
+    <div className="flex items-center justify-center w-full pt-6 h-full">
+      <div className="lg:max-w-[70vw] w-full h-full flex bg-white rounded-lg border border-gray-300"></div>
     </div>
   );
 }

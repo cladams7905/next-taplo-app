@@ -8,7 +8,7 @@ import ProgressBarProvider from "@/app/_components/shared/progressbar";
 
 const openSans = Noto_Sans({
   variable: "--font-openSans",
-  weight: ["300", "400"],
+  weight: ["300", "400", "500"],
   subsets: ["latin"],
 });
 const changaOne = Gayathri({

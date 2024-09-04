@@ -50,6 +50,7 @@ export default function ProjectDropdown({
             project.id.toString()
           );
           if (error) {
+            console.log(error);
             showToastError(error);
           } else {
             setActiveProjectRef(project);
