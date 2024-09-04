@@ -21,8 +21,6 @@ export default function UserDropdown({ user }: { user: User }) {
     "Free trial" | "Starter" | "Pro" | null
   >(null);
 
-  if (!email) return null;
-
   async function handleSignOut() {
     startTransition(async () => {
       const { error } = JSON.parse(await signOut());
@@ -77,8 +75,6 @@ export default function UserDropdown({ user }: { user: User }) {
         showToastError(error);
       }
     };
-    console.log();
-
     fetchSubscription();
   }, [user.id]);
 

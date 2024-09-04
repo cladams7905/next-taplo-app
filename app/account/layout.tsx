@@ -27,7 +27,7 @@ export default async function AccountLayout({
         projects={projects}
         fetchedActiveProject={activeProject}
       />
-      <div className="flex flex-col h-screen-minus-navbar bg-gray-100 dark:bg-base-100 lg:px-12 px-8 relative">
+      <div className="flex flex-col h-screen-minus-navbar bg-gradient-to-tr from-primary/50 to-violet-100 font-sans dark:bg-base-100 lg:px-12 px-8 relative">
         {children}
         <Footer />
       </div>

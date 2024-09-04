@@ -73,7 +73,7 @@ export default function CheckoutSession({
         }
       });
     });
-  }, [priceId, email, startTransition]);
+  }, [priceId, email, startTransition, user.id]);
 
   const onComplete = useCallback(async () => {
     setRenewalDate(renewalDate);
@@ -88,13 +88,13 @@ export default function CheckoutSession({
       showToastError(error);
     } else {
       showToast(
-        `All set! Your free trial will end on ${convertDateTime(
-          renewalDate
+        `All set! Your free trial will end on ${(
+          <span className="font-bold">{convertDateTime(renewalDate)}</span>
         )}. If you want to 
         change your subscription preferences, you may do so from your "Account" page.`
       );
     }
-  }, [setRenewalDate, setCheckoutComplete]);
+  }, [setRenewalDate, setCheckoutComplete, renewalDate, user.id]);
 
   const options = {
     fetchClientSecret,
