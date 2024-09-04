@@ -1,6 +1,6 @@
 "use server";
 
-import { toDateTime } from "@/lib/actions";
+import { calculateBillingCycle, toDateTime } from "@/lib/actions";
 import { createClient } from "@supabase/supabase-js";
 import Stripe from "stripe";
 import { Database, Tables, TablesInsert } from "./types";
@@ -114,7 +114,6 @@ const manageSubscriptionStatusChange = async (
   customerId: string,
   createAction = false
 ) => {
-  console.log(subscriptionId, customerId);
   // Get customer's UUID from mapping table.
   const { data: customerData, error: noCustomerError } = await supabaseAdmin
     .from("customers")
@@ -122,16 +121,13 @@ const manageSubscriptionStatusChange = async (
     .eq("stripe_customer_id", customerId)
     .single();
   if (noCustomerError) {
-    console.log(noCustomerError);
     throw noCustomerError;
   }
-
-  console.log(customerData);
 
   const { id: uuid } = customerData!;
 
   const subscription = await stripe.subscriptions.retrieve(subscriptionId, {
-    expand: ["default_payment_method"],
+    expand: ["default_payment_method", "items"],
   });
   // Upsert the latest status of the subscription object.
   const subscriptionData: Tables<"subscriptions"> = {
@@ -140,6 +136,7 @@ const manageSubscriptionStatusChange = async (
     metadata: subscription.metadata,
     status: subscription.status,
     price_id: subscription.items.data[0].price.id,
+    product_id: (subscription.items.data[0].price.product as string) || null,
     //TODO check quantity on subscription
     // @ts-ignore
     quantity: subscription.quantity,
@@ -162,10 +159,10 @@ const manageSubscriptionStatusChange = async (
       : null,
     trial_start: subscription.trial_start
       ? toDateTime(subscription.trial_start).toISOString()
-      : null,
+      : toDateTime(Math.floor(Date.now() / 1000)).toISOString(),
     trial_end: subscription.trial_end
       ? toDateTime(subscription.trial_end).toISOString()
-      : null,
+      : toDateTime(calculateBillingCycle()).toISOString(),
   };
 
   const { error } = await supabaseAdmin
@@ -204,6 +201,24 @@ const updateStripeUser = async (user: TablesInsert<"users">) => {
   return JSON.parse(JSON.stringify(result));
 };
 
+const getSubscription = async (userId: string) => {
+  const result = await supabaseAdmin
+    .from("subscriptions")
+    .select("*")
+    .eq("user_id", userId)
+    .single();
+  return JSON.parse(JSON.stringify(result));
+};
+
+const getProduct = async (productId: string) => {
+  const result = await supabaseAdmin
+    .from("products")
+    .select("*")
+    .eq("id", productId)
+    .single();
+  return JSON.parse(JSON.stringify(result));
+};
+
 export {
   upsertProductRecord,
   upsertPriceRecord,
@@ -211,4 +226,6 @@ export {
   manageSubscriptionStatusChange,
   getStripeUser,
   updateStripeUser,
+  getSubscription,
+  getProduct,
 };

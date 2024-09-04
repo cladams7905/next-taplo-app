@@ -121,6 +121,7 @@ export type Database = {
           id: string;
           metadata: Json | null;
           price_id: string | null;
+          product_id: string | null;
           quantity: number | null;
           status:
             | "trialing"
@@ -147,6 +148,7 @@ export type Database = {
           id: string;
           metadata?: Json | null;
           price_id?: string | null;
+          product_id?: string | null;
           quantity?: number | null;
           status?:
             | "trialing"
@@ -173,6 +175,7 @@ export type Database = {
           id?: string;
           metadata?: Json | null;
           price_id?: string | null;
+          product_id?: string | null;
           quantity?: number | null;
           status?:
             | "trialing"
@@ -194,6 +197,13 @@ export type Database = {
             columns: ["price_id"];
             isOneToOne: false;
             referencedRelation: "prices";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "subscriptions_product_id_fkey";
+            columns: ["product_id"];
+            isOneToOne: false;
+            referencedRelation: "products";
             referencedColumns: ["id"];
           },
           {
