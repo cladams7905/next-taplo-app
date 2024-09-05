@@ -57,7 +57,7 @@ export default function Navbar({
   return (
     <main className="flex flex-col items-center w-full font-sans z-30 lg:px-3 md:px-3 sm:px-3 px-1 transition-all border-b border-gray-300 dark:bg-base-100 shadow-md bg-white">
       <div className="navbar flex">
-        <div className="navbar-start">
+        <div className="navbar-start md:w-1/2 w-full">
           {activeProject && pathname !== "/dashboard/create-project" && (
             <div className="dropdown">
               <label
@@ -105,7 +105,7 @@ export default function Navbar({
             <Tablist activeProject={activeProject} />
           </div>
         )}
-        <div className="navbar-end">
+        <div className="navbar-end md:w-1/2 w-fit">
           <UserDropdown user={user} />
         </div>
       </div>

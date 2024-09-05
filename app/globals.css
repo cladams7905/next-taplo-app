@@ -16,7 +16,7 @@ html {
 }
 
 html {
-  @apply selection:!bg-primary/35 !bg-gradient-to-tr !from-primary/50 !to-violet-100
+  @apply selection:!bg-primary/35
 } 
 
 html,
@@ -41,6 +41,13 @@ li > a:hover:not(.tab) {
 
 :root {
   --tab-border-color: oklch(var(--bc))
+}
+
+@layer utilities {
+  .checkbox-primary {
+    --chkfg: var(--your-custom-color, #ffffff);
+    /* Replace with the desired color or variable */
+  }
 }
 
 .btn-ghost:hover {

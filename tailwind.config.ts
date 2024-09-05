@@ -56,6 +56,7 @@ const config: Config = {
         "accent-tab": "#ffffff",
         "link-hover": "var(--fallback-p,oklch(var(--p)/0.20))",
         "purchase-event": "#3eb981",
+        chkfg: "#ffffff",
       },
       keyframes: {
         slideInLeft: {

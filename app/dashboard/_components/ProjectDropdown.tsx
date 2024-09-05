@@ -67,16 +67,16 @@ export default function ProjectDropdown({
 
   return (
     <div className="flex flex-wrap items-center">
-      <ul className="menu menu-horizontal">
-        <div className="dropdown">
+      <ul className="menu menu-horizontal w-fit">
+        <div className="dropdown min-w-fit">
           <li
-            className="text-sm text-base-content font-semibold mr-1"
+            className="text-sm text-base-content font-semibold mr-1 w-fit"
             tabIndex={1}
             onClick={() => {
               toggleElement?.current?.classList.remove("hidden");
             }}
           >
-            <a>
+            <a className="w-fit pl-2 pr-0">
               {" "}
               {activeProject?.name ? activeProject.name : "Select Project"}{" "}
               <ChevronsUpDown
