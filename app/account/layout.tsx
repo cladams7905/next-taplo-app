@@ -1,6 +1,5 @@
 import React from "react";
 import Navbar from "../dashboard/_components/Navbar";
-import Footer from "../dashboard/_components/Footer";
 import { redirect } from "next/navigation";
 import { createClient } from "@/supabase/server";
 import { getActiveProject, getProjects } from "@/lib/actions/projects";
@@ -29,7 +28,6 @@ export default async function AccountLayout({
       />
       <div className="flex flex-col h-screen-minus-navbar bg-gradient-to-tr from-primary/50 to-violet-100 font-sans dark:bg-base-100 lg:px-12 px-8 relative">
         {children}
-        <Footer />
       </div>
     </main>
   );

@@ -218,6 +218,15 @@ const getProduct = async (productId: string) => {
   return JSON.parse(JSON.stringify(result));
 };
 
+const getPrice = async (productId: string) => {
+  const result = await supabaseAdmin
+    .from("prices")
+    .select("*")
+    .eq("product_id", productId)
+    .single();
+  return JSON.parse(JSON.stringify(result));
+};
+
 export {
   upsertProductRecord,
   upsertPriceRecord,
@@ -227,4 +236,5 @@ export {
   updateStripeUser,
   getSubscription,
   getProduct,
+  getPrice,
 };

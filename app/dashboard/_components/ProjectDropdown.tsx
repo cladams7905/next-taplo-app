@@ -76,7 +76,7 @@ export default function ProjectDropdown({
               toggleElement?.current?.classList.remove("hidden");
             }}
           >
-            <a className="w-fit pl-2 pr-0">
+            <a className="w-fit px-2">
               {" "}
               {activeProject?.name ? activeProject.name : "Select Project"}{" "}
               <ChevronsUpDown

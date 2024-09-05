@@ -4,6 +4,7 @@ import CheckoutSession from "@/app/checkout/_components/CheckoutSession";
 import {
   calculateBillingCycle,
   convertDateTime,
+  formatCentsToDollars,
   toDateTime,
 } from "@/lib/actions";
 import { Tables } from "@/stripe/types";
@@ -194,12 +195,4 @@ export default function PaymentModal({
       </div>
     </dialog>
   );
-}
-
-function formatCentsToDollars(cents: number | null) {
-  if (cents !== null) {
-    const dollars = (cents / 100).toFixed(2);
-    return `$${dollars}`;
-  }
-  return "";
 }

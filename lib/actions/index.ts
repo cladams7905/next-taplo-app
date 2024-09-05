@@ -22,23 +22,28 @@ export const getURL = () => {
  * @param timestampz timestampz
  * @returns time
  */
-export function convertDateTime(timestampz: string): string {
+export function convertDateTime(
+  timestampz: string,
+  includeYear: boolean = false
+): string {
   const currentDate = new Date();
-  currentDate.setHours(24, 0, 0, 0); //Set current date to midnight
+  currentDate.setHours(24, 0, 0, 0); // Set current date to midnight
   const inputDate = new Date(timestampz);
   const diffTime = Math.abs(currentDate.getTime() - inputDate.getTime());
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
 
   const day = inputDate.getDate().toString().padStart(2, "0");
   const month = (inputDate.getMonth() + 1).toString().padStart(2, "0");
+  const year = inputDate.getFullYear().toString().slice(-2); // Get the last two digits of year
+
   let isPM = false;
   let hours = inputDate.getHours();
   if (hours >= 12) {
-    if (hours != 12) {
+    if (hours !== 12) {
       hours -= 12;
     }
     isPM = true;
-  } else if (hours == 0) {
+  } else if (hours === 0) {
     hours = 12;
   }
   hours.toString().padStart(2, "0");
@@ -51,7 +56,7 @@ export function convertDateTime(timestampz: string): string {
   } else if (diffDays === 1) {
     return `Yesterday ${time}`;
   } else {
-    return `${month}/${day} ${time}`;
+    return `${month}/${day}${includeYear ? `/${year}` : ""} ${time}`;
   }
 }
 
@@ -77,6 +82,19 @@ export const calculateBillingCycle = () => {
 };
 
 /**
+ * Formats cents to dollars.
+ * @param cents value in cents
+ * @returns $0.00 format
+ */
+export function formatCentsToDollars(cents: number | null) {
+  if (cents !== null) {
+    const dollars = (cents / 100).toFixed(2);
+    return `$${dollars}`;
+  }
+  return "";
+}
+
+/**
  * Appends an ellipsis to the end of a string when str exceeds maxLength
  * @param str the string
  * @param maxLength default 25 chars
@@ -93,6 +111,15 @@ export function checkStringLength(str: string | null, maxLength?: number) {
   }
 
   return modifiedStr;
+}
+
+/**
+ * Capitalizes first letter of string.
+ * @param string the string
+ * @returns the updated string.
+ */
+export function capitalizeFirstLetter(string: string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 /**

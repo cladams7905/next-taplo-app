@@ -48,6 +48,9 @@ li > a:hover:not(.tab) {
     --chkfg: var(--your-custom-color, #ffffff);
     /* Replace with the desired color or variable */
   }
+    [type="checkbox"]:not(:checked){
+      background-color: #e5e7eb !important;
+    }
 }
 
 .btn-ghost:hover {
