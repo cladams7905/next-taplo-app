@@ -118,7 +118,7 @@ export default function UserDropdown({ user }: { user: User }) {
                   {name ? name : username}
                 </p>
                 {accountPlan && (
-                  <div className="badge badge-primary badge-sm text-white">
+                  <div className="badge badge-sm bg-primary/15 font-bold text-primary ">
                     {accountPlan}
                   </div>
                 )}

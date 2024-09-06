@@ -63,7 +63,7 @@ export default async function AccountPage() {
             <p className="font-bold">
               My plan: {productData.name}{" "}
               {trialStart < now && now < trialEnd ? (
-                <span className="badge badge-primary badge-md text-white font-normal ml-2">
+                <span className="badge bg-primary/15 font-bold text-primary ml-2">
                   Free Trial
                 </span>
               ) : (
