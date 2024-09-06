@@ -9,15 +9,18 @@ import { Tables } from "@/supabase/types";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { TablesInsert } from "@/stripe/types";
 
 export default function Navbar({
   user,
   projects,
   fetchedActiveProject,
+  paymentPlan,
 }: {
   user: User;
   projects: Tables<"Projects">[];
   fetchedActiveProject: Tables<"Projects">;
+  paymentPlan: string;
 }) {
   const pathname = usePathname();
   const [activeProject, setActiveProject] = useState<
@@ -98,6 +101,7 @@ export default function Navbar({
             projects={reorderedProjects}
             activeProject={activeProject}
             setActiveProjectRef={setActiveProject}
+            paymentPlan={paymentPlan}
           />
         </div>
         {activeProject && pathname !== "/dashboard/create-project" && (

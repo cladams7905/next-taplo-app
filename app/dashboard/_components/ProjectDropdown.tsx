@@ -1,7 +1,13 @@
 "use client";
 
 import { Tables } from "@/supabase/types";
-import { Check, ChevronsUpDown, CirclePlus, Search } from "lucide-react";
+import {
+  Check,
+  ChevronsUpDown,
+  CirclePlus,
+  InfoIcon,
+  Search,
+} from "lucide-react";
 import Link from "next/link";
 import {
   Dispatch,
@@ -20,16 +26,17 @@ export default function ProjectDropdown({
   projects,
   activeProject,
   setActiveProjectRef,
+  paymentPlan,
 }: {
   projects: Tables<"Projects">[];
   activeProject: Tables<"Projects"> | undefined;
   setActiveProjectRef: Dispatch<SetStateAction<Tables<"Projects"> | undefined>>;
+  paymentPlan: string;
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [isCreateProjectPending, startCreateProjectTransition] =
     useTransition();
-  const [loadingProjectId, setLoadingProjectId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   /* The dropdown toggle ref is used to manually toggle the closing of 
@@ -41,7 +48,6 @@ export default function ProjectDropdown({
     project: Tables<"Projects">,
     activeProject: Tables<"Projects">
   ) {
-    setLoadingProjectId(project.id.toString());
     startTransition(async () => {
       if (project.user_id) {
         if (activeProject.id !== project.id) {
@@ -149,6 +155,14 @@ export default function ProjectDropdown({
                       </li>
                     ))}
                 </ul>
+                {paymentPlan.includes("Starter") ? (
+                  <div className="bg-primary/10 p-2 mt-2 rounded-lg text-xs flex items-center gap-2">
+                    <InfoIcon width={24} height={24} />
+                    <p>You are only allowed one project on the Starter plan.</p>
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
               <hr className="my-2 border-t border-gray-300"></hr>
               <Link

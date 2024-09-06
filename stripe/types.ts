@@ -221,6 +221,7 @@ export type Database = {
           id: number;
           payment_method: Json | null;
           payment_status: string | null;
+          recieve_promotional_emails: boolean;
           referral_source: string | null;
           renewal_date: string | null;
           user_id: string;
@@ -230,6 +231,7 @@ export type Database = {
           id?: number;
           payment_method?: Json | null;
           payment_status?: string | null;
+          recieve_promotional_emails?: boolean;
           referral_source?: string | null;
           renewal_date?: string | null;
           user_id: string;
@@ -239,6 +241,7 @@ export type Database = {
           id?: number;
           payment_method?: Json | null;
           payment_status?: string | null;
+          recieve_promotional_emails?: boolean;
           referral_source?: string | null;
           renewal_date?: string | null;
           user_id?: string;

@@ -1,19 +1,24 @@
-import { getStripeUser } from "@/stripe/actions";
+import { getProduct, getStripeUser, getSubscription } from "@/stripe/actions";
 import { createClient } from "@/supabase/server";
 import { redirect } from "next/navigation";
 import { stripe } from "@/stripe/server";
 import Stripe from "stripe";
 import { PaymentPlans } from "@/lib/enums";
 import NewProjectPage from "./_components/NewProjectPage";
+import { getProjects } from "@/lib/actions/projects";
 
 export default async function CreateProject() {
   const supabase = createClient();
 
-  const { data, error } = await supabase.auth.getUser();
-  if (error || !data?.user) {
+  const { data: userData, error } = await supabase.auth.getUser();
+  if (error || !userData?.user) {
     redirect("/");
   }
-  const stripeUser = (await getStripeUser(data.user.id))?.data;
+  const stripeUser = (await getStripeUser(userData.user.id))?.data;
+
+  const { data: subscriptionData } = await getSubscription(userData.user.id);
+  const { data: productData } = await getProduct(subscriptionData.product_id);
+  const { data: projectData } = await getProjects(userData.user.id);
 
   /**
    * Gets a list of all stripe products along with their associated default_price objects.
@@ -37,8 +42,10 @@ export default async function CreateProject() {
   return (
     <NewProjectPage
       stripeUser={stripeUser}
-      user={data.user}
+      user={userData.user}
       products={productsWithPrice}
+      paymentPlan={productData.name}
+      numProjects={projectData.length}
     />
   );
 }

@@ -32,9 +32,13 @@ const FormSchema = z.object({
 export default function NewProjectForm({
   stripeUser,
   renewalDate,
+  paymentPlan,
+  numProjects,
 }: {
   stripeUser: Tables<"users">;
   renewalDate: string | null;
+  paymentPlan: string;
+  numProjects: number;
 }) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -62,6 +66,12 @@ export default function NewProjectForm({
       }
     });
   }
+
+  const shouldDisableCreateProject = () => {
+    return (
+      !renewalDate || (paymentPlan.includes("Starter") && numProjects >= 1)
+    );
+  };
 
   return (
     <div className="flex flex-col items-center justify-center w-full max-w-md">
@@ -93,7 +103,7 @@ export default function NewProjectForm({
           <div
             onClick={form.handleSubmit(onSubmit)}
             className={`w-full btn btn-primary text-white ${
-              !renewalDate && "btn-disabled"
+              shouldDisableCreateProject() && "btn-disabled"
             }`}
             style={{ marginTop: "2.5rem" }}
           >
