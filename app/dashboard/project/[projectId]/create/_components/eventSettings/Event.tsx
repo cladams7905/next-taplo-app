@@ -120,6 +120,7 @@ export default function Event({
             {currentEvent.event_type}
             <div className="text-xs text-gray-400">
               {currentEvent.integration_id ? (
+                "Listens to: " +
                 getIntegrationById(currentEvent.integration_id)?.provider
               ) : (
                 <span className="text-error">No Integration Selected</span>

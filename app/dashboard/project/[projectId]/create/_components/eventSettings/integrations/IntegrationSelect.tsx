@@ -12,6 +12,9 @@ import {
 import NewIntegrationModal from "./NewIntegrationModal";
 import { EventType, Providers } from "@/lib/enums";
 import { useProjectContext } from "../../ProjectBoard";
+import Image from "next/image";
+import StripeLogo from "@/public/images/providers/stripe-logo.svg";
+import { convertDateTime } from "@/lib/actions";
 
 export default function IntegrationSelect({
   currentEvent,
@@ -90,7 +93,16 @@ export default function IntegrationSelect({
           className="flex p-2 px-3 items-center justify-between cursor-pointer border bg-white border-gray-200 rounded-lg text-sm"
         >
           {currentEvent.integration_id ? (
-            getIntegrationById(currentEvent.integration_id)?.name
+            <div className="flex items-center gap-2">
+              <Image
+                width={16}
+                height={16}
+                alt={"provider logo"}
+                src={StripeLogo}
+                className="rounded-sm"
+              />
+              {getIntegrationById(currentEvent.integration_id)?.name}
+            </div>
           ) : (
             <span className="text-gray-400">Select an integration</span>
           )}
@@ -99,31 +111,50 @@ export default function IntegrationSelect({
         <div
           tabIndex={0}
           ref={toggleModalRef}
-          className="menu menu-sm dropdown-content bg-white border border-gray-300 shadow-md z-[1] rounded-lg w-full mt-1 h-fit min-h-20"
+          className="menu menu-sm dropdown-content bg-white border border-gray-200 shadow-md z-[1] rounded-lg w-full mt-1 h-fit min-h-16 max-h-48"
         >
           <ul className="h-full w-full overflow-y-scroll">
             {filteredIntegrations.length > 0 ? (
               filteredIntegrations.map((integration, i) => (
                 <li key={i}>
-                  {events.find((e) => e.integration_id === integration.id) ? (
-                    <div className="flex items-start justify-between rounded-md text-gray-400 pointer-events-none">
-                      <p>{integration.name} (Active)</p>
+                  <a
+                    className={`flex flex-col items-start justify-between rounded-md py-2 ${
+                      integration.id === currentEvent.integration_id
+                        ? "text-gray-400 pointer-events-none"
+                        : ""
+                    }`}
+                    onClick={() => {
+                      startEventTransition(() => {
+                        handleUpdateIntegration(currentEvent, integration.id);
+                        setTimeout(() => {
+                          toggleModalRef.current?.classList.add("hidden");
+                        }, 1000);
+                      });
+                    }}
+                  >
+                    <div className="flex items-center gap-3">
+                      <Image
+                        width={16}
+                        height={16}
+                        alt={"provider logo"}
+                        src={StripeLogo}
+                        className={`rounded-sm ${
+                          integration.id === currentEvent.integration_id
+                            ? "grayscale opacity-50"
+                            : ""
+                        }`}
+                      />
+                      <div className="flex flex-col gap-[2px]">
+                        {integration.name}{" "}
+                        {integration.id === currentEvent.integration_id &&
+                          "- Selected"}
+                        <p className="text-xs text-gray-400">
+                          {" "}
+                          Created: {convertDateTime(integration.created_at)}
+                        </p>
+                      </div>
                     </div>
-                  ) : (
-                    <a
-                      className="flex flex-col items-start justify-between rounded-md"
-                      onClick={() => {
-                        startEventTransition(() => {
-                          handleUpdateIntegration(currentEvent, integration.id);
-                          setTimeout(() => {
-                            toggleModalRef.current?.classList.add("hidden");
-                          }, 1000);
-                        });
-                      }}
-                    >
-                      {integration.name}
-                    </a>
-                  )}
+                  </a>
                 </li>
               ))
             ) : (

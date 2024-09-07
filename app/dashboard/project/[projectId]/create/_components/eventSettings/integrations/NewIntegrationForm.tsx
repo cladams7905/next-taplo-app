@@ -12,16 +12,16 @@ import {
   FormLabel,
   FormMessage,
 } from "@/app/_components/shared/form";
-import { RefObject, useState, useTransition } from "react";
+import { RefObject, useCallback, useState, useTransition } from "react";
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { CirclePlus } from "lucide-react";
 import Image from "next/image";
-import StripeLogo from "@/public/images/stripe-logo.svg";
-import LemonSqueezyLogo from "@/public/images/lemonsqueezy-logo.jpeg";
+import StripeLogo from "@/public/images/providers/stripe-logo.svg";
+import LemonSqueezyLogo from "@/public/images/providers/lemonsqueezy-logo.jpeg";
 import { Tables } from "@/supabase/types";
 import { createIntegration } from "@/lib/actions/integrations";
 import { checkDuplicateTitle } from "@/lib/actions";
-import { Providers } from "@/lib/enums";
+import { EventType, Providers } from "@/lib/enums";
 import { useProjectContext } from "../../ProjectBoard";
 
 const PROVIDERS = Object.values(Providers) as [string, ...string[]];
@@ -94,6 +94,24 @@ export default function NewIntegrationForm({
       }
     });
   }
+  const filterProvidersByEventType = useCallback(() => {
+    let filteredProviders = PROVIDERS;
+    if (currentEvent) {
+      switch (currentEvent.event_type) {
+        case EventType.AddToCart:
+        case EventType.SomeoneViewing:
+        case EventType.Purchase:
+          filteredProviders = [Providers.Stripe];
+          break;
+        case EventType.ActiveUsers:
+          filteredProviders = [Providers.GoogleAnalytics];
+          break;
+      }
+    }
+    return filteredProviders;
+  }, [currentEvent, integrations]);
+
+  const filteredProviders = filterProvidersByEventType();
 
   return (
     <Form {...form}>
@@ -120,7 +138,7 @@ export default function NewIntegrationForm({
                     value={field.value}
                   >
                     <option value="">Select</option>
-                    {PROVIDERS.map((provider, i) => (
+                    {filteredProviders.map((provider, i) => (
                       <option key={i} value={provider}>
                         {provider}
                       </option>
