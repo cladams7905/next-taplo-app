@@ -1,11 +1,11 @@
 "use client";
 
-import { memo, TransitionStartFunction, useRef, useState } from "react";
+import { memo, TransitionStartFunction } from "react";
 import { deleteEvent } from "@/lib/actions/events";
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { sortByTimeCreated } from "@/lib/actions";
 import Event from "./Event";
-import { useProjectContext } from "../ProjectBoard";
+import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 
 const EventsList = ({
   startEventTransition,
@@ -14,25 +14,10 @@ const EventsList = ({
 }) => {
   const { activeProject, activeEvent, setActiveEvent, events, setEvents } =
     useProjectContext();
-  const [isCollapseOpen, setCollapseOpen] = useState(false);
-  const toggleElement = useRef<HTMLDivElement>(null);
-
-  const toggleAccordion = (e: DOMTokenList) => {
-    if (e.contains("collapse-open")) {
-      setCollapseOpen(false);
-      e.remove("collapse-open");
-      e.add("collapse-close");
-    } else {
-      setCollapseOpen(true);
-      e.remove("collapse-close");
-      e.add("collapse-open");
-    }
-  };
 
   const handleEventDelete = (eventId: number) => {
     startEventTransition(async () => {
       if (activeProject) {
-        toggleElement?.current?.classList.add("hidden");
         const { data, error } = await deleteEvent(eventId);
         if (error) {
           showToastError(error);
@@ -57,7 +42,6 @@ const EventsList = ({
       <div
         key={i}
         className={`relative collapse collapse-arrow text-sm border border-gray-200 bg-white rounded-lg shadow-sm pl-2`}
-        onClick={(e) => toggleAccordion(e.currentTarget.classList)}
       >
         <div
           className={`absolute w-[8px] h-full ${
@@ -68,10 +52,8 @@ const EventsList = ({
         />
         <Event
           currentEvent={event}
-          isCollapseOpen={isCollapseOpen}
           startEventTransition={startEventTransition}
           handleEventDelete={handleEventDelete}
-          toggleElement={toggleElement}
         />
       </div>
     ))

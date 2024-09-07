@@ -8,7 +8,7 @@ import { Undo2 } from "lucide-react";
 import { RefObject, useTransition } from "react";
 import { ColorPicker } from "react-color-palette";
 import "react-color-palette/css";
-import { useProjectContext } from "../ProjectBoard";
+import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 
 export const StyleSettings = ({
   scrollRef,

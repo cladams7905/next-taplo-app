@@ -3,9 +3,9 @@
 import useScroll from "@/lib/hooks/use-scroll";
 import { RefObject, useTransition } from "react";
 import ProductList from "./ProductList";
-import { useProjectContext } from "../ProjectBoard";
+import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import { showToastError } from "@/app/_components/shared/showToast";
-import { CirclePlus, EyeIcon } from "lucide-react";
+import { CirclePlus } from "lucide-react";
 import { TablesInsert } from "@/supabase/types";
 import { createProduct } from "@/lib/actions/products";
 

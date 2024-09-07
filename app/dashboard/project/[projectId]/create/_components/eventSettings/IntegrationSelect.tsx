@@ -9,28 +9,43 @@ import {
   useRef,
   useState,
 } from "react";
-import NewIntegrationModal from "./NewIntegrationModal";
+import NewIntegrationModal from "../../../connect/_components/NewIntegrationModal";
 import { EventType, Providers } from "@/lib/enums";
-import { useProjectContext } from "../../ProjectBoard";
+import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import Image from "next/image";
 import StripeLogo from "@/public/images/providers/stripe-logo.svg";
 import { convertDateTime } from "@/lib/actions";
+import { updateEvent } from "@/lib/actions/events";
+import { showToastError } from "@/app/_components/shared/showToast";
 
 export default function IntegrationSelect({
   currentEvent,
   startEventTransition,
-  handleUpdateIntegration,
 }: {
   currentEvent: Tables<"Events">;
   startEventTransition: TransitionStartFunction;
-  handleUpdateIntegration: (
-    event: Tables<"Events">,
-    integrationId: number
-  ) => void;
 }) {
-  const { events, integrations } = useProjectContext();
+  const { events, setActiveEvent, integrations } = useProjectContext();
   const toggleModalRef = useRef<HTMLDivElement>(null);
   const newIntegrationModalRef = useRef<HTMLDialogElement>(null);
+
+  const handleUpdateIntegration = async (
+    currentEvent: Tables<"Events"> | undefined,
+    integrationId: number
+  ) => {
+    if (currentEvent) {
+      const eventUpdateResult = await updateEvent(currentEvent.id, {
+        ...currentEvent,
+        integration_id: integrationId,
+      });
+
+      if (eventUpdateResult.error) {
+        showToastError(eventUpdateResult.error);
+      } else {
+        setActiveEvent({ ...currentEvent, integration_id: integrationId });
+      }
+    }
+  };
 
   const filterIntegrationsByEventType = useCallback(() => {
     let filteredIntegrations: Tables<"Integrations">[] = integrations;

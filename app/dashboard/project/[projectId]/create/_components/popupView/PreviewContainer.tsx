@@ -3,7 +3,7 @@
 import { RefObject } from "react";
 import PopupTemplate from "./PopupTemplate";
 import { ScreenAlignment } from "@/lib/enums";
-import { useProjectContext } from "../ProjectBoard";
+import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 
 export default function PreviewContainer({
   previewRef,

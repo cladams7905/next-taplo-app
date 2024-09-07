@@ -7,7 +7,7 @@ import { showToastError } from "@/app/_components/shared/showToast";
 import { Camera, Trash2 } from "lucide-react";
 import { createClient } from "@/supabase/client";
 import Image from "next/image";
-import { useProjectContext } from "../ProjectBoard";
+import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 
 const ProductList = ({
   startLoadTransition,

@@ -4,7 +4,6 @@ import EventsHeader from "./EventsHeader";
 import { RefObject, useTransition } from "react";
 import EventsList from "./EventsList";
 import useScroll from "@/lib/hooks/use-scroll";
-import { useProjectContext } from "../ProjectBoard";
 
 const EventSettings = ({
   scrollRef,

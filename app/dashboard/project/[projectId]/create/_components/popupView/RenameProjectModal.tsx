@@ -15,7 +15,7 @@ import LoadingDots from "@/app/_components/shared/loadingdots";
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { Pencil } from "lucide-react";
 import { updateProject } from "@/lib/actions/projects";
-import { useProjectContext } from "../ProjectBoard";
+import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 
 export default function RenameProjectModal({
   renameModalRef,

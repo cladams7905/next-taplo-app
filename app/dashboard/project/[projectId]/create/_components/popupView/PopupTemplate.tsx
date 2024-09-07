@@ -11,7 +11,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { EventType, ScreenAlignment, TemplateTypes } from "@/lib/enums";
 import { hexToRgba } from "@/lib/actions";
-import { useProjectContext } from "../ProjectBoard";
+import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import "animate.css";
 import Image from "next/image";
 import { Tables } from "@/supabase/types";

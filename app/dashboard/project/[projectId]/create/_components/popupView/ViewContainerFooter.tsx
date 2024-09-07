@@ -4,7 +4,7 @@ import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
 import { useState, useEffect, useRef } from "react";
 import ContactModal from "./ContactModal";
 import Link from "next/link";
-import { useProjectContext } from "../ProjectBoard";
+import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import { Pencil, Settings, Trash2 } from "lucide-react";
 import RenameProjectModal from "./RenameProjectModal";
 import DeleteProjectModal from "./DeleteProjectModal";

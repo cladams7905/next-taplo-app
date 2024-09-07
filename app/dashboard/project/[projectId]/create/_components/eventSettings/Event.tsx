@@ -1,38 +1,30 @@
 "use client";
 
 import { Tables } from "@/supabase/types";
-import { RefObject, TransitionStartFunction, useState } from "react";
+import { TransitionStartFunction, useState } from "react";
 import {
   Boxes,
-  Ellipsis,
   ShoppingBag,
   ShoppingCart,
-  Trash,
   Trash2,
   UserRoundSearch,
   UsersRound,
   XCircle,
 } from "lucide-react";
-import { updateEvent } from "@/lib/actions/events";
-import { showToastError } from "@/app/_components/shared/showToast";
 import { Pencil1Icon } from "@radix-ui/react-icons";
-import IntegrationSelect from "./integrations/IntegrationSelect";
+import IntegrationSelect from "./IntegrationSelect";
 import ContentBodyEditor from "./ContentBodyEditor";
-import { useProjectContext } from "../ProjectBoard";
+import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import { EventType } from "@/lib/enums";
 
 export default function Event({
   currentEvent,
   startEventTransition,
-  isCollapseOpen,
   handleEventDelete,
-  toggleElement,
 }: {
   currentEvent: Tables<"Events">;
   startEventTransition: TransitionStartFunction;
-  isCollapseOpen: boolean;
   handleEventDelete: (eventId: number) => void;
-  toggleElement: RefObject<HTMLDivElement>;
 }) {
   const {
     activeEvent,
@@ -40,6 +32,7 @@ export default function Event({
     integrations,
     replaceVariablesInContentBody,
   } = useProjectContext();
+
   const [isEditContentMode, setEditContentMode] = useState<boolean>(false);
 
   const contentBodyHtml = replaceVariablesInContentBody(
@@ -54,24 +47,6 @@ export default function Event({
   const handleToggleActiveEvent = () => {
     if (!activeEvent || activeEvent.id !== currentEvent.id) {
       setActiveEvent(currentEvent);
-    }
-  };
-
-  const handleUpdateIntegration = async (
-    currentEvent: Tables<"Events"> | undefined,
-    integrationId: number
-  ) => {
-    if (currentEvent) {
-      const eventUpdateResult = await updateEvent(currentEvent.id, {
-        ...currentEvent,
-        integration_id: integrationId,
-      });
-
-      if (eventUpdateResult.error) {
-        showToastError(eventUpdateResult.error);
-      } else {
-        setActiveEvent({ ...currentEvent, integration_id: integrationId });
-      }
     }
   };
 
@@ -143,7 +118,6 @@ export default function Event({
           <IntegrationSelect
             currentEvent={currentEvent}
             startEventTransition={startEventTransition}
-            handleUpdateIntegration={handleUpdateIntegration}
           />
         </div>
         <div className="flex flex-col gap-2">

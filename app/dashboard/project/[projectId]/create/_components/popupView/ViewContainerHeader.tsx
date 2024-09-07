@@ -4,7 +4,7 @@ import "react-color-palette/css";
 import { Code2Icon, Fullscreen } from "lucide-react";
 import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import PreviewContainer from "./PreviewContainer";
-import { useProjectContext } from "../ProjectBoard";
+import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 
 export default function ViewContainerHeader({
   isPreviewMode,

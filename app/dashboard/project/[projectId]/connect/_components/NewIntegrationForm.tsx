@@ -12,7 +12,14 @@ import {
   FormLabel,
   FormMessage,
 } from "@/app/_components/shared/form";
-import { RefObject, useCallback, useState, useTransition } from "react";
+import {
+  Dispatch,
+  RefObject,
+  SetStateAction,
+  useCallback,
+  useState,
+  useTransition,
+} from "react";
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { CirclePlus } from "lucide-react";
 import Image from "next/image";
@@ -22,7 +29,11 @@ import { Tables } from "@/supabase/types";
 import { createIntegration } from "@/lib/actions/integrations";
 import { checkDuplicateTitle } from "@/lib/actions";
 import { EventType, Providers } from "@/lib/enums";
-import { useProjectContext } from "../../ProjectBoard";
+import {
+  useIntegrationContext,
+  useProjectContext,
+} from "@/app/dashboard/_components/ProjectContext";
+import { usePathname } from "next/navigation";
 
 const PROVIDERS = Object.values(Providers) as [string, ...string[]];
 const providersEnum = z.enum(PROVIDERS, {
@@ -48,7 +59,17 @@ export default function NewIntegrationForm({
     integrationId: number
   ) => void;
 }) {
-  const { activeProject, integrations, setIntegrations } = useProjectContext();
+  const pathname = usePathname();
+  let activeProject: Tables<"Projects">,
+    integrations: Tables<"Integrations">[],
+    setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
+
+  if (pathname.includes("connect")) {
+    ({ activeProject, integrations, setIntegrations } =
+      useIntegrationContext());
+  } else {
+    ({ activeProject, integrations, setIntegrations } = useProjectContext());
+  }
   const [isPending, startTransition] = useTransition();
   const [provider, setProvider] = useState<ProvidersEnum>();
 

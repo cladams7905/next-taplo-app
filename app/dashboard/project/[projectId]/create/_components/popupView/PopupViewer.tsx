@@ -5,7 +5,7 @@ import { Pencil } from "lucide-react";
 import { TemplateTypes } from "@/lib/enums";
 import TemplateModal from "./TemplateModal";
 import PopupTemplate from "./PopupTemplate";
-import { useProjectContext } from "../ProjectBoard";
+import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 
 export default function PopupViewer() {
   const { activeProject, activeEvent, activeProduct } = useProjectContext();

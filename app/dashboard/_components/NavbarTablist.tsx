@@ -17,8 +17,11 @@ export default function NavbarTabList({
       case `/dashboard/project/${activeProject?.id}/create`:
         tabIndex = 0;
         break;
-      case `/dashboard/project/${activeProject?.id}/insights`:
+      case `/dashboard/project/${activeProject?.id}/connect`:
         tabIndex = 1;
+        break;
+      case `/dashboard/project/${activeProject?.id}/insights`:
+        tabIndex = 2;
         break;
       default:
         console.log(`unhandled pathname: ${pathname}`);
@@ -38,7 +41,7 @@ export default function NavbarTabList({
         className="menu menu-horizontal lg:inline-flex grid tabs w-fit py-2 lg:h-auto h-[58px]"
       >
         <Link
-          href={"./create"}
+          href={`/dashboard/project/${activeProject?.id}/create`}
           role="tab"
           tabIndex={0}
           className={`tab [--tab-border-color:oklch(var(--n))] [&:hover:not(.tab-active)]:bg-link-hover rounded-lg w-24 ${
@@ -48,11 +51,22 @@ export default function NavbarTabList({
         >
           Create
         </Link>
-        <div
+        <Link
+          href={`/dashboard/project/${activeProject?.id}/connect`}
           role="tab"
           tabIndex={1}
-          className={`tab cursor-auto rounded-lg w-24 ${
+          className={`tab [--tab-border-color:oklch(var(--n))] [&:hover:not(.tab-active)]:bg-link-hover rounded-lg w-24 ${
             currentTab === 1 ? "tab-active font-semibold" : ""
+          }`}
+          onClick={(e) => handleTabClick(e.currentTarget.tabIndex)}
+        >
+          Connect
+        </Link>
+        <div
+          role="tab"
+          tabIndex={2}
+          className={`tab cursor-auto rounded-lg w-24 ${
+            currentTab === 2 ? "tab-active font-semibold" : ""
           }`}
         >
           Insights

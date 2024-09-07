@@ -14,7 +14,7 @@ import { updateEvent } from "@/lib/actions/events";
 import { showToastError } from "@/app/_components/shared/showToast";
 import { Tables } from "@/supabase/types";
 import { ContentVars, EventType } from "@/lib/enums";
-import { useProjectContext } from "../ProjectBoard";
+import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 
 export default function ContentBodyEditor({
   currentEvent,
@@ -58,14 +58,15 @@ export default function ContentBodyEditor({
         if (error) {
           showToastError(error);
         } else {
-          setActiveEvent((prevEvent) =>
-            prevEvent
-              ? {
-                  ...prevEvent,
-                  content_body: updatedContentBody,
-                }
-              : prevEvent
-          );
+          if (setActiveEvent)
+            setActiveEvent((prevEvent) =>
+              prevEvent
+                ? {
+                    ...prevEvent,
+                    content_body: updatedContentBody,
+                  }
+                : prevEvent
+            );
           setEditContentMode(false);
         }
       }

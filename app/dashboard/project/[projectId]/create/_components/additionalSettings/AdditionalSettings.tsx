@@ -4,7 +4,7 @@ import { showToastError } from "@/app/_components/shared/showToast";
 import { updateProject } from "@/lib/actions/projects";
 import useScroll from "@/lib/hooks/use-scroll";
 import { RefObject, useState, useTransition } from "react";
-import { useProjectContext } from "../ProjectBoard";
+import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 
 export default function AdditionalSettings({
   scrollRef,

@@ -1,9 +1,9 @@
 "use client";
 
-import { CirclePlus, EyeIcon } from "lucide-react";
+import { CirclePlus } from "lucide-react";
 import { useEffect, useRef } from "react";
 import NewEventModal from "./NewEventModal";
-import { useProjectContext } from "../ProjectBoard";
+import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 
 export default function EventsHeader({
   isEventPending,

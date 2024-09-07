@@ -15,7 +15,7 @@ import {
   UsersRound,
 } from "lucide-react";
 import { RefObject, useState, useTransition } from "react";
-import { useProjectContext } from "../ProjectBoard";
+import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 
 type EventOption = {
   title: string;

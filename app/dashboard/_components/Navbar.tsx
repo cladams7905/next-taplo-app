@@ -60,7 +60,7 @@ export default function Navbar({
     <main className="flex flex-col items-center w-full font-sans z-30 lg:px-3 md:px-3 sm:px-3 px-1 transition-all border-b border-gray-300 dark:bg-base-100 shadow-md bg-white">
       <div className="navbar flex">
         <div className="navbar-start md:w-1/2 w-full">
-          {activeProject && pathname !== "/dashboard/create-project" && (
+          {activeProject && (
             <div className="dropdown">
               <label
                 role="button"
@@ -76,6 +76,11 @@ export default function Navbar({
                 <Link href={`/dashboard/project/${activeProject?.id}/create`}>
                   <button className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-link-hover">
                     <p className="text-sm">Create</p>
+                  </button>
+                </Link>
+                <Link href={`/dashboard/project/${activeProject?.id}/connect`}>
+                  <button className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-link-hover">
+                    <p className="text-sm">Connect</p>
                   </button>
                 </Link>
                 <button className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-link-hover">
@@ -103,7 +108,7 @@ export default function Navbar({
             paymentPlan={paymentPlan}
           />
         </div>
-        {activeProject && pathname !== "/dashboard/create-project" && (
+        {activeProject && (
           <div className="navbar-center hidden lg:block md:block lg:-mt-0 md:-mt-[10px]">
             <Tablist activeProject={activeProject} />
           </div>

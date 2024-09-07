@@ -3,7 +3,7 @@
 import PopupViewer from "./PopupViewer";
 import ViewContainerHeader from "./ViewContainerHeader";
 import ViewContainerFooter from "./ViewContainerFooter";
-import { useProjectContext } from "../ProjectBoard";
+import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import { Dispatch, SetStateAction } from "react";
 
 export default function ViewContainer({

@@ -17,7 +17,7 @@ import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { useRouter } from "next/navigation";
 import { getRedirectPathname } from "@/app/(auth)/_actions";
 import { deleteProject } from "@/lib/actions/projects";
-import { useProjectContext } from "../ProjectBoard";
+import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 
 export default function DeleteProjectModal({
   deleteModalRef,

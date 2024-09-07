@@ -12,7 +12,7 @@ import {
   useState,
   useTransition,
 } from "react";
-import { useProjectContext } from "../ProjectBoard";
+import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 
 export default function TemplateModal({
   templateModalRef,
