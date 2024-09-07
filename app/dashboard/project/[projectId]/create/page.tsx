@@ -20,6 +20,7 @@ export default async function CreatePopupPage({ params }: { params: string }) {
 
   return (
     <ProjectBoard
+      user={data.user}
       fetchedActiveProject={activeProject}
       fetchedIntegrations={integrations}
       fetchedEvents={events}

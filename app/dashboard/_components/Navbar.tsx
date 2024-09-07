@@ -9,7 +9,6 @@ import { Tables } from "@/supabase/types";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { TablesInsert } from "@/stripe/types";
 
 export default function Navbar({
   user,

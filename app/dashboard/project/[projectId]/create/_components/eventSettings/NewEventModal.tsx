@@ -85,8 +85,9 @@ export default function NewEventModal({
       handleCreateEvent(ev);
     });
     setTimeout(() => {
+      setEventsToCreate([]);
       eventModalRef.current?.close();
-    }, 2000);
+    }, 1500);
   };
 
   const setEventContent = (eventType: EventType) => {

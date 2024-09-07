@@ -16,8 +16,10 @@ import ViewContainer from "./popupView/ViewContainer";
 import { sortByTimeCreated } from "@/lib/actions";
 import { ContentVars } from "@/lib/enums";
 import DOMPurify from "isomorphic-dompurify";
+import { User } from "@supabase/supabase-js";
 
 interface ProjectContextType {
+  user: User;
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
   activeEvent: Tables<"Events"> | undefined;
@@ -53,6 +55,7 @@ const ProjectContext = createContext<ProjectContextType | undefined>(undefined);
 
 /**
  * @interface ProjectContextType
+ * @prop user
  * @prop activeProject
  * @prop activeEvent
  * @prop events
@@ -75,11 +78,13 @@ export const useProjectContext = () => {
 };
 
 export default function ProjectBoard({
+  user,
   fetchedActiveProject,
   fetchedIntegrations,
   fetchedEvents,
   fetchedProducts,
 }: {
+  user: User;
   fetchedActiveProject: Tables<"Projects">;
   fetchedIntegrations: Tables<"Integrations">[];
   fetchedEvents: Tables<"Events">[];
@@ -326,6 +331,7 @@ export default function ProjectBoard({
   };
 
   const contextValue: ProjectContextType = {
+    user,
     activeProject,
     setActiveProject,
     activeEvent,
