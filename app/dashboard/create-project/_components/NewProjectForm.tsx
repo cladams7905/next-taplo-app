@@ -57,6 +57,10 @@ export default function NewProjectForm({
         screen_alignment: ScreenAlignment.BottomLeft,
         template: TemplateTypes.SmPopupNoImg,
         display_time: 4000,
+        bg_color: "#FFFFFF",
+        text_color: "#172554",
+        accent_color: "#7A81EB",
+        border_color: "#D1D3D7",
       });
       if (error) {
         showToastError(error);

@@ -8,6 +8,7 @@ import {
   ShoppingBag,
   ShoppingCart,
   Trash,
+  Trash2,
   UserRoundSearch,
   UsersRound,
   XCircle,
@@ -89,6 +90,21 @@ export default function Event({
     }
   };
 
+  const getEventDescription = (eventType: EventType) => {
+    switch (eventType) {
+      case EventType.Purchase:
+        return "This event displays when visitors make a purchase. If no products are created, then a generic purchase notification is displayed.";
+      case EventType.AddToCart:
+        return "This event displays products that visitors have added to their cart. There must be at least one product created for this event to trigger.";
+      case EventType.SomeoneViewing:
+        return "This event displays products that visitors are currently viewing. There must be at least one product created for this event to trigger.";
+      case EventType.ActiveUsers:
+        return "This event displays the number of visitors actively viewing your website. You may also use this event to display the number of recent visitors from the past 24 hours.";
+      case EventType.Custom:
+        return "Custom events can be triggered by other API calls or display static messages.";
+    }
+  };
+
   return (
     <>
       <input type="radio" className="-z-10" />
@@ -111,45 +127,6 @@ export default function Event({
             </div>
           </div>
         </div>
-        <div
-          className={`dropdown ${
-            isCollapseOpen ? "dropdown-end" : "dropdown-left"
-          }`}
-          ref={toggleElement}
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            toggleElement?.current?.classList.remove("hidden");
-          }}
-        >
-          <div
-            className="p-2 -mt-[10px] rounded-lg cursor-pointer hover:bg-primary/20"
-            tabIndex={1}
-          >
-            <Ellipsis width={20} height={20} />
-          </div>
-          <ul
-            tabIndex={1}
-            className={`menu menu-sm dropdown-content ${
-              !isCollapseOpen && "-mt-[10px] mr-1"
-            } border border-neutral z-[1] shadow bg-base-100 rounded-md min-w-40`}
-          >
-            <li>
-              <a
-                className="flex flex-col items-start rounded-md"
-                onClick={() => {
-                  handleEventDelete(currentEvent.id);
-                }}
-              >
-                <div className="flex items-center gap-2">
-                  {" "}
-                  <Trash width={16} height={16} />
-                  Delete
-                </div>
-              </a>
-            </li>
-          </ul>
-        </div>
       </div>
       <div
         className="collapse-content flex flex-col gap-8"
@@ -158,6 +135,9 @@ export default function Event({
           handleToggleActiveEvent();
         }}
       >
+        <div className="text-xs mt-4">
+          {getEventDescription(currentEvent.event_type as EventType)}
+        </div>
         <div className="w-full flex flex-col gap-2">
           <IntegrationSelect
             currentEvent={currentEvent}
@@ -201,6 +181,15 @@ export default function Event({
               }}
             ></p>
           )}
+        </div>
+        <div className="flex w-full justify-end items-center">
+          <div
+            className="flex items-center gap-1 btn btn-sm text-xs btn-error text-white"
+            onClick={() => handleEventDelete(currentEvent.id)}
+          >
+            Delete
+            <Trash2 width={16} height={16} />
+          </div>
         </div>
       </div>
     </>
