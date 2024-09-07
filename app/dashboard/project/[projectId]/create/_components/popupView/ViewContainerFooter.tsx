@@ -65,7 +65,10 @@ export default function ViewContainerFooter() {
           <li>
             <a
               className="flex flex-col items-start rounded-md"
-              onClick={() => contactModalRef.current?.showModal()}
+              onClick={() => {
+                contactModalRef.current?.classList.remove("hidden");
+                contactModalRef.current?.showModal();
+              }}
             >
               <div className="flex items-center gap-2 py-1">Contact</div>
             </a>

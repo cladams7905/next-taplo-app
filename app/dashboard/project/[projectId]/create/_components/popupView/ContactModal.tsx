@@ -20,6 +20,12 @@ export default function ContactModal({
             ✕
           </button>
         </form>
+        <h3 className="font-semibold text-lg">Get in Touch!</h3>
+        <p className="py-4">
+          If you have any issues, feel free to email me at{" "}
+          <span className="font-bold">help@taplo.io</span>. I will do my best to
+          get back to you within 24 hours!
+        </p>
       </div>
     </dialog>
   );
