@@ -22,7 +22,7 @@ import {
   useTransition,
 } from "react";
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
-import { CirclePlus, Pencil } from "lucide-react";
+import { CirclePlus, EyeIcon, Pencil } from "lucide-react";
 import Image from "next/image";
 import StripeLogo from "@/public/images/providers/stripe-logo.svg";
 import LemonSqueezyLogo from "@/public/images/providers/lemonsqueezy-logo.jpeg";
@@ -33,6 +33,7 @@ import {
 } from "@/lib/actions/integrations";
 import { checkDuplicateTitle } from "@/lib/actions";
 import { EventType, Providers } from "@/lib/enums";
+import { EyeClosedIcon } from "@radix-ui/react-icons";
 
 const PROVIDERS = Object.values(Providers) as [string, ...string[]];
 const providersEnum = z.enum(PROVIDERS, {
@@ -71,6 +72,7 @@ export default function NewIntegrationForm({
   const [provider, setProvider] = useState<ProvidersEnum>(
     integrationToEdit?.provider || ""
   );
+  const [isShowApiKey, setShowApiKey] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -275,14 +277,26 @@ export default function NewIntegrationForm({
             <FormItem>
               <FormLabel>API Key</FormLabel>
               <FormControl>
-                <input
-                  placeholder=""
-                  {...field}
-                  type="password"
-                  className="input input-bordered flex items-center gap-2 w-full"
-                  onChange={field.onChange}
-                  value={field.value}
-                />
+                <div className="flex items-center gap-2">
+                  <input
+                    placeholder=""
+                    {...field}
+                    type={isShowApiKey ? "text" : "password"}
+                    className="input input-bordered flex items-center gap-2 w-full"
+                    onChange={field.onChange}
+                    value={field.value}
+                  />
+                  <div
+                    className="w-12 h-12 flex items-center justify-center border border-gray-200 rounded-lg cursor-pointer"
+                    onClick={() => setShowApiKey(!isShowApiKey)}
+                  >
+                    {isShowApiKey ? (
+                      <EyeClosedIcon strokeWidth={2.5} />
+                    ) : (
+                      <EyeIcon strokeWidth={1.5} />
+                    )}
+                  </div>
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
