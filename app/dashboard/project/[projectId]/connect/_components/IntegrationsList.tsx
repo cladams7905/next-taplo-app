@@ -12,15 +12,23 @@ import { deleteIntegration } from "@/lib/actions/integrations";
 export default function IntegrationsList({
   integrations,
   setIntegrations,
+  searchQuery,
 }: {
   integrations: Tables<"Integrations">[];
   setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
+  searchQuery: string;
 }) {
+  const filteredIntegrations = integrations.filter(
+    (integration) =>
+      integration?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      integration?.provider?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return integrations.length > 0 ? (
-    integrations.map((integration, i) => (
+    filteredIntegrations.map((integration, i) => (
       <div
         key={i}
-        className="flex max-h-64 border border-neutral shadow-md rounded-lg py-2 pr-2"
+        className="flex max-h-64 border border-gray-200 shadow-md rounded-lg py-2 pr-2"
       >
         <div className="flex items-center justify-center w-28">
           <div className="aspect-square w-full h-full max-w-[48px] max-h-[48px] bg-link-hover rounded-lg">
@@ -55,7 +63,7 @@ export default function IntegrationsList({
       </div>
     ))
   ) : (
-    <div className="flex flex-col gap-2 text-gray-500 mt-4 items-center border border-neutral rounded-lg py-12">
+    <div className="flex flex-col gap-2 text-gray-500 mt-4 items-center border border-gray-200 rounded-lg py-12">
       {" "}
       <div className="text-lg">
         You haven&apos;t created any integrations yet.

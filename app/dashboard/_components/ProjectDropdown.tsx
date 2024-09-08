@@ -105,7 +105,7 @@ export default function ProjectDropdown({
               className="flex flex-col transition-all ease-in-out duration-300"
               id="project-dropdown-trigger"
             >
-              <label className="input input-sm flex items-center">
+              <label className="input input-sm flex items-center !border-none !outline-none">
                 <Search
                   strokeWidth={2}
                   color="oklch(var(--bc))"
@@ -120,7 +120,7 @@ export default function ProjectDropdown({
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </label>
-              <hr className="border-t border-gray-300"></hr>
+              <hr className="border-t border-gray-200"></hr>
               <div className="mt-4">
                 <div className="text-xs ml-2 font-semibold text-gray-400">
                   Projects
@@ -164,7 +164,7 @@ export default function ProjectDropdown({
                   ""
                 )}
               </div>
-              <hr className="my-2 border-t border-gray-300"></hr>
+              <hr className="my-2 border-t border-gray-200"></hr>
               <Link
                 href={"/dashboard/create-project"}
                 className="btn btn-primary text-white btn-sm rounded-md h-auto p-2 mt-1 min-h-[38px]"

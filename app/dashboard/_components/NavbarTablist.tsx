@@ -3,7 +3,7 @@
 import { Tables } from "@/supabase/types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function NavbarTabList({
   activeProject,
@@ -11,24 +11,28 @@ export default function NavbarTabList({
   activeProject: Tables<"Projects"> | undefined;
 }) {
   const pathname = usePathname();
-  const setTabFromPathname = () => {
-    let tabIndex = 0;
-    switch (pathname) {
-      case `/dashboard/project/${activeProject?.id}/create`:
-        tabIndex = 0;
-        break;
-      case `/dashboard/project/${activeProject?.id}/connect`:
-        tabIndex = 1;
-        break;
-      case `/dashboard/project/${activeProject?.id}/insights`:
-        tabIndex = 2;
-        break;
-      default:
-        console.log(`unhandled pathname: ${pathname}`);
-    }
-    return tabIndex;
-  };
-  const [currentTab, setCurrentTab] = useState(setTabFromPathname());
+  const [currentTab, setCurrentTab] = useState<number | null>(null);
+
+  useEffect(() => {
+    const setTabFromPathname = () => {
+      let tabIndex = null;
+      switch (pathname) {
+        case `/dashboard/project/${activeProject?.id}/create`:
+          tabIndex = 0;
+          break;
+        case `/dashboard/project/${activeProject?.id}/connect`:
+          tabIndex = 1;
+          break;
+        case `/dashboard/project/${activeProject?.id}/insights`:
+          tabIndex = 2;
+          break;
+        default:
+          console.log(`unhandled pathname: ${pathname}`);
+      }
+      return tabIndex;
+    };
+    setCurrentTab(setTabFromPathname());
+  }, [pathname, activeProject?.id]);
 
   const handleTabClick = (tabIndex: number) => {
     setCurrentTab(tabIndex);

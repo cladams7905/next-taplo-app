@@ -12,7 +12,7 @@ export default async function ConnectPage() {
   }
 
   const { data: projectData } = await getActiveProject(userData.user.id);
-  const integrations = await getIntegrations(projectData.id);
+  const { data: integrations } = await getIntegrations(projectData.id);
   const activeProject = await getActiveProject(userData.user.id);
   return (
     <div className="flex flex-col items-center justify-center gap-3 bg-gradient-to-tr from-primary/50 to-violet-100 h-screen-minus-navbar w-full lg:px-12">
