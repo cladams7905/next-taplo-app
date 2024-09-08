@@ -13,14 +13,13 @@ import Image from "next/image";
 import Logo from "@/public/images/Taplo-logo (3).svg";
 
 export default function Home() {
-  const drawerId = "drawer-menu";
   return (
     <main>
       <div className="drawer flex flex-col overflow-x-clip">
-        <input id={drawerId} type="checkbox" className="drawer-toggle" />
+        <input id="drawer-menu" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
           <Suspense fallback="...">
-            <Navbar drawerId={drawerId} />
+            <Navbar />
           </Suspense>
           <div
             className="relative flex lg:h-[95vh] h-fit pb-12 w-full flex-col items-center justify-between px-8 md:px-24 lg:px-24 pt-24 overflow-x-clip
@@ -147,7 +146,7 @@ export default function Home() {
         </div>
         <div className="drawer-side z-[99]">
           <label
-            htmlFor={drawerId}
+            htmlFor="drawer-menu"
             aria-label="close sidebar"
             className="drawer-overlay"
           ></label>

@@ -3,7 +3,7 @@
 import UserDropdown from "./UserDropdown";
 import { User } from "@supabase/supabase-js";
 import { ChevronRight, Menu } from "lucide-react";
-import Tablist from "./NavbarTablist";
+import NavbarTabList from "./NavbarTablist";
 import ProjectDropdown from "./ProjectDropdown";
 import { Tables } from "@/supabase/types";
 import { useEffect, useState } from "react";
@@ -61,36 +61,14 @@ export default function Navbar({
       <div className="navbar flex">
         <div className="navbar-start md:w-1/2 w-full">
           {activeProject && (
-            <div className="dropdown">
-              <label
-                role="button"
-                className="mr-6 hover:bg-primary/20 active:bg-primary/20 lg:hidden md:hidden block rounded-lg p-2"
-                tabIndex={0}
-              >
-                <Menu color="oklch(var(--bc))" />
-              </label>
-              <div
-                tabIndex={0}
-                className="dropdown-content border mt-2 border-gray-300 dark:border-gray-600 z-[10] p-2 shadow-lg bg-base-100 rounded-md w-[180px]"
-              >
-                <Link href={`/dashboard/project/${activeProject?.id}/create`}>
-                  <button className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-link-hover">
-                    <p className="text-sm">Create</p>
-                  </button>
-                </Link>
-                <Link href={`/dashboard/project/${activeProject?.id}/connect`}>
-                  <button className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-link-hover">
-                    <p className="text-sm">Connect</p>
-                  </button>
-                </Link>
-                <button className="relative flex w-full items-center justify-start space-x-2 rounded-md p-2 text-left text-sm transition-all duration-75 hover:bg-link-hover">
-                  <p className="text-sm">Insights</p>
-                  <div className="absolute right-0 badge badge-primary bg-primary/20 border-none text-primary text-xs">
-                    Coming soon!
-                  </div>
-                </button>
-              </div>
-            </div>
+            <label
+              htmlFor="drawer-menu"
+              aria-label="open sidebar"
+              role="button"
+              className="mr-6 hover:bg-primary/20 active:bg-primary/20 lg:hidden md:hidden block rounded-lg p-2"
+            >
+              <Menu color="oklch(var(--bc))" />
+            </label>
           )}
           <div className="font-bold font-logo text-lg lg:text-xl">Taplo</div>
           <div className="text-gray-500 text-xl ml-6 font-thin">
@@ -110,7 +88,7 @@ export default function Navbar({
         </div>
         {activeProject && (
           <div className="navbar-center hidden lg:block md:block lg:-mt-0 md:-mt-[10px]">
-            <Tablist activeProject={activeProject} />
+            <NavbarTabList activeProject={activeProject} />
           </div>
         )}
         <div className="navbar-end md:w-1/2 w-fit">

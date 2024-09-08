@@ -10,6 +10,7 @@ export default async function ConnectPage() {
   if (userError || !userData?.user) {
     redirect("/");
   }
+
   const { data: projectData } = await getActiveProject(userData.user.id);
   const integrations = await getIntegrations(projectData.id);
   const activeProject = await getActiveProject(userData.user.id);

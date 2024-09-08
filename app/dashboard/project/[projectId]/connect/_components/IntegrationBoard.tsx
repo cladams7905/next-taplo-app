@@ -4,14 +4,11 @@ import { Tables } from "@/supabase/types";
 import { useRef, useState } from "react";
 import IntegrationsSidebar from "./IntegrationsSidebar";
 import IntegrationsList from "./IntegrationsList";
-import { User } from "@supabase/supabase-js";
 
 export default function IntegrationBoard({
-  user,
   fetchedActiveProject,
   fetchedIntegrations,
 }: {
-  user: User;
   fetchedActiveProject: Tables<"Projects">;
   fetchedIntegrations: Tables<"Integrations">[];
 }) {
@@ -30,7 +27,6 @@ export default function IntegrationBoard({
         />
       </div>
       <div className="flex flex-col gap-4 h-full w-2/3 p-4 pl-6">
-        {" "}
         <p className="text-xl">My Integrations</p>
         <div className="flex flex-col h-full gap-4 overflow-y-scroll">
           <IntegrationsList

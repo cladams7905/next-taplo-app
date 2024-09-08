@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Logo from "@/public/images/Taplo-logo (1).svg";
 
-export default function Navbar({ drawerId }: { drawerId: string }) {
+export default function Navbar() {
   return (
     <main>
       <div
@@ -13,7 +13,7 @@ export default function Navbar({ drawerId }: { drawerId: string }) {
       >
         <div className="navbar-start">
           <label
-            htmlFor={drawerId}
+            htmlFor="drawer-menu"
             aria-label="open sidebar"
             className="btn btn-ghost lg:hidden"
           >
