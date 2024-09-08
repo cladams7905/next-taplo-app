@@ -15,6 +15,16 @@ const EventsList = ({
   const { activeProject, activeEvent, setActiveEvent, events, setEvents } =
     useProjectContext();
 
+  const toggleAccordion = (e: DOMTokenList) => {
+    if (e.contains("collapse-open")) {
+      e.remove("collapse-open");
+      e.add("collapse-close");
+    } else {
+      e.remove("collapse-close");
+      e.add("collapse-open");
+    }
+  };
+
   const handleEventDelete = (eventId: number) => {
     startEventTransition(async () => {
       if (activeProject) {
@@ -42,6 +52,7 @@ const EventsList = ({
       <div
         key={i}
         className={`relative collapse collapse-arrow text-sm border border-gray-200 bg-white rounded-lg shadow-sm pl-2`}
+        onClick={(e) => toggleAccordion(e.currentTarget.classList)}
       >
         <div
           className={`absolute w-[8px] h-full ${
