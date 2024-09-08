@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import IntegrationBoard from "./_components/IntegrationBoard";
 import { getIntegrations } from "@/lib/actions/integrations";
 import { getActiveProject } from "@/lib/actions/projects";
+import { getEvents } from "@/lib/actions/events";
 
 export default async function ConnectPage() {
   const supabase = createClient();
@@ -13,11 +14,14 @@ export default async function ConnectPage() {
 
   const { data: projectData } = await getActiveProject(userData.user.id);
   const { data: integrations } = await getIntegrations(projectData.id);
-  const activeProject = await getActiveProject(userData.user.id);
+  const { data: activeProject } = await getActiveProject(userData.user.id);
+  const { data: events } = await getEvents(activeProject.id);
+
   return (
-    <div className="flex flex-col items-center justify-center gap-3 bg-gradient-to-tr from-primary/50 to-violet-100 h-screen-minus-navbar w-full lg:px-12">
+    <div className="flex flex-col items-center justify-center gap-3 bg-gradient-to-tr from-primary/50 to-violet-100 h-screen-minus-navbar w-full lg:px-12 px-4">
       <IntegrationBoard
-        fetchedActiveProject={activeProject}
+        events={events}
+        activeProject={activeProject}
         fetchedIntegrations={integrations}
       />
     </div>

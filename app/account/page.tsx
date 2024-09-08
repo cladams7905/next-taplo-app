@@ -60,7 +60,7 @@ export default async function AccountPage() {
         <div className="join md:join-horizontal join-vertical">
           <div className="join-item flex flex-col border border-gray-200 rounded-lg px-6 py-4 gap-3 md:w-2/3">
             <p className="text-lg font-bold">Subscription Details </p>
-            <p className="font-bold">
+            <p className="font-bold text-sm">
               My plan: {productData.name}{" "}
               {trialStart < now && now < trialEnd ? (
                 <span className="badge bg-primary/15 font-bold text-primary ml-2">

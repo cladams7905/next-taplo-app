@@ -130,7 +130,7 @@ export default function IntegrationSelect({
         <div
           tabIndex={0}
           ref={toggleModalRef}
-          className="menu menu-sm dropdown-content bg-white border border-gray-200 shadow-md z-[1] rounded-lg w-full mt-1 h-fit min-h-16 max-h-48"
+          className="menu menu-sm dropdown-content bg-white border border-gray-200 shadow-md z-[1] rounded-lg w-full mt-1 h-fit min-h-16 max-h-44"
         >
           <ul className="h-full w-full overflow-y-scroll">
             {filteredIntegrations.length > 0 ? (

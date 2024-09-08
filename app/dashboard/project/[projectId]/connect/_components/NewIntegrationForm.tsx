@@ -66,7 +66,7 @@ export default function NewIntegrationForm({
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      provider: undefined,
+      provider: "",
       key: "",
       name: "",
     },
@@ -98,6 +98,14 @@ export default function NewIntegrationForm({
           handleUpdateIntegration(currentEvent, data.id);
         }
         showToast(`Successfully created new ${data.provider} API Key.`);
+
+        // Reset form values after successful submission
+        form.reset({
+          provider: "",
+          key: "",
+          name: "",
+        });
+        setProvider(undefined);
       } catch (error) {
         showToastError(error);
       } finally {
@@ -181,7 +189,7 @@ export default function NewIntegrationForm({
             </FormItem>
           )}
         />
-        {provider !== undefined && provider === "Stripe" && (
+        {provider !== "" && provider === "Stripe" && (
           <div className="flex flex-col gap-2">
             <p className="text-sm font-bold">For connecting to Stripe: </p>
             <p className="text-sm text-gray-500">
