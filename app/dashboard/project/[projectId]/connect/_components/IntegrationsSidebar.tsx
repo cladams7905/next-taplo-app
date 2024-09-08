@@ -1,12 +1,19 @@
 "use client";
 
 import { CirclePlus } from "lucide-react";
-import { RefObject } from "react";
+import { Dispatch, RefObject, SetStateAction } from "react";
 import NewIntegrationModal from "./NewIntegrationModal";
+import { Tables } from "@/supabase/types";
 
 export default function IntegrationsSidebar({
+  activeProject,
+  integrations,
+  setIntegrations,
   newIntegrationModalRef,
 }: {
+  activeProject: Tables<"Projects">;
+  integrations: Tables<"Integrations">[];
+  setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
   newIntegrationModalRef: RefObject<HTMLDialogElement>;
 }) {
   return (
@@ -18,7 +25,12 @@ export default function IntegrationsSidebar({
         <CirclePlus height={20} width={20} />
         New Integration
       </div>
-      <NewIntegrationModal newIntegrationModalRef={newIntegrationModalRef} />
+      <NewIntegrationModal
+        activeProject={activeProject}
+        integrations={integrations}
+        setIntegrations={setIntegrations}
+        newIntegrationModalRef={newIntegrationModalRef}
+      />
     </>
   );
 }

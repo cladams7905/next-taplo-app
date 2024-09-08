@@ -1,14 +1,20 @@
 "use client";
 
-import { RefObject } from "react";
+import { Dispatch, RefObject, SetStateAction } from "react";
 import NewIntegrationForm from "./NewIntegrationForm";
 import { Tables } from "@/supabase/types";
 
 export default function NewIntegrationModal({
+  activeProject,
+  integrations,
+  setIntegrations,
   currentEvent,
   newIntegrationModalRef,
   handleUpdateIntegration,
 }: {
+  activeProject: Tables<"Projects">;
+  integrations: Tables<"Integrations">[];
+  setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
   currentEvent?: Tables<"Events">;
   newIntegrationModalRef: RefObject<HTMLDialogElement>;
   handleUpdateIntegration?: (
@@ -29,6 +35,9 @@ export default function NewIntegrationModal({
         </form>
         <div className="text-xl font-bold mb-6">New Integration</div>
         <NewIntegrationForm
+          activeProject={activeProject}
+          integrations={integrations}
+          setIntegrations={setIntegrations}
           currentEvent={currentEvent}
           newIntegrationModalRef={newIntegrationModalRef}
           handleUpdateIntegration={handleUpdateIntegration}

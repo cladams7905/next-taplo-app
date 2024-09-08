@@ -25,7 +25,8 @@ export default function IntegrationSelect({
   currentEvent: Tables<"Events">;
   startEventTransition: TransitionStartFunction;
 }) {
-  const { events, setActiveEvent, integrations } = useProjectContext();
+  const { activeProject, setActiveEvent, integrations, setIntegrations } =
+    useProjectContext();
   const toggleModalRef = useRef<HTMLDivElement>(null);
   const newIntegrationModalRef = useRef<HTMLDialogElement>(null);
 
@@ -90,6 +91,9 @@ export default function IntegrationSelect({
           <CirclePlus height={16} width={16} />
         </div>
         <NewIntegrationModal
+          activeProject={activeProject}
+          integrations={integrations}
+          setIntegrations={setIntegrations}
           currentEvent={currentEvent}
           newIntegrationModalRef={newIntegrationModalRef}
           handleUpdateIntegration={handleUpdateIntegration}

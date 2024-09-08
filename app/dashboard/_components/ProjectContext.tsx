@@ -36,23 +36,12 @@ export interface ProjectContextType {
   ) => string;
 }
 
-export interface IntegrationContextType {
-  user: User;
-  activeProject: Tables<"Projects">;
-  integrations: Tables<"Integrations">[];
-  setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
-}
-
 /**
  * Project context and custom hook to access context
  */
 export const ProjectContext = createContext<ProjectContextType | undefined>(
   undefined
 );
-
-export const IntegrationContext = createContext<
-  IntegrationContextType | undefined
->(undefined);
 
 /**
  * @interface ProjectContextType
@@ -74,16 +63,6 @@ export const useProjectContext = () => {
   const context = useContext(ProjectContext);
   if (!context) {
     throw new Error("useProjectContext must be used within a ProjectProvider");
-  }
-  return context;
-};
-
-export const useIntegrationContext = () => {
-  const context = useContext(IntegrationContext);
-  if (!context) {
-    throw new Error(
-      "useIntegrationContext must be used within a IntegrationProvider"
-    );
   }
   return context;
 };

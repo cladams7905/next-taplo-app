@@ -29,11 +29,6 @@ import { Tables } from "@/supabase/types";
 import { createIntegration } from "@/lib/actions/integrations";
 import { checkDuplicateTitle } from "@/lib/actions";
 import { EventType, Providers } from "@/lib/enums";
-import {
-  useIntegrationContext,
-  useProjectContext,
-} from "@/app/dashboard/_components/ProjectContext";
-import { usePathname } from "next/navigation";
 
 const PROVIDERS = Object.values(Providers) as [string, ...string[]];
 const providersEnum = z.enum(PROVIDERS, {
@@ -48,10 +43,16 @@ const FormSchema = z.object({
 });
 
 export default function NewIntegrationForm({
+  activeProject,
+  integrations,
+  setIntegrations,
   currentEvent,
   newIntegrationModalRef,
   handleUpdateIntegration,
 }: {
+  activeProject: Tables<"Projects">;
+  integrations: Tables<"Integrations">[];
+  setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
   currentEvent?: Tables<"Events">;
   newIntegrationModalRef: RefObject<HTMLDialogElement>;
   handleUpdateIntegration?: (
@@ -59,17 +60,6 @@ export default function NewIntegrationForm({
     integrationId: number
   ) => void;
 }) {
-  const pathname = usePathname();
-  let activeProject: Tables<"Projects">,
-    integrations: Tables<"Integrations">[],
-    setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
-
-  if (pathname.includes("connect")) {
-    ({ activeProject, integrations, setIntegrations } =
-      useIntegrationContext());
-  } else {
-    ({ activeProject, integrations, setIntegrations } = useProjectContext());
-  }
   const [isPending, startTransition] = useTransition();
   const [provider, setProvider] = useState<ProvidersEnum>();
 
@@ -130,7 +120,7 @@ export default function NewIntegrationForm({
       }
     }
     return filteredProviders;
-  }, [currentEvent, integrations]);
+  }, [currentEvent]);
 
   const filteredProviders = filterProvidersByEventType();
 
