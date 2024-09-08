@@ -8,19 +8,22 @@ export default function NewIntegrationModal({
   activeProject,
   integrations,
   setIntegrations,
-  currentEvent,
   newIntegrationModalRef,
-  handleUpdateIntegration,
+  currentEvent,
+  handleUpdateEvent,
+  integrationToEdit,
+  setIntegrationToEdit,
 }: {
   activeProject: Tables<"Projects">;
   integrations: Tables<"Integrations">[];
   setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
-  currentEvent?: Tables<"Events">;
   newIntegrationModalRef: RefObject<HTMLDialogElement>;
-  handleUpdateIntegration?: (
-    event: Tables<"Events">,
-    integrationId: number
-  ) => void;
+  currentEvent?: Tables<"Events">;
+  handleUpdateEvent?: (event: Tables<"Events">, integrationId: number) => void;
+  integrationToEdit?: Tables<"Integrations"> | undefined;
+  setIntegrationToEdit?: Dispatch<
+    SetStateAction<Tables<"Integrations"> | undefined>
+  >;
 }) {
   return (
     <dialog className="modal" ref={newIntegrationModalRef}>
@@ -33,14 +36,18 @@ export default function NewIntegrationModal({
             ✕
           </button>
         </form>
-        <div className="text-xl font-bold mb-6">New Integration</div>
+        <div className="text-xl font-bold mb-6">
+          {integrationToEdit ? "Edit Integration" : "New Integration"}
+        </div>
         <NewIntegrationForm
           activeProject={activeProject}
           integrations={integrations}
           setIntegrations={setIntegrations}
           currentEvent={currentEvent}
           newIntegrationModalRef={newIntegrationModalRef}
-          handleUpdateIntegration={handleUpdateIntegration}
+          handleUpdateEvent={handleUpdateEvent}
+          integrationToEdit={integrationToEdit}
+          setIntegrationToEdit={setIntegrationToEdit}
         />
       </div>
     </dialog>

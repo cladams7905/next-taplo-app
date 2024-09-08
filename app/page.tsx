@@ -150,7 +150,7 @@ export default function Home() {
             aria-label="close sidebar"
             className="drawer-overlay"
           ></label>
-          <ul className="menu bg-white text-lg min-h-full w-80 p-4">
+          <ul className="menu bg-white text-lg min-h-full w-80 p-4 font-sans">
             <li>
               <Link href={"/login"}>Login</Link>
             </li>

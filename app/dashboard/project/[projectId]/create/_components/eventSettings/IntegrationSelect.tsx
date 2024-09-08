@@ -30,7 +30,7 @@ export default function IntegrationSelect({
   const toggleModalRef = useRef<HTMLDivElement>(null);
   const newIntegrationModalRef = useRef<HTMLDialogElement>(null);
 
-  const handleUpdateIntegration = async (
+  const handleUpdateEvent = async (
     currentEvent: Tables<"Events"> | undefined,
     integrationId: number
   ) => {
@@ -96,7 +96,7 @@ export default function IntegrationSelect({
           setIntegrations={setIntegrations}
           currentEvent={currentEvent}
           newIntegrationModalRef={newIntegrationModalRef}
-          handleUpdateIntegration={handleUpdateIntegration}
+          handleUpdateEvent={handleUpdateEvent}
         />
       </div>
       <div
@@ -144,7 +144,7 @@ export default function IntegrationSelect({
                     }`}
                     onClick={() => {
                       startEventTransition(() => {
-                        handleUpdateIntegration(currentEvent, integration.id);
+                        handleUpdateEvent(currentEvent, integration.id);
                         setTimeout(() => {
                           toggleModalRef.current?.classList.add("hidden");
                         }, 1000);

@@ -46,7 +46,7 @@ export default async function AccountLayout({
             className="drawer-overlay"
           ></label>
           {activeProject && (
-            <ul className="menu bg-white min-h-full w-80 p-4 text-lg">
+            <ul className="menu bg-white min-h-full w-80 p-4 text-lg font-sans">
               <li>
                 <Link href={`/dashboard/project/${activeProject.id}/create`}>
                   Create

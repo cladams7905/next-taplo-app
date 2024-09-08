@@ -17,16 +17,20 @@ import {
   RefObject,
   SetStateAction,
   useCallback,
+  useEffect,
   useState,
   useTransition,
 } from "react";
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
-import { CirclePlus } from "lucide-react";
+import { CirclePlus, Pencil } from "lucide-react";
 import Image from "next/image";
 import StripeLogo from "@/public/images/providers/stripe-logo.svg";
 import LemonSqueezyLogo from "@/public/images/providers/lemonsqueezy-logo.jpeg";
 import { Tables } from "@/supabase/types";
-import { createIntegration } from "@/lib/actions/integrations";
+import {
+  createIntegration,
+  updateIntegration,
+} from "@/lib/actions/integrations";
 import { checkDuplicateTitle } from "@/lib/actions";
 import { EventType, Providers } from "@/lib/enums";
 
@@ -46,56 +50,119 @@ export default function NewIntegrationForm({
   activeProject,
   integrations,
   setIntegrations,
-  currentEvent,
   newIntegrationModalRef,
-  handleUpdateIntegration,
+  currentEvent,
+  handleUpdateEvent,
+  integrationToEdit,
+  setIntegrationToEdit,
 }: {
   activeProject: Tables<"Projects">;
   integrations: Tables<"Integrations">[];
   setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
-  currentEvent?: Tables<"Events">;
   newIntegrationModalRef: RefObject<HTMLDialogElement>;
-  handleUpdateIntegration?: (
-    event: Tables<"Events">,
-    integrationId: number
-  ) => void;
+  currentEvent?: Tables<"Events">;
+  handleUpdateEvent?: (event: Tables<"Events">, integrationId: number) => void;
+  integrationToEdit?: Tables<"Integrations"> | undefined;
+  setIntegrationToEdit?: Dispatch<
+    SetStateAction<Tables<"Integrations"> | undefined>
+  >;
 }) {
   const [isPending, startTransition] = useTransition();
-  const [provider, setProvider] = useState<ProvidersEnum>();
+  const [provider, setProvider] = useState<ProvidersEnum>(
+    integrationToEdit?.provider || ""
+  );
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      provider: "",
-      key: "",
-      name: "",
+      provider: integrationToEdit?.provider || "",
+      key: integrationToEdit?.api_key || "",
+      name: integrationToEdit?.name || "",
     },
   });
+
+  /**
+   * This useEffect reinitializes the default values of the form field
+   * whenever integrationToEdit changes.
+   */
+  useEffect(() => {
+    if (integrationToEdit) {
+      form.reset({
+        provider: integrationToEdit?.provider || "",
+        key: integrationToEdit?.api_key || "",
+        name: integrationToEdit?.name || "",
+      });
+      setProvider(integrationToEdit?.provider || "");
+    } else {
+      form.reset({
+        provider: "",
+        key: "",
+        name: "",
+      });
+      setProvider("");
+    }
+  }, [integrationToEdit, form]);
 
   async function onSubmit(formData: z.infer<typeof FormSchema>) {
     startTransition(async () => {
       try {
-        const { data, error } = await createIntegration({
-          user_id: activeProject.user_id,
-          project_id: activeProject.id,
-          api_key: formData.key,
-          provider: formData.provider,
-          name: formData.name
-            ? formData.name
-            : checkDuplicateTitle(
-                integrations.map((integration) => integration.name),
-                `${formData.provider} API Key`
-              ),
-        });
+        let data, error;
+
+        //Check to see if there is an integration to edit. If there is, then update.
+        //If not, then create a new one.
+        if (integrationToEdit) {
+          const { data: updateData, error: updateError } =
+            await updateIntegration(integrationToEdit.id, {
+              api_key: formData.key,
+              provider: formData.provider,
+              name:
+                formData.name ||
+                checkDuplicateTitle(
+                  integrations.map((integration) => integration.name),
+                  `${formData.provider} API Key`
+                ),
+            });
+
+          data = updateData;
+          error = updateError;
+        } else {
+          const { data: createData, error: createError } =
+            await createIntegration({
+              user_id: activeProject.user_id,
+              project_id: activeProject.id,
+              api_key: formData.key,
+              provider: formData.provider,
+              name:
+                formData.name ||
+                checkDuplicateTitle(
+                  integrations.map((integration) => integration.name),
+                  `${formData.provider} API Key`
+                ),
+            });
+
+          data = createData;
+          error = createError;
+        }
 
         if (error) {
           showToastError(error);
           return;
         }
 
-        setIntegrations((prevIntegrations) => [...prevIntegrations, data]);
-        if (currentEvent && handleUpdateIntegration) {
-          handleUpdateIntegration(currentEvent, data.id);
+        if (integrationToEdit) {
+          setIntegrations((prevIntegrations) =>
+            prevIntegrations.map((integration) =>
+              integration.id === integrationToEdit?.id ? data : integration
+            )
+          );
+        } else {
+          setIntegrations((prevIntegrations) => [...prevIntegrations, data]);
+        }
+
+        //if the new integration form is opened within the event settings on the create page,
+        //then also update the corresponding event with the integration id.
+        if (currentEvent && handleUpdateEvent) {
+          handleUpdateEvent(currentEvent, data.id);
         }
         showToast(`Successfully created new ${data.provider} API Key.`);
 
@@ -105,7 +172,7 @@ export default function NewIntegrationForm({
           key: "",
           name: "",
         });
-        setProvider(undefined);
+        setProvider("");
       } catch (error) {
         showToastError(error);
       } finally {
@@ -189,7 +256,7 @@ export default function NewIntegrationForm({
             </FormItem>
           )}
         />
-        {provider !== "" && provider === "Stripe" && (
+        {provider === "Stripe" && (
           <div className="flex flex-col gap-2">
             <p className="text-sm font-bold">For connecting to Stripe: </p>
             <p className="text-sm text-gray-500">
@@ -248,6 +315,11 @@ export default function NewIntegrationForm({
         >
           {isPending ? (
             <LoadingDots color="#FFFFFF" />
+          ) : integrationToEdit ? (
+            <>
+              <Pencil height={20} width={20} />
+              Edit Integration
+            </>
           ) : (
             <>
               <CirclePlus height={20} width={20} />

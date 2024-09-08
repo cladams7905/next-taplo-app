@@ -1,11 +1,17 @@
 "use client";
 
 import { Tables } from "@/supabase/types";
-import { CirclePlus, EllipsisVertical, Trash } from "lucide-react";
+import { CirclePlus, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import Image from "next/image";
 import StripeLogo from "@/public/images/providers/stripe-logo.svg";
 import { convertDateTime } from "@/lib/actions";
-import { Dispatch, SetStateAction, useRef, useTransition } from "react";
+import {
+  Dispatch,
+  RefObject,
+  SetStateAction,
+  useRef,
+  useTransition,
+} from "react";
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { deleteIntegration } from "@/lib/actions/integrations";
 
@@ -14,11 +20,17 @@ export default function IntegrationsList({
   integrations,
   setIntegrations,
   searchQuery,
+  integrationModalRef,
+  setIntegrationToEdit,
 }: {
   events: Tables<"Events">[];
   integrations: Tables<"Integrations">[];
   setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
   searchQuery: string;
+  integrationModalRef: RefObject<HTMLDialogElement>;
+  setIntegrationToEdit: Dispatch<
+    SetStateAction<Tables<"Integrations"> | undefined>
+  >;
 }) {
   const filteredIntegrations = integrations.filter(
     (integration) =>
@@ -79,9 +91,11 @@ export default function IntegrationsList({
           </div>
         </div>
         <div className="flex items-center">
-          <DeleteIntegrationButton
+          <IntegrationSettingsDropdown
             integration={integration}
             setIntegrations={setIntegrations}
+            integrationModalRef={integrationModalRef}
+            setIntegrationToEdit={setIntegrationToEdit}
           />
         </div>
       </div>
@@ -103,18 +117,25 @@ export default function IntegrationsList({
   );
 }
 
-const DeleteIntegrationButton = ({
+const IntegrationSettingsDropdown = ({
   integration,
   setIntegrations,
+  integrationModalRef,
+  setIntegrationToEdit,
 }: {
   integration: Tables<"Integrations">;
   setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
+  integrationModalRef: RefObject<HTMLDialogElement>;
+  setIntegrationToEdit: Dispatch<
+    SetStateAction<Tables<"Integrations"> | undefined>
+  >;
 }) => {
-  const [isPending, startTransition] = useTransition();
+  const [isDeletePending, startDeleteTransition] = useTransition();
   const toggleElement = useRef<HTMLUListElement>(null);
 
   const handleDelete = () => {
-    startTransition(async () => {
+    startDeleteTransition(async () => {
+      console.log("here");
       const { data, error } = await deleteIntegration(integration.id);
       if (error) {
         showToastError(error);
@@ -149,8 +170,23 @@ const DeleteIntegrationButton = ({
       <ul
         tabIndex={0}
         ref={toggleElement}
-        className="menu menu-sm dropdown-content border border-neutral z-[1] p-2 shadow bg-base-100 rounded-md w-52"
+        className="menu menu-sm dropdown-content border border-neutral z-[1] p-2 shadow bg-base-100 rounded-md w-40"
       >
+        <li>
+          <a
+            className="flex items-center justify-between py-2 rounded-md"
+            onClick={() => {
+              setIntegrationToEdit(integration);
+              integrationModalRef.current?.showModal();
+            }}
+          >
+            <div className="flex items-center gap-2">
+              {" "}
+              <Pencil width={18} height={18} />
+              Edit
+            </div>
+          </a>
+        </li>
         <li>
           <a
             className="flex items-center justify-between py-2 rounded-md"
@@ -158,10 +194,10 @@ const DeleteIntegrationButton = ({
           >
             <div className="flex items-center gap-2">
               {" "}
-              <Trash width={18} height={18} />
+              <Trash2 width={18} height={18} />
               Delete
             </div>
-            {isPending && (
+            {isDeletePending && (
               <span className="loading loading-spinner loading-sm bg-base-content" />
             )}
           </a>
