@@ -170,10 +170,10 @@ export default function NewEventModal({
                 className={`relative flex flex-row border border-gray-300 shadow-md rounded-lg w-full lg:max-w-[352px] md:max-w-[352px] mb-1 ${
                   isEventAlreadyCreated(eventOption.type)
                     ? " hidden"
-                    : "cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform"
+                    : "cursor-pointer hover:outline hover:outline-[1px] hover:outline-primary hover:-translate-y-1 transition-transform"
                 } ${
                   eventsToCreate.includes(eventOption.type) &&
-                  "outline outline-[3px] outline-primary"
+                  "outline outline-[1px] outline-primary"
                 }`}
                 onClick={() => {
                   if (!isEventAlreadyCreated(eventOption.type)) {
@@ -186,8 +186,8 @@ export default function NewEventModal({
                 }}
               >
                 {eventsToCreate.includes(eventOption.type) && (
-                  <div className="flex items-center justify-center absolute top-0 z-[2] right-0 aspect-square w-10 h-10 rounded-bl-lg rounded-tr-lg bg-primary text-white outline outline-[1px] outline-primary">
-                    <CheckIcon width={20} height={20} strokeWidth={3} />
+                  <div className="flex items-center justify-center absolute top-0 z-[2] right-0 aspect-square w-6 h-6 rounded-bl-lg rounded-tr-lg bg-primary text-white outline outline-[1px] outline-primary">
+                    <CheckIcon width={16} height={16} strokeWidth={4} />
                   </div>
                 )}
                 <div className="flex items-center justify-center rounded-l-lg w-14 min-w-14 h-full bg-gradient-to-tr from-primary/90 to-purple-100 border-r border-gray-300">

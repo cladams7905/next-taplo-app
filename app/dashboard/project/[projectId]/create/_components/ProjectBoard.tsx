@@ -2,7 +2,7 @@
 
 import { Tables } from "@/supabase/types";
 import Sidebar from "./Sidebar";
-import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useColor } from "react-color-palette";
 import ViewContainer from "./popupView/ViewContainer";
 import { sortByTimeCreated } from "@/lib/actions";
@@ -11,7 +11,7 @@ import DOMPurify from "isomorphic-dompurify";
 import { User } from "@supabase/supabase-js";
 import { ProjectContext } from "@/app/dashboard/_components/ProjectContext";
 
-function ProjectBoard({
+export default function ProjectBoard({
   user,
   fetchedActiveProject,
   fetchedIntegrations,
@@ -308,5 +308,3 @@ function ProjectBoard({
     </ProjectContext.Provider>
   );
 }
-
-export default memo(ProjectBoard);

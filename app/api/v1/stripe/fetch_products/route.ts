@@ -10,8 +10,6 @@ export async function POST(request: NextRequest) {
       expand: ["data.default_price"],
     });
 
-    console.log(productData);
-
     return NextResponse.json({
       products: productData,
     });

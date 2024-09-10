@@ -1,6 +1,6 @@
 "use client";
 
-import { Tables } from "@/supabase/types";
+import { Tables, TablesInsert } from "@/supabase/types";
 import { ChevronDown } from "lucide-react";
 import {
   Dispatch,
@@ -16,6 +16,7 @@ import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import Image from "next/image";
 import StripeLogo from "@/public/images/providers/stripe-logo.svg";
 import { convertDateTime } from "@/lib/actions";
+import Stripe from "stripe";
 
 export default function IntegrationSelect({
   currentEvent,
@@ -33,7 +34,7 @@ export default function IntegrationSelect({
   setSelectedIntegration?: Dispatch<
     SetStateAction<Tables<"Integrations"> | undefined>
   >;
-  setProductsToSelect?: Dispatch<SetStateAction<Tables<"Products">[]>>;
+  setProductsToSelect?: Dispatch<SetStateAction<TablesInsert<"Products">[]>>;
   fetchProductsFromStripe?: (
     integration: Tables<"Integrations">
   ) => Promise<any>;
@@ -86,8 +87,24 @@ export default function IntegrationSelect({
       setSelectedIntegration(integration);
 
       startLoadingTransition(async () => {
-        const products = (await fetchProductsFromStripe(integration))?.data;
-        if (products && setProductsToSelect) setProductsToSelect(products);
+        const products: Stripe.Product[] = (
+          await fetchProductsFromStripe(integration)
+        )?.data;
+        if (products && setProductsToSelect)
+          setProductsToSelect(() => {
+            let newProducts: TablesInsert<"Products">[] = [];
+            products.forEach((product) => {
+              newProducts.push({
+                project_id: integration.project_id,
+                user_id: integration.user_id,
+                currency: (product.default_price as Stripe.Price)?.currency,
+                price: (product.default_price as Stripe.Price)?.unit_amount,
+                name: product.name,
+                image_url: product.images[0],
+              });
+            });
+            return newProducts;
+          });
       });
     } else {
       startLoadingTransition(() => {
