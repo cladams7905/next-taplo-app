@@ -8,6 +8,7 @@ import { Camera, Trash2 } from "lucide-react";
 import { createClient } from "@/supabase/client";
 import Image from "next/image";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
+import LoadingSkeleton from "./LoadingSkeleton";
 
 const ProductList = ({
   startLoadTransition,
@@ -92,17 +93,21 @@ const ProductList = ({
     let updatedProduct = { ...product };
     let shouldUpdate = false;
 
-    if (name === "name" && value !== product.name) {
+    if (name === "name" && value !== product.name && value !== "") {
       updatedProduct = { ...updatedProduct, name: value };
       shouldUpdate = true;
     }
 
-    if (name === "price" && parseFloat(value) !== product.price) {
+    if (
+      name === "price" &&
+      parseFloat(value) !== product.price &&
+      value !== ""
+    ) {
       updatedProduct = { ...updatedProduct, price: parseFloat(value) };
       shouldUpdate = true;
     }
 
-    if (name === "link" && value !== product.link) {
+    if (name === "link" && value !== product.link && value !== "") {
       updatedProduct = { ...updatedProduct, link: value };
       shouldUpdate = true;
     }
@@ -218,15 +223,7 @@ const ProductList = ({
           </div>
         ))
       ) : (
-        <div className="flex flex-row w-full items-center mt-4 mb-4">
-          <div className="flex w-fit items-center">
-            <div className="skeleton bg-primary/20 mr-3 items-center min-w-[48px] max-h-[48px] aspect-square rounded-lg"></div>
-          </div>
-          <div className="flex flex-col w-full gap-3">
-            <div className="skeleton rounded-lg h-6 w-full bg-primary/20" />
-            <div className="skeleton rounded-lg h-6 w-[80%] bg-primary/20" />
-          </div>
-        </div>
+        <LoadingSkeleton />
       )}
     </div>
   );

@@ -1,56 +1,65 @@
 "use client";
 
 import { Tables } from "@/supabase/types";
-import { ChevronDown, CirclePlus } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import {
+  Dispatch,
+  SetStateAction,
   TransitionStartFunction,
   useCallback,
   useEffect,
   useRef,
   useState,
 } from "react";
-import NewIntegrationModal from "../../../connect/_components/NewIntegrationModal";
 import { EventType, Providers } from "@/lib/enums";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import Image from "next/image";
 import StripeLogo from "@/public/images/providers/stripe-logo.svg";
 import { convertDateTime } from "@/lib/actions";
-import { updateEvent } from "@/lib/actions/events";
-import { showToastError } from "@/app/_components/shared/showToast";
 
 export default function IntegrationSelect({
   currentEvent,
-  startEventTransition,
+  startLoadingTransition,
+  handleUpdateEvent,
+  selectedIntegration,
+  setSelectedIntegration,
+  setProductsToSelect,
+  fetchProductsFromStripe,
 }: {
-  currentEvent: Tables<"Events">;
-  startEventTransition: TransitionStartFunction;
+  currentEvent?: Tables<"Events">;
+  startLoadingTransition: TransitionStartFunction;
+  handleUpdateEvent?: (event: Tables<"Events">, integrationId: number) => void;
+  selectedIntegration?: Tables<"Integrations"> | undefined;
+  setSelectedIntegration?: Dispatch<
+    SetStateAction<Tables<"Integrations"> | undefined>
+  >;
+  setProductsToSelect?: Dispatch<SetStateAction<Tables<"Products">[]>>;
+  fetchProductsFromStripe?: (
+    integration: Tables<"Integrations">
+  ) => Promise<any>;
 }) {
-  const { activeProject, setActiveEvent, integrations, setIntegrations } =
-    useProjectContext();
+  const { integrations } = useProjectContext();
   const toggleModalRef = useRef<HTMLDivElement>(null);
-  const newIntegrationModalRef = useRef<HTMLDialogElement>(null);
 
-  const handleUpdateEvent = async (
-    currentEvent: Tables<"Events"> | undefined,
-    integrationId: number
-  ) => {
-    if (currentEvent) {
-      const eventUpdateResult = await updateEvent(currentEvent.id, {
-        ...currentEvent,
-        integration_id: integrationId,
-      });
+  // Whether or not the integration select component is inside of the new product modal
+  const isInProductModal = currentEvent === undefined;
 
-      if (eventUpdateResult.error) {
-        showToastError(eventUpdateResult.error);
-      } else {
-        setActiveEvent({ ...currentEvent, integration_id: integrationId });
-      }
-    }
+  /**
+   * Gets the integration that matches the current currentEvent's integration id.
+   * @returns the integration
+   */
+  const getCurrentEventIntegration = () => {
+    return integrations.find(
+      (integration) => integration.id === currentEvent?.integration_id
+    );
   };
 
+  /**
+   * Returns the integrations that are compatible with the current currentEvent.
+   */
   const filterIntegrationsByEventType = useCallback(() => {
     let filteredIntegrations: Tables<"Integrations">[] = integrations;
-    switch (currentEvent.event_type) {
+    switch (currentEvent?.event_type) {
       case EventType.AddToCart:
       case EventType.SomeoneViewing:
       case EventType.Purchase:
@@ -65,42 +74,66 @@ export default function IntegrationSelect({
         break;
     }
     return filteredIntegrations;
-  }, [currentEvent.event_type, integrations]);
+  }, [currentEvent?.event_type, integrations]);
+
+  /**
+   * handles integration selection in the dropdown menu
+   * @param integration the integration to select
+   */
+  const handleIntegrationSelect = (integration: Tables<"Integrations">) => {
+    if (isInProductModal && setSelectedIntegration && fetchProductsFromStripe) {
+      if (setProductsToSelect) setProductsToSelect([]);
+      setSelectedIntegration(integration);
+
+      startLoadingTransition(async () => {
+        const products = (await fetchProductsFromStripe(integration))?.data;
+        if (products && setProductsToSelect) setProductsToSelect(products);
+      });
+    } else {
+      startLoadingTransition(() => {
+        if (handleUpdateEvent && currentEvent) {
+          handleUpdateEvent(currentEvent, integration.id);
+        }
+      });
+    }
+    setTimeout(
+      () => {
+        toggleModalRef.current?.classList.add("hidden");
+      },
+      isInProductModal ? 100 : 1000
+    );
+  };
+
+  /**
+   * Gets the integrations that can be used for product fetching
+   * @returns filtered integrations
+   */
+  const getIntegrationsForProductFetching = () => {
+    return integrations.filter(
+      (integration) => integration.provider === Providers.Stripe
+    );
+  };
 
   const [filteredIntegrations, setFilteredIntegrations] = useState<
     Tables<"Integrations">[]
-  >(filterIntegrationsByEventType);
+  >(
+    currentEvent
+      ? filterIntegrationsByEventType()
+      : getIntegrationsForProductFetching()
+  );
 
+  /**
+   * Change integration dropdown options whenever integrations array changes.
+   */
   useEffect(() => {
-    setFilteredIntegrations(filterIntegrationsByEventType);
+    setFilteredIntegrations(filterIntegrationsByEventType());
   }, [integrations, filterIntegrationsByEventType]);
 
-  const getIntegrationById = (integrationId: number) => {
-    return integrations.find((integration) => integration.id === integrationId);
-  };
   return (
     <>
       {" "}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1">Integration</div>
-        <div
-          className="btn btn-sm w-auto btn-ghost text-xs"
-          onClick={() => newIntegrationModalRef.current?.showModal()}
-        >
-          New
-          <CirclePlus height={16} width={16} />
-        </div>
-        <NewIntegrationModal
-          activeProject={activeProject}
-          integrations={integrations}
-          setIntegrations={setIntegrations}
-          currentEvent={currentEvent}
-          newIntegrationModalRef={newIntegrationModalRef}
-          handleUpdateEvent={handleUpdateEvent}
-        />
-      </div>
       <div
-        className="dropdown"
+        className={`dropdown ${isInProductModal && "w-full"}`}
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -109,9 +142,11 @@ export default function IntegrationSelect({
       >
         <div
           tabIndex={0}
-          className="flex p-2 px-3 items-center justify-between cursor-pointer border bg-white border-gray-200 rounded-lg text-sm"
+          className={`flex p-2 px-3 items-center justify-between cursor-pointer border bg-white border-gray-200 rounded-lg text-sm ${
+            isInProductModal && "text-lg w-full join-item h-[48px]"
+          }`}
         >
-          {currentEvent.integration_id ? (
+          {currentEvent?.integration_id ? (
             <div className="flex items-center gap-2">
               <Image
                 width={16}
@@ -120,7 +155,19 @@ export default function IntegrationSelect({
                 src={StripeLogo}
                 className="rounded-sm"
               />
-              {getIntegrationById(currentEvent.integration_id)?.name}
+              {getCurrentEventIntegration()?.name}
+            </div>
+          ) : selectedIntegration ? (
+            <div className="flex items-center gap-2">
+              {" "}
+              <Image
+                width={16}
+                height={16}
+                alt={"provider logo"}
+                src={StripeLogo}
+                className="rounded-sm"
+              />
+              {selectedIntegration.name}
             </div>
           ) : (
             <span className="text-gray-400">Select an integration</span>
@@ -138,18 +185,11 @@ export default function IntegrationSelect({
                 <li key={i}>
                   <a
                     className={`flex flex-col items-start justify-between rounded-md py-2 ${
-                      integration.id === currentEvent.integration_id
+                      integration.id === currentEvent?.integration_id
                         ? "text-gray-400 pointer-events-none"
                         : ""
                     }`}
-                    onClick={() => {
-                      startEventTransition(() => {
-                        handleUpdateEvent(currentEvent, integration.id);
-                        setTimeout(() => {
-                          toggleModalRef.current?.classList.add("hidden");
-                        }, 1000);
-                      });
-                    }}
+                    onClick={() => handleIntegrationSelect(integration)}
                   >
                     <div className="flex items-center gap-3">
                       <Image
@@ -158,14 +198,14 @@ export default function IntegrationSelect({
                         alt={"provider logo"}
                         src={StripeLogo}
                         className={`rounded-sm ${
-                          integration.id === currentEvent.integration_id
+                          integration.id === currentEvent?.integration_id
                             ? "grayscale opacity-50"
                             : ""
                         }`}
                       />
                       <div className="flex flex-col gap-[2px]">
                         {integration.name}{" "}
-                        {integration.id === currentEvent.integration_id &&
+                        {integration.id === currentEvent?.integration_id &&
                           "- Selected"}
                         <p className="text-xs text-gray-400">
                           {" "}
@@ -178,8 +218,9 @@ export default function IntegrationSelect({
               ))
             ) : (
               <div className="text-gray-400 text-xs">
-                You haven&apos;t created any integrations for this event yet.
-                Click &quot;+&quot; to create a new one!
+                {isInProductModal
+                  ? "You don't have any integrations connected that are able to fetch products. Please first create a Stripe or Shopify integration to fetch products."
+                  : 'You haven\'t created any integrations for this event yet. Click "+" to create a new one!'}
               </div>
             )}
           </ul>

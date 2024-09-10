@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 import { getIntegrations } from "@/lib/actions/integrations";
 import { getEvents } from "@/lib/actions/events";
 import { getProducts } from "@/lib/actions/products";
+import { User } from "@supabase/supabase-js";
+import { getURL } from "@/lib/actions";
 
 export default async function CreatePopupPage({ params }: { params: string }) {
   const supabase = createClient();
@@ -17,6 +19,7 @@ export default async function CreatePopupPage({ params }: { params: string }) {
   const integrations = (await getIntegrations(activeProject.id)).data;
   const events = (await getEvents(activeProject.id)).data;
   const products = (await getProducts(activeProject.id)).data;
+  const featuresVoteToken = await fetchToken(data.user);
 
   return (
     <ProjectBoard
@@ -25,6 +28,31 @@ export default async function CreatePopupPage({ params }: { params: string }) {
       fetchedIntegrations={integrations}
       fetchedEvents={events}
       fetchedProducts={products}
+      featuresVoteToken={featuresVoteToken}
     />
   );
 }
+
+const fetchToken = async (user: User) => {
+  try {
+    const res = await fetch(getURL() + "/api/v1/features_vote", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user: user,
+      }),
+    });
+
+    if (!res.ok) {
+      console.error("Failed to fetch token:", res.statusText);
+      return;
+    }
+
+    const responseData = await res.json();
+    return responseData.token;
+  } catch (error) {
+    console.error("Error fetching token:", error);
+  }
+};

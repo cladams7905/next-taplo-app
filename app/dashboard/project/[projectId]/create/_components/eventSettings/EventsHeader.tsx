@@ -21,18 +21,20 @@ export default function EventsHeader({
 
   return (
     <div className="flex flex-row justify-between items-center">
-      <div className="flex items-center gap-2">
-        <div className="flex flex-col ml-2 font-semibold text-sm">
-          <p>Events ({events.length})</p>
+      <div className="flex items-center gap-[6px]">
+        <div className="flex flex-col ml-2 font-semibold text-sm gap-1">
+          <div className="flex items-center gap-3">
+            <p>Events ({events.length})</p>
+            {isEventPending && (
+              <span className="loading loading-spinner loading-xs bg-base-content"></span>
+            )}
+          </div>
           {events.length > 0 && (
-            <div className="text-xs font-normal text-gray-400">
+            <div className="text-xs font-normal">
               Viewing: {activeEvent?.event_type}
             </div>
           )}
         </div>
-        {isEventPending && (
-          <span className="loading loading-spinner loading-xs bg-base-content"></span>
-        )}
       </div>
       <div
         className="btn btn-sm w-auto btn-primary text-white text-xs"

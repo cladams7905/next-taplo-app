@@ -159,6 +159,7 @@ export default function NewIntegrationForm({
           );
         } else {
           setIntegrations((prevIntegrations) => [...prevIntegrations, data]);
+          showToast(`Successfully created new ${data.provider} API Key.`);
         }
 
         //if the new integration form is opened within the event settings on the create page,
@@ -166,7 +167,6 @@ export default function NewIntegrationForm({
         if (currentEvent && handleUpdateEvent) {
           handleUpdateEvent(currentEvent, data.id);
         }
-        showToast(`Successfully created new ${data.provider} API Key.`);
 
         // Reset form values after successful submission
         form.reset({
@@ -178,6 +178,7 @@ export default function NewIntegrationForm({
       } catch (error) {
         showToastError(error);
       } finally {
+        if (setIntegrationToEdit) setIntegrationToEdit(undefined);
         newIntegrationModalRef.current?.close();
       }
     });

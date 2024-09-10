@@ -1,45 +1,24 @@
 "use client";
 
 import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, memo } from "react";
 import ContactModal from "./ContactModal";
 import Link from "next/link";
-import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import { Pencil, Settings, Trash2 } from "lucide-react";
 import RenameProjectModal from "./RenameProjectModal";
 import DeleteProjectModal from "./DeleteProjectModal";
+import { User } from "@supabase/supabase-js";
 
-export default function ViewContainerFooter() {
-  const [token, setToken] = useState<string | null>(null);
+function ViewContainerFooter({
+  featuresVoteToken,
+}: {
+  featuresVoteToken: string | undefined;
+}) {
   const contactDropdownRef = useRef<HTMLUListElement>(null);
   const contactModalRef = useRef<HTMLDialogElement>(null);
   const deleteModalRef = useRef<HTMLDialogElement>(null);
   const renameModalRef = useRef<HTMLDialogElement>(null);
   const settingsDropdownRef = useRef<HTMLUListElement>(null);
-  const { user } = useProjectContext();
-
-  useEffect(() => {
-    const fetchToken = async () => {
-      try {
-        const res = await fetch("/api/v1/features_vote", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            user: user,
-          }),
-        });
-        const data = await res.json();
-
-        setToken(data.token);
-      } catch (error) {
-        console.error("Error fetching token:", error);
-      }
-    };
-
-    fetchToken();
-  }, [user]);
 
   return (
     <div className="flex absolute gap-2 bottom-0 right-0 w-full justify-end items-end px-5">
@@ -111,7 +90,9 @@ export default function ViewContainerFooter() {
           <li>
             <Link
               href={
-                token ? `https://taplo.features.vote/board?token=${token}` : "#"
+                featuresVoteToken
+                  ? `https://taplo.features.vote/board?token=${featuresVoteToken}`
+                  : "#"
               }
               target="_blank"
               className="flex flex-col items-start rounded-md"
@@ -138,3 +119,5 @@ export default function ViewContainerFooter() {
     </div>
   );
 }
+
+export default memo(ViewContainerFooter);

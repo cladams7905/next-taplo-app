@@ -7,9 +7,11 @@ import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import { Dispatch, SetStateAction } from "react";
 
 export default function ViewContainer({
+  featuresVoteToken,
   isPreviewMode,
   setPreviewMode,
 }: {
+  featuresVoteToken: string | undefined;
   isPreviewMode: boolean;
   setPreviewMode: Dispatch<SetStateAction<boolean>>;
 }) {
@@ -23,7 +25,7 @@ export default function ViewContainer({
       <div className="flex justify-center items-center w-full h-full">
         {events.length > 0 && <PopupViewer />}
       </div>
-      <ViewContainerFooter />
+      <ViewContainerFooter featuresVoteToken={featuresVoteToken} />
     </div>
   );
 }

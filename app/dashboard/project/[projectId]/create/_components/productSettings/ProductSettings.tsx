@@ -1,13 +1,11 @@
 "use client";
 
 import useScroll from "@/lib/hooks/use-scroll";
-import { RefObject, useTransition } from "react";
+import { RefObject, useRef, useTransition } from "react";
 import ProductList from "./ProductList";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
-import { showToastError } from "@/app/_components/shared/showToast";
 import { CirclePlus } from "lucide-react";
-import { TablesInsert } from "@/supabase/types";
-import { createProduct } from "@/lib/actions/products";
+import NewProductModal from "./NewProductModal";
 
 export default function ProductSettings({
   scrollRef,
@@ -20,25 +18,14 @@ export default function ProductSettings({
   eventHeaderHeight: number | undefined;
   isPreviewMode: boolean;
 }) {
-  const { activeProject, events, products, setProducts, activeProduct } =
-    useProjectContext();
+  const { events, products, activeProduct } = useProjectContext();
   const scrolled = useScroll(eventHeaderHeight, scrollRef);
   const [isProductPending, startProductTransition] = useTransition();
+  const productModalRef = useRef<HTMLDialogElement>(null);
+  const activeProductIndex = products.findIndex(
+    (product) => product.id === activeProduct?.id
+  );
 
-  const handleCreateProduct = () => {
-    startProductTransition(async () => {
-      const product: TablesInsert<"Products"> = {
-        project_id: activeProject.id,
-        user_id: activeProject.user_id,
-      };
-      const { data, error } = await createProduct(product);
-      if (error) {
-        showToastError(error);
-      } else {
-        setProducts((prevProducts) => [...prevProducts, data]);
-      }
-    });
-  };
   return (
     <div
       ref={productsHeaderRef}
@@ -51,32 +38,40 @@ export default function ProductSettings({
           scrolled ? "border-b border-gray-300 -mb-[1px] shadow-sm" : ""
         } ${isPreviewMode ? "z-[1]" : "z-[2]"}`}
       >
-        <div className="flex items-center sticky top-[-1px] gap-2 bg-white">
-          <div className="font-semibold ml-2 text-sm">
-            Products ({products.length})
-          </div>
-          {products.length > 0 && (
-            <div className="flex items-center font-semibold gap-1 text-[11px] ml-2 bg-primary/20 rounded-lg p-1 px-3">
-              {activeProduct?.name
-                ? activeProduct.name
-                : `Unnamed Product (${
-                    products.indexOf(activeProduct!) + 1
-                  })`}{" "}
+        <div className="flex flex-row items-center sticky top-[-1px] ml-2 gap-2 bg-white">
+          <div className="flex flex-col gap-[6px]">
+            {" "}
+            <div className="font-semibold text-sm flex flex-row gap-3">
+              <p>Products ({products.length})</p>
+              {isProductPending && (
+                <span className="loading loading-spinner loading-xs bg-base-content"></span>
+              )}
             </div>
-          )}
-          {isProductPending && (
-            <span className="loading loading-spinner loading-xs bg-base-content"></span>
-          )}
+            {products.length > 0 && activeProduct && (
+              <div className="text-xs font-normal">
+                Viewing:{" "}
+                {activeProduct?.name
+                  ? activeProduct.name
+                  : `Unnamed Product (${activeProductIndex + 1})`}{" "}
+              </div>
+            )}
+          </div>
         </div>
         <div className="flex items-center gap-2">
           {events.length > 0 && (
-            <div
-              className="btn btn-sm w-auto btn-primary text-white text-xs"
-              onClick={() => handleCreateProduct()}
-            >
-              New Product
-              <CirclePlus height={18} width={18} />
-            </div>
+            <>
+              <div
+                className="btn btn-sm w-auto btn-primary text-white text-xs"
+                onClick={() => productModalRef.current?.showModal()}
+              >
+                New Product
+                <CirclePlus height={18} width={18} />
+              </div>
+              <NewProductModal
+                productModalRef={productModalRef}
+                startProductLoadingTransition={startProductTransition}
+              />
+            </>
           )}
         </div>
       </div>

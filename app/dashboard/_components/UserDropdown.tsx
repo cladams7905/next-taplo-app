@@ -4,14 +4,14 @@ import { CircleUserRound, LogOut, Settings } from "lucide-react";
 import { User } from "@supabase/supabase-js";
 import { signOut } from "@/app/(auth)/_actions";
 import Image from "next/image";
-import { useEffect, useState, useTransition } from "react";
+import { memo, useEffect, useState, useTransition } from "react";
 import { redirect } from "next/navigation";
 import LoadingDots from "@/app/_components/shared/loadingdots";
 import { showToastError } from "@/app/_components/shared/showToast";
 import Link from "next/link";
 import { getProduct, getSubscription } from "@/stripe/actions";
 
-export default function UserDropdown({ user }: { user: User }) {
+function UserDropdown({ user }: { user: User }) {
   const [isPending, startTransition] = useTransition();
 
   const email = user?.email;
@@ -150,3 +150,5 @@ export default function UserDropdown({ user }: { user: User }) {
     </div>
   );
 }
+
+export default memo(UserDropdown);

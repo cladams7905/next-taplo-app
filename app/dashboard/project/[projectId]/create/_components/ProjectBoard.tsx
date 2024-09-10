@@ -2,30 +2,29 @@
 
 import { Tables } from "@/supabase/types";
 import Sidebar from "./Sidebar";
-import { useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useColor } from "react-color-palette";
 import ViewContainer from "./popupView/ViewContainer";
 import { sortByTimeCreated } from "@/lib/actions";
 import { ContentVars } from "@/lib/enums";
 import DOMPurify from "isomorphic-dompurify";
 import { User } from "@supabase/supabase-js";
-import {
-  ProjectContextType,
-  ProjectContext,
-} from "@/app/dashboard/_components/ProjectContext";
+import { ProjectContext } from "@/app/dashboard/_components/ProjectContext";
 
-export default function ProjectBoard({
+function ProjectBoard({
   user,
   fetchedActiveProject,
   fetchedIntegrations,
   fetchedEvents,
   fetchedProducts,
+  featuresVoteToken,
 }: {
   user: User;
   fetchedActiveProject: Tables<"Projects">;
   fetchedIntegrations: Tables<"Integrations">[];
   fetchedEvents: Tables<"Events">[];
   fetchedProducts: Tables<"Products">[];
+  featuresVoteToken: string | undefined;
 }) {
   /**
    * Active Project: the project which is currently being displayed from
@@ -267,8 +266,7 @@ export default function ProjectBoard({
     return transformedWords.join(" ");
   };
 
-  const contextValue: ProjectContextType = {
-    user,
+  const contextValue = {
     activeProject,
     setActiveProject,
     activeEvent,
@@ -293,12 +291,12 @@ export default function ProjectBoard({
     setBorderColor,
     replaceVariablesInContentBody,
   };
-
   return (
     <ProjectContext.Provider value={contextValue}>
       <main className="flex lg:flex-row md:flex-row flex-col w-full h-screen-minus-navbar">
         <div className="lg:w-[60%] w-full">
           <ViewContainer
+            featuresVoteToken={featuresVoteToken}
             isPreviewMode={isPreviewMode}
             setPreviewMode={setPreviewMode}
           />
@@ -310,3 +308,5 @@ export default function ProjectBoard({
     </ProjectContext.Provider>
   );
 }
+
+export default memo(ProjectBoard);

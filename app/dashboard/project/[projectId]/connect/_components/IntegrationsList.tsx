@@ -50,10 +50,11 @@ export default function IntegrationsList({
     if (eventStr !== "") {
       return (
         <p className="text-sm text-gray-500">
-          <span className="text-base-content">Used in events:</span>{" "}
-          {eventTypes}
+          <span className="text-base-content">Used in events:</span> {eventStr}
         </p>
       );
+    } else {
+      return <p className="text-sm text-error">Unused integration</p>;
     }
   };
 
@@ -78,11 +79,7 @@ export default function IntegrationsList({
         </div>
         <div className="flex flex-col h-full w-full p-2 gap-2">
           <p>{integration.name}</p>
-          <div className="max-w-64">
-            <p className="text-sm text-gray-500">
-              <span className="text-base-content">Provider: </span>
-              {integration.provider}
-            </p>
+          <div className="md:max-w-sm">
             <p className="text-sm text-gray-500">
               <span className="text-base-content">Created: </span>
               {convertDateTime(integration.created_at)}

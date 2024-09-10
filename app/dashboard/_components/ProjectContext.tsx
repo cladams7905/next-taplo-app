@@ -1,12 +1,10 @@
 "use client";
 
 import { Tables } from "@/supabase/types";
-import { User } from "@supabase/supabase-js";
 import { createContext, Dispatch, SetStateAction, useContext } from "react";
 import { IColor } from "react-color-palette";
 
 export interface ProjectContextType {
-  user: User;
   activeProject: Tables<"Projects">;
   setActiveProject: Dispatch<SetStateAction<Tables<"Projects">>>;
   activeEvent: Tables<"Events"> | undefined;
@@ -45,7 +43,6 @@ export const ProjectContext = createContext<ProjectContextType | undefined>(
 
 /**
  * @interface ProjectContextType
- * @prop user
  * @prop activeProject
  * @prop activeEvent
  * @prop events

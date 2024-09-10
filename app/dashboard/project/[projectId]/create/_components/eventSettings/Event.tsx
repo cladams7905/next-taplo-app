@@ -1,9 +1,10 @@
 "use client";
 
 import { Tables } from "@/supabase/types";
-import { TransitionStartFunction, useState } from "react";
+import { memo, TransitionStartFunction, useRef, useState } from "react";
 import {
   Boxes,
+  CirclePlus,
   ShoppingBag,
   ShoppingCart,
   Trash2,
@@ -16,8 +17,11 @@ import IntegrationSelect from "./IntegrationSelect";
 import ContentBodyEditor from "./ContentBodyEditor";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import { EventType } from "@/lib/enums";
+import NewIntegrationModal from "../../../connect/_components/NewIntegrationModal";
+import { updateEvent } from "@/lib/actions/events";
+import { showToastError } from "@/app/_components/shared/showToast";
 
-export default function Event({
+function Event({
   currentEvent,
   startEventTransition,
   handleEventDelete,
@@ -27,12 +31,15 @@ export default function Event({
   handleEventDelete: (eventId: number) => void;
 }) {
   const {
+    activeProject,
     activeEvent,
     setActiveEvent,
+    setEvents,
     integrations,
+    setIntegrations,
     replaceVariablesInContentBody,
   } = useProjectContext();
-
+  const newIntegrationModalRef = useRef<HTMLDialogElement>(null);
   const [isEditContentMode, setEditContentMode] = useState<boolean>(false);
 
   const contentBodyHtml = replaceVariablesInContentBody(
@@ -80,6 +87,38 @@ export default function Event({
     }
   };
 
+  const handleUpdateEvent = async (
+    currentEvent: Tables<"Events"> | undefined,
+    integrationId: number
+  ) => {
+    if (currentEvent) {
+      // Update the event with the new integration_id
+      const eventUpdateResult = await updateEvent(currentEvent.id, {
+        ...currentEvent,
+        integration_id: integrationId,
+      });
+
+      if (eventUpdateResult.error) {
+        showToastError(eventUpdateResult.error);
+      } else {
+        // Update the events state and activeEvent state
+        setEvents((prevEvents) =>
+          prevEvents.map((event) =>
+            event.id === currentEvent.id
+              ? { ...event, integration_id: integrationId } // Update the integration_id for the matching event
+              : event
+          )
+        );
+
+        // Update the active event
+        setActiveEvent({
+          ...currentEvent,
+          integration_id: integrationId,
+        });
+      }
+    }
+  };
+
   return (
     <>
       <input type="radio" className="-z-10" />
@@ -93,7 +132,7 @@ export default function Event({
           </div>
           <div className="flex flex-col gap-1">
             {currentEvent.event_type}
-            <div className="text-xs text-gray-400">
+            <div className="text-xs">
               {currentEvent.integration_id ? (
                 "Listens to: " +
                 getIntegrationById(currentEvent.integration_id)?.provider
@@ -111,13 +150,32 @@ export default function Event({
           handleToggleActiveEvent();
         }}
       >
-        <div className="text-xs mt-4">
+        <div className="sm:text-[13px] sm:leading-5 text-xs mt-4 bg-gray-50 border border-gray-200 rounded-lg p-4">
           {getEventDescription(currentEvent.event_type as EventType)}
         </div>
         <div className="w-full flex flex-col gap-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1">Integration</div>
+            <div
+              className="btn btn-sm w-auto btn-ghost text-xs"
+              onClick={() => newIntegrationModalRef.current?.showModal()}
+            >
+              New
+              <CirclePlus height={16} width={16} />
+            </div>
+            <NewIntegrationModal
+              activeProject={activeProject}
+              integrations={integrations}
+              setIntegrations={setIntegrations}
+              currentEvent={currentEvent}
+              newIntegrationModalRef={newIntegrationModalRef}
+              handleUpdateEvent={handleUpdateEvent}
+            />
+          </div>
           <IntegrationSelect
             currentEvent={currentEvent}
-            startEventTransition={startEventTransition}
+            startLoadingTransition={startEventTransition}
+            handleUpdateEvent={handleUpdateEvent}
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -170,3 +228,5 @@ export default function Event({
     </>
   );
 }
+
+export default memo(Event);
