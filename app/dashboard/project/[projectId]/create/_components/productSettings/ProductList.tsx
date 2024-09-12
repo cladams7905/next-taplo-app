@@ -1,14 +1,14 @@
 "use client";
 
 import { Tables } from "@/supabase/types";
-import { ChangeEvent, TransitionStartFunction, useTransition } from "react";
+import { ChangeEvent, TransitionStartFunction } from "react";
 import { deleteProduct, updateProduct } from "@/lib/actions/products";
-import { showToastError } from "@/app/_components/shared/showToast";
+import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { Camera, Trash2 } from "lucide-react";
 import { createClient } from "@/supabase/client";
 import Image from "next/image";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
-import LoadingSkeleton from "./LoadingSkeleton";
+import { formatPrice } from "@/lib/actions";
 
 const ProductList = ({
   startLoadTransition,
@@ -22,8 +22,6 @@ const ProductList = ({
     activeProduct,
     setActiveProduct,
   } = useProjectContext();
-
-  const [isProductListPending, startProductTransition] = useTransition();
 
   const handleToggleActiveProduct = (currentProduct: Tables<"Products">) => {
     if (!activeProduct || activeProduct.id !== currentProduct.id) {
@@ -81,6 +79,7 @@ const ProductList = ({
           );
           return updatedProducts;
         });
+        showToast(`${data?.name ? data.name : "Unnamed Product"} was deleted.`);
       }
     });
   };
@@ -100,14 +99,20 @@ const ProductList = ({
 
     if (
       name === "price" &&
-      parseFloat(value) !== product.price &&
+      parseFloat(value.replace(/[^0-9.-]+/g, "")) !== product.price &&
       value !== ""
     ) {
-      updatedProduct = { ...updatedProduct, price: parseFloat(value) };
+      updatedProduct = {
+        ...updatedProduct,
+        price: parseFloat(value.replace(/[^0-9.-]+/g, "")), //remove $ sign,
+      };
       shouldUpdate = true;
     }
 
-    if (name === "link" && value !== product.link && value !== "") {
+    if (
+      (name === "link" && value !== product.link && value !== "") ||
+      (product.link !== "" && product.link !== null && value === "")
+    ) {
       updatedProduct = { ...updatedProduct, link: value };
       shouldUpdate = true;
     }
@@ -124,17 +129,17 @@ const ProductList = ({
   };
 
   return (
-    <div className="w-full flex flex-col gap-2">
+    <div className="w-full flex flex-col gap-4">
       {!products || products.length === 0 ? (
         <div className="px-4 text-xs text-center text-gray-400">
           To enable products, first create a new event.
         </div>
-      ) : !isProductListPending ? (
+      ) : (
         products.map((product) => (
           <div
             key={product.id}
             onClick={() => handleToggleActiveProduct(product)}
-            className="relative flex flex-row w-full items-center mb-4 rounded-lg bg-white border border-gray-200 py-5 pr-2 pl-5"
+            className="relative flex flex-row w-full items-center rounded-lg bg-white border border-gray-200 px-4 py-6"
           >
             <div
               className={`absolute left-0 rounded-l-lg w-[8px] h-full ${
@@ -195,35 +200,48 @@ const ProductList = ({
                   <input
                     type="text"
                     name="price"
-                    onBlur={(e) => handleUpdateProduct(e, product)}
+                    onInput={(e) => {
+                      // Only allow numbers and decimal point
+                      e.currentTarget.value = e.currentTarget.value.replace(
+                        /[^0-9.]/g,
+                        ""
+                      );
+                    }}
+                    onBlur={(e) => {
+                      e.currentTarget.value = formatPrice(
+                        e.currentTarget.value
+                      );
+                      handleUpdateProduct(e, product);
+                    }}
                     placeholder="0.00"
-                    defaultValue={product.price || ""}
+                    defaultValue={formatPrice(product.price) || ""}
                     className="input input-bordered input-sm max-w-[120px]"
                   />
                 </div>
               </div>
-              <div className="flex flex-col w-full gap-1">
-                <p className="text-xs">Link (optional)</p>
-                <input
-                  type="url"
-                  name="link"
-                  onBlur={(e) => handleUpdateProduct(e, product)}
-                  placeholder="https://www.my-site.com/my-awesome-product"
-                  defaultValue={product.link || ""}
-                  className="input input-bordered input-sm w-full"
-                />
+              <div className="flex flex-row items-end gap-2">
+                <div className="flex flex-col w-full gap-1">
+                  <p className="text-xs">Link (optional)</p>
+                  <input
+                    type="url"
+                    name="link"
+                    onBlur={(e) => handleUpdateProduct(e, product)}
+                    placeholder="https://www.my-site.com/my-awesome-product"
+                    defaultValue={product.link || ""}
+                    className="input input-bordered input-sm w-full"
+                  />
+                </div>
+                <div
+                  className="flex items-center gap-1 btn btn-sm text-xs btn-error text-white"
+                  onClick={() => handleDeleteProduct(product.id)}
+                >
+                  Delete
+                  <Trash2 width={16} height={16} />
+                </div>
               </div>
-            </div>
-            <div
-              className="hover:bg-link-hover p-2 ml-1 rounded-lg cursor-pointer -mt-10"
-              onClick={() => handleDeleteProduct(product.id)}
-            >
-              <Trash2 width={18} height={18} />
             </div>
           </div>
         ))
-      ) : (
-        <LoadingSkeleton />
       )}
     </div>
   );

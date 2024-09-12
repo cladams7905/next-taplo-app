@@ -30,14 +30,15 @@ export default function ProjectBoard({
    * Active Project: the project which is currently being displayed from
    * the project dropdown menu.
    */
-  const [activeProject, setActiveProject] =
-    useState<Tables<"Projects">>(fetchedActiveProject);
+  const [activeProject, setActiveProject] = useState<Tables<"Projects">>(
+    fetchedActiveProject || {}
+  );
 
   /**
    * Events: the state value that stores all the events associated with a project.
    */
   const [events, setEvents] = useState<Tables<"Events">[]>(
-    sortByTimeCreated(fetchedEvents)
+    sortByTimeCreated(fetchedEvents) || []
   );
 
   /**
@@ -291,6 +292,16 @@ export default function ProjectBoard({
     setBorderColor,
     replaceVariablesInContentBody,
   };
+
+  if (!fetchedActiveProject || !fetchedEvents || !fetchedProducts) {
+    return (
+      <div>
+        Error fetching data. Please get in touch about this error
+        (help@taplo.io).
+      </div>
+    );
+  }
+
   return (
     <ProjectContext.Provider value={contextValue}>
       <main className="flex lg:flex-row md:flex-row flex-col w-full h-screen-minus-navbar">

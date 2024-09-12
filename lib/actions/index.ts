@@ -86,13 +86,41 @@ export const calculateBillingCycle = () => {
  * @param cents value in cents
  * @returns $0.00 format
  */
-export function formatCentsToDollars(cents: number | null) {
+export function formatCentsToDollars(
+  cents: number | null,
+  includeDollarSign: boolean = true
+) {
   if (cents !== null) {
     const dollars = (cents / 100).toFixed(2);
-    return `$${dollars}`;
+    return includeDollarSign ? `$${dollars}` : dollars;
   }
   return "";
 }
+
+/**
+ * Formats a price string to $0.00 format
+ * @param price the price
+ */
+export const formatPrice = (price: string | number | null) => {
+  if (!price) return "";
+
+  let value;
+  if (typeof price === "string") {
+    value = parseFloat(price);
+  } else {
+    value = price;
+  }
+
+  if (!isNaN(value)) {
+    // Format the value as currency with 2 decimal places
+    price = value.toFixed(2);
+    // Optionally, prepend the currency symbol
+    price = `$${price}`;
+  } else {
+    price = "0.00"; // Handle empty or invalid input
+  }
+  return price;
+};
 
 /**
  * Appends an ellipsis to the end of a string when str exceeds maxLength

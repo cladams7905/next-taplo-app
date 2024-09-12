@@ -1,26 +1,30 @@
 "use client";
 
-import { showToastError } from "@/app/_components/shared/showToast";
+import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import { createProduct } from "@/lib/actions/products";
 import { Tables, TablesInsert } from "@/supabase/types";
 import {
   RefObject,
   TransitionStartFunction,
+  useRef,
   useState,
   useTransition,
 } from "react";
 import IntegrationSelect from "../eventSettings/IntegrationSelect";
 import { BoxIcon, CheckIcon, RotateCcw, TriangleAlert } from "lucide-react";
 import LoadingSkeleton from "./LoadingSkeleton";
-import { formatCentsToDollars } from "@/lib/actions";
+import { formatPrice } from "@/lib/actions";
 import Image from "next/image";
+import LoadingDots from "@/app/_components/shared/loadingdots";
 
 export default function NewProductModal({
   productModalRef,
+  isProductPending,
   startProductLoadingTransition,
 }: {
   productModalRef: RefObject<HTMLDialogElement>;
+  isProductPending: boolean;
   startProductLoadingTransition: TransitionStartFunction;
 }) {
   const { activeProject, setProducts, setActiveProduct } = useProjectContext();
@@ -35,6 +39,8 @@ export default function NewProductModal({
   const [productsToCreate, setProductsToCreate] = useState<
     TablesInsert<"Products">[]
   >([]);
+  const selectAllCheckboxRef = useRef<HTMLInputElement>(null);
+  const [isSelectAll, setSelectAll] = useState(false);
 
   const addProductToCreate = (product: TablesInsert<"Products">) => {
     setProductsToCreate((prevProductsToCreate) => {
@@ -73,7 +79,9 @@ export default function NewProductModal({
       handleCreateProduct(product);
     });
     setTimeout(() => {
+      showToast(`${productsToCreate.length} new products were created.`);
       setProductsToCreate([]);
+      setSelectAll(false);
       productModalRef.current?.close();
     }, 1500);
   };
@@ -109,7 +117,7 @@ export default function NewProductModal({
 
   return (
     <dialog className="modal" ref={productModalRef}>
-      <div className="modal-box relative !py-0 max-w-screen-md min-h-[65vh] max-h-[90vh] h-full text-base-content dark:border dark:border-gray-600">
+      <div className="modal-box relative !py-0 max-w-screen-md min-h-[65vh] max-h-[85vh] h-full text-base-content dark:border dark:border-gray-600">
         <div className="flex flex-col w-full h-full gap-4">
           <div className="flex flex-col w-full pt-8 sticky z-[2] top-0 bg-white">
             <form method="dialog" className="modal-backdrop">
@@ -117,6 +125,8 @@ export default function NewProductModal({
                 className="btn btn-sm btn-circle btn-ghost absolute -right-2 top-2 text-base-content !outline-none"
                 onClick={() => {
                   setProductsToCreate([]);
+                  setSelectAll(false);
+                  !selectAllCheckboxRef.current?.checked;
                   productModalRef?.current?.close();
                 }}
               >
@@ -140,6 +150,7 @@ export default function NewProductModal({
                   selectedIntegration &&
                   startFetchProductsTransition(async () => {
                     setProductsToCreate([]);
+                    setSelectAll(false);
                     await fetchProductsFromStripe(selectedIntegration);
                   })
                 }
@@ -161,9 +172,12 @@ export default function NewProductModal({
                     <div className="flex items-center gap-2 mb-2">
                       <p>Select all</p>
                       <input
+                        ref={selectAllCheckboxRef}
                         type="checkbox"
                         className="checkbox checkbox-primary"
+                        checked={isSelectAll}
                         onChange={(e) => {
+                          setSelectAll(e.target.checked);
                           if (e.target.checked) {
                             setProductsToCreate(productsToSelect);
                           } else {
@@ -207,7 +221,7 @@ export default function NewProductModal({
                         )}
                         <div className="flex flex-col w-full justify-center">
                           <p className="font-bold">{product.name}</p>
-                          <p>{formatCentsToDollars(product.price as number)}</p>
+                          <p>{formatPrice(product.price as number)}</p>
                         </div>
                       </div>
                     ))}
@@ -232,10 +246,14 @@ export default function NewProductModal({
           <div className="flex flex-col items-center justify-center sticky bottom-0 bg-white pb-6 z-[2]">
             {productsToCreate.length > 0 && (
               <div
-                className="btn btn-primary mb-8 text-white"
+                className="btn btn-primary mb-8 text-white min-w-[160px]"
                 onClick={() => createSelectedProducts()}
               >
-                Create {productsToCreate.length} product(s)
+                {isProductPending ? (
+                  <LoadingDots color="#FFFFFF" />
+                ) : (
+                  `Create ${productsToCreate.length} product(s)`
+                )}
               </div>
             )}
             <div className="border-t border-gray-300 w-full"></div>
@@ -246,6 +264,7 @@ export default function NewProductModal({
               className="btn btn-ghost mt-2"
               onClick={() => {
                 handleCreateProduct();
+                showToast("New product created.");
                 productModalRef.current?.close();
               }}
             >

@@ -22,9 +22,6 @@ export default function ProductSettings({
   const scrolled = useScroll(eventHeaderHeight, scrollRef);
   const [isProductPending, startProductTransition] = useTransition();
   const productModalRef = useRef<HTMLDialogElement>(null);
-  const activeProductIndex = products.findIndex(
-    (product) => product.id === activeProduct?.id
-  );
 
   return (
     <div
@@ -50,9 +47,7 @@ export default function ProductSettings({
             {products.length > 0 && activeProduct && (
               <div className="text-xs font-normal">
                 Viewing:{" "}
-                {activeProduct?.name
-                  ? activeProduct.name
-                  : `Unnamed Product (${activeProductIndex + 1})`}{" "}
+                {activeProduct?.name ? activeProduct.name : `Unnamed Product`}{" "}
               </div>
             )}
           </div>
@@ -69,6 +64,7 @@ export default function ProductSettings({
               </div>
               <NewProductModal
                 productModalRef={productModalRef}
+                isProductPending={isProductPending}
                 startProductLoadingTransition={startProductTransition}
               />
             </>

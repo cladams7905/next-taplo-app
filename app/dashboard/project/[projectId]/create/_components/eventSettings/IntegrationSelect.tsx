@@ -15,7 +15,7 @@ import { EventType, Providers } from "@/lib/enums";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import Image from "next/image";
 import StripeLogo from "@/public/images/providers/stripe-logo.svg";
-import { convertDateTime } from "@/lib/actions";
+import { convertDateTime, formatCentsToDollars } from "@/lib/actions";
 import Stripe from "stripe";
 
 export default function IntegrationSelect({
@@ -98,7 +98,12 @@ export default function IntegrationSelect({
                 project_id: integration.project_id,
                 user_id: integration.user_id,
                 currency: (product.default_price as Stripe.Price)?.currency,
-                price: (product.default_price as Stripe.Price)?.unit_amount,
+                price: parseFloat(
+                  formatCentsToDollars(
+                    (product.default_price as Stripe.Price)?.unit_amount,
+                    false
+                  )
+                ),
                 name: product.name,
                 image_url: product.images[0],
               });

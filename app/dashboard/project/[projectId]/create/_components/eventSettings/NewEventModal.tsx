@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { RefObject, useState, useTransition } from "react";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
+import LoadingDots from "@/app/_components/shared/loadingdots";
 
 type EventOption = {
   title: string;
@@ -143,9 +144,6 @@ export default function NewEventModal({
               <h3 className="font-semibold text-lg">
                 Select Event(s) to Create
               </h3>
-              {isLoading && (
-                <span className="loading loading-spinner loading-sm bg-base-content"></span>
-              )}
             </div>
             <label className="input input-bordered flex items-center mt-6 mb-4">
               <Search
@@ -208,10 +206,14 @@ export default function NewEventModal({
           <div className="flex flex-col items-center justify-center sticky bottom-0 bg-white pb-6">
             {eventsToCreate.length > 0 && (
               <div
-                className="btn btn-primary mb-8 text-white"
+                className="btn btn-primary mb-8 text-white min-w-[146px]"
                 onClick={() => createSelectedEvents()}
               >
-                Create {eventsToCreate.length} event(s)
+                {isLoading ? (
+                  <LoadingDots color="#FFFFFF" />
+                ) : (
+                  `Create ${eventsToCreate.length} event(s)`
+                )}
               </div>
             )}
             <div className="border-t border-gray-300 w-full"></div>
