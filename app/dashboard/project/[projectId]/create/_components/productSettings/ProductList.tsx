@@ -139,7 +139,7 @@ const ProductList = ({
           <div
             key={product.id}
             onClick={() => handleToggleActiveProduct(product)}
-            className="relative flex flex-row w-full items-center rounded-lg bg-white border border-gray-200 px-4 py-6"
+            className="relative flex flex-row w-full items-center rounded-lg bg-white border border-gray-200 px-4 py-6 shadow-sm"
           >
             <div
               className={`absolute left-0 rounded-l-lg w-[8px] h-full ${

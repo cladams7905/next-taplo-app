@@ -216,11 +216,11 @@ export default function NewEventModal({
                 )}
               </div>
             )}
-            <div className="border-t border-gray-300 w-full"></div>
+            {/* <div className="border-t border-gray-300 w-full"></div>
             <div className="flex items-center rounded-lg bg-white px-4 -mt-[10px] text-sm text-gray-500">
               or
             </div>
-            <div className="btn btn-ghost mt-2">Create your own</div>
+            <div className="btn btn-ghost mt-2">Create your own</div> */}
           </div>
         </div>
       </div>
