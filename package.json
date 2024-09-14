@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:widget": "webpack --config webpack.config.js",
     "postbuild": "webpack --config webpack.config.js",
     "start": "next start",
     "lint": "next lint"

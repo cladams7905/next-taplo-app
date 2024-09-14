@@ -1,4 +1,3 @@
-// widget.js
 import React from "react";
 import { createRoot } from "react-dom/client";
 import WidgetComponent from "./WidgetComponent";
@@ -19,20 +18,21 @@ const injectStyles = () => {
   document.head.appendChild(animateLink);
 };
 
-(function () {
+// Wait for the DOM to be fully loaded before executing the script
+document.addEventListener("DOMContentLoaded", function () {
   injectStyles(); // Inject necessary stylesheets
-  const container = document.getElementById("taplo-widget-container");
-  if (!container) {
-    console.error(`Container with ID 'taplo-widget-container' not found.`);
-    return;
-  }
 
-  const apiUrl = target.getAttribute("data-api-url");
-  if (!apiUrl) {
-    console.error("Taplo api url not found.");
-    return;
-  }
+  // Dynamically create the container if it doesn't already exist
+  let container = document.createElement("div");
+  container.id = "taplo-widget-container";
 
+  // Setting the API URL attribute
+  const apiUrl = "https://your-api-url.com/notifications";
+  container.setAttribute("data-api-url", apiUrl); // Set apiUrl attribute
+
+  document.body.appendChild(container); // Append the container to the body
+
+  // Render the React component once the container is in the DOM
   const root = createRoot(container);
-  root.render(<WidgetComponent apiUrl={apiUrl} />);
-})();
+  root.render(<WidgetComponent apiUrl={apiUrl} />); // Passing apiUrl correctly
+});
