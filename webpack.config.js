@@ -5,7 +5,7 @@ module.exports = {
   mode: "production",
   output: {
     filename: "widget.bundle.js",
-    path: path.resolve(__dirname, "public/scripts"),
+    path: path.resolve(__dirname, "dist"),
     library: "NotificationWidget",
     libraryTarget: "umd",
   },
