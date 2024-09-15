@@ -1,12 +1,11 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import WidgetComponent from "./WidgetComponent";
+import WidgetComponent from "./WidgetComponent.tsx";
 
 const injectStyles = () => {
   // Inject Tailwind CSS
   const tailwindLink = document.createElement("link");
-  tailwindLink.href =
-    "https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css";
+  tailwindLink.href = `${site_url}/css/tailwind.min.css`;
   tailwindLink.rel = "stylesheet";
   document.head.appendChild(tailwindLink);
 
@@ -25,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Dynamically create the container if it doesn't already exist
   let container = document.createElement("div");
   container.id = "taplo-widget-container";
+  container.classList.add(...["fixed", "bottom-4", "left-4"]);
 
   // Setting the API URL attribute
   const apiUrl = "https://your-api-url.com/notifications";

@@ -1,11 +1,13 @@
-const path = require("path");
+import path from "path";
+import webpack from "webpack";
+import { getURL } from "./lib/actions/index";
 
-module.exports = {
-  entry: path.resolve(__dirname, "app/_widgets/widget.js"),
+const webpackConfig = {
+  entry: path.resolve("app/_widgets/widget.js"),
   mode: "production",
   output: {
     filename: "widget.bundle.js",
-    path: path.resolve(__dirname, "public/scripts"),
+    path: path.resolve("public/scripts"),
     library: "NotificationWidget",
     libraryTarget: "umd",
   },
@@ -27,11 +29,18 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        use: ["style-loader", "css-loader", "postcss-loader"],
       },
     ],
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      site_url: JSON.stringify(getURL()),
+    }),
+  ],
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx"],
   },
 };
+
+export default webpackConfig;
