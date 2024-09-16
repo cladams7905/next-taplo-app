@@ -96,7 +96,7 @@ export default function NewProductModal({
   ) => {
     setFetchError(false);
     let products;
-    const res = await fetch("/api/v1/stripe/fetch_products", {
+    const res = await fetch("/api/v1/stripe/products", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

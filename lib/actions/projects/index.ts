@@ -32,6 +32,16 @@ export async function getActiveProject(userId: string) {
   return JSON.parse(JSON.stringify(result));
 }
 
+export async function getProjectById(projectId: string) {
+  const supabase = createClient();
+  const result = await supabase
+    .from("Projects")
+    .select()
+    .eq("id", projectId)
+    .single();
+  return JSON.parse(JSON.stringify(result));
+}
+
 export async function setActiveProject(userId: string, projectId: string) {
   const supabase = createClient();
   const result = await supabase

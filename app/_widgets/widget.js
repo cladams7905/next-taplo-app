@@ -1,12 +1,25 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import WidgetComponent from "./WidgetComponent.tsx";
+import WidgetDynamicWrapper from "./WidgetDynamicWrapper.tsx";
 
-const injectStyles = () => {
+const injectStyles = (callback) => {
+  const stylesLoaded = [];
+  const totalStyles = 2; // Number of stylesheets
+
+  const checkAllStylesLoaded = () => {
+    if (stylesLoaded.length === totalStyles) {
+      if (callback) callback();
+    }
+  };
+
   // Inject Tailwind CSS
   const tailwindLink = document.createElement("link");
   tailwindLink.href = `${site_url}/css/tailwind.min.css`;
   tailwindLink.rel = "stylesheet";
+  tailwindLink.onload = () => {
+    stylesLoaded.push("tailwind");
+    checkAllStylesLoaded();
+  };
   document.head.appendChild(tailwindLink);
 
   // Inject animate.css
@@ -14,25 +27,42 @@ const injectStyles = () => {
   animateLink.href =
     "https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css";
   animateLink.rel = "stylesheet";
+  animateLink.onload = () => {
+    stylesLoaded.push("animate");
+    checkAllStylesLoaded();
+  };
   document.head.appendChild(animateLink);
 };
 
-// Wait for the DOM to be fully loaded before executing the script
-document.addEventListener("DOMContentLoaded", function () {
-  injectStyles(); // Inject necessary stylesheets
+const initializeWidget = () => {
+  const container = document.getElementById("taplo-widget-container");
 
-  // Dynamically create the container if it doesn't already exist
-  let container = document.createElement("div");
-  container.id = "taplo-widget-container";
-  container.classList.add(...["fixed", "bottom-4", "left-4"]);
+  if (!container) {
+    console.error(
+      'No Taplo widget container found (check to make sure id equals "taplo-widget-container").'
+    );
+    return;
+  }
 
-  // Setting the API URL attribute
-  const apiUrl = "https://your-api-url.com/notifications";
-  container.setAttribute("data-api-url", apiUrl); // Set apiUrl attribute
+  const project_id = container.getAttribute("data-project-id");
 
-  document.body.appendChild(container); // Append the container to the body
+  if (!project_id) {
+    console.error("No Taplo project_id found.");
+    return;
+  }
 
-  // Render the React component once the container is in the DOM
-  const root = createRoot(container);
-  root.render(<WidgetComponent apiUrl={apiUrl} />); // Passing apiUrl correctly
+  console.log("Initializing Widget:", {
+    siteUrl: site_url,
+    projectId: project_id,
+  });
+
+  createRoot(container).render(
+    <WidgetDynamicWrapper siteUrl={site_url} projectId={project_id} />
+  );
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  injectStyles(() => {
+    initializeWidget();
+  });
 });

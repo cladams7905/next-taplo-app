@@ -11,6 +11,11 @@ const webpackConfig = {
     library: "NotificationWidget",
     libraryTarget: "umd",
   },
+  performance: {
+    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000,
+  },
   module: {
     rules: [
       {
@@ -39,6 +44,9 @@ const webpackConfig = {
     }),
   ],
   resolve: {
+    alias: {
+      "@": path.resolve("."),
+    },
     extensions: [".js", ".jsx", ".ts", ".tsx"],
   },
 };
