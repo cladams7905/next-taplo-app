@@ -46,7 +46,6 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
         }
 
         const result: Tables<"Projects"> = (await response.json())?.data;
-        console.log(result);
         setProjectData(result);
       } catch (error: any) {
         throw new Error("Error getting Taplo project: " + error.message);
@@ -60,7 +59,11 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
     const fetchEvents = async () => {
       try {
         const response = await fetch(
-          `${siteUrl}/api/v1/events?project_id=${projectId}&event_interval=${projectData?.event_interval}`,
+          `${siteUrl}/api/v1/events?project_id=${projectId}${
+            projectData?.event_interval
+              ? `&event_interval=${projectData.event_interval}`
+              : ""
+          }`,
           {
             method: "GET",
             headers: {
@@ -74,13 +77,10 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
         }
 
         const result: EventData = await response.json();
-        console.log(result);
         setEventData({
           events: result?.events,
           displayData: result?.displayData,
         });
-
-        console.log(eventData);
       } catch (error: any) {
         throw new Error("Error getting Taplo events: " + error.message);
       }
@@ -107,7 +107,6 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
         }
 
         const result: Tables<"Products">[] = (await response.json())?.data;
-        console.log(result);
         setProductData(result);
       } catch (error: any) {
         throw new Error("Error getting Taplo products: " + error.message);

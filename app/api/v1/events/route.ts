@@ -80,6 +80,7 @@ const getDataFromIntegrations = (
   let displayData: DisplayData = {
     stripeData: {
       paymentIntents: [],
+      checkoutSessions: [],
     },
   };
   const currentTime = Math.floor(Date.now() / 1000);
@@ -96,21 +97,33 @@ const getDataFromIntegrations = (
         case EventType.Purchase:
           // get paymentintents from stripe to represent purchase events
           if (integration.provider === Providers.Stripe) {
-            const stripe = new Stripe(integration.api_key);
+            if (displayData.stripeData.paymentIntents?.length === 0) {
+              const stripe = new Stripe(integration.api_key);
 
-            const paymentIntents = (
-              await stripe.paymentIntents.list({
-                limit: 25,
-                created: { gte: timeToFilter }, //only get events from the past [timeToFilter] days
-              })
-            )?.data; // To get next 25 payment intents, pass in id of last object of the previous returned list as the "starting_after" value.
+              const paymentIntents = (
+                await stripe.paymentIntents.list({
+                  created: { gte: timeToFilter }, //only get events from the past [timeToFilter] days
+                })
+              )?.data; // To get next 25 payment intents, pass in id of last object of the previous returned list as the "starting_after" value.
 
-            displayData.stripeData.paymentIntents = paymentIntents;
+              displayData.stripeData.paymentIntents = paymentIntents;
+            }
           }
           break;
         case EventType.Checkout:
           // get checkout sessions from stripe to represent adding to cart
           if (integration.provider === Providers.Stripe) {
+            if (displayData.stripeData.checkoutSessions?.length === 0) {
+              const stripe = new Stripe(integration.api_key);
+
+              const checkoutSessions = (
+                await stripe.checkout.sessions.list({
+                  created: { gte: timeToFilter },
+                })
+              )?.data;
+
+              displayData.stripeData.checkoutSessions = checkoutSessions;
+            }
           }
         case EventType.CustomerTrends:
         case EventType.SomeoneViewing:

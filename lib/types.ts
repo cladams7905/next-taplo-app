@@ -12,5 +12,6 @@ export interface EventData {
 export interface DisplayData {
   stripeData: {
     paymentIntents?: Stripe.PaymentIntent[];
+    checkoutSessions?: Stripe.Checkout.Session[];
   };
 }

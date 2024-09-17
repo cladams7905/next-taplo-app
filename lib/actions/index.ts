@@ -29,15 +29,26 @@ export function convertDateTime(
   timestampz: string,
   includeYear: boolean = false
 ): string {
-  const currentDate = new Date();
-  currentDate.setHours(24, 0, 0, 0); // Set current date to midnight
+  const now = new Date();
   const inputDate = new Date(timestampz);
-  const diffTime = Math.abs(currentDate.getTime() - inputDate.getTime());
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) - 1;
+
+  const currentDate = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate()
+  ); // Set to today's midnight
+  const inputDateMidnight = new Date(
+    inputDate.getFullYear(),
+    inputDate.getMonth(),
+    inputDate.getDate()
+  ); // Midnight of input date
+
+  const diffTime = inputDateMidnight.getTime() - currentDate.getTime();
+  const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
 
   const day = inputDate.getDate().toString().padStart(2, "0");
   const month = (inputDate.getMonth() + 1).toString().padStart(2, "0");
-  const year = inputDate.getFullYear().toString().slice(-2); // Get the last two digits of year
+  const year = inputDate.getFullYear().toString().slice(-2); // Get the last two digits of the year
 
   let isPM = false;
   let hours = inputDate.getHours();
@@ -49,15 +60,15 @@ export function convertDateTime(
   } else if (hours === 0) {
     hours = 12;
   }
-  hours.toString().padStart(2, "0");
   const minutes = inputDate.getMinutes().toString().padStart(2, "0");
-
   const time = `${hours}:${minutes}${isPM ? "PM" : "AM"}`;
 
   if (diffDays === 0) {
     return `Today ${time}`;
-  } else if (diffDays === 1) {
+  } else if (diffDays === -1) {
     return `Yesterday ${time}`;
+  } else if (diffDays === 1) {
+    return `Tomorrow ${time}`;
   } else {
     return `${month}/${day}${includeYear ? `/${year}` : ""} ${time}`;
   }
