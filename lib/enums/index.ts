@@ -1,12 +1,12 @@
 /**
- * The different types of notification events a user can create with integrations.
+ * The different types of notification events a user can create.
  */
 export enum EventType {
-  Purchase = "Purchase",
-  AddToCart = "Add to Cart",
+  Purchase = "Recent Purchases",
+  Checkout = "Checkout Sessions",
+  CustomerTrends = "Customer Trends",
   SomeoneViewing = "Someone is Viewing",
-  ActiveUsers = "Active Users",
-  Custom = "Custom",
+  ActiveVisitors = "Active Visitors",
 }
 
 /**
@@ -14,8 +14,6 @@ export enum EventType {
  */
 export enum Providers {
   Stripe = "Stripe",
-  Google = "Google",
-  TrustPilot = "TrustPilot",
   GoogleAnalytics = "Google Analytics",
 }
 

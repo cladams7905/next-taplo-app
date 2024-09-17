@@ -78,6 +78,7 @@ export default function ContentBodyEditor({
     if (currentEvent) {
       switch (currentEvent.event_type) {
         case EventType.Purchase:
+        case EventType.Checkout:
           variableList = [
             ContentVars.Person,
             ContentVars.Location,
@@ -85,10 +86,9 @@ export default function ContentBodyEditor({
             ContentVars.Price,
           ];
           break;
-        case EventType.ActiveUsers:
+        case EventType.ActiveVisitors:
           variableList = [ContentVars.NumUsers, ContentVars.RecentUsers];
           break;
-        case EventType.AddToCart:
         case EventType.SomeoneViewing:
           variableList = [
             ContentVars.Person,

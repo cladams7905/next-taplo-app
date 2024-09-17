@@ -1,4 +1,4 @@
-import { getProjectById } from "@/lib/actions/projects";
+import { getProducts } from "@/lib/actions/products";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
@@ -14,11 +14,11 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    const { data, error } = await getProjectById(project_id);
+    const { data, error } = await getProducts(project_id);
 
     if (!data || error) {
       return NextResponse.json({
-        error: `Get Project Error: ${error?.message}`,
+        error: `Get Products Error: ${error?.message}`,
         status: 500,
       });
     } else {
@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
     }
   } catch (error: any) {
     return NextResponse.json({
-      error: `Get Project Error: ${error?.message}`,
+      error: `Get Products Error: ${error?.message}`,
       status: 500,
     });
   }

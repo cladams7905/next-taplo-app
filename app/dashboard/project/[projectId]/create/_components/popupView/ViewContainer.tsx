@@ -17,7 +17,7 @@ export default function ViewContainer({
 }) {
   const { events } = useProjectContext();
   return (
-    <div className="relative flex flex-col !rounded-none bg-gradient-to-tr from-primary/90 to-purple-100 h-full z-[1] py-2 px-5">
+    <div className="relative flex flex-col !rounded-none bg-gradient-to-tr from-primary to-purple-100 h-full z-[1] py-2 px-5">
       <ViewContainerHeader
         isPreviewMode={isPreviewMode}
         setPreviewMode={setPreviewMode}

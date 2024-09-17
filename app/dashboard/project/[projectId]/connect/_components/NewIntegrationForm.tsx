@@ -187,12 +187,13 @@ export default function NewIntegrationForm({
     let filteredProviders = PROVIDERS;
     if (currentEvent) {
       switch (currentEvent.event_type) {
-        case EventType.AddToCart:
-        case EventType.SomeoneViewing:
+        case EventType.Checkout:
         case EventType.Purchase:
+        case EventType.CustomerTrends:
           filteredProviders = [Providers.Stripe];
           break;
-        case EventType.ActiveUsers:
+        case EventType.SomeoneViewing:
+        case EventType.ActiveVisitors:
           filteredProviders = [Providers.GoogleAnalytics];
           break;
       }

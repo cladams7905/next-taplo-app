@@ -6,44 +6,118 @@ import { BadgeCheck, Boxes } from "lucide-react";
 import { Tables } from "@/supabase/types";
 import { IColor } from "react-color-palette";
 import { hexToRgba } from "@/lib/actions";
+import { EventData } from "@/lib/types";
 
 interface WidgetConfig {
   siteUrl: string;
   projectId: string;
 }
 
+/**
+ * Embed workflow:
+ *
+ * 1. Fetch project
+ * 2. Fetch events and products associated with a project
+ * 3. Fetch integrations associated with events (do so within a backend api call.)
+ * 4. Fetch data from integrations
+ * 5. Create a queue of events to be shown based on integration data.
+ * 6. Display events
+ */
 const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
-  const [data, setData] = useState<any>(null);
+  const [projectData, setProjectData] = useState<Tables<"Projects">>();
+  const [eventData, setEventData] = useState<EventData>();
+  const [productData, setProductData] = useState<Tables<"Products">[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchProject = async () => {
       try {
-        const response = await fetch(`${siteUrl}/api/v1/projects`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            project_id: projectId,
-          }),
-        });
+        const response = await fetch(
+          `${siteUrl}/api/v1/projects?project_id=${projectId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
         if (!response.ok) {
           throw new Error(`Error getting Taplo project: ${response.status}`);
         }
 
-        const result = await response.json();
+        const result: Tables<"Projects"> = (await response.json())?.data;
         console.log(result);
-        setData(result);
+        setProjectData(result);
       } catch (error: any) {
         throw new Error("Error getting Taplo project: " + error.message);
       }
     };
 
-    fetchData();
+    fetchProject();
   }, [projectId, siteUrl]);
 
-  if (!data) return null;
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await fetch(
+          `${siteUrl}/api/v1/events?project_id=${projectId}&event_interval=${projectData?.event_interval}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`Error getting Taplo events: ${response.status}`);
+        }
+
+        const result: EventData = await response.json();
+        console.log(result);
+        setEventData({
+          events: result?.events,
+          displayData: result?.displayData,
+        });
+
+        console.log(eventData);
+      } catch (error: any) {
+        throw new Error("Error getting Taplo events: " + error.message);
+      }
+    };
+
+    fetchEvents();
+  }, [projectData, projectId, siteUrl]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch(
+          `${siteUrl}/api/v1/products?project_id=${projectId}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`Error getting Taplo products: ${response.status}`);
+        }
+
+        const result: Tables<"Products">[] = (await response.json())?.data;
+        console.log(result);
+        setProductData(result);
+      } catch (error: any) {
+        throw new Error("Error getting Taplo products: " + error.message);
+      }
+    };
+
+    fetchProducts();
+  }, [projectId, siteUrl]);
+
+  if (!projectData) return null;
 
   // previewEvent: Tables<"Events"> | undefined;
   // animation?: string;

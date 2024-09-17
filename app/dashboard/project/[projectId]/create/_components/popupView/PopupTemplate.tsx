@@ -80,8 +80,9 @@ export default function PopupTemplate({
    */
   const shouldDisplayImage = () => {
     return (
-      (!isPreviewMode && activeEvent?.event_type !== EventType.ActiveUsers) ||
-      (isPreviewMode && previewEvent?.event_type !== EventType.ActiveUsers)
+      (!isPreviewMode &&
+        activeEvent?.event_type !== EventType.ActiveVisitors) ||
+      (isPreviewMode && previewEvent?.event_type !== EventType.ActiveVisitors)
     );
   };
 
@@ -282,7 +283,7 @@ const EventIcon = (eventType: EventType) => {
           width={28}
         />
       );
-    case EventType.AddToCart:
+    case EventType.Checkout:
       return (
         <ShoppingCart
           color={hexToRgba(accentColor.hex.toString(), 0.85)}
@@ -298,17 +299,9 @@ const EventIcon = (eventType: EventType) => {
           width={28}
         />
       );
-    case EventType.ActiveUsers:
+    case EventType.ActiveVisitors:
       return (
         <UsersRound
-          color={hexToRgba(accentColor.hex.toString(), 0.85)}
-          height={28}
-          width={28}
-        />
-      );
-    case EventType.Custom:
-      return (
-        <Boxes
           color={hexToRgba(accentColor.hex.toString(), 0.85)}
           height={28}
           width={28}

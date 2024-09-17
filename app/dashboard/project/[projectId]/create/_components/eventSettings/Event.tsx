@@ -61,14 +61,12 @@ function Event({
     switch (eventType) {
       case EventType.Purchase:
         return <ShoppingBag width={20} height={20} />;
-      case EventType.AddToCart:
+      case EventType.Checkout:
         return <ShoppingCart width={20} height={20} />;
       case EventType.SomeoneViewing:
         return <UserRoundSearch width={20} height={20} />;
-      case EventType.ActiveUsers:
+      case EventType.ActiveVisitors:
         return <UsersRound width={20} height={20} />;
-      case EventType.Custom:
-        return <Boxes width={20} height={20} />;
     }
   };
 
@@ -76,14 +74,12 @@ function Event({
     switch (eventType) {
       case EventType.Purchase:
         return "This event displays when visitors make a purchase. If no products are created, then a generic purchase notification is displayed.";
-      case EventType.AddToCart:
-        return "This event displays products that visitors have added to their cart. There must be at least one product created for this event to trigger.";
+      case EventType.Checkout:
+        return "This event displays when visitors enter a checkout session.";
       case EventType.SomeoneViewing:
-        return "This event displays products that visitors are currently viewing. There must be at least one product created for this event to trigger.";
-      case EventType.ActiveUsers:
+        return "This event displays products that visitors are currently viewing.";
+      case EventType.ActiveVisitors:
         return "This event displays the number of visitors actively viewing your website. You may also use this event to display the number of recent visitors from the past 24 hours.";
-      case EventType.Custom:
-        return "Custom events can be triggered by other API calls or display static messages.";
     }
   };
 

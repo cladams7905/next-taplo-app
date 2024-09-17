@@ -97,17 +97,17 @@ export default function NewEventModal({
       case EventType.Purchase:
         content = "\\PERSON in \\LOCATION made a purchase.";
         break;
-      case EventType.AddToCart:
-        content = "\\PERSON in \\LOCATION added \\PRODUCT to cart.";
+      case EventType.Checkout:
+        content = "\\PERSON in \\LOCATION is checking out with \\PRODUCT.";
         break;
       case EventType.SomeoneViewing:
         content = "\\PERSON in \\LOCATION recently viewed \\PRODUCT.";
         break;
-      case EventType.ActiveUsers:
+      case EventType.ActiveVisitors:
         content = "\\NUMUSERS people are online now.";
         break;
-      case EventType.Custom:
-        content = "Add your content here.";
+      case EventType.CustomerTrends:
+        content = "Over the past X days, X has gained X new customers.";
         break;
     }
     return content;
@@ -188,7 +188,7 @@ export default function NewEventModal({
                     <CheckIcon width={16} height={16} strokeWidth={4} />
                   </div>
                 )}
-                <div className="flex items-center justify-center rounded-l-lg w-14 min-w-14 h-full bg-gradient-to-tr from-primary/90 to-purple-100 border-r border-gray-300">
+                <div className="flex items-center justify-center rounded-l-lg w-14 min-w-14 h-full bg-gradient-to-tr from-purple-200 to-primary border-r border-gray-300">
                   {getEventIcon(eventOption.type, "#FFFFFF")}
                 </div>
                 <div className="flex flex-col py-4 px-2 ml-3 gap-2">
@@ -231,32 +231,33 @@ export default function NewEventModal({
 const getEventOptions = () => {
   const eventOptions = [
     {
-      title: "Purchase",
+      title: EventType.Purchase,
       integrations: "Stripe",
-      description:
-        "Displays popup when a user makes a purchase or creates a checkout session.",
+      description: "Notifies visitors of recent purchases or subscriptions.",
       type: EventType.Purchase,
       color: "#3eb981",
     },
     {
-      title: "Add to Cart",
+      title: EventType.Checkout,
       integrations: "Stripe",
-      description: "Shows what products users currently have in their cart.",
-      type: EventType.AddToCart,
+      description:
+        "Notifies visitors of when someone enters a checkout session.",
+      type: EventType.Checkout,
       color: "#3eb981",
     },
     {
-      title: "Someone is Viewing",
-      integrations: "Stripe",
-      description: "Shows what products users are curently viewing.",
+      title: EventType.SomeoneViewing,
+      integrations: "Google Analytics",
+      description: "Shows what products visitors are curently viewing.",
       type: EventType.SomeoneViewing,
       color: "#7A81EB",
     },
     {
-      title: "Active Users",
+      title: EventType.ActiveVisitors,
       integrations: "Google Analytics",
-      description: "Displays the current number of active users on your site.",
-      type: EventType.ActiveUsers,
+      description:
+        "Displays the current number of active visitors on your site.",
+      type: EventType.ActiveVisitors,
       color: "#7A81EB",
     },
   ] as EventOption[];
@@ -267,13 +268,11 @@ const getEventIcon = (eventType: EventType, color: string) => {
   switch (eventType) {
     case EventType.Purchase:
       return <ShoppingBag width={28} height={28} color="#FFFFFF" />;
-    case EventType.AddToCart:
+    case EventType.Checkout:
       return <ShoppingCart width={28} height={28} color="#FFFFFF" />;
     case EventType.SomeoneViewing:
       return <UserRoundSearch width={28} height={28} color="#FFFFFF" />;
-    case EventType.ActiveUsers:
+    case EventType.ActiveVisitors:
       return <UsersRound width={28} height={28} color="#FFFFFF" />;
-    case EventType.Custom:
-      return <Boxes width={28} height={28} color="#FFFFFF" />;
   }
 };

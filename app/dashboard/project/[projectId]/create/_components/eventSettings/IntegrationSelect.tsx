@@ -61,14 +61,15 @@ export default function IntegrationSelect({
   const filterIntegrationsByEventType = useCallback(() => {
     let filteredIntegrations: Tables<"Integrations">[] = integrations;
     switch (currentEvent?.event_type) {
-      case EventType.AddToCart:
-      case EventType.SomeoneViewing:
+      case EventType.Checkout:
       case EventType.Purchase:
+      case EventType.CustomerTrends:
         filteredIntegrations = integrations.filter(
           (integration) => integration.provider === Providers.Stripe
         );
         break;
-      case EventType.ActiveUsers:
+      case EventType.SomeoneViewing:
+      case EventType.ActiveVisitors:
         filteredIntegrations = integrations.filter(
           (integration) => integration.provider === Providers.GoogleAnalytics
         );

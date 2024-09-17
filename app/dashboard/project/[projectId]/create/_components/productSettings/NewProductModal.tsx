@@ -96,15 +96,15 @@ export default function NewProductModal({
   ) => {
     setFetchError(false);
     let products;
-    const res = await fetch("/api/v1/stripe/products", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        stripe_api_key: integration.api_key,
-      }),
-    });
+    const res = await fetch(
+      `/api/v1/stripe/products?integration_id=${integration.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
     const data = await res.json();
     if (data.error) {
       setFetchError(true);

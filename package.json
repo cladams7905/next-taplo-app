@@ -9,6 +9,9 @@
     "build:widget": "webpack --config webpack.config.ts",
     "build:css": "postcss lib/styles/tailwind.css -o public/css/tailwind.min.css",
     "postbuild": "webpack --config webpack.config.ts",
+    "stripe:listen": "stripe listen --forward-to localhost:3000/api/v1/stripe/webhooks --project-name=taplo",
+    "types:public": "npx supabase gen types typescript --project-id rmihkzkyyqwkwttorhnw --schema public > supabase/types.ts",
+    "types:stripe": "npx supabase gen types typescript --project-id rmihkzkyyqwkwttorhnw --schema stripe > stripe/types.ts",
     "start": "next start",
     "lint": "next lint"
   },
