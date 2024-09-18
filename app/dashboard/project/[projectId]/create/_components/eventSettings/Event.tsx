@@ -12,7 +12,7 @@ import {
   UsersRound,
   XCircle,
 } from "lucide-react";
-import { Pencil1Icon } from "@radix-ui/react-icons";
+import { InfoCircledIcon, Pencil1Icon } from "@radix-ui/react-icons";
 import IntegrationSelect from "./IntegrationSelect";
 import ContentBodyEditor from "./ContentBodyEditor";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
@@ -50,6 +50,9 @@ function Event({
   const getIntegrationById = (integrationId: number) => {
     return integrations.find((integration) => integration.id === integrationId);
   };
+  const currentIntegration = currentEvent?.integration_id
+    ? getIntegrationById(currentEvent.integration_id)
+    : null;
 
   const handleToggleActiveEvent = () => {
     if (!activeEvent || activeEvent.id !== currentEvent.id) {
@@ -70,12 +73,12 @@ function Event({
     }
   };
 
-  const getEventDescription = (eventType: EventType) => {
+  const getIntegrationInfo = (eventType: EventType) => {
     switch (eventType) {
       case EventType.Purchase:
-        return "This event displays when visitors make a purchase. If no products are created, then a generic purchase notification is displayed.";
+        return 'Requires: Stripe restricted API key with "charges" permissions set to "read".';
       case EventType.Checkout:
-        return "This event displays when visitors enter a checkout session.";
+        return 'Requires: Stripe restricted API key with "checkout sessions" permissions set to "read".';
       case EventType.SomeoneViewing:
         return "This event displays products that visitors are currently viewing.";
       case EventType.ActiveVisitors:
@@ -130,8 +133,9 @@ function Event({
             {currentEvent.event_type}
             <div className="text-xs">
               {currentEvent.integration_id ? (
-                "Listens to: " +
-                getIntegrationById(currentEvent.integration_id)?.provider
+                `Listens to: ${currentIntegration?.provider} ${
+                  currentIntegration?.name ? `(${currentIntegration.name})` : ""
+                }`
               ) : (
                 <span className="text-error">No Integration Selected</span>
               )}
@@ -146,8 +150,9 @@ function Event({
           handleToggleActiveEvent();
         }}
       >
-        <div className="sm:text-[13px] sm:leading-5 text-xs mt-4 bg-gray-50 border border-gray-200 rounded-lg p-4">
-          {getEventDescription(currentEvent.event_type as EventType)}
+        <div className="flex items-center gap-2 sm:text-[12px] sm:leading-5 text-xs mt-4 bg-gray-50 border border-gray-200 rounded-lg px-4 py-1">
+          <InfoCircledIcon width={16} height={16} />{" "}
+          {getIntegrationInfo(currentEvent.event_type as EventType)}
         </div>
         <div className="w-full flex flex-col gap-2">
           <div className="flex items-center justify-between">

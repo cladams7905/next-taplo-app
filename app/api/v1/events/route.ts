@@ -79,7 +79,7 @@ const getDataFromIntegrations = (
 ) => {
   let displayData: DisplayData = {
     stripeData: {
-      paymentIntents: [],
+      charges: [],
       checkoutSessions: [],
     },
   };
@@ -95,18 +95,18 @@ const getDataFromIntegrations = (
     if (event?.event_type && integration?.provider && integration?.api_key) {
       switch (event.event_type as EventType) {
         case EventType.Purchase:
-          // get paymentintents from stripe to represent purchase events
+          // get charges from stripe to represent purchase events
           if (integration.provider === Providers.Stripe) {
-            if (displayData.stripeData.paymentIntents?.length === 0) {
+            if (displayData.stripeData.charges?.length === 0) {
               const stripe = new Stripe(integration.api_key);
 
               const paymentIntents = (
-                await stripe.paymentIntents.list({
+                await stripe.charges.list({
                   created: { gte: timeToFilter }, //only get events from the past [timeToFilter] days
                 })
-              )?.data; // To get next 25 payment intents, pass in id of last object of the previous returned list as the "starting_after" value.
+              )?.data; // To get next 25 charges, pass in id of last object of the previous returned list as the "starting_after" value.
 
-              displayData.stripeData.paymentIntents = paymentIntents;
+              displayData.stripeData.charges = paymentIntents;
             }
           }
           break;

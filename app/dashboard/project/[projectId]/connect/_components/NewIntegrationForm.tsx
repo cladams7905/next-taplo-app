@@ -264,8 +264,8 @@ export default function NewIntegrationForm({
           <div className="flex flex-col gap-2">
             <p className="text-sm font-bold">For connecting to Stripe: </p>
             <p className="text-sm text-gray-500">
-              1. Create a Stripe Restricted API key with only
-              &quot;charges&quot; permissions set to &quot;read&quot;.{" "}
+              1. Create a Stripe Restricted API key with necessary permissions
+              enabled.
             </p>
             <p className="text-sm text-gray-500">
               2. Paste your restricted API key below.

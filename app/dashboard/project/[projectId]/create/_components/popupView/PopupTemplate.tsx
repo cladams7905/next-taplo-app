@@ -15,6 +15,7 @@ import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import "animate.css";
 import Image from "next/image";
 import { Tables } from "@/supabase/types";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
 
 export default function PopupTemplate({
   isAnimatePulse,
@@ -181,91 +182,131 @@ export default function PopupTemplate({
   switch (activeProject.template) {
     case TemplateTypes.SmPopup:
       return (
-        <SmallPopupTemplate
-          previewEvent={previewEvent}
-          animation={animation}
-          isAnimatePulse={isAnimatePulse}
-          isPreviewMode={isPreviewMode}
-          contentBody={contentBodyHtml}
-          previewContentBody={previewContentBody}
-          shouldDisplayImage={shouldDisplayImage}
-        />
+        <div className="flex flex-col items-center gap-2 -mb-4">
+          <SmallPopupTemplate
+            previewEvent={previewEvent}
+            animation={animation}
+            isAnimatePulse={isAnimatePulse}
+            isPreviewMode={isPreviewMode}
+            contentBody={contentBodyHtml}
+            previewContentBody={previewContentBody}
+            shouldDisplayImage={shouldDisplayImage}
+          />
+          <div className="text-xs flex items-center gap-2">
+            <InfoCircledIcon width={13} height={13} /> Demo data only
+          </div>
+        </div>
       );
     case TemplateTypes.SmPopupNoImg:
       return (
-        <SmallPopupNoImageTemplate
-          animation={animation}
-          isAnimatePulse={isAnimatePulse}
-          isPreviewMode={isPreviewMode}
-          contentBody={contentBodyHtml}
-          previewContentBody={previewContentBody}
-        />
+        <div className="flex flex-col items-center gap-2 -mb-4">
+          <SmallPopupNoImageTemplate
+            animation={animation}
+            isAnimatePulse={isAnimatePulse}
+            isPreviewMode={isPreviewMode}
+            contentBody={contentBodyHtml}
+            previewContentBody={previewContentBody}
+          />
+          <div className="text-xs flex items-center gap-2">
+            <InfoCircledIcon width={13} height={13} /> Demo data only
+          </div>
+        </div>
       );
     case TemplateTypes.LgPopup:
       return (
-        <LargePopupTemplate
-          previewEvent={previewEvent}
-          animation={animation}
-          isAnimatePulse={isAnimatePulse}
-          isPreviewMode={isPreviewMode}
-          contentBody={contentBodyHtml}
-          previewContentBody={previewContentBody}
-          shouldDisplayImage={shouldDisplayImage}
-        />
+        <div className="flex flex-col items-center gap-2 -mb-4">
+          <LargePopupTemplate
+            previewEvent={previewEvent}
+            animation={animation}
+            isAnimatePulse={isAnimatePulse}
+            isPreviewMode={isPreviewMode}
+            contentBody={contentBodyHtml}
+            previewContentBody={previewContentBody}
+            shouldDisplayImage={shouldDisplayImage}
+          />
+          <div className="text-xs flex items-center gap-2">
+            <InfoCircledIcon width={13} height={13} /> Demo data only
+          </div>
+        </div>
       );
     case TemplateTypes.LgPopupNoImg:
       return (
-        <LargePopupNoImageTemplate
-          animation={animation}
-          isAnimatePulse={isAnimatePulse}
-          isPreviewMode={isPreviewMode}
-          contentBody={contentBodyHtml}
-          previewContentBody={previewContentBody}
-        />
+        <div className="flex flex-col items-center gap-2 -mb-4">
+          <LargePopupNoImageTemplate
+            animation={animation}
+            isAnimatePulse={isAnimatePulse}
+            isPreviewMode={isPreviewMode}
+            contentBody={contentBodyHtml}
+            previewContentBody={previewContentBody}
+          />
+          <div className="text-xs flex items-center gap-2">
+            <InfoCircledIcon width={13} height={13} /> Demo data only
+          </div>
+        </div>
       );
     case TemplateTypes.Card:
       return (
-        <CardTemplate
-          previewEvent={previewEvent}
-          animation={animation}
-          isAnimatePulse={isAnimatePulse}
-          isPreviewMode={isPreviewMode}
-          contentBody={contentBodyHtml}
-          previewContentBody={previewContentBody}
-          shouldDisplayImage={shouldDisplayImage}
-        />
+        <div className="flex flex-col items-center gap-2 -mb-4">
+          <CardTemplate
+            previewEvent={previewEvent}
+            animation={animation}
+            isAnimatePulse={isAnimatePulse}
+            isPreviewMode={isPreviewMode}
+            contentBody={contentBodyHtml}
+            previewContentBody={previewContentBody}
+            shouldDisplayImage={shouldDisplayImage}
+          />
+          <div className="text-xs flex items-center gap-2">
+            <InfoCircledIcon width={13} height={13} /> Demo data only
+          </div>
+        </div>
       );
     case TemplateTypes.CardNoImg:
       return (
-        <CardNoImageTemplate
-          animation={animation}
-          isAnimatePulse={isAnimatePulse}
-          isPreviewMode={isPreviewMode}
-          contentBody={contentBodyHtml}
-          previewContentBody={previewContentBody}
-        />
+        <div className="flex flex-col items-center gap-2 -mb-4">
+          <CardNoImageTemplate
+            animation={animation}
+            isAnimatePulse={isAnimatePulse}
+            isPreviewMode={isPreviewMode}
+            contentBody={contentBodyHtml}
+            previewContentBody={previewContentBody}
+          />
+          <div className="text-xs flex items-center gap-2">
+            <InfoCircledIcon width={13} height={13} /> Demo data only
+          </div>
+        </div>
       );
     case TemplateTypes.Banner:
       return (
-        <BannerTemplate
-          previewEvent={previewEvent}
-          animation={animation}
-          isAnimatePulse={isAnimatePulse}
-          isPreviewMode={isPreviewMode}
-          contentBody={contentBodyHtml}
-          previewContentBody={previewContentBody}
-          shouldDisplayImage={shouldDisplayImage}
-        />
+        <div className="flex flex-col items-center gap-2 -mb-4">
+          <BannerTemplate
+            previewEvent={previewEvent}
+            animation={animation}
+            isAnimatePulse={isAnimatePulse}
+            isPreviewMode={isPreviewMode}
+            contentBody={contentBodyHtml}
+            previewContentBody={previewContentBody}
+            shouldDisplayImage={shouldDisplayImage}
+          />
+          <div className="text-xs flex items-center gap-2">
+            <InfoCircledIcon width={13} height={13} /> Demo data only
+          </div>
+        </div>
       );
     case TemplateTypes.BannerNoImg:
       return (
-        <BannerNoImageTemplate
-          animation={animation}
-          isAnimatePulse={isAnimatePulse}
-          isPreviewMode={isPreviewMode}
-          contentBody={contentBodyHtml}
-          previewContentBody={previewContentBody}
-        />
+        <div className="flex flex-col items-center gap-2 -mb-4">
+          <BannerNoImageTemplate
+            animation={animation}
+            isAnimatePulse={isAnimatePulse}
+            isPreviewMode={isPreviewMode}
+            contentBody={contentBodyHtml}
+            previewContentBody={previewContentBody}
+          />
+          <div className="text-xs flex items-center gap-2">
+            <InfoCircledIcon width={13} height={13} /> Demo data only
+          </div>
+        </div>
       );
     default:
       <>Unhandled template type</>;
