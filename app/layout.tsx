@@ -5,6 +5,7 @@ import { Gayathri, Georama, Noto_Sans } from "next/font/google";
 import cx from "classnames";
 import "./globals.css";
 import ProgressBarProvider from "@/app/_components/shared/progressbar";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const openSans = Noto_Sans({
   variable: "--font-openSans",
@@ -45,6 +46,7 @@ export default function RootLayout({
         <ProgressBarProvider>{children}</ProgressBarProvider>
         <Toaster />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
