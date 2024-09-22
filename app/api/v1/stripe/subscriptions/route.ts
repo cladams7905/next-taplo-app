@@ -22,10 +22,11 @@ export async function POST(request: NextRequest) {
       comment,
       feedback,
       cancelAtPeriodEnd,
+      isRenewalPeriod,
     } = await request.json();
 
     let subscription;
-    if (subscriptionId) {
+    if (isRenewalPeriod) {
       subscription = await stripe.subscriptions.update(subscriptionId, {
         cancel_at_period_end: cancelAtPeriodEnd,
         cancellation_details: {

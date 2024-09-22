@@ -8,7 +8,7 @@ import {
 } from "@/lib/actions";
 import Link from "next/link";
 import { useEffect, useRef, useState, useTransition } from "react";
-import { addMonths } from "date-fns";
+import { addMonths, sub } from "date-fns";
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { updateStripeUser } from "@/stripe/actions";
 import { Tables } from "@/stripe/types";
@@ -61,6 +61,13 @@ export default function RenewSubscriptionModal({
             cancelAtPeriodEnd: false,
             comment: null,
             feedback: null,
+            isRenewalPeriod:
+              subscription.status !== "canceled" &&
+              (!subscription.cancel_at ||
+                Math.floor(Date.now() / 1000) <
+                  Math.floor(
+                    new Date(subscription.cancel_at).getTime() / 1000
+                  )),
           }),
         });
 

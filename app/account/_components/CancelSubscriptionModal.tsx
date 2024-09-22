@@ -53,6 +53,13 @@ export default function CancelSubscriptionModal({
             cancelAtPeriodEnd: true,
             comment: cancelCommentRef.current?.value,
             feedback: cancelFeedback,
+            isRenewalPeriod:
+              subscription.status !== "canceled" &&
+              (!subscription.cancel_at ||
+                Math.floor(Date.now() / 1000) <
+                  Math.floor(
+                    new Date(subscription.cancel_at).getTime() / 1000
+                  )),
           }),
         });
 
