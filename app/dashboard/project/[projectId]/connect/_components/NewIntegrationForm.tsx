@@ -150,22 +150,23 @@ export default function NewIntegrationForm({
           showToastError(error);
           return;
         }
+        if (data) {
+          if (integrationToEdit) {
+            setIntegrations((prevIntegrations) =>
+              prevIntegrations.map((integration) =>
+                integration.id === integrationToEdit?.id ? data : integration
+              )
+            );
+          } else {
+            setIntegrations((prevIntegrations) => [...prevIntegrations, data]);
+            showToast(`Successfully created new ${data.provider} API Key.`);
+          }
 
-        if (integrationToEdit) {
-          setIntegrations((prevIntegrations) =>
-            prevIntegrations.map((integration) =>
-              integration.id === integrationToEdit?.id ? data : integration
-            )
-          );
-        } else {
-          setIntegrations((prevIntegrations) => [...prevIntegrations, data]);
-          showToast(`Successfully created new ${data.provider} API Key.`);
-        }
-
-        //if the new integration form is opened within the event settings on the create page,
-        //then also update the corresponding event with the integration id.
-        if (currentEvent && handleUpdateEvent) {
-          handleUpdateEvent(currentEvent, data.id);
+          //if the new integration form is opened within the event settings on the create page,
+          //then also update the corresponding event with the integration id.
+          if (currentEvent && handleUpdateEvent) {
+            handleUpdateEvent(currentEvent, data.id);
+          }
         }
 
         // Reset form values after successful submission

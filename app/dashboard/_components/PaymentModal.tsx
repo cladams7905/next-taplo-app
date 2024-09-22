@@ -1,6 +1,6 @@
 "use client";
 
-import CheckoutSession from "@/app/checkout/_components/CheckoutSession";
+import CheckoutSession from "./CheckoutSession";
 import {
   calculateBillingCycle,
   convertDateTime,
