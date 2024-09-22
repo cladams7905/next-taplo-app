@@ -4,77 +4,36 @@ import { CircleUserRound, LogOut, Settings } from "lucide-react";
 import { User } from "@supabase/supabase-js";
 import { signOut } from "@/app/(auth)/_actions";
 import Image from "next/image";
-import { memo, useEffect, useState, useTransition } from "react";
+import { memo, useTransition } from "react";
 import { redirect } from "next/navigation";
 import LoadingDots from "@/app/_components/shared/loadingdots";
 import { showToastError } from "@/app/_components/shared/showToast";
 import Link from "next/link";
-import { getProduct, getSubscription } from "@/stripe/actions";
-import { isFreeTrialPeriod } from "@/lib/actions";
 
-function UserDropdown({ user }: { user: User }) {
+function UserDropdown({
+  user,
+  paymentPlan,
+}: {
+  user: User;
+  paymentPlan: string | null;
+}) {
   const [isPending, startTransition] = useTransition();
 
   const email = user?.email;
   const username = email?.substring(0, email.indexOf("@"));
   const { avatar_url, name } = user?.user_metadata || {};
-  const [accountPlan, setAccountPlan] = useState<
-    "Free trial" | "Starter" | "Pro" | null
-  >(null);
 
   async function handleSignOut() {
     startTransition(async () => {
       const { error } = JSON.parse(await signOut());
       if (error) {
-        console.log(error);
+        console.error(error);
         showToastError(error);
       } else {
         redirect("/");
       }
     });
   }
-
-  useEffect(() => {
-    const fetchSubscription = async () => {
-      try {
-        // Fetch the subscription data
-        const { data: subscriptionData, error: subscriptionError } =
-          await getSubscription(user.id);
-        if (subscriptionError) {
-          console.log(subscriptionError);
-          if (subscriptionError.code !== "PGRST116")
-            //If returns 0 rows, its because the user hasn't signed up for a free trial yet
-            showToastError(subscriptionError);
-          return;
-        }
-
-        // Fetch the product data based on the subscription
-        const { data: productData, error: productError } = await getProduct(
-          subscriptionData.product_id
-        );
-        if (productError) {
-          console.log(productError);
-          showToastError(productError);
-          return;
-        }
-
-        // Set the account plan based on the product name
-        let newAccountPlan: "Free trial" | "Starter" | "Pro" | null;
-        if (isFreeTrialPeriod(subscriptionData)) {
-          newAccountPlan = "Free trial";
-        } else {
-          newAccountPlan = productData?.name.includes("Starter")
-            ? "Starter"
-            : "Pro";
-        }
-        setAccountPlan(newAccountPlan);
-      } catch (error) {
-        console.log("An unexpected error occurred:", error);
-        showToastError(error);
-      }
-    };
-    fetchSubscription();
-  }, [user.id]);
 
   return (
     <div className="dropdown dropdown-end relative inline-block text-left">
@@ -110,9 +69,9 @@ function UserDropdown({ user }: { user: User }) {
                 <p className="truncate text-sm font-medium text-gray-900">
                   {name ? name : username}
                 </p>
-                {accountPlan && (
+                {paymentPlan && (
                   <div className="badge badge-sm bg-primary/15 font-bold text-primary ">
-                    {accountPlan}
+                    {paymentPlan}
                   </div>
                 )}
               </div>

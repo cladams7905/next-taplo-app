@@ -92,7 +92,7 @@ export default function Navbar({
           </div>
         )}
         <div className="navbar-end md:w-1/2 w-fit">
-          <UserDropdown user={user} />
+          <UserDropdown user={user} paymentPlan={paymentPlan} />
         </div>
       </div>
     </main>
