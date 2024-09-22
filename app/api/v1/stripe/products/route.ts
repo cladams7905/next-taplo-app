@@ -25,6 +25,14 @@ export async function GET(request: NextRequest) {
     }
 
     const stripe_api_key = data.api_key;
+
+    if (!stripe_api_key) {
+      return NextResponse.json({
+        error: `Stripe API Key not found`,
+        status: 500,
+      });
+    }
+
     const stripe = new Stripe(stripe_api_key);
     const productData = await stripe.products.list({
       expand: ["data.default_price"],

@@ -5,7 +5,7 @@ export async function GET(request: NextRequest) {
   try {
     // Get the project_id from the query params
     const { searchParams } = new URL(request.url);
-    const project_id = searchParams.get("project_id");
+    const project_id = parseInt(searchParams.get("project_id") || "");
 
     if (!project_id) {
       return NextResponse.json({

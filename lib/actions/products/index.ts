@@ -13,7 +13,7 @@ export async function createProduct(product: TablesInsert<"Products">) {
   return result;
 }
 
-export async function getProducts(projectId: string) {
+export async function getProducts(projectId: number) {
   const supabase = createClient();
   const result = await supabase
     .from("Products")

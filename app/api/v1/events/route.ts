@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
   try {
     // Get the project_id from the query params
     const { searchParams } = new URL(request.url);
-    const project_id = searchParams.get("project_id");
+    const project_id = parseInt(searchParams.get("project_id") || "");
     const event_interval = searchParams.get("event_interval") || "2";
 
     if (!project_id) {
@@ -26,10 +26,7 @@ export async function GET(request: NextRequest) {
     }
 
     //1. get event data
-    const {
-      data: eventData,
-      error: eventError,
-    }: { data: Tables<"Events">[]; error: any } = await getEvents(project_id);
+    const { data: eventData, error: eventError } = await getEvents(project_id);
 
     if (!eventData || eventError) {
       return NextResponse.json({
@@ -38,13 +35,8 @@ export async function GET(request: NextRequest) {
       });
     } else {
       //2. get integration data
-      const {
-        data: integrationData,
-        error: integrationError,
-      }: { data: Tables<"Integrations">[]; error: any } = await getIntegrations(
-        project_id,
-        true
-      );
+      const { data: integrationData, error: integrationError } =
+        await getIntegrations(project_id, true);
       if (!integrationData || integrationError) {
         return NextResponse.json({
           error: `Get Integrations Error: ${integrationError?.message}`,

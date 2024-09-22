@@ -13,7 +13,7 @@ export async function createEvent(event: TablesInsert<"Events">) {
   return result;
 }
 
-export async function getEvents(projectId: string) {
+export async function getEvents(projectId: number) {
   const supabase = createClient();
   const result = await supabase
     .from("Events")
