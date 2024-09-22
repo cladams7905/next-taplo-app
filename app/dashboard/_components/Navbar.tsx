@@ -5,27 +5,28 @@ import { User } from "@supabase/supabase-js";
 import { ChevronRight, Menu } from "lucide-react";
 import NavbarTabList from "./NavbarTablist";
 import ProjectDropdown from "./ProjectDropdown";
-import { Tables } from "@/supabase/types";
+import { Tables as SupabaseTables } from "@/supabase/types";
+import { Tables as StripeTables } from "@/stripe/types";
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
 
 export default function Navbar({
   user,
   projects,
   fetchedActiveProject,
   paymentPlan,
+  subscription,
 }: {
   user: User;
-  projects: Tables<"Projects">[] | null;
-  fetchedActiveProject: Tables<"Projects"> | null;
+  projects: SupabaseTables<"Projects">[] | null;
+  fetchedActiveProject: SupabaseTables<"Projects"> | null;
   paymentPlan: string | null;
+  subscription: StripeTables<"subscriptions"> | undefined;
 }) {
-  const pathname = usePathname();
   const [activeProject, setActiveProject] = useState<
-    Tables<"Projects"> | undefined
+    SupabaseTables<"Projects"> | undefined
   >(fetchedActiveProject || undefined);
   const [reorderedProjects, setReorderedProjects] = useState<
-    Tables<"Projects">[]
+    SupabaseTables<"Projects">[]
   >(projects || []);
 
   // First useEffect to set the active project
@@ -46,8 +47,8 @@ export default function Navbar({
 
   // Helper function to move active project to the top
   const moveToTop = (
-    projects: Tables<"Projects">[],
-    activeProject: Tables<"Projects"> | undefined
+    projects: SupabaseTables<"Projects">[],
+    activeProject: SupabaseTables<"Projects"> | undefined
   ) => {
     if (!activeProject) return projects;
     return [
@@ -92,7 +93,11 @@ export default function Navbar({
           </div>
         )}
         <div className="navbar-end md:w-1/2 w-fit">
-          <UserDropdown user={user} paymentPlan={paymentPlan} />
+          <UserDropdown
+            user={user}
+            paymentPlan={paymentPlan}
+            subscription={subscription}
+          />
         </div>
       </div>
     </main>

@@ -209,9 +209,10 @@ export default async function AccountPage() {
             </p>
             <p>
               Next billing date:{" "}
-              {(subscriptionData?.status === "active" ||
-                subscriptionData?.status === "trialing") &&
-                billingDate}
+              {subscriptionData?.status === "active" ||
+              subscriptionData?.status === "trialing"
+                ? billingDate
+                : "N/A"}
             </p>
             <p>
               Billing amount:{" "}

@@ -1,5 +1,5 @@
+import { Tables } from "@/stripe/types";
 import { type ClassValue, clsx } from "clsx";
-import Stripe from "stripe";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -141,7 +141,7 @@ export const formatPrice = (price: string | number | null) => {
  * Checks if a subscription is in a trial period.
  * @param subscription the subscription
  */
-export const isFreeTrialPeriod = (subscription: Stripe.Subscription) => {
+export const isFreeTrialPeriod = (subscription: Tables<"subscriptions">) => {
   const now = Math.floor(Date.now() / 1000);
   const trialStart = subscription?.trial_start
     ? Math.floor(new Date(subscription.trial_start).getTime() / 1000)

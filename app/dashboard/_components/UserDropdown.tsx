@@ -9,13 +9,17 @@ import { redirect } from "next/navigation";
 import LoadingDots from "@/app/_components/shared/loadingdots";
 import { showToastError } from "@/app/_components/shared/showToast";
 import Link from "next/link";
+import { isFreeTrialPeriod } from "@/lib/actions";
+import { Tables } from "@/stripe/types";
 
 function UserDropdown({
   user,
   paymentPlan,
+  subscription,
 }: {
   user: User;
   paymentPlan: string | null;
+  subscription: Tables<"subscriptions"> | undefined;
 }) {
   const [isPending, startTransition] = useTransition();
 
@@ -69,11 +73,19 @@ function UserDropdown({
                 <p className="truncate text-sm font-medium text-gray-900">
                   {name ? name : username}
                 </p>
-                {paymentPlan && (
-                  <div className="badge badge-sm bg-primary/15 font-bold text-primary ">
-                    {paymentPlan}
-                  </div>
-                )}
+                {paymentPlan &&
+                  subscription &&
+                  subscription.status !== "canceled" && (
+                    <div className="badge badge-sm bg-primary/15 font-bold text-primary ">
+                      {isFreeTrialPeriod(subscription)
+                        ? "Free Trial"
+                        : paymentPlan.includes("Starter")
+                        ? "Starter"
+                        : paymentPlan.includes("Pro")
+                        ? "Pro"
+                        : ""}
+                    </div>
+                  )}
               </div>
               <p className="truncate text-sm text-gray-400">{email}</p>
             </>

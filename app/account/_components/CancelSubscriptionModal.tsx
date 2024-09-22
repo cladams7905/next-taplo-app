@@ -86,7 +86,7 @@ export default function CancelSubscriptionModal({
         Cancel Subscription
       </div>
       <dialog className="modal" ref={cancelSubscriptionRef}>
-        <div className="flex flex-col modal-box dark:border dark:border-gray-600">
+        <div className="flex flex-col font-sans modal-box dark:border dark:border-gray-600">
           <form method="dialog" className="modal-backdrop">
             <button
               className="btn btn-sm btn-circle btn-ghost !outline-none absolute right-2 top-2 text-base-content"

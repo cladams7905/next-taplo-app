@@ -5,7 +5,7 @@ import { createClient } from "@/supabase/server";
 import { getActiveProject, getProjects } from "@/lib/actions/projects";
 import { getProduct, getSubscription } from "@/stripe/actions";
 import Link from "next/link";
-import { getURL } from "@/lib/actions";
+import RenewSubscriptionBanner from "./_components/RenewSubscriptionBanner";
 
 export default async function AccountLayout({
   children,
@@ -22,9 +22,9 @@ export default async function AccountLayout({
   const { data: projects } = await getProjects(data.user.id);
   const { data: activeProject } = await getActiveProject(data.user.id);
 
-  const { data: subscriptionData } = await getSubscription(data.user.id);
-  const { data: productData } = subscriptionData?.product_id
-    ? await getProduct(subscriptionData.product_id)
+  const { data: subscription } = await getSubscription(data.user.id);
+  const { data: product } = subscription?.product_id
+    ? await getProduct(subscription.product_id)
     : { data: null };
 
   return (
@@ -36,26 +36,11 @@ export default async function AccountLayout({
             user={data.user}
             projects={projects}
             fetchedActiveProject={activeProject}
-            paymentPlan={productData?.name ?? null}
+            paymentPlan={product?.name ?? null}
+            subscription={subscription}
           />
           <div className="flex flex-col md:h-screen-minus-navbar h-screen bg-gradient-to-tr from-primary/50 to-violet-100 font-sans dark:bg-base-100 relative">
-            {subscriptionData?.status === "canceled" && (
-              <div className="w-full bg-error font-sans text-white text-sm text-center inline-block items-center px-12 py-2 justify-center">
-                Your subscription has expired. Please{" "}
-                <Link
-                  href={
-                    getURL().includes("taplo")
-                      ? "https://billing.stripe.com/p/login/fZeeVR24I5pC1UY288"
-                      : "https://billing.stripe.com/p/login/test_14kdUs06T5fha9q000"
-                  }
-                  target="_blank"
-                  className="link px-1"
-                >
-                  renew your subscription
-                </Link>{" "}
-                to continue using Taplo.
-              </div>
-            )}
+            {subscription?.status === "canceled" && <RenewSubscriptionBanner />}
             <div className="lg:px-12 md:px-8 px-4 h-full">{children}</div>
           </div>
         </div>

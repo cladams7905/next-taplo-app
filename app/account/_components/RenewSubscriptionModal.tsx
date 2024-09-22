@@ -27,7 +27,7 @@ export default function RenewSubscriptionModal({
   price: Tables<"prices"> | null;
   billingDate: string | null;
 }) {
-  const renewSubscriptionRef = useRef<HTMLDialogElement>(null);
+  const modalRef = useRef<HTMLDialogElement>(null);
   const [isPending, startTransition] = useTransition();
   const [estimatedBillingDate, setEstimatedBillingDate] = useState<
     string | null
@@ -68,7 +68,7 @@ export default function RenewSubscriptionModal({
           const error = await response.json();
           throw new Error(error.message);
         }
-        renewSubscriptionRef.current?.close();
+        modalRef.current?.close();
         showToast(
           `Your subscription has been reactivated! Please click \"Manage subscription\" to view your invoice. If you would like to change your subscription, you may do so at any time from your account page.`
         );
@@ -99,20 +99,20 @@ export default function RenewSubscriptionModal({
       <div
         className="btn bg-primary/20 text-primary btn-sm w-full hover:bg-primary/40"
         onClick={() => {
-          renewSubscriptionRef.current?.classList.remove("hidden");
-          renewSubscriptionRef.current?.showModal();
+          modalRef.current?.classList.remove("hidden");
+          modalRef.current?.showModal();
         }}
       >
         Renew Subscription
       </div>
-      <dialog className="modal" ref={renewSubscriptionRef}>
-        <div className="flex flex-col modal-box dark:border dark:border-gray-600">
+      <dialog className="modal" ref={modalRef}>
+        <div className="flex font-sans flex-col modal-box dark:border dark:border-gray-600">
           <form method="dialog" className="modal-backdrop">
             <button
               className="btn btn-sm btn-circle btn-ghost !outline-none absolute right-2 top-2 text-base-content"
               onClick={() => {
-                renewSubscriptionRef.current?.classList.add("hidden");
-                renewSubscriptionRef.current?.close();
+                modalRef.current?.classList.add("hidden");
+                modalRef.current?.close();
               }}
             >
               ✕
@@ -173,7 +173,7 @@ export default function RenewSubscriptionModal({
               <div
                 className="btn btn-ghost btn-outline w-full border border-gray-200 hover:border-gray-200 hover:text-primary"
                 onClick={() => {
-                  renewSubscriptionRef.current?.close();
+                  modalRef.current?.close();
                 }}
               >
                 Nevermind, I don&apos;t want to renew
