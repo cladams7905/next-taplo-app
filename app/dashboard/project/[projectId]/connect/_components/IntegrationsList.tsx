@@ -23,7 +23,7 @@ export default function IntegrationsList({
   integrationModalRef,
   setIntegrationToEdit,
 }: {
-  events: Tables<"Events">[];
+  events: Tables<"Events">[] | null;
   integrations: Tables<"Integrations">[];
   setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
   searchQuery: string;
@@ -39,6 +39,7 @@ export default function IntegrationsList({
   );
 
   const getIntegrationEventTypes = (integration: Tables<"Integrations">) => {
+    if (!events) return;
     let eventTypes: string[] = [];
     events.forEach((event) => {
       if (event?.integration_id === integration.id) {

@@ -3,6 +3,7 @@
 import LoadingDots from "@/app/_components/shared/loadingdots";
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { updateStripeUser } from "@/stripe/actions";
+import { Tables } from "@/stripe/types";
 import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { useRef, useState, useTransition } from "react";
@@ -14,7 +15,7 @@ export default function CancelSubscriptionModal({
   billingDate,
 }: {
   user: User;
-  subscription: Stripe.Subscription;
+  subscription: Tables<"subscriptions"> | undefined;
   billingDate: string;
 }) {
   const cancelSubscriptionRef = useRef<HTMLDialogElement>(null);
@@ -41,6 +42,7 @@ export default function CancelSubscriptionModal({
   const handleCancelSubscription = () => {
     startTransition(async () => {
       try {
+        if (!subscription) return;
         const response = await fetch("/api/v1/stripe/subscriptions", {
           method: "POST",
           headers: {

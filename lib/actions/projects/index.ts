@@ -12,13 +12,13 @@ export async function createProject(project: TablesInsert<"Projects">) {
     .select("*")
     .single();
   revalidatePath("/dashboard/project/[projectId]/create", "layout");
-  return JSON.parse(JSON.stringify(result));
+  return result;
 }
 
 export async function getProjects(userId: string) {
   const supabase = createClient();
   const result = await supabase.from("Projects").select().eq("user_id", userId);
-  return JSON.parse(JSON.stringify(result));
+  return result;
 }
 
 export async function getActiveProject(userId: string) {
@@ -29,7 +29,7 @@ export async function getActiveProject(userId: string) {
     .eq("user_id", userId)
     .eq("is_active", true)
     .single();
-  return JSON.parse(JSON.stringify(result));
+  return result;
 }
 
 export async function getProjectById(projectId: string) {
@@ -39,7 +39,7 @@ export async function getProjectById(projectId: string) {
     .select()
     .eq("id", projectId)
     .single();
-  return JSON.parse(JSON.stringify(result));
+  return result;
 }
 
 export async function setActiveProject(userId: string, projectId: string) {
@@ -49,7 +49,7 @@ export async function setActiveProject(userId: string, projectId: string) {
     .update({ is_active: true })
     .eq("user_id", userId)
     .eq("id", projectId);
-  return JSON.parse(JSON.stringify(result));
+  return result;
 }
 
 export async function updateProject(
@@ -67,7 +67,7 @@ export async function updateProject(
   if (shouldRevalidatePath) {
     revalidatePath("/dashboard/project/[projectId]/create", "layout");
   }
-  return JSON.parse(JSON.stringify(result));
+  return result;
 }
 
 export async function deleteProject(projectId: number) {
@@ -79,5 +79,5 @@ export async function deleteProject(projectId: number) {
     .select("*")
     .single();
   revalidatePath("/dashboard/project/[projectId]/create", "layout");
-  return JSON.parse(JSON.stringify(result));
+  return result;
 }

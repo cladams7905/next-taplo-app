@@ -189,7 +189,7 @@ const getStripeUser = async (userId: string) => {
     .select("*")
     .eq("user_id", userId)
     .single();
-  return JSON.parse(JSON.stringify(result));
+  return result;
 };
 
 const getStripeCustomer = async (userId: string) => {
@@ -198,7 +198,7 @@ const getStripeCustomer = async (userId: string) => {
     .select("*")
     .eq("id", userId)
     .single();
-  return JSON.parse(JSON.stringify(result));
+  return result;
 };
 
 const updateStripeUser = async (user: TablesInsert<"users">) => {
@@ -207,17 +207,22 @@ const updateStripeUser = async (user: TablesInsert<"users">) => {
     .update(user)
     .eq("user_id", user.user_id)
     .single();
-  return JSON.parse(JSON.stringify(result));
+  return result;
 };
 
 const getSubscription = async (userId: string) => {
   const result = await supabaseAdmin
     .from("subscriptions")
     .select("*")
-    .eq("user_id", userId)
-    .in("status", ["active", "trialing"])
-    .single();
-  return JSON.parse(JSON.stringify(result));
+    .eq("user_id", userId);
+
+  if (result?.data && result.data.length > 1) {
+    result.data = result.data.filter(
+      (subscription: Tables<"subscriptions">) =>
+        subscription.status === "active" || subscription.status === "trialing"
+    );
+  }
+  return { ...result, data: result.data?.[0] };
 };
 
 const getProduct = async (productId: string) => {
@@ -226,7 +231,7 @@ const getProduct = async (productId: string) => {
     .select("*")
     .eq("id", productId)
     .single();
-  return JSON.parse(JSON.stringify(result));
+  return result;
 };
 
 const getPrice = async (productId: string) => {
@@ -235,7 +240,7 @@ const getPrice = async (productId: string) => {
     .select("*")
     .eq("product_id", productId)
     .single();
-  return JSON.parse(JSON.stringify(result));
+  return result;
 };
 
 export {

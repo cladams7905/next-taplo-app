@@ -11,13 +11,14 @@ export default function IntegrationBoard({
   activeProject,
   fetchedIntegrations,
 }: {
-  events: Tables<"Events">[];
+  events: Tables<"Events">[] | null;
   activeProject: Tables<"Projects">;
-  fetchedIntegrations: Tables<"Integrations">[];
+  fetchedIntegrations: Tables<"Integrations">[] | null;
 }) {
   const newIntegrationModalRef = useRef<HTMLDialogElement>(null);
-  const [integrations, setIntegrations] =
-    useState<Tables<"Integrations">[]>(fetchedIntegrations);
+  const [integrations, setIntegrations] = useState<Tables<"Integrations">[]>(
+    fetchedIntegrations || []
+  );
   const [searchQuery, setSearchQuery] = useState("");
   const [integrationToEdit, setIntegrationToEdit] = useState<
     Tables<"Integrations"> | undefined

@@ -12,16 +12,16 @@ export async function createIntegration(
     .insert(integration)
     .select("*")
     .single();
-  return JSON.parse(JSON.stringify(result));
+  return result;
 }
 
-export async function getIntegrations(projectId: string, isAdmin = false) {
+export async function getIntegrations(projectId: number, isAdmin = false) {
   const supabase = createClient(isAdmin);
   const result = await supabase
     .from("Integrations")
     .select()
     .eq("project_id", projectId);
-  return JSON.parse(JSON.stringify(result));
+  return result;
 }
 
 export async function getIntegrationById(
@@ -34,7 +34,7 @@ export async function getIntegrationById(
     .select()
     .eq("id", integrationId)
     .single();
-  return JSON.parse(JSON.stringify(result));
+  return result;
 }
 
 export async function updateIntegration(
@@ -48,7 +48,7 @@ export async function updateIntegration(
     .eq("id", integrationId)
     .select("*")
     .single();
-  return JSON.parse(JSON.stringify(result));
+  return result;
 }
 
 export async function deleteIntegration(integrationId: number) {
@@ -59,5 +59,5 @@ export async function deleteIntegration(integrationId: number) {
     .eq("id", integrationId)
     .select("*")
     .single();
-  return JSON.parse(JSON.stringify(result));
+  return result;
 }

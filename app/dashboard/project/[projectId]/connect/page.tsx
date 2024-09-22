@@ -12,9 +12,12 @@ export default async function ConnectPage() {
     redirect("/");
   }
 
-  const { data: projectData } = await getActiveProject(userData.user.id);
-  const { data: integrations } = await getIntegrations(projectData.id);
   const { data: activeProject } = await getActiveProject(userData.user.id);
+  if (!activeProject) {
+    redirect("/dashboard/create-project");
+  }
+
+  const { data: integrations } = await getIntegrations(activeProject.id);
   const { data: events } = await getEvents(activeProject.id);
 
   return (

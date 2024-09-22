@@ -63,7 +63,7 @@ function UserDropdown({ user }: { user: User }) {
         if (isFreeTrialPeriod(subscriptionData)) {
           newAccountPlan = "Free trial";
         } else {
-          newAccountPlan = productData.name.includes("Starter")
+          newAccountPlan = productData?.name.includes("Starter")
             ? "Starter"
             : "Pro";
         }

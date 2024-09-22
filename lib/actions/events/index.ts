@@ -10,7 +10,7 @@ export async function createEvent(event: TablesInsert<"Events">) {
     .insert(event)
     .select("*")
     .single();
-  return JSON.parse(JSON.stringify(result));
+  return result;
 }
 
 export async function getEvents(projectId: string) {
@@ -19,7 +19,7 @@ export async function getEvents(projectId: string) {
     .from("Events")
     .select()
     .eq("project_id", projectId);
-  return JSON.parse(JSON.stringify(result));
+  return result;
 }
 
 export async function updateEvent(
@@ -33,7 +33,7 @@ export async function updateEvent(
     .eq("id", eventId)
     .select("*")
     .single();
-  return JSON.parse(JSON.stringify(result));
+  return result;
 }
 
 export async function deleteEvent(eventId: number) {
@@ -44,5 +44,5 @@ export async function deleteEvent(eventId: number) {
     .eq("id", eventId)
     .select("*")
     .single();
-  return JSON.parse(JSON.stringify(result));
+  return result;
 }

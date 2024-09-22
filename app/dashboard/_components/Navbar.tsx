@@ -7,7 +7,6 @@ import NavbarTabList from "./NavbarTablist";
 import ProjectDropdown from "./ProjectDropdown";
 import { Tables } from "@/supabase/types";
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 export default function Navbar({
@@ -17,25 +16,26 @@ export default function Navbar({
   paymentPlan,
 }: {
   user: User;
-  projects: Tables<"Projects">[];
-  fetchedActiveProject: Tables<"Projects">;
-  paymentPlan: string;
+  projects: Tables<"Projects">[] | null;
+  fetchedActiveProject: Tables<"Projects"> | null;
+  paymentPlan: string | null;
 }) {
   const pathname = usePathname();
   const [activeProject, setActiveProject] = useState<
     Tables<"Projects"> | undefined
-  >(fetchedActiveProject);
-  const [reorderedProjects, setReorderedProjects] =
-    useState<Tables<"Projects">[]>(projects);
+  >(fetchedActiveProject || undefined);
+  const [reorderedProjects, setReorderedProjects] = useState<
+    Tables<"Projects">[]
+  >(projects || []);
 
   // First useEffect to set the active project
   useEffect(() => {
-    setActiveProject(fetchedActiveProject);
+    setActiveProject(fetchedActiveProject || undefined);
   }, [fetchedActiveProject]);
 
   // Second useEffect to reorder projects when active project changes
   useEffect(() => {
-    if (activeProject) {
+    if (activeProject && projects) {
       const updatedProjects = moveToTop(
         projects,
         projects.find((project) => project.id === activeProject.id)

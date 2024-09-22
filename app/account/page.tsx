@@ -39,18 +39,20 @@ export default async function AccountPage() {
 
   const { data: subscriptionData } = await getSubscription(userData.user.id);
 
-  const { data: priceData } = await getPrice(subscriptionData.product_id);
+  const { data: priceData } = subscriptionData?.product_id
+    ? await getPrice(subscriptionData.product_id)
+    : { data: null };
 
-  const { data: productData } = await getProduct(subscriptionData.product_id);
+  const { data: productData } = subscriptionData?.product_id
+    ? await getProduct(subscriptionData.product_id)
+    : { data: null };
 
-  const cancelDate = subscriptionData.cancel_at;
+  const cancelDate = subscriptionData?.cancel_at;
 
   const billingDate = convertDateTime(
-    subscriptionData.current_period_end,
+    subscriptionData?.current_period_end || "",
     true
   );
-
-  if (!subscriptionData || !stripeUserData) return null;
 
   return (
     <div className="flex items-center justify-center w-full py-6 h-full">
@@ -67,9 +69,9 @@ export default async function AccountPage() {
         <div className="join md:join-horizontal join-vertical mb-6">
           <div className="join-item flex flex-col border border-gray-200 rounded-lg px-6 py-4 gap-3 md:w-2/3">
             <p className="text-lg font-bold mb-3">Subscription Details</p>
-            <p className="font-bold text-sm">My plan: {productData.name}</p>
+            <p className="font-bold text-sm">My plan: {productData?.name}</p>
             <div className="columns-2">
-              {productData.name.includes("Starter") ? (
+              {productData?.name && productData.name.includes("Starter") ? (
                 <>
                   <div className="flex flex-col justify-center gap-3 text-sm">
                     <div className="flex items-center gap-3">
@@ -80,7 +82,7 @@ export default async function AccountPage() {
                         strokeWidth={4}
                       />
                       <div className="flex items-center gap-2">
-                        {projectData.length}/1 project
+                        {projectData?.length ?? 0}/1 project
                         <div
                           className="tooltip tooltip-info"
                           data-tip="You are only allowed one project on the Starter plan. To get unlimited projects, upgrade to Pro."
@@ -192,7 +194,7 @@ export default async function AccountPage() {
               {subscriptionData?.status === "canceled" ? (
                 <span className="text-error">Canceled</span>
               ) : (
-                capitalizeFirstLetter(subscriptionData?.status)
+                capitalizeFirstLetter(subscriptionData?.status || "")
               )}
               {cancelDate &&
                 (subscriptionData?.status === "active" ||
@@ -215,7 +217,8 @@ export default async function AccountPage() {
               Billing amount:{" "}
               {(subscriptionData?.status === "active" ||
                 subscriptionData?.status === "trialing") &&
-              !subscriptionData.cancel_at
+              !subscriptionData?.cancel_at &&
+              priceData
                 ? formatCentsToDollars(priceData.unit_amount)
                 : "$0.00"}
             </p>
@@ -231,9 +234,9 @@ export default async function AccountPage() {
                 Manage Subscription
               </div>
             </Link>
-            {subscriptionData.cancel_at_period_end ||
-            subscriptionData.cancel_at ||
-            subscriptionData.ended_at ? (
+            {subscriptionData?.cancel_at_period_end ||
+            subscriptionData?.cancel_at ||
+            subscriptionData?.ended_at ? (
               <RenewSubscriptionModal
                 customer={stripeCustomerData}
                 subscription={subscriptionData}

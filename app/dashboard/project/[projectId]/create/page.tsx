@@ -8,17 +8,21 @@ import { getProducts } from "@/lib/actions/products";
 import { User } from "@supabase/supabase-js";
 import { getURL } from "@/lib/actions";
 
-export default async function CreatePopupPage({ params }: { params: string }) {
+export default async function CreatePopupPage() {
   const supabase = createClient();
   const { data, error } = await supabase.auth.getUser();
   if (error || !data?.user) {
     redirect("/");
   }
 
-  const activeProject = (await getActiveProject(data.user.id)).data;
-  const integrations = (await getIntegrations(activeProject.id)).data;
-  const events = (await getEvents(activeProject.id)).data;
-  const products = (await getProducts(activeProject.id)).data;
+  const { data: activeProject } = await getActiveProject(data.user.id);
+  if (!activeProject) {
+    redirect("/dashboard/create-project");
+  }
+
+  const { data: integrations } = await getIntegrations(activeProject.id);
+  const { data: events } = await getEvents(activeProject.id);
+  const { data: products } = await getProducts(activeProject.id);
   const featuresVoteToken = await fetchToken(data.user);
 
   return (

@@ -18,7 +18,6 @@ import {
   useEffect,
   useRef,
   useState,
-  useTransition,
 } from "react";
 import Logo from "@/public/images/Taplo-logo (2).svg";
 import Stripe from "stripe";
@@ -33,7 +32,7 @@ export default function PaymentModal({
   renewalDate,
   setRenewalDate,
 }: {
-  stripeUser: Tables<"users">;
+  stripeUser: Tables<"users"> | null;
   user: User;
   products: {
     id: string;

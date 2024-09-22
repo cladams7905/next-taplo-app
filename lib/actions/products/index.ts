@@ -10,7 +10,7 @@ export async function createProduct(product: TablesInsert<"Products">) {
     .insert(product)
     .select("*")
     .single();
-  return JSON.parse(JSON.stringify(result));
+  return result;
 }
 
 export async function getProducts(projectId: string) {
@@ -19,7 +19,7 @@ export async function getProducts(projectId: string) {
     .from("Products")
     .select()
     .eq("project_id", projectId);
-  return JSON.parse(JSON.stringify(result));
+  return result;
 }
 
 export async function updateProduct(
@@ -33,7 +33,7 @@ export async function updateProduct(
     .eq("id", productId)
     .select("*")
     .single();
-  return JSON.parse(JSON.stringify(result));
+  return result;
 }
 
 export async function deleteProduct(productId: number) {
@@ -44,5 +44,5 @@ export async function deleteProduct(productId: number) {
     .eq("id", productId)
     .select("*")
     .single();
-  return JSON.parse(JSON.stringify(result));
+  return result;
 }

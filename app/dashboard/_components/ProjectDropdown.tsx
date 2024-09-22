@@ -31,7 +31,7 @@ export default function ProjectDropdown({
   projects: Tables<"Projects">[];
   activeProject: Tables<"Projects"> | undefined;
   setActiveProjectRef: Dispatch<SetStateAction<Tables<"Projects"> | undefined>>;
-  paymentPlan: string;
+  paymentPlan: string | null;
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();

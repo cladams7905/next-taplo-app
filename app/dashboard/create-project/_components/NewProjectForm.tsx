@@ -35,10 +35,10 @@ export default function NewProjectForm({
   paymentPlan,
   numProjects,
 }: {
-  stripeUser: Tables<"users">;
+  stripeUser: Tables<"users"> | null;
   renewalDate: string | null;
-  paymentPlan: string;
-  numProjects: number;
+  paymentPlan: string | null | undefined;
+  numProjects: number | null | undefined;
 }) {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
@@ -73,7 +73,8 @@ export default function NewProjectForm({
 
   const shouldDisableCreateProject = () => {
     return (
-      !renewalDate || (paymentPlan?.includes("Starter") && numProjects >= 1)
+      !renewalDate ||
+      (paymentPlan?.includes("Starter") && numProjects && numProjects >= 1)
     );
   };
 

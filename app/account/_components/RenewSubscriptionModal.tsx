@@ -8,7 +8,6 @@ import {
 } from "@/lib/actions";
 import Link from "next/link";
 import { useEffect, useRef, useState, useTransition } from "react";
-import Stripe from "stripe";
 import { addMonths } from "date-fns";
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { updateStripeUser } from "@/stripe/actions";
@@ -22,11 +21,11 @@ export default function RenewSubscriptionModal({
   price,
   billingDate,
 }: {
-  customer: Tables<"customers">;
-  subscription: Stripe.Subscription;
-  product: Stripe.Product;
-  price: Stripe.Price;
-  billingDate: string;
+  customer: Tables<"customers"> | null;
+  subscription: Tables<"subscriptions"> | null;
+  product: Tables<"products"> | null;
+  price: Tables<"prices"> | null;
+  billingDate: string | null;
 }) {
   const renewSubscriptionRef = useRef<HTMLDialogElement>(null);
   const [isPending, startTransition] = useTransition();
@@ -36,18 +35,20 @@ export default function RenewSubscriptionModal({
   const router = useRouter();
 
   useEffect(() => {
-    if (product.name.includes("Monthly")) {
+    if (!product) return;
+    if (product.name && product.name.includes("Monthly")) {
       const nextBillingDate = addMonths(new Date(), 1);
       setEstimatedBillingDate(nextBillingDate.toLocaleDateString());
-    } else if (product.name.includes("Yearly")) {
+    } else if (product.name && product.name.includes("Yearly")) {
       const nextBillingDate = addMonths(new Date(), 12);
       setEstimatedBillingDate(nextBillingDate.toLocaleDateString());
     }
-  }, [subscription]);
+  }, [subscription, product]);
 
   const handleReactivateSubscription = () => {
     startTransition(async () => {
       try {
+        if (!customer || !subscription || !price) return;
         const response = await fetch("/api/v1/stripe/subscriptions", {
           method: "POST",
           headers: {
@@ -81,6 +82,7 @@ export default function RenewSubscriptionModal({
   };
 
   const handleUpdateUserAfterReactivation = async () => {
+    if (!customer) return;
     const { error } = await updateStripeUser({
       user_id: customer.id,
       reason_for_leaving: null,
@@ -123,7 +125,7 @@ export default function RenewSubscriptionModal({
             <div className="flex flex-col gap-3 text-sm w-full max-w-md">
               <p>
                 We&apos;re glad you want to renew your Taplo subscription! To do
-                so, click the "reactivate" button below.
+                so, click the &quot;reactivate&quot; button below.
               </p>
               <div>
                 To manage your payment plan and billing info,{" "}
@@ -142,7 +144,7 @@ export default function RenewSubscriptionModal({
             </div>
             <div className="flex flex-col w-full border border-200 rounded-lg p-4">
               <p className="text-sm">
-                Plan: {capitalizeFirstLetter(product?.name)}
+                Plan: {capitalizeFirstLetter(product?.name ? product.name : "")}
               </p>
               <p className="text-sm">
                 Estimated billing date:{" "}
@@ -151,7 +153,8 @@ export default function RenewSubscriptionModal({
                   : billingDate}
               </p>
               <p className="text-sm">
-                Billing amount: {formatCentsToDollars(price.unit_amount)}
+                Billing amount:{" "}
+                {price ? formatCentsToDollars(price.unit_amount) : "N/A"}
               </p>
             </div>
             <div className="flex flex-col gap-3">
@@ -173,7 +176,7 @@ export default function RenewSubscriptionModal({
                   renewSubscriptionRef.current?.close();
                 }}
               >
-                Nevermind, I don't want to renew
+                Nevermind, I don&apos;t want to renew
               </div>
             </div>
           </div>

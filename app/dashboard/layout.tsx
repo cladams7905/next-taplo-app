@@ -21,7 +21,10 @@ export default async function DashboardLayout({
   const activeProject = (await getActiveProject(userData.user.id)).data;
 
   const { data: subscriptionData } = await getSubscription(userData?.user.id);
-  const { data: productData } = await getProduct(subscriptionData?.product_id);
+  const { data: productData } = subscriptionData?.product_id
+    ? await getProduct(subscriptionData.product_id)
+    : { data: null };
+
   return (
     <main>
       <div className="drawer flex flex-col overflow-x-clip">
@@ -31,7 +34,7 @@ export default async function DashboardLayout({
             user={userData.user}
             projects={projects}
             fetchedActiveProject={activeProject}
-            paymentPlan={productData?.name}
+            paymentPlan={productData?.name ?? null}
           />
           <div className="flex flex-col md:h-screen-minus-navbar h-screen bg-gradient-to-tr from-primary/50 to-violet-100 dark:bg-base-100 relative">
             {subscriptionData?.status === "canceled" && (

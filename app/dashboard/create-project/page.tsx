@@ -14,7 +14,7 @@ export default async function CreateProject() {
   if (error || !userData?.user) {
     redirect("/");
   }
-  const stripeUser = (await getStripeUser(userData.user.id))?.data;
+  const { data: stripeUser } = await getStripeUser(userData.user.id);
 
   const { data: subscriptionData } = await getSubscription(userData.user.id);
   const { data: productData } = await getProduct(
@@ -48,7 +48,7 @@ export default async function CreateProject() {
       user={userData.user}
       products={productsWithPrice}
       paymentPlan={productData?.name}
-      numProjects={projectData.length}
+      numProjects={projectData?.length}
     />
   );
 }

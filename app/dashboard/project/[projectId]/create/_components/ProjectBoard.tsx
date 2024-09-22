@@ -21,9 +21,9 @@ export default function ProjectBoard({
 }: {
   user: User;
   fetchedActiveProject: Tables<"Projects">;
-  fetchedIntegrations: Tables<"Integrations">[];
-  fetchedEvents: Tables<"Events">[];
-  fetchedProducts: Tables<"Products">[];
+  fetchedIntegrations: Tables<"Integrations">[] | null;
+  fetchedEvents: Tables<"Events">[] | null;
+  fetchedProducts: Tables<"Products">[] | null;
   featuresVoteToken: string | undefined;
 }) {
   /**
@@ -38,7 +38,7 @@ export default function ProjectBoard({
    * Events: the state value that stores all the events associated with a project.
    */
   const [events, setEvents] = useState<Tables<"Events">[]>(
-    sortByTimeCreated(fetchedEvents) || []
+    sortByTimeCreated(fetchedEvents || [])
   );
 
   /**
@@ -52,14 +52,16 @@ export default function ProjectBoard({
    * Integrations: the state value that stores all integrations associated with
    * a project.
    */
-  const [integrations, setIntegrations] =
-    useState<Tables<"Integrations">[]>(fetchedIntegrations);
+  const [integrations, setIntegrations] = useState<Tables<"Integrations">[]>(
+    fetchedIntegrations || []
+  );
 
   /**
    * Products: all products associated with a project.
    */
-  const [products, setProducts] =
-    useState<Tables<"Products">[]>(fetchedProducts);
+  const [products, setProducts] = useState<Tables<"Products">[]>(
+    fetchedProducts || []
+  );
 
   /**
    * Active product: the current product that is displayed in the popup view window.

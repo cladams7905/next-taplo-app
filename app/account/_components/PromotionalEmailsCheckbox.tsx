@@ -8,16 +8,17 @@ import { ChangeEvent, useState } from "react";
 export default function PromotionalEmailsCheckbox({
   stripeUserData,
 }: {
-  stripeUserData: Tables<"users">;
+  stripeUserData: Tables<"users"> | null;
 }) {
-  const [isChecked, setIsChecked] = useState(
-    stripeUserData.recieve_promotional_emails
+  const [isChecked, setIsChecked] = useState<boolean>(
+    stripeUserData?.recieve_promotional_emails ?? true
   );
 
   const handleTogglePromotionalEmails = async (
     event: ChangeEvent<HTMLInputElement>
   ) => {
     setIsChecked(event.target.checked);
+    if (!stripeUserData) return;
     const { error } = await updateStripeUser({
       id: stripeUserData.id,
       user_id: stripeUserData.user_id,

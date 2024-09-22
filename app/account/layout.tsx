@@ -19,11 +19,13 @@ export default async function AccountLayout({
     redirect("/");
   }
 
-  const projects = (await getProjects(data.user.id)).data;
-  const activeProject = (await getActiveProject(data.user.id)).data;
+  const { data: projects } = await getProjects(data.user.id);
+  const { data: activeProject } = await getActiveProject(data.user.id);
 
   const { data: subscriptionData } = await getSubscription(data.user.id);
-  const { data: productData } = await getProduct(subscriptionData.product_id);
+  const { data: productData } = subscriptionData?.product_id
+    ? await getProduct(subscriptionData.product_id)
+    : { data: null };
 
   return (
     <main>
@@ -34,7 +36,7 @@ export default async function AccountLayout({
             user={data.user}
             projects={projects}
             fetchedActiveProject={activeProject}
-            paymentPlan={productData.name}
+            paymentPlan={productData?.name ?? null}
           />
           <div className="flex flex-col md:h-screen-minus-navbar h-screen bg-gradient-to-tr from-primary/50 to-violet-100 font-sans dark:bg-base-100 relative">
             {subscriptionData?.status === "canceled" && (
