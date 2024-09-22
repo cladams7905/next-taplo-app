@@ -21,8 +21,7 @@ export async function POST(request: NextRequest) {
       return_url: `${getURL()}/dashboard/create-project/`,
       redirect_on_completion: "if_required",
       subscription_data: {
-        billing_cycle_anchor: billing_cycle,
-        proration_behavior: "none",
+        trial_period_days: 14,
       },
       automatic_tax: { enabled: true },
     });

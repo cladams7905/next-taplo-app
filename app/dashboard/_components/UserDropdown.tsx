@@ -10,6 +10,7 @@ import LoadingDots from "@/app/_components/shared/loadingdots";
 import { showToastError } from "@/app/_components/shared/showToast";
 import Link from "next/link";
 import { getProduct, getSubscription } from "@/stripe/actions";
+import { isFreeTrialPeriod } from "@/lib/actions";
 
 function UserDropdown({ user }: { user: User }) {
   const [isPending, startTransition] = useTransition();
@@ -58,16 +59,8 @@ function UserDropdown({ user }: { user: User }) {
         }
 
         // Set the account plan based on the product name
-        const now = Math.floor(Date.now() / 1000);
-        const trialStart = Math.floor(
-          new Date(subscriptionData.trial_start).getTime() / 1000
-        );
-        const trialEnd = Math.floor(
-          new Date(subscriptionData.trial_end).getTime() / 1000
-        );
-
         let newAccountPlan: "Free trial" | "Starter" | "Pro" | null;
-        if (trialStart < now && now < trialEnd) {
+        if (isFreeTrialPeriod(subscriptionData)) {
           newAccountPlan = "Free trial";
         } else {
           newAccountPlan = productData.name.includes("Starter")

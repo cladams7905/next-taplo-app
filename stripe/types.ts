@@ -217,30 +217,36 @@ export type Database = {
       };
       users: {
         Row: {
+          cancel_comment: string | null;
           email: string | null;
           id: number;
           payment_method: Json | null;
           payment_status: string | null;
+          reason_for_leaving: string | null;
           recieve_promotional_emails: boolean;
           referral_source: string | null;
           renewal_date: string | null;
           user_id: string;
         };
         Insert: {
+          cancel_comment?: string | null;
           email?: string | null;
           id?: number;
           payment_method?: Json | null;
           payment_status?: string | null;
+          reason_for_leaving?: string | null;
           recieve_promotional_emails?: boolean;
           referral_source?: string | null;
           renewal_date?: string | null;
           user_id: string;
         };
         Update: {
+          cancel_comment?: string | null;
           email?: string | null;
           id?: number;
           payment_method?: Json | null;
           payment_status?: string | null;
+          reason_for_leaving?: string | null;
           recieve_promotional_emails?: boolean;
           referral_source?: string | null;
           renewal_date?: string | null;

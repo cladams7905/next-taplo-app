@@ -155,7 +155,7 @@ export default function ProjectDropdown({
                       </li>
                     ))}
                 </ul>
-                {paymentPlan.includes("Starter") && projects.length >= 1 ? (
+                {paymentPlan?.includes("Starter") && projects.length >= 1 ? (
                   <div className="bg-primary/10 p-2 mt-2 rounded-lg text-xs flex items-center gap-2">
                     <InfoIcon width={24} height={24} />
                     <p>You are only allowed one project on the Starter plan.</p>

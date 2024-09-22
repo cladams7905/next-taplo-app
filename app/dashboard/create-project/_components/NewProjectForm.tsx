@@ -73,7 +73,7 @@ export default function NewProjectForm({
 
   const shouldDisableCreateProject = () => {
     return (
-      !renewalDate || (paymentPlan.includes("Starter") && numProjects >= 1)
+      !renewalDate || (paymentPlan?.includes("Starter") && numProjects >= 1)
     );
   };
 

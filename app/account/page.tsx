@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import {
   getPrice,
   getProduct,
+  getStripeCustomer,
   getStripeUser,
   getSubscription,
 } from "@/stripe/actions";
@@ -17,6 +18,8 @@ import Link from "next/link";
 import { getProjects } from "@/lib/actions/projects";
 import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
 import PromotionalEmailsCheckbox from "./_components/PromotionalEmailsCheckbox";
+import CancelSubscriptionModal from "./_components/CancelSubscriptionModal";
+import RenewSubscriptionModal from "./_components/RenewSubscriptionModal";
 
 export default async function AccountPage() {
   const supabase = createClient();
@@ -28,6 +31,10 @@ export default async function AccountPage() {
 
   const { data: stripeUserData } = await getStripeUser(userData.user.id);
 
+  const { data: stripeCustomerData } = await getStripeCustomer(
+    userData.user.id
+  );
+
   const { data: projectData } = await getProjects(userData.user.id);
 
   const { data: subscriptionData } = await getSubscription(userData.user.id);
@@ -36,14 +43,14 @@ export default async function AccountPage() {
 
   const { data: productData } = await getProduct(subscriptionData.product_id);
 
-  const now = Math.floor(Date.now() / 1000);
-  const trialStart = Math.floor(
-    new Date(subscriptionData.trial_start).getTime() / 1000
-  );
-  const trialEnd = Math.floor(
-    new Date(subscriptionData.trial_end).getTime() / 1000
-  );
   const cancelDate = subscriptionData.cancel_at;
+
+  const billingDate = convertDateTime(
+    subscriptionData.current_period_end,
+    true
+  );
+
+  if (!subscriptionData || !stripeUserData) return null;
 
   return (
     <div className="flex items-center justify-center w-full py-6 h-full">
@@ -57,19 +64,10 @@ export default async function AccountPage() {
           </p>
           <PromotionalEmailsCheckbox stripeUserData={stripeUserData} />
         </div>
-        <div className="join md:join-horizontal join-vertical">
+        <div className="join md:join-horizontal join-vertical mb-6">
           <div className="join-item flex flex-col border border-gray-200 rounded-lg px-6 py-4 gap-3 md:w-2/3">
-            <p className="text-lg font-bold">Subscription Details </p>
-            <p className="font-bold text-sm">
-              My plan: {productData.name}{" "}
-              {trialStart < now && now < trialEnd ? (
-                <span className="badge bg-primary/15 font-bold text-primary ml-2">
-                  Free Trial
-                </span>
-              ) : (
-                ""
-              )}
-            </p>
+            <p className="text-lg font-bold mb-3">Subscription Details</p>
+            <p className="font-bold text-sm">My plan: {productData.name}</p>
             <div className="columns-2">
               {productData.name.includes("Starter") ? (
                 <>
@@ -77,8 +75,8 @@ export default async function AccountPage() {
                     <div className="flex items-center gap-3">
                       <Check
                         color="#4ade80"
-                        width={24}
-                        height={24}
+                        width={20}
+                        height={20}
                         strokeWidth={4}
                       />
                       <div className="flex items-center gap-2">
@@ -94,8 +92,8 @@ export default async function AccountPage() {
                     <div className="flex items-center gap-3">
                       <Check
                         color="#4ade80"
-                        width={24}
-                        height={24}
+                        width={20}
+                        height={20}
                         strokeWidth={4}
                       />
                       <p>Unlimited integrations</p>
@@ -105,8 +103,8 @@ export default async function AccountPage() {
                     <div className="flex items-center gap-3">
                       <Check
                         color="#4ade80"
-                        width={24}
-                        height={24}
+                        width={20}
+                        height={20}
                         strokeWidth={4}
                       />
                       <p>Customizable popups</p>
@@ -114,8 +112,8 @@ export default async function AccountPage() {
                     <div className="flex items-center gap-3">
                       <Check
                         color="#4ade80"
-                        width={24}
-                        height={24}
+                        width={20}
+                        height={20}
                         strokeWidth={4}
                       />
                       <p>Simple analytics</p>
@@ -129,8 +127,8 @@ export default async function AccountPage() {
                     <div className="flex items-center gap-3">
                       <Check
                         color="#4ade80"
-                        width={24}
-                        height={24}
+                        width={20}
+                        height={20}
                         strokeWidth={4}
                       />
                       <p>Unlimited projects</p>
@@ -138,8 +136,8 @@ export default async function AccountPage() {
                     <div className="flex items-center gap-3">
                       <Check
                         color="#4ade80"
-                        width={24}
-                        height={24}
+                        width={20}
+                        height={20}
                         strokeWidth={4}
                       />
                       <p>Unlimited integrations</p>
@@ -147,8 +145,8 @@ export default async function AccountPage() {
                     <div className="flex items-center gap-3">
                       <Check
                         color="#4ade80"
-                        width={24}
-                        height={24}
+                        width={20}
+                        height={20}
                         strokeWidth={4}
                       />
                       <p>Customizable popups</p>
@@ -159,8 +157,8 @@ export default async function AccountPage() {
                     <div className="flex items-center gap-3">
                       <Check
                         color="#4ade80"
-                        width={24}
-                        height={24}
+                        width={20}
+                        height={20}
                         strokeWidth={4}
                       />
                       <p>In-depth analytics</p>
@@ -168,8 +166,8 @@ export default async function AccountPage() {
                     <div className="flex items-center gap-3">
                       <Check
                         color="#4ade80"
-                        width={24}
-                        height={24}
+                        width={20}
+                        height={20}
                         strokeWidth={4}
                       />
                       <p>API access</p>
@@ -177,8 +175,8 @@ export default async function AccountPage() {
                     <div className="flex items-center gap-3">
                       <Check
                         color="#4ade80"
-                        width={24}
-                        height={24}
+                        width={20}
+                        height={20}
                         strokeWidth={4}
                       />
                       <p>Inline style</p>
@@ -191,42 +189,66 @@ export default async function AccountPage() {
           <div className="join-item flex flex-col border border-gray-200 rounded-lg px-6 py-4 gap-3 md:w-1/3 text-sm">
             <p>
               Plan Status:{" "}
-              {subscriptionData.status === "canceled" ? (
-                <span className="text-error">Cancelled</span>
+              {subscriptionData?.status === "canceled" ? (
+                <span className="text-error">Canceled</span>
               ) : (
-                capitalizeFirstLetter(subscriptionData.status)
-              )}{" "}
-              {cancelDate ? (
-                <>
-                  <br />
-                  <span className="text-error">
-                    Cancels on next billing date
-                  </span>
-                </>
-              ) : (
-                ""
+                capitalizeFirstLetter(subscriptionData?.status)
               )}
+              {cancelDate &&
+                (subscriptionData?.status === "active" ||
+                  subscriptionData?.status === "trialing") && (
+                  <>
+                    <br />
+                    <span className="text-error">
+                      Cancels on next billing date
+                    </span>
+                  </>
+                )}
             </p>
             <p>
               Next billing date:{" "}
-              {convertDateTime(subscriptionData.current_period_end, true)}
+              {(subscriptionData?.status === "active" ||
+                subscriptionData?.status === "trialing") &&
+                billingDate}
             </p>
-            <p>Billing amount: {formatCentsToDollars(priceData.unit_amount)}</p>
+            <p>
+              Billing amount:{" "}
+              {(subscriptionData?.status === "active" ||
+                subscriptionData?.status === "trialing") &&
+              !subscriptionData.cancel_at
+                ? formatCentsToDollars(priceData.unit_amount)
+                : "$0.00"}
+            </p>
+            <Link
+              href={
+                getURL().includes("taplo")
+                  ? "https://billing.stripe.com/p/login/fZeeVR24I5pC1UY288"
+                  : "https://billing.stripe.com/p/login/test_14kdUs06T5fha9q000"
+              }
+              target="_blank"
+            >
+              <div className="btn btn-primary btn-sm text-white w-full mt-6">
+                Manage Subscription
+              </div>
+            </Link>
+            {subscriptionData.cancel_at_period_end ||
+            subscriptionData.cancel_at ||
+            subscriptionData.ended_at ? (
+              <RenewSubscriptionModal
+                customer={stripeCustomerData}
+                subscription={subscriptionData}
+                product={productData}
+                price={priceData}
+                billingDate={billingDate}
+              />
+            ) : (
+              <CancelSubscriptionModal
+                user={userData?.user}
+                subscription={subscriptionData}
+                billingDate={billingDate}
+              />
+            )}
           </div>
-        </div>
-        <div className="flex w-full items-center justify-end">
-          <Link
-            href={
-              getURL().includes("taplo")
-                ? "https://billing.stripe.com/p/login/fZeeVR24I5pC1UY288"
-                : "https://billing.stripe.com/p/login/test_14kdUs06T5fha9q000"
-            }
-            target="_blank"
-          >
-            <div className="btn btn-primary mb-4 text-white w-fit">
-              Manage Subscription
-            </div>
-          </Link>
         </div>
       </div>
     </div>

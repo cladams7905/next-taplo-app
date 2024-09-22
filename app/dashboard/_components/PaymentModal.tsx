@@ -45,22 +45,21 @@ export default function PaymentModal({
   setRenewalDate: Dispatch<SetStateAction<string | null>>;
 }) {
   const paymentModalRef = useRef<HTMLDialogElement>(null);
-  const [isReferralLoading, startReferralTransition] = useTransition();
-  const [isPaymentLoading, startPaymentTransition] = useTransition();
 
   const [isCheckoutComplete, setCheckoutComplete] = useState(false);
   const formattedBillingDate = convertDateTime(
     toDateTime(calculateBillingCycle()).toUTCString()
   );
+
   const [paymentPlan, setPaymentPlan] = useState<string | null>(
-    products[2]?.payment_plan || null
+    products[2]?.payment_plan
   );
   const [checkoutPriceId, setCheckoutPriceId] = useState<string>(
-    products[2].price.id || ""
+    products[2]?.price.id
   );
 
   const [referralSource, setReferralSource] = useState(
-    stripeUser?.referral_source || ""
+    stripeUser?.referral_source
   );
 
   // Handle changes in the payment plan selection
@@ -70,22 +69,15 @@ export default function PaymentModal({
   };
 
   // Handle changes in referral source selection
-  const handleSelectReferralSource = (
-    event: ChangeEvent<HTMLSelectElement>
-  ) => {
-    startReferralTransition(async () => {
-      const selectedValue = event.target.value;
-      const { error } = await updateStripeUser({
-        user_id: user.id,
-        referral_source: selectedValue,
-      });
-      if (error) {
-        console.log(error);
-        showToastError(error);
-      } else {
-        setReferralSource(selectedValue);
-      }
+  const handleSelectReferralSource = async () => {
+    const { error } = await updateStripeUser({
+      user_id: user.id,
+      referral_source: referralSource,
     });
+    if (error) {
+      console.log(error);
+      showToastError(error);
+    }
   };
 
   // Open payment modal if renewal date is not set
@@ -133,9 +125,6 @@ export default function PaymentModal({
                 <div className="label">
                   <span className="label-text">Payment plan</span>
                 </div>
-                {isPaymentLoading && (
-                  <span className="loading loading-spinner loading-sm bg-base-content"></span>
-                )}
               </div>
               <select
                 className="select select-bordered select-primary"
@@ -146,9 +135,9 @@ export default function PaymentModal({
                   Select your payment plan
                 </option>
                 {products.map((product, i) => (
-                  <option key={i} value={product.payment_plan}>
+                  <option key={i} value={product?.payment_plan}>
                     {product.name} -{" "}
-                    {formatCentsToDollars(product.price.unit_amount)}
+                    {formatCentsToDollars(product?.price?.unit_amount)}
                   </option>
                 ))}
               </select>
@@ -158,14 +147,11 @@ export default function PaymentModal({
                 <div className="label">
                   <span className="label-text">How did you find us?</span>
                 </div>
-                {isReferralLoading && (
-                  <span className="loading loading-spinner loading-sm bg-base-content"></span>
-                )}
               </div>
               <select
                 className="select select-bordered select-primary"
                 value={referralSource || "default"}
-                onChange={handleSelectReferralSource}
+                onChange={(e) => setReferralSource(e.target.value)}
               >
                 <option disabled value="default">
                   Select an option
@@ -189,7 +175,7 @@ export default function PaymentModal({
             email={user?.email}
             setRenewalDate={setRenewalDate}
             setCheckoutComplete={setCheckoutComplete}
-            startTransition={startPaymentTransition}
+            selectReferralSource={handleSelectReferralSource}
           />
         </div>
       </div>

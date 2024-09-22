@@ -1,6 +1,6 @@
 "use server";
 
-import { calculateBillingCycle, toDateTime } from "@/lib/actions";
+import { toDateTime } from "@/lib/actions";
 import { createClient } from "@supabase/supabase-js";
 import Stripe from "stripe";
 import { Database, Tables, TablesInsert } from "./types";
@@ -128,6 +128,7 @@ const manageSubscriptionStatusChange = async (
   const subscription = await stripe.subscriptions.retrieve(subscriptionId, {
     expand: ["default_payment_method", "items"],
   });
+
   // Upsert the latest status of the subscription object.
   const subscriptionData: Tables<"subscriptions"> = {
     id: subscription.id,
@@ -158,10 +159,10 @@ const manageSubscriptionStatusChange = async (
       : null,
     trial_start: subscription.trial_start
       ? toDateTime(subscription.trial_start).toISOString()
-      : toDateTime(Math.floor(Date.now() / 1000)).toISOString(),
+      : null,
     trial_end: subscription.trial_end
       ? toDateTime(subscription.trial_end).toISOString()
-      : toDateTime(calculateBillingCycle()).toISOString(),
+      : null,
   };
 
   const { error } = await supabaseAdmin
@@ -191,6 +192,15 @@ const getStripeUser = async (userId: string) => {
   return JSON.parse(JSON.stringify(result));
 };
 
+const getStripeCustomer = async (userId: string) => {
+  const result = await supabaseAdmin
+    .from("customers")
+    .select("*")
+    .eq("id", userId)
+    .single();
+  return JSON.parse(JSON.stringify(result));
+};
+
 const updateStripeUser = async (user: TablesInsert<"users">) => {
   const result = await supabaseAdmin
     .from("users")
@@ -205,6 +215,7 @@ const getSubscription = async (userId: string) => {
     .from("subscriptions")
     .select("*")
     .eq("user_id", userId)
+    .in("status", ["active", "trialing"])
     .single();
   return JSON.parse(JSON.stringify(result));
 };
@@ -233,6 +244,7 @@ export {
   createOrRetrieveCustomer,
   manageSubscriptionStatusChange,
   getStripeUser,
+  getStripeCustomer,
   updateStripeUser,
   getSubscription,
   getProduct,

@@ -1,7 +1,7 @@
 "use client";
 
 import { getStripe } from "@/stripe/client";
-import { Dispatch, SetStateAction, useCallback } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useCallback } from "react";
 import {
   EmbeddedCheckoutProvider,
   EmbeddedCheckout,
@@ -23,14 +23,14 @@ export default function CheckoutSession({
   email,
   setRenewalDate,
   setCheckoutComplete,
-  startTransition,
+  selectReferralSource,
 }: {
   user: User;
   priceId: string;
   email: string | undefined;
   setRenewalDate: Dispatch<SetStateAction<string | null>>;
   setCheckoutComplete: Dispatch<SetStateAction<boolean>>;
-  startTransition: (callback: () => void) => void;
+  selectReferralSource: () => Promise<void>;
 }) {
   const renewalDate = toDateTime(calculateBillingCycle()).toUTCString();
   const fetchClientSecret = useCallback(async () => {
@@ -38,43 +38,43 @@ export default function CheckoutSession({
       email: email,
       uuid: user.id,
     });
-    return new Promise<string>((resolve, reject) => {
-      startTransition(async () => {
-        try {
-          const res = await fetch("/api/v1/stripe/checkout_session", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              price_id: priceId,
-              customer: customerId ? customerId : undefined,
-              email: !customerId ? email : undefined,
-              billing_cycle: calculateBillingCycle(),
-            }),
-          });
-          const data = await res.json();
+    return new Promise<string>(async (resolve, reject) => {
+      try {
+        const res = await fetch("/api/v1/stripe/checkout_session", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            price_id: priceId,
+            customer: customerId ? customerId : undefined,
+            email: !customerId ? email : undefined,
+            billing_cycle: calculateBillingCycle(),
+          }),
+        });
+        const data = await res.json();
 
-          //send client secret initiate checkout session
-          resolve(data.clientSecret);
+        //send client secret initiate checkout session
+        resolve(data.clientSecret);
 
-          //update stripe user details
-          const { error } = await updateStripeUser({
-            user_id: user.id,
-            email: email,
-            payment_method: data.payment_method,
-            payment_status: data.payment_status,
-          });
-          if (error) {
-            console.log(error);
-            showToastError(error);
-          }
-        } catch (error) {
-          reject(error);
+        //update stripe user details
+        const { error } = await updateStripeUser({
+          user_id: user.id,
+          email: email,
+          payment_method: data.payment_method,
+          payment_status: data.payment_status,
+        });
+        if (error) {
+          console.log(error);
+          showToastError(error);
+        } else {
+          selectReferralSource();
         }
-      });
+      } catch (error) {
+        reject(error);
+      }
     });
-  }, [priceId, email, startTransition, user.id]);
+  }, [priceId, email, selectReferralSource, user.id]);
 
   const onComplete = useCallback(async () => {
     setRenewalDate(renewalDate);

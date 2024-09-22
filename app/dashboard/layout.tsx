@@ -4,6 +4,7 @@ import { createClient } from "@/supabase/server";
 import { getActiveProject, getProjects } from "@/lib/actions/projects";
 import { getProduct, getSubscription } from "@/stripe/actions";
 import Link from "next/link";
+import { getURL } from "@/lib/actions";
 
 export default async function DashboardLayout({
   children,
@@ -19,8 +20,8 @@ export default async function DashboardLayout({
   const projects = (await getProjects(userData.user.id)).data;
   const activeProject = (await getActiveProject(userData.user.id)).data;
 
-  const { data: subscriptionData } = await getSubscription(userData.user.id);
-  const { data: productData } = await getProduct(subscriptionData.product_id);
+  const { data: subscriptionData } = await getSubscription(userData?.user.id);
+  const { data: productData } = await getProduct(subscriptionData?.product_id);
   return (
     <main>
       <div className="drawer flex flex-col overflow-x-clip">
@@ -30,9 +31,26 @@ export default async function DashboardLayout({
             user={userData.user}
             projects={projects}
             fetchedActiveProject={activeProject}
-            paymentPlan={productData.name}
+            paymentPlan={productData?.name}
           />
-          <div className="flex flex-col h-screen-minus-navbar bg-gradient-to-tr from-primary/50 to-violet-100 dark:bg-base-100 relative">
+          <div className="flex flex-col md:h-screen-minus-navbar h-screen bg-gradient-to-tr from-primary/50 to-violet-100 dark:bg-base-100 relative">
+            {subscriptionData?.status === "canceled" && (
+              <div className="w-full bg-error font-sans text-white text-sm text-center inline-block items-center px-12 py-2 justify-center">
+                Your subscription has expired. Please{" "}
+                <Link
+                  href={
+                    getURL().includes("taplo")
+                      ? "https://billing.stripe.com/p/login/fZeeVR24I5pC1UY288"
+                      : "https://billing.stripe.com/p/login/test_14kdUs06T5fha9q000"
+                  }
+                  target="_blank"
+                  className="link px-1"
+                >
+                  renew your subscription
+                </Link>{" "}
+                to continue using Taplo.
+              </div>
+            )}
             <div className="flex flex-col w-full h-full font-sans relative">
               {children}
             </div>

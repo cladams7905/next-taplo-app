@@ -1,13 +1,12 @@
 "use client";
 
 import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
-import { useState, useEffect, useRef, memo } from "react";
+import { useRef, memo } from "react";
 import ContactModal from "./ContactModal";
 import Link from "next/link";
 import { Pencil, Settings, Trash2 } from "lucide-react";
 import RenameProjectModal from "./RenameProjectModal";
 import DeleteProjectModal from "./DeleteProjectModal";
-import { User } from "@supabase/supabase-js";
 
 function ViewContainerFooter({
   featuresVoteToken,

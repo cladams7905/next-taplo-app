@@ -33,7 +33,7 @@ export default function PromotionalEmailsCheckbox({
       <p>I would like to receive promotional emails from Taplo</p>
       <input
         type="checkbox"
-        className="checkbox checkbox-primary"
+        className="checkbox checkbox-primary checkbox-sm"
         checked={isChecked}
         onChange={(e) => handleTogglePromotionalEmails(e)}
       />

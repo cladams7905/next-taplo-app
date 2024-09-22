@@ -17,7 +17,9 @@ export default async function CreateProject() {
   const stripeUser = (await getStripeUser(userData.user.id))?.data;
 
   const { data: subscriptionData } = await getSubscription(userData.user.id);
-  const { data: productData } = await getProduct(subscriptionData.product_id);
+  const { data: productData } = await getProduct(
+    subscriptionData?.product_id || "prod_QlHJRIrcgEUmT1" // default to starter yearly if no subscription created
+  );
   const { data: projectData } = await getProjects(userData.user.id);
 
   /**
@@ -25,10 +27,11 @@ export default async function CreateProject() {
    */
   const products = await stripe.products.list({
     expand: ["data.default_price"],
+    active: true,
   });
 
   /**
-   * A simplified stripe product that aggregates necessary fields
+   * A simplified stripe product that aggregates necessary fields, including price
    */
   const productsWithPrice = products.data.map((product) => {
     return {
@@ -44,7 +47,7 @@ export default async function CreateProject() {
       stripeUser={stripeUser}
       user={userData.user}
       products={productsWithPrice}
-      paymentPlan={productData.name}
+      paymentPlan={productData?.name}
       numProjects={projectData.length}
     />
   );
