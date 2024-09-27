@@ -11,18 +11,15 @@ import { EventType, TemplateTypes } from "@/lib/enums";
 import { hexToRgba } from "@/lib/actions";
 import Image from "next/image";
 import { Tables } from "@/supabase/types";
+import { DisplayNotification } from "@/lib/types";
 
 export default function PopupWidget({
   project,
-  product,
-  event,
-  contentBody,
+  notification,
   setExitPopup,
 }: {
   project: Tables<"Projects">;
-  product: Tables<"Products">[];
-  event: Tables<"Events"> | undefined;
-  contentBody: string | undefined;
+  notification: DisplayNotification;
   setExitPopup: (value: boolean) => void;
 }) {
   switch (project.template) {
@@ -30,9 +27,7 @@ export default function PopupWidget({
       return (
         <SmallPopupTemplate
           project={project}
-          product={product[0]}
-          event={event}
-          contentBody={contentBody}
+          notification={notification}
           setExitPopup={setExitPopup}
         />
       );
@@ -40,9 +35,7 @@ export default function PopupWidget({
       return (
         <SmallPopupNoImageTemplate
           project={project}
-          product={product[0]}
-          event={event}
-          contentBody={contentBody}
+          notification={notification}
           setExitPopup={setExitPopup}
         />
       );
@@ -50,9 +43,7 @@ export default function PopupWidget({
       return (
         <LargePopupTemplate
           project={project}
-          product={product[0]}
-          event={event}
-          contentBody={contentBody}
+          notification={notification}
           setExitPopup={setExitPopup}
         />
       );
@@ -60,9 +51,7 @@ export default function PopupWidget({
       return (
         <LargePopupNoImageTemplate
           project={project}
-          product={product[0]}
-          event={event}
-          contentBody={contentBody}
+          notification={notification}
           setExitPopup={setExitPopup}
         />
       );
@@ -70,9 +59,7 @@ export default function PopupWidget({
       return (
         <CardTemplate
           project={project}
-          product={product[0]}
-          event={event}
-          contentBody={contentBody}
+          notification={notification}
           setExitPopup={setExitPopup}
         />
       );
@@ -80,9 +67,7 @@ export default function PopupWidget({
       return (
         <CardNoImageTemplate
           project={project}
-          product={product[0]}
-          event={event}
-          contentBody={contentBody}
+          notification={notification}
           setExitPopup={setExitPopup}
         />
       );
@@ -90,9 +75,7 @@ export default function PopupWidget({
       return (
         <BannerTemplate
           project={project}
-          product={product[0]}
-          event={event}
-          contentBody={contentBody}
+          notification={notification}
           setExitPopup={setExitPopup}
         />
       );
@@ -100,9 +83,7 @@ export default function PopupWidget({
       return (
         <BannerNoImageTemplate
           project={project}
-          product={product[0]}
-          event={event}
-          contentBody={contentBody}
+          notification={notification}
           setExitPopup={setExitPopup}
         />
       );
@@ -150,17 +131,16 @@ const EventIcon = (eventType: EventType, project: Tables<"Projects">) => {
 
 const SmallPopupTemplate = ({
   project,
-  product,
-  event,
-  contentBody,
+  notification,
   setExitPopup,
 }: {
   project: Tables<"Projects">;
-  product: Tables<"Products">;
-  event: Tables<"Events"> | undefined;
-  contentBody: string | undefined;
+  notification: DisplayNotification;
   setExitPopup: (value: boolean) => void;
 }) => {
+  const product = notification?.product;
+  const event = notification.event;
+
   const backgroundColor = project.bg_color ?? "#FFFFFF";
   const borderColor = project.border_color ?? "#FFFFFF";
   const textColor = project.text_color ?? "#172554";
@@ -185,7 +165,7 @@ const SmallPopupTemplate = ({
         <X color={hexToRgba(textColor, 0.65)} width={14} height={14} />
       </div>
       <div className="flex items-center justify-center">
-        {product?.image_url && product.image_url !== "" ? (
+        {product && product.image_url && product?.image_url !== "" ? (
           <div className="w-16 h-16 min-w-16">
             <Image
               width={110}
@@ -214,7 +194,7 @@ const SmallPopupTemplate = ({
             }}
             className="text-[12.5px] leading-5"
             dangerouslySetInnerHTML={{
-              __html: contentBody ?? "",
+              __html: notification.message,
             }}
           ></p>
           <div
@@ -223,7 +203,7 @@ const SmallPopupTemplate = ({
               color: hexToRgba(textColor, 0.65),
             }}
           >
-            12 min ago
+            {notification.time}
             <p
               className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10px]"
               style={{
@@ -247,15 +227,11 @@ const SmallPopupTemplate = ({
 
 const SmallPopupNoImageTemplate = ({
   project,
-  product,
-  event,
-  contentBody,
+  notification,
   setExitPopup,
 }: {
   project: Tables<"Projects">;
-  product: Tables<"Products">;
-  event: Tables<"Events"> | undefined;
-  contentBody: string | undefined;
+  notification: DisplayNotification;
   setExitPopup: (value: boolean) => void;
 }) => {
   const backgroundColor = project.bg_color ?? "#FFFFFF";
@@ -289,7 +265,7 @@ const SmallPopupNoImageTemplate = ({
             }}
             className="text-[13px] leading-5"
             dangerouslySetInnerHTML={{
-              __html: contentBody ?? "",
+              __html: notification.message,
             }}
           ></p>
           <div
@@ -298,7 +274,7 @@ const SmallPopupNoImageTemplate = ({
               color: hexToRgba(textColor, 0.65),
             }}
           >
-            12 min ago
+            {notification.time}
             <p
               className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10px]"
               style={{
@@ -322,17 +298,16 @@ const SmallPopupNoImageTemplate = ({
 
 const LargePopupTemplate = ({
   project,
-  product,
-  event,
-  contentBody,
+  notification,
   setExitPopup,
 }: {
   project: Tables<"Projects">;
-  product: Tables<"Products">;
-  event: Tables<"Events"> | undefined;
-  contentBody: string | undefined;
+  notification: DisplayNotification;
   setExitPopup: (value: boolean) => void;
 }) => {
+  const product = notification?.product;
+  const event = notification.event;
+
   const backgroundColor = project.bg_color ?? "#FFFFFF";
   const borderColor = project.border_color ?? "#FFFFFF";
   const textColor = project.text_color ?? "#172554";
@@ -357,7 +332,7 @@ const LargePopupTemplate = ({
         <X color={hexToRgba(textColor, 0.65)} width={14} height={14} />
       </div>
       <div className="flex items-center justify-center h-full w-full max-w-[110px]">
-        {product?.image_url && product.image_url !== "" ? (
+        {product && product?.image_url && product.image_url !== "" ? (
           <div className="h-[110px] w-[110px]">
             <Image
               width={110}
@@ -387,7 +362,7 @@ const LargePopupTemplate = ({
             }}
             className="text-[14.5px] leading-5"
             dangerouslySetInnerHTML={{
-              __html: contentBody ?? "",
+              __html: notification.message,
             }}
           ></p>
           <div
@@ -396,7 +371,7 @@ const LargePopupTemplate = ({
               color: hexToRgba(textColor, 0.65),
             }}
           >
-            12 min ago
+            {notification.time}
             <p
               className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10.5px]"
               style={{
@@ -420,15 +395,11 @@ const LargePopupTemplate = ({
 
 const LargePopupNoImageTemplate = ({
   project,
-  product,
-  event,
-  contentBody,
+  notification,
   setExitPopup,
 }: {
   project: Tables<"Projects">;
-  product: Tables<"Products">;
-  event: Tables<"Events"> | undefined;
-  contentBody: string | undefined;
+  notification: DisplayNotification;
   setExitPopup: (value: boolean) => void;
 }) => {
   const backgroundColor = project.bg_color ?? "#FFFFFF";
@@ -462,7 +433,7 @@ const LargePopupNoImageTemplate = ({
             }}
             className="text-[14.5px] leading-5 mt-1"
             dangerouslySetInnerHTML={{
-              __html: contentBody ?? "",
+              __html: notification.message,
             }}
           ></p>
           <div
@@ -471,7 +442,7 @@ const LargePopupNoImageTemplate = ({
               color: hexToRgba(textColor, 0.65),
             }}
           >
-            12 min ago
+            {notification.time}
             <p
               className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[11px]"
               style={{
@@ -495,22 +466,20 @@ const LargePopupNoImageTemplate = ({
 
 const CardTemplate = ({
   project,
-  product,
-  event,
-  contentBody,
+  notification,
   setExitPopup,
 }: {
   project: Tables<"Projects">;
-  product: Tables<"Products">;
-  event: Tables<"Events"> | undefined;
-  contentBody: string | undefined;
+  notification: DisplayNotification;
   setExitPopup: (value: boolean) => void;
 }) => {
+  const product = notification?.product;
+  const event = notification.event;
+
   const backgroundColor = project.bg_color ?? "#FFFFFF";
   const borderColor = project.border_color ?? "#FFFFFF";
   const textColor = project.text_color ?? "#172554";
   const accentColor = project.accent_color ?? "#7A81EB";
-  const activeProduct = product;
 
   return (
     <div
@@ -531,13 +500,13 @@ const CardTemplate = ({
         <X color={hexToRgba(textColor, 0.65)} width={14} height={14} />
       </div>
       <div className="flex items-center justify-center h-full min-w-[270px]">
-        {activeProduct?.image_url && activeProduct.image_url !== "" ? (
+        {product && product?.image_url && product.image_url !== "" ? (
           <div className="h-[160px] w-full">
             <Image
               width={90}
               height={90}
               alt="product-img"
-              src={activeProduct.image_url}
+              src={product.image_url}
               className="object-cover w-full h-full rounded-t-lg"
             />
           </div>
@@ -561,7 +530,7 @@ const CardTemplate = ({
             }}
             className="text-[13px] leading-5"
             dangerouslySetInnerHTML={{
-              __html: contentBody ?? "",
+              __html: notification.message,
             }}
           ></p>
           <div
@@ -570,7 +539,7 @@ const CardTemplate = ({
               color: hexToRgba(textColor, 0.65),
             }}
           >
-            12 min ago
+            {notification.time}
             <p
               className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10.5px]"
               style={{
@@ -594,15 +563,11 @@ const CardTemplate = ({
 
 const CardNoImageTemplate = ({
   project,
-  product,
-  event,
-  contentBody,
+  notification,
   setExitPopup,
 }: {
   project: Tables<"Projects">;
-  product: Tables<"Products">;
-  event: Tables<"Events"> | undefined;
-  contentBody: string | undefined;
+  notification: DisplayNotification;
   setExitPopup: (value: boolean) => void;
 }) => {
   const backgroundColor = project.bg_color ?? "#FFFFFF";
@@ -636,7 +601,7 @@ const CardNoImageTemplate = ({
             }}
             className="text-[13px] leading-5"
             dangerouslySetInnerHTML={{
-              __html: contentBody ?? "",
+              __html: notification.message,
             }}
           ></p>
           <div
@@ -645,7 +610,7 @@ const CardNoImageTemplate = ({
               color: hexToRgba(textColor, 0.65),
             }}
           >
-            12 min ago
+            {notification.time}
             <p
               className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10.5px]"
               style={{
@@ -669,17 +634,16 @@ const CardNoImageTemplate = ({
 
 const BannerTemplate = ({
   project,
-  product,
-  event,
-  contentBody,
+  notification,
   setExitPopup,
 }: {
   project: Tables<"Projects">;
-  product: Tables<"Products">;
-  event: Tables<"Events"> | undefined;
-  contentBody: string | undefined;
+  notification: DisplayNotification;
   setExitPopup: (value: boolean) => void;
 }) => {
+  const product = notification?.product;
+  const event = notification.event;
+
   const backgroundColor = project.bg_color ?? "#FFFFFF";
   const borderColor = project.border_color ?? "#FFFFFF";
   const textColor = project.text_color ?? "#172554";
@@ -704,7 +668,7 @@ const BannerTemplate = ({
         <X color={hexToRgba(textColor, 0.65)} width={14} height={14} />
       </div>
       <div className="flex items-center justify-center">
-        {product?.image_url && product.image_url !== "" ? (
+        {product && product?.image_url && product.image_url !== "" ? (
           <div className="w-12 h-12">
             <Image
               width={48}
@@ -733,7 +697,7 @@ const BannerTemplate = ({
             }}
             className="text-[13px] leading-5"
             dangerouslySetInnerHTML={{
-              __html: contentBody ?? "",
+              __html: notification.message,
             }}
           ></p>
           <div
@@ -742,7 +706,7 @@ const BannerTemplate = ({
               color: hexToRgba(textColor, 0.65),
             }}
           >
-            12 min ago
+            {notification.time}
             <p>|</p>
             <p
               className="flex items-center gap-[3px]"
@@ -767,15 +731,11 @@ const BannerTemplate = ({
 
 const BannerNoImageTemplate = ({
   project,
-  product,
-  event,
-  contentBody,
+  notification,
   setExitPopup,
 }: {
   project: Tables<"Projects">;
-  product: Tables<"Products">;
-  event: Tables<"Events"> | undefined;
-  contentBody: string | undefined;
+  notification: DisplayNotification;
   setExitPopup: (value: boolean) => void;
 }) => {
   const backgroundColor = project.bg_color ?? "#FFFFFF";
@@ -809,7 +769,7 @@ const BannerNoImageTemplate = ({
             }}
             className="text-[13px] leading-5"
             dangerouslySetInnerHTML={{
-              __html: contentBody ?? "",
+              __html: notification.message,
             }}
           ></p>
           <div
@@ -818,7 +778,7 @@ const BannerNoImageTemplate = ({
               color: hexToRgba(textColor, 0.65),
             }}
           >
-            12 min ago
+            {notification.time}
             <p>|</p>
             <p
               className="flex items-center gap-[3px]"

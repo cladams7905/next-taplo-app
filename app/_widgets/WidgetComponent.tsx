@@ -1,5 +1,5 @@
 // Embeddable Widget Component
-import React, { lazy, useEffect, useRef, useState } from "react";
+import React, { lazy, useCallback, useEffect, useRef, useState } from "react";
 import { Tables } from "@/supabase/types";
 import { DisplayNotification, EventData } from "@/lib/types";
 import { EventType, ScreenAlignment } from "@/lib/enums";
@@ -31,6 +31,8 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
   >([]);
   const [animation, setAnimation] = useState<string>("");
   const [isExitPopup, setExitPopup] = useState<boolean>(false);
+  const [currentNotificationIndex, setCurrentNotificationIndex] = useState(0);
+  const currentNotification = notificationQueue[currentNotificationIndex];
 
   /**
    * Get the project data
@@ -191,50 +193,55 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
     }
   };
 
-  const determineAnimationDirection = (
-    prevAnimation: string,
-    isExitPopup = false
-  ) => {
-    if (!projectData) return prevAnimation;
-    if (
-      projectData.screen_alignment === ScreenAlignment.BottomLeft ||
-      projectData.screen_alignment === ScreenAlignment.TopLeft
-    ) {
-      return getAnimation(prevAnimation, "Left", isExitPopup);
-    } else if (
-      projectData.screen_alignment === ScreenAlignment.BottomRight ||
-      projectData.screen_alignment === ScreenAlignment.TopRight
-    ) {
-      return getAnimation(prevAnimation, "Right", isExitPopup);
-    } else if (projectData.screen_alignment === ScreenAlignment.TopCenter) {
-      return getAnimation(prevAnimation, "Top", isExitPopup);
-    } else {
-      return getAnimation(prevAnimation, "Bottom", isExitPopup);
-    }
-  };
+  const determineAnimationDirection = useCallback(
+    (prevAnimation: string, isExitPopup = false) => {
+      if (!projectData) return prevAnimation;
+      if (
+        projectData.screen_alignment === ScreenAlignment.BottomLeft ||
+        projectData.screen_alignment === ScreenAlignment.TopLeft
+      ) {
+        return getAnimation(prevAnimation, "Left", isExitPopup);
+      } else if (
+        projectData.screen_alignment === ScreenAlignment.BottomRight ||
+        projectData.screen_alignment === ScreenAlignment.TopRight
+      ) {
+        return getAnimation(prevAnimation, "Right", isExitPopup);
+      } else if (projectData.screen_alignment === ScreenAlignment.TopCenter) {
+        return getAnimation(prevAnimation, "Top", isExitPopup);
+      } else {
+        return getAnimation(prevAnimation, "Bottom", isExitPopup);
+      }
+    },
+    [projectData]
+  );
 
   /**
-   * This controls the updating of the popup animation based on the time interval provided.
+   * Update the animation and notification queue in a rotating fashion
    */
   useEffect(() => {
-    if (isExitPopup) return;
+    if (isExitPopup || notificationQueue.length === 0) return;
 
-    const updateAnimation = () => {
+    const updateAnimationAndNotification = () => {
       setAnimation((prevAnimation) => {
         const newAnimation = determineAnimationDirection(prevAnimation);
+        if (newAnimation.includes("In")) {
+          setCurrentNotificationIndex(
+            (prevIndex) => (prevIndex + 1) % notificationQueue.length
+          );
+        }
         return newAnimation;
       });
     };
 
-    const getDisplayTime = () => projectData?.display_time || 5000;
+    const getDisplayTime = () => projectData?.display_time || 8000;
 
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
     }
 
     intervalRef.current = setInterval(
-      updateAnimation,
-      animation.includes("In") ? getDisplayTime() : 750
+      updateAnimationAndNotification,
+      getDisplayTime()
     );
 
     return () => {
@@ -242,7 +249,12 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
         clearInterval(intervalRef.current);
       }
     };
-  }, [animation, projectData, isExitPopup]);
+  }, [
+    projectData,
+    isExitPopup,
+    notificationQueue,
+    determineAnimationDirection,
+  ]);
 
   if (!projectData) return null;
 
@@ -264,26 +276,26 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
           : ""
       }`}
     >
-      {eventData?.events && eventData.events.length > 0 && (
-        <div
-          className={`${
-            isExitPopup
-              ? `${determineAnimationDirection(
-                  animation,
-                  true //isExitPopup = true
-                )}`
-              : animation
-          }`}
-        >
-          <Popup
-            project={projectData}
-            product={productData}
-            event={eventData.events[0]}
-            contentBody={eventData.events[0].content_body}
-            setExitPopup={setExitPopup}
-          />
-        </div>
-      )}
+      {currentNotification?.event &&
+        currentNotification?.message &&
+        currentNotification?.time && (
+          <div
+            className={`${
+              isExitPopup
+                ? `${determineAnimationDirection(
+                    animation,
+                    true //isExitPopup = true
+                  )}`
+                : animation
+            }`}
+          >
+            <Popup
+              project={projectData}
+              notification={currentNotification}
+              setExitPopup={setExitPopup}
+            />
+          </div>
+        )}
     </div>
   );
 };
