@@ -1,20 +1,16 @@
 import path from "path";
 import webpack from "webpack";
 import { getURL } from "./lib/actions/index";
+import { CleanPlugin } from "webpack";
 
 const webpackConfig = {
   entry: path.resolve("app/_widgets/widget.js"),
   mode: "production",
   output: {
-    filename: "widget.bundle.js",
+    filename: "[name].bundle.js",
     path: path.resolve("public/scripts"),
     library: "NotificationWidget",
     libraryTarget: "umd",
-  },
-  performance: {
-    hints: false,
-    maxEntrypointSize: 512000,
-    maxAssetSize: 512000,
   },
   module: {
     rules: [
@@ -41,6 +37,11 @@ const webpackConfig = {
   plugins: [
     new webpack.DefinePlugin({
       site_url: JSON.stringify(getURL()),
+    }),
+    new CleanPlugin(),
+    // fix "process is not defined" error:
+    new webpack.ProvidePlugin({
+      process: "process/browser",
     }),
   ],
   resolve: {

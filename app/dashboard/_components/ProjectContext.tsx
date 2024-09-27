@@ -27,11 +27,6 @@ export interface ProjectContextType {
   setBorderColor: Dispatch<SetStateAction<IColor>>;
   displayTime: number;
   setDisplayTime: Dispatch<SetStateAction<number>>;
-  replaceVariablesInContentBody: (
-    contentStr?: string | null,
-    shouldReturnHTML?: boolean,
-    isPopupText?: boolean
-  ) => string;
 }
 
 /**
@@ -53,7 +48,6 @@ export const ProjectContext = createContext<ProjectContextType | undefined>(
  * @prop accentColor
  * @prop isPreviewMode
  * @prop displayTime
- * @prop replaceVarsInContentBody
  * @returns the project context
  */
 export const useProjectContext = () => {

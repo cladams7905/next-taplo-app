@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { EventType, ScreenAlignment, TemplateTypes } from "@/lib/enums";
-import { hexToRgba } from "@/lib/actions";
+import { hexToRgba, replaceVariablesInContentBody } from "@/lib/actions";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import "animate.css";
 import Image from "next/image";
@@ -27,18 +27,22 @@ export default function PopupTemplate({
   const {
     activeProject,
     activeEvent,
+    activeProduct,
+    backgroundColor,
+    accentColor,
     events,
     displayTime,
-    replaceVariablesInContentBody,
   } = useProjectContext();
 
   /**
    * This is the content body of the popup displayed in the popup viewer (NOT during preview mode).
    */
   const contentBodyHtml = replaceVariablesInContentBody(
+    activeProduct,
+    backgroundColor,
+    accentColor,
     activeEvent?.content_body,
-    false,
-    true
+    true //isPopup = true
   );
 
   /**
@@ -69,9 +73,15 @@ export default function PopupTemplate({
    */
   useEffect(() => {
     setPreviewContentBody(
-      replaceVariablesInContentBody(previewEvent?.content_body, false, true)
+      replaceVariablesInContentBody(
+        activeProduct,
+        backgroundColor,
+        accentColor,
+        previewEvent?.content_body,
+        true //isPopup = true
+      )
     );
-  }, [previewEvent, replaceVariablesInContentBody]);
+  }, [previewEvent, accentColor, activeProduct, backgroundColor]);
 
   /**
    * This check determines whether an event should display a product's image if an image is available.
@@ -93,13 +103,13 @@ export default function PopupTemplate({
   const [animation, setAnimation] = useState(
     activeProject.screen_alignment === ScreenAlignment.BottomLeft ||
       activeProject.screen_alignment === ScreenAlignment.TopLeft
-      ? "animate-slideInLeft"
+      ? "animate-twSlideInLeft"
       : activeProject.screen_alignment === ScreenAlignment.BottomRight ||
         activeProject.screen_alignment === ScreenAlignment.TopRight
-      ? "animate-slideInRight"
+      ? "animate-twSlideInRight"
       : activeProject.screen_alignment === ScreenAlignment.TopCenter
-      ? "animate-slideInTop"
-      : "animate-slideInBottom"
+      ? "animate-twSlideInTop"
+      : "animate-twSlideInBottom"
   );
 
   /**
@@ -148,10 +158,10 @@ export default function PopupTemplate({
     };
 
     const getAnimation = (prevAnimation: string, orientation: string) => {
-      if (prevAnimation === `animate-slideIn${orientation}`) {
-        return `animate-slideOut${orientation}`;
+      if (prevAnimation === `animate-twSlideIn${orientation}`) {
+        return `animate-twSlideOut${orientation}`;
       } else {
-        return `animate-slideIn${orientation}`;
+        return `animate-twSlideIn${orientation}`;
       }
     };
 

@@ -1,17 +1,16 @@
 // Embeddable Widget Component
-import React, { useEffect, useState } from "react";
-import "animate.css";
-import Image from "next/image";
-import { BadgeCheck, Boxes } from "lucide-react";
+import React, { lazy, useEffect, useRef, useState } from "react";
 import { Tables } from "@/supabase/types";
-import { IColor } from "react-color-palette";
-import { hexToRgba } from "@/lib/actions";
-import { EventData } from "@/lib/types";
+import { DisplayNotification, EventData } from "@/lib/types";
+import { EventType, ScreenAlignment } from "@/lib/enums";
+import Stripe from "stripe";
 
 interface WidgetConfig {
   siteUrl: string;
   projectId: string;
 }
+
+const Popup = lazy(() => import("./Popup"));
 
 /**
  * Embed workflow:
@@ -27,7 +26,15 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
   const [projectData, setProjectData] = useState<Tables<"Projects">>();
   const [eventData, setEventData] = useState<EventData>();
   const [productData, setProductData] = useState<Tables<"Products">[]>([]);
+  const [notificationQueue, setNotificationQueue] = useState<
+    DisplayNotification[]
+  >([]);
+  const [animation, setAnimation] = useState<string>("");
+  const [isExitPopup, setExitPopup] = useState<boolean>(false);
 
+  /**
+   * Get the project data
+   */
   useEffect(() => {
     const fetchProject = async () => {
       try {
@@ -40,11 +47,6 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
             },
           }
         );
-
-        if (!response.ok) {
-          throw new Error(`Error getting Taplo project: ${response.status}`);
-        }
-
         const result: Tables<"Projects"> = (await response.json())?.data;
         setProjectData(result);
       } catch (error: any) {
@@ -55,6 +57,9 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
     fetchProject();
   }, [projectId, siteUrl]);
 
+  /**
+   * Get the events data
+   */
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -71,24 +76,21 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
             },
           }
         );
-
-        if (!response.ok) {
-          throw new Error(`Error getting Taplo events: ${response.status}`);
-        }
-
         const result: EventData = await response.json();
         setEventData({
           events: result?.events,
-          displayData: result?.displayData,
+          stripeData: result?.stripeData,
         });
       } catch (error: any) {
         throw new Error("Error getting Taplo events: " + error.message);
       }
     };
-
     fetchEvents();
   }, [projectData, projectId, siteUrl]);
 
+  /**
+   * Get the products associated with the project
+   */
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -101,11 +103,6 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
             },
           }
         );
-
-        if (!response.ok) {
-          throw new Error(`Error getting Taplo products: ${response.status}`);
-        }
-
         const result: Tables<"Products">[] = (await response.json())?.data;
         setProductData(result);
       } catch (error: any) {
@@ -116,76 +113,178 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
     fetchProducts();
   }, [projectId, siteUrl]);
 
+  /**
+   * Create a queue of notification events to be shown based on integration data
+   */
+  useEffect(() => {
+    //The queue should alternate so that displayed events vary
+    let queue: DisplayNotification[] = [];
+
+    //Populate the queue with stripe data
+    if (eventData?.stripeData) {
+      if (eventData.stripeData.charges) {
+        const purchaseEvent = eventData.events.find(
+          (event) => event.event_type === EventType.Purchase
+        );
+        eventData.stripeData.charges.forEach((charge) => {
+          queue.push({
+            message: purchaseEvent?.content_body || "",
+            time: new Date(charge.created * 1000).toUTCString(),
+            event: purchaseEvent,
+            product: productData.find(
+              (product) =>
+                product.id ===
+                parseInt(
+                  (
+                    (charge?.invoice as Stripe.Invoice)
+                      ?.subscription as Stripe.Subscription
+                  )?.items.data[0].price.product as string
+                )
+            ),
+          } as DisplayNotification);
+        });
+      }
+      if (eventData.stripeData.checkoutSessions) {
+      }
+    }
+    setNotificationQueue(queue);
+  }, [eventData, productData]);
+
+  useEffect(() => {
+    console.log("queue:", JSON.parse(JSON.stringify(notificationQueue)));
+  }, [notificationQueue]);
+
+  /*
+   * Set the animation based on the screen alignment
+   */
+  useEffect(() => {
+    if (projectData) {
+      const animation =
+        projectData.screen_alignment === ScreenAlignment.BottomLeft ||
+        projectData.screen_alignment === ScreenAlignment.TopLeft
+          ? "animate-twSlideInLeft"
+          : projectData.screen_alignment === ScreenAlignment.BottomRight ||
+            projectData.screen_alignment === ScreenAlignment.TopRight
+          ? "animate-twSlideInRight"
+          : projectData.screen_alignment === ScreenAlignment.TopCenter
+          ? "animate-twSlideInTop"
+          : "animate-twSlideInBottom";
+
+      setAnimation(animation);
+    }
+  }, [projectData]);
+
+  /**
+   * The interval allows the updateAnimation function to trigger in a loop every [displayTime] seconds.
+   */
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  const getAnimation = (
+    prevAnimation: string,
+    orientation: string,
+    isExitPopup: boolean
+  ) => {
+    if (isExitPopup || prevAnimation === `animate-twSlideIn${orientation}`) {
+      return `animate-twSlideOut${orientation}`;
+    } else {
+      return `animate-twSlideIn${orientation}`;
+    }
+  };
+
+  const determineAnimationDirection = (
+    prevAnimation: string,
+    isExitPopup = false
+  ) => {
+    if (!projectData) return prevAnimation;
+    if (
+      projectData.screen_alignment === ScreenAlignment.BottomLeft ||
+      projectData.screen_alignment === ScreenAlignment.TopLeft
+    ) {
+      return getAnimation(prevAnimation, "Left", isExitPopup);
+    } else if (
+      projectData.screen_alignment === ScreenAlignment.BottomRight ||
+      projectData.screen_alignment === ScreenAlignment.TopRight
+    ) {
+      return getAnimation(prevAnimation, "Right", isExitPopup);
+    } else if (projectData.screen_alignment === ScreenAlignment.TopCenter) {
+      return getAnimation(prevAnimation, "Top", isExitPopup);
+    } else {
+      return getAnimation(prevAnimation, "Bottom", isExitPopup);
+    }
+  };
+
+  /**
+   * This controls the updating of the popup animation based on the time interval provided.
+   */
+  useEffect(() => {
+    if (isExitPopup) return;
+
+    const updateAnimation = () => {
+      setAnimation((prevAnimation) => {
+        const newAnimation = determineAnimationDirection(prevAnimation);
+        return newAnimation;
+      });
+    };
+
+    const getDisplayTime = () => projectData?.display_time || 5000;
+
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+
+    intervalRef.current = setInterval(
+      updateAnimation,
+      animation.includes("In") ? getDisplayTime() : 750
+    );
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [animation, projectData, isExitPopup]);
+
   if (!projectData) return null;
 
-  // previewEvent: Tables<"Events"> | undefined;
-  // animation?: string;
-  // contentBody: string;
-  // shouldDisplayImage: () => boolean;
-  // activeProduct: Tables<"Products">;
-  // backgroundColor: IColor;
-  // textColor: IColor;
-  // accentColor: IColor;
-  // borderColor: IColor;
-  // ${siteUrl}/api/v1/widget?project_id=${projectId}
-
   return (
-    <section className="fixed bottom-4 left-4">
-      <div
-        style={{
-          backgroundColor: "#FFFFFF",
-          borderColor: "#FFFFFF",
-        }}
-        className={`relative flex flex-row w-fit h-fit min-h-[100px] max-w-[380px] min-w-[330px] md:min-w-[380px] rounded-lg border shadow-lg`}
-      >
-        <div className="flex items-center justify-center h-full w-full max-w-[110px]">
-          <div
-            className="flex h-full w-full items-center justify-center aspect-square rounded-l-lg outline-1 outline"
-            style={{
-              backgroundColor: hexToRgba("#7A81EB", 0.2),
-              outlineColor: hexToRgba("#7A81EB", 0.2),
-            }}
-          >
-            <Boxes color={hexToRgba("#7A81EB", 0.85)} height={28} width={28} />
-          </div>
+    <div
+      className={`fixed z-50 ${
+        projectData.screen_alignment === ScreenAlignment.BottomLeft
+          ? "bottom-4 left-4"
+          : projectData.screen_alignment === ScreenAlignment.TopLeft
+          ? "top-4 left-4"
+          : projectData.screen_alignment === ScreenAlignment.BottomRight
+          ? "bottom-4 right-4"
+          : projectData.screen_alignment === ScreenAlignment.TopRight
+          ? "top-4 right-4"
+          : projectData.screen_alignment === ScreenAlignment.BottomCenter
+          ? "bottom-4 flex items-center justify-center w-full"
+          : projectData.screen_alignment === ScreenAlignment.TopCenter
+          ? "top-4 flex items-center justify-center w-full"
+          : ""
+      }`}
+    >
+      {eventData?.events && eventData.events.length > 0 && (
+        <div
+          className={`${
+            isExitPopup
+              ? `${determineAnimationDirection(
+                  animation,
+                  true //isExitPopup = true
+                )}`
+              : animation
+          }`}
+        >
+          <Popup
+            project={projectData}
+            product={productData}
+            event={eventData.events[0]}
+            contentBody={eventData.events[0].content_body}
+            setExitPopup={setExitPopup}
+          />
         </div>
-        <div className="flex w-full items-center pr-3 pl-5">
-          <div className="flex flex-col w-full lg:gap-[6px]">
-            <div
-              style={{
-                color: "#172554",
-              }}
-              className="text-[14.5px] leading-5"
-              dangerouslySetInnerHTML={{
-                __html: "Test",
-              }}
-            ></div>
-            <div
-              className="text-[13px] flex items-center gap-4"
-              style={{
-                color: hexToRgba("#172554", 0.65),
-              }}
-            >
-              12 min ago
-              <div
-                className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10.5px]"
-                style={{
-                  color: hexToRgba("#172554", 0.65),
-                }}
-              >
-                Verified by Taplo
-                <BadgeCheck
-                  width={18}
-                  height={18}
-                  fill={"#7A81EB"}
-                  color={"#FFFFFF"}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+      )}
+    </div>
   );
 };
 

@@ -49,14 +49,13 @@ export default function PaymentModal({
   const formattedBillingDate = convertDateTime(
     toDateTime(calculateBillingCycle()).toUTCString()
   );
-
+  const [selectedProduct, setSelectedProduct] = useState(products[2]); // defaults to starter yearly
   const [paymentPlan, setPaymentPlan] = useState<string | null>(
-    products[2]?.payment_plan
+    selectedProduct.payment_plan
   );
   const [checkoutPriceId, setCheckoutPriceId] = useState<string>(
-    products[2]?.price.id
+    selectedProduct.price.id
   );
-
   const [referralSource, setReferralSource] = useState(
     stripeUser?.referral_source
   );
@@ -88,12 +87,15 @@ export default function PaymentModal({
     }
   }, [renewalDate, isCheckoutComplete]);
 
-  // Update the checkoutPriceId based on the selected payment plan
+  // Update the checkoutPriceId and selectedProduct based on the selected payment plan
   useEffect(() => {
-    const selectedProduct = products.find(
+    const newSelectedProduct = products.find(
       (product) => product.payment_plan === paymentPlan
     );
-    const newCheckoutPriceId = selectedProduct?.price.id ?? "";
+    if (!newSelectedProduct) return;
+    setSelectedProduct(newSelectedProduct);
+
+    const newCheckoutPriceId = newSelectedProduct.price.id;
     setCheckoutPriceId(newCheckoutPriceId);
   }, [paymentPlan, products]);
 
@@ -171,6 +173,7 @@ export default function PaymentModal({
           <CheckoutSession
             user={user}
             priceId={checkoutPriceId}
+            productId={selectedProduct.id}
             email={user?.email}
             setRenewalDate={setRenewalDate}
             setCheckoutComplete={setCheckoutComplete}

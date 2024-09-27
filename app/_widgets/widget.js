@@ -12,16 +12,6 @@ const injectStyles = (callback) => {
     }
   };
 
-  // Inject Tailwind CSS
-  const tailwindLink = document.createElement("link");
-  tailwindLink.href = `${site_url}/css/tailwind.min.css`;
-  tailwindLink.rel = "stylesheet";
-  tailwindLink.onload = () => {
-    stylesLoaded.push("tailwind");
-    checkAllStylesLoaded();
-  };
-  document.head.appendChild(tailwindLink);
-
   // Inject animate.css
   const animateLink = document.createElement("link");
   animateLink.href =
@@ -32,6 +22,16 @@ const injectStyles = (callback) => {
     checkAllStylesLoaded();
   };
   document.head.appendChild(animateLink);
+
+  // Inject Tailwind CSS
+  const tailwindLink = document.createElement("link");
+  tailwindLink.href = `${site_url}/css/tailwind.min.css`;
+  tailwindLink.rel = "stylesheet";
+  tailwindLink.onload = () => {
+    stylesLoaded.push("tailwind");
+    checkAllStylesLoaded();
+  };
+  document.head.appendChild(tailwindLink);
 };
 
 const initializeWidget = () => {

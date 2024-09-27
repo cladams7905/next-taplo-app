@@ -60,35 +60,35 @@ const config: Config = {
         chkfg: "#ffffff",
       },
       keyframes: {
-        slideInLeft: {
+        twSlideInLeft: {
           "0%": { transform: "translateX(-20%)", opacity: "0" },
           "100%": { transform: "translateX(0)", opacity: "1" },
         },
-        slideOutLeft: {
+        twSlideOutLeft: {
           "0%": { transform: "translateX(0)", opacity: "1" },
           "100%": { transform: "translateX(-20%)", opacity: "0" },
         },
-        slideInRight: {
+        twSlideInRight: {
           "0%": { transform: "translateX(20%)", opacity: "0" },
           "100%": { transform: "translateX(0)", opacity: "1" },
         },
-        slideOutRight: {
+        twSlideOutRight: {
           "0%": { transform: "translateX(0)", opacity: "1" },
           "100%": { transform: "translateX(20%)", opacity: "0" },
         },
-        slideInTop: {
+        twSlideInTop: {
           "0%": { transform: "translateY(-20%)", opacity: "0" },
           "100%": { transform: "translateY(0)", opacity: "1" },
         },
-        slideOutTop: {
+        twSlideOutTop: {
           "0%": { transform: "translateY(0)", opacity: "1" },
           "100%": { transform: "translateY(-20%)", opacity: "0" },
         },
-        slideInBottom: {
+        twSlideInBottom: {
           "0%": { transform: "translateY(20%)", opacity: "0" },
           "100%": { transform: "translateY(0)", opacity: "1" },
         },
-        slideOutBottom: {
+        twSlideOutBottom: {
           "0%": { transform: "translateY(0)", opacity: "1" },
           "100%": { transform: "translateY(20%)", opacity: "0" },
         },
@@ -98,14 +98,14 @@ const config: Config = {
         },
       },
       animation: {
-        slideInLeft: "slideInLeft 0.3s ease-in-out forwards",
-        slideOutLeft: "slideOutLeft 0.2s ease-in-out forwards",
-        slideInRight: "slideInRight 0.3s ease-in-out forwards",
-        slideOutRight: "slideOutRight 0.2s ease-in-out forwards",
-        slideInTop: "slideInTop 0.3s ease-in-out forwards",
-        slideOutTop: "slideOutTop 0.2s ease-in-out forwards",
-        slideInBottom: "slideInBottom 0.3s ease-in-out forwards",
-        slideOutBottom: "slideOutBottom 0.2s ease-in-out forwards",
+        twSlideInLeft: "twSlideInLeft 0.3s ease-in-out forwards",
+        twSlideOutLeft: "twSlideOutLeft 0.2s ease-in-out forwards",
+        twSlideInRight: "twSlideInRight 0.3s ease-in-out forwards",
+        twSlideOutRight: "twSlideOutRight 0.2s ease-in-out forwards",
+        twSlideInTop: "twSlideInTop 0.3s ease-in-out forwards",
+        twSlideOutTop: "twSlideOutTop 0.2s ease-in-out forwards",
+        twSlideInBottom: "twSlideInBottom 0.3s ease-in-out forwards",
+        twSlideOutBottom: "twSlideOutBottom 0.2s ease-in-out forwards",
         fadeInLeftToRight: "fadeInLeftToRight 0.1s ease-out forwards",
       },
     },

@@ -4,7 +4,7 @@ import { Tables } from "@/supabase/types";
 import { ChangeEvent, TransitionStartFunction } from "react";
 import { deleteProduct, updateProduct } from "@/lib/actions/products";
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
-import { Camera, Trash2 } from "lucide-react";
+import { Camera, EyeIcon, Trash2 } from "lucide-react";
 import { createClient } from "@/supabase/client";
 import Image from "next/image";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
@@ -139,10 +139,10 @@ const ProductList = ({
           <div
             key={product.id}
             onClick={() => handleToggleActiveProduct(product)}
-            className="relative flex flex-row w-full items-center rounded-lg bg-white border border-gray-200 px-4 py-6 shadow-sm"
+            className={`relative flex flex-row w-full items-center rounded-lg bg-white border border-gray-200 px-4 py-6 shadow-sm`}
           >
             <div
-              className={`absolute left-0 rounded-l-lg w-[8px] h-full ${
+              className={`absolute top-0 left-0 rounded-l-lg w-[6px] h-full outline-1 outline-primary ${
                 activeProduct && activeProduct.id === product.id
                   ? "block bg-primary"
                   : "hidden"
@@ -232,10 +232,9 @@ const ProductList = ({
                   />
                 </div>
                 <div
-                  className="flex items-center gap-1 btn btn-sm text-xs btn-error text-white"
+                  className="flex items-center gap-1 btn btn-sm text-xs btn-ghost"
                   onClick={() => handleDeleteProduct(product.id)}
                 >
-                  Delete
                   <Trash2 width={16} height={16} />
                 </div>
               </div>

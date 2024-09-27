@@ -130,7 +130,7 @@ export default function KeyFeatures() {
         {activeFeature === Features.CustomStyling && (
           <>
             {" "}
-            <div className="flex flex-col order-2 lg:min-h-[50vh] w-full justify-center gap-6 animate-slideInBottom">
+            <div className="flex flex-col order-2 lg:min-h-[50vh] w-full justify-center gap-6 animate-twSlideInBottom">
               <p className="font-logo text-3xl">Styling to match your brand</p>
               <p className="text-lg">
                 Choose from 8 different popup templates, select custom colors,
@@ -138,7 +138,7 @@ export default function KeyFeatures() {
                 personal brand.
               </p>
             </div>
-            <div className="flex flex-col max-w-[450px] order-1 items-center w-full md:mb-0 mb-12 justify-center animate-slideInBottom">
+            <div className="flex flex-col max-w-[450px] order-1 items-center w-full md:mb-0 mb-12 justify-center animate-twSlideInBottom">
               <div className="w-full h-[40vh] bg-gradient-to-tr from-primary/60 to-purple-100 rounded-lg"></div>
             </div>
           </>
@@ -146,14 +146,14 @@ export default function KeyFeatures() {
         {activeFeature === Features.Embed && (
           <>
             {" "}
-            <div className="flex flex-col order-2 lg:min-h-[50vh] w-full justify-center gap-6 animate-slideInBottom">
+            <div className="flex flex-col order-2 lg:min-h-[50vh] w-full justify-center gap-6 animate-twSlideInBottom">
               <p className="font-logo text-3xl">5-minute, no-code setup</p>
               <p className="text-lg">
                 Simply copy the embed script and paste it on the pages you want
                 to display your Taplo notifications. No sweat!
               </p>
             </div>
-            <div className="flex flex-col max-w-[450px] order-1 items-center md:mb-0 mb-12 w-full justify-center animate-slideInBottom">
+            <div className="flex flex-col max-w-[450px] order-1 items-center md:mb-0 mb-12 w-full justify-center animate-twSlideInBottom">
               <div className="w-full h-[40vh] bg-gradient-to-tr from-primary/60 to-purple-100 rounded-lg"></div>
             </div>
           </>
@@ -161,7 +161,7 @@ export default function KeyFeatures() {
         {activeFeature === Features.Integrations && (
           <>
             {" "}
-            <div className="flex flex-col order-2 lg:min-h-[50vh] w-full justify-center gap-6 animate-slideInBottom">
+            <div className="flex flex-col order-2 lg:min-h-[50vh] w-full justify-center gap-6 animate-twSlideInBottom">
               <p className="font-logo text-3xl">
                 Integrate with your favorite services
               </p>
@@ -170,7 +170,7 @@ export default function KeyFeatures() {
                 Google Analytics. More integrations will be coming soon!
               </p>
             </div>
-            <div className="flex flex-col max-w-[450px] order-1 items-center md:mb-0 mb-12 w-full justify-center animate-slideInBottom">
+            <div className="flex flex-col max-w-[450px] order-1 items-center md:mb-0 mb-12 w-full justify-center animate-twSlideInBottom">
               <div className="w-full h-[40vh] bg-gradient-to-tr from-primary/60 to-purple-100 rounded-lg"></div>
             </div>
           </>
@@ -178,7 +178,7 @@ export default function KeyFeatures() {
         {activeFeature === Features.PopupInline && (
           <>
             {" "}
-            <div className="flex flex-col order-2 lg:min-h-[50vh] w-full justify-center gap-6 animate-slideInBottom">
+            <div className="flex flex-col order-2 lg:min-h-[50vh] w-full justify-center gap-6 animate-twSlideInBottom">
               <div className="rounded-xl w-fit px-4 py-1 bg-gradient-to-tr from-primary/40 font-bold to-purple-100 shadow-md">
                 Coming soon!
               </div>
@@ -189,7 +189,7 @@ export default function KeyFeatures() {
                 project!
               </p>
             </div>
-            <div className="flex flex-col max-w-[450px] order-1 items-center md:mb-0 mb-12 w-full justify-center animate-slideInBottom">
+            <div className="flex flex-col max-w-[450px] order-1 items-center md:mb-0 mb-12 w-full justify-center animate-twSlideInBottom">
               <div className="w-full h-[40vh] bg-gradient-to-tr from-primary/60 to-purple-100 rounded-lg"></div>
             </div>
           </>
@@ -197,7 +197,7 @@ export default function KeyFeatures() {
         {activeFeature === Features.DataAnalytics && (
           <>
             {" "}
-            <div className="flex flex-col order-2 lg:min-h-[50vh] w-full justify-center gap-6 animate-slideInBottom">
+            <div className="flex flex-col order-2 lg:min-h-[50vh] w-full justify-center gap-6 animate-twSlideInBottom">
               <div className="rounded-xl w-fit px-4 py-1 bg-gradient-to-tr from-primary/40 font-bold to-purple-100 shadow-md">
                 Coming soon!
               </div>
@@ -209,7 +209,7 @@ export default function KeyFeatures() {
                 with the Taplo notifications on your page.
               </p>
             </div>
-            <div className="flex flex-col max-w-[450px] order-1 items-center md:mb-0 mb-12 w-full justify-center animate-slideInBottom">
+            <div className="flex flex-col max-w-[450px] order-1 items-center md:mb-0 mb-12 w-full justify-center animate-twSlideInBottom">
               <div className="w-full h-[40vh] bg-gradient-to-tr from-primary/60 to-purple-100 rounded-lg"></div>
             </div>
           </>
@@ -218,7 +218,7 @@ export default function KeyFeatures() {
       <Link href={"/signup"}>
         <div
           className={`btn btn-lg btn-primary mb-12 text-white max-w-fit ${
-            isAnimate ? "animate-slideInBottom" : ""
+            isAnimate ? "animate-twSlideInBottom" : ""
           }`}
         >
           Get started for free

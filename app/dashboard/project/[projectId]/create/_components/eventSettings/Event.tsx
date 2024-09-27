@@ -20,6 +20,7 @@ import { EventType } from "@/lib/enums";
 import NewIntegrationModal from "../../../connect/_components/NewIntegrationModal";
 import { updateEvent } from "@/lib/actions/events";
 import { showToastError } from "@/app/_components/shared/showToast";
+import { replaceVariablesInContentBody } from "@/lib/actions";
 
 function Event({
   currentEvent,
@@ -35,16 +36,21 @@ function Event({
     activeEvent,
     setActiveEvent,
     setEvents,
+    activeProduct,
+    accentColor,
+    backgroundColor,
     integrations,
     setIntegrations,
-    replaceVariablesInContentBody,
   } = useProjectContext();
   const newIntegrationModalRef = useRef<HTMLDialogElement>(null);
   const [isEditContentMode, setEditContentMode] = useState<boolean>(false);
 
   const contentBodyHtml = replaceVariablesInContentBody(
+    activeProduct,
+    backgroundColor,
+    accentColor,
     currentEvent.content_body,
-    true
+    false //isPopup = false
   );
 
   const getIntegrationById = (integrationId: number) => {
@@ -218,10 +224,9 @@ function Event({
         </div>
         <div className="flex w-full justify-end items-center">
           <div
-            className="flex items-center gap-1 btn btn-sm text-xs btn-error text-white"
+            className="flex items-center gap-1 btn btn-sm text-xs btn-ghost"
             onClick={() => handleEventDelete(currentEvent.id)}
           >
-            Delete
             <Trash2 width={16} height={16} />
           </div>
         </div>

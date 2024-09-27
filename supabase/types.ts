@@ -116,6 +116,7 @@ export type Database = {
           name: string | null
           price: number | null
           project_id: number
+          stripe_product_id: string | null
           user_id: string
         }
         Insert: {
@@ -127,6 +128,7 @@ export type Database = {
           name?: string | null
           price?: number | null
           project_id: number
+          stripe_product_id?: string | null
           user_id: string
         }
         Update: {
@@ -138,6 +140,7 @@ export type Database = {
           name?: string | null
           price?: number | null
           project_id?: number
+          stripe_product_id?: string | null
           user_id?: string
         }
         Relationships: [
@@ -146,6 +149,13 @@ export type Database = {
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "Projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "Products_stripe_product_id_fkey"
+            columns: ["stripe_product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
             referencedColumns: ["id"]
           },
           {

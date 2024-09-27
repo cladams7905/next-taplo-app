@@ -56,10 +56,10 @@ export default function ProductSettings({
           {events.length > 0 && (
             <>
               <div
-                className="btn btn-sm w-auto btn-primary text-white text-xs"
+                className="btn btn-sm w-auto btn-primary text-white text-xs tooltip tooltip-left tooltip-info flex items-center font-normal"
+                data-tip="Create Product"
                 onClick={() => productModalRef.current?.showModal()}
               >
-                New Product
                 <CirclePlus height={18} width={18} />
               </div>
               <NewProductModal

@@ -37,12 +37,12 @@ export default function EventsHeader({
         </div>
       </div>
       <div
-        className="btn btn-sm w-auto btn-primary text-white text-xs"
+        className="btn btn-sm w-auto btn-primary text-white text-xs tooltip tooltip-left tooltip-info flex items-center font-normal"
+        data-tip="Create Event"
         onClick={() => {
           eventModalRef.current?.showModal();
         }}
       >
-        New Event
         <CirclePlus height={18} width={18} />
       </div>
       <NewEventModal eventModalRef={eventModalRef} />

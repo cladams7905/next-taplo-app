@@ -55,7 +55,7 @@ export default function Pricing() {
         </div>
         <div
           className={`lg:columns-2 md:columns-2 flex md:flex-row md:gap-6 flex-col items-center justify-center w-full mt-6 ${
-            isAnimate ? "animate-slideInBottom" : ""
+            isAnimate ? "animate-twSlideInBottom" : ""
           }`}
         >
           <div className="flex flex-col w-full min-h-[80vh] items-center max-w-[475px]">

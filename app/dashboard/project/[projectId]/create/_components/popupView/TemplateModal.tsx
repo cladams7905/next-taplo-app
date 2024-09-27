@@ -104,12 +104,12 @@ export default function TemplateModal({
           >
             {(activeTemplate === TemplateTypes.SmPopup ||
               activeTemplate === TemplateTypes.SmPopupNoImg) && (
-              <div className="flex items-center justify-center absolute top-0 z-[2] left-0 aspect-square w-10 h-10 rounded-br-lg rounded-tl-lg bg-primary text-white">
-                <CheckIcon width={20} height={20} strokeWidth={3} />
+              <div className="flex items-center justify-center absolute top-0 z-[2] left-0 aspect-square w-8 h-8 rounded-br-lg rounded-tl-lg bg-primary text-white">
+                <CheckIcon width={18} height={18} strokeWidth={3} />
               </div>
             )}
             <SmallPopupTemplate isShowImages={isShowImageTemplates} />
-            <div className="flex items-center justify-center absolute w-full h-fit px-10 py-4 outline outline-1 outline-primary bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold">
+            <div className="flex items-center justify-center absolute w-full h-fit px-10 py-3 outline outline-1 outline-primary bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold">
               {isShowImageTemplates ? "Small popup" : "Small popup (no image)"}
             </div>
           </div>
@@ -128,12 +128,12 @@ export default function TemplateModal({
           >
             {(activeTemplate === TemplateTypes.LgPopup ||
               activeTemplate === TemplateTypes.LgPopupNoImg) && (
-              <div className="flex items-center justify-center absolute top-0 z-[2] left-0 aspect-square w-10 h-10 rounded-br-lg rounded-tl-lg bg-primary text-white">
-                <CheckIcon width={20} height={20} strokeWidth={3} />
+              <div className="flex items-center justify-center absolute top-0 z-[2] left-0 aspect-square w-8 h-8 rounded-br-lg rounded-tl-lg bg-primary text-white">
+                <CheckIcon width={18} height={18} strokeWidth={3} />
               </div>
             )}
             <LargePopupTemplate isShowImages={isShowImageTemplates} />
-            <div className="flex items-center justify-center absolute w-full h-fit px-10 py-4 outline outline-1 outline-primary bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold">
+            <div className="flex items-center justify-center absolute w-full h-fit px-10 py-3 outline outline-1 outline-primary bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold">
               {isShowImageTemplates ? "Large popup" : "Large popup (no image)"}
             </div>
           </div>
@@ -152,12 +152,12 @@ export default function TemplateModal({
           >
             {(activeTemplate === TemplateTypes.Card ||
               activeTemplate === TemplateTypes.CardNoImg) && (
-              <div className="flex items-center justify-center absolute top-0 left-0 z-[2] aspect-square w-10 h-10 rounded-br-lg rounded-tl-lg bg-primary text-white">
-                <CheckIcon width={20} height={20} strokeWidth={3} />
+              <div className="flex items-center justify-center absolute top-0 z-[2] left-0 aspect-square w-8 h-8 rounded-br-lg rounded-tl-lg bg-primary text-white">
+                <CheckIcon width={18} height={18} strokeWidth={3} />
               </div>
             )}
             <CardTemplate isShowImages={isShowImageTemplates} />
-            <div className="flex items-center justify-center absolute w-full h-fit px-10 py-4 outline outline-1 outline-primary bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold">
+            <div className="flex items-center justify-center absolute w-full h-fit px-10 py-3 outline outline-1 outline-primary bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold">
               {isShowImageTemplates ? "Card" : "Card (no image)"}
             </div>
           </div>
@@ -176,12 +176,12 @@ export default function TemplateModal({
           >
             {(activeTemplate === TemplateTypes.Banner ||
               activeTemplate === TemplateTypes.BannerNoImg) && (
-              <div className="flex items-center justify-center absolute top-0 left-0 z-[2] aspect-square w-10 h-10 rounded-br-lg rounded-tl-lg bg-primary text-white">
-                <CheckIcon width={20} height={20} strokeWidth={3} />
+              <div className="flex items-center justify-center absolute top-0 z-[2] left-0 aspect-square w-8 h-8 rounded-br-lg rounded-tl-lg bg-primary text-white">
+                <CheckIcon width={18} height={18} strokeWidth={3} />
               </div>
             )}
             <BannerTemplate isShowImages={isShowImageTemplates} />
-            <div className="flex items-center justify-center absolute w-full h-fit px-10 py-4 outline outline-1 outline-primary bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold">
+            <div className="flex items-center justify-center absolute w-full h-fit px-10 py-3 outline outline-1 outline-primary bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold">
               {isShowImageTemplates ? "Banner" : "Banner (no image)"}
             </div>
           </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { getStripe } from "@/stripe/client";
-import { ChangeEvent, Dispatch, SetStateAction, useCallback } from "react";
+import { Dispatch, SetStateAction, useCallback } from "react";
 import {
   EmbeddedCheckoutProvider,
   EmbeddedCheckout,
@@ -20,6 +20,7 @@ const stripe = getStripe();
 export default function CheckoutSession({
   user,
   priceId,
+  productId,
   email,
   setRenewalDate,
   setCheckoutComplete,
@@ -27,6 +28,7 @@ export default function CheckoutSession({
 }: {
   user: User;
   priceId: string;
+  productId: string;
   email: string | undefined;
   setRenewalDate: Dispatch<SetStateAction<string | null>>;
   setCheckoutComplete: Dispatch<SetStateAction<boolean>>;
@@ -47,9 +49,9 @@ export default function CheckoutSession({
           },
           body: JSON.stringify({
             price_id: priceId,
+            product_id: productId,
             customer: customerId ? customerId : undefined,
-            email: !customerId ? email : undefined,
-            billing_cycle: calculateBillingCycle(),
+            email: customerId ? email : undefined,
           }),
         });
         const data = await res.json();
@@ -74,7 +76,7 @@ export default function CheckoutSession({
         reject(error);
       }
     });
-  }, [priceId, email, selectReferralSource, user.id]);
+  }, [priceId, productId, email, selectReferralSource, user.id]);
 
   const onComplete = useCallback(async () => {
     setRenewalDate(renewalDate);

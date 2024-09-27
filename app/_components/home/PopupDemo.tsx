@@ -10,7 +10,7 @@ export default function PopupDemo() {
   return (
     <div
       className={`fixed left-8 md:bottom-40 bottom-28 shadow-md z-[10] font-sans flex items-center p-3 bg-white backdrop-blur-lg rounded-lg ${
-        isDemoClosed ? "animate-slideOutLeft" : ""
+        isDemoClosed ? "animate-twSlideOutLeft" : ""
       }`}
     >
       <p className="text-sm md:text-md lg:text-md">

@@ -117,7 +117,7 @@ export default function NewProductModal({
 
   return (
     <dialog className="modal" ref={productModalRef}>
-      <div className="modal-box relative !py-0 max-w-screen-md min-h-[65vh] max-h-[85vh] h-full text-base-content dark:border dark:border-gray-600">
+      <div className="modal-box relative !py-0 max-w-screen-md text-base-content dark:border dark:border-gray-600">
         <div className="flex flex-col w-full h-full gap-4">
           <div className="flex flex-col w-full pt-8 sticky z-[2] top-0 bg-white">
             <form method="dialog" className="modal-backdrop">
@@ -155,7 +155,7 @@ export default function NewProductModal({
                   })
                 }
               >
-                Refetch products <RotateCcw width={20} height={20} />
+                <RotateCcw width={20} height={20} />
               </div>
             </div>
           </div>
@@ -235,18 +235,20 @@ export default function NewProductModal({
                   </div>
                 ) : (
                   <div className="flex items-center text-sm justify-center w-full h-full min-h-[35vh] rounded-lg bg-gray-50 border border-gray-200 md:px-12 px-4 text-center">
-                    Products can be synced automatically from Stripe or Shopify!
-                    To do so, please select an integration from the above
-                    dropdown menu.
+                    Products can be synced automatically from Stripe! To do so,
+                    please select an integration from the above dropdown menu.
                   </div>
                 )}
               </>
             )}
           </div>
-          <div className="flex flex-col items-center justify-center sticky bottom-0 bg-white pb-6 z-[2]">
-            {productsToCreate.length > 0 && (
+          <div
+            className={`flex flex-col items-center justify-center sticky bottom-0 bg-white pb-6 z-[2]`}
+          >
+            <div className="border-t border-gray-300 w-full"></div>
+            {productsToCreate.length > 0 ? (
               <div
-                className="btn btn-primary mb-8 text-white min-w-[160px]"
+                className="btn btn-primary mt-4 text-white min-w-[160px]"
                 onClick={() => createSelectedProducts()}
               >
                 {isProductPending ? (
@@ -255,21 +257,18 @@ export default function NewProductModal({
                   `Create ${productsToCreate.length} product(s)`
                 )}
               </div>
+            ) : (
+              <div
+                className="btn btn-primary text-white mt-4"
+                onClick={() => {
+                  handleCreateProduct();
+                  showToast("New product created.");
+                  productModalRef.current?.close();
+                }}
+              >
+                Create product manually
+              </div>
             )}
-            <div className="border-t border-gray-300 w-full"></div>
-            <div className="flex items-center rounded-lg bg-white px-4 -mt-[10px] text-sm text-gray-500">
-              or
-            </div>
-            <div
-              className="btn btn-ghost mt-2"
-              onClick={() => {
-                handleCreateProduct();
-                showToast("New product created.");
-                productModalRef.current?.close();
-              }}
-            >
-              Create product manually
-            </div>
           </div>
         </div>
       </div>

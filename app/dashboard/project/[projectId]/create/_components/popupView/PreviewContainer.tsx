@@ -36,10 +36,10 @@ export default function PreviewContainer({
               : ""
           }`}
       >
-        <div className="hidden animate-slideOutLeft" />
-        <div className="hidden animate-slideOutRight" />
-        <div className="hidden animate-slideOutTop" />
-        <div className="hidden animate-slideOutBottom" />
+        <div className="hidden animate-twSlideOutLeft" />
+        <div className="hidden animate-twSlideOutRight" />
+        <div className="hidden animate-twSlideOutTop" />
+        <div className="hidden animate-twSlideOutBottom" />
         <PopupTemplate isPreviewMode={isPreviewMode} />
       </div>
     </div>

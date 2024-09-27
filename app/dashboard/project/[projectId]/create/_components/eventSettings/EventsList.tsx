@@ -6,6 +6,7 @@ import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { sortByTimeCreated } from "@/lib/actions";
 import Event from "./Event";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
+import { EyeIcon } from "lucide-react";
 
 const EventsList = ({
   startEventTransition,
@@ -55,7 +56,7 @@ const EventsList = ({
         onClick={(e) => toggleAccordion(e.currentTarget.classList)}
       >
         <div
-          className={`absolute w-[8px] h-full ${
+          className={`absolute w-[6px] h-full z-[0] ${
             activeEvent && activeEvent.id === event.id
               ? "block bg-primary"
               : "hidden"

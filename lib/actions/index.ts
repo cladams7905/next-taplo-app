@@ -1,6 +1,10 @@
-import { Tables } from "@/stripe/types";
+import { Tables as StripeTables } from "@/stripe/types";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { ContentVars } from "../enums";
+import DOMPurify from "isomorphic-dompurify";
+import { Tables } from "@/supabase/types";
+import { IColor } from "react-color-palette";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -141,7 +145,9 @@ export const formatPrice = (price: string | number | null) => {
  * Checks if a subscription is in a trial period.
  * @param subscription the subscription
  */
-export const isFreeTrialPeriod = (subscription: Tables<"subscriptions">) => {
+export const isFreeTrialPeriod = (
+  subscription: StripeTables<"subscriptions">
+) => {
   const now = Math.floor(Date.now() / 1000);
   const trialStart = subscription?.trial_start
     ? Math.floor(new Date(subscription.trial_start).getTime() / 1000)
@@ -244,3 +250,124 @@ export function hexToRgba(hex: string, opacity?: number) {
   // Return the rgba string
   return `rgba(${r}, ${g}, ${b}, ${opacity})`;
 }
+
+/**
+ * Searches for variables inside of the popup text content and replaces them with placeholder data
+ * if called inside of the popup template or events sidebar, or it sets real data if called inside
+ * of the live popup widget.
+ *
+ * @param contentStr the content body text
+ * @param isPopup whether the content is appearing in the popup or in the sidebar
+ * @param isLiveMode whether the content is appearing in the live popup widget
+ * @returns the revised content body (should be set inside of dangerouslySetHTML if
+ * isReturnHTML is set to true)
+ */
+export const replaceVariablesInContentBody = (
+  product: Tables<"Products"> | undefined,
+  backgroundColor: IColor,
+  accentColor: IColor,
+  contentStr: string | undefined,
+  isPopup = false,
+  isLiveMode = false
+) => {
+  if (!contentStr) return "";
+
+  const getVariableHTML = (word: string, index: number) => {
+    const returnHTML = `<span key=${index} class="text-primary ${
+      !isPopup || product?.link ? "px-1 rounded-lg" : ""
+    }">${
+      "[" +
+      replaceVariable(word.substring(1).toLocaleLowerCase() as ContentVars) +
+      "]"
+    }</span>`;
+    return DOMPurify.sanitize(returnHTML);
+  };
+
+  const replaceVariable = (variable: ContentVars) => {
+    switch (variable) {
+      case ContentVars.Person:
+        return isPopup ? "Jamie" : "Person";
+      case ContentVars.Location:
+        return isPopup ? "Seattle, Washington, USA" : "City, Country";
+      case ContentVars.Product:
+        return getProductHTML();
+      case ContentVars.NumUsers:
+      case ContentVars.RecentUsers:
+        return isPopup ? "20" : "#";
+      case ContentVars.Price:
+        return isPopup ? "$29.99" : "$";
+      default:
+        return "undefined";
+    }
+  };
+
+  const getProductHTML = () => {
+    if (!isPopup) return "Product";
+    const productLink = product?.link
+      ? `<a href="${product.link}" target="_blank">`
+      : "";
+    const productName = product?.name ? product.name : "a product";
+    const productStyle = product?.name
+      ? `style="color: ${accentColor.hex.toString()};"`
+      : "";
+    const productClass = product?.name ? "font-bold" : "";
+    const underlineClass = product?.link ? "underline" : "";
+    const svgIcon = product?.link ? getSVGIcon() : "";
+
+    return DOMPurify.sanitize(
+      `${productLink}<span ${productStyle} class="rounded-lg ${productClass} ${underlineClass}">${productName}</span>${svgIcon}${
+        product?.link ? "</a>" : ""
+      }`
+    );
+  };
+
+  const getSVGIcon = () => {
+    return `<svg 
+      xmlns="http://www.w3.org/2000/svg" 
+      width="13" 
+      height="13" 
+      viewBox="0 0 24 24" 
+      fill="${backgroundColor.hex.toString()}" 
+      stroke="${accentColor.hex.toString()}" 
+      stroke-width="3" 
+      stroke-linecap="round" 
+      stroke-linejoin="round"
+      class="inline-flex mr-[2px] mb-[2px]"
+    >
+      <path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6"/>
+      <path d="M21 3l-9 9"/>
+      <path d="M15 3h6v6"/>
+    </svg>`;
+  };
+
+  const checkForInvalidCharsRegex = /[^a-zA-Z0-9\\]/;
+  const filterInvalidCharsRegex = /(\\\w+|\w+|[^\w\s])/g;
+
+  const transformWord = (word: string, index: number) => {
+    if (word.startsWith("\\") && checkForInvalidCharsRegex.test(word)) {
+      const cleanedWord = word.split(filterInvalidCharsRegex).filter(Boolean);
+      return cleanedWord
+        .map((val) => {
+          return val.startsWith("\\")
+            ? isPopup
+              ? replaceVariable(
+                  val.substring(1).toLocaleLowerCase() as ContentVars
+                )
+              : getVariableHTML(val, index)
+            : val;
+        })
+        .join("");
+    } else {
+      return word.startsWith("\\")
+        ? isPopup
+          ? replaceVariable(
+              word.substring(1).toLocaleLowerCase() as ContentVars
+            )
+          : getVariableHTML(word, index)
+        : word;
+    }
+  };
+
+  const transformedWords = contentStr.split(" ").map(transformWord);
+  return transformedWords.join(" ");
+};

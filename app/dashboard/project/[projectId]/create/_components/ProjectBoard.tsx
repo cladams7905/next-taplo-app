@@ -6,8 +6,6 @@ import { useCallback, useEffect, useState } from "react";
 import { useColor } from "react-color-palette";
 import ViewContainer from "./popupView/ViewContainer";
 import { sortByTimeCreated } from "@/lib/actions";
-import { ContentVars } from "@/lib/enums";
-import DOMPurify from "isomorphic-dompurify";
 import { User } from "@supabase/supabase-js";
 import { ProjectContext } from "@/app/dashboard/_components/ProjectContext";
 
@@ -142,133 +140,6 @@ export default function ProjectBoard({
     }
   }, [activeProduct, updateProducts]);
 
-  /**
-   * Searches for variables inside of the text content body and replaces them with
-   * example data inside of the popup viewer.
-   * @param contentStr the content body text
-   * @param shouldReturnHTML whether the variables should be replaced with HTML span elements
-   * @param isPopupText whether the content is appearing in the popup template or in the sidebar
-   * @returns the revised content body (should be set inside of dangerouslySetHTML if
-   * shouldReturnHTML is set to true)
-   */
-  const replaceVariablesInContentBody = (
-    contentStr?: string | null,
-    shouldReturnHTML?: boolean,
-    isPopupText?: boolean
-  ) => {
-    if (!contentStr) return "";
-
-    const getVariableHTML = (
-      word: string,
-      index: number,
-      isPopupText = false
-    ) => {
-      const returnHTML = `<span key=${index} class="text-primary ${
-        !isPopupText || activeProduct?.link ? "px-1 rounded-lg" : ""
-      }">${
-        "[" +
-        replaceVariable(
-          word.substring(1).toLocaleLowerCase() as ContentVars,
-          isPopupText
-        ) +
-        "]"
-      }</span>`;
-      return DOMPurify.sanitize(returnHTML);
-    };
-
-    const replaceVariable = (variable: ContentVars, isPopupText = false) => {
-      let returnWord = "";
-      switch (variable) {
-        case ContentVars.Person:
-          returnWord = isPopupText ? "Jamie" : "Person";
-          break;
-        case ContentVars.Location:
-          returnWord = isPopupText
-            ? "Seattle, Washington, USA"
-            : "City, Country";
-          break;
-        case ContentVars.Product:
-          returnWord = isPopupText
-            ? DOMPurify.sanitize(`${
-                activeProduct?.link
-                  ? `<a href="${activeProduct.link}" target="_blank">`
-                  : ""
-              }<span ${
-                activeProduct?.name
-                  ? `style="color: ${accentColor.hex.toString()};"`
-                  : ""
-              } class="rounded-lg ${activeProduct?.name ? "font-bold" : ""} ${
-                activeProduct?.link ? "underline" : ""
-              }">${
-                activeProduct?.name ? activeProduct.name : "a product"
-              }</span>
-                ${
-                  activeProduct?.link
-                    ? `<svg 
-                  xmlns="http://www.w3.org/2000/svg" 
-                  width="13" 
-                  height="13" 
-                  viewBox="0 0 24 24" 
-                  fill="${backgroundColor.hex.toString()}" 
-                  stroke="${accentColor.hex.toString()}" 
-                  stroke-width="3" 
-                  stroke-linecap="round" 
-                  stroke-linejoin="round"
-                  class="inline-flex mr-[2px] mb-[2px]"
-                >
-                  <path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6"/>
-                  <path d="M21 3l-9 9"/>
-                  <path d="M15 3h6v6"/>
-                </svg>`
-                    : ""
-                }${activeProduct?.link ? "</a>" : ""}`)
-            : "Product";
-          break;
-        case ContentVars.NumUsers:
-        case ContentVars.RecentUsers:
-          returnWord = isPopupText ? "20" : "#";
-          break;
-        case ContentVars.Price:
-          returnWord = isPopupText ? "$29.99" : "$";
-          break;
-        default:
-          returnWord = "undefined";
-      }
-      return returnWord;
-    };
-
-    const checkForInvalidCharsRegex = /[^a-zA-Z0-9\\]/;
-    const filterInvalidCharsRegex = /(\\\w+|\w+|[^\w\s])/g;
-
-    const transformedWords = contentStr.split(" ").map((word, i) => {
-      if (word.startsWith("\\") && checkForInvalidCharsRegex.test(word)) {
-        const cleanedWord = word.split(filterInvalidCharsRegex).filter(Boolean);
-        return cleanedWord
-          .map((val) => {
-            return val.startsWith("\\")
-              ? shouldReturnHTML
-                ? getVariableHTML(val, i)
-                : replaceVariable(
-                    val.substring(1).toLocaleLowerCase() as ContentVars,
-                    isPopupText
-                  )
-              : val;
-          })
-          .join("");
-      } else {
-        return word.startsWith("\\")
-          ? shouldReturnHTML
-            ? getVariableHTML(word, i)
-            : replaceVariable(
-                word.substring(1).toLocaleLowerCase() as ContentVars,
-                isPopupText
-              )
-          : word;
-      }
-    });
-    return transformedWords.join(" ");
-  };
-
   const contextValue = {
     activeProject,
     setActiveProject,
@@ -292,7 +163,6 @@ export default function ProjectBoard({
     setAccentColor,
     borderColor,
     setBorderColor,
-    replaceVariablesInContentBody,
   };
 
   if (!fetchedActiveProject || !fetchedEvents || !fetchedProducts) {
