@@ -39,8 +39,8 @@ export default function PopupTemplate({
    */
   const contentBodyHtml = replaceVariablesInContentBody(
     activeProduct,
-    backgroundColor,
-    accentColor,
+    backgroundColor.hex.toString(),
+    accentColor.hex.toString(),
     activeEvent?.content_body,
     true //isPopup = true
   );
@@ -75,8 +75,8 @@ export default function PopupTemplate({
     setPreviewContentBody(
       replaceVariablesInContentBody(
         activeProduct,
-        backgroundColor,
-        accentColor,
+        backgroundColor.hex.toString(),
+        accentColor.hex.toString(),
         previewEvent?.content_body,
         true //isPopup = true
       )
@@ -323,39 +323,41 @@ export default function PopupTemplate({
   }
 }
 
-const EventIcon = (eventType: EventType) => {
+const EventIcon = (eventType: EventType, size: "lg" | "md" | "sm" = "lg") => {
   const { accentColor } = useProjectContext();
+  const iconSize = size === "lg" ? 28 : size === "md" ? 24 : 20;
+
   switch (eventType) {
     case EventType.Purchase:
       return (
         <ShoppingBag
           color={hexToRgba(accentColor.hex.toString(), 0.85)}
-          height={28}
-          width={28}
+          height={iconSize}
+          width={iconSize}
         />
       );
     case EventType.Checkout:
       return (
         <ShoppingCart
           color={hexToRgba(accentColor.hex.toString(), 0.85)}
-          height={28}
-          width={28}
+          height={iconSize}
+          width={iconSize}
         />
       );
     case EventType.SomeoneViewing:
       return (
         <UserRoundSearch
           color={hexToRgba(accentColor.hex.toString(), 0.85)}
-          height={28}
-          width={28}
+          height={iconSize}
+          width={iconSize}
         />
       );
     case EventType.ActiveVisitors:
       return (
         <UsersRound
           color={hexToRgba(accentColor.hex.toString(), 0.85)}
-          height={28}
-          width={28}
+          height={iconSize}
+          width={iconSize}
         />
       );
   }
@@ -422,7 +424,8 @@ const SmallPopupTemplate = ({
             {EventIcon(
               isPreviewMode
                 ? (previewEvent?.event_type as EventType)
-                : (activeEvent?.event_type as EventType)
+                : (activeEvent?.event_type as EventType),
+              "sm"
             )}
           </div>
         )}
@@ -934,7 +937,8 @@ const BannerTemplate = ({
             {EventIcon(
               isPreviewMode
                 ? (previewEvent?.event_type as EventType)
-                : (activeEvent?.event_type as EventType)
+                : (activeEvent?.event_type as EventType),
+              "md"
             )}
           </div>
         )}

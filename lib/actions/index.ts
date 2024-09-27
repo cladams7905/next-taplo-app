@@ -4,7 +4,6 @@ import { twMerge } from "tailwind-merge";
 import { ContentVars } from "../enums";
 import DOMPurify from "isomorphic-dompurify";
 import { Tables } from "@/supabase/types";
-import { IColor } from "react-color-palette";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -32,41 +31,52 @@ export const getURL = () => {
  */
 export function convertDateTime(
   timestampz: string,
-  includeYear: boolean = false
+  includeYear: boolean = false,
+  isLiveMode: boolean = false
 ): string {
   const now = new Date();
   const inputDate = new Date(timestampz);
 
-  const currentDate = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate()
-  ); // Set to today's midnight
-  const inputDateMidnight = new Date(
-    inputDate.getFullYear(),
-    inputDate.getMonth(),
-    inputDate.getDate()
-  ); // Midnight of input date
+  const currentDateMidnight = new Date(now.setHours(0, 0, 0, 0));
+  const inputDateMidnight = new Date(inputDate.setHours(0, 0, 0, 0));
 
-  const diffTime = inputDateMidnight.getTime() - currentDate.getTime();
+  const diffTime = inputDateMidnight.getTime() - currentDateMidnight.getTime();
   const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
 
+  if (isLiveMode) {
+    return getLiveModeTimeDifference(now, inputDate);
+  } else {
+    return getFormattedDateTime(inputDate, diffDays, includeYear);
+  }
+}
+
+function getLiveModeTimeDifference(now: Date, inputDate: Date): string {
+  const diffInSeconds = Math.floor(
+    (now.getTime() - inputDate.getTime()) / 1000
+  );
+  const diffInMinutes = Math.floor(diffInSeconds / 60);
+  const diffInHours = Math.floor(diffInMinutes / 60);
+  const diffInDays = Math.floor(diffInHours / 24);
+
+  if (diffInMinutes < 60) {
+    return `${diffInMinutes} minutes ago`;
+  } else if (diffInHours < 24) {
+    return `${diffInHours} hours ago`;
+  } else {
+    return `${diffInDays} days ago`;
+  }
+}
+
+function getFormattedDateTime(
+  inputDate: Date,
+  diffDays: number,
+  includeYear: boolean
+): string {
   const day = inputDate.getDate().toString().padStart(2, "0");
   const month = (inputDate.getMonth() + 1).toString().padStart(2, "0");
-  const year = inputDate.getFullYear().toString().slice(-2); // Get the last two digits of the year
+  const year = inputDate.getFullYear().toString().slice(-2);
 
-  let isPM = false;
-  let hours = inputDate.getHours();
-  if (hours >= 12) {
-    if (hours !== 12) {
-      hours -= 12;
-    }
-    isPM = true;
-  } else if (hours === 0) {
-    hours = 12;
-  }
-  const minutes = inputDate.getMinutes().toString().padStart(2, "0");
-  const time = `${hours}:${minutes}${isPM ? "PM" : "AM"}`;
+  const time = formatTime(inputDate);
 
   if (diffDays === 0) {
     return `Today ${time}`;
@@ -77,6 +87,20 @@ export function convertDateTime(
   } else {
     return `${month}/${day}${includeYear ? `/${year}` : ""} ${time}`;
   }
+}
+
+function formatTime(date: Date): string {
+  let hours = date.getHours();
+  const minutes = date.getMinutes().toString().padStart(2, "0");
+  const isPM = hours >= 12;
+
+  if (hours > 12) {
+    hours -= 12;
+  } else if (hours === 0) {
+    hours = 12;
+  }
+
+  return `${hours}:${minutes} ${isPM ? "PM" : "AM"}`;
 }
 
 /**
@@ -264,8 +288,8 @@ export function hexToRgba(hex: string, opacity?: number) {
  */
 export const replaceVariablesInContentBody = (
   product: Tables<"Products"> | undefined,
-  backgroundColor: IColor,
-  accentColor: IColor,
+  backgroundColor: string,
+  accentColor: string,
   contentStr: string | undefined,
   isPopup = false,
   isLiveMode = false
@@ -307,9 +331,7 @@ export const replaceVariablesInContentBody = (
       ? `<a href="${product.link}" target="_blank">`
       : "";
     const productName = product?.name ? product.name : "a product";
-    const productStyle = product?.name
-      ? `style="color: ${accentColor.hex.toString()};"`
-      : "";
+    const productStyle = product?.name ? `style="color: ${accentColor};"` : "";
     const productClass = product?.name ? "font-bold" : "";
     const underlineClass = product?.link ? "underline" : "";
     const svgIcon = product?.link ? getSVGIcon() : "";
@@ -327,8 +349,8 @@ export const replaceVariablesInContentBody = (
       width="13" 
       height="13" 
       viewBox="0 0 24 24" 
-      fill="${backgroundColor.hex.toString()}" 
-      stroke="${accentColor.hex.toString()}" 
+      fill="${backgroundColor}" 
+      stroke="${accentColor}" 
       stroke-width="3" 
       stroke-linecap="round" 
       stroke-linejoin="round"

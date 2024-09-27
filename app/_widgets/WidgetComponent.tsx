@@ -4,6 +4,7 @@ import { Tables } from "@/supabase/types";
 import { DisplayNotification, EventData } from "@/lib/types";
 import { EventType, ScreenAlignment } from "@/lib/enums";
 import Stripe from "stripe";
+import { convertDateTime, replaceVariablesInContentBody } from "@/lib/actions";
 
 interface WidgetConfig {
   siteUrl: string;
@@ -129,20 +130,32 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
           (event) => event.event_type === EventType.Purchase
         );
         eventData.stripeData.charges.forEach((charge) => {
+          const product = productData.find(
+            (product) =>
+              product.id ===
+              parseInt(
+                (
+                  (charge?.invoice as Stripe.Invoice)
+                    ?.subscription as Stripe.Subscription
+                )?.items.data[0].price.product as string
+              )
+          );
           queue.push({
-            message: purchaseEvent?.content_body || "",
-            time: new Date(charge.created * 1000).toUTCString(),
-            event: purchaseEvent,
-            product: productData.find(
-              (product) =>
-                product.id ===
-                parseInt(
-                  (
-                    (charge?.invoice as Stripe.Invoice)
-                      ?.subscription as Stripe.Subscription
-                  )?.items.data[0].price.product as string
-                )
+            message: replaceVariablesInContentBody(
+              product,
+              projectData?.bg_color || "#FFFFFF",
+              projectData?.accent_color || "#7A81EB",
+              purchaseEvent?.content_body || "",
+              true, //isPopup = true
+              true //isLiveMode = true
             ),
+            time: convertDateTime(
+              new Date(charge.created * 1000).toUTCString(),
+              false, //includeYear = false
+              true //isLiveMode = true
+            ),
+            event: purchaseEvent,
+            product: product,
           } as DisplayNotification);
         });
       }
@@ -150,7 +163,7 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
       }
     }
     setNotificationQueue(queue);
-  }, [eventData, productData]);
+  }, [eventData, productData, projectData]);
 
   useEffect(() => {
     console.log("queue:", JSON.parse(JSON.stringify(notificationQueue)));

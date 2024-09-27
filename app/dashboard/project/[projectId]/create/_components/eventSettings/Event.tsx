@@ -47,8 +47,8 @@ function Event({
 
   const contentBodyHtml = replaceVariablesInContentBody(
     activeProduct,
-    backgroundColor,
-    accentColor,
+    backgroundColor.hex.toString(),
+    accentColor.hex.toString(),
     currentEvent.content_body,
     false //isPopup = false
   );

@@ -92,38 +92,43 @@ export default function PopupWidget({
   }
 }
 
-const EventIcon = (eventType: EventType, project: Tables<"Projects">) => {
+const EventIcon = (
+  eventType: EventType,
+  project: Tables<"Projects">,
+  size: "lg" | "md" | "sm" = "lg"
+) => {
+  const iconSize = size === "lg" ? 28 : size === "md" ? 24 : 20;
   switch (eventType) {
     case EventType.Purchase:
       return (
         <ShoppingBag
           color={hexToRgba(project.accent_color ?? "#7A81EB", 0.85)}
-          height={28}
-          width={28}
+          height={iconSize}
+          width={iconSize}
         />
       );
     case EventType.Checkout:
       return (
         <ShoppingCart
           color={hexToRgba(project.accent_color ?? "#7A81EB", 0.85)}
-          height={28}
-          width={28}
+          height={iconSize}
+          width={iconSize}
         />
       );
     case EventType.SomeoneViewing:
       return (
         <UserRoundSearch
           color={hexToRgba(project.accent_color ?? "#7A81EB", 0.85)}
-          height={28}
-          width={28}
+          height={iconSize}
+          width={iconSize}
         />
       );
     case EventType.ActiveVisitors:
       return (
         <UsersRound
           color={hexToRgba(project.accent_color ?? "#7A81EB", 0.85)}
-          height={28}
-          width={28}
+          height={iconSize}
+          width={iconSize}
         />
       );
   }
@@ -182,7 +187,7 @@ const SmallPopupTemplate = ({
               backgroundColor: hexToRgba(accentColor, 0.2),
             }}
           >
-            {EventIcon(event?.event_type as EventType, project)}
+            {EventIcon(event?.event_type as EventType, project, "sm")}
           </div>
         )}
       </div>
@@ -685,7 +690,7 @@ const BannerTemplate = ({
               backgroundColor: hexToRgba(accentColor, 0.2),
             }}
           >
-            {EventIcon(event?.event_type as EventType, project)}
+            {EventIcon(event?.event_type as EventType, project, "md")}
           </div>
         )}
       </div>
