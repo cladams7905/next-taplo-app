@@ -4,7 +4,7 @@ import { Tables } from "@/supabase/types";
 import { ChangeEvent, TransitionStartFunction } from "react";
 import { deleteProduct, updateProduct } from "@/lib/actions/products";
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
-import { Camera, EyeIcon, Trash2 } from "lucide-react";
+import { Camera, Trash2 } from "lucide-react";
 import { createClient } from "@/supabase/client";
 import Image from "next/image";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
@@ -24,6 +24,7 @@ const ProductList = ({
   } = useProjectContext();
 
   const handleToggleActiveProduct = (currentProduct: Tables<"Products">) => {
+    console.log("currentProduct", currentProduct);
     if (!activeProduct || activeProduct.id !== currentProduct.id) {
       setActiveProduct(currentProduct);
     }
@@ -135,9 +136,9 @@ const ProductList = ({
           To enable products, first create a new event.
         </div>
       ) : (
-        products.map((product) => (
+        products.map((product, i) => (
           <div
-            key={product.id}
+            key={i}
             onClick={() => handleToggleActiveProduct(product)}
             className={`relative flex flex-row w-full items-center rounded-lg bg-white border border-gray-200 px-4 py-6 shadow-sm`}
           >
@@ -148,9 +149,9 @@ const ProductList = ({
                   : "hidden"
               }`}
             />
-            <div className="flex w-fit items-center">
+            <div className="flex w-fit items-center cursor-pointer">
               <label
-                htmlFor="product-image-file-input"
+                htmlFor={`product-image-file-input-${product.id}`}
                 className={`flex justify-center mr-3 -mt-5 cursor-pointer items-center min-w-[48px] max-h-[48px] aspect-square rounded-lg ${
                   !product.image_url || product.image_url === ""
                     ? "bg-primary/35"
@@ -161,7 +162,7 @@ const ProductList = ({
                   type="file"
                   name="image"
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                  id="product-image-file-input"
+                  id={`product-image-file-input-${product.id}`}
                   onChange={(e) => handleFileUpload(e, product.id)}
                 />
                 {product.image_url && product.image_url !== "" ? (
@@ -170,7 +171,7 @@ const ProductList = ({
                     height={48}
                     alt="product-img"
                     src={product.image_url}
-                    className="rounded-lg aspect-square object-cover"
+                    className="rounded-lg aspect-square object-cover cursor-pointer"
                   />
                 ) : (
                   <Camera

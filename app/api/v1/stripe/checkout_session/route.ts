@@ -4,7 +4,8 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
-    const { price_id, product_id, email, customer } = await request.json();
+    const { price_id, product_id, email, customer, display_name } =
+      await request.json();
 
     const session = await stripe.checkout.sessions.create({
       ui_mode: "embedded",
@@ -22,6 +23,9 @@ export async function POST(request: NextRequest) {
       redirect_on_completion: "if_required",
       subscription_data: {
         trial_period_days: 14,
+        metadata: {
+          display_name: display_name,
+        },
       },
       automatic_tax: { enabled: true },
     });

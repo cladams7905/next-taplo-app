@@ -1,7 +1,7 @@
 // Embeddable Widget Component
 import React, { lazy, useCallback, useEffect, useRef, useState } from "react";
 import { Tables } from "@/supabase/types";
-import { DisplayNotification, EventData } from "@/lib/types";
+import { DisplayNotification, EventData, MessageData } from "@/lib/types";
 import { EventType, ScreenAlignment } from "@/lib/enums";
 import Stripe from "stripe";
 import { convertDateTime, replaceVariablesInContentBody } from "@/lib/actions";
@@ -120,48 +120,129 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
    * Create a queue of notification events to be shown based on integration data
    */
   useEffect(() => {
-    //The queue should alternate so that displayed events vary
-    let queue: DisplayNotification[] = [];
+    const queue: DisplayNotification[] = [];
 
-    //Populate the queue with stripe data
-    if (eventData?.stripeData) {
-      if (eventData.stripeData.charges) {
-        const purchaseEvent = eventData.events.find(
-          (event) => event.event_type === EventType.Purchase
+    const stateAbbreviations: { [key: string]: string } = {
+      AL: "Alabama",
+      AK: "Alaska",
+      AZ: "Arizona",
+      AR: "Arkansas",
+      CA: "California",
+      CO: "Colorado",
+      CT: "Connecticut",
+      DE: "Delaware",
+      FL: "Florida",
+      GA: "Georgia",
+      HI: "Hawaii",
+      ID: "Idaho",
+      IL: "Illinois",
+      IN: "Indiana",
+      IA: "Iowa",
+      KS: "Kansas",
+      KY: "Kentucky",
+      LA: "Louisiana",
+      ME: "Maine",
+      MD: "Maryland",
+      MA: "Massachusetts",
+      MI: "Michigan",
+      MN: "Minnesota",
+      MS: "Mississippi",
+      MO: "Missouri",
+      MT: "Montana",
+      NE: "Nebraska",
+      NV: "Nevada",
+      NH: "New Hampshire",
+      NJ: "New Jersey",
+      NM: "New Mexico",
+      NY: "New York",
+      NC: "North Carolina",
+      ND: "North Dakota",
+      OH: "Ohio",
+      OK: "Oklahoma",
+      OR: "Oregon",
+      PA: "Pennsylvania",
+      RI: "Rhode Island",
+      SC: "South Carolina",
+      SD: "South Dakota",
+      TN: "Tennessee",
+      TX: "Texas",
+      UT: "Utah",
+      VT: "Vermont",
+      VA: "Virginia",
+      WA: "Washington",
+      WV: "West Virginia",
+      WI: "Wisconsin",
+      WY: "Wyoming",
+    };
+
+    const countryAbbreviations: { [key: string]: string } = {
+      US: "United States",
+      USA: "United States",
+    };
+
+    const getFullStateName = (abbreviation: string) =>
+      stateAbbreviations[abbreviation] || abbreviation;
+    const getFullCountryName = (abbreviation: string) =>
+      countryAbbreviations[abbreviation] || abbreviation;
+    const getFirstName = (fullName: string) => fullName.split(" ")[0];
+
+    if (eventData?.stripeData?.charges) {
+      const purchaseEvent = eventData.events.find(
+        (event) => event.event_type === EventType.Purchase
+      );
+
+      eventData.stripeData.charges.forEach((charge) => {
+        const product = productData.find(
+          (product) =>
+            product.stripe_product_id ===
+            (
+              (charge?.invoice as Stripe.Invoice)
+                ?.subscription as Stripe.Subscription
+            )?.items.data[0].price.product
         );
-        eventData.stripeData.charges.forEach((charge) => {
-          const product = productData.find(
-            (product) =>
-              product.id ===
-              parseInt(
-                (
-                  (charge?.invoice as Stripe.Invoice)
-                    ?.subscription as Stripe.Subscription
-                )?.items.data[0].price.product as string
-              )
-          );
-          queue.push({
-            message: replaceVariablesInContentBody(
-              product,
-              projectData?.bg_color || "#FFFFFF",
-              projectData?.accent_color || "#7A81EB",
-              purchaseEvent?.content_body || "",
-              true, //isPopup = true
-              true //isLiveMode = true
+
+        const messageData: MessageData = {
+          customerName: getFirstName(
+            (charge?.invoice as Stripe.Invoice)?.customer_name ||
+              (
+                (charge?.invoice as Stripe.Invoice)
+                  ?.subscription as Stripe.Subscription
+              )?.metadata?.display_name ||
+              "Someone"
+          ),
+          customerAddress: {
+            city: (charge?.invoice as Stripe.Invoice)?.customer_address?.city,
+            state: getFullStateName(
+              (charge?.invoice as Stripe.Invoice)?.customer_address?.state || ""
             ),
-            time: convertDateTime(
-              new Date(charge.created * 1000).toUTCString(),
-              false, //includeYear = false
-              true //isLiveMode = true
+            country: getFullCountryName(
+              (charge?.invoice as Stripe.Invoice)?.customer_address?.country ||
+                ""
             ),
-            event: purchaseEvent,
-            product: product,
-          } as DisplayNotification);
-        });
-      }
-      if (eventData.stripeData.checkoutSessions) {
-      }
+          },
+        };
+
+        queue.push({
+          message: replaceVariablesInContentBody(
+            product,
+            projectData?.bg_color || "#FFFFFF",
+            projectData?.accent_color || "#7A81EB",
+            purchaseEvent?.content_body || "",
+            true, // isPopup
+            true, // isLiveMode
+            messageData
+          ),
+          time: convertDateTime(
+            new Date(charge.created * 1000).toUTCString(),
+            false,
+            true
+          ),
+          event: purchaseEvent,
+          product: product,
+        } as DisplayNotification);
+      });
     }
+
     setNotificationQueue(queue);
   }, [eventData, productData, projectData]);
 

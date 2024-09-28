@@ -96,6 +96,7 @@ export default function IntegrationSelect({
             let newProducts: TablesInsert<"Products">[] = [];
             products.forEach((product) => {
               newProducts.push({
+                stripe_product_id: product.id,
                 project_id: integration.project_id,
                 user_id: integration.user_id,
                 currency: (product.default_price as Stripe.Price)?.currency,

@@ -170,9 +170,10 @@ const SmallPopupTemplate = ({
         <X color={hexToRgba(textColor, 0.65)} width={14} height={14} />
       </div>
       <div className="flex items-center justify-center">
-        {product && product.image_url && product?.image_url !== "" ? (
+        {product && product?.image_url && product?.image_url !== "" ? (
           <div className="w-16 h-16 min-w-16">
             <Image
+              loader={() => product.image_url || ""}
               width={110}
               height={110}
               alt="product-img"
@@ -340,6 +341,7 @@ const LargePopupTemplate = ({
         {product && product?.image_url && product.image_url !== "" ? (
           <div className="h-[110px] w-[110px]">
             <Image
+              loader={() => product.image_url || ""}
               width={110}
               height={110}
               alt="product-img"
@@ -508,6 +510,7 @@ const CardTemplate = ({
         {product && product?.image_url && product.image_url !== "" ? (
           <div className="h-[160px] w-full">
             <Image
+              loader={() => product.image_url || ""}
               width={90}
               height={90}
               alt="product-img"
@@ -676,6 +679,7 @@ const BannerTemplate = ({
         {product && product?.image_url && product.image_url !== "" ? (
           <div className="w-12 h-12">
             <Image
+              loader={() => product.image_url || ""}
               width={48}
               height={48}
               alt="product-img"

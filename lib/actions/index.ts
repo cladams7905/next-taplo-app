@@ -4,6 +4,7 @@ import { twMerge } from "tailwind-merge";
 import { ContentVars } from "../enums";
 import DOMPurify from "isomorphic-dompurify";
 import { Tables } from "@/supabase/types";
+import { MessageData } from "../types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -292,7 +293,8 @@ export const replaceVariablesInContentBody = (
   accentColor: string,
   contentStr: string | undefined,
   isPopup = false,
-  isLiveMode = false
+  isLiveMode = false,
+  messageData?: MessageData
 ) => {
   if (!contentStr) return "";
 
@@ -307,12 +309,19 @@ export const replaceVariablesInContentBody = (
     return DOMPurify.sanitize(returnHTML);
   };
 
-  const replaceVariable = (variable: ContentVars) => {
+  const replaceVariable = (
+    variable: ContentVars,
+    messageData?: MessageData
+  ) => {
     switch (variable) {
       case ContentVars.Person:
-        return isPopup ? "Jamie" : "Person";
+        return isLiveMode && messageData?.customerName
+          ? messageData.customerName
+          : isPopup
+          ? "Somone"
+          : "Person";
       case ContentVars.Location:
-        return isPopup ? "Seattle, Washington, USA" : "City, Country";
+        return getLocationString(messageData);
       case ContentVars.Product:
         return getProductHTML();
       case ContentVars.NumUsers:
@@ -325,6 +334,16 @@ export const replaceVariablesInContentBody = (
     }
   };
 
+  const getLocationString = (messageData?: MessageData) => {
+    if (isLiveMode && messageData?.customerAddress.country) {
+      const { city, state, country } = messageData?.customerAddress;
+      const locationParts = [city, state, country].filter(Boolean);
+      return locationParts.join(", ");
+    } else {
+      return isPopup ? "North America" : "Location";
+    }
+  };
+
   const getProductHTML = () => {
     if (!isPopup) return "Product";
     const productLink = product?.link
@@ -332,7 +351,7 @@ export const replaceVariablesInContentBody = (
       : "";
     const productName = product?.name ? product.name : "a product";
     const productStyle = product?.name ? `style="color: ${accentColor};"` : "";
-    const productClass = product?.name ? "font-bold" : "";
+    const productClass = product?.name ? "font-bold underline mr-1" : "";
     const underlineClass = product?.link ? "underline" : "";
     const svgIcon = product?.link ? getSVGIcon() : "";
 
@@ -346,15 +365,15 @@ export const replaceVariablesInContentBody = (
   const getSVGIcon = () => {
     return `<svg 
       xmlns="http://www.w3.org/2000/svg" 
-      width="13" 
-      height="13" 
+      width="10" 
+      height="10" 
       viewBox="0 0 24 24" 
       fill="${backgroundColor}" 
       stroke="${accentColor}" 
       stroke-width="3" 
       stroke-linecap="round" 
       stroke-linejoin="round"
-      class="inline-flex mr-[2px] mb-[2px]"
+      class="inline-flex items-center mb-[2px] mr-1"
     >
       <path d="M21 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h6"/>
       <path d="M21 3l-9 9"/>
@@ -362,10 +381,10 @@ export const replaceVariablesInContentBody = (
     </svg>`;
   };
 
-  const checkForInvalidCharsRegex = /[^a-zA-Z0-9\\]/;
-  const filterInvalidCharsRegex = /(\\\w+|\w+|[^\w\s])/g;
-
   const transformWord = (word: string, index: number) => {
+    const checkForInvalidCharsRegex = /[^a-zA-Z0-9\\]/;
+    const filterInvalidCharsRegex = /(\\\w+|\w+|[^\w\s])/g;
+
     if (word.startsWith("\\") && checkForInvalidCharsRegex.test(word)) {
       const cleanedWord = word.split(filterInvalidCharsRegex).filter(Boolean);
       return cleanedWord
@@ -373,7 +392,8 @@ export const replaceVariablesInContentBody = (
           return val.startsWith("\\")
             ? isPopup
               ? replaceVariable(
-                  val.substring(1).toLocaleLowerCase() as ContentVars
+                  val.substring(1).toLocaleLowerCase() as ContentVars,
+                  messageData
                 )
               : getVariableHTML(val, index)
             : val;
@@ -383,7 +403,8 @@ export const replaceVariablesInContentBody = (
       return word.startsWith("\\")
         ? isPopup
           ? replaceVariable(
-              word.substring(1).toLocaleLowerCase() as ContentVars
+              word.substring(1).toLocaleLowerCase() as ContentVars,
+              messageData
             )
           : getVariableHTML(word, index)
         : word;

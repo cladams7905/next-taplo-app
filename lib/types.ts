@@ -20,3 +20,12 @@ export interface DisplayNotification {
   event: Tables<"Events"> | undefined;
   product?: Tables<"Products"> | undefined;
 }
+
+export interface MessageData {
+  customerName?: string | null;
+  customerAddress: {
+    city?: string | null;
+    state?: string | null;
+    country?: string | null;
+  };
+}

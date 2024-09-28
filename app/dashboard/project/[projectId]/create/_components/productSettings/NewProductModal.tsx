@@ -17,6 +17,7 @@ import LoadingSkeleton from "./LoadingSkeleton";
 import { formatPrice } from "@/lib/actions";
 import Image from "next/image";
 import LoadingDots from "@/app/_components/shared/loadingdots";
+import Stripe from "stripe";
 
 export default function NewProductModal({
   productModalRef,
@@ -95,7 +96,7 @@ export default function NewProductModal({
     integration: Tables<"Integrations">
   ) => {
     setFetchError(false);
-    let products;
+    let products: Stripe.Product[];
     const res = await fetch(
       `/api/v1/stripe/products?integration_id=${integration.id}`,
       {
