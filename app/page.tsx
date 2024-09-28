@@ -15,6 +15,8 @@ import Logo from "@/public/images/Taplo-logo (3).svg";
 export default function Home() {
   return (
     <main>
+      <script src="https://taplo.io/scripts/main.bundle.js" defer />
+      <div id="taplo-widget-container" data-project-id="160"></div>
       <div className="drawer flex flex-col overflow-x-clip">
         <input id="drawer-menu" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
