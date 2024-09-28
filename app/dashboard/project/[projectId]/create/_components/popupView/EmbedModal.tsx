@@ -12,7 +12,7 @@ export default function EmbedModal({
 }) {
   const { activeProject } = useProjectContext();
   const codeBlock = `
-  <script src="${getURL()}scripts/main.bundle.js" defer />
+  <script src="${getURL()}/scripts/main.bundle.js" defer />
   <div id="taplo-widget-container" data-project-id="${
     activeProject.id
   }"></div>`;
