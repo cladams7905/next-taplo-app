@@ -408,6 +408,7 @@ const SmallPopupTemplate = ({
           <div className="w-16 h-16 min-w-16">
             <Image
               loader={() => activeProduct.image_url || ""}
+              unoptimized={true}
               width={110}
               height={110}
               alt="product-img"
@@ -580,6 +581,7 @@ const LargePopupTemplate = ({
           <div className="h-[110px] w-[110px]">
             <Image
               loader={() => activeProduct.image_url || ""}
+              unoptimized={true}
               width={110}
               height={110}
               alt="product-img"
@@ -752,6 +754,7 @@ const CardTemplate = ({
           <div className="h-[160px] w-full">
             <Image
               loader={() => activeProduct.image_url || ""}
+              unoptimized={true}
               width={90}
               height={90}
               alt="product-img"
@@ -924,6 +927,7 @@ const BannerTemplate = ({
           <div className="w-12 h-12">
             <Image
               loader={() => activeProduct.image_url || ""}
+              unoptimized={true}
               width={48}
               height={48}
               alt="product-img"

@@ -1,6 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import WidgetDynamicWrapper from "./WidgetDynamicWrapper.tsx";
+import WidgetComponent from "./WidgetComponent.tsx";
 
 const injectStyles = (callback) => {
   const stylesLoaded = [];
@@ -57,7 +57,7 @@ const initializeWidget = () => {
   });
 
   createRoot(container).render(
-    <WidgetDynamicWrapper siteUrl={site_url} projectId={project_id} />
+    <WidgetComponent siteUrl={site_url} projectId={project_id} />
   );
 };
 

@@ -5,6 +5,7 @@ import { Code2Icon, Fullscreen } from "lucide-react";
 import { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import PreviewContainer from "./PreviewContainer";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
+import EmbedModal from "./EmbedModal";
 
 export default function ViewContainerHeader({
   isPreviewMode,
@@ -15,6 +16,7 @@ export default function ViewContainerHeader({
 }) {
   const { events } = useProjectContext();
   const previewRef = useRef<HTMLDivElement>(null);
+  const embedModalRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -41,10 +43,14 @@ export default function ViewContainerHeader({
           <>
             <div
               className="btn btn-primary flex items-center tooltip tooltip-bottom tooltip-info text-white text-xs btn-sm font-normal"
+              onClick={() => {
+                embedModalRef.current?.showModal();
+              }}
               data-tip="Embed"
             >
               <Code2Icon width={18} height={18} />
             </div>
+            <EmbedModal modalRef={embedModalRef} />
             <div
               className="btn btn-accent flex items-center text-white text-xs btn-sm tooltip tooltip-bottom tooltip-info font-normal"
               onClick={() => {

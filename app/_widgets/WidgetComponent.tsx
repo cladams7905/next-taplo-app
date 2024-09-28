@@ -33,7 +33,9 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
   const [animation, setAnimation] = useState<string>("");
   const [isExitPopup, setExitPopup] = useState<boolean>(false);
   const [currentNotificationIndex, setCurrentNotificationIndex] = useState(0);
-  const currentNotification = notificationQueue[currentNotificationIndex];
+  const [currentNotification, setCurrentNotification] = useState<
+    DisplayNotification | undefined
+  >(undefined);
 
   /**
    * Get the project data
@@ -250,6 +252,10 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
     console.log("queue:", JSON.parse(JSON.stringify(notificationQueue)));
   }, [notificationQueue]);
 
+  useEffect(() => {
+    setCurrentNotification(notificationQueue[currentNotificationIndex]);
+  }, [notificationQueue, currentNotificationIndex]);
+
   /*
    * Set the animation based on the screen alignment
    */
@@ -352,24 +358,27 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
 
   if (!projectData) return null;
 
+  const getAlignmentClasses = () => {
+    switch (projectData.screen_alignment) {
+      case ScreenAlignment.BottomLeft:
+        return "bottom-4 left-4";
+      case ScreenAlignment.TopLeft:
+        return "top-4 left-4";
+      case ScreenAlignment.BottomRight:
+        return "bottom-4 right-4";
+      case ScreenAlignment.TopRight:
+        return "top-4 right-4";
+      case ScreenAlignment.BottomCenter:
+        return "bottom-4 flex items-center justify-center w-full";
+      case ScreenAlignment.TopCenter:
+        return "top-4 flex items-center justify-center w-full";
+      default:
+        return "";
+    }
+  };
+
   return (
-    <div
-      className={`fixed z-50 ${
-        projectData.screen_alignment === ScreenAlignment.BottomLeft
-          ? "bottom-4 left-4"
-          : projectData.screen_alignment === ScreenAlignment.TopLeft
-          ? "top-4 left-4"
-          : projectData.screen_alignment === ScreenAlignment.BottomRight
-          ? "bottom-4 right-4"
-          : projectData.screen_alignment === ScreenAlignment.TopRight
-          ? "top-4 right-4"
-          : projectData.screen_alignment === ScreenAlignment.BottomCenter
-          ? "bottom-4 flex items-center justify-center w-full"
-          : projectData.screen_alignment === ScreenAlignment.TopCenter
-          ? "top-4 flex items-center justify-center w-full"
-          : ""
-      }`}
-    >
+    <div className={`fixed z-50 ${getAlignmentClasses()}`}>
       {currentNotification?.event &&
         currentNotification?.message &&
         currentNotification?.time && (

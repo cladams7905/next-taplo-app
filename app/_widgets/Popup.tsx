@@ -174,6 +174,7 @@ const SmallPopupTemplate = ({
           <div className="w-16 h-16 min-w-16">
             <Image
               loader={() => product.image_url || ""}
+              unoptimized={true}
               width={110}
               height={110}
               alt="product-img"
@@ -194,7 +195,7 @@ const SmallPopupTemplate = ({
       </div>
       <div className="flex w-full gap-4 items-center ml-2">
         <div className="flex flex-col w-full gap-2">
-          <p
+          <div
             style={{
               color: textColor,
             }}
@@ -202,7 +203,7 @@ const SmallPopupTemplate = ({
             dangerouslySetInnerHTML={{
               __html: notification.message,
             }}
-          ></p>
+          ></div>
           <div
             className="text-xs text-[11.5px] flex items-center gap-4"
             style={{
@@ -210,7 +211,7 @@ const SmallPopupTemplate = ({
             }}
           >
             {notification.time}
-            <p
+            <div
               className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10px]"
               style={{
                 color: hexToRgba(textColor, 0.65),
@@ -223,7 +224,7 @@ const SmallPopupTemplate = ({
                 fill={accentColor}
                 color={backgroundColor}
               />
-            </p>
+            </div>
           </div>
         </div>
       </div>
@@ -265,7 +266,7 @@ const SmallPopupNoImageTemplate = ({
       </div>
       <div className="flex w-full gap-4 items-center">
         <div className="flex flex-col w-full gap-2">
-          <p
+          <div
             style={{
               color: textColor,
             }}
@@ -273,7 +274,7 @@ const SmallPopupNoImageTemplate = ({
             dangerouslySetInnerHTML={{
               __html: notification.message,
             }}
-          ></p>
+          ></div>
           <div
             className="text-xs flex items-center gap-4"
             style={{
@@ -281,7 +282,7 @@ const SmallPopupNoImageTemplate = ({
             }}
           >
             {notification.time}
-            <p
+            <div
               className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10px]"
               style={{
                 color: hexToRgba(textColor, 0.65),
@@ -294,7 +295,7 @@ const SmallPopupNoImageTemplate = ({
                 fill={accentColor}
                 color={backgroundColor}
               />
-            </p>
+            </div>
           </div>
         </div>
       </div>
@@ -342,6 +343,7 @@ const LargePopupTemplate = ({
           <div className="h-[110px] w-[110px]">
             <Image
               loader={() => product.image_url || ""}
+              unoptimized={true}
               width={110}
               height={110}
               alt="product-img"
@@ -363,7 +365,7 @@ const LargePopupTemplate = ({
       </div>
       <div className="flex w-full items-center pr-3 pl-5">
         <div className="flex flex-col w-full lg:gap-[6px]">
-          <p
+          <div
             style={{
               color: textColor,
             }}
@@ -371,7 +373,7 @@ const LargePopupTemplate = ({
             dangerouslySetInnerHTML={{
               __html: notification.message,
             }}
-          ></p>
+          ></div>
           <div
             className="text-[13px] flex items-center gap-4"
             style={{
@@ -379,7 +381,7 @@ const LargePopupTemplate = ({
             }}
           >
             {notification.time}
-            <p
+            <div
               className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10.5px]"
               style={{
                 color: hexToRgba(textColor, 0.65),
@@ -392,7 +394,7 @@ const LargePopupTemplate = ({
                 fill={accentColor}
                 color={backgroundColor}
               />
-            </p>
+            </div>
           </div>
         </div>
       </div>
@@ -434,7 +436,7 @@ const LargePopupNoImageTemplate = ({
       </div>
       <div className="flex w-full gap-3 items-center mx-3">
         <div className="flex flex-col w-full gap-[6px] mx-2">
-          <p
+          <div
             style={{
               color: textColor,
             }}
@@ -442,7 +444,7 @@ const LargePopupNoImageTemplate = ({
             dangerouslySetInnerHTML={{
               __html: notification.message,
             }}
-          ></p>
+          ></div>
           <div
             className="text-[13px] flex items-center"
             style={{
@@ -450,7 +452,7 @@ const LargePopupNoImageTemplate = ({
             }}
           >
             {notification.time}
-            <p
+            <div
               className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[11px]"
               style={{
                 color: hexToRgba(textColor, 0.65),
@@ -463,7 +465,7 @@ const LargePopupNoImageTemplate = ({
                 fill={accentColor}
                 color={backgroundColor}
               />
-            </p>
+            </div>
           </div>
         </div>
       </div>
@@ -511,6 +513,7 @@ const CardTemplate = ({
           <div className="h-[160px] w-full">
             <Image
               loader={() => product.image_url || ""}
+              unoptimized={true}
               width={90}
               height={90}
               alt="product-img"
@@ -532,7 +535,7 @@ const CardTemplate = ({
       </div>
       <div className="flex w-full gap-4 items-center">
         <div className="flex flex-col w-full gap-[4px] mx-2 p-2">
-          <p
+          <div
             style={{
               color: textColor,
             }}
@@ -540,7 +543,7 @@ const CardTemplate = ({
             dangerouslySetInnerHTML={{
               __html: notification.message,
             }}
-          ></p>
+          ></div>
           <div
             className="text-[12px] flex items-center gap-4"
             style={{
@@ -548,7 +551,7 @@ const CardTemplate = ({
             }}
           >
             {notification.time}
-            <p
+            <div
               className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10.5px]"
               style={{
                 color: hexToRgba(textColor, 0.65),
@@ -561,7 +564,7 @@ const CardTemplate = ({
                 fill={accentColor}
                 color={backgroundColor}
               />
-            </p>
+            </div>
           </div>
         </div>
       </div>
@@ -603,7 +606,7 @@ const CardNoImageTemplate = ({
       </div>
       <div className="flex w-full gap-4 items-center">
         <div className="flex flex-col w-full text-center items-center justify-center gap-[4px] px-5 py-3">
-          <p
+          <div
             style={{
               color: textColor,
             }}
@@ -611,7 +614,7 @@ const CardNoImageTemplate = ({
             dangerouslySetInnerHTML={{
               __html: notification.message,
             }}
-          ></p>
+          ></div>
           <div
             className="text-[12px] flex items-center gap-4"
             style={{
@@ -619,7 +622,7 @@ const CardNoImageTemplate = ({
             }}
           >
             {notification.time}
-            <p
+            <div
               className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10.5px]"
               style={{
                 color: hexToRgba(textColor, 0.65),
@@ -632,7 +635,7 @@ const CardNoImageTemplate = ({
                 fill={accentColor}
                 color={backgroundColor}
               />
-            </p>
+            </div>
           </div>
         </div>
       </div>
@@ -680,6 +683,7 @@ const BannerTemplate = ({
           <div className="w-12 h-12">
             <Image
               loader={() => product.image_url || ""}
+              unoptimized={true}
               width={48}
               height={48}
               alt="product-img"
@@ -700,7 +704,7 @@ const BannerTemplate = ({
       </div>
       <div className="flex w-full items-center justify-center">
         <div className="flex flex-col items-center justify-center w-full px-5 py-2 gap-1">
-          <p
+          <div
             style={{
               color: textColor,
             }}
@@ -708,7 +712,7 @@ const BannerTemplate = ({
             dangerouslySetInnerHTML={{
               __html: notification.message,
             }}
-          ></p>
+          ></div>
           <div
             className={`flex flex-row gap-1 md:text-[12px] lg:text-[12px] text-[11px] leading-5`}
             style={{
@@ -717,7 +721,7 @@ const BannerTemplate = ({
           >
             {notification.time}
             <p>|</p>
-            <p
+            <div
               className="flex items-center gap-[3px]"
               style={{
                 color: hexToRgba(textColor, 0.65),
@@ -730,7 +734,7 @@ const BannerTemplate = ({
                 fill={accentColor}
                 color={backgroundColor}
               />
-            </p>
+            </div>
           </div>
         </div>
       </div>
@@ -772,7 +776,7 @@ const BannerNoImageTemplate = ({
       </div>
       <div className="flex w-full items-center justify-center">
         <div className="flex flex-col items-center justify-center w-full px-5 py-2 gap-1">
-          <p
+          <div
             style={{
               color: textColor,
             }}
@@ -780,7 +784,7 @@ const BannerNoImageTemplate = ({
             dangerouslySetInnerHTML={{
               __html: notification.message,
             }}
-          ></p>
+          ></div>
           <div
             className={`flex flex-row gap-1 text-[12px] -mt-2`}
             style={{
@@ -789,7 +793,7 @@ const BannerNoImageTemplate = ({
           >
             {notification.time}
             <p>|</p>
-            <p
+            <div
               className="flex items-center gap-[3px]"
               style={{
                 color: hexToRgba(textColor, 0.65),
@@ -802,7 +806,7 @@ const BannerNoImageTemplate = ({
                 fill={accentColor}
                 color={backgroundColor}
               />
-            </p>
+            </div>
           </div>
         </div>
       </div>
