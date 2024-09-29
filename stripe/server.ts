@@ -7,7 +7,7 @@ export const stripe = new Stripe(
     // https://stripe.com/docs/building-plugins#setappinfo
     appInfo: {
       name: "Taplo",
-      url: "https://taplo.io",
+      url: "https://www.taplo.io",
       version: "1.0.0",
     },
   }

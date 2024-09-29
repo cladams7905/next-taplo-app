@@ -5,6 +5,7 @@ import { DisplayNotification, EventData, MessageData } from "@/lib/types";
 import { EventType, ScreenAlignment } from "@/lib/enums";
 import Stripe from "stripe";
 import { convertDateTime, replaceVariablesInContentBody } from "@/lib/actions";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
 
 interface WidgetConfig {
   siteUrl: string;
@@ -356,6 +357,34 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
     determineAnimationDirection,
   ]);
 
+  /**
+   * Pause popups for 2 minutes when isExitPopup is true
+   */
+  const [showExitPopupInfo, setShowExitPopupInfo] = useState(false);
+  useEffect(() => {
+    let exitPopupTimer: NodeJS.Timeout;
+    let toastTimer: NodeJS.Timeout;
+
+    setShowExitPopupInfo(true);
+
+    if (isExitPopup) {
+      // Set timer to reset isExitPopup to false after 2 minutes (120000 ms)
+      exitPopupTimer = setTimeout(() => {
+        setExitPopup(false);
+      }, 120000);
+
+      toastTimer = setTimeout(() => {
+        setShowExitPopupInfo(false);
+      }, 4000);
+    }
+
+    // Cleanup timer on component unmount or when isExitPopup changes
+    return () => {
+      clearTimeout(exitPopupTimer);
+      clearTimeout(toastTimer);
+    };
+  }, [isExitPopup]);
+
   if (!projectData) return null;
 
   const getAlignmentClasses = () => {
@@ -369,37 +398,58 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
       case ScreenAlignment.TopRight:
         return "top-4 right-4";
       case ScreenAlignment.BottomCenter:
-        return "bottom-4 flex items-center justify-center w-full";
+        return "bottom-4 flex items-center justify-center w-full px-4";
       case ScreenAlignment.TopCenter:
-        return "top-4 flex items-center justify-center w-full";
+        return "top-4 flex items-center justify-center w-full px-4";
       default:
         return "";
     }
   };
 
   return (
-    <div className={`fixed z-50 ${getAlignmentClasses()}`}>
-      {currentNotification?.event &&
-        currentNotification?.message &&
-        currentNotification?.time && (
+    <>
+      <div className={`fixed z-50 ${getAlignmentClasses()}`}>
+        {currentNotification?.event &&
+          currentNotification?.message &&
+          currentNotification?.time && (
+            <div
+              className={`${
+                isExitPopup
+                  ? `${determineAnimationDirection(
+                      animation,
+                      true //isExitPopup = true
+                    )}`
+                  : animation
+              }`}
+            >
+              <Popup
+                project={projectData}
+                notification={currentNotification}
+                setExitPopup={setExitPopup}
+              />
+            </div>
+          )}
+      </div>
+      {isExitPopup && (
+        <div className="fixed z-50 bottom-4 flex items-center justify-center w-full">
           <div
-            className={`${
-              isExitPopup
-                ? `${determineAnimationDirection(
-                    animation,
-                    true //isExitPopup = true
-                  )}`
-                : animation
+            style={{
+              backgroundColor: projectData.bg_color || "#FFFFFF",
+              borderColor: projectData.border_color || "#FFFFFF",
+              color: projectData.text_color || "#000000",
+            }}
+            className={`flex items-center border text-sm w-fit rounded-lg shadow-lg px-4 py-2 ${
+              showExitPopupInfo
+                ? "animate-twSlideInBottom"
+                : "animate-twSlideOutBottom"
             }`}
           >
-            <Popup
-              project={projectData}
-              notification={currentNotification}
-              setExitPopup={setExitPopup}
-            />
+            <InfoCircledIcon width={16} height={16} className="mr-2" />
+            Notifications will be paused for 2 minutes.
           </div>
-        )}
-    </div>
+        </div>
+      )}
+    </>
   );
 };
 

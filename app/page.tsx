@@ -5,17 +5,17 @@ import Footer from "@/app/_components/home/Footer";
 import Navbar from "@/app/_components/home/Navbar";
 import KeyFeatures from "@/app/_components/home/KeyFeatures";
 import Integrations from "@/app/_components/home/Integrations";
-import PopupDemo from "@/app/_components/home/PopupDemo";
 import LaunchOfferBadge from "@/app/_components/home/LaunchOfferBadge";
 import Pricing from "@/app/_components/home/Pricing";
 import FAQs from "@/app/_components/home/FAQs";
 import Image from "next/image";
 import Logo from "@/public/images/Taplo-logo (3).svg";
+import { getURL } from "@/lib/actions";
 
 export default function Home() {
   return (
     <main>
-      <script src="https://taplo.io/scripts/main.bundle.js" defer />
+      <script src={`${getURL()}/scripts/main.bundle.js`} defer />
       <div id="taplo-widget-container" data-project-id="160"></div>
       <div className="drawer flex flex-col overflow-x-clip">
         <input id="drawer-menu" type="checkbox" className="drawer-toggle" />
@@ -70,7 +70,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            {/* <PopupDemo /> */}
             <div
               className="absolute md:block hidden flex-wrap gap-3 h-full top-0 bg-white/20 w-[110vw]"
               style={{

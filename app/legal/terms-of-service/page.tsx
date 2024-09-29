@@ -7,9 +7,9 @@ export default function TermsOfService() {
       <p>Last Updated: August 29th, 2024</p>
       <p>
         Welcome to Taplo! These Terms of Service (&quot;Terms&quot;) govern your
-        use of the Taplo website at https://taplo.io (&quot;Website&quot;) and
-        the services provided by Taplo. By using our Website and services, you
-        agree to these Terms.
+        use of the Taplo website at https://www.taplo.io (&quot;Website&quot;)
+        and the services provided by Taplo. By using our Website and services,
+        you agree to these Terms.
       </p>
       <p>1. Use of the Service</p>{" "}
       <p>
