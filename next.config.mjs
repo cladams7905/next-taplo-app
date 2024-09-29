@@ -13,7 +13,7 @@ const nextConfig = {
           },
           {
             key: "Access-Control-Allow-Origin",
-            value: "https://taplo.io",
+            value: "*",
           },
           {
             key: "Access-Control-Allow-Methods",
