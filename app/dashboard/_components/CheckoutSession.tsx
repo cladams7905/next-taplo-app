@@ -52,7 +52,6 @@ export default function CheckoutSession({
             product_id: productId,
             customer: customerId ? customerId : undefined,
             email: customerId ? email : undefined,
-            display_name: user.user_metadata.name,
           }),
         });
         const data = await res.json();

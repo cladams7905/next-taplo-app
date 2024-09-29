@@ -95,10 +95,10 @@ export default function NewEventModal({
     let content: string;
     switch (eventType) {
       case EventType.Purchase:
-        content = "\\PERSON in \\LOCATION made a purchase.";
+        content = "\\PERSON in \\LOCATION purchased \\PRODUCT.";
         break;
       case EventType.Checkout:
-        content = "\\PERSON in \\LOCATION is checking out with \\PRODUCT.";
+        content = "\\PERSON in \\LOCATION added \\PRODUCT to cart.";
         break;
       case EventType.SomeoneViewing:
         content = "\\PERSON in \\LOCATION recently viewed \\PRODUCT.";

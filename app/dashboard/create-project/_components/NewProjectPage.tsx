@@ -50,13 +50,15 @@ export default function NewProjectPage({
           <div className="flex flex-col items-center justify-center w-full pt-6">
             <p className="font-logo text-2xl mb-4">Create New Project</p>
             {numProjects &&
-              paymentPlan?.includes("Starter") &&
-              numProjects >= 1 && (
-                <div className="bg-primary/10 p-2 mt-2 rounded-lg text-xs flex items-center gap-2">
-                  <InfoIcon width={20} height={20} />
-                  <p>You are only allowed one project on the Starter plan.</p>
-                </div>
-              )}
+            paymentPlan?.includes("Starter") &&
+            numProjects >= 1 ? (
+              <div className="bg-primary/10 p-2 mt-2 rounded-lg text-xs flex items-center gap-2">
+                <InfoIcon width={20} height={20} />
+                <p>You are only allowed one project on the Starter plan.</p>
+              </div>
+            ) : (
+              ""
+            )}
             <NewProjectForm
               stripeUser={stripeUser}
               renewalDate={renewalDate}

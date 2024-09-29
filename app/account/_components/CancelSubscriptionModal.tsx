@@ -42,7 +42,9 @@ export default function CancelSubscriptionModal({
   const handleCancelSubscription = () => {
     startTransition(async () => {
       try {
+        console.log(subscription);
         if (!subscription) return;
+        console.log(subscription.id);
         const response = await fetch("/api/v1/stripe/subscriptions", {
           method: "POST",
           headers: {

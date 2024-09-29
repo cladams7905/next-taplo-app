@@ -5,7 +5,7 @@ import { DisplayNotification, EventData, MessageData } from "@/lib/types";
 import { EventType, ScreenAlignment } from "@/lib/enums";
 import Stripe from "stripe";
 import { convertDateTime, replaceVariablesInContentBody } from "@/lib/actions";
-import { InfoCircledIcon } from "@radix-ui/react-icons";
+import ExitPopupToast from "./ExitPopupToast";
 
 interface WidgetConfig {
   siteUrl: string;
@@ -125,126 +125,38 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
   useEffect(() => {
     const queue: DisplayNotification[] = [];
 
-    const stateAbbreviations: { [key: string]: string } = {
-      AL: "Alabama",
-      AK: "Alaska",
-      AZ: "Arizona",
-      AR: "Arkansas",
-      CA: "California",
-      CO: "Colorado",
-      CT: "Connecticut",
-      DE: "Delaware",
-      FL: "Florida",
-      GA: "Georgia",
-      HI: "Hawaii",
-      ID: "Idaho",
-      IL: "Illinois",
-      IN: "Indiana",
-      IA: "Iowa",
-      KS: "Kansas",
-      KY: "Kentucky",
-      LA: "Louisiana",
-      ME: "Maine",
-      MD: "Maryland",
-      MA: "Massachusetts",
-      MI: "Michigan",
-      MN: "Minnesota",
-      MS: "Mississippi",
-      MO: "Missouri",
-      MT: "Montana",
-      NE: "Nebraska",
-      NV: "Nevada",
-      NH: "New Hampshire",
-      NJ: "New Jersey",
-      NM: "New Mexico",
-      NY: "New York",
-      NC: "North Carolina",
-      ND: "North Dakota",
-      OH: "Ohio",
-      OK: "Oklahoma",
-      OR: "Oregon",
-      PA: "Pennsylvania",
-      RI: "Rhode Island",
-      SC: "South Carolina",
-      SD: "South Dakota",
-      TN: "Tennessee",
-      TX: "Texas",
-      UT: "Utah",
-      VT: "Vermont",
-      VA: "Virginia",
-      WA: "Washington",
-      WV: "West Virginia",
-      WI: "Wisconsin",
-      WY: "Wyoming",
-    };
-
-    const countryAbbreviations: { [key: string]: string } = {
-      US: "United States",
-      USA: "United States",
-    };
-
     const getFullStateName = (abbreviation: string) =>
       stateAbbreviations[abbreviation] || abbreviation;
     const getFullCountryName = (abbreviation: string) =>
       countryAbbreviations[abbreviation] || abbreviation;
     const getFirstName = (fullName: string) => fullName.split(" ")[0];
 
+    console.log("eventData:", eventData);
+
     if (eventData?.stripeData?.charges) {
-      const purchaseEvent = eventData.events.find(
-        (event) => event.event_type === EventType.Purchase
+      createChargesQueueEvents(
+        eventData,
+        productData,
+        getFirstName,
+        getFullStateName,
+        getFullCountryName,
+        queue,
+        projectData
       );
-
-      eventData.stripeData.charges.forEach((charge) => {
-        const product = productData.find(
-          (product) =>
-            product.stripe_product_id ===
-            (
-              (charge?.invoice as Stripe.Invoice)
-                ?.subscription as Stripe.Subscription
-            )?.items.data[0].price.product
-        );
-
-        const messageData: MessageData = {
-          customerName: getFirstName(
-            (charge?.invoice as Stripe.Invoice)?.customer_name ||
-              (
-                (charge?.invoice as Stripe.Invoice)
-                  ?.subscription as Stripe.Subscription
-              )?.metadata?.display_name ||
-              "Someone"
-          ),
-          customerAddress: {
-            city: (charge?.invoice as Stripe.Invoice)?.customer_address?.city,
-            state: getFullStateName(
-              (charge?.invoice as Stripe.Invoice)?.customer_address?.state || ""
-            ),
-            country: getFullCountryName(
-              (charge?.invoice as Stripe.Invoice)?.customer_address?.country ||
-                ""
-            ),
-          },
-        };
-
-        queue.push({
-          message: replaceVariablesInContentBody(
-            product,
-            projectData?.bg_color || "#FFFFFF",
-            projectData?.accent_color || "#7A81EB",
-            purchaseEvent?.content_body || "",
-            true, // isPopup
-            true, // isLiveMode
-            messageData
-          ),
-          time: convertDateTime(
-            new Date(charge.created * 1000).toUTCString(),
-            false,
-            true
-          ),
-          event: purchaseEvent,
-          product: product,
-        } as DisplayNotification);
-      });
     }
+    if (eventData?.stripeData?.checkoutSessions) {
+      createCheckoutQueueEvents(
+        eventData,
+        productData,
+        getFirstName,
+        getFullStateName,
+        getFullCountryName,
+        queue,
+        projectData
+      );
+    }
+
+    //Randomize queue order before setting it
 
     setNotificationQueue(queue);
   }, [eventData, productData, projectData]);
@@ -253,6 +165,9 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
     console.log("queue:", JSON.parse(JSON.stringify(notificationQueue)));
   }, [notificationQueue]);
 
+  /**
+   * Set the current notification in the queue based on the current index
+   */
   useEffect(() => {
     setCurrentNotification(notificationQueue[currentNotificationIndex]);
   }, [notificationQueue, currentNotificationIndex]);
@@ -294,6 +209,9 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
     }
   };
 
+  /**
+   * Determine the animation direction based on the screen alignment
+   */
   const determineAnimationDirection = useCallback(
     (prevAnimation: string, isExitPopup = false) => {
       if (!projectData) return prevAnimation;
@@ -358,27 +276,24 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
   ]);
 
   /**
-   * Pause popups for 2 minutes when isExitPopup is true
+   * Pause popups for 2 minutes when isExitPopup is set to true
    */
-  const [showExitPopupInfo, setShowExitPopupInfo] = useState(false);
+  const [showExitPopupToast, setShowExitPopupToast] = useState(false);
   useEffect(() => {
     let exitPopupTimer: NodeJS.Timeout;
     let toastTimer: NodeJS.Timeout;
 
-    setShowExitPopupInfo(true);
+    setShowExitPopupToast(true);
 
     if (isExitPopup) {
-      // Set timer to reset isExitPopup to false after 2 minutes (120000 ms)
       exitPopupTimer = setTimeout(() => {
         setExitPopup(false);
-      }, 120000);
+      }, 600000); //5 minutes
 
       toastTimer = setTimeout(() => {
-        setShowExitPopupInfo(false);
+        setShowExitPopupToast(false);
       }, 4000);
     }
-
-    // Cleanup timer on component unmount or when isExitPopup changes
     return () => {
       clearTimeout(exitPopupTimer);
       clearTimeout(toastTimer);
@@ -431,26 +346,156 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
           )}
       </div>
       {isExitPopup && (
-        <div className="fixed z-50 bottom-4 flex items-center justify-center w-full">
-          <div
-            style={{
-              backgroundColor: projectData.bg_color || "#FFFFFF",
-              borderColor: projectData.border_color || "#FFFFFF",
-              color: projectData.text_color || "#000000",
-            }}
-            className={`flex items-center border text-sm w-fit rounded-lg shadow-lg px-4 py-2 ${
-              showExitPopupInfo
-                ? "animate-twSlideInBottom"
-                : "animate-twSlideOutBottom"
-            }`}
-          >
-            <InfoCircledIcon width={16} height={16} className="mr-2" />
-            Notifications will be paused for 2 minutes.
-          </div>
-        </div>
+        <ExitPopupToast
+          projectData={projectData}
+          showExitPopupToast={showExitPopupToast}
+        />
       )}
     </>
   );
 };
 
 export default WidgetComponent;
+
+/**
+ * Creates a queue of events to be shown based on stripe charges data
+ */
+const createChargesQueueEvents = (
+  eventData: EventData,
+  productData: Tables<"Products">[],
+  getFirstName: (fullName: string) => string,
+  getFullStateName: (abbreviation: string) => string,
+  getFullCountryName: (abbreviation: string) => string,
+  queue: DisplayNotification[],
+  projectData: Tables<"Projects"> | undefined
+) => {
+  const purchaseEvent = eventData.events.find(
+    (event) => event.event_type === EventType.Purchase
+  );
+
+  eventData.stripeData?.charges?.forEach((charge) => {
+    const product = productData.find(
+      (product) =>
+        product.stripe_product_id ===
+        (
+          (charge?.invoice as Stripe.Invoice)
+            ?.subscription as Stripe.Subscription
+        )?.items.data[0].price.product
+    );
+
+    const messageData: MessageData = {
+      customerName: getFirstName(
+        charge.billing_details.name ||
+          (charge?.invoice as Stripe.Invoice)?.customer_name ||
+          "Someone"
+      ),
+      customerAddress: {
+        city:
+          charge.billing_details.address?.city ||
+          (charge?.invoice as Stripe.Invoice)?.customer_address?.city,
+        state: getFullStateName(
+          charge.billing_details.address?.state ||
+            (charge?.invoice as Stripe.Invoice)?.customer_address?.state ||
+            ""
+        ),
+        country: getFullCountryName(
+          charge.billing_details.address?.country ||
+            (charge?.invoice as Stripe.Invoice)?.customer_address?.country ||
+            ""
+        ),
+      },
+    };
+
+    queue.push({
+      message: replaceVariablesInContentBody(
+        product,
+        projectData?.bg_color || "#FFFFFF",
+        projectData?.accent_color || "#7A81EB",
+        purchaseEvent?.content_body || "",
+        true, // isPopup
+        true, // isLiveMode
+        messageData
+      ),
+      time: convertDateTime(
+        new Date(charge.created * 1000).toUTCString(),
+        false,
+        true
+      ),
+      event: purchaseEvent,
+      product: product,
+    } as DisplayNotification);
+  });
+};
+
+/**
+ * Creates a queue of events to be shown based on stripe checkout session data
+ */
+const createCheckoutQueueEvents = (
+  eventData: EventData,
+  productData: Tables<"Products">[],
+  getFirstName: (fullName: string) => string,
+  getFullStateName: (abbreviation: string) => string,
+  getFullCountryName: (abbreviation: string) => string,
+  queue: DisplayNotification[],
+  projectData: Tables<"Projects"> | undefined
+) => {
+  console.log("checkout sessions:", eventData.stripeData?.checkoutSessions);
+};
+
+const stateAbbreviations: { [key: string]: string } = {
+  AL: "Alabama",
+  AK: "Alaska",
+  AZ: "Arizona",
+  AR: "Arkansas",
+  CA: "California",
+  CO: "Colorado",
+  CT: "Connecticut",
+  DE: "Delaware",
+  FL: "Florida",
+  GA: "Georgia",
+  HI: "Hawaii",
+  ID: "Idaho",
+  IL: "Illinois",
+  IN: "Indiana",
+  IA: "Iowa",
+  KS: "Kansas",
+  KY: "Kentucky",
+  LA: "Louisiana",
+  ME: "Maine",
+  MD: "Maryland",
+  MA: "Massachusetts",
+  MI: "Michigan",
+  MN: "Minnesota",
+  MS: "Mississippi",
+  MO: "Missouri",
+  MT: "Montana",
+  NE: "Nebraska",
+  NV: "Nevada",
+  NH: "New Hampshire",
+  NJ: "New Jersey",
+  NM: "New Mexico",
+  NY: "New York",
+  NC: "North Carolina",
+  ND: "North Dakota",
+  OH: "Ohio",
+  OK: "Oklahoma",
+  OR: "Oregon",
+  PA: "Pennsylvania",
+  RI: "Rhode Island",
+  SC: "South Carolina",
+  SD: "South Dakota",
+  TN: "Tennessee",
+  TX: "Texas",
+  UT: "Utah",
+  VT: "Vermont",
+  VA: "Virginia",
+  WA: "Washington",
+  WV: "West Virginia",
+  WI: "Wisconsin",
+  WY: "Wyoming",
+};
+
+const countryAbbreviations: { [key: string]: string } = {
+  US: "United States",
+  USA: "United States",
+};
