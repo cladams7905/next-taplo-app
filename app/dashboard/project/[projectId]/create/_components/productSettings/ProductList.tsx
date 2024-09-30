@@ -24,7 +24,6 @@ const ProductList = ({
   } = useProjectContext();
 
   const handleToggleActiveProduct = (currentProduct: Tables<"Products">) => {
-    console.log("currentProduct", currentProduct);
     if (!activeProduct || activeProduct.id !== currentProduct.id) {
       setActiveProduct(currentProduct);
     }

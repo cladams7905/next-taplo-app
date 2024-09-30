@@ -36,6 +36,7 @@ export async function GET(request: NextRequest) {
     const stripe = new Stripe(stripe_api_key);
     const productData = await stripe.products.list({
       expand: ["data.default_price"],
+      active: true,
     });
 
     return NextResponse.json({

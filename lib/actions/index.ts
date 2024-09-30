@@ -330,7 +330,9 @@ export const replaceVariablesInContentBody = (
       case ContentVars.RecentUsers:
         return isPopup ? "20" : "#";
       case ContentVars.Price:
-        return isPopup ? "$29.99" : "$";
+        return isPopup
+          ? `${product?.price ? `$${product.price}` : "$0.00"}`
+          : "$";
       default:
         return "undefined";
     }
@@ -385,10 +387,11 @@ export const replaceVariablesInContentBody = (
 
   const transformWord = (word: string, index: number) => {
     const checkForInvalidCharsRegex = /[^a-zA-Z0-9\\]/;
-    const filterInvalidCharsRegex = /(\\\w+|\w+|[^\w\s])/g;
+    const filterInvalidCharsRegex = /(\(|\\\w+|\)|\w+|[^\w\s])/g;
 
-    if (word.startsWith("\\") && checkForInvalidCharsRegex.test(word)) {
-      const cleanedWord = word.split(filterInvalidCharsRegex).filter(Boolean);
+    if (checkForInvalidCharsRegex.test(word)) {
+      const cleanedWord =
+        word.match(filterInvalidCharsRegex)?.filter(Boolean) || [];
       return cleanedWord
         .map((val) => {
           return val.startsWith("\\")
