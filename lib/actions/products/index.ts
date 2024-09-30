@@ -1,7 +1,8 @@
 "use server";
 
 import { createClient } from "@/supabase/server";
-import { TablesInsert, TablesUpdate } from "@/supabase/types";
+import { Tables, TablesInsert, TablesUpdate } from "@/supabase/types";
+import { revalidatePath } from "next/cache";
 
 export async function createProduct(product: TablesInsert<"Products">) {
   const supabase = createClient();
@@ -10,6 +11,7 @@ export async function createProduct(product: TablesInsert<"Products">) {
     .insert(product)
     .select("*")
     .single();
+  revalidatePath(`/dashboard/project/${product.project_id}/create`, "layout");
   return result;
 }
 
@@ -33,16 +35,18 @@ export async function updateProduct(
     .eq("id", productId)
     .select("*")
     .single();
+  revalidatePath(`/dashboard/project/${product.project_id}/create`, "layout");
   return result;
 }
 
-export async function deleteProduct(productId: number) {
+export async function deleteProduct(product: Tables<"Products">) {
   const supabase = createClient();
   const result = await supabase
     .from("Products")
     .delete()
-    .eq("id", productId)
+    .eq("id", product.id)
     .select("*")
     .single();
+  revalidatePath(`/dashboard/project/${product.project_id}/create`, "layout");
   return result;
 }

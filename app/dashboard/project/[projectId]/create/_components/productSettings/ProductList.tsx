@@ -65,9 +65,9 @@ const ProductList = ({
     });
   };
 
-  const handleDeleteProduct = (productId: number) => {
+  const handleDeleteProduct = (productToDelete: Tables<"Products">) => {
     startLoadTransition(async () => {
-      const { data, error } = await deleteProduct(productId);
+      const { data, error } = await deleteProduct(productToDelete);
       if (error) {
         showToastError(error);
       } else {
@@ -234,7 +234,7 @@ const ProductList = ({
                 </div>
                 <div
                   className="flex items-center gap-1 btn btn-sm text-xs btn-ghost"
-                  onClick={() => handleDeleteProduct(product.id)}
+                  onClick={() => handleDeleteProduct(product)}
                 >
                   <Trash2 width={16} height={16} />
                 </div>

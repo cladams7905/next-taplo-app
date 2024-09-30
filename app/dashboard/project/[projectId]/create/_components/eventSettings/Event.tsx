@@ -29,7 +29,7 @@ function Event({
 }: {
   currentEvent: Tables<"Events">;
   startEventTransition: TransitionStartFunction;
-  handleEventDelete: (eventId: number) => void;
+  handleEventDelete: (event: Tables<"Events">) => void;
 }) {
   const {
     activeProject,
@@ -225,7 +225,7 @@ function Event({
         <div className="flex w-full justify-end items-center">
           <div
             className="flex items-center gap-1 btn btn-sm text-xs btn-ghost"
-            onClick={() => handleEventDelete(currentEvent.id)}
+            onClick={() => handleEventDelete(currentEvent)}
           >
             <Trash2 width={16} height={16} />
           </div>

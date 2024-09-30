@@ -51,7 +51,7 @@ export default function Pricing() {
             checked={pricingType === PricingType.Yearly}
             onChange={() => setPricingType(PricingType.Yearly)}
           />
-          <p>Yearly (save 30%)</p>
+          <p>Yearly (save 25-30%)</p>
         </div>
         <div
           className={`lg:columns-2 md:columns-2 flex md:flex-row md:gap-6 flex-col items-center justify-center w-full mt-6 ${
@@ -65,16 +65,16 @@ export default function Pricing() {
                   {pricingType === PricingType.Monthly
                     ? ""
                     : pricingType === PricingType.Yearly
-                    ? "$180"
+                    ? "$96"
                     : ""}
                 </div>
                 <div className="flex flex-col items-center">
                   {" "}
                   <p className="text-[40px] text-primary font-logo">
                     {pricingType === PricingType.Monthly
-                      ? "$15"
+                      ? "$7.99"
                       : pricingType === PricingType.Yearly
-                      ? "$120"
+                      ? "$69.99"
                       : ""}
                   </p>
                   <p>
@@ -93,7 +93,7 @@ export default function Pricing() {
                 {pricingType === PricingType.Monthly
                   ? ""
                   : pricingType === PricingType.Yearly
-                  ? "(save $60)"
+                  ? "(save $26)"
                   : ""}
               </div>
               <p>
@@ -171,18 +171,18 @@ export default function Pricing() {
                 <div className="line-through font-bold text-xl -mt-10">
                   {" "}
                   {pricingType === PricingType.Monthly
-                    ? "$50"
+                    ? "$18"
                     : pricingType === PricingType.Yearly
-                    ? "$600"
+                    ? "$216"
                     : ""}
                 </div>
                 <div className="flex flex-col items-center">
                   {" "}
                   <p className="text-[40px] text-primary font-logo">
                     {pricingType === PricingType.Monthly
-                      ? "$25"
+                      ? "$8.99"
                       : pricingType === PricingType.Yearly
-                      ? "$250"
+                      ? "$107.99"
                       : ""}
                   </p>
                   <p>
@@ -199,9 +199,9 @@ export default function Pricing() {
               <div className="text-xl font-logo text-left w-full">
                 Pro Plan{" "}
                 {pricingType === PricingType.Monthly
-                  ? "(save $25)"
+                  ? ""
                   : pricingType === PricingType.Yearly
-                  ? "(save $350)"
+                  ? "(save $108)"
                   : ""}
               </div>
               <p>

@@ -6,7 +6,7 @@ import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { sortByTimeCreated } from "@/lib/actions";
 import Event from "./Event";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
-import { EyeIcon } from "lucide-react";
+import { Tables } from "@/supabase/types";
 
 const EventsList = ({
   startEventTransition,
@@ -26,10 +26,10 @@ const EventsList = ({
     }
   };
 
-  const handleEventDelete = (eventId: number) => {
+  const handleEventDelete = (event: Tables<"Events">) => {
     startEventTransition(async () => {
       if (activeProject) {
-        const { data, error } = await deleteEvent(eventId);
+        const { data, error } = await deleteEvent(event);
         if (error) {
           showToastError(error);
         } else {

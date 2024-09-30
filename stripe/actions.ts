@@ -239,6 +239,7 @@ const getPrice = async (productId: string) => {
     .from("prices")
     .select("*")
     .eq("product_id", productId)
+    .eq("active", true)
     .single();
   return result;
 };

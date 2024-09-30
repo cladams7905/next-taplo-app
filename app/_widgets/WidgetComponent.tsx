@@ -422,7 +422,9 @@ const createChargesQueueEvents = (
         true
       ),
       event: purchaseEvent,
-      product: product,
+      product: purchaseEvent?.content_body.includes("\\PRODUCT")
+        ? product
+        : null,
     } as DisplayNotification);
   });
 };
@@ -439,7 +441,63 @@ const createCheckoutQueueEvents = (
   queue: DisplayNotification[],
   projectData: Tables<"Projects"> | undefined
 ) => {
-  console.log("checkout sessions:", eventData.stripeData?.checkoutSessions);
+  const checkoutEvent = eventData.events.find(
+    (event) => event.event_type === EventType.Checkout
+  );
+
+  eventData.stripeData?.checkoutSessions?.forEach((checkoutSession) => {
+    const product = productData.find(
+      (product) =>
+        product.stripe_product_id ===
+        checkoutSession?.line_items?.data[0]?.price?.product
+    );
+
+    const messageData: MessageData = {
+      customerName: getFirstName(
+        checkoutSession.customer_details?.name ||
+          (checkoutSession?.invoice as Stripe.Invoice)?.customer_name ||
+          "Someone"
+      ),
+      customerAddress: {
+        city:
+          checkoutSession.customer_details?.address?.city ||
+          (checkoutSession?.invoice as Stripe.Invoice)?.customer_address?.city,
+        state: getFullStateName(
+          checkoutSession.customer_details?.address?.state ||
+            (checkoutSession?.invoice as Stripe.Invoice)?.customer_address
+              ?.state ||
+            ""
+        ),
+        country: getFullCountryName(
+          checkoutSession.customer_details?.address?.country ||
+            (checkoutSession?.invoice as Stripe.Invoice)?.customer_address
+              ?.country ||
+            ""
+        ),
+      },
+    };
+
+    queue.push({
+      message: replaceVariablesInContentBody(
+        product,
+        projectData?.bg_color || "#FFFFFF",
+        projectData?.accent_color || "#7A81EB",
+        checkoutEvent?.content_body || "",
+        true, // isPopup
+        true, // isLiveMode
+        messageData
+      ),
+      time: convertDateTime(
+        new Date(checkoutSession.created * 1000).toUTCString(),
+        false,
+        true
+      ),
+      event: checkoutEvent,
+      product: checkoutEvent?.content_body.includes("\\PRODUCT")
+        ? product
+        : null,
+    } as DisplayNotification);
+  });
 };
 
 const stateAbbreviations: { [key: string]: string } = {

@@ -113,6 +113,7 @@ async function getCheckoutSessions(stripe: Stripe, timeToFilter: number) {
     await stripe.checkout.sessions.list({
       created: { gte: timeToFilter },
       status: "complete",
+      expand: ["data.line_items", "data.invoice"],
     })
   )?.data;
 

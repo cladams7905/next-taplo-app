@@ -57,12 +57,16 @@ function getLiveModeTimeDifference(now: Date, inputDate: Date): string {
   const diffInHours = Math.floor(diffInMinutes / 60);
   const diffInDays = Math.floor(diffInHours / 24);
 
-  if (diffInMinutes < 60) {
-    return `${diffInMinutes} minutes ago`;
+  if (diffInSeconds < 60) {
+    return `just now`;
+  } else if (diffInMinutes < 60) {
+    return `${diffInMinutes} ${
+      diffInMinutes === 1 ? "minute ago" : "minutes ago"
+    }`;
   } else if (diffInHours < 24) {
-    return `${diffInHours} hours ago`;
+    return `${diffInHours} ${diffInHours === 1 ? "hour ago" : "hours ago"}`;
   } else {
-    return `${diffInDays} days ago`;
+    return `${diffInDays} ${diffInDays === 1 ? "day ago" : "days ago"}`;
   }
 }
 
