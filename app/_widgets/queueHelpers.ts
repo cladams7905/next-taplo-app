@@ -5,6 +5,13 @@ import { DisplayNotification, EventData, MessageData } from "@/lib/types";
 import { Tables } from "@/supabase/types";
 
 /**
+ * Randomizes the order of the queue
+ */
+export const randomizeQueueOrder = (queue: DisplayNotification[]) => {
+  return queue.sort(() => Math.random() - 0.5);
+};
+
+/**
  * Creates a queue of events to be shown based on stripe charges data
  */
 export const createChargesQueueEvents = (

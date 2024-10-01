@@ -7,6 +7,7 @@ import {
   countryAbbreviations,
   createChargesQueueEvents,
   createCheckoutQueueEvents,
+  randomizeQueueOrder,
   stateAbbreviations,
 } from "./queueHelpers";
 import { ScreenAlignment } from "@/lib/enums";
@@ -134,8 +135,12 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
     const getFullCountryName = (abbreviation: string) =>
       countryAbbreviations[abbreviation] || abbreviation;
     const getFirstName = (fullName: string) => fullName.split(" ")[0];
+    let isChargesData,
+      isCheckoutData = false;
 
-    console.log("eventData:", eventData);
+    if (window.location.hostname === "localhost") {
+      console.log("eventData:", eventData);
+    }
 
     if (eventData?.stripeData?.charges) {
       createChargesQueueEvents(
@@ -147,6 +152,7 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
         queue,
         projectData
       );
+      isChargesData = true;
     }
     if (eventData?.stripeData?.checkoutSessions) {
       createCheckoutQueueEvents(
@@ -158,15 +164,19 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
         queue,
         projectData
       );
+      isCheckoutData = true;
     }
 
-    //Randomize queue order before setting it
+    //If there is more than one type of event in the queue, randomize queue order before setting it
+    if (isChargesData || isCheckoutData) randomizeQueueOrder(queue);
 
     setNotificationQueue(queue);
   }, [eventData, productData, projectData]);
 
   useEffect(() => {
-    console.log("queue:", JSON.parse(JSON.stringify(notificationQueue)));
+    if (window.location.hostname === "localhost") {
+      console.log("queue:", JSON.parse(JSON.stringify(notificationQueue)));
+    }
   }, [notificationQueue]);
 
   /**

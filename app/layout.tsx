@@ -26,7 +26,7 @@ const geograma = Georama({
 
 export const metadata: Metadata = {
   title: "Taplo",
-  description: "Social proof notifications made easy",
+  description: "Attention-grabbing popups that increase your conversion rate.",
 };
 
 export default function RootLayout({
@@ -36,6 +36,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-theme="default">
+      {/* Google Tag Manager */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-5Z76W2XH');`,
+        }}
+      ></script>
+      {/* End Google Tag Manager */}
       <body
         className={`${cx(
           openSans.variable,
@@ -43,6 +50,16 @@ export default function RootLayout({
           geograma.variable
         )}`}
       >
+        {/* Google Tag Manager (noscript) */}
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-5Z76W2XH"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}
+          ></iframe>
+        </noscript>
+        {/* End Google Tag Manager (noscript) */}
         <ProgressBarProvider>{children}</ProgressBarProvider>
         <Toaster />
         <Analytics />
