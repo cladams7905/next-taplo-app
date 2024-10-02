@@ -5,6 +5,7 @@ import LoadingDots from "@/app/_components/shared/loadingdots";
 import Google from "@/app/_components/shared/icons/google";
 import { createClient } from "@/supabase/client";
 import { getURL } from "@/lib/actions";
+import { sendGTMEvent } from "@next/third-parties/google";
 
 export default function OAuthForm() {
   const [signInClicked, setSignInClicked] = useState(false);
@@ -22,6 +23,7 @@ export default function OAuthForm() {
         redirectTo: getURL() + "/callback",
       },
     });
+    sendGTMEvent({ event: "sign_up" });
   };
 
   return (

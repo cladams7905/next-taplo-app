@@ -20,6 +20,7 @@ import { createClient } from "@/supabase/client";
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { User } from "@supabase/supabase-js";
 import { getURL } from "@/lib/actions";
+import { sendGTMEvent } from "@next/third-parties/google";
 
 const FormSchema = z
   .object({
@@ -54,6 +55,7 @@ export default function RegisterForm({ user }: { user: User }) {
         emailRedirectTo: getURL() + "/dashboard/create-project",
       },
     });
+    sendGTMEvent({ event: "sign_up" });
     return JSON.stringify(result);
   };
 
