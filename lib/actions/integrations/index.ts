@@ -1,7 +1,8 @@
 "use server";
 
 import { createClient } from "@/supabase/server";
-import { TablesInsert, TablesUpdate } from "@/supabase/types";
+import { Tables, TablesInsert, TablesUpdate } from "@/supabase/types";
+import { revalidatePath } from "next/cache";
 
 export async function createIntegration(
   integration: TablesInsert<"Integrations">
@@ -12,6 +13,10 @@ export async function createIntegration(
     .insert(integration)
     .select("*")
     .single();
+  revalidatePath(
+    `/dashboard/project/${integration.project_id}/create`,
+    "layout"
+  );
   return result;
 }
 
@@ -48,16 +53,24 @@ export async function updateIntegration(
     .eq("id", integrationId)
     .select("*")
     .single();
+  revalidatePath(
+    `/dashboard/project/${integration.project_id}/create`,
+    "layout"
+  );
   return result;
 }
 
-export async function deleteIntegration(integrationId: number) {
+export async function deleteIntegration(integration: Tables<"Integrations">) {
   const supabase = createClient();
   const result = await supabase
     .from("Integrations")
     .delete()
-    .eq("id", integrationId)
+    .eq("id", integration.id)
     .select("*")
     .single();
+  revalidatePath(
+    `/dashboard/project/${integration.project_id}/create`,
+    "layout"
+  );
   return result;
 }

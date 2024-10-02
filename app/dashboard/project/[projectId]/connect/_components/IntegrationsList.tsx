@@ -14,6 +14,8 @@ import {
 } from "react";
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { deleteIntegration } from "@/lib/actions/integrations";
+import { Providers } from "@/lib/enums";
+import GA4Logo from "@/public/images/providers/ga-logo.svg";
 
 export default function IntegrationsList({
   events,
@@ -59,45 +61,74 @@ export default function IntegrationsList({
     }
   };
 
-  return integrations.length > 0 ? (
-    filteredIntegrations.map((integration, i) => (
-      <div
-        key={i}
-        className="flex max-h-64 border border-gray-200 shadow-md rounded-lg py-2 pr-2"
-      >
-        <div className="flex items-center justify-center w-28">
-          <div className="aspect-square w-full h-full max-w-[48px] max-h-[48px] bg-link-hover rounded-lg">
-            {integration.provider === "Stripe" && (
-              <Image
-                width={48}
-                height={48}
-                alt={"Stripe logo"}
-                src={StripeLogo}
-                className="rounded-lg"
-              />
-            )}
-          </div>
-        </div>
-        <div className="flex flex-col h-full w-full p-2 gap-2">
-          <p>{integration.name}</p>
-          <div className="md:max-w-sm">
-            <p className="text-sm text-gray-500">
-              <span className="text-base-content">Created: </span>
-              {convertDateTime(integration.created_at)}
-            </p>
-            {getIntegrationEventTypes(integration)}
-          </div>
-        </div>
-        <div className="flex items-center">
-          <IntegrationSettingsDropdown
-            integration={integration}
-            setIntegrations={setIntegrations}
-            integrationModalRef={integrationModalRef}
-            setIntegrationToEdit={setIntegrationToEdit}
+  /**
+   * Returns the logo of the selected provider
+   */
+  const getProviderLogo = (provider: Providers) => {
+    switch (provider) {
+      case Providers.Stripe:
+        return (
+          <Image
+            width={48}
+            height={48}
+            alt={"Stripe logo"}
+            src={StripeLogo}
+            className="rounded-lg"
           />
+        );
+      case Providers.GoogleAnalytics:
+        return (
+          <Image
+            width={48}
+            height={48}
+            alt={"Google analytics logo"}
+            src={GA4Logo}
+            className="rounded-lg aspect-square"
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
+  return integrations.length > 0 ? (
+    filteredIntegrations.map((integration, i) => {
+      const providerLogo = getProviderLogo(integration.provider as Providers);
+      return (
+        <div
+          key={i}
+          className="flex max-h-64 border border-gray-200 shadow-md rounded-lg py-2 pr-2"
+        >
+          <div className="flex items-center justify-center w-28">
+            <div
+              className={`aspect-square w-full h-full max-w-[48px] max-h-[48px] ${
+                !providerLogo ? "bg-link-hover" : ""
+              } rounded-lg`}
+            >
+              {providerLogo}
+            </div>
+          </div>
+          <div className="flex flex-col h-full w-full p-2 gap-2">
+            <p>{integration.name}</p>
+            <div className="md:max-w-sm">
+              <p className="text-sm text-gray-500">
+                <span className="text-base-content">Created: </span>
+                {convertDateTime(integration.created_at)}
+              </p>
+              {getIntegrationEventTypes(integration)}
+            </div>
+          </div>
+          <div className="flex items-center">
+            <IntegrationSettingsDropdown
+              integration={integration}
+              setIntegrations={setIntegrations}
+              integrationModalRef={integrationModalRef}
+              setIntegrationToEdit={setIntegrationToEdit}
+            />
+          </div>
         </div>
-      </div>
-    ))
+      );
+    })
   ) : (
     <div className="flex flex-col gap-2 text-gray-400 mt-4 items-center border border-gray-200 rounded-lg py-12">
       {" "}
@@ -133,8 +164,7 @@ const IntegrationSettingsDropdown = ({
 
   const handleDelete = () => {
     startDeleteTransition(async () => {
-      console.log("here");
-      const { data, error } = await deleteIntegration(integration.id);
+      const { data, error } = await deleteIntegration(integration);
       if (error) {
         showToastError(error);
       } else {

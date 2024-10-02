@@ -25,7 +25,7 @@ import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { CirclePlus, EyeIcon, Pencil } from "lucide-react";
 import Image from "next/image";
 import StripeLogo from "@/public/images/providers/stripe-logo.svg";
-import LemonSqueezyLogo from "@/public/images/providers/lemonsqueezy-logo.jpeg";
+import GA4Logo from "@/public/images/providers/ga-logo.svg";
 import { Tables } from "@/supabase/types";
 import {
   createIntegration,
@@ -105,51 +105,70 @@ export default function NewIntegrationForm({
     }
   }, [integrationToEdit, form]);
 
-  async function onSubmit(formData: z.infer<typeof FormSchema>) {
+  /**
+   * Handles the update of an existing integration
+   */
+  const handleIntegrationUpdate = async (
+    formData: z.infer<typeof FormSchema>
+  ) => {
+    const { data: updateData, error: updateError } = await updateIntegration(
+      integrationToEdit!.id,
+      {
+        api_key: formData.key,
+        provider: formData.provider,
+        name:
+          formData.name ||
+          checkDuplicateTitle(
+            integrations.map((integration) => integration.name),
+            `${formData.provider} API Key`
+          ),
+      }
+    );
+
+    return { data: updateData, error: updateError };
+  };
+
+  /**
+   * Handles the creation of a new integration
+   */
+  const handleIntegrationCreate = async (
+    formData: z.infer<typeof FormSchema>
+  ) => {
+    const { data: createData, error: createError } = await createIntegration({
+      user_id: activeProject.user_id,
+      project_id: activeProject.id,
+      api_key: formData.key,
+      provider: formData.provider,
+      name:
+        formData.name ||
+        checkDuplicateTitle(
+          integrations.map((integration) => integration.name),
+          `${formData.provider} API Key`
+        ),
+    });
+
+    return { data: createData, error: createError };
+  };
+
+  /**
+   * Handles the submission of the form
+   */
+  const onSubmit = async (formData: z.infer<typeof FormSchema>) => {
     startTransition(async () => {
       try {
         let data, error;
 
-        //Check to see if there is an integration to edit. If there is, then update.
-        //If not, then create a new one.
         if (integrationToEdit) {
-          const { data: updateData, error: updateError } =
-            await updateIntegration(integrationToEdit.id, {
-              api_key: formData.key,
-              provider: formData.provider,
-              name:
-                formData.name ||
-                checkDuplicateTitle(
-                  integrations.map((integration) => integration.name),
-                  `${formData.provider} API Key`
-                ),
-            });
-
-          data = updateData;
-          error = updateError;
+          ({ data, error } = await handleIntegrationUpdate(formData));
         } else {
-          const { data: createData, error: createError } =
-            await createIntegration({
-              user_id: activeProject.user_id,
-              project_id: activeProject.id,
-              api_key: formData.key,
-              provider: formData.provider,
-              name:
-                formData.name ||
-                checkDuplicateTitle(
-                  integrations.map((integration) => integration.name),
-                  `${formData.provider} API Key`
-                ),
-            });
-
-          data = createData;
-          error = createError;
+          ({ data, error } = await handleIntegrationCreate(formData));
         }
 
         if (error) {
           showToastError(error);
           return;
         }
+
         if (data) {
           if (integrationToEdit) {
             setIntegrations((prevIntegrations) =>
@@ -162,14 +181,11 @@ export default function NewIntegrationForm({
             showToast(`Successfully created new ${data.provider} API Key.`);
           }
 
-          //if the new integration form is opened within the event settings on the create page,
-          //then also update the corresponding event with the integration id.
           if (currentEvent && handleUpdateEvent) {
             handleUpdateEvent(currentEvent, data.id);
           }
         }
 
-        // Reset form values after successful submission
         form.reset({
           provider: "",
           key: "",
@@ -183,7 +199,11 @@ export default function NewIntegrationForm({
         newIntegrationModalRef.current?.close();
       }
     });
-  }
+  };
+
+  /**
+   * Filters the available providers to select from in dropdown based on the current event type
+   */
   const filterProvidersByEventType = useCallback(() => {
     let filteredProviders = PROVIDERS;
     if (currentEvent) {
@@ -201,6 +221,86 @@ export default function NewIntegrationForm({
     }
     return filteredProviders;
   }, [currentEvent]);
+
+  /**
+   * Returns the logo of the selected provider
+   */
+  const getProviderLogo = (provider: ProvidersEnum) => {
+    switch (provider) {
+      case Providers.Stripe:
+        return (
+          <Image
+            width={48}
+            height={48}
+            alt={"Stripe logo"}
+            src={StripeLogo}
+            className="rounded-lg"
+          />
+        );
+      case Providers.GoogleAnalytics:
+        return (
+          <Image
+            width={48}
+            height={48}
+            alt={"Google analytics logo"}
+            src={GA4Logo}
+            className="rounded-lg aspect-square"
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
+  const getProviderDescription = (provider: ProvidersEnum) => {
+    switch (provider) {
+      case Providers.Stripe:
+        return (
+          <div className="flex flex-col gap-2">
+            <p className="text-sm font-bold">For connecting to Stripe:</p>
+            <ol className="list-decimal list-inside flex flex-col gap-2 max-h-28 overflow-y-scroll text-sm text-gray-500">
+              <li>Create a new Stripe Restricted API key.</li>
+              <li>
+                View Taplo event details to know what permissions to enable (for
+                example, the &quot;Recent Purchases&quot; event requires access
+                to Stripe charges data).
+              </li>
+              <li>Paste your restricted API key below.</li>
+            </ol>
+          </div>
+        );
+      case Providers.GoogleAnalytics:
+        return (
+          <div className="flex flex-col">
+            <p className="text-sm font-bold mb-3">
+              For connecting to Google Analytics:
+            </p>
+            <ol className="list-decimal list-inside flex flex-col gap-2 max-h-32 overflow-y-scroll text-sm text-gray-500">
+              <li>
+                Create or access your project in the Google Cloud Console.
+              </li>
+              <li>
+                Make sure the Google Analytics Reporting API is enabled for your
+                project.
+              </li>
+              <li>
+                Click &quot;Create Credentials&quot; and select &quot;API
+                key&quot;.
+              </li>
+              <li>
+                (Recommended) Under &quot;Website restrictions&quot;, add
+                restricted access to https://www.taplo.io. Under &quot;API
+                restrictions&quot;, restrict the API key to only being able to
+                access the Google Analytics Reporting API.
+              </li>
+              <li>Paste your new API Key below.</li>
+            </ol>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
 
   const filteredProviders = filterProvidersByEventType();
 
@@ -235,25 +335,12 @@ export default function NewIntegrationForm({
                       </option>
                     ))}
                   </select>
-                  <div className="w-1/5 aspect-square max-w-[48px] bg-link-hover rounded-lg">
-                    {provider !== undefined && provider === "Stripe" && (
-                      <Image
-                        width={48}
-                        height={48}
-                        alt={"Stripe logo"}
-                        src={StripeLogo}
-                        className="rounded-lg"
-                      />
-                    )}
-                    {provider !== undefined && provider === "LemonSqueezy" && (
-                      <Image
-                        width={48}
-                        height={48}
-                        alt={"LemonSqueezy logo"}
-                        src={LemonSqueezyLogo}
-                        className="rounded-lg"
-                      />
-                    )}
+                  <div
+                    className={`w-1/5 aspect-square max-w-[48px] rounded-lg ${
+                      !provider ? "bg-link-hover" : ""
+                    }`}
+                  >
+                    {getProviderLogo(provider)}
                   </div>
                 </div>
               </FormControl>
@@ -261,24 +348,13 @@ export default function NewIntegrationForm({
             </FormItem>
           )}
         />
-        {provider === "Stripe" && (
-          <div className="flex flex-col gap-2">
-            <p className="text-sm font-bold">For connecting to Stripe: </p>
-            <p className="text-sm text-gray-500">
-              1. Create a Stripe Restricted API key with necessary permissions
-              enabled.
-            </p>
-            <p className="text-sm text-gray-500">
-              2. Paste your restricted API key below.
-            </p>
-          </div>
-        )}
+        {getProviderDescription(provider)}
         <FormField
           control={form.control}
           name="key"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>API Key</FormLabel>
+              <FormLabel>Secret API Key</FormLabel>
               <FormControl>
                 <div className="flex items-center gap-2">
                   <input

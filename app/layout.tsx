@@ -46,9 +46,9 @@ export default function RootLayout({
       >
         <ProgressBarProvider>{children}</ProgressBarProvider>
         <Toaster />
+        <Analytics />
+        <SpeedInsights />
       </body>
-      <Analytics />
-      <SpeedInsights />
       <GoogleTagManager gtmId="GTM-5Z76W2XH" />
     </html>
   );

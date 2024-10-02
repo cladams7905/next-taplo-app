@@ -36,8 +36,16 @@ export function convertDateTime(
   const now = new Date();
   const inputDate = new Date(timestampz);
 
-  const currentDateMidnight = new Date(now.setHours(0, 0, 0, 0));
-  const inputDateMidnight = new Date(inputDate.setHours(0, 0, 0, 0));
+  const currentDateMidnight = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate()
+  );
+  const inputDateMidnight = new Date(
+    inputDate.getFullYear(),
+    inputDate.getMonth(),
+    inputDate.getDate()
+  );
 
   const diffTime = inputDateMidnight.getTime() - currentDateMidnight.getTime();
   const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
@@ -223,25 +231,26 @@ export function capitalizeFirstLetter(string: string) {
  */
 export const checkDuplicateTitle = (arr: (string | null)[], title: string) => {
   let count = 0;
+  const baseTitle = title.replace(/\(\d+\)$/, "").trim();
+
   arr.forEach((value: string | null) => {
-    if (value && value.includes(title)) {
-      count++;
-    }
-  });
-  arr.forEach((value) => {
-    if (value) {
-      const match = value.match(/\d/);
+    if (value && value.startsWith(baseTitle)) {
+      const match = value.match(/\((\d+)\)$/);
       if (match) {
-        const num = parseInt(match[0]);
+        const num = parseInt(match[1]);
         if (num >= count) {
           count = num + 1;
         }
+      } else if (value === baseTitle) {
+        count = 1;
       }
     }
   });
+
   if (count > 0) {
-    title = `${title} (${count})`;
+    title = `${baseTitle} (${count})`;
   }
+
   return title;
 };
 
