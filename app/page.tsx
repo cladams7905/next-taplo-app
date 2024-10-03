@@ -17,7 +17,11 @@ export default function Home() {
   return (
     <main>
       <div id="taplo-widget-container" data-project-id="160"></div>
-      <Script src={`${getURL()}/scripts/main.bundle.js`} />
+      <Script
+        key={Math.random() * 999}
+        src={`${getURL()}/scripts/main.bundle.js`}
+        strategy="lazyOnload"
+      />
       <div className="drawer flex flex-col overflow-x-clip">
         <input id="drawer-menu" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
