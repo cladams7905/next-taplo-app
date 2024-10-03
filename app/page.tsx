@@ -17,6 +17,7 @@ export default function Home() {
   return (
     <main>
       <div id="taplo-widget-container" data-project-id="160"></div>
+      <Script src={`${getURL()}/scripts/main.bundle.js`} />
       <div className="drawer flex flex-col overflow-x-clip">
         <input id="drawer-menu" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
@@ -167,10 +168,6 @@ export default function Home() {
           </ul>
         </div>
       </div>
-      <Script
-        src={`${getURL()}/scripts/main.bundle.js`}
-        strategy="lazyOnload"
-      />
     </main>
   );
 }
