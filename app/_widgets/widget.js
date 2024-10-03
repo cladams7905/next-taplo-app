@@ -70,10 +70,12 @@ const initializeWidget = (isFirstMount = true) => {
     return;
   }
 
-  console.log("Re-initializing Widget:", {
-    siteUrl: site_url,
-    projectId: project_id,
-  });
+  if (isFirstMount) {
+    console.log("Initializing Widget:", {
+      siteUrl: site_url,
+      projectId: project_id,
+    });
+  }
 
   root = createRoot(container);
   root.render(<WidgetComponent siteUrl={site_url} projectId={project_id} />);
