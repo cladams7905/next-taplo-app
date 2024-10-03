@@ -29,8 +29,8 @@ export default function PaymentModal({
   stripeUser,
   user,
   products,
-  renewalDate,
-  setRenewalDate,
+  freeTrialDate,
+  setFreeTrialDate,
 }: {
   stripeUser: Tables<"users"> | null;
   user: User;
@@ -40,8 +40,8 @@ export default function PaymentModal({
     payment_plan: PaymentPlans;
     price: Stripe.Price;
   }[];
-  renewalDate: string | null;
-  setRenewalDate: Dispatch<SetStateAction<string | null>>;
+  freeTrialDate: string | null;
+  setFreeTrialDate: Dispatch<SetStateAction<string | null>>;
 }) {
   const paymentModalRef = useRef<HTMLDialogElement>(null);
 
@@ -78,14 +78,14 @@ export default function PaymentModal({
     }
   };
 
-  // Open payment modal if renewal date is not set
+  // Open payment modal if free trial date is not set
   useEffect(() => {
     if (isCheckoutComplete) {
       paymentModalRef.current?.classList.remove("modal-open");
     } else {
-      if (!renewalDate) paymentModalRef.current?.classList.add("modal-open");
+      if (!freeTrialDate) paymentModalRef.current?.classList.add("modal-open");
     }
-  }, [renewalDate, isCheckoutComplete]);
+  }, [freeTrialDate, isCheckoutComplete]);
 
   // Update the checkoutPriceId and selectedProduct based on the selected payment plan
   useEffect(() => {
@@ -175,7 +175,7 @@ export default function PaymentModal({
             priceId={checkoutPriceId}
             productId={selectedProduct.id}
             email={user?.email}
-            setRenewalDate={setRenewalDate}
+            setFreeTrialDate={setFreeTrialDate}
             setCheckoutComplete={setCheckoutComplete}
             selectReferralSource={handleSelectReferralSource}
           />

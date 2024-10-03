@@ -1,6 +1,7 @@
 // Embeddable Widget Component
 import React, { lazy, useCallback, useEffect, useRef, useState } from "react";
 import { Tables } from "@/supabase/types";
+import { Tables as StripeTables } from "@/stripe/types";
 import { DisplayNotification, EventData } from "@/lib/types";
 import ExitPopupToast from "./ExitPopupToast";
 import {
@@ -35,6 +36,8 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
   const [productData, setProductData] = useState<Tables<"Products">[]>([]);
   const [animation, setAnimation] = useState<string>("");
   const [isExitPopup, setExitPopup] = useState<boolean>(false);
+  const [isActiveSubscription, setActiveSubscription] =
+    useState<boolean>(false);
   const [notificationQueue, setNotificationQueue] = useState<
     DisplayNotification[]
   >([]);
@@ -69,7 +72,7 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
   }, [projectId, siteUrl]);
 
   /**
-   * Get the events data
+   * Get the events and subscription data
    */
   useEffect(() => {
     const fetchEvents = async () => {
@@ -96,7 +99,45 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
         throw new Error("Error getting Taplo events: " + error.message);
       }
     };
+
+    const fetchActiveSubscription = async () => {
+      try {
+        const response = await fetch(
+          `${siteUrl}/api/v1/stripe/subscriptions?user_id=${projectData?.user_id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const {
+          data: subscription,
+          error,
+          status,
+        }: {
+          data: StripeTables<"subscriptions">;
+          error: string;
+          status: number;
+        } = await response.json();
+
+        if (
+          !error &&
+          status === 200 &&
+          (subscription?.status === "active" ||
+            subscription?.status === "trialing")
+        ) {
+          setActiveSubscription(true);
+        }
+      } catch (error: any) {
+        throw new Error("Error getting Taplo project: " + error.message);
+      }
+    };
+
     fetchEvents();
+    if (projectData?.user_id) {
+      fetchActiveSubscription();
+    }
   }, [projectData, projectId, siteUrl]);
 
   /**
@@ -336,36 +377,38 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
   };
 
   return (
-    <>
-      <div className={`fixed z-50 ${getAlignmentClasses()}`}>
-        {currentNotification?.event &&
-          currentNotification?.message &&
-          currentNotification?.time && (
-            <div
-              className={`${
-                isExitPopup
-                  ? `${determineAnimationDirection(
-                      animation,
-                      true //isExitPopup = true
-                    )}`
-                  : animation
-              }`}
-            >
-              <Popup
-                project={projectData}
-                notification={currentNotification}
-                setExitPopup={setExitPopup}
-              />
-            </div>
-          )}
-      </div>
-      {isExitPopup && (
-        <ExitPopupToast
-          projectData={projectData}
-          showExitPopupToast={showExitPopupToast}
-        />
-      )}
-    </>
+    isActiveSubscription && (
+      <>
+        <div className={`fixed z-50 ${getAlignmentClasses()}`}>
+          {currentNotification?.event &&
+            currentNotification?.message &&
+            currentNotification?.time && (
+              <div
+                className={`${
+                  isExitPopup
+                    ? `${determineAnimationDirection(
+                        animation,
+                        true //isExitPopup = true
+                      )}`
+                    : animation
+                }`}
+              >
+                <Popup
+                  project={projectData}
+                  notification={currentNotification}
+                  setExitPopup={setExitPopup}
+                />
+              </div>
+            )}
+        </div>
+        {isExitPopup && (
+          <ExitPopupToast
+            projectData={projectData}
+            showExitPopupToast={showExitPopupToast}
+          />
+        )}
+      </>
+    )
   );
 };
 

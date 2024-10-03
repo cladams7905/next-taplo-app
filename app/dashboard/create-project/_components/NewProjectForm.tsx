@@ -33,12 +33,12 @@ const FormSchema = z.object({
 
 export default function NewProjectForm({
   stripeUser,
-  renewalDate,
+  freeTrialDate,
   paymentPlan,
   numProjects,
 }: {
   stripeUser: Tables<"users"> | null;
-  renewalDate: string | null;
+  freeTrialDate: string | null;
   paymentPlan: string | null | undefined;
   numProjects: number | null | undefined;
 }) {
@@ -76,7 +76,7 @@ export default function NewProjectForm({
 
   const shouldDisableCreateProject = () => {
     return (
-      !renewalDate ||
+      !freeTrialDate ||
       (paymentPlan?.includes("Starter") && numProjects && numProjects >= 1)
     );
   };

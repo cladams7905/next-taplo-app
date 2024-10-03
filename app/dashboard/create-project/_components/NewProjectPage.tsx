@@ -28,21 +28,21 @@ export default function NewProjectPage({
   paymentPlan: string | null | undefined;
 }) {
   /**
-   * The date when billing should begin.
+   * The date when the free trial should begin
    * If null, then payment modal opens and create project button is disabled.
    */
-  const [renewalDate, setRenewalDate] = useState<string | null>(
-    stripeUser?.renewal_date ?? null
+  const [freeTrialDate, setFreeTrialDate] = useState<string | null>(
+    stripeUser?.free_trial_start_date ?? null
   );
   return (
     <>
-      {!renewalDate && (
+      {!freeTrialDate && (
         <PaymentModal
           stripeUser={stripeUser}
           products={products}
           user={user}
-          renewalDate={renewalDate}
-          setRenewalDate={setRenewalDate}
+          freeTrialDate={freeTrialDate}
+          setFreeTrialDate={setFreeTrialDate}
         />
       )}
       <div className="flex items-start justify-center w-full h-screen-minus-navbar bg-gradient-to-tr from-primary/50 to-violet-100 font-sans">
@@ -61,7 +61,7 @@ export default function NewProjectPage({
             )}
             <NewProjectForm
               stripeUser={stripeUser}
-              renewalDate={renewalDate}
+              freeTrialDate={freeTrialDate}
               paymentPlan={paymentPlan}
               numProjects={numProjects}
             />

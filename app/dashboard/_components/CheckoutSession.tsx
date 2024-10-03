@@ -22,7 +22,7 @@ export default function CheckoutSession({
   priceId,
   productId,
   email,
-  setRenewalDate,
+  setFreeTrialDate,
   setCheckoutComplete,
   selectReferralSource,
 }: {
@@ -30,11 +30,11 @@ export default function CheckoutSession({
   priceId: string;
   productId: string;
   email: string | undefined;
-  setRenewalDate: Dispatch<SetStateAction<string | null>>;
+  setFreeTrialDate: Dispatch<SetStateAction<string | null>>;
   setCheckoutComplete: Dispatch<SetStateAction<boolean>>;
   selectReferralSource: () => Promise<void>;
 }) {
-  const renewalDate = toDateTime(calculateBillingCycle()).toUTCString();
+  const freeTrialDate = toDateTime(calculateBillingCycle()).toUTCString();
   const fetchClientSecret = useCallback(async () => {
     const customerId = await createOrRetrieveCustomer({
       email: email,
@@ -79,13 +79,13 @@ export default function CheckoutSession({
   }, [priceId, productId, email, selectReferralSource, user]);
 
   const onComplete = useCallback(async () => {
-    setRenewalDate(renewalDate);
+    setFreeTrialDate(freeTrialDate);
     setCheckoutComplete(true);
 
-    //update renewal date on completion of checkout session.
+    //update free trial date on completion of checkout session.
     const { error } = await updateStripeUser({
       user_id: user.id,
-      renewal_date: renewalDate,
+      free_trial_start_date: freeTrialDate,
     });
     if (error) {
       console.log(error);
@@ -93,12 +93,12 @@ export default function CheckoutSession({
     } else {
       showToast(
         `All set! Your free trial will end on ${convertDateTime(
-          renewalDate
+          freeTrialDate
         )}. If you want to 
         change your subscription preferences, you may do so from your "Account" page.`
       );
     }
-  }, [setRenewalDate, setCheckoutComplete, renewalDate, user.id]);
+  }, [setFreeTrialDate, setCheckoutComplete, freeTrialDate, user.id]);
 
   const options = {
     fetchClientSecret,

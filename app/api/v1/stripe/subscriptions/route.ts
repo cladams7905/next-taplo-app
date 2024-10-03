@@ -1,12 +1,35 @@
+import { getSubscription } from "@/stripe/actions";
 import { stripe } from "@/stripe/server";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  // Get the user_id from the query params
+  const { searchParams } = new URL(request.url);
+  const user_id = searchParams.get("user_id");
+
+  if (!user_id) {
+    return NextResponse.json({
+      data: null,
+      status: 400,
+      error: "User id is required",
+    });
+  }
+
   try {
-    const subscriptions = await stripe.subscriptions.list();
-    return NextResponse.json(subscriptions);
+    const { data: subscription, error } = await getSubscription(user_id);
+
+    if (error) {
+      throw new Error(error.message);
+    } else {
+      return NextResponse.json({
+        data: subscription,
+        error: null,
+        status: 200,
+      });
+    }
   } catch (error: any) {
     return NextResponse.json({
+      data: null,
       error: `Get Subscriptions Error: ${error?.message}`,
       status: 500,
     });

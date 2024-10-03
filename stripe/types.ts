@@ -219,37 +219,37 @@ export type Database = {
         Row: {
           cancel_comment: string | null;
           email: string | null;
+          free_trial_start_date: string | null;
           id: number;
           payment_method: Json | null;
           payment_status: string | null;
           reason_for_leaving: string | null;
           recieve_promotional_emails: boolean;
           referral_source: string | null;
-          renewal_date: string | null;
           user_id: string;
         };
         Insert: {
           cancel_comment?: string | null;
           email?: string | null;
+          free_trial_start_date?: string | null;
           id?: number;
           payment_method?: Json | null;
           payment_status?: string | null;
           reason_for_leaving?: string | null;
           recieve_promotional_emails?: boolean;
           referral_source?: string | null;
-          renewal_date?: string | null;
           user_id: string;
         };
         Update: {
           cancel_comment?: string | null;
           email?: string | null;
+          free_trial_start_date?: string | null;
           id?: number;
           payment_method?: Json | null;
           payment_status?: string | null;
           reason_for_leaving?: string | null;
           recieve_promotional_emails?: boolean;
           referral_source?: string | null;
-          renewal_date?: string | null;
           user_id?: string;
         };
         Relationships: [
