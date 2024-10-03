@@ -1,7 +1,7 @@
 "use client";
 
 import { Tables } from "@/supabase/types";
-import { memo, TransitionStartFunction, useRef, useState } from "react";
+import React, { memo, TransitionStartFunction, useRef, useState } from "react";
 import {
   Boxes,
   CirclePlus,

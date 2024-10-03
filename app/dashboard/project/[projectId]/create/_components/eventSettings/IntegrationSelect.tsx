@@ -2,7 +2,7 @@
 
 import { Tables, TablesInsert } from "@/supabase/types";
 import { ChevronDown } from "lucide-react";
-import {
+import React, {
   Dispatch,
   SetStateAction,
   TransitionStartFunction,

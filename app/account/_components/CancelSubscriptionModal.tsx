@@ -6,8 +6,7 @@ import { updateStripeUser } from "@/stripe/actions";
 import { Tables } from "@/stripe/types";
 import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
-import { useRef, useState, useTransition } from "react";
-import Stripe from "stripe";
+import React, { useRef, useState, useTransition } from "react";
 
 export default function CancelSubscriptionModal({
   user,

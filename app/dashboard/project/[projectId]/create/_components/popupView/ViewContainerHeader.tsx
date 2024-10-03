@@ -2,7 +2,7 @@
 
 import "react-color-palette/css";
 import { Code2Icon, Fullscreen } from "lucide-react";
-import { Dispatch, SetStateAction, useEffect, useRef } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useRef } from "react";
 import PreviewContainer from "./PreviewContainer";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import EmbedModal from "./EmbedModal";

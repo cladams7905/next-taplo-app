@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { Tables } from "@/supabase/types";
 import {
   Check,

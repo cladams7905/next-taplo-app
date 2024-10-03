@@ -4,7 +4,7 @@ import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import { createProduct } from "@/lib/actions/products";
 import { Tables, TablesInsert } from "@/supabase/types";
-import {
+import React, {
   RefObject,
   TransitionStartFunction,
   useRef,

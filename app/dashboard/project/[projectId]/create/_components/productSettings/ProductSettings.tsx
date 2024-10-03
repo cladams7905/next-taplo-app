@@ -1,7 +1,7 @@
 "use client";
 
 import useScroll from "@/lib/hooks/use-scroll";
-import { RefObject, useRef, useTransition } from "react";
+import React, { RefObject, useRef, useTransition } from "react";
 import ProductList from "./ProductList";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import { CirclePlus } from "lucide-react";

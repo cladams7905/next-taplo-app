@@ -8,7 +8,7 @@ import {
   UserRoundSearch,
   UsersRound,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { EventType, ScreenAlignment, TemplateTypes } from "@/lib/enums";
 import { hexToRgba, replaceVariablesInContentBody } from "@/lib/actions";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";

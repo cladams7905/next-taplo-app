@@ -4,7 +4,7 @@ import { CircleUserRound, LogOut, Settings } from "lucide-react";
 import { User } from "@supabase/supabase-js";
 import { signOut } from "@/app/(auth)/_actions";
 import Image from "next/image";
-import { memo, useTransition } from "react";
+import React, { memo, useTransition } from "react";
 import { redirect } from "next/navigation";
 import LoadingDots from "@/app/_components/shared/loadingdots";
 import { showToastError } from "@/app/_components/shared/showToast";

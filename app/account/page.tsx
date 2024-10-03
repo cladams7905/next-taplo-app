@@ -20,6 +20,7 @@ import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
 import PromotionalEmailsCheckbox from "./_components/PromotionalEmailsCheckbox";
 import CancelSubscriptionModal from "./_components/CancelSubscriptionModal";
 import RenewSubscriptionModal from "./_components/RenewSubscriptionModal";
+import React from "react";
 
 export default async function AccountPage() {
   const supabase = createClient();

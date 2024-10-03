@@ -34,6 +34,7 @@ import {
 import { checkDuplicateTitle } from "@/lib/actions";
 import { EventType, Providers } from "@/lib/enums";
 import { EyeClosedIcon } from "@radix-ui/react-icons";
+import React from "react";
 
 const PROVIDERS = Object.values(Providers) as [string, ...string[]];
 const providersEnum = z.enum(PROVIDERS, {

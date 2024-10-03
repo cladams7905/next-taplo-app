@@ -336,7 +336,6 @@ export const replaceVariablesInContentBody = (
       case ContentVars.Product:
         return getProductHTML();
       case ContentVars.NumUsers:
-      case ContentVars.RecentUsers:
         return isPopup ? "20" : "#";
       case ContentVars.Price:
         return isPopup

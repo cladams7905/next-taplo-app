@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import PaymentModal from "../../_components/PaymentModal";
 import { PaymentPlans } from "@/lib/enums";
 import Stripe from "stripe";
 import { Tables } from "@/stripe/types";
 import { User } from "@supabase/supabase-js";
 import NewProjectForm from "./NewProjectForm";
-import { InfoIcon } from "lucide-react";
+import { InfoCircledIcon } from "@radix-ui/react-icons";
 
 export default function NewProjectPage({
   stripeUser,
@@ -53,7 +53,7 @@ export default function NewProjectPage({
             paymentPlan?.includes("Starter") &&
             numProjects >= 1 ? (
               <div className="bg-primary/10 p-2 mt-2 rounded-lg text-xs flex items-center gap-2">
-                <InfoIcon width={20} height={20} />
+                <InfoCircledIcon width={18} height={18} />
                 <p>You are only allowed one project on the Starter plan.</p>
               </div>
             ) : (
