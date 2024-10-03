@@ -28,7 +28,7 @@ const FormSchema = z.object({
       message: "Project name cannot exceed 32 characters.",
     })
     .min(3, { message: "Project name must be at least 3 characters." }),
-  publicUrl: z.string().optional(),
+  publicUrl: z.string().url().optional(),
 });
 
 export default function NewProjectForm({
