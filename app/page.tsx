@@ -16,10 +16,6 @@ import Script from "next/script";
 export default function Home() {
   return (
     <main>
-      <Script
-        src={`${getURL()}/scripts/main.bundle.js`}
-        strategy="lazyOnload"
-      />
       <div id="taplo-widget-container" data-project-id="160"></div>
       <div className="drawer flex flex-col overflow-x-clip">
         <input id="drawer-menu" type="checkbox" className="drawer-toggle" />
@@ -171,6 +167,10 @@ export default function Home() {
           </ul>
         </div>
       </div>
+      <Script
+        src={`${getURL()}/scripts/main.bundle.js`}
+        strategy="lazyOnload"
+      />
     </main>
   );
 }
