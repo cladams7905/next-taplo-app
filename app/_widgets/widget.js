@@ -49,15 +49,17 @@ const injectStyles = (callback) => {
   checkAllStylesLoaded();
 };
 
-const initializeWidget = () => {
+const initializeWidget = (isFirstMount = true) => {
   if (isWidgetInitialized) return;
 
   const container = document.getElementById("taplo-widget-container");
 
   if (!container) {
-    console.error(
-      'No Taplo widget container found (check to make sure id equals "taplo-widget-container").'
-    );
+    if (isFirstMount) {
+      console.error(
+        'No Taplo widget container found (check to make sure id equals "taplo-widget-container").'
+      );
+    }
     return;
   }
 
@@ -95,5 +97,5 @@ window.addEventListener("popstate", () => {
   unmountWidget();
 
   // Re-initialize the widget for the new page state
-  injectStyles(initializeWidget);
+  injectStyles(initializeWidget(false));
 });
