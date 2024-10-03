@@ -86,9 +86,9 @@ function Event({
       case EventType.Checkout:
         return 'Requires: Stripe restricted API key with "checkout sessions" permissions set to "read".';
       case EventType.SomeoneViewing:
-        return "This event displays products that visitors are currently viewing.";
+        return "Requires: Google Cloud Console API key with Analytics Reporting API enabled.";
       case EventType.ActiveVisitors:
-        return "This event displays the number of visitors actively viewing your website. You may also use this event to display the number of recent visitors from the past 24 hours.";
+        return "Requires: Google Cloud Console API key with Analytics Reporting API enabled.";
     }
   };
 
@@ -139,8 +139,10 @@ function Event({
             {currentEvent.event_type}
             <div className="text-xs">
               {currentEvent.integration_id ? (
-                `Listens to: ${currentIntegration?.provider} ${
-                  currentIntegration?.name ? `(${currentIntegration.name})` : ""
+                `Listens to: ${
+                  currentIntegration?.provider
+                    ? currentIntegration?.provider
+                    : ""
                 }`
               ) : (
                 <span className="text-error">No Integration Selected</span>
@@ -157,7 +159,7 @@ function Event({
         }}
       >
         <div className="flex items-center gap-2 sm:text-[12px] sm:leading-5 text-xs mt-4 bg-gray-50 border border-gray-200 rounded-lg px-4 py-1">
-          <InfoCircledIcon width={16} height={16} />{" "}
+          <InfoCircledIcon width={16} height={16} className="min-w-4" />{" "}
           {getIntegrationInfo(currentEvent.event_type as EventType)}
         </div>
         <div className="w-full flex flex-col gap-2">
@@ -181,6 +183,7 @@ function Event({
           </div>
           <IntegrationSelect
             currentEvent={currentEvent}
+            selectedIntegration={currentIntegration || undefined}
             startLoadingTransition={startEventTransition}
             handleUpdateEvent={handleUpdateEvent}
           />

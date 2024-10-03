@@ -178,6 +178,7 @@ export type Database = {
           id: number
           is_active: boolean
           name: string
+          public_url: string | null
           screen_alignment: string | null
           template: string | null
           text_color: string | null
@@ -193,6 +194,7 @@ export type Database = {
           id?: number
           is_active?: boolean
           name?: string
+          public_url?: string | null
           screen_alignment?: string | null
           template?: string | null
           text_color?: string | null
@@ -208,6 +210,7 @@ export type Database = {
           id?: number
           is_active?: boolean
           name?: string
+          public_url?: string | null
           screen_alignment?: string | null
           template?: string | null
           text_color?: string | null

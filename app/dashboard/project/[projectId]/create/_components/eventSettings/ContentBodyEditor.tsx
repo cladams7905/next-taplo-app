@@ -87,7 +87,7 @@ export default function ContentBodyEditor({
           ];
           break;
         case EventType.ActiveVisitors:
-          variableList = [ContentVars.NumUsers, ContentVars.RecentUsers];
+          variableList = [ContentVars.NumUsers];
           break;
         case EventType.SomeoneViewing:
           variableList = [
@@ -255,15 +255,15 @@ export default function ContentBodyEditor({
     switch (variable) {
       case ContentVars.Person:
         returnStr =
-          'The first name of the user (ex: "Jamie"). If this field is unknown, it will be replaced with "Someone".';
+          'The name of the visitor (ex: "Jamie"). If this field is unknown, it will be replaced with "Someone".';
         break;
       case ContentVars.Location:
         returnStr =
-          'The location of the user, displayed as City, Country (ex: "Seattle, USA").';
+          'The location of the visitor, displayed as City, Country (ex: "Seattle, USA").';
         break;
       case ContentVars.Product:
         returnStr =
-          'The name of the product (ex: "Airpods Pro"). If there is no corresponding product found, this field will default to "a product".';
+          'The name of a product (ex: "Airpods Pro"). If there is no corresponding product found, this field will default to "a product".';
         break;
       case ContentVars.Price:
         returnStr =
@@ -271,11 +271,7 @@ export default function ContentBodyEditor({
         break;
       case ContentVars.NumUsers:
         returnStr =
-          "The total number of users online now. If this number is not found, this field will default to 0.";
-        break;
-      case ContentVars.RecentUsers:
-        returnStr =
-          "The total number of users online within the past 24 hours. If this number is not found, this field will default to 0.";
+          "The total number of visitors on your site now. If this number is not found, this field will default to 0.";
         break;
     }
     return returnStr;

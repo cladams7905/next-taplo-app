@@ -27,6 +27,7 @@ const FormSchema = z.object({
       message: "Project name cannot exceed 32 characters.",
     })
     .min(3, { message: "Project name must be at least 3 characters." }),
+  publicUrl: z.string().optional(),
 });
 
 export default function NewProjectForm({
@@ -54,9 +55,10 @@ export default function NewProjectForm({
     startTransition(async () => {
       const { data, error } = await createProject({
         name: formData.projectName,
+        public_url: formData.publicUrl,
         screen_alignment: ScreenAlignment.BottomLeft,
         template: TemplateTypes.SmPopupNoImg,
-        display_time: 4000,
+        display_time: 7000,
         bg_color: "#FFFFFF",
         text_color: "#172554",
         accent_color: "#7A81EB",
@@ -94,10 +96,29 @@ export default function NewProjectForm({
                 <FormLabel>Project Name</FormLabel>
                 <FormControl>
                   <input
-                    placeholder="My Awesome Project"
+                    placeholder="My Project"
                     className="input input-bordered flex items-center gap-2 w-full"
                     {...field}
                     type="text"
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="publicUrl"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Project URL (optional)</FormLabel>
+                <FormControl>
+                  <input
+                    placeholder="https://www.my-project.com"
+                    className="input input-bordered flex items-center gap-2 w-full"
+                    {...field}
+                    type="url"
                     onChange={field.onChange}
                   />
                 </FormControl>

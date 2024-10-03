@@ -248,7 +248,7 @@ const getEventOptions = () => {
     {
       title: EventType.SomeoneViewing,
       integrations: "Google Analytics",
-      description: "Shows what products visitors are curently viewing.",
+      description: "Exposes what pages visitors are curently viewing.",
       type: EventType.SomeoneViewing,
       color: "#7A81EB",
     },

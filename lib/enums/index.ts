@@ -52,7 +52,6 @@ export enum ContentVars {
   Product = "product",
   Price = "price",
   NumUsers = "numusers",
-  RecentUsers = "recentusers",
 }
 
 /**

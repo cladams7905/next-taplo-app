@@ -15,6 +15,7 @@ import { EventType, Providers } from "@/lib/enums";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import Image from "next/image";
 import StripeLogo from "@/public/images/providers/stripe-logo.svg";
+import GA4Logo from "@/public/images/providers/ga-logo.svg";
 import { convertDateTime, formatCentsToDollars } from "@/lib/actions";
 import Stripe from "stripe";
 
@@ -44,16 +45,6 @@ export default function IntegrationSelect({
 
   // Whether or not the integration select component is inside of the new product modal
   const isInProductModal = currentEvent === undefined;
-
-  /**
-   * Gets the integration that matches the current currentEvent's integration id.
-   * @returns the integration
-   */
-  const getCurrentEventIntegration = () => {
-    return integrations.find(
-      (integration) => integration.id === currentEvent?.integration_id
-    );
-  };
 
   /**
    * Returns the integrations that are compatible with the current currentEvent.
@@ -147,6 +138,40 @@ export default function IntegrationSelect({
   );
 
   /**
+   * Returns the logo of the selected provider
+   */
+  const getProviderLogo = (provider: Providers, isGrayscale = false) => {
+    switch (provider) {
+      case Providers.Stripe:
+        return (
+          <Image
+            width={16}
+            height={16}
+            alt={"Stripe logo"}
+            src={StripeLogo}
+            className={`rounded-sm aspect-square ${
+              isGrayscale ? "grayscale opacity-50" : ""
+            }`}
+          />
+        );
+      case Providers.GoogleAnalytics:
+        return (
+          <Image
+            width={16}
+            height={16}
+            alt={"Google analytics logo"}
+            src={GA4Logo}
+            className={`rounded-sm aspect-square ${
+              isGrayscale ? "grayscale opacity-50" : ""
+            }`}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
+  /**
    * Change integration dropdown options whenever integrations array changes.
    */
   useEffect(() => {
@@ -170,28 +195,11 @@ export default function IntegrationSelect({
             isInProductModal && "text-lg w-full join-item h-[48px]"
           }`}
         >
-          {currentEvent?.integration_id ? (
+          {currentEvent?.integration_id || selectedIntegration ? (
             <div className="flex items-center gap-2">
-              <Image
-                width={16}
-                height={16}
-                alt={"provider logo"}
-                src={StripeLogo}
-                className="rounded-sm"
-              />
-              {getCurrentEventIntegration()?.name}
-            </div>
-          ) : selectedIntegration ? (
-            <div className="flex items-center gap-2">
-              {" "}
-              <Image
-                width={16}
-                height={16}
-                alt={"provider logo"}
-                src={StripeLogo}
-                className="rounded-sm"
-              />
-              {selectedIntegration.name}
+              {selectedIntegration?.provider &&
+                getProviderLogo(selectedIntegration.provider as Providers)}
+              {selectedIntegration?.name}
             </div>
           ) : (
             <span className="text-gray-400">Select an integration</span>
@@ -216,17 +224,10 @@ export default function IntegrationSelect({
                     onClick={() => handleIntegrationSelect(integration)}
                   >
                     <div className="flex items-center gap-3">
-                      <Image
-                        width={16}
-                        height={16}
-                        alt={"provider logo"}
-                        src={StripeLogo}
-                        className={`rounded-sm ${
-                          integration.id === currentEvent?.integration_id
-                            ? "grayscale opacity-50"
-                            : ""
-                        }`}
-                      />
+                      {getProviderLogo(
+                        integration.provider as Providers,
+                        integration.id === currentEvent?.integration_id
+                      )}
                       <div className="flex flex-col gap-[2px]">
                         {integration.name}{" "}
                         {integration.id === currentEvent?.integration_id &&
@@ -243,7 +244,7 @@ export default function IntegrationSelect({
             ) : (
               <div className="text-gray-400 text-xs">
                 {isInProductModal
-                  ? "You don't have any integrations connected that are able to fetch products. Please first create a Stripe or Shopify integration to fetch products."
+                  ? "You don't have any integrations connected that are able to fetch products. Please first create a Stripe integration to fetch products."
                   : 'You haven\'t created any integrations for this event yet. Click "+" to create a new one!'}
               </div>
             )}
