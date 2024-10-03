@@ -18,7 +18,6 @@ export default function Home() {
     <main>
       <div id="taplo-widget-container" data-project-id="160"></div>
       <Script
-        key={Math.random() * 999}
         src={`${getURL()}/scripts/main.bundle.js`}
         strategy="lazyOnload"
       />
