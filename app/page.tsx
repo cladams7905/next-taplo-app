@@ -11,11 +11,15 @@ import FAQs from "@/app/_components/home/FAQs";
 import Image from "next/image";
 import Logo from "@/public/images/Taplo-logo (3).svg";
 import { getURL } from "@/lib/actions";
+import Script from "next/script";
 
 export default function Home() {
   return (
     <main>
-      <script src={`${getURL()}/scripts/main.bundle.js`} defer />
+      <Script
+        src={`${getURL()}/scripts/main.bundle.js`}
+        strategy="lazyOnload"
+      />
       <div id="taplo-widget-container" data-project-id="160"></div>
       <div className="drawer flex flex-col overflow-x-clip">
         <input id="drawer-menu" type="checkbox" className="drawer-toggle" />
