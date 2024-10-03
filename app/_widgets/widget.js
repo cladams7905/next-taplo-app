@@ -61,8 +61,6 @@ const initializeWidget = () => {
   );
 };
 
-document.addEventListener("DOMContentLoaded", () => {
-  injectStyles(() => {
-    initializeWidget();
-  });
+injectStyles(() => {
+  initializeWidget();
 });
