@@ -7,7 +7,7 @@ import {
   formatCentsToDollars,
   toDateTime,
 } from "@/lib/actions";
-import { Tables } from "@/stripe/types";
+import { Tables } from "@/lib/stripe/types";
 import { User } from "@supabase/supabase-js";
 import { Lock } from "lucide-react";
 import Image from "next/image";
@@ -22,7 +22,7 @@ import {
 import Logo from "@/public/images/Taplo-logo (2).svg";
 import Stripe from "stripe";
 import { PaymentPlans } from "@/lib/enums";
-import { updateStripeUser } from "@/stripe/actions";
+import { updateStripeUser } from "@/lib/stripe/actions";
 import { showToastError } from "@/app/_components/shared/showToast";
 
 export default function PaymentModal({

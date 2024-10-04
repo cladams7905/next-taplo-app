@@ -6,7 +6,7 @@ import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { sortByTimeCreated } from "@/lib/actions";
 import Event from "./Event";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
-import { Tables } from "@/supabase/types";
+import { Tables } from "@/lib/supabase/types";
 
 const EventsList = ({
   startEventTransition,

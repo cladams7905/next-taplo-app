@@ -1,6 +1,6 @@
 import { getActiveProject } from "@/lib/actions/projects";
 import ProjectBoard from "./_components/ProjectBoard";
-import { createClient } from "@/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { getIntegrations } from "@/lib/actions/integrations";
 import { getEvents } from "@/lib/actions/events";
@@ -39,7 +39,7 @@ export default async function CreatePopupPage() {
 
 const fetchToken = async (user: User) => {
   try {
-    const res = await fetch(getURL() + "/api/v1/features_vote", {
+    const res = await fetch(getURL() + "/api/v1/featuresvote", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

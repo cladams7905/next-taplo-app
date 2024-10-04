@@ -1,7 +1,7 @@
 "use server";
 
 import { getActiveProject } from "@/lib/actions/projects";
-import { createClient } from "@/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 
 export async function signUpWithEmailAndPassword(data: {
   email: string;

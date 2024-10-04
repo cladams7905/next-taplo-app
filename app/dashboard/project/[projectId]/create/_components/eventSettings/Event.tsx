@@ -1,6 +1,6 @@
 "use client";
 
-import { Tables } from "@/supabase/types";
+import { Tables } from "@/lib/supabase/types";
 import React, { memo, TransitionStartFunction, useRef, useState } from "react";
 import {
   Boxes,
@@ -86,9 +86,9 @@ function Event({
       case EventType.Checkout:
         return 'Requires: Stripe restricted API key with "checkout sessions" permissions set to "read".';
       case EventType.SomeoneViewing:
-        return "Requires: Google Cloud Console API key with Analytics Reporting API enabled.";
+        return "Requires: Google Cloud Console API key with Analytics Data API enabled.";
       case EventType.ActiveVisitors:
-        return "Requires: Google Cloud Console API key with Analytics Reporting API enabled.";
+        return "Requires: Google Cloud Console API key with Analytics Data API enabled.";
     }
   };
 

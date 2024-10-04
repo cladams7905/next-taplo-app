@@ -2,7 +2,7 @@
 
 import { Dispatch, RefObject, SetStateAction } from "react";
 import NewIntegrationForm from "./NewIntegrationForm";
-import { Tables } from "@/supabase/types";
+import { Tables } from "@/lib/supabase/types";
 
 export default function NewIntegrationModal({
   activeProject,

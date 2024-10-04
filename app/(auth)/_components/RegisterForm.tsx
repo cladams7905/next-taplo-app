@@ -16,7 +16,7 @@ import { useState, useTransition } from "react";
 import ResendEmailButton from "./ResendEmailButton";
 import Link from "next/link";
 import OAuthForm from "./OAuthForm";
-import { createClient } from "@/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { User } from "@supabase/supabase-js";
 import { getURL } from "@/lib/actions";

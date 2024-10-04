@@ -1,4 +1,4 @@
-import { Tables } from "@/supabase/types";
+import { Tables } from "@/lib/supabase/types";
 import Stripe from "stripe";
 
 /**
@@ -7,11 +7,20 @@ import Stripe from "stripe";
 export interface EventData {
   events: Tables<"Events">[];
   stripeData?: StripeData;
+  googleData?: GoogleData;
 }
 
 export interface StripeData {
   charges?: Stripe.Charge[];
   checkoutSessions?: Stripe.Checkout.Session[];
+}
+
+export interface GoogleData {
+  activeVisitors?: {
+    country: string;
+    city: string;
+    visitorCount: string;
+  }[];
 }
 
 export interface DisplayNotification {

@@ -2,7 +2,7 @@ import { EventType } from "@/lib/enums";
 import Stripe from "stripe";
 import { convertDateTime, replaceVariablesInContentBody } from "@/lib/actions";
 import { DisplayNotification, EventData, MessageData } from "@/lib/types";
-import { Tables } from "@/supabase/types";
+import { Tables } from "@/lib/supabase/types";
 
 /**
  * Randomizes the order of the queue

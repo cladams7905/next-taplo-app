@@ -1,7 +1,11 @@
-import { getProduct, getStripeUser, getSubscription } from "@/stripe/actions";
-import { createClient } from "@/supabase/server";
+import {
+  getProduct,
+  getStripeUser,
+  getSubscription,
+} from "@/lib/stripe/actions";
+import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { stripe } from "@/stripe/server";
+import { stripe } from "@/lib/stripe/server";
 import Stripe from "stripe";
 import { PaymentPlans } from "@/lib/enums";
 import NewProjectPage from "./_components/NewProjectPage";

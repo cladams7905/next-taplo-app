@@ -4,7 +4,7 @@ import React from "react";
 import { useState } from "react";
 import LoadingDots from "@/app/_components/shared/loadingdots";
 import Google from "@/app/_components/shared/icons/google";
-import { createClient } from "@/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 import { getURL } from "@/lib/actions";
 
 export default function OAuthForm() {

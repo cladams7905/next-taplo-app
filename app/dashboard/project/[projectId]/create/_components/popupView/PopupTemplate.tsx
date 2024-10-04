@@ -14,7 +14,7 @@ import { hexToRgba, replaceVariablesInContentBody } from "@/lib/actions";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import "animate.css";
 import Image from "next/image";
-import { Tables } from "@/supabase/types";
+import { Tables } from "@/lib/supabase/types";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 
 export default function PopupTemplate({

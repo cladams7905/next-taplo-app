@@ -10,8 +10,8 @@ import Link from "next/link";
 import React, { useEffect, useRef, useState, useTransition } from "react";
 import { addMonths, sub } from "date-fns";
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
-import { updateStripeUser } from "@/stripe/actions";
-import { Tables } from "@/stripe/types";
+import { updateStripeUser } from "@/lib/stripe/actions";
+import { Tables } from "@/lib/stripe/types";
 import { useRouter } from "next/navigation";
 
 export default function RenewSubscriptionModal({

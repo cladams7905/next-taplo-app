@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useTransition } from "react";
-import { Tables } from "@/supabase/types";
+import { Tables } from "@/lib/supabase/types";
 import { updateProject } from "@/lib/actions/projects";
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import LoadingDots from "@/app/_components/shared/loadingdots";

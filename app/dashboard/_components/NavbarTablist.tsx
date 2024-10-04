@@ -1,6 +1,6 @@
 "use client";
 
-import { Tables } from "@/supabase/types";
+import { Tables } from "@/lib/supabase/types";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";

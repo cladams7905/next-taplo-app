@@ -2,8 +2,8 @@
 
 import LoadingDots from "@/app/_components/shared/loadingdots";
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
-import { updateStripeUser } from "@/stripe/actions";
-import { Tables } from "@/stripe/types";
+import { updateStripeUser } from "@/lib/stripe/actions";
+import { Tables } from "@/lib/stripe/types";
 import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState, useTransition } from "react";

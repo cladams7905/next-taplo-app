@@ -1,6 +1,6 @@
 "use client";
 
-import { Tables } from "@/supabase/types";
+import { Tables } from "@/lib/supabase/types";
 import { useRef, useState } from "react";
 import IntegrationsList from "./IntegrationsList";
 import { CirclePlus, Search } from "lucide-react";

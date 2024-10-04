@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import PaymentModal from "../../_components/PaymentModal";
 import { PaymentPlans } from "@/lib/enums";
 import Stripe from "stripe";
-import { Tables } from "@/stripe/types";
+import { Tables } from "@/lib/stripe/types";
 import { User } from "@supabase/supabase-js";
 import NewProjectForm from "./NewProjectForm";
 import { InfoCircledIcon } from "@radix-ui/react-icons";

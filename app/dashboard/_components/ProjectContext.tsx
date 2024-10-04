@@ -1,6 +1,6 @@
 "use client";
 
-import { Tables } from "@/supabase/types";
+import { Tables } from "@/lib/supabase/types";
 import { createContext, Dispatch, SetStateAction, useContext } from "react";
 import { IColor } from "react-color-palette";
 

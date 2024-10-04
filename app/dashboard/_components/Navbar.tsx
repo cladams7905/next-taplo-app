@@ -5,8 +5,8 @@ import { User } from "@supabase/supabase-js";
 import { ChevronRight, Menu } from "lucide-react";
 import NavbarTabList from "./NavbarTablist";
 import ProjectDropdown from "./ProjectDropdown";
-import { Tables as SupabaseTables } from "@/supabase/types";
-import { Tables as StripeTables } from "@/stripe/types";
+import { Tables as SupabaseTables } from "@/lib/supabase/types";
+import { Tables as StripeTables } from "@/lib/stripe/types";
 import { useEffect, useState } from "react";
 
 export default function Navbar({

@@ -1,4 +1,4 @@
-import { Tables } from "@/supabase/types";
+import { Tables } from "@/lib/supabase/types";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 import React from "react";
 

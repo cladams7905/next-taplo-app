@@ -1,5 +1,5 @@
 import { getActiveProject } from "@/lib/actions/projects";
-import { createClient } from "@/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import React from "react";
 import ProjectDetails from "./_components/ProjectDetails";

@@ -1,9 +1,9 @@
 import React from "react";
 import Navbar from "../dashboard/_components/Navbar";
 import { redirect } from "next/navigation";
-import { createClient } from "@/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import { getActiveProject, getProjects } from "@/lib/actions/projects";
-import { getProduct, getSubscription } from "@/stripe/actions";
+import { getProduct, getSubscription } from "@/lib/stripe/actions";
 import Link from "next/link";
 import RenewSubscriptionBanner from "./_components/RenewSubscriptionBanner";
 

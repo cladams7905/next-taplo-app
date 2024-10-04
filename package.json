@@ -10,12 +10,13 @@
     "build:css": "postcss lib/styles/tailwind.css -o public/css/tailwind.min.css",
     "postbuild": "webpack --config webpack.config.ts",
     "stripe:listen": "stripe listen --forward-to localhost:3000/api/v1/stripe/webhooks --project-name=taplo",
-    "types:public": "npx supabase gen types typescript --project-id rmihkzkyyqwkwttorhnw --schema public > supabase/types.ts",
-    "types:stripe": "npx supabase gen types typescript --project-id rmihkzkyyqwkwttorhnw --schema stripe > stripe/types.ts",
+    "types:public": "npx supabase gen types typescript --project-id rmihkzkyyqwkwttorhnw --schema public > lib/supabase/types.ts",
+    "types:stripe": "npx supabase gen types typescript --project-id rmihkzkyyqwkwttorhnw --schema stripe > lib/stripe/types.ts",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@google-analytics/data": "^4.8.0",
     "@hookform/resolvers": "^3.3.4",
     "@next/third-parties": "^14.2.14",
     "@opentelemetry/api": "^1.9.0",

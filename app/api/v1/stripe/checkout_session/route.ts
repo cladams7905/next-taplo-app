@@ -1,5 +1,5 @@
 import { getURL } from "@/lib/actions";
-import { stripe } from "@/stripe/server";
+import { stripe } from "@/lib/stripe/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {

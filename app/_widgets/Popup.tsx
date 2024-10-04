@@ -10,7 +10,7 @@ import React from "react";
 import { EventType, TemplateTypes } from "@/lib/enums";
 import { hexToRgba } from "@/lib/actions";
 import Image from "next/image";
-import { Tables } from "@/supabase/types";
+import { Tables } from "@/lib/supabase/types";
 import { DisplayNotification } from "@/lib/types";
 
 export default function PopupWidget({

@@ -1,5 +1,5 @@
-import { getSubscription } from "@/stripe/actions";
-import { stripe } from "@/stripe/server";
+import { getSubscription } from "@/lib/stripe/actions";
+import { stripe } from "@/lib/stripe/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {

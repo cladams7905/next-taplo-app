@@ -17,7 +17,7 @@ import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { useRouter } from "next/navigation";
 import { getRedirectPathname } from "@/app/(auth)/_actions";
 import { deleteProject } from "@/lib/actions/projects";
-import { Tables } from "@/supabase/types";
+import { Tables } from "@/lib/supabase/types";
 
 export default function DeleteProjectModal({
   activeProject,

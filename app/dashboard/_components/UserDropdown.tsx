@@ -10,7 +10,7 @@ import LoadingDots from "@/app/_components/shared/loadingdots";
 import { showToastError } from "@/app/_components/shared/showToast";
 import Link from "next/link";
 import { isFreeTrialPeriod } from "@/lib/actions";
-import { Tables } from "@/stripe/types";
+import { Tables } from "@/lib/stripe/types";
 
 function UserDropdown({
   user,

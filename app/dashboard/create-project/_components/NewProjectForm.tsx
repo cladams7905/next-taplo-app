@@ -18,7 +18,7 @@ import { createProject } from "@/lib/actions/projects";
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { useRouter } from "next/navigation";
 import { TemplateTypes, ScreenAlignment } from "@/lib/enums";
-import { Tables } from "@/stripe/types";
+import { Tables } from "@/lib/stripe/types";
 import React from "react";
 
 const FormSchema = z.object({

@@ -12,7 +12,7 @@ import React, {
 } from "react";
 import { updateEvent } from "@/lib/actions/events";
 import { showToastError } from "@/app/_components/shared/showToast";
-import { Tables } from "@/supabase/types";
+import { Tables } from "@/lib/supabase/types";
 import { ContentVars, EventType } from "@/lib/enums";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 

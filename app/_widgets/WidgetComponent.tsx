@@ -1,7 +1,7 @@
 // Embeddable Widget Component
 import React, { lazy, useCallback, useEffect, useRef, useState } from "react";
-import { Tables } from "@/supabase/types";
-import { Tables as StripeTables } from "@/stripe/types";
+import { Tables } from "@/lib/supabase/types";
+import { Tables as StripeTables } from "@/lib/stripe/types";
 import { DisplayNotification, EventData } from "@/lib/types";
 import ExitPopupToast from "./ExitPopupToast";
 import {
@@ -49,121 +49,129 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
   /**
    * Get the project data
    */
-  useEffect(() => {
-    const fetchProject = async () => {
-      try {
-        const response = await fetch(
-          `${siteUrl}/api/v1/projects?project_id=${projectId}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const result: Tables<"Projects"> = (await response.json())?.data;
-        setProjectData(result);
-      } catch (error: any) {
-        throw new Error("Error getting Taplo project: " + error.message);
-      }
-    };
-
-    fetchProject();
+  const fetchProject = useCallback(async () => {
+    try {
+      const response = await fetch(
+        `${siteUrl}/api/v1/projects?project_id=${projectId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const result: Tables<"Projects"> = (await response.json())?.data;
+      setProjectData(result);
+    } catch (error: any) {
+      throw new Error("Error getting Taplo project: " + error.message);
+    }
   }, [projectId, siteUrl]);
 
   /**
-   * Get the events and subscription data
+   * Get the events associated with the project
    */
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await fetch(
-          `${siteUrl}/api/v1/events?project_id=${projectId}${
-            projectData?.event_interval
-              ? `&event_interval=${projectData.event_interval}`
-              : ""
-          }`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const result: EventData = await response.json();
-        setEventData({
-          events: result?.events,
-          stripeData: result?.stripeData,
-        });
-      } catch (error: any) {
-        throw new Error("Error getting Taplo events: " + error.message);
-      }
-    };
-
-    const fetchActiveSubscription = async () => {
-      try {
-        const response = await fetch(
-          `${siteUrl}/api/v1/stripe/subscriptions?user_id=${projectData?.user_id}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const {
-          data: subscription,
-          error,
-          status,
-        }: {
-          data: StripeTables<"subscriptions">;
-          error: string;
-          status: number;
-        } = await response.json();
-
-        if (
-          !error &&
-          status === 200 &&
-          (subscription?.status === "active" ||
-            subscription?.status === "trialing")
-        ) {
-          setActiveSubscription(true);
+  const fetchEvents = useCallback(async () => {
+    try {
+      const response = await fetch(
+        `${siteUrl}/api/v1/events?project_id=${projectId}${
+          projectData?.event_interval
+            ? `&event_interval=${projectData.event_interval}`
+            : ""
+        }`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      } catch (error: any) {
-        throw new Error("Error getting Taplo project: " + error.message);
-      }
-    };
-
-    fetchEvents();
-    if (projectData?.user_id) {
-      fetchActiveSubscription();
+      );
+      const result: EventData = await response.json();
+      setEventData({
+        events: result?.events,
+        stripeData: result?.stripeData,
+        googleData: result?.googleData,
+      });
+    } catch (error: any) {
+      throw new Error("Error getting Taplo events: " + error.message);
     }
-  }, [projectData, projectId, siteUrl]);
+  }, [siteUrl, projectId, projectData?.event_interval]);
+
+  /**
+   * Fetch the user's active subscription, if one exists
+   */
+  const fetchActiveSubscription = useCallback(async () => {
+    try {
+      const response = await fetch(
+        `${siteUrl}/api/v1/stripe/subscriptions?user_id=${projectData?.user_id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const {
+        data: subscription,
+        error,
+        status,
+      }: {
+        data: StripeTables<"subscriptions">;
+        error: string;
+        status: number;
+      } = await response.json();
+
+      if (
+        !error &&
+        status === 200 &&
+        (subscription?.status === "active" ||
+          subscription?.status === "trialing")
+      ) {
+        setActiveSubscription(true);
+      }
+    } catch (error: any) {
+      throw new Error("Error getting Taplo project: " + error.message);
+    }
+  }, [siteUrl, projectData?.user_id]);
 
   /**
    * Get the products associated with the project
    */
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch(
-          `${siteUrl}/api/v1/products?project_id=${projectId}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const result: Tables<"Products">[] = (await response.json())?.data;
-        setProductData(result);
-      } catch (error: any) {
-        throw new Error("Error getting Taplo products: " + error.message);
-      }
-    };
+  const fetchProducts = useCallback(async () => {
+    try {
+      const response = await fetch(
+        `${siteUrl}/api/v1/products?project_id=${projectId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const result: Tables<"Products">[] = (await response.json())?.data;
+      setProductData(result);
+    } catch (error: any) {
+      throw new Error("Error getting Taplo products: " + error.message);
+    }
+  }, [siteUrl, projectId]);
 
+  /**
+   * Fetch project, events, active subscription, and products
+   */
+  useEffect(() => {
+    fetchProject();
+  }, [fetchProject]);
+
+  useEffect(() => {
+    fetchEvents();
+  }, [fetchEvents, projectData]);
+
+  useEffect(() => {
+    fetchActiveSubscription();
+  }, [fetchActiveSubscription]);
+
+  useEffect(() => {
     fetchProducts();
-  }, [projectId, siteUrl]);
+  }, [fetchProducts]);
 
   /**
    * Create a queue of notification events to be shown based on integration data

@@ -26,7 +26,7 @@ import { CirclePlus, EyeIcon, Pencil } from "lucide-react";
 import Image from "next/image";
 import StripeLogo from "@/public/images/providers/stripe-logo.svg";
 import GA4Logo from "@/public/images/providers/ga-logo.svg";
-import { Tables } from "@/supabase/types";
+import { Tables } from "@/lib/supabase/types";
 import {
   createIntegration,
   updateIntegration,
@@ -281,7 +281,7 @@ export default function NewIntegrationForm({
                 Create or access your project in the Google Cloud Console.
               </li>
               <li>
-                Make sure the Google Analytics Reporting API is enabled for your
+                Make sure the Google Analytics Data API is enabled for your
                 project.
               </li>
               <li>
@@ -292,7 +292,7 @@ export default function NewIntegrationForm({
                 (Recommended) Under &quot;Website restrictions&quot;, add
                 restricted access to https://www.taplo.io. Under &quot;API
                 restrictions&quot;, restrict the API key to only being able to
-                access the Google Analytics Reporting API.
+                access the Google Analytics Data API.
               </li>
               <li>Paste your new API Key below.</li>
             </ol>

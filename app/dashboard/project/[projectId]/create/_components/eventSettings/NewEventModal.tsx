@@ -1,7 +1,7 @@
 "use client";
 
 import { EventType } from "@/lib/enums";
-import { Tables, TablesInsert } from "@/supabase/types";
+import { Tables, TablesInsert } from "@/lib/supabase/types";
 import { showToastError } from "@/app/_components/shared/showToast";
 import { sortByTimeCreated } from "@/lib/actions";
 import { createEvent } from "@/lib/actions/events";

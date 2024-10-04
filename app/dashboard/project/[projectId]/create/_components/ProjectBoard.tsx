@@ -1,6 +1,6 @@
 "use client";
 
-import { Tables } from "@/supabase/types";
+import { Tables } from "@/lib/supabase/types";
 import Sidebar from "./Sidebar";
 import { useCallback, useEffect, useState } from "react";
 import { useColor } from "react-color-palette";

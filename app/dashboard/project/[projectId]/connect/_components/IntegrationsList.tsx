@@ -1,6 +1,6 @@
 "use client";
 
-import { Tables } from "@/supabase/types";
+import { Tables } from "@/lib/supabase/types";
 import { CirclePlus, EllipsisVertical, Pencil, Trash2 } from "lucide-react";
 import Image from "next/image";
 import StripeLogo from "@/public/images/providers/stripe-logo.svg";

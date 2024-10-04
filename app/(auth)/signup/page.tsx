@@ -1,5 +1,5 @@
 import RegisterForm from "../_components/RegisterForm";
-import { createClient } from "@/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { getRedirectPathname } from "../_actions";
 import Logo from "@/public/images/Taplo-logo (2).svg";

@@ -3,8 +3,8 @@ import {
   upsertProductRecord,
   upsertPriceRecord,
   manageSubscriptionStatusChange,
-} from "@/stripe/actions";
-import { stripe } from "@/stripe/server";
+} from "@/lib/stripe/actions";
+import { stripe } from "@/lib/stripe/server";
 import { NextRequest, NextResponse } from "next/server";
 
 const relevantEvents = new Set([

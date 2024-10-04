@@ -13,7 +13,7 @@ import {
 } from "@/app/_components/shared/form";
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
 
 const FormSchema = z

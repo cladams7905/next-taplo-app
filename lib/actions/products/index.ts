@@ -1,7 +1,7 @@
 "use server";
 
-import { createClient } from "@/supabase/server";
-import { Tables, TablesInsert, TablesUpdate } from "@/supabase/types";
+import { createClient } from "@/lib/supabase/server";
+import { Tables, TablesInsert, TablesUpdate } from "@/lib/supabase/types";
 import { revalidatePath } from "next/cache";
 
 export async function createProduct(product: TablesInsert<"Products">) {

@@ -1,6 +1,6 @@
 "use client";
 
-import { getStripe } from "@/stripe/client";
+import { getStripe } from "@/lib/stripe/client";
 import { Dispatch, SetStateAction, useCallback } from "react";
 import {
   EmbeddedCheckoutProvider,
@@ -12,7 +12,10 @@ import {
   toDateTime,
 } from "@/lib/actions";
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
-import { createOrRetrieveCustomer, updateStripeUser } from "@/stripe/actions";
+import {
+  createOrRetrieveCustomer,
+  updateStripeUser,
+} from "@/lib/stripe/actions";
 import { User } from "@supabase/supabase-js";
 
 const stripe = getStripe();

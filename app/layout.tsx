@@ -49,7 +49,7 @@ export default function RootLayout({
         <Analytics />
         <SpeedInsights />
       </body>
-      <GoogleTagManager gtmId="GTM-5Z76W2XH" />
+      <GoogleTagManager gtmId={process.env.GTM_ID!} />
     </html>
   );
 }

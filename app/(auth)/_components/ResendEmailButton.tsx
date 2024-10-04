@@ -3,7 +3,7 @@
 import React from "react";
 import { useTransition } from "react";
 import LoadingDots from "@/app/_components/shared/loadingdots";
-import { createClient } from "@/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { getURL } from "@/lib/actions";
 

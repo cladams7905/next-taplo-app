@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { createClient } from "@/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import { Check } from "lucide-react";
 import {
   getPrice,
@@ -7,7 +7,7 @@ import {
   getStripeCustomer,
   getStripeUser,
   getSubscription,
-} from "@/stripe/actions";
+} from "@/lib/stripe/actions";
 import {
   capitalizeFirstLetter,
   convertDateTime,

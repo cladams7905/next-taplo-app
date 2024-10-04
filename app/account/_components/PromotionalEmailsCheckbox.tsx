@@ -1,8 +1,8 @@
 "use client";
 
 import { showToastError } from "@/app/_components/shared/showToast";
-import { updateStripeUser } from "@/stripe/actions";
-import { Tables } from "@/stripe/types";
+import { updateStripeUser } from "@/lib/stripe/actions";
+import { Tables } from "@/lib/stripe/types";
 import { ChangeEvent, useState } from "react";
 
 export default function PromotionalEmailsCheckbox({

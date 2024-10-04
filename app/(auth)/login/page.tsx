@@ -1,7 +1,7 @@
 import SignInForm from "../_components/SignInForm";
 import OAuthForm from "../_components/OAuthForm";
 import Link from "next/link";
-import { createClient } from "@/supabase/server";
+import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Logo from "@/public/images/Taplo-logo (2).svg";
 import Image from "next/image";

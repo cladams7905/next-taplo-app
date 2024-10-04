@@ -1,11 +1,11 @@
 "use client";
 
-import { Tables } from "@/supabase/types";
+import { Tables } from "@/lib/supabase/types";
 import { ChangeEvent, TransitionStartFunction } from "react";
 import { deleteProduct, updateProduct } from "@/lib/actions/products";
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { Camera, Trash2 } from "lucide-react";
-import { createClient } from "@/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 import Image from "next/image";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import { formatPrice } from "@/lib/actions";

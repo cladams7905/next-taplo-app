@@ -1,9 +1,9 @@
-import { Tables as StripeTables } from "@/stripe/types";
+import { Tables as StripeTables } from "@/lib/stripe/types";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { ContentVars } from "../enums";
 import DOMPurify from "isomorphic-dompurify";
-import { Tables } from "@/supabase/types";
+import { Tables } from "@/lib/supabase/types";
 import { MessageData } from "../types";
 
 export function cn(...inputs: ClassValue[]) {

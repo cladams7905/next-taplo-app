@@ -1,6 +1,6 @@
 "use client";
 
-import { Tables, TablesInsert } from "@/supabase/types";
+import { Tables, TablesInsert } from "@/lib/supabase/types";
 import { ChevronDown } from "lucide-react";
 import React, {
   Dispatch,
