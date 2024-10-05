@@ -23,7 +23,7 @@ import {
   useTransition,
 } from "react";
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
-import { CirclePlus, EyeIcon, Pencil } from "lucide-react";
+import { CirclePlus, ExternalLink, EyeIcon, Pencil } from "lucide-react";
 import Image from "next/image";
 import StripeLogo from "@/public/images/providers/stripe-logo.svg";
 import GA4Logo from "@/public/images/providers/ga-logo.svg";
@@ -36,6 +36,7 @@ import { checkDuplicateTitle } from "@/lib/actions";
 import { EventType, Providers } from "@/lib/enums";
 import { EyeClosedIcon } from "@radix-ui/react-icons";
 import React from "react";
+import Link from "next/link";
 
 const PROVIDERS = Object.values(Providers) as [string, ...string[]];
 const providersEnum = z.enum(PROVIDERS, {
@@ -397,7 +398,20 @@ export default function NewIntegrationForm({
             </FormItem>
           )}
         />
-        {getProviderDescription(provider)}
+        {provider && (
+          <div className="flex gap-2 text-sm font-bold !py-3">
+            Follow{" "}
+            <Link
+              href={"/docs"}
+              target="_blank"
+              className="link inline-flex items-center gap-1 link-primary"
+            >
+              this guide
+              <ExternalLink width={16} height={16} />
+            </Link>{" "}
+            for steps to connect to {provider}.
+          </div>
+        )}
         {getFormOptions(form, provider)}
         <FormField
           control={form.control}
@@ -437,6 +451,10 @@ export default function NewIntegrationForm({
               Create New Integration
             </>
           )}
+        </div>
+        <div className="text-sm">
+          Need help setting up an integration? Email me at{" "}
+          <span className="underline">help@taplo.io</span>.
         </div>
       </form>
     </Form>
@@ -693,57 +711,6 @@ const getProviderLogo = (provider: ProvidersEnum) => {
           src={GA4Logo}
           className="rounded-lg aspect-square"
         />
-      );
-    default:
-      return null;
-  }
-};
-
-/**
- * Returns a description of the setup process for the selected provider
- */
-const getProviderDescription = (provider: ProvidersEnum) => {
-  switch (provider) {
-    case Providers.Stripe:
-      return (
-        <div className="flex flex-col gap-2">
-          <p className="text-sm font-bold">For connecting to Stripe:</p>
-          <ol className="list-decimal list-inside flex flex-col gap-2 max-h-28 overflow-y-scroll text-sm text-gray-500">
-            <li>Create a new Stripe Restricted API key.</li>
-            <li>
-              View Taplo event details to know what permissions to enable (for
-              example, the &quot;Recent Purchases&quot; event requires access to
-              Stripe charges data).
-            </li>
-            <li>Paste your restricted API key below.</li>
-          </ol>
-        </div>
-      );
-    case Providers.GoogleAnalytics:
-      return (
-        <div className="flex flex-col">
-          <p className="text-sm font-bold mb-3">
-            For connecting to Google Analytics:
-          </p>
-          <ol className="list-decimal list-inside flex flex-col gap-2 max-h-32 overflow-y-scroll text-sm text-gray-500">
-            <li>Create or access your project in the Google Cloud Console.</li>
-            <li>
-              Make sure the Google Analytics Data API is enabled for your
-              project.
-            </li>
-            <li>
-              Click &quot;Create Credentials&quot; and select &quot;API
-              key&quot;.
-            </li>
-            <li>
-              (Recommended) Under &quot;Website restrictions&quot;, add
-              restricted access to https://www.taplo.io. Under &quot;API
-              restrictions&quot;, restrict the API key to only being able to
-              access the Google Analytics Data API.
-            </li>
-            <li>Paste your new API Key below.</li>
-          </ol>
-        </div>
       );
     default:
       return null;

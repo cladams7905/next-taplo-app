@@ -38,16 +38,8 @@ export default function EmbedModal({
           </p>
           <CodeCopyBlock codeBlock={codeBlock} />
           <div className="text-sm">
-            Running into problems?{" "}
-            <a
-              className="link"
-              href="https://calendly.com/carteradams"
-              target="_blank"
-            >
-              Block off time with me and I&apos;ll personally help you with
-              setup
-            </a>
-            , or email me at help@taplo.io.
+            Need help setting up the script? Email me at{" "}
+            <span className="underline">help@taplo.io</span>.
           </div>
         </div>
       </div>

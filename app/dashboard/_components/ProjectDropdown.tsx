@@ -5,8 +5,8 @@ import { Tables } from "@/lib/supabase/types";
 import {
   Check,
   ChevronsUpDown,
+  CircleAlert,
   CirclePlus,
-  InfoIcon,
   Search,
 } from "lucide-react";
 import Link from "next/link";
@@ -157,8 +157,8 @@ export default function ProjectDropdown({
                     ))}
                 </ul>
                 {paymentPlan?.includes("Starter") && projects.length >= 1 ? (
-                  <div className="bg-primary/10 p-2 mt-2 rounded-lg text-xs flex items-center gap-2">
-                    <InfoIcon width={24} height={24} />
+                  <div className="text-error bg-error/10 p-2 mt-2 rounded-lg text-xs flex items-center gap-2">
+                    <CircleAlert width={24} height={24} />
                     <p>You are only allowed one project on the Starter plan.</p>
                   </div>
                 ) : (

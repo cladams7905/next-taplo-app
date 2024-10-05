@@ -7,7 +7,8 @@ import Stripe from "stripe";
 import { Tables } from "@/lib/stripe/types";
 import { User } from "@supabase/supabase-js";
 import NewProjectForm from "./NewProjectForm";
-import { InfoCircledIcon } from "@radix-ui/react-icons";
+import { ExternalLink, CircleAlert } from "lucide-react";
+import Link from "next/link";
 
 export default function NewProjectPage({
   stripeUser,
@@ -45,15 +46,17 @@ export default function NewProjectPage({
           setFreeTrialDate={setFreeTrialDate}
         />
       )}
-      <div className="flex items-start justify-center w-full h-screen-minus-navbar bg-gradient-to-tr from-primary/50 to-violet-100 font-sans">
-        <div className="border mt-36 border-gray-300 z-[1] p-2 shadow-lg bg-base-100 rounded-md w-full max-w-lg">
-          <div className="flex flex-col items-center justify-center w-full pt-6">
-            <p className="font-logo text-2xl mb-4">Create New Project</p>
+      <div className="flex flex-col items-center justify-center w-full h-screen-minus-navbar bg-gradient-to-tr from-primary/50 to-violet-100 font-sans md:px-24 sm:px-10 px-6">
+        <div className="border border-gray-300 z-[1] p-2 shadow-lg bg-base-100 rounded-md w-full max-w-lg">
+          <div className="flex flex-col items-center justify-center w-full pt-6 px-6">
+            <p className="font-logo md:text-2xl text-xl mb-4">
+              Create New Project
+            </p>
             {numProjects &&
             paymentPlan?.includes("Starter") &&
             numProjects >= 1 ? (
-              <div className="bg-primary/10 p-2 mt-2 rounded-lg text-xs flex items-center gap-2">
-                <InfoCircledIcon width={18} height={18} />
+              <div className="text-error bg-error/10 p-2 mt-2 rounded-lg sm:text-sm text-xs flex items-center gap-2">
+                <CircleAlert width={18} height={18} />
                 <p>You are only allowed one project on the Starter plan.</p>
               </div>
             ) : (
@@ -66,6 +69,18 @@ export default function NewProjectPage({
               numProjects={numProjects}
             />
           </div>
+        </div>
+        <div className="inline-block gap-2 md:text-sm text-xs text-center font-bold mt-6">
+          Need help getting started? Check out{" "}
+          <Link
+            href={"/docs/getting-started"}
+            target="_blank"
+            className="link inline-flex items-center gap-1 link-primary"
+          >
+            this guide
+            <ExternalLink width={16} height={16} />
+          </Link>{" "}
+          for helpful tips!
         </div>
       </div>
     </>

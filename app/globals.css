@@ -92,3 +92,7 @@ input:not(.toggle-primary), select, textarea {
 .tooltip::before {
   @apply shadow-md border border-gray-200 normal-case text-xs
 }
+
+.modal-box{
+  @apply !rounded-lg
+}

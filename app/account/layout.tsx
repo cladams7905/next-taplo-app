@@ -39,9 +39,9 @@ export default async function AccountLayout({
             paymentPlan={product?.name ?? null}
             subscription={subscription}
           />
-          <div className="flex flex-col md:h-screen-minus-navbar h-screen bg-gradient-to-tr from-primary/50 to-violet-100 font-sans dark:bg-base-100 relative">
+          <div className="flex flex-col h-screen-minus-navbar bg-gradient-to-tr from-primary/50 to-violet-100 font-sans dark:bg-base-100 relative">
             {subscription?.status === "canceled" && <RenewSubscriptionBanner />}
-            <div className="lg:px-12 md:px-8 px-4 h-full">{children}</div>
+            {children}
           </div>
         </div>
         <div className="drawer-side z-[99]">

@@ -56,9 +56,9 @@ export default async function AccountPage() {
   );
 
   return (
-    <div className="flex items-center justify-center w-full py-6 h-full">
-      <div className="lg:max-w-[70vw] w-full h-full flex flex-col gap-6 px-6 pt-6 overflow-y-scroll bg-white rounded-lg border border-gray-300">
-        <div className="flex flex-col border border-gray-200 rounded-lg px-6 py-4 gap-3 text-sm">
+    <div className="flex items-center justify-center w-full h-full md:px-24 sm:px-10 px-6">
+      <div className="w-full h-full flex flex-col gap-6 px-8 md:pt-12 pt-6 overflow-y-scroll bg-white border-x border-b border-gray-300">
+        <div className="flex flex-col border border-gray-200 rounded-lg px-6 py-4 gap-3 text-sm shadow-sm">
           <p className="text-lg font-bold">Account Details</p>
           <p>Email address: {userData.user.email}</p>
           <p>
@@ -67,7 +67,7 @@ export default async function AccountPage() {
           </p>
           <PromotionalEmailsCheckbox stripeUserData={stripeUserData} />
         </div>
-        <div className="join md:join-horizontal join-vertical mb-6">
+        <div className="join md:join-horizontal join-vertical mb-6 shadow-sm">
           <div className="join-item flex flex-col border border-gray-200 rounded-lg px-6 py-4 gap-3 md:w-2/3">
             <p className="text-lg font-bold mb-3">Subscription Details</p>
             <p className="font-bold text-sm">My plan: {productData?.name}</p>

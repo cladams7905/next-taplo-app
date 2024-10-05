@@ -21,7 +21,7 @@ export default async function ConnectPage() {
   const { data: events } = await getEvents(activeProject.id);
 
   return (
-    <div className="flex flex-col items-center justify-center gap-3 bg-gradient-to-tr from-primary/50 to-violet-100 h-screen-minus-navbar w-full lg:px-12 px-4">
+    <div className="flex flex-col items-center justify-center gap-3 bg-gradient-to-tr from-primary/50 to-violet-100 h-screen-minus-navbar w-full md:px-24 sm:px-10 px-6">
       <IntegrationBoard
         events={events}
         activeProject={activeProject}
