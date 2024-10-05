@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, UseFormReturn } from "react-hook-form";
 import * as z from "zod";
 import LoadingDots from "@/app/_components/shared/loadingdots";
 import {
@@ -18,6 +18,7 @@ import {
   SetStateAction,
   useCallback,
   useEffect,
+  useMemo,
   useState,
   useTransition,
 } from "react";
@@ -40,13 +41,54 @@ const PROVIDERS = Object.values(Providers) as [string, ...string[]];
 const providersEnum = z.enum(PROVIDERS, {
   errorMap: (issue, ctx) => ({ message: "API Provider is required." }),
 });
+
 type ProvidersEnum = z.infer<typeof providersEnum>;
 
-const FormSchema = z.object({
+type ZodForm = UseFormReturn<ApiKeyOptions | GoogleOptions>;
+
+type ApiKeyOptions = {
+  provider: string;
+  key: string;
+  name?: string | undefined;
+};
+type GoogleOptions = {
+  provider: string;
+  name?: string | undefined;
+  google_property_id: string;
+  google_project_id: string;
+  google_client_email: string;
+  google_private_key: string;
+};
+
+const BaseSchema = z.object({
   provider: providersEnum,
+});
+
+const ApiKeySchema = BaseSchema.extend({
   key: z.string().min(1, "API Key is required."),
   name: z.string().optional(),
 });
+
+const GoogleAnalyticsSchema = BaseSchema.extend({
+  name: z.string().optional(),
+  google_property_id: z.string().min(1, "Property ID is required."),
+  google_project_id: z.string().min(1, "Project ID is required."),
+  google_client_email: z.string().min(1, "Client Email is required."),
+  google_private_key: z.string().min(1, "Private Key is required."),
+});
+
+const FormSchema = z.union([ApiKeySchema, GoogleAnalyticsSchema]);
+
+const getSchema = (provider: string) => {
+  switch (provider) {
+    case Providers.Stripe:
+      return ApiKeySchema;
+    case Providers.GoogleAnalytics:
+      return GoogleAnalyticsSchema;
+    default:
+      return BaseSchema; // Fallback schema
+  }
+};
 
 export default function NewIntegrationForm({
   activeProject,
@@ -73,14 +115,56 @@ export default function NewIntegrationForm({
   const [provider, setProvider] = useState<ProvidersEnum>(
     integrationToEdit?.provider || ""
   );
-  const [isShowApiKey, setShowApiKey] = useState(false);
+
+  const schema = useMemo(() => getSchema(provider), [provider]);
+
+  const getFormProvider = (integrationToEdit?: Tables<"Integrations">) =>
+    integrationToEdit?.provider || "";
+
+  const getFormApiKey = (integrationToEdit?: Tables<"Integrations">) =>
+    integrationToEdit && "api_key" in integrationToEdit
+      ? integrationToEdit?.api_key ?? ""
+      : "";
+
+  const getFormName = (integrationToEdit?: Tables<"Integrations">) =>
+    integrationToEdit?.name || "";
+
+  const getFormGooglePropertyId = (
+    integrationToEdit?: Tables<"Integrations">
+  ) =>
+    integrationToEdit && "google_property_id" in integrationToEdit
+      ? integrationToEdit.google_property_id ?? ""
+      : "";
+
+  const getFormGoogleProjectId = (integrationToEdit?: Tables<"Integrations">) =>
+    integrationToEdit && "google_project_id" in integrationToEdit
+      ? integrationToEdit.google_project_id ?? ""
+      : "";
+
+  const getFormGoogleClientEmail = (
+    integrationToEdit?: Tables<"Integrations">
+  ) =>
+    integrationToEdit && "google_client_email" in integrationToEdit
+      ? integrationToEdit.google_client_email ?? ""
+      : "";
+
+  const getFormGooglePrivateKey = (
+    integrationToEdit?: Tables<"Integrations">
+  ) =>
+    integrationToEdit && "google_private_key" in integrationToEdit
+      ? integrationToEdit.google_private_key ?? ""
+      : "";
 
   const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+    resolver: zodResolver(schema),
     defaultValues: {
-      provider: integrationToEdit?.provider || "",
-      key: integrationToEdit?.api_key || "",
-      name: integrationToEdit?.name || "",
+      provider: getFormProvider(integrationToEdit),
+      key: getFormApiKey(integrationToEdit),
+      name: getFormName(integrationToEdit),
+      google_property_id: getFormGooglePropertyId(integrationToEdit),
+      google_project_id: getFormGoogleProjectId(integrationToEdit),
+      google_client_email: getFormGoogleClientEmail(integrationToEdit),
+      google_private_key: getFormGooglePrivateKey(integrationToEdit),
     },
   });
 
@@ -91,9 +175,13 @@ export default function NewIntegrationForm({
   useEffect(() => {
     if (integrationToEdit) {
       form.reset({
-        provider: integrationToEdit?.provider || "",
-        key: integrationToEdit?.api_key || "",
-        name: integrationToEdit?.name || "",
+        provider: getFormProvider(integrationToEdit),
+        key: getFormApiKey(integrationToEdit),
+        name: getFormName(integrationToEdit),
+        google_property_id: getFormGooglePropertyId(integrationToEdit),
+        google_project_id: getFormGoogleProjectId(integrationToEdit),
+        google_client_email: getFormGoogleClientEmail(integrationToEdit),
+        google_private_key: getFormGooglePrivateKey(integrationToEdit),
       });
       setProvider(integrationToEdit?.provider || "");
     } else {
@@ -101,6 +189,10 @@ export default function NewIntegrationForm({
         provider: "",
         key: "",
         name: "",
+        google_property_id: "",
+        google_project_id: "",
+        google_client_email: "",
+        google_private_key: "",
       });
       setProvider("");
     }
@@ -115,7 +207,7 @@ export default function NewIntegrationForm({
     const { data: updateData, error: updateError } = await updateIntegration(
       integrationToEdit!.id,
       {
-        api_key: formData.key,
+        api_key: "key" in formData ? formData.key : "",
         provider: formData.provider,
         name:
           formData.name ||
@@ -123,6 +215,22 @@ export default function NewIntegrationForm({
             integrations.map((integration) => integration.name),
             `${formData.provider} API Key`
           ),
+        google_property_id:
+          "google_property_id" in formData
+            ? formData.google_property_id
+            : undefined,
+        google_project_id:
+          "google_project_id" in formData
+            ? formData.google_project_id
+            : undefined,
+        google_client_email:
+          "google_client_email" in formData
+            ? formData.google_client_email
+            : undefined,
+        google_private_key:
+          "google_private_key" in formData
+            ? formData.google_private_key
+            : undefined,
       }
     );
 
@@ -138,7 +246,7 @@ export default function NewIntegrationForm({
     const { data: createData, error: createError } = await createIntegration({
       user_id: activeProject.user_id,
       project_id: activeProject.id,
-      api_key: formData.key,
+      api_key: "key" in formData ? formData.key : "",
       provider: formData.provider,
       name:
         formData.name ||
@@ -146,6 +254,22 @@ export default function NewIntegrationForm({
           integrations.map((integration) => integration.name),
           `${formData.provider} API Key`
         ),
+      google_property_id:
+        "google_property_id" in formData
+          ? formData.google_property_id
+          : undefined,
+      google_project_id:
+        "google_project_id" in formData
+          ? formData.google_project_id
+          : undefined,
+      google_client_email:
+        "google_client_email" in formData
+          ? formData.google_client_email
+          : undefined,
+      google_private_key:
+        "google_private_key" in formData
+          ? formData.google_private_key
+          : undefined,
     });
 
     return { data: createData, error: createError };
@@ -191,6 +315,10 @@ export default function NewIntegrationForm({
           provider: "",
           key: "",
           name: "",
+          google_property_id: "",
+          google_project_id: "",
+          google_client_email: "",
+          google_private_key: "",
         });
         setProvider("");
       } catch (error) {
@@ -222,86 +350,6 @@ export default function NewIntegrationForm({
     }
     return filteredProviders;
   }, [currentEvent]);
-
-  /**
-   * Returns the logo of the selected provider
-   */
-  const getProviderLogo = (provider: ProvidersEnum) => {
-    switch (provider) {
-      case Providers.Stripe:
-        return (
-          <Image
-            width={48}
-            height={48}
-            alt={"Stripe logo"}
-            src={StripeLogo}
-            className="rounded-lg"
-          />
-        );
-      case Providers.GoogleAnalytics:
-        return (
-          <Image
-            width={48}
-            height={48}
-            alt={"Google analytics logo"}
-            src={GA4Logo}
-            className="rounded-lg aspect-square"
-          />
-        );
-      default:
-        return null;
-    }
-  };
-
-  const getProviderDescription = (provider: ProvidersEnum) => {
-    switch (provider) {
-      case Providers.Stripe:
-        return (
-          <div className="flex flex-col gap-2">
-            <p className="text-sm font-bold">For connecting to Stripe:</p>
-            <ol className="list-decimal list-inside flex flex-col gap-2 max-h-28 overflow-y-scroll text-sm text-gray-500">
-              <li>Create a new Stripe Restricted API key.</li>
-              <li>
-                View Taplo event details to know what permissions to enable (for
-                example, the &quot;Recent Purchases&quot; event requires access
-                to Stripe charges data).
-              </li>
-              <li>Paste your restricted API key below.</li>
-            </ol>
-          </div>
-        );
-      case Providers.GoogleAnalytics:
-        return (
-          <div className="flex flex-col">
-            <p className="text-sm font-bold mb-3">
-              For connecting to Google Analytics:
-            </p>
-            <ol className="list-decimal list-inside flex flex-col gap-2 max-h-32 overflow-y-scroll text-sm text-gray-500">
-              <li>
-                Create or access your project in the Google Cloud Console.
-              </li>
-              <li>
-                Make sure the Google Analytics Data API is enabled for your
-                project.
-              </li>
-              <li>
-                Click &quot;Create Credentials&quot; and select &quot;API
-                key&quot;.
-              </li>
-              <li>
-                (Recommended) Under &quot;Website restrictions&quot;, add
-                restricted access to https://www.taplo.io. Under &quot;API
-                restrictions&quot;, restrict the API key to only being able to
-                access the Google Analytics Data API.
-              </li>
-              <li>Paste your new API Key below.</li>
-            </ol>
-          </div>
-        );
-      default:
-        return null;
-    }
-  };
 
   const filteredProviders = filterProvidersByEventType();
 
@@ -350,38 +398,7 @@ export default function NewIntegrationForm({
           )}
         />
         {getProviderDescription(provider)}
-        <FormField
-          control={form.control}
-          name="key"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Secret API Key</FormLabel>
-              <FormControl>
-                <div className="flex items-center gap-2">
-                  <input
-                    placeholder=""
-                    {...field}
-                    type={isShowApiKey ? "text" : "password"}
-                    className="input input-bordered flex items-center gap-2 w-full"
-                    onChange={field.onChange}
-                    value={field.value}
-                  />
-                  <div
-                    className="w-12 h-12 flex items-center justify-center border border-gray-200 rounded-lg cursor-pointer"
-                    onClick={() => setShowApiKey(!isShowApiKey)}
-                  >
-                    {isShowApiKey ? (
-                      <EyeClosedIcon strokeWidth={2.5} />
-                    ) : (
-                      <EyeIcon strokeWidth={1.5} />
-                    )}
-                  </div>
-                </div>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {getFormOptions(form, provider)}
         <FormField
           control={form.control}
           name="name"
@@ -425,3 +442,310 @@ export default function NewIntegrationForm({
     </Form>
   );
 }
+
+/**
+ * Returns the field options for the selected provider
+ */
+const getFormOptions = (form: ZodForm, provider: ProvidersEnum) => {
+  switch (provider) {
+    case Providers.Stripe:
+      return <ApiKeyOptions form={form} />;
+    case Providers.GoogleAnalytics:
+      return <GoogleOptions form={form} />;
+    default:
+      return null;
+  }
+};
+
+/**
+ * Returns the form fields for an integration requiring an API Key
+ */
+const ApiKeyOptions = ({ form }: { form: ZodForm }) => {
+  const [isShowApiKey, setShowApiKey] = useState(false);
+  return (
+    <FormField
+      control={form.control}
+      name="key"
+      render={({ field }) => (
+        <FormItem>
+          <FormLabel>Secret API Key*</FormLabel>
+          <FormControl>
+            <div className="flex items-center gap-2">
+              <input
+                placeholder=""
+                {...field}
+                type={isShowApiKey ? "text" : "password"}
+                className="input input-bordered flex items-center gap-2 w-full"
+                onChange={field.onChange}
+              />
+              <div
+                className="w-12 h-12 flex items-center justify-center border border-gray-200 rounded-lg cursor-pointer"
+                onClick={() => setShowApiKey(!isShowApiKey)}
+              >
+                {isShowApiKey ? (
+                  <EyeClosedIcon strokeWidth={2.5} />
+                ) : (
+                  <EyeIcon strokeWidth={1.5} />
+                )}
+              </div>
+            </div>
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  );
+};
+
+/**
+ * Returns the form fields for Google Analytics integration
+ */
+const GoogleOptions = ({ form }: { form: ZodForm }) => {
+  const [isShowPrivateKey, setShowPrivateKey] = useState(false);
+  const [fileError, setFileError] = useState<string | null>(null);
+  const [uploadedFile, setUploadedFile] = useState<string | null>(null);
+  return (
+    <>
+      <label className="flex items-center gap-2 w-full cursor-pointer">
+        <input
+          type="file"
+          className="hidden"
+          onChange={(e) =>
+            handleFileUpload(e, form, setFileError, setUploadedFile)
+          }
+        />
+        <div className="btn btn-accent btn-sm text-white">Upload</div>
+        <p className={`text-sm ${fileError ? "text-error" : ""}`}>
+          {fileError
+            ? fileError
+            : uploadedFile
+            ? uploadedFile
+            : "Upload your Google credentials.json file here"}
+        </p>
+      </label>
+      <FormField
+        control={form.control}
+        name="google_property_id"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Property ID*</FormLabel>
+            <FormControl>
+              <input
+                placeholder=""
+                {...field}
+                type="text"
+                className="input input-bordered flex items-center gap-2 w-full"
+                onChange={field.onChange}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="google_project_id"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Project ID*</FormLabel>
+            <FormControl>
+              <input
+                placeholder=""
+                {...field}
+                type="text"
+                className="input input-bordered flex items-center gap-2 w-full"
+                onChange={field.onChange}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="google_client_email"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Google client email*</FormLabel>
+            <FormControl>
+              <input
+                placeholder=""
+                {...field}
+                type="email"
+                className="input input-bordered flex items-center gap-2 w-full"
+                onChange={field.onChange}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="google_private_key"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Private Key*</FormLabel>
+            <FormControl>
+              <div className="flex items-center gap-2">
+                <input
+                  placeholder=""
+                  {...field}
+                  type={isShowPrivateKey ? "text" : "password"}
+                  className="input input-bordered flex items-center gap-2 w-full"
+                  onChange={field.onChange}
+                />
+                <div
+                  className="w-12 h-12 flex items-center justify-center border border-gray-200 rounded-lg cursor-pointer"
+                  onClick={() => setShowPrivateKey(!isShowPrivateKey)}
+                >
+                  {isShowPrivateKey ? (
+                    <EyeClosedIcon strokeWidth={2.5} />
+                  ) : (
+                    <EyeIcon strokeWidth={1.5} />
+                  )}
+                </div>
+              </div>
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    </>
+  );
+};
+
+/**
+ * Handles the file upload for Google Analytics credentials
+ */
+const handleFileUpload = (
+  e: React.ChangeEvent<HTMLInputElement>,
+  form: ZodForm,
+  setFileError: (error: string | null) => void,
+  setUploadedFile: (file: string | null) => void
+) => {
+  const file = e.target.files?.[0];
+  if (!file) {
+    setFileError("No file selected.");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const fileContents = e.target?.result;
+    if (!fileContents) {
+      setFileError("File is empty.");
+      return;
+    }
+    try {
+      const credentials = JSON.parse(fileContents as string);
+      if (
+        !credentials.client_email ||
+        !credentials.private_key ||
+        !credentials.project_id
+      ) {
+        setFileError(
+          "Credentials not found. Please upload a valid credentials.json file."
+        );
+        return;
+      } else {
+        setUploadedFile(file.name);
+        form.setValue("google_project_id", credentials.project_id);
+        form.setValue("google_client_email", credentials.client_email);
+        form.setValue("google_private_key", credentials.private_key);
+        setFileError(null);
+      }
+    } catch (error) {
+      setFileError(
+        "Invalid JSON file. Please upload a valid credentials.json file."
+      );
+    }
+  };
+  reader.onerror = () => {
+    setFileError(
+      "Invalid JSON file. Please upload a valid credentials.json file."
+    );
+  };
+  reader.readAsText(file);
+};
+
+/**
+ * Returns the logo of the selected provider
+ */
+const getProviderLogo = (provider: ProvidersEnum) => {
+  switch (provider) {
+    case Providers.Stripe:
+      return (
+        <Image
+          width={48}
+          height={48}
+          alt={"Stripe logo"}
+          src={StripeLogo}
+          className="rounded-lg"
+        />
+      );
+    case Providers.GoogleAnalytics:
+      return (
+        <Image
+          width={48}
+          height={48}
+          alt={"Google analytics logo"}
+          src={GA4Logo}
+          className="rounded-lg aspect-square"
+        />
+      );
+    default:
+      return null;
+  }
+};
+
+/**
+ * Returns a description of the setup process for the selected provider
+ */
+const getProviderDescription = (provider: ProvidersEnum) => {
+  switch (provider) {
+    case Providers.Stripe:
+      return (
+        <div className="flex flex-col gap-2">
+          <p className="text-sm font-bold">For connecting to Stripe:</p>
+          <ol className="list-decimal list-inside flex flex-col gap-2 max-h-28 overflow-y-scroll text-sm text-gray-500">
+            <li>Create a new Stripe Restricted API key.</li>
+            <li>
+              View Taplo event details to know what permissions to enable (for
+              example, the &quot;Recent Purchases&quot; event requires access to
+              Stripe charges data).
+            </li>
+            <li>Paste your restricted API key below.</li>
+          </ol>
+        </div>
+      );
+    case Providers.GoogleAnalytics:
+      return (
+        <div className="flex flex-col">
+          <p className="text-sm font-bold mb-3">
+            For connecting to Google Analytics:
+          </p>
+          <ol className="list-decimal list-inside flex flex-col gap-2 max-h-32 overflow-y-scroll text-sm text-gray-500">
+            <li>Create or access your project in the Google Cloud Console.</li>
+            <li>
+              Make sure the Google Analytics Data API is enabled for your
+              project.
+            </li>
+            <li>
+              Click &quot;Create Credentials&quot; and select &quot;API
+              key&quot;.
+            </li>
+            <li>
+              (Recommended) Under &quot;Website restrictions&quot;, add
+              restricted access to https://www.taplo.io. Under &quot;API
+              restrictions&quot;, restrict the API key to only being able to
+              access the Google Analytics Data API.
+            </li>
+            <li>Paste your new API Key below.</li>
+          </ol>
+        </div>
+      );
+    default:
+      return null;
+  }
+};

@@ -65,6 +65,10 @@ export type Database = {
         Row: {
           api_key: string | null
           created_at: string
+          google_client_email: string | null
+          google_private_key: string | null
+          google_project_id: string | null
+          google_property_id: string | null
           id: number
           name: string | null
           project_id: number
@@ -74,6 +78,10 @@ export type Database = {
         Insert: {
           api_key?: string | null
           created_at?: string
+          google_client_email?: string | null
+          google_private_key?: string | null
+          google_project_id?: string | null
+          google_property_id?: string | null
           id?: number
           name?: string | null
           project_id: number
@@ -83,6 +91,10 @@ export type Database = {
         Update: {
           api_key?: string | null
           created_at?: string
+          google_client_email?: string | null
+          google_private_key?: string | null
+          google_project_id?: string | null
+          google_property_id?: string | null
           id?: number
           name?: string | null
           project_id?: number
