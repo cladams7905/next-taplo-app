@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    const { data, error } = await getIntegrationById(integration_id);
+    const { data, error } = await getIntegrationById(parseInt(integration_id));
 
     if (!data || error) {
       return NextResponse.json({

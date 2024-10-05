@@ -101,7 +101,7 @@ const getIntegrationData = async (
             break;
           case EventType.ActiveVisitors:
             integrationData.googleData.activeVisitors =
-              await getActiveVisitorsFromGoogle();
+              await getActiveVisitorsFromGoogle(integration);
             break;
           case EventType.SomeoneViewing:
             // Google Analytics data
@@ -151,16 +151,18 @@ async function getChargesFromStripe(stripe: Stripe, timeToFilter: number) {
   return charges;
 }
 
-async function getActiveVisitorsFromGoogle() {
+async function getActiveVisitorsFromGoogle(
+  integration: Tables<"Integrations">
+) {
   // Google Analytics data
   const requestOptions = {
-    method: "POST",
+    method: "GET",
     headers: {
       Accept: "application/json",
     },
   };
   const response = await fetch(
-    `${getURL()}/api/v1/analytics/google`,
+    `${getURL()}/api/v1/analytics/google?integration_id=${integration.id}`,
     requestOptions
   );
   return await response.json();

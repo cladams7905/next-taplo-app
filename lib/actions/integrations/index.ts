@@ -30,7 +30,7 @@ export async function getIntegrations(projectId: number, isAdmin = false) {
 }
 
 export async function getIntegrationById(
-  integrationId: string,
+  integrationId: number,
   isAdmin = false
 ) {
   const supabase = createClient(isAdmin);
