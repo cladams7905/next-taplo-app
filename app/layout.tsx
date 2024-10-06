@@ -10,7 +10,7 @@ import { GoogleTagManager } from "@next/third-parties/google";
 
 const openSans = Noto_Sans({
   variable: "--font-openSans",
-  weight: ["300", "400", "500"],
+  weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
 });
 const changaOne = Gayathri({

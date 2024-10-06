@@ -48,9 +48,10 @@ const config: Config = {
         logo: ["var(--font-georama)"],
       },
       fontWeight: {
-        normal: "300",
-        semibold: "400",
-        bold: "500",
+        light: "300",
+        normal: "400",
+        semibold: "500",
+        bold: "600",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

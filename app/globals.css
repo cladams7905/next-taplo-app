@@ -96,3 +96,7 @@ input:not(.toggle-primary), select, textarea {
 .modal-box{
   @apply !rounded-lg
 }
+
+.btn {
+  @apply !font-bold
+}
