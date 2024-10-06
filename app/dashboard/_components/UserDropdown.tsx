@@ -41,7 +41,10 @@ function UserDropdown({
 
   return (
     <div className="dropdown dropdown-end relative inline-block text-left">
-      <button className="flex items-center justify-center overflow-hidden rounded-full">
+      <button
+        className="flex items-center justify-center overflow-hidden rounded-full"
+        tabIndex={0}
+      >
         <div className="transition-all duration-75 active:scale-95">
           {avatar_url ? (
             <div className="border border-gray-300 rounded-full">
@@ -65,7 +68,10 @@ function UserDropdown({
           )}
         </div>
       </button>
-      <div className="dropdown-content w-fit min-w-48 z-[3] mt-2 rounded-md bg-white p-2 border shadow-lg border-gray-300">
+      <div
+        className="dropdown-content w-fit min-w-48 z-[3] mt-2 rounded-md bg-white p-2 border shadow-lg border-gray-300"
+        tabIndex={0}
+      >
         <div className="p-2">
           {user && (
             <>
