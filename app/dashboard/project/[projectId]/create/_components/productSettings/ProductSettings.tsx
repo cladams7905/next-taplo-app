@@ -38,7 +38,7 @@ export default function ProductSettings({
         <div className="flex flex-row items-center sticky top-[-1px] ml-2 gap-2 bg-white">
           <div className="flex flex-col gap-[6px]">
             {" "}
-            <div className="font-semibold text-sm flex flex-row gap-3">
+            <div className="font-semibold text-md flex flex-row gap-3">
               <p>Products ({products.length})</p>
               {isProductPending && (
                 <span className="loading loading-spinner loading-xs bg-base-content"></span>

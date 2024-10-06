@@ -22,9 +22,9 @@ export default function EventsHeader({
   return (
     <div className="flex flex-row justify-between items-center">
       <div className="flex items-center gap-[6px]">
-        <div className="flex flex-col ml-2 font-semibold text-sm gap-1">
+        <div className="flex flex-col ml-2 gap-1">
           <div className="flex items-center gap-3">
-            <p>Events ({events.length})</p>
+            <p className="font-semibold text-md">Events ({events.length})</p>
             {isEventPending && (
               <span className="loading loading-spinner loading-xs bg-base-content"></span>
             )}

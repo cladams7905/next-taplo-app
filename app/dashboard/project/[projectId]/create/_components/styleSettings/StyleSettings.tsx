@@ -179,7 +179,7 @@ export const StyleSettings = ({
           scrolled ? "border-b -mb-[1px] shadow-sm" : ""
         } ${isPreviewMode ? "z-[1]" : "z-[2]"}`}
       >
-        <div className="font-semibold ml-2 text-sm">Style</div>
+        <div className="font-semibold ml-2 text-md">Style</div>
         {isStylePending && (
           <span className="loading loading-spinner loading-xs bg-base-content"></span>
         )}
@@ -187,7 +187,7 @@ export const StyleSettings = ({
       <div className="flex flex-col p-4 gap-6 bg-white">
         <div className="flex flex-col gap-6 rounded-lg border border-gray-200 px-5 pt-3 pb-6">
           <div className="flex flex-row items-center w-full justify-between">
-            <p className="text-sm font-bold">Colors</p>
+            <p className="text-sm font-semibold">Colors</p>
             <div
               className="btn btn-sm w-auto btn-ghost text-xs"
               onClick={() => handleResetClick()}
@@ -341,7 +341,7 @@ export const StyleSettings = ({
         </div> */}
         <div className="flex flex-col w-full gap-2">
           {" "}
-          <p className="text-sm font-bold">Screen alignment</p>
+          <p className="text-sm font-semibold">Screen alignment</p>
           <select
             className="select select-bordered border-neutral w-full"
             value={activeProject?.screen_alignment || "default"}

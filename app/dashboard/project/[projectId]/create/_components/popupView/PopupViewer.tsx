@@ -26,7 +26,7 @@ export default function PopupViewer() {
   return (
     <div className="flex flex-col w-full items-center gap-3 py-4 rounded-lg">
       <div className="flex flex-col w-full relative items-center rounded-lg gap-14 bg-white/20 lg:max-w-[35vw] mb-12 mt-6 lg:my-0 md:my-0 pb-28 px-4">
-        <div className="w-full mt-1 ml-2">
+        <div className="w-full mt-1 sm:ml-2">
           <div className="py-2 w-fit font-semibold text-sm">
             {activeEvent ? activeEvent.event_type : ""}
           </div>

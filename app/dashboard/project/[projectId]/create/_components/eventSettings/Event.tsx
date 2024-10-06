@@ -136,7 +136,7 @@ function Event({
             {getEventIcon(currentEvent.event_type as EventType)}
           </div>
           <div className="flex flex-col gap-1">
-            {currentEvent.event_type}
+            <p className="font-semibold">{currentEvent.event_type}</p>
             <div className="text-xs">
               {currentEvent.integration_id ? (
                 `Listens to: ${

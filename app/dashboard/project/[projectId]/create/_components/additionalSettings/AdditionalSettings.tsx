@@ -68,7 +68,7 @@ export default function AdditionalSettings({
             scrolled ? "border-b -mb-[1px] shadow-sm" : ""
           } ${isPreviewMode ? "z-[1]" : "z-[2]"}`}
         >
-          <div className="font-semibold ml-2 text-sm">Settings</div>
+          <div className="font-semibold ml-2 text-md">Settings</div>
           {isSettingsPending && (
             <span className="loading loading-spinner loading-xs bg-base-content"></span>
           )}

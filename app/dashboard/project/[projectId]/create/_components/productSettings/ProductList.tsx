@@ -215,7 +215,7 @@ const ProductList = ({
                     }}
                     placeholder="0.00"
                     defaultValue={formatPrice(product.price) || ""}
-                    className="input input-bordered input-sm max-w-[120px]"
+                    className="input input-bordered input-sm sm:max-w-[120px] max-w-[80px]"
                   />
                 </div>
               </div>
