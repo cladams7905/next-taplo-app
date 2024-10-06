@@ -47,6 +47,11 @@ const config: Config = {
         sans: ["var(--font-openSans)"],
         logo: ["var(--font-georama)"],
       },
+      fontWeight: {
+        normal: "300",
+        semibold: "400",
+        bold: "500",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
