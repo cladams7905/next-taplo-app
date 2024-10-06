@@ -46,7 +46,7 @@ export default function NewProjectPage({
           setFreeTrialDate={setFreeTrialDate}
         />
       )}
-      <div className="flex flex-col items-center justify-center w-full h-screen-minus-navbar bg-gradient-to-tr from-primary/50 to-violet-100 font-sans md:px-24 sm:px-10">
+      <div className="flex flex-col items-center justify-center w-full h-screen-minus-navbar bg-gradient-to-tr from-primary/50 to-violet-100 font-sans md:px-24 sm:px-10 px-6">
         <div className="border border-gray-300 z-[1] p-2 shadow-lg bg-base-100 rounded-md w-full max-w-lg">
           <div className="flex flex-col items-center justify-center w-full pt-6 px-6">
             <p className="font-logo md:text-2xl text-xl mb-4">

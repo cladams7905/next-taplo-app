@@ -399,7 +399,7 @@ export default function NewIntegrationForm({
           )}
         />
         {provider && (
-          <div className="flex gap-2 text-sm font-bold !py-3">
+          <div className="inline-block gap-2 text-sm font-semibold !py-3">
             Follow{" "}
             <Link
               href={"/docs"}
