@@ -70,6 +70,7 @@ export default function ProjectDetails({
 
   return (
     <div className="flex flex-col border border-gray-200 rounded-lg px-6 gap-4 py-4 text-sm">
+      <p className="text-lg font-bold mb-4">Project Settings</p>
       <div className="flex flex-col items-center justify-center w-full">
         <Form {...form}>
           <form

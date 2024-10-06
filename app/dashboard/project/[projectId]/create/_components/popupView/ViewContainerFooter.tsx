@@ -16,7 +16,7 @@ function ViewContainerFooter({
   const settingsDropdownRef = useRef<HTMLUListElement>(null);
 
   return (
-    <div className="flex absolute gap-1 bottom-0 right-0 w-full justify-end items-end px-5">
+    <div className="flex absolute bottom-0 right-0 w-full justify-end items-end px-5">
       <div
         className="tooltip tooltip-top tooltip-info p-2 rounded-lg cursor-pointer hover:bg-primary/20 mb-[6px]"
         data-tip="Project settings"
