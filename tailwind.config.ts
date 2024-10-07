@@ -40,7 +40,7 @@ const config: Config = {
   theme: {
     extend: {
       height: {
-        "screen-minus-navbar": "calc(100vh - 68px)",
+        "screen-minus-navbar": "calc(100vh - 104px)",
       },
       fontFamily: {
         heading: ["var(--font-changaOne)"],

@@ -5,6 +5,7 @@ import { getActiveProject, getProjects } from "@/lib/actions/projects";
 import { getProduct, getSubscription } from "@/lib/stripe/actions";
 import Link from "next/link";
 import RenewSubscriptionBanner from "../account/_components/RenewSubscriptionBanner";
+import { fetchToken } from "@/lib/actions/featuresvote";
 
 export default async function DashboardLayout({
   children,
@@ -24,6 +25,7 @@ export default async function DashboardLayout({
   const { data: product } = subscription?.product_id
     ? await getProduct(subscription.product_id)
     : { data: null };
+  const featuresVoteToken = await fetchToken(userData.user);
 
   return (
     <main>
@@ -34,6 +36,7 @@ export default async function DashboardLayout({
             user={userData.user}
             projects={projects}
             fetchedActiveProject={activeProject}
+            featuresVoteToken={featuresVoteToken}
             paymentPlan={product?.name ?? null}
             subscription={subscription}
           />

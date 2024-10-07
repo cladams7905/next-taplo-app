@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 export default function PrivacyPolicy() {
@@ -78,26 +79,41 @@ export default function PrivacyPolicy() {
         or the public.
       </p>
       <p>4. Your Rights</p>
-      <p>
+      <div>
         If you are a resident of certain countries, including those in the
         European Economic Area, you have certain rights in relation to your
         personal information, including the right to request access to, correct,
         update, or delete your personal information. If you would like to
-        exercise any of these rights, please contact us at help@taplo.io.
-      </p>
+        exercise any of these rights, please contact us at{" "}
+        <Link
+          href={`mailto:help@taplo.io?subject=Legal%20inquiry`}
+          target="_blank"
+          className="link link-primary"
+        >
+          help@taplo.io
+        </Link>
+        .
+      </div>
       <p>5. Changes to This Privacy Policy</p>
       <p>
         We may update this Privacy Policy from time to time to reflect changes
         in our practices or to comply with legal or regulatory requirements.{" "}
       </p>
       <p>6. Contact Us</p>
-      <p>
+      <div>
         {" "}
         If you have any questions or concerns about this Privacy Policy or our
-        privacy practices, please contact us at help@taplo.io. We will make
-        every effort to respond to your inquiry and address any concerns you may
-        have.
-      </p>
+        privacy practices, please contact us at{" "}
+        <Link
+          href={`mailto:help@taplo.io?subject=Legal%20inquiry`}
+          target="_blank"
+          className="link link-primary"
+        >
+          help@taplo.io
+        </Link>
+        . We will make every effort to respond to your inquiry and address any
+        concerns you may have.
+      </div>
     </div>
   );
 }

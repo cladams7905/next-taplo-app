@@ -46,14 +46,14 @@ export const StyleSettings = ({
           bg_color: "#FFFFFF",
           text_color: "#172554",
           accent_color: "#7A81EB",
-          border_color: "#D1D3D7",
+          border_color: "#E5E7EB",
         });
         const { error } = await updateProject(activeProject.id, {
           ...activeProject,
           bg_color: "#FFFFFF",
           text_color: "#172554",
           accent_color: "#7A81EB",
-          border_color: "#D1D3D7",
+          border_color: "#E5E7EB",
         });
         if (error) {
           showToastError(error);

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 export default function TermsOfService() {
@@ -82,11 +83,19 @@ export default function TermsOfService() {
         regarding the use of the Service.
       </p>
       <p>10. Contact Us</p>
-      <p>
+      <div>
         For any questions or concerns regarding the Service or these Terms of
-        Use, please contact us at help@taplo.io or any other communication means
-        we put at the customer&apos;s disposition.
-      </p>
+        Use, please contact us at{" "}
+        <Link
+          href={`mailto:help@taplo.io?subject=Legal%20inquiry`}
+          target="_blank"
+          className="link link-primary"
+        >
+          help@taplo.io
+        </Link>{" "}
+        or any other communication means we put at the customer&apos;s
+        disposition.
+      </div>
     </div>
   );
 }

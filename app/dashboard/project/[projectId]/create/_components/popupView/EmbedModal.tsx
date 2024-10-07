@@ -4,6 +4,7 @@ import { RefObject } from "react";
 import CodeCopyBlock from "./CodeCopyBlock";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import { getURL } from "@/lib/actions";
+import Link from "next/link";
 
 export default function EmbedModal({
   modalRef,
@@ -32,14 +33,21 @@ export default function EmbedModal({
         </form>
         <h3 className="font-semibold text-lg mb-4">Embed Project</h3>
         <div className="flex flex-col w-full gap-6">
-          <p>
+          <p className="text-sm">
             Add these two lines of code within the html of the page you wish to
             display your popup on.
           </p>
           <CodeCopyBlock codeBlock={codeBlock} />
           <div className="text-sm">
             Need help setting up the script? Email me at{" "}
-            <span className="underline">help@taplo.io</span>.
+            <Link
+              href={`mailto:help@taplo.io?subject=Help%20embedding%20project`}
+              target="_blank"
+              className="link link-primary"
+            >
+              help@taplo.io
+            </Link>
+            .
           </div>
         </div>
       </div>

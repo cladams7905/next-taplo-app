@@ -18,10 +18,16 @@ export default function Footer() {
             Attention-grabbing popups to increase your conversion rate.
           </p>
           <p>Copyright © 2024 - All Rights Reserved.</p>
-          <p className="mt-6">
+          <div className="mt-6">
             Question? Email me at{" "}
-            <span className="font-bold">help@taplo.io</span>
-          </p>
+            <Link
+              href={`mailto:help@taplo.io?subject=Business%20inquiry`}
+              target="_blank"
+              className="link"
+            >
+              help@taplo.io
+            </Link>
+          </div>
         </aside>
         <nav>
           <h6 className="footer-title">Links</h6>

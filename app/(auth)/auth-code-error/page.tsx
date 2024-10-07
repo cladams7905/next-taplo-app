@@ -17,11 +17,18 @@ export default async function AuthCodeError() {
       <div className="flex min-h-screen w-full flex-col items-center justify-between p-24 font-sans">
         <div className="flex flex-col items-center justify-center w-full max-w-md">
           <p className="font-logo text-3xl mb-4">Authorization error.</p>
-          <p>
+          <div>
             Please try logging in or registering again in a while. We apologize
             for the inconvenience. If this issue persists, please reach out at
-            help@taplo.io.
-          </p>
+            <Link
+              href={`mailto:help@taplo.io?subject=Authorization%20error`}
+              target="_blank"
+              className="link link-primary"
+            >
+              help@taplo.io
+            </Link>
+            .
+          </div>
         </div>
       </div>
     </main>

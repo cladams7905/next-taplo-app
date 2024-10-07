@@ -1,5 +1,6 @@
 "use client"; // Error components must be Client Components
 
+import Link from "next/link";
 import { useEffect } from "react";
 
 export default function AppError({
@@ -22,10 +23,17 @@ export default function AppError({
       </div>
       <div className="flex flex-col w-full items-center justify-center gap-3">
         {" "}
-        <h2 className="text-2xl">
-          We ran into a snag. Please contact us at help@taplo.io to resolve this
-          issue.
-        </h2>
+        <div className="text-2xl">
+          We ran into a snag. Please contact us at{" "}
+          <Link
+            href={`mailto:help@taplo.io?subject=Client%20side%20error:%20${error.name}`}
+            target="_blank"
+            className="link link-primary"
+          >
+            help@taplo.io
+          </Link>{" "}
+          to resolve this issue.
+        </div>
         <div className="text-gray-500 max-w-lg">{error.message}</div>
       </div>
       <div

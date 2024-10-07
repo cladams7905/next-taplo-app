@@ -6,6 +6,7 @@ import { getActiveProject, getProjects } from "@/lib/actions/projects";
 import { getProduct, getSubscription } from "@/lib/stripe/actions";
 import Link from "next/link";
 import RenewSubscriptionBanner from "./_components/RenewSubscriptionBanner";
+import { fetchToken } from "@/lib/actions/featuresvote";
 
 export default async function AccountLayout({
   children,
@@ -26,6 +27,7 @@ export default async function AccountLayout({
   const { data: product } = subscription?.product_id
     ? await getProduct(subscription.product_id)
     : { data: null };
+  const featuresVoteToken = await fetchToken(data.user);
 
   return (
     <main>
@@ -36,6 +38,7 @@ export default async function AccountLayout({
             user={data.user}
             projects={projects}
             fetchedActiveProject={activeProject}
+            featuresVoteToken={featuresVoteToken}
             paymentPlan={product?.name ?? null}
             subscription={subscription}
           />

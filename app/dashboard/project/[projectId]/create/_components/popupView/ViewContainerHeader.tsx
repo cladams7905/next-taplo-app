@@ -42,25 +42,33 @@ export default function ViewContainerHeader({
         {events.length > 0 && (
           <>
             <div
-              className="btn btn-primary flex items-center tooltip tooltip-bottom tooltip-info text-white text-xs btn-sm font-normal"
-              onClick={() => {
-                embedModalRef.current?.showModal();
-              }}
+              className="tooltip tooltip-bottom tooltip-info"
               data-tip="Embed"
             >
-              <Code2Icon width={18} height={18} />
+              <div
+                className="btn btn-primary flex items-center text-white text-xs btn-sm"
+                onClick={() => {
+                  embedModalRef.current?.showModal();
+                }}
+              >
+                <Code2Icon width={18} height={18} />
+              </div>
             </div>
             <EmbedModal modalRef={embedModalRef} />
             <div
-              className="btn btn-accent flex items-center text-white text-xs btn-sm tooltip tooltip-bottom tooltip-info font-normal"
-              onClick={() => {
-                previewRef.current?.classList.remove("hidden");
-                previewRef.current?.classList.add("flex");
-                setPreviewMode(true);
-              }}
+              className="tooltip tooltip-bottom tooltip-info"
               data-tip="Preview"
             >
-              <Fullscreen width={18} height={18} />
+              <div
+                className="btn btn-accent flex items-center text-white text-xs btn-sm"
+                onClick={() => {
+                  previewRef.current?.classList.remove("hidden");
+                  previewRef.current?.classList.add("flex");
+                  setPreviewMode(true);
+                }}
+              >
+                <Fullscreen width={18} height={18} />
+              </div>
             </div>
             <PreviewContainer
               previewRef={previewRef}

@@ -31,9 +31,9 @@ export default function ProductSettings({
       } flex-col w-full h-fit`}
     >
       <div
-        className={`sticky top-0 w-full min-h-[65px] p-4 bg-white flex items-center justify-between ${
+        className={`sticky top-0 w-full min-h-[65px] p-4 bg-white flex items-center justify-between z-[2] ${
           scrolled ? "border-b border-gray-300 -mb-[1px] shadow-sm" : ""
-        } ${isPreviewMode ? "z-[1]" : "z-[2]"}`}
+        }`}
       >
         <div className="flex flex-row items-center sticky top-[-1px] ml-2 gap-2 bg-white">
           <div className="flex flex-col gap-[6px]">

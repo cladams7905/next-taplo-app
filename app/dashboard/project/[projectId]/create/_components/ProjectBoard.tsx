@@ -8,6 +8,7 @@ import ViewContainer from "./popupView/ViewContainer";
 import { sortByTimeCreated } from "@/lib/actions";
 import { User } from "@supabase/supabase-js";
 import { ProjectContext } from "@/app/dashboard/_components/ProjectContext";
+import Link from "next/link";
 
 export default function ProjectBoard({
   user,
@@ -168,8 +169,15 @@ export default function ProjectBoard({
   if (!fetchedActiveProject || !fetchedEvents || !fetchedProducts) {
     return (
       <div>
-        Error fetching data. Please get in touch about this error
-        (help@taplo.io).
+        Error fetching data. Please get in touch about this error (
+        <Link
+          href={`mailto:help@taplo.io?subject=Error%20fetching%20data`}
+          target="_blank"
+          className="link link-primary"
+        >
+          help@taplo.io
+        </Link>
+        ).
       </div>
     );
   }

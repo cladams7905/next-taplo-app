@@ -4,6 +4,7 @@ import { Dot } from "lucide-react";
 import Logo from "@/public/images/Taplo-logo (3).svg";
 import Image from "next/image";
 import { QuestionMarkIcon } from "@radix-ui/react-icons";
+import Link from "next/link";
 
 export default function FAQs() {
   return (
@@ -88,13 +89,19 @@ export default function FAQs() {
             Can I get a refund?
           </div>
           <div className="collapse-content">
-            <p>
+            <div>
               Refunds are accepted if they are requested within 7 days of the
               initial payment. To request a refund, please email{" "}
-              <span className="font-bold">help@taplo.io</span>. Should you wish
-              to cancel your subscription, you can do so at any time from your
-              &quot;Account&quot; page.
-            </p>
+              <Link
+                href={`mailto:help@taplo.io?subject=Refund%20request`}
+                target="_blank"
+                className="link"
+              >
+                help@taplo.io
+              </Link>
+              . Should you wish to cancel your subscription, you can do so at
+              any time from your &quot;Account&quot; page.
+            </div>
           </div>
         </div>
         <div className="collapse collapse-plus bg-transparent text-white rounded-none border-b border-white/40">
@@ -116,12 +123,17 @@ export default function FAQs() {
             How can I get in contact?
           </div>
           <div className="collapse-content">
-            <p>
-              Should you wish to get in contact with a business inquiry or other
-              question, you can email me at{" "}
-              <span className="font-bold">help@taplo.io</span>. You can
-              typically expect a response within 24 hours Monday thru Friday.
-            </p>
+            Should you wish to get in contact with a business inquiry or other
+            question, you can email me at{" "}
+            <Link
+              href={`mailto:help@taplo.io?subject=Business%20inquiry`}
+              target="_blank"
+              className="link link-primary"
+            >
+              help@taplo.io
+            </Link>
+            . You can typically expect a response within 24 hours Monday thru
+            Friday.
           </div>
         </div>
       </div>

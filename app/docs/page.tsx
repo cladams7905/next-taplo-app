@@ -37,10 +37,15 @@ export default function DocsHome() {
         </Link>
       </div>
       <div className="text-center md:px-24">
-        <p>
-          Have unanswered questions? Reach out to me at{" "}
-          <span className="underline">help@taplo.io</span>.
-        </p>
+        Have unanswered questions? Reach out to me at{" "}
+        <Link
+          href={`mailto:help@taplo.io?subject=Business%20inquiry`}
+          target="_blank"
+          className="link link-primary"
+        >
+          help@taplo.io
+        </Link>
+        .
       </div>
     </>
   );
