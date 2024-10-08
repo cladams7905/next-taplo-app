@@ -290,6 +290,7 @@ export default function GettingStarted() {
         . Hopefully this guide has been helpful in getting you started with your
         first Taplo project!
       </div>
+      <div className="mb-8"></div>
     </div>
   );
 }

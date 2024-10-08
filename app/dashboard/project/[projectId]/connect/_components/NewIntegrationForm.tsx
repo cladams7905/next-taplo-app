@@ -402,7 +402,7 @@ export default function NewIntegrationForm({
           <div className="inline-block gap-2 text-sm font-semibold !py-3">
             Follow{" "}
             <Link
-              href={"/docs"}
+              href={getProviderGuideURL(provider)}
               target="_blank"
               className="link inline-flex items-center gap-1 link-primary"
             >
@@ -721,5 +721,19 @@ const getProviderLogo = (provider: ProvidersEnum) => {
       );
     default:
       return null;
+  }
+};
+
+/**
+ * Returns the guide URL for the selected provider
+ */
+const getProviderGuideURL = (provider: ProvidersEnum) => {
+  switch (provider) {
+    case Providers.Stripe:
+      return "/docs/integrations/stripe";
+    case Providers.GoogleAnalytics:
+      return "/docs/integrations/google-analytics";
+    default:
+      return "";
   }
 };

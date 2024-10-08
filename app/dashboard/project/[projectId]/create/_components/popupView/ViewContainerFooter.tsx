@@ -40,6 +40,15 @@ function ViewContainerFooter({
         >
           <li>
             <Link
+              href={"/docs"}
+              target="_blank"
+              className="flex flex-col items-start rounded-md"
+            >
+              <div className="flex items-center gap-2 py-1">Documentation</div>
+            </Link>
+          </li>
+          <li>
+            <Link
               href={
                 featuresVoteToken
                   ? `https://taplo.features.vote/board?token=${featuresVoteToken}`

@@ -3,7 +3,6 @@
 import { Dot } from "lucide-react";
 import Logo from "@/public/images/Taplo-logo (3).svg";
 import Image from "next/image";
-import { QuestionMarkIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 
 export default function FAQs() {
@@ -52,7 +51,7 @@ export default function FAQs() {
           <div className="collapse-content">
             <p>
               While each Taplo user has varying success rates, users on average
-              experience a 10%-15% boost in their conversions after installing
+              experience a 5%-10% boost in their conversions after installing
               Taplo&apos;s plugin on their website.
             </p>
           </div>
@@ -64,9 +63,9 @@ export default function FAQs() {
           </div>
           <div className="collapse-content">
             <p>
-              Currently, Taplo supports integrating with Stripe, LemonSqueezy,
-              Shopify, and Google Analytics. However, you can expect many more
-              integrations to come out in the future!
+              Currently, Taplo supports integrating with Stripe and Google
+              Analytics. However, you can expect many more integrations to come
+              out in the future!
             </p>
           </div>
         </div>
@@ -78,8 +77,8 @@ export default function FAQs() {
           <div className="collapse-content">
             <p>
               Taplo only stores data related to visitor interactions on a page.
-              We do not store visitor&apos;s personal information, and we do not
-              sell data to any 3rd parties.
+              We do not store visitor&apos;s personal information in our
+              database, and we do not sell data to any 3rd parties.
             </p>
           </div>
         </div>
@@ -132,8 +131,7 @@ export default function FAQs() {
             >
               help@taplo.io
             </Link>
-            . You can typically expect a response within 24 hours Monday thru
-            Friday.
+            . You can typically expect a response within 24 hours.
           </div>
         </div>
       </div>
