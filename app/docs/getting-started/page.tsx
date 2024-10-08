@@ -52,8 +52,8 @@ export default function GettingStarted() {
           Create Project
         </Link>{" "}
         page, add a new project by entering the project name and URL, and then
-        clicking &quot;Create Project&quot;. You can skip the url if you don't
-        have one yet.
+        clicking &quot;Create Project&quot;. You can skip the url if you
+        don&apos;t have one yet.
       </div>
       <p className="text-xl font-semibold mt-10">
         2. Creating event notifications
@@ -62,7 +62,7 @@ export default function GettingStarted() {
         Once you have created a project, you will be taken to the project
         dashboard. You will see a menu with a list of events you can choose from
         to display as notifications on your website. Select the event(s) you
-        would like to create, and then click "Create Event(s)".
+        would like to create, and then click &quot;Create Event(s)&quot;.
       </div>
       <div className="flex w-full justify-center">
         <Image
