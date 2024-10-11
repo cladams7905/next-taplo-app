@@ -2,10 +2,15 @@ import { getEvents } from "@/lib/actions/events";
 import { getIntegrations } from "@/lib/actions/integrations";
 import { NextRequest, NextResponse } from "next/server";
 import { Tables } from "@/lib/supabase/types";
-import { EventType } from "@/lib/enums";
+import { EventType, Providers } from "@/lib/enums";
 import Stripe from "stripe";
 import { GoogleData, StripeData } from "@/lib/types";
 import { getURL } from "@/lib/actions";
+
+type IntegrationData = {
+  stripeData: StripeData;
+  googleData: GoogleData;
+};
 
 /**
  * 1. get event data
@@ -47,16 +52,24 @@ export async function GET(request: NextRequest) {
       }
 
       //3. get relevant data from integrations
-      const integrationData: {
-        stripeData: StripeData;
-        googleData: GoogleData;
-      } = await getIntegrationData(eventData, integrations, event_interval);
+      const { data: integrationData, error: error } = await getIntegrationData(
+        eventData,
+        integrations,
+        event_interval
+      );
 
-      return NextResponse.json({
-        events: eventData,
-        stripeData: integrationData.stripeData,
-        googleData: integrationData.googleData,
-      });
+      if (!integrationData || error) {
+        return NextResponse.json({
+          error: `Get Integrations Data Error: ${error?.message}`,
+          status: 500,
+        });
+      } else {
+        return NextResponse.json({
+          events: eventData,
+          stripeData: integrationData.stripeData,
+          googleData: integrationData.googleData,
+        });
+      }
     }
   } catch (error: any) {
     return NextResponse.json({
@@ -70,10 +83,11 @@ const getIntegrationData = async (
   events: Tables<"Events">[],
   integrations: Tables<"Integrations">[],
   event_interval: string
-): Promise<{ stripeData: StripeData; googleData: GoogleData }> => {
+): Promise<{ data?: IntegrationData; error?: any }> => {
+  let error: any;
   let stripeData: StripeData = {};
   let googleData: GoogleData = {};
-  let integrationData: { stripeData: StripeData; googleData: GoogleData } = {
+  let integrationData: IntegrationData = {
     stripeData,
     googleData,
   };
@@ -81,37 +95,83 @@ const getIntegrationData = async (
   // calculate the time to filter by based on the event interval
   const timeToFilter = calculateTimeToFilter(event_interval);
 
-  await Promise.all(
-    events.map(async (event) => {
-      const integration = getCurrentIntegration(integrations, event);
+  try {
+    await Promise.all(
+      events.map(async (event) => {
+        const integration = getCurrentIntegration(integrations, event);
 
-      if (event?.event_type && integration?.provider && integration?.api_key) {
-        const stripe = new Stripe(integration.api_key);
-
-        switch (event.event_type as EventType) {
-          case EventType.Purchase:
-            integrationData.stripeData.charges = await getChargesFromStripe(
-              stripe,
-              timeToFilter
-            );
-            break;
-          case EventType.Checkout:
-            integrationData.stripeData.checkoutSessions =
-              await getCheckoutSessions(stripe, timeToFilter);
-            break;
-          case EventType.ActiveVisitors:
-            integrationData.googleData.activeVisitors =
-              await getActiveVisitorsFromGoogle(integration);
-            break;
-          case EventType.SomeoneViewing:
-            // Google Analytics data
-            break;
+        if (!integration || !event.event_type) {
+          throw new Error("Integration or event type not found");
+        } else {
+          switch (integration.provider as Providers) {
+            case Providers.Stripe:
+              await getStripeData(
+                integration,
+                event,
+                timeToFilter,
+                integrationData
+              );
+              break;
+            case Providers.GoogleAnalytics:
+              await getGoogleAnalyticsData(integration, event, integrationData);
+              break;
+            default:
+              throw new Error("Provider not found");
+          }
         }
-      }
-    })
-  );
-  return integrationData;
+      })
+    );
+  } catch (err) {
+    error = err;
+  }
+
+  return { data: integrationData, error };
 };
+
+async function getStripeData(
+  integration: Tables<"Integrations">,
+  event: Tables<"Events">,
+  timeToFilter: number,
+  integrationData: IntegrationData
+) {
+  if (!integration.api_key) {
+    throw new Error(
+      `Stripe API key not found for integration ${integration.id}`
+    );
+  } else {
+    const stripe = new Stripe(integration.api_key);
+    switch (event.event_type as EventType) {
+      case EventType.Purchase:
+        integrationData.stripeData.charges = await getChargesFromStripe(
+          stripe,
+          timeToFilter
+        );
+        break;
+      case EventType.Checkout:
+        integrationData.stripeData.checkoutSessions = await getCheckoutSessions(
+          stripe,
+          timeToFilter
+        );
+        break;
+    }
+  }
+}
+
+async function getGoogleAnalyticsData(
+  integration: Tables<"Integrations">,
+  event: Tables<"Events">,
+  integrationData: IntegrationData
+) {
+  switch (event.event_type as EventType) {
+    case EventType.ActiveVisitors:
+      integrationData.googleData.activeVisitors =
+        await getActiveVisitorsFromGoogle(integration);
+      break;
+    case EventType.SomeoneViewing:
+      // Handle SomeoneViewing event type if needed
+      break;
+  }
+}
 
 const getCurrentIntegration = (
   integrations: Tables<"Integrations">[],

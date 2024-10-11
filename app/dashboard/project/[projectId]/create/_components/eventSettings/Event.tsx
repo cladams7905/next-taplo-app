@@ -3,16 +3,16 @@
 import { Tables } from "@/lib/supabase/types";
 import React, { memo, TransitionStartFunction, useRef, useState } from "react";
 import {
-  Boxes,
   CirclePlus,
   ShoppingBag,
   ShoppingCart,
   Trash2,
+  InfoIcon,
+  Pencil,
   UserRoundSearch,
   UsersRound,
   XCircle,
 } from "lucide-react";
-import { InfoCircledIcon, Pencil1Icon } from "@radix-ui/react-icons";
 import IntegrationSelect from "./IntegrationSelect";
 import ContentBodyEditor from "./ContentBodyEditor";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
@@ -85,10 +85,8 @@ function Event({
         return 'Requires: Stripe restricted API key with "charges" permissions set to "read".';
       case EventType.Checkout:
         return 'Requires: Stripe restricted API key with "checkout sessions" permissions set to "read".';
-      case EventType.SomeoneViewing:
-        return "Requires: Google Cloud Console API key with Analytics Data API enabled.";
-      case EventType.ActiveVisitors:
-        return "Requires: Google Cloud Console API key with Analytics Data API enabled.";
+      default:
+        return null;
     }
   };
 
@@ -145,7 +143,9 @@ function Event({
                     : ""
                 }`
               ) : (
-                <span className="text-error">No Integration Selected</span>
+                <span className="text-error flex items-center gap-1">
+                  Please select an integration
+                </span>
               )}
             </div>
           </div>
@@ -158,13 +158,22 @@ function Event({
           handleToggleActiveEvent();
         }}
       >
-        <div className="flex items-center gap-2 sm:text-[12px] sm:leading-5 text-xs mt-4 bg-gray-50 border border-gray-200 rounded-lg px-4 py-1">
-          <InfoCircledIcon width={16} height={16} className="min-w-4" />{" "}
-          {getIntegrationInfo(currentEvent.event_type as EventType)}
-        </div>
-        <div className="w-full flex flex-col gap-2">
+        <div className="w-full flex flex-col gap-2 mt-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1">Integration</div>
+            <div className="flex items-center gap-1">
+              Integration{" "}
+              {getIntegrationInfo(currentEvent?.event_type as EventType) !==
+                null && (
+                <div
+                  className="tooltip tooltip-right tooltip-info"
+                  data-tip={getIntegrationInfo(
+                    currentEvent?.event_type as EventType
+                  )}
+                >
+                  <InfoIcon width={16} height={16} />
+                </div>
+              )}
+            </div>
             <div
               className="btn btn-sm w-auto btn-ghost text-xs"
               onClick={() => newIntegrationModalRef.current?.showModal()}
@@ -205,7 +214,7 @@ function Event({
                 <>
                   {" "}
                   Edit
-                  <Pencil1Icon height={16} width={16} />
+                  <Pencil height={16} width={16} />
                 </>
               )}
             </div>
