@@ -73,7 +73,12 @@ export default function StripeDocs() {
           key in Taplo under the &quot;Secret API Key&quot; field in the new
           integration form.
         </li>
-        <li>Save your changes and test the integration.</li>
+        <li>
+          In your Taplo form, click{" "}
+          <span className="font-bold">Create New Integration</span>. Make sure
+          to select your newly-created integration in your notification events
+          from the &quot;Create&quot; page!
+        </li>
       </ol>
       <div className="mb-8"></div>
     </div>
