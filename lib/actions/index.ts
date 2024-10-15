@@ -299,12 +299,12 @@ export function hexToRgba(hex: string, opacity?: number) {
  * isReturnHTML is set to true)
  */
 export const replaceVariablesInContentBody = (
-  product: Tables<"Products"> | undefined,
-  backgroundColor: string,
-  accentColor: string,
   contentStr: string | undefined,
   isPopup = false,
   isLiveMode = false,
+  product?: Tables<"Products"> | undefined,
+  backgroundColor?: string,
+  accentColor?: string,
   messageData?: MessageData
 ) => {
   if (!contentStr) return "";

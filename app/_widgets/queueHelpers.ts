@@ -66,12 +66,12 @@ export const createChargesQueueEvents = (
 
     queue.push({
       message: replaceVariablesInContentBody(
+        purchaseEvent?.message || "",
+        true, // isPopup
+        true, // isLiveMode
         product,
         projectData?.bg_color || "#FFFFFF",
         projectData?.accent_color || "#7A81EB",
-        purchaseEvent?.content_body || "",
-        true, // isPopup
-        true, // isLiveMode
         messageData
       ),
       time: convertDateTime(
@@ -80,9 +80,7 @@ export const createChargesQueueEvents = (
         true
       ),
       event: purchaseEvent,
-      product: purchaseEvent?.content_body.includes("\\PRODUCT")
-        ? product
-        : null,
+      product: purchaseEvent?.message.includes("\\PRODUCT") ? product : null,
     } as DisplayNotification);
   });
 };
@@ -143,12 +141,12 @@ export const createCheckoutQueueEvents = (
 
     queue.push({
       message: replaceVariablesInContentBody(
+        checkoutEvent?.message || "",
+        true, // isPopup
+        true, // isLiveMode
         product,
         projectData?.bg_color || "#FFFFFF",
         projectData?.accent_color || "#7A81EB",
-        checkoutEvent?.content_body || "",
-        true, // isPopup
-        true, // isLiveMode
         messageData
       ),
       time: convertDateTime(
@@ -157,9 +155,7 @@ export const createCheckoutQueueEvents = (
         true
       ),
       event: checkoutEvent,
-      product: checkoutEvent?.content_body.includes("\\PRODUCT")
-        ? product
-        : null,
+      product: checkoutEvent?.message.includes("\\PRODUCT") ? product : null,
     } as DisplayNotification);
   });
 };

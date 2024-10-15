@@ -1,26 +1,23 @@
 "use client";
 
 import { Tables } from "@/lib/supabase/types";
-import React, { memo, TransitionStartFunction, useRef, useState } from "react";
+import React, { memo, TransitionStartFunction, useRef } from "react";
 import {
   CirclePlus,
   ShoppingBag,
   ShoppingCart,
   Trash2,
   InfoIcon,
-  Pencil,
   UserRoundSearch,
   UsersRound,
-  XCircle,
 } from "lucide-react";
 import IntegrationSelect from "./IntegrationSelect";
-import ContentBodyEditor from "./ContentBodyEditor";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import { EventType } from "@/lib/enums";
 import NewIntegrationModal from "../../../connect/_components/NewIntegrationModal";
 import { updateEvent } from "@/lib/actions/events";
 import { showToastError } from "@/app/_components/shared/showToast";
-import { replaceVariablesInContentBody } from "@/lib/actions";
+import MessageDropdown from "./MessageDropdown";
 
 function Event({
   currentEvent,
@@ -36,22 +33,10 @@ function Event({
     activeEvent,
     setActiveEvent,
     setEvents,
-    activeProduct,
-    accentColor,
-    backgroundColor,
     integrations,
     setIntegrations,
   } = useProjectContext();
   const newIntegrationModalRef = useRef<HTMLDialogElement>(null);
-  const [isEditContentMode, setEditContentMode] = useState<boolean>(false);
-
-  const contentBodyHtml = replaceVariablesInContentBody(
-    activeProduct,
-    backgroundColor.hex.toString(),
-    accentColor.hex.toString(),
-    currentEvent.content_body,
-    false //isPopup = false
-  );
 
   const getIntegrationById = (integrationId: number) => {
     return integrations.find((integration) => integration.id === integrationId);
@@ -199,40 +184,9 @@ function Event({
         </div>
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
-            <div className="flex items-center">Text Content</div>
-            <div
-              className="btn btn-sm w-auto btn-ghost text-xs"
-              onClick={() => setEditContentMode(!isEditContentMode)}
-            >
-              {isEditContentMode ? (
-                <>
-                  {" "}
-                  Cancel
-                  <XCircle height={16} width={16} />
-                </>
-              ) : (
-                <>
-                  {" "}
-                  Edit
-                  <Pencil height={16} width={16} />
-                </>
-              )}
-            </div>
+            <div className="flex items-center">Message</div>
           </div>
-          {isEditContentMode ? (
-            <ContentBodyEditor
-              currentEvent={currentEvent}
-              setEditContentMode={setEditContentMode}
-              startLoadTransition={startEventTransition}
-            />
-          ) : (
-            <p
-              className="border border-gray-200 rounded-lg p-2"
-              dangerouslySetInnerHTML={{
-                __html: contentBodyHtml,
-              }}
-            ></p>
-          )}
+          <MessageDropdown currentEvent={currentEvent} />
         </div>
         <div className="flex w-full justify-end items-center">
           <div

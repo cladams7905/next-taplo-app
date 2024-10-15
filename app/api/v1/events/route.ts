@@ -79,6 +79,9 @@ export async function GET(request: NextRequest) {
   }
 }
 
+/**
+ * Fetchs data from each integration based on the event type
+ */
 const getIntegrationData = async (
   events: Tables<"Events">[],
   integrations: Tables<"Integrations">[],
@@ -128,6 +131,9 @@ const getIntegrationData = async (
   return { data: integrationData, error };
 };
 
+/**
+ * Fetches data from Stripe based on the event type
+ */
 async function getStripeData(
   integration: Tables<"Integrations">,
   event: Tables<"Events">,
@@ -157,6 +163,9 @@ async function getStripeData(
   }
 }
 
+/**
+ * Fetches data from Google Analytics based on the event type
+ */
 async function getGoogleAnalyticsData(
   integration: Tables<"Integrations">,
   event: Tables<"Events">,

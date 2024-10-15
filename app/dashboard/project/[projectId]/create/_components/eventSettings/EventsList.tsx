@@ -52,11 +52,11 @@ const EventsList = ({
     events.map((event, i) => (
       <div
         key={i}
-        className={`relative collapse collapse-arrow text-sm border border-gray-200 bg-white rounded-lg shadow-sm pl-2`}
+        className={`relative collapse collapse-arrow text-sm border border-gray-200 bg-white rounded-lg shadow-sm pl-2 overflow-visible`}
         onClick={(e) => toggleAccordion(e.currentTarget.classList)}
       >
         <div
-          className={`absolute w-[6px] h-full z-[0] ${
+          className={`absolute w-[6px] h-full z-[0] rounded-l-lg ${
             activeEvent && activeEvent.id === event.id
               ? "block bg-primary"
               : "hidden"

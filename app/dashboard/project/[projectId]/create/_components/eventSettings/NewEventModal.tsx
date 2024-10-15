@@ -53,7 +53,7 @@ export default function NewEventModal({
           user_id: activeProject.user_id,
           project_id: activeProject.id,
           event_type: eventType,
-          content_body: content,
+          message: content,
         };
         const { data, error } = await createEvent(event);
         if (error) {

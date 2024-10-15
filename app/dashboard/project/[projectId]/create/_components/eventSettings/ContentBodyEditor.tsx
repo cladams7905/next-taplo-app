@@ -29,7 +29,7 @@ export default function ContentBodyEditor({
   const VARCHECK = "\\";
   const MAXINPUTCHARS = 80;
   const [currentNumChars, setCurrentNumChars] = useState(
-    currentEvent?.content_body?.length || 0
+    currentEvent?.message?.length || 0
   );
   const [isValidInput, setIsValidInput] = useState(true);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -40,20 +40,17 @@ export default function ContentBodyEditor({
 
   useEffect(() => {
     if (textAreaRef?.current && currentEvent) {
-      textAreaRef.current.value = currentEvent?.content_body;
+      textAreaRef.current.value = currentEvent?.message;
       setCurrentNumChars(textAreaRef.current.defaultValue.length);
     }
   }, [textAreaRef, currentEvent]);
 
   const handleContentSave = () => {
     startLoadTransition(async () => {
-      if (
-        currentEvent &&
-        textAreaRef.current?.value != currentEvent.content_body
-      ) {
+      if (currentEvent && textAreaRef.current?.value != currentEvent.message) {
         const updatedContentBody = textAreaRef.current!.value;
         const { data, error } = await updateEvent(currentEvent.id, {
-          content_body: updatedContentBody,
+          message: updatedContentBody,
         });
         if (error) {
           showToastError(error);
@@ -63,7 +60,7 @@ export default function ContentBodyEditor({
               prevEvent
                 ? {
                     ...prevEvent,
-                    content_body: updatedContentBody,
+                    message: updatedContentBody,
                   }
                 : prevEvent
             );
@@ -282,9 +279,9 @@ export default function ContentBodyEditor({
       <textarea
         ref={textAreaRef}
         className="textarea textarea-bordered rounded-lg"
-        placeholder="Type your content body here."
+        placeholder="Type your message here."
         onInput={handleInputChange}
-        defaultValue={currentEvent?.content_body || ""}
+        defaultValue={currentEvent?.message || ""}
       ></textarea>
       {dropdownVisible && (
         <ul

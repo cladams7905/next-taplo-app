@@ -35,14 +35,15 @@ export default function PopupTemplate({
   } = useProjectContext();
 
   /**
-   * This is the content body of the popup displayed in the popup viewer (NOT during preview mode).
+   * This is the message of the popup displayed in the popup viewer (NOT during live mode).
    */
   const contentBodyHtml = replaceVariablesInContentBody(
+    activeEvent?.message,
+    true, //isPopup = true
+    false, //isLiveMode = false
     activeProduct,
     backgroundColor.hex.toString(),
-    accentColor.hex.toString(),
-    activeEvent?.content_body,
-    true //isPopup = true
+    accentColor.hex.toString()
   );
 
   /**
@@ -54,7 +55,7 @@ export default function PopupTemplate({
   >(activeEvent);
 
   /**
-   * This is the content body of the displayed event during preview mode.
+   * This is the message of the displayed event during preview mode.
    */
   const [previewContentBody, setPreviewContentBody] =
     useState<string>(contentBodyHtml);
@@ -68,17 +69,18 @@ export default function PopupTemplate({
   }, [isPreviewMode, activeEvent]);
 
   /**
-   * Whenever a preview event changes, this changes the corresponding content body
+   * Whenever a preview event changes, this changes the corresponding message
    * of the new preview event.
    */
   useEffect(() => {
     setPreviewContentBody(
       replaceVariablesInContentBody(
+        previewEvent?.message,
+        true, //isPopup = true
+        false, //isLiveMode = false
         activeProduct,
         backgroundColor.hex.toString(),
-        accentColor.hex.toString(),
-        previewEvent?.content_body,
-        true //isPopup = true
+        accentColor.hex.toString()
       )
     );
   }, [previewEvent, accentColor, activeProduct, backgroundColor]);

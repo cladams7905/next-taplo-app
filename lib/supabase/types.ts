@@ -11,29 +11,29 @@ export type Database = {
     Tables: {
       Events: {
         Row: {
-          content_body: string
           created_at: string
           event_type: string
           id: number
           integration_id: number | null
+          message: string
           project_id: number
           user_id: string
         }
         Insert: {
-          content_body?: string
           created_at?: string
           event_type?: string
           id?: number
           integration_id?: number | null
+          message?: string
           project_id: number
           user_id: string
         }
         Update: {
-          content_body?: string
           created_at?: string
           event_type?: string
           id?: number
           integration_id?: number | null
+          message?: string
           project_id?: number
           user_id?: string
         }
