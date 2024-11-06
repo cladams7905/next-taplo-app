@@ -16,10 +16,10 @@ export interface StripeData {
 }
 
 export interface GoogleData {
-  activeVisitors?: {
+  activeUsers?: {
     country: string;
     city: string;
-    visitorCount: string;
+    userCount: string;
   }[];
 }
 

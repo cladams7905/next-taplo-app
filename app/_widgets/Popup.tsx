@@ -123,7 +123,7 @@ const EventIcon = (
           width={iconSize}
         />
       );
-    case EventType.ActiveVisitors:
+    case EventType.ActiveUsers:
       return (
         <UsersRound
           color={hexToRgba(project.accent_color ?? "#7A81EB", 0.85)}

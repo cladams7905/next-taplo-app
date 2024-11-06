@@ -295,14 +295,15 @@ export function hexToRgba(hex: string, opacity?: number) {
  * @param contentStr the content body text
  * @param isPopup whether the content is appearing in the popup or in the sidebar
  * @param isLiveMode whether the content is appearing in the live popup widget
- * @returns the revised content body (should be set inside of dangerouslySetHTML if
- * isReturnHTML is set to true)
+ * @returns the revised content body
  */
 export const replaceVariablesInContentBody = (
   contentStr: string | undefined,
   isPopup = false,
   isLiveMode = false,
+  isShowProductAsLink = true,
   product?: Tables<"Products"> | undefined,
+  projectName?: string,
   backgroundColor?: string,
   accentColor?: string,
   messageData?: MessageData
@@ -337,6 +338,8 @@ export const replaceVariablesInContentBody = (
         return getProductHTML();
       case ContentVars.NumUsers:
         return isPopup ? "20" : "#";
+      case ContentVars.ProjectName:
+        return isPopup && projectName ? projectName : "ProjectName";
       case ContentVars.Price:
         return isPopup
           ? `${product?.price ? `$${product.price}` : "$0.00"}`
@@ -358,10 +361,13 @@ export const replaceVariablesInContentBody = (
 
   const getProductHTML = () => {
     if (!isPopup) return "Product";
+
+    const productName = product?.name ? product.name : "a product";
+    if (!isShowProductAsLink) return productName;
+
     const productLink = product?.link
       ? `<a href="${product.link}" target="_blank">`
       : "";
-    const productName = product?.name ? product.name : "a product";
     const productStyle = product?.name ? `style="color: ${accentColor};"` : "";
     const productClass = product?.name ? "font-bold underline mr-1" : "";
     const underlineClass = product?.link ? "underline" : "";

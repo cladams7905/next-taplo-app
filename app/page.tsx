@@ -27,28 +27,25 @@ export default function Home() {
           <Suspense fallback="...">
             <Navbar />
           </Suspense>
-          <div
-            className="relative flex lg:h-[95vh] h-fit pb-12 w-full flex-col items-center justify-between px-8 md:px-24 lg:px-24 pt-24 overflow-x-clip
-      bg-gradient-to-tr from-purple-200 via-primary/60 to-purple-100 font-sans"
-          >
+          <div className="relative flex lg:h-[400vh] h-fit w-full flex-col items-center justify-between px-8 md:px-24 lg:px-24 pt-20 overflow-x-clip font-sans bg-gradient-to-tr from-pink-100 via-primary/50 to-pink-100">
+            <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
             <div className="z-[2] relative flex flex-row flex-wrap font-sans lg:mb-32 md:mb-16 sm:mb-12 lg:gap-12 md:gap-8 sm:gap-4 items-center justify-center w-full">
               <div className="flex flex-1 flex-col justify-center items-center gap-12 md:gap-16 lg:gap-20 lg:px-64 lg:w-1/2 w-full min-h-[80vh]">
-                <LaunchOfferBadge />
                 <div className="flex flex-col gap-10">
                   {" "}
-                  <h1 className="font-logo lg:text-5xl text-3xl">
-                    Attention-grabbing popups that increase your conversion
-                    rate.
+                  <h1 className="font-bold font-logo text-6xl text-center">
+                    Social proof, made easy.
                   </h1>
-                  <p className="lg:text-xl text-lg pr-4">
-                    Taplo&apos;s popup notifications show off real-time customer
-                    interactions to your site&apos;s visitors.
+                  <p className="lg:text-xl text-lg pr-4 text-center">
+                    Keep your users in the loop with real-time insights that
+                    boost your site&apos;s credibility and improve your
+                    conversion rate.
                   </p>
                 </div>
                 <div className="flex lg:flex-row md:flex-row w-full flex-col items-center justify-center mb-2 lg:gap-16 md:gap-16 gap-8">
                   <div className="flex flex-col gap-2 w-full md:w-fit items-center">
                     <Link href={"/signup"} className="w-full">
-                      <div className="btn lg:btn-lg md:btn-lg btn-md btn-primary w-full md:w-fit lg:w-fit text-white">
+                      <div className="btn lg:btn-lg rounded-lg btn-md btn-primary w-full md:w-fit lg:w-fit text-white">
                         Get started for free
                         <ArrowRight />
                       </div>
@@ -57,7 +54,7 @@ export default function Home() {
                       5-minute setup + free trial!
                     </p>
                   </div>
-                  <div className="flex flex-col items-center text-sm gap-2">
+                  {/* <div className="flex flex-col items-center text-sm gap-2">
                     <div className="flex flex-row gap-1 items-center">
                       {" "}
                       <Star fill="oklch(var(--s))" color="oklch(var(--s))" />
@@ -70,16 +67,16 @@ export default function Home() {
                       Join <span className="font-bold">25</span> others using
                       Taplo
                     </p>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
-            <div
+            {/* <div
               className="absolute md:block hidden flex-wrap gap-3 h-full top-0 bg-white/20 w-[110vw]"
               style={{
                 clipPath: "polygon(20% 0%, 100% 0%, 80% 100%, 0% 100%)",
               }}
-            ></div>
+            ></div> */}
           </div>
           <div className="relative flex z-[5] flex-col items-center justify-center w-full min-h-[55vh] bg-base-content lg:px-80 md:px-24 py-12 md:pt-6 pt-12 px-8 mb-12 gap-12 overflow-x-clip">
             <div className="flex flex-col items-center gap-4">

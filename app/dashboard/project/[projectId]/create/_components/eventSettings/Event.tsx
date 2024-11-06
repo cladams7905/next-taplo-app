@@ -32,6 +32,7 @@ function Event({
     activeProject,
     activeEvent,
     setActiveEvent,
+    activeProduct,
     setEvents,
     integrations,
     setIntegrations,
@@ -59,7 +60,7 @@ function Event({
         return <ShoppingCart width={20} height={20} />;
       case EventType.SomeoneViewing:
         return <UserRoundSearch width={20} height={20} />;
-      case EventType.ActiveVisitors:
+      case EventType.ActiveUsers:
         return <UsersRound width={20} height={20} />;
     }
   };
@@ -77,13 +78,17 @@ function Event({
 
   const handleUpdateEvent = async (
     currentEvent: Tables<"Events"> | undefined,
-    integrationId: number
+    integrationId?: number,
+    message?: string
   ) => {
     if (currentEvent) {
       // Update the event with the new integration_id
       const eventUpdateResult = await updateEvent(currentEvent.id, {
         ...currentEvent,
-        integration_id: integrationId,
+        integration_id: integrationId
+          ? integrationId
+          : currentEvent.integration_id,
+        message: message ? message : currentEvent.message,
       });
 
       if (eventUpdateResult.error) {
@@ -93,7 +98,13 @@ function Event({
         setEvents((prevEvents) =>
           prevEvents.map((event) =>
             event.id === currentEvent.id
-              ? { ...event, integration_id: integrationId } // Update the integration_id for the matching event
+              ? {
+                  ...event,
+                  integration_id: integrationId
+                    ? integrationId
+                    : event.integration_id,
+                  message: message ? message : event.message,
+                } // Update values for the matching event
               : event
           )
         );
@@ -101,7 +112,10 @@ function Event({
         // Update the active event
         setActiveEvent({
           ...currentEvent,
-          integration_id: integrationId,
+          integration_id: integrationId
+            ? integrationId
+            : currentEvent.integration_id,
+          message: message ? message : currentEvent.message,
         });
       }
     }
@@ -186,7 +200,13 @@ function Event({
           <div className="flex items-center justify-between">
             <div className="flex items-center">Message</div>
           </div>
-          <MessageDropdown currentEvent={currentEvent} />
+          <MessageDropdown
+            projectName={activeProject.name}
+            currentEvent={currentEvent}
+            currentProduct={activeProduct}
+            startLoadingTransition={startEventTransition}
+            handleUpdateEvent={handleUpdateEvent}
+          />
         </div>
         <div className="flex w-full justify-end items-center">
           <div

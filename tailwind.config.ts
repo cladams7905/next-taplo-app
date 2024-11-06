@@ -40,7 +40,7 @@ const config: Config = {
   theme: {
     extend: {
       height: {
-        "screen-minus-navbar": "calc(100vh - 104px)",
+        "screen-minus-navbar": "calc(100vh - 96px)",
       },
       fontFamily: {
         heading: ["var(--font-changaOne)"],
@@ -102,6 +102,26 @@ const config: Config = {
           "0%": { backgroundSize: "0% 100%" },
           "100%": { backgroundSize: "100% 100%" },
         },
+        expandFadeIn: {
+          "0%": {
+            transform: "scaleX(0)",
+            transformOrigin: "bottom left",
+          },
+          "100%": {
+            transform: "scaleX(1)",
+            transformOrigin: "bottom left",
+          },
+        },
+        expandFadeOut: {
+          "0%": {
+            transform: "scaleX(1)",
+            transformOrigin: "bottom left",
+          },
+          "100%": {
+            transform: "scaleX(0)",
+            transformOrigin: "bottom left",
+          },
+        },
       },
       animation: {
         twSlideInLeft: "twSlideInLeft 0.3s ease-in-out forwards",
@@ -113,6 +133,9 @@ const config: Config = {
         twSlideInBottom: "twSlideInBottom 0.3s ease-in-out forwards",
         twSlideOutBottom: "twSlideOutBottom 0.2s ease-in-out forwards",
         fadeInLeftToRight: "fadeInLeftToRight 0.1s ease-out forwards",
+        expandFadeIn: "expandFadeIn 0.5s cubic-bezier(.1, 1.2, .3, 1) forwards",
+        expandFadeOut:
+          "expandFadeOut 0.5s cubic-bezier(.1, 1.2, .3, 1) forwards",
       },
     },
   },

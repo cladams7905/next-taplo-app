@@ -103,8 +103,8 @@ export default function NewEventModal({
       case EventType.SomeoneViewing:
         content = "\\PERSON in \\LOCATION recently viewed \\PRODUCT.";
         break;
-      case EventType.ActiveVisitors:
-        content = "\\NUMUSERS people are online now.";
+      case EventType.ActiveUsers:
+        content = "\\NUMUSERS users are online now.";
         break;
       case EventType.CustomerTrends:
         content = "Over the past X days, X has gained X new customers.";
@@ -253,11 +253,10 @@ const getEventOptions = () => {
       color: "#7A81EB",
     },
     {
-      title: EventType.ActiveVisitors,
+      title: EventType.ActiveUsers,
       integrations: "Google Analytics",
-      description:
-        "Displays the current number of active visitors on your site.",
-      type: EventType.ActiveVisitors,
+      description: "Displays the current number of active users on your site.",
+      type: EventType.ActiveUsers,
       color: "#7A81EB",
     },
   ] as EventOption[];
@@ -272,7 +271,7 @@ const getEventIcon = (eventType: EventType, color: string) => {
       return <ShoppingCart width={28} height={28} color="#FFFFFF" />;
     case EventType.SomeoneViewing:
       return <UserRoundSearch width={28} height={28} color="#FFFFFF" />;
-    case EventType.ActiveVisitors:
+    case EventType.ActiveUsers:
       return <UsersRound width={28} height={28} color="#FFFFFF" />;
   }
 };

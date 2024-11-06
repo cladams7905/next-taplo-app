@@ -69,7 +69,9 @@ export const createChargesQueueEvents = (
         purchaseEvent?.message || "",
         true, // isPopup
         true, // isLiveMode
+        true, //isShowProductAsLink
         product,
+        projectData?.name,
         projectData?.bg_color || "#FFFFFF",
         projectData?.accent_color || "#7A81EB",
         messageData
@@ -144,7 +146,9 @@ export const createCheckoutQueueEvents = (
         checkoutEvent?.message || "",
         true, // isPopup
         true, // isLiveMode
+        true, //isShowProductAsLink = true
         product,
+        projectData?.name,
         projectData?.bg_color || "#FFFFFF",
         projectData?.accent_color || "#7A81EB",
         messageData

@@ -7,7 +7,7 @@ export default function FeedbackBanner({
   featuresVoteToken: string | null;
 }) {
   return (
-    <div className="w-full inline-block text-center items-center justify-center break-words py-2 font-sans h-fit bg-primary font-semibold text-white text-sm">
+    <div className="w-full inline-block text-center items-center justify-center break-words py-1 font-sans h-fit bg-accent font-semibold text-white text-sm">
       → I want your feedback! Please{" "}
       <Link
         href={

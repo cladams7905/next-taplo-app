@@ -60,7 +60,7 @@ export default function IntegrationSelect({
         );
         break;
       case EventType.SomeoneViewing:
-      case EventType.ActiveVisitors:
+      case EventType.ActiveUsers:
         filteredIntegrations = integrations.filter(
           (integration) => integration.provider === Providers.GoogleAnalytics
         );

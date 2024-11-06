@@ -1,9 +1,7 @@
 "use client";
 
 import React, {
-  Dispatch,
   FormEvent,
-  SetStateAction,
   TransitionStartFunction,
   useCallback,
   useEffect,
@@ -18,32 +16,21 @@ import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 
 export default function ContentBodyEditor({
   currentEvent,
-  setEditContentMode,
   startLoadTransition,
 }: {
   currentEvent: Tables<"Events"> | undefined;
-  setEditContentMode: Dispatch<SetStateAction<boolean>>;
   startLoadTransition: TransitionStartFunction;
 }) {
   const { setActiveEvent } = useProjectContext();
   const VARCHECK = "\\";
   const MAXINPUTCHARS = 80;
-  const [currentNumChars, setCurrentNumChars] = useState(
-    currentEvent?.message?.length || 0
-  );
+  const [currentNumChars, setCurrentNumChars] = useState(0);
   const [isValidInput, setIsValidInput] = useState(true);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const [dropdownIndex, setDropdownIndex] = useState(0);
   const varDropdownRef = useRef<HTMLUListElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
-
-  useEffect(() => {
-    if (textAreaRef?.current && currentEvent) {
-      textAreaRef.current.value = currentEvent?.message;
-      setCurrentNumChars(textAreaRef.current.defaultValue.length);
-    }
-  }, [textAreaRef, currentEvent]);
 
   const handleContentSave = () => {
     startLoadTransition(async () => {
@@ -64,7 +51,6 @@ export default function ContentBodyEditor({
                   }
                 : prevEvent
             );
-          setEditContentMode(false);
         }
       }
     });
@@ -83,7 +69,7 @@ export default function ContentBodyEditor({
             ContentVars.Price,
           ];
           break;
-        case EventType.ActiveVisitors:
+        case EventType.ActiveUsers:
           variableList = [ContentVars.NumUsers];
           break;
         case EventType.SomeoneViewing:
@@ -281,7 +267,7 @@ export default function ContentBodyEditor({
         className="textarea textarea-bordered rounded-lg"
         placeholder="Type your message here."
         onInput={handleInputChange}
-        defaultValue={currentEvent?.message || ""}
+        defaultValue={""}
       ></textarea>
       {dropdownVisible && (
         <ul

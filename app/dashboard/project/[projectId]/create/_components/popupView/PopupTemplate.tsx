@@ -41,7 +41,9 @@ export default function PopupTemplate({
     activeEvent?.message,
     true, //isPopup = true
     false, //isLiveMode = false
+    true, //isShowProductAsLink = true
     activeProduct,
+    activeProject.name,
     backgroundColor.hex.toString(),
     accentColor.hex.toString()
   );
@@ -78,6 +80,7 @@ export default function PopupTemplate({
         previewEvent?.message,
         true, //isPopup = true
         false, //isLiveMode = false
+        true, //isShowProductAsLink = true
         activeProduct,
         backgroundColor.hex.toString(),
         accentColor.hex.toString()
@@ -93,9 +96,8 @@ export default function PopupTemplate({
    */
   const shouldDisplayImage = () => {
     return (
-      (!isPreviewMode &&
-        activeEvent?.event_type !== EventType.ActiveVisitors) ||
-      (isPreviewMode && previewEvent?.event_type !== EventType.ActiveVisitors)
+      (!isPreviewMode && activeEvent?.event_type !== EventType.ActiveUsers) ||
+      (isPreviewMode && previewEvent?.event_type !== EventType.ActiveUsers)
     );
   };
 
@@ -354,7 +356,7 @@ const EventIcon = (eventType: EventType, size: "lg" | "md" | "sm" = "lg") => {
           width={iconSize}
         />
       );
-    case EventType.ActiveVisitors:
+    case EventType.ActiveUsers:
       return (
         <UsersRound
           color={hexToRgba(accentColor.hex.toString(), 0.85)}

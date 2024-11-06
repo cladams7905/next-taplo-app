@@ -12,6 +12,7 @@ export type Database = {
       Events: {
         Row: {
           created_at: string
+          custom_messages: Json | null
           event_type: string
           id: number
           integration_id: number | null
@@ -21,6 +22,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          custom_messages?: Json | null
           event_type?: string
           id?: number
           integration_id?: number | null
@@ -30,6 +32,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          custom_messages?: Json | null
           event_type?: string
           id?: number
           integration_id?: number | null
@@ -50,13 +53,6 @@ export type Database = {
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "Projects"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "Events_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
@@ -109,13 +105,6 @@ export type Database = {
             referencedRelation: "Projects"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "Integrations_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
         ]
       }
       Products: {
@@ -161,20 +150,6 @@ export type Database = {
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "Projects"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "Products_stripe_product_id_fkey"
-            columns: ["stripe_product_id"]
-            isOneToOne: false
-            referencedRelation: "products"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "Products_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
@@ -228,15 +203,7 @@ export type Database = {
           text_color?: string | null
           user_id?: string
         }
-        Relationships: [
-          {
-            foreignKeyName: "Projects_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
     }
     Views: {
@@ -344,4 +311,19 @@ export type Enums<
   ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
   : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
     ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+    : never
+
+export type CompositeTypes<
+  PublicCompositeTypeNameOrOptions extends
+    | keyof PublicSchema["CompositeTypes"]
+    | { schema: keyof Database },
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof Database
+  }
+    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
+    : never = never,
+> = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
+    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never

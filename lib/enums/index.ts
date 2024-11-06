@@ -6,7 +6,7 @@ export enum EventType {
   Checkout = "Checkout Sessions",
   CustomerTrends = "Customer Trends",
   SomeoneViewing = "Someone is Viewing",
-  ActiveVisitors = "Active Visitors",
+  ActiveUsers = "Active Users",
 }
 
 /**
@@ -44,7 +44,7 @@ export enum TemplateTypes {
 }
 
 /**
- * The different variables users have access to set within the text content of a popup.
+ * The different variables users have access to set within the message body of a popup.
  */
 export enum ContentVars {
   Person = "person",
@@ -52,6 +52,7 @@ export enum ContentVars {
   Product = "product",
   Price = "price",
   NumUsers = "numusers",
+  ProjectName = "projectname",
 }
 
 /**

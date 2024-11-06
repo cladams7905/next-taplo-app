@@ -85,9 +85,9 @@ export default function Integrations() {
           <div className="flex flex-col w-full justify-center gap-6">
             <div className="flex flex-col w-full h-fit items-center gap-3 min-h-[212px] md:mt-16 mt-6 hover:-translate-y-1 transition-transform justify-center bg-gradient-to-tl from-purple-100 via-white to-white shadow-md p-4 rounded-lg">
               <UsersRound width={48} height={48} />
-              <p className="font-logo text-xl">Active Visitors</p>
+              <p className="font-logo text-xl">Active Users</p>
               <p className="text-center">
-                Reveal how many visitors are currently browsing on your site.
+                Reveal how many users are currently browsing on your site.
               </p>
               <p className="text-sm">Google Analytics</p>
             </div>

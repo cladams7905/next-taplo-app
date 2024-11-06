@@ -344,7 +344,7 @@ export default function NewIntegrationForm({
           filteredProviders = [Providers.Stripe];
           break;
         case EventType.SomeoneViewing:
-        case EventType.ActiveVisitors:
+        case EventType.ActiveUsers:
           filteredProviders = [Providers.GoogleAnalytics];
           break;
       }

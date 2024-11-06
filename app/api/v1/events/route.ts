@@ -172,9 +172,10 @@ async function getGoogleAnalyticsData(
   integrationData: IntegrationData
 ) {
   switch (event.event_type as EventType) {
-    case EventType.ActiveVisitors:
-      integrationData.googleData.activeVisitors =
-        await getActiveVisitorsFromGoogle(integration);
+    case EventType.ActiveUsers:
+      integrationData.googleData.activeUsers = await getActiveUsersFromGoogle(
+        integration
+      );
       break;
     case EventType.SomeoneViewing:
       // Handle SomeoneViewing event type if needed
@@ -220,9 +221,7 @@ async function getChargesFromStripe(stripe: Stripe, timeToFilter: number) {
   return charges;
 }
 
-async function getActiveVisitorsFromGoogle(
-  integration: Tables<"Integrations">
-) {
+async function getActiveUsersFromGoogle(integration: Tables<"Integrations">) {
   // Google Analytics data
   const requestOptions = {
     method: "GET",
