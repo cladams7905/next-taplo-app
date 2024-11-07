@@ -29,6 +29,8 @@ export default function ContentBodyEditor({
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const [dropdownIndex, setDropdownIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const [highlightedIndex, setHighlightedIndex] = useState(0);
   const varDropdownRef = useRef<HTMLUListElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -85,6 +87,37 @@ export default function ContentBodyEditor({
   }, [currentEvent]);
 
   const variableList = getVariableList();
+
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (!dropdownVisible) return;
+
+      if (event.key === "Enter") {
+        event.preventDefault();
+        handleAddVariableFromDropdown(variableList[highlightedIndex]);
+        console.log(
+          "Enter key was pressed on:",
+          variableList[highlightedIndex]
+        );
+      } else if (event.key === "ArrowDown") {
+        // Move down the list, loop back to the top if at the end
+        setHighlightedIndex(
+          (prevIndex) => (prevIndex + 1) % variableList.length
+        );
+      } else if (event.key === "ArrowUp") {
+        // Move up the list, loop back to the bottom if at the top
+        setHighlightedIndex((prevIndex) =>
+          prevIndex === 0 ? variableList.length - 1 : prevIndex - 1
+        );
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyPress);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [dropdownVisible, highlightedIndex, variableList]);
 
   const getCaretCoordinates = (
     element: HTMLTextAreaElement,
@@ -169,32 +202,35 @@ export default function ContentBodyEditor({
       return indexes;
     }
 
-    lastVarCheckIndexes.some((index) => {
-      /* Check to make sure that the variable index the dropdown is hovering over 
-    is not already matching one on the variable list */
-      setDropdownIndex(index);
-      const currVar = getCurrentVariable(content, index + 1);
+    if (lastVarCheckIndexes.length > 0) {
+      lastVarCheckIndexes.some((index) => {
+        /* Check to make sure that the variable index the dropdown is hovering over 
+        is not already matching one on the variable list */
+        setDropdownIndex(index);
+        const currVar = getCurrentVariable(content, index + 1);
 
-      if (
-        index !== -1 &&
-        textAreaRef.current &&
-        !variableList.includes(currVar.toLocaleLowerCase())
-      ) {
-        const { top, left } = getCaretCoordinates(textAreaRef.current, index);
-        const lineHeight = 20;
+        if (
+          index !== -1 &&
+          textAreaRef.current &&
+          !variableList.includes(currVar.toLocaleLowerCase())
+        ) {
+          const { top, left } = getCaretCoordinates(textAreaRef.current, index);
+          const lineHeight = 20;
 
-        setDropdownPosition({
-          top: top + lineHeight,
-          left: left,
-        });
+          setDropdownPosition({
+            top: top + lineHeight,
+            left: left,
+          });
 
-        setDropdownVisible(true);
-        varDropdownRef.current?.classList.remove("hidden");
-        return true; //break out of loop
-      } else {
-        setDropdownVisible(false);
-      }
-    });
+          setDropdownVisible(true);
+          return true; //break out of loop
+        } else {
+          setDropdownVisible(false);
+        }
+      });
+    } else {
+      setDropdownVisible(false);
+    }
   };
 
   const getCurrentVariable = (content: string, index: number) => {
@@ -238,7 +274,7 @@ export default function ContentBodyEditor({
     switch (variable) {
       case ContentVars.Person:
         returnStr =
-          'The name of the visitor (ex: "Jamie"). If this field is unknown, it will be replaced with "Someone".';
+          'The name of the user. If this field is unknown, it will be replaced with "Someone".';
         break;
       case ContentVars.Location:
         returnStr =
@@ -267,7 +303,6 @@ export default function ContentBodyEditor({
         className="textarea textarea-bordered rounded-lg"
         placeholder="Type your message here."
         onInput={handleInputChange}
-        defaultValue={""}
       ></textarea>
       {dropdownVisible && (
         <ul
@@ -278,7 +313,11 @@ export default function ContentBodyEditor({
           {variableList.map((variable, i) => (
             <li key={i}>
               <a
-                className="flex flex-col items-start rounded-md py-1 px-2"
+                className={`flex flex-col items-start rounded-md py-1 px-2 ${
+                  i === highlightedIndex ? "bg-link-hover" : ""
+                }`}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
                 onClick={() => handleAddVariableFromDropdown(variable)}
               >
                 <div className="flex items-center gap-2 uppercase text-sm">
@@ -316,12 +355,12 @@ export default function ContentBodyEditor({
       </div>
       <div className="flex justify-end">
         <div
-          className={`btn btn-primary btn-sm w-20 text-white text-xs -mt-4 ${
+          className={`btn btn-primary btn-sm w-full text-white mt-4 ${
             !isValidInput && "btn-disabled"
           }`}
           onClick={() => handleContentSave()}
         >
-          Save
+          Create
         </div>
       </div>
     </div>
