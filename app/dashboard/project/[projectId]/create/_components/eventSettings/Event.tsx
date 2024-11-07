@@ -1,6 +1,6 @@
 "use client";
 
-import { Tables } from "@/lib/supabase/types";
+import { Json, Tables, TablesUpdate } from "@/lib/supabase/types";
 import React, { memo, TransitionStartFunction, useRef } from "react";
 import {
   CirclePlus,
@@ -78,44 +78,19 @@ function Event({
 
   const handleUpdateEvent = async (
     currentEvent: Tables<"Events"> | undefined,
-    integrationId?: number,
-    message?: string
+    newEvent: TablesUpdate<"Events">
   ) => {
     if (currentEvent) {
       // Update the event with the new integration_id
-      const eventUpdateResult = await updateEvent(currentEvent.id, {
-        ...currentEvent,
-        integration_id: integrationId
-          ? integrationId
-          : currentEvent.integration_id,
-        message: message ? message : currentEvent.message,
-      });
+      const eventUpdateResult = await updateEvent(currentEvent.id, newEvent);
 
       if (eventUpdateResult.error) {
         showToastError(eventUpdateResult.error);
       } else {
-        // Update the events state and activeEvent state
-        setEvents((prevEvents) =>
-          prevEvents.map((event) =>
-            event.id === currentEvent.id
-              ? {
-                  ...event,
-                  integration_id: integrationId
-                    ? integrationId
-                    : event.integration_id,
-                  message: message ? message : event.message,
-                } // Update values for the matching event
-              : event
-          )
-        );
-
         // Update the active event
         setActiveEvent({
           ...currentEvent,
-          integration_id: integrationId
-            ? integrationId
-            : currentEvent.integration_id,
-          message: message ? message : currentEvent.message,
+          ...newEvent,
         });
       }
     }

@@ -1,15 +1,19 @@
 import React, { RefObject, useTransition } from "react";
 import ContentBodyEditor from "./ContentBodyEditor";
-import { Tables } from "@/lib/supabase/types";
+import { Tables, TablesUpdate } from "@/lib/supabase/types";
 
 export default function EditContentModal({
   modalRef,
   currentEvent,
+  handleUpdateEvent,
 }: {
   modalRef: RefObject<HTMLDialogElement>;
   currentEvent: Tables<"Events">;
+  handleUpdateEvent: (
+    currentEvent: Tables<"Events">,
+    newEvent: TablesUpdate<"Events">
+  ) => Promise<void>;
 }) {
-  const [isLoading, setLoadingTransition] = useTransition();
   return (
     <dialog className="modal" ref={modalRef}>
       <div className="modal-box dark:border dark:border-gray-600">
@@ -27,8 +31,9 @@ export default function EditContentModal({
         <h3 className="font-semibold text-lg mb-4">Create Custom Message</h3>
         <div className="flex flex-col w-full gap-6">
           <ContentBodyEditor
+            modalRef={modalRef}
             currentEvent={currentEvent}
-            startLoadTransition={setLoadingTransition}
+            handleUpdateEvent={handleUpdateEvent}
           />
         </div>
       </div>

@@ -95,13 +95,14 @@ export default function TemplateModal({
               (activeTemplate === TemplateTypes.SmPopup ||
                 activeTemplate === TemplateTypes.SmPopupNoImg) &&
               "outline outline-[3px] outline-primary"
-            } bg-gradient-to-tr from-primary/50 to-purple-100 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform`}
+            } bg-primary/50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform`}
             onClick={() =>
               isShowImageTemplates
                 ? handleSetActiveTemplate(TemplateTypes.SmPopup)
                 : handleSetActiveTemplate(TemplateTypes.SmPopupNoImg)
             }
           >
+            <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
             {(activeTemplate === TemplateTypes.SmPopup ||
               activeTemplate === TemplateTypes.SmPopupNoImg) && (
               <div className="flex items-center justify-center absolute top-0 z-[2] left-0 aspect-square w-8 h-8 rounded-br-lg rounded-tl-lg bg-primary text-white">
@@ -119,13 +120,14 @@ export default function TemplateModal({
               (activeTemplate === TemplateTypes.LgPopup ||
                 activeTemplate === TemplateTypes.LgPopupNoImg) &&
               "outline outline-[3px] outline-primary"
-            } bg-gradient-to-tr from-primary/50 to-purple-100 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform`}
+            } bg-primary/50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform`}
             onClick={() =>
               isShowImageTemplates
                 ? handleSetActiveTemplate(TemplateTypes.LgPopup)
                 : handleSetActiveTemplate(TemplateTypes.LgPopupNoImg)
             }
           >
+            <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
             {(activeTemplate === TemplateTypes.LgPopup ||
               activeTemplate === TemplateTypes.LgPopupNoImg) && (
               <div className="flex items-center justify-center absolute top-0 z-[2] left-0 aspect-square w-8 h-8 rounded-br-lg rounded-tl-lg bg-primary text-white">
@@ -143,13 +145,14 @@ export default function TemplateModal({
               (activeTemplate === TemplateTypes.Card ||
                 activeTemplate === TemplateTypes.CardNoImg) &&
               "outline outline-[3px] outline-primary"
-            } bg-gradient-to-tr from-primary/50 to-purple-100 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform`}
+            } bg-primary/50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform`}
             onClick={() =>
               isShowImageTemplates
                 ? handleSetActiveTemplate(TemplateTypes.Card)
                 : handleSetActiveTemplate(TemplateTypes.CardNoImg)
             }
           >
+            <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
             {(activeTemplate === TemplateTypes.Card ||
               activeTemplate === TemplateTypes.CardNoImg) && (
               <div className="flex items-center justify-center absolute top-0 z-[2] left-0 aspect-square w-8 h-8 rounded-br-lg rounded-tl-lg bg-primary text-white">
@@ -167,13 +170,14 @@ export default function TemplateModal({
               (activeTemplate === TemplateTypes.Banner ||
                 activeTemplate === TemplateTypes.BannerNoImg) &&
               "outline outline-[3px] outline-primary"
-            } bg-gradient-to-tr from-primary/50 to-purple-100 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform`}
+            } bg-primary/50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform`}
             onClick={() =>
               isShowImageTemplates
                 ? handleSetActiveTemplate(TemplateTypes.Banner)
                 : handleSetActiveTemplate(TemplateTypes.BannerNoImg)
             }
           >
+            <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
             {(activeTemplate === TemplateTypes.Banner ||
               activeTemplate === TemplateTypes.BannerNoImg) && (
               <div className="flex items-center justify-center absolute top-0 z-[2] left-0 aspect-square w-8 h-8 rounded-br-lg rounded-tl-lg bg-primary text-white">

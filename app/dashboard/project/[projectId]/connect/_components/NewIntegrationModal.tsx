@@ -2,7 +2,7 @@
 
 import { Dispatch, RefObject, SetStateAction } from "react";
 import NewIntegrationForm from "./NewIntegrationForm";
-import { Tables } from "@/lib/supabase/types";
+import { Tables, TablesUpdate } from "@/lib/supabase/types";
 
 export default function NewIntegrationModal({
   activeProject,
@@ -19,7 +19,10 @@ export default function NewIntegrationModal({
   setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
   newIntegrationModalRef: RefObject<HTMLDialogElement>;
   currentEvent?: Tables<"Events">;
-  handleUpdateEvent?: (event: Tables<"Events">, integrationId: number) => void;
+  handleUpdateEvent?: (
+    currentEvent: Tables<"Events">,
+    newEvent: TablesUpdate<"Events">
+  ) => void;
   integrationToEdit?: Tables<"Integrations"> | undefined;
   setIntegrationToEdit?: Dispatch<
     SetStateAction<Tables<"Integrations"> | undefined>

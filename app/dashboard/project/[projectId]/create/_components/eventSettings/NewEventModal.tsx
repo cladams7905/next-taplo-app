@@ -188,7 +188,7 @@ export default function NewEventModal({
                     <CheckIcon width={16} height={16} strokeWidth={4} />
                   </div>
                 )}
-                <div className="flex items-center justify-center rounded-l-lg w-14 min-w-14 h-full bg-gradient-to-tr from-purple-200 to-primary border-r border-gray-300">
+                <div className="relative flex items-center justify-center rounded-l-lg w-14 min-w-14 h-full bg-primary/80 border-r border-gray-300">
                   {getEventIcon(eventOption.type, "#FFFFFF")}
                 </div>
                 <div className="flex flex-col py-4 px-2 ml-3 gap-2">

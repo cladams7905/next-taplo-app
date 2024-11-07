@@ -2,62 +2,64 @@
 
 import React, {
   FormEvent,
-  TransitionStartFunction,
+  RefObject,
   useCallback,
   useEffect,
   useRef,
   useState,
+  useTransition,
 } from "react";
-import { updateEvent } from "@/lib/actions/events";
-import { showToastError } from "@/app/_components/shared/showToast";
-import { Tables } from "@/lib/supabase/types";
+import { Tables, TablesUpdate } from "@/lib/supabase/types";
 import { ContentVars, EventType } from "@/lib/enums";
-import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
+import { getDefaultMessageOptions } from "./MessageDropdown";
+import LoadingDots from "@/app/_components/shared/loadingdots";
 
 export default function ContentBodyEditor({
+  modalRef,
   currentEvent,
-  startLoadTransition,
+  handleUpdateEvent,
 }: {
+  modalRef: RefObject<HTMLDialogElement>;
   currentEvent: Tables<"Events"> | undefined;
-  startLoadTransition: TransitionStartFunction;
+  handleUpdateEvent: (
+    currentEvent: Tables<"Events">,
+    newEvent: TablesUpdate<"Events">
+  ) => Promise<void>;
 }) {
-  const { setActiveEvent } = useProjectContext();
+  //The delimiter used to mark the start of a new variable
   const VARCHECK = "\\";
+
+  //The max number of characters allowed in a message
   const MAXINPUTCHARS = 80;
+
+  //Stores the current number of characters of a message
   const [currentNumChars, setCurrentNumChars] = useState(0);
+
+  //Boolean that stores whether message body input is valid or not
   const [isValidInput, setIsValidInput] = useState(true);
+
+  //Boolean that stores whether the variable list dropdown menu is visible or not
   const [dropdownVisible, setDropdownVisible] = useState(false);
+
+  //Stores the current variable list dropdown menu position
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
-  const [dropdownIndex, setDropdownIndex] = useState(0);
+
+  //Stores the index of the last variable edited/created inside of the message body
+  const [varIndex, setvarIndex] = useState(0);
+
+  //Stores whether the variable list dropdown menu is being hovered over
   const [isHovered, setIsHovered] = useState(false);
+
+  //Stores the index of which variable in the dropdown menu is being highlighted
   const [highlightedIndex, setHighlightedIndex] = useState(0);
+
   const varDropdownRef = useRef<HTMLUListElement>(null);
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const [isLoading, startTransition] = useTransition();
 
-  const handleContentSave = () => {
-    startLoadTransition(async () => {
-      if (currentEvent && textAreaRef.current?.value != currentEvent.message) {
-        const updatedContentBody = textAreaRef.current!.value;
-        const { data, error } = await updateEvent(currentEvent.id, {
-          message: updatedContentBody,
-        });
-        if (error) {
-          showToastError(error);
-        } else {
-          if (setActiveEvent)
-            setActiveEvent((prevEvent) =>
-              prevEvent
-                ? {
-                    ...prevEvent,
-                    message: updatedContentBody,
-                  }
-                : prevEvent
-            );
-        }
-      }
-    });
-  };
-
+  /**
+   * Gets the variable list based on the event type
+   */
   const getVariableList = useCallback(() => {
     let variableList: string[] = [];
     if (currentEvent) {
@@ -86,19 +88,19 @@ export default function ContentBodyEditor({
     return variableList;
   }, [currentEvent]);
 
+  //Stores the variables that can be accessed within a certain event
   const variableList = getVariableList();
 
+  /*
+   * This useEffect handles key press events within the variable dropdown menu
+   */
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
-      if (!dropdownVisible) return;
+      if (!dropdownVisible || isHovered) return;
 
-      if (event.key === "Enter") {
+      if (event.key === "Enter" || event.key === "Tab") {
         event.preventDefault();
         handleAddVariableFromDropdown(variableList[highlightedIndex]);
-        console.log(
-          "Enter key was pressed on:",
-          variableList[highlightedIndex]
-        );
       } else if (event.key === "ArrowDown") {
         // Move down the list, loop back to the top if at the end
         setHighlightedIndex(
@@ -119,6 +121,44 @@ export default function ContentBodyEditor({
     };
   }, [dropdownVisible, highlightedIndex, variableList]);
 
+  /**
+   * Handles the creation of a new custom message
+   */
+  const handleMessageCreate = () => {
+    startTransition(async () => {
+      const newMessage = textAreaRef.current?.value;
+      if (!newMessage) return;
+
+      const defaultMessages = getDefaultMessageOptions(
+        currentEvent?.event_type as EventType
+      );
+
+      if (
+        currentEvent &&
+        !defaultMessages.includes(newMessage) &&
+        !(currentEvent.custom_messages as string[]).includes(newMessage)
+      ) {
+        //Create the message and add to event.custom_messages in db
+        await handleUpdateEvent(currentEvent, {
+          message: newMessage,
+          custom_messages: [
+            ...(currentEvent.custom_messages as string[]),
+            newMessage,
+          ],
+        });
+        modalRef.current?.close();
+        textAreaRef.current.value = "";
+        setCurrentNumChars(0);
+        modalRef.current?.classList.add("hidden");
+      }
+    });
+  };
+
+  /**
+   * Gets the dropdown position of the variable list dropdown menu
+   * @param element the textarea element
+   * @param position the position of the dropdown
+   */
   const getCaretCoordinates = (
     element: HTMLTextAreaElement,
     position: number
@@ -126,6 +166,7 @@ export default function ContentBodyEditor({
     const div = document.createElement("div");
     const style = window.getComputedStyle(element);
 
+    //Element properties to check to determine dropdown position
     const properties = [
       "boxSizing",
       "width",
@@ -180,10 +221,14 @@ export default function ContentBodyEditor({
     return { top, left };
   };
 
+  /**
+   * Handles input change within the textarea element
+   */
   const handleInputChange = (e: FormEvent<HTMLTextAreaElement>) => {
     const content = e.currentTarget.value;
     setCurrentNumChars(content.length);
 
+    //Check to see if input is a valid length
     if (content.length > MAXINPUTCHARS) {
       setIsValidInput(false);
     } else if (!isValidInput) {
@@ -206,7 +251,7 @@ export default function ContentBodyEditor({
       lastVarCheckIndexes.some((index) => {
         /* Check to make sure that the variable index the dropdown is hovering over 
         is not already matching one on the variable list */
-        setDropdownIndex(index);
+        setvarIndex(index);
         const currVar = getCurrentVariable(content, index + 1);
 
         if (
@@ -233,6 +278,12 @@ export default function ContentBodyEditor({
     }
   };
 
+  /**
+   * Gets the current variable from within the textarea input
+   * @param content the message body string
+   * @param index the index to check
+   * @returns the current variable
+   */
   const getCurrentVariable = (content: string, index: number) => {
     let currVar = "";
     const regex = /^[A-Za-z]$/;
@@ -250,16 +301,18 @@ export default function ContentBodyEditor({
     return currVar;
   };
 
+  /**
+   * Adds a variable from the dropdown list to the textarea content
+   * @param variable the variable to add
+   */
   const handleAddVariableFromDropdown = (variable: string) => {
     if (textAreaRef.current?.value) {
       const content = textAreaRef.current.value;
-      const currVar = getCurrentVariable(content, dropdownIndex + 1);
+      const currVar = getCurrentVariable(content, varIndex + 1);
 
-      if (dropdownIndex >= 0) {
-        const beforeInsert = content.substring(0, dropdownIndex);
-        const afterInsert = content.substring(
-          dropdownIndex + currVar.length + 1
-        );
+      if (varIndex >= 0) {
+        const beforeInsert = content.substring(0, varIndex);
+        const afterInsert = content.substring(varIndex + currVar.length + 1);
 
         textAreaRef.current.value =
           beforeInsert + "\\" + variable.toLocaleUpperCase() + afterInsert;
@@ -269,6 +322,11 @@ export default function ContentBodyEditor({
     }
   };
 
+  /**
+   * Gets tooltip content for descriptions of variables (activated when hovered over).
+   * @param variable the variable to get a description for
+   * @returns the tooltip content
+   */
   const getVariableTooltip = (variable: ContentVars) => {
     let returnStr = "";
     switch (variable) {
@@ -314,7 +372,7 @@ export default function ContentBodyEditor({
             <li key={i}>
               <a
                 className={`flex flex-col items-start rounded-md py-1 px-2 ${
-                  i === highlightedIndex ? "bg-link-hover" : ""
+                  i === highlightedIndex && !isHovered ? "bg-link-hover" : ""
                 }`}
                 onMouseEnter={() => setIsHovered(true)}
                 onMouseLeave={() => setIsHovered(false)}
@@ -355,12 +413,14 @@ export default function ContentBodyEditor({
       </div>
       <div className="flex justify-end">
         <div
-          className={`btn btn-primary btn-sm w-full text-white mt-4 ${
-            !isValidInput && "btn-disabled"
+          className={`btn btn-primary btn-md w-full text-white mt-4 ${
+            !isValidInput || currentNumChars === 0 || isLoading
+              ? "btn-disabled"
+              : ""
           }`}
-          onClick={() => handleContentSave()}
+          onClick={() => handleMessageCreate()}
         >
-          Create
+          {isLoading ? <LoadingDots color="oklch(var(--bc))" /> : "Create"}
         </div>
       </div>
     </div>

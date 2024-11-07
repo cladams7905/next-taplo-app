@@ -1,6 +1,6 @@
 "use client";
 
-import { Tables, TablesInsert } from "@/lib/supabase/types";
+import { Tables, TablesInsert, TablesUpdate } from "@/lib/supabase/types";
 import { ChevronDown } from "lucide-react";
 import React, {
   Dispatch,
@@ -30,7 +30,10 @@ export default function IntegrationSelect({
 }: {
   currentEvent?: Tables<"Events">;
   startLoadingTransition: TransitionStartFunction;
-  handleUpdateEvent?: (event: Tables<"Events">, integrationId: number) => void;
+  handleUpdateEvent?: (
+    currentEvent: Tables<"Events">,
+    newEvent: TablesUpdate<"Events">
+  ) => void;
   selectedIntegration?: Tables<"Integrations"> | undefined;
   setSelectedIntegration?: Dispatch<
     SetStateAction<Tables<"Integrations"> | undefined>
@@ -107,7 +110,7 @@ export default function IntegrationSelect({
     } else {
       startLoadingTransition(() => {
         if (handleUpdateEvent && currentEvent) {
-          handleUpdateEvent(currentEvent, integration.id);
+          handleUpdateEvent(currentEvent, { integration_id: integration.id });
         }
       });
     }

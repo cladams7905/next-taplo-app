@@ -2,7 +2,7 @@
 
 import { replaceVariablesInContentBody } from "@/lib/actions";
 import { EventType } from "@/lib/enums";
-import { Tables } from "@/lib/supabase/types";
+import { Tables, TablesUpdate } from "@/lib/supabase/types";
 import { ChevronDown, CirclePlus } from "lucide-react";
 import React, { TransitionStartFunction, useRef } from "react";
 import DOMPurify from "isomorphic-dompurify";
@@ -20,24 +20,25 @@ export default function MessageDropdown({
   currentProduct: Tables<"Products"> | undefined;
   startLoadingTransition: TransitionStartFunction;
   handleUpdateEvent: (
-    event: Tables<"Events">,
-    integrationId?: number,
-    message?: string
-  ) => void;
+    currentEvent: Tables<"Events"> | undefined,
+    newEvent: TablesUpdate<"Events">
+  ) => Promise<void>;
 }) {
   {
-    const messageOptions = getDefaultMessageOptions(
-      currentEvent.event_type as EventType
-    );
+    const messageOptions = [
+      ...getDefaultMessageOptions(currentEvent.event_type as EventType),
+      ...(currentEvent.custom_messages as string[]),
+    ];
 
-    const toggleModalRef = useRef<HTMLDivElement>(null);
+    const dropdownRef = useRef<HTMLDivElement>(null);
     const editContentModalRef = useRef<HTMLDialogElement>(null);
 
     const setEventMessage = (option: string) => {
       if (option === currentEvent.message) return;
 
-      startLoadingTransition(() => {
-        handleUpdateEvent(currentEvent, undefined, option);
+      startLoadingTransition(async () => {
+        await handleUpdateEvent(currentEvent, { message: option });
+        dropdownRef.current?.classList.add("hidden");
       });
     };
     return (
@@ -47,7 +48,7 @@ export default function MessageDropdown({
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            toggleModalRef?.current?.classList.remove("hidden");
+            dropdownRef?.current?.classList.remove("hidden");
           }}
         >
           <div
@@ -64,8 +65,8 @@ export default function MessageDropdown({
           </div>
           <div
             tabIndex={0}
-            ref={toggleModalRef}
-            className="!absolute dropdown-content bg-white border border-gray-200 shadow-md z-30 rounded-lg w-full mt-1 h-fit min-h-16"
+            ref={dropdownRef}
+            className="!absolute dropdown-content bg-white border border-gray-200 shadow-md z-30 rounded-lg w-full mt-1 h-fit min-h-16 max-h-[200px] overflow-y-scroll"
           >
             <ul className="h-full w-full overflow-y-scroll">
               {messageOptions.map((option, index) => (
@@ -103,20 +104,23 @@ export default function MessageDropdown({
                 </li>
               ))}
             </ul>
-            <hr></hr>
-            <div
-              className="btn btn-ghost text-sm w-full !rounded-t-none"
-              onClick={() => {
-                editContentModalRef.current?.classList.remove("hidden");
-                editContentModalRef.current?.showModal();
-              }}
-            >
-              Create custom message
-              <CirclePlus height={16} width={16} />
+            <div className="w-full sticky bg-white bottom-0">
+              <hr></hr>
+              <div
+                className="btn btn-ghost hover:bg-link-hover text-sm w-full !rounded-t-none"
+                onClick={() => {
+                  editContentModalRef.current?.classList.remove("hidden");
+                  editContentModalRef.current?.showModal();
+                }}
+              >
+                Create custom message
+                <CirclePlus height={16} width={16} />
+              </div>
             </div>
             <EditContentModal
               modalRef={editContentModalRef}
               currentEvent={currentEvent}
+              handleUpdateEvent={handleUpdateEvent}
             />
           </div>
         </div>
@@ -125,7 +129,7 @@ export default function MessageDropdown({
   }
 }
 
-const getDefaultMessageOptions = (eventType: EventType) => {
+export const getDefaultMessageOptions = (eventType: EventType) => {
   let options: string[] = [];
   switch (eventType) {
     case EventType.ActiveUsers:

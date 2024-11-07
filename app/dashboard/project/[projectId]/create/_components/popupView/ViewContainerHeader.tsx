@@ -46,7 +46,7 @@ export default function ViewContainerHeader({
               data-tip="Embed"
             >
               <div
-                className="btn btn-primary flex items-center text-white text-xs btn-sm"
+                className="btn btn-accent flex items-center text-white text-xs btn-sm"
                 onClick={() => {
                   embedModalRef.current?.showModal();
                 }}

@@ -27,7 +27,7 @@ import { CirclePlus, ExternalLink, EyeIcon, Pencil } from "lucide-react";
 import Image from "next/image";
 import StripeLogo from "@/public/images/providers/stripe-logo.svg";
 import GA4Logo from "@/public/images/providers/ga-logo.svg";
-import { Tables } from "@/lib/supabase/types";
+import { Tables, TablesUpdate } from "@/lib/supabase/types";
 import {
   createIntegration,
   updateIntegration,
@@ -106,7 +106,10 @@ export default function NewIntegrationForm({
   setIntegrations: Dispatch<SetStateAction<Tables<"Integrations">[]>>;
   newIntegrationModalRef: RefObject<HTMLDialogElement>;
   currentEvent?: Tables<"Events">;
-  handleUpdateEvent?: (event: Tables<"Events">, integrationId: number) => void;
+  handleUpdateEvent?: (
+    currentEvent: Tables<"Events">,
+    newEvent: TablesUpdate<"Events">
+  ) => void;
   integrationToEdit?: Tables<"Integrations"> | undefined;
   setIntegrationToEdit?: Dispatch<
     SetStateAction<Tables<"Integrations"> | undefined>
@@ -308,7 +311,7 @@ export default function NewIntegrationForm({
           }
 
           if (currentEvent && handleUpdateEvent) {
-            handleUpdateEvent(currentEvent, data.id);
+            handleUpdateEvent(currentEvent, { integration_id: data.id });
           }
         }
 
