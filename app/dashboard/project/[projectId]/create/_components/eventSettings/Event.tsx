@@ -1,13 +1,12 @@
 "use client";
 
-import { Json, Tables, TablesUpdate } from "@/lib/supabase/types";
+import { Tables, TablesUpdate } from "@/lib/supabase/types";
 import React, { memo, TransitionStartFunction, useRef } from "react";
 import {
   CirclePlus,
   ShoppingBag,
   ShoppingCart,
   Trash2,
-  InfoIcon,
   UserRoundSearch,
   UsersRound,
 } from "lucide-react";
@@ -18,6 +17,7 @@ import NewIntegrationModal from "../../../connect/_components/NewIntegrationModa
 import { updateEvent } from "@/lib/actions/events";
 import { showToastError } from "@/app/_components/shared/showToast";
 import MessageDropdown from "./MessageDropdown";
+import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
 
 function Event({
   currentEvent,
@@ -33,7 +33,6 @@ function Event({
     activeEvent,
     setActiveEvent,
     activeProduct,
-    setEvents,
     integrations,
     setIntegrations,
   } = useProjectContext();
@@ -144,7 +143,7 @@ function Event({
                     currentEvent?.event_type as EventType
                   )}
                 >
-                  <InfoIcon width={16} height={16} />
+                  <QuestionMarkCircledIcon width={16} height={16} />
                 </div>
               )}
             </div>
@@ -171,9 +170,26 @@ function Event({
             handleUpdateEvent={handleUpdateEvent}
           />
         </div>
+        <div className="flex flex-col gap-2 w-full">
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center">Header (optional)</div>
+          </div>
+          <input
+            type="text"
+            className="input h-[38px] w-full text-sm"
+            placeholder="Type header here"
+            defaultValue={currentEvent.header || undefined}
+            onBlur={(e) => {
+              if (currentEvent.header === e.target.value) return;
+              startEventTransition(async () => {
+                handleUpdateEvent(currentEvent, { header: e.target.value });
+              });
+            }}
+          />
+        </div>
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
-            <div className="flex items-center">Message</div>
+            <div className="flex items-center">Message Body</div>
           </div>
           <MessageDropdown
             projectName={activeProject.name}

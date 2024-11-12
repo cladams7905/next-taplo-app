@@ -199,7 +199,7 @@ export default function IntegrationSelect({
           }`}
         >
           {currentEvent?.integration_id || selectedIntegration ? (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 pl-1">
               {selectedIntegration?.provider &&
                 getProviderLogo(selectedIntegration.provider as Providers)}
               {selectedIntegration?.name}
@@ -212,21 +212,21 @@ export default function IntegrationSelect({
         <div
           tabIndex={0}
           ref={toggleModalRef}
-          className="menu menu-sm dropdown-content bg-white border border-gray-200 shadow-md z-[1] rounded-lg w-full mt-1 h-fit min-h-16 max-h-44"
+          className="menu menu-sm dropdown-content bg-white border border-gray-200 shadow-md z-[1] rounded-lg w-full mt-1 h-fit min-h-16 max-h-44 p-0"
         >
           <ul className="h-full w-full overflow-y-scroll">
             {filteredIntegrations.length > 0 ? (
               filteredIntegrations.map((integration, i) => (
                 <li key={i}>
                   <a
-                    className={`flex flex-col items-start justify-between rounded-md py-2 ${
+                    className={`flex flex-col items-start justify-between py-2 ${
                       integration.id === currentEvent?.integration_id
                         ? "text-gray-400 pointer-events-none"
                         : ""
                     }`}
                     onClick={() => handleIntegrationSelect(integration)}
                   >
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 pl-1">
                       {getProviderLogo(
                         integration.provider as Providers,
                         integration.id === currentEvent?.integration_id

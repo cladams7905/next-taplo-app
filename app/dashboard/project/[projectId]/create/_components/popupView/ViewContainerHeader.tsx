@@ -60,7 +60,7 @@ export default function ViewContainerHeader({
               data-tip="Preview"
             >
               <div
-                className="btn btn-accent flex items-center text-white text-xs btn-sm"
+                className="btn btn-primary flex items-center text-white text-xs btn-sm"
                 onClick={() => {
                   previewRef.current?.classList.remove("hidden");
                   previewRef.current?.classList.add("flex");

@@ -2,7 +2,6 @@
 
 import {
   BadgeCheck,
-  Boxes,
   ShoppingBag,
   ShoppingCart,
   UserRoundSearch,
@@ -16,6 +15,7 @@ import "animate.css";
 import Image from "next/image";
 import { Tables } from "@/lib/supabase/types";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
+import DOMPurify from "isomorphic-dompurify";
 
 export default function PopupTemplate({
   isAnimatePulse,
@@ -82,6 +82,7 @@ export default function PopupTemplate({
         false, //isLiveMode = false
         true, //isShowProductAsLink = true
         activeProduct,
+        activeProject.name,
         backgroundColor.hex.toString(),
         accentColor.hex.toString()
       )
@@ -215,6 +216,7 @@ export default function PopupTemplate({
       return (
         <div className="flex flex-col items-center gap-2 -mb-4">
           <SmallPopupNoImageTemplate
+            previewEvent={previewEvent}
             animation={animation}
             isAnimatePulse={isAnimatePulse}
             isPreviewMode={isPreviewMode}
@@ -247,6 +249,7 @@ export default function PopupTemplate({
       return (
         <div className="flex flex-col items-center gap-2 -mb-4">
           <LargePopupNoImageTemplate
+            previewEvent={previewEvent}
             animation={animation}
             isAnimatePulse={isAnimatePulse}
             isPreviewMode={isPreviewMode}
@@ -279,6 +282,7 @@ export default function PopupTemplate({
       return (
         <div className="flex flex-col items-center gap-2 -mb-4">
           <CardNoImageTemplate
+            previewEvent={previewEvent}
             animation={animation}
             isAnimatePulse={isAnimatePulse}
             isPreviewMode={isPreviewMode}
@@ -311,6 +315,7 @@ export default function PopupTemplate({
       return (
         <div className="flex flex-col items-center gap-2 -mb-4">
           <BannerNoImageTemplate
+            previewEvent={previewEvent}
             animation={animation}
             isAnimatePulse={isAnimatePulse}
             isPreviewMode={isPreviewMode}
@@ -327,9 +332,9 @@ export default function PopupTemplate({
   }
 }
 
-const EventIcon = (eventType: EventType, size: "lg" | "md" | "sm" = "lg") => {
+const EventIcon = (eventType: EventType, size: "lg" | "md" | "sm" = "md") => {
   const { accentColor } = useProjectContext();
-  const iconSize = size === "lg" ? 28 : size === "md" ? 24 : 20;
+  const iconSize = size === "lg" ? 38 : size === "md" ? 28 : 24;
 
   switch (eventType) {
     case EventType.Purchase:
@@ -393,13 +398,16 @@ const SmallPopupTemplate = ({
     borderColor,
   } = useProjectContext();
 
+  const hasHeader =
+    (isPreviewMode && previewEvent?.header) ||
+    (!isPreviewMode && activeEvent?.header);
   return (
     <div
       style={{
         backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className={`relative flex flex-row w-fit h-fit pr-6 pl-4 max-w-[330px] rounded-lg border shadow-lg py-4 gap-3 ${
+      className={`relative flex flex-row w-fit h-fit pr-6 pl-4 max-w-[330px] min-w-[280px] min-h-[80px] rounded-lg border shadow-lg py-3 gap-3 ${
         isPreviewMode ? animation : ""
       } ${
         isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""
@@ -409,12 +417,12 @@ const SmallPopupTemplate = ({
         {activeProduct?.image_url &&
         activeProduct.image_url !== "" &&
         shouldDisplayImage() ? (
-          <div className="w-16 h-16 min-w-16">
+          <div className="w-12 h-12 min-w-12">
             <Image
               loader={() => activeProduct.image_url || ""}
               unoptimized={true}
-              width={110}
-              height={110}
+              width={48}
+              height={48}
               alt="product-img"
               src={activeProduct.image_url}
               className="object-cover w-full h-full rounded-full"
@@ -422,7 +430,7 @@ const SmallPopupTemplate = ({
           </div>
         ) : (
           <div
-            className="rounded-full flex items-center justify-center w-16 h-16 min-w-16 aspect-square"
+            className="rounded-full flex items-center justify-center w-12 h-12 min-w-12 aspect-square"
             style={{
               backgroundColor: hexToRgba(accentColor.hex.toString(), 0.2),
             }}
@@ -437,38 +445,71 @@ const SmallPopupTemplate = ({
         )}
       </div>
       <div className="flex w-full gap-4 items-center ml-2">
-        <div className="flex flex-col w-full gap-2">
+        <div className="flex flex-col w-full">
+          {hasHeader && (
+            <div className="flex justify-between leading-5 mb-[2px]">
+              {" "}
+              <div className="flex gap-[2px]">
+                <p
+                  style={{
+                    color: textColor.hex.toString(),
+                  }}
+                  className="text-[13.5px] font-bold"
+                >
+                  {isPreviewMode ? previewEvent?.header : activeEvent?.header}
+                </p>{" "}
+                <BadgeCheck
+                  width={18}
+                  height={18}
+                  fill={accentColor.hex.toString()}
+                  color={backgroundColor.hex.toString()}
+                />
+              </div>
+              <div
+                className="absolute bottom-[2px] right-3 text-[10px] flex items-center"
+                style={{
+                  color: hexToRgba(textColor.hex.toString(), 0.65),
+                }}
+              >
+                12 min ago | Verified by Taplo
+              </div>
+            </div>
+          )}
           <p
             style={{
               color: textColor.hex.toString(),
             }}
-            className="text-[12.5px] leading-5"
+            className={`${
+              hasHeader ? "text-[11.5px] mb-2" : "text-[12.5px]"
+            } leading-4`}
             dangerouslySetInnerHTML={{
               __html: isPreviewMode ? previewContentBody : contentBody,
             }}
           ></p>
-          <div
-            className="text-xs text-[11.5px] flex items-center gap-4"
-            style={{
-              color: hexToRgba(textColor.hex.toString(), 0.65),
-            }}
-          >
-            12 min ago
-            <p
-              className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10px]"
+          {!hasHeader && (
+            <div
+              className="text-[11px] flex items-center mt-1 leading-4"
               style={{
                 color: hexToRgba(textColor.hex.toString(), 0.65),
               }}
             >
-              Verified by Taplo
-              <BadgeCheck
-                width={18}
-                height={18}
-                fill={accentColor.hex.toString()}
-                color={backgroundColor.hex.toString()}
-              />
-            </p>
-          </div>
+              12 min ago
+              <p
+                className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10px]"
+                style={{
+                  color: hexToRgba(textColor.hex.toString(), 0.65),
+                }}
+              >
+                Verified by Taplo
+                <BadgeCheck
+                  width={18}
+                  height={18}
+                  fill={accentColor.hex.toString()}
+                  color={backgroundColor.hex.toString()}
+                />
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -476,65 +517,103 @@ const SmallPopupTemplate = ({
 };
 
 const SmallPopupNoImageTemplate = ({
+  previewEvent,
   animation,
   isAnimatePulse,
   isPreviewMode,
   contentBody,
   previewContentBody,
 }: {
+  previewEvent: Tables<"Events"> | undefined;
   animation?: string;
   isAnimatePulse?: boolean;
   isPreviewMode: boolean;
   contentBody: string;
   previewContentBody: string;
 }) => {
-  const { backgroundColor, textColor, accentColor, borderColor } =
+  const { backgroundColor, textColor, accentColor, borderColor, activeEvent } =
     useProjectContext();
+  const hasHeader =
+    (isPreviewMode && previewEvent?.header) ||
+    (!isPreviewMode && activeEvent?.header);
   return (
     <div
       style={{
         backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className={`relative flex w-fit h-fit pr-6 pl-4 max-w-[300px] rounded-lg border shadow-lg py-4 ${
+      className={`relative flex flex-row w-fit h-fit pr-6 pl-4 max-w-[330px] min-w-[280px] min-h-[80px] rounded-lg border shadow-lg py-4 gap-3 ${
         isPreviewMode ? animation : ""
       } ${
         isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""
       }`}
     >
       <div className="flex w-full gap-4 items-center">
-        <div className="flex flex-col w-full gap-2">
+        <div className="flex flex-col w-full">
+          {hasHeader && (
+            <div className="flex justify-between leading-5 mb-[2px]">
+              {" "}
+              <div className="flex gap-[2px]">
+                <p
+                  style={{
+                    color: textColor.hex.toString(),
+                  }}
+                  className="text-[13.5px] font-bold"
+                >
+                  {isPreviewMode ? previewEvent?.header : activeEvent?.header}
+                </p>{" "}
+                <BadgeCheck
+                  width={18}
+                  height={18}
+                  fill={accentColor.hex.toString()}
+                  color={backgroundColor.hex.toString()}
+                />
+              </div>
+              <div
+                className="absolute bottom-[2px] right-3 text-[10px] flex items-center"
+                style={{
+                  color: hexToRgba(textColor.hex.toString(), 0.65),
+                }}
+              >
+                12 min ago | Verified by Taplo
+              </div>
+            </div>
+          )}
           <p
             style={{
               color: textColor.hex.toString(),
             }}
-            className="text-[13px] leading-5"
+            className={`${
+              hasHeader ? "text-[11.5px] mb-2" : "text-[12.5px]"
+            } leading-4`}
             dangerouslySetInnerHTML={{
               __html: isPreviewMode ? previewContentBody : contentBody,
             }}
           ></p>
-          <div
-            className="text-xs flex items-center gap-4"
-            style={{
-              color: hexToRgba(textColor.hex.toString(), 0.65),
-            }}
-          >
-            12 min ago
-            <p
-              className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10px]"
+          {!hasHeader && (
+            <div
+              className="text-[11px] flex items-center mt-1 leading-4"
               style={{
                 color: hexToRgba(textColor.hex.toString(), 0.65),
               }}
             >
-              Verified by Taplo
-              <BadgeCheck
-                width={18}
-                height={18}
-                fill={accentColor.hex.toString()}
-                color={backgroundColor.hex.toString()}
-              />
-            </p>
-          </div>
+              12 min ago
+              <p
+                className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10px]"
+                style={{
+                  color: hexToRgba(textColor.hex.toString(), 0.65),
+                }}
+              >
+                Verified by Taplo
+                <BadgeCheck
+                  width={18}
+                  height={18}
+                  fill={accentColor.hex.toString()}
+                  color={backgroundColor.hex.toString()}
+                />
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>
@@ -566,29 +645,33 @@ const LargePopupTemplate = ({
     accentColor,
     borderColor,
   } = useProjectContext();
+
+  const hasHeader =
+    (isPreviewMode && previewEvent?.header) ||
+    (!isPreviewMode && activeEvent?.header);
   return (
     <div
       style={{
         backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className={`relative flex flex-row w-fit h-fit min-h-[100px] max-w-[380px] min-w-[330px] md:min-w-[380px] rounded-lg border shadow-lg ${
+      className={`relative flex flex-row w-fit h-fit max-w-[400px] min-w-[330px] md:min-w-[380px] rounded-lg border shadow-lg ${
         isPreviewMode ? animation : ""
       } ${
         isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""
       }`}
     >
-      <div className="flex items-center justify-center h-full w-full max-w-[110px]">
+      <div className="flex items-center justify-center h-full w-full max-w-[115px]">
         {activeProduct?.image_url &&
         activeProduct.image_url !== "" &&
         shouldDisplayImage() ? (
-          <div className="h-[110px] w-[110px]">
+          <div className="max-w-[115px] max-h-[115px]">
             <Image
               loader={() => activeProduct.image_url || ""}
               unoptimized={true}
+              alt="product-img"
               width={110}
               height={110}
-              alt="product-img"
               src={activeProduct.image_url}
               className="object-cover w-full h-full rounded-l-lg"
             />
@@ -604,90 +687,37 @@ const LargePopupTemplate = ({
             {EventIcon(
               isPreviewMode
                 ? (previewEvent?.event_type as EventType)
-                : (activeEvent?.event_type as EventType)
+                : (activeEvent?.event_type as EventType),
+              "lg"
             )}
           </div>
         )}
       </div>
-      <div className="flex w-full items-center pr-3 pl-5">
-        <div className="flex flex-col w-full lg:gap-[6px]">
-          <p
-            style={{
-              color: textColor.hex.toString(),
-            }}
-            className="text-[14.5px] leading-5"
-            dangerouslySetInnerHTML={{
-              __html: isPreviewMode ? previewContentBody : contentBody,
-            }}
-          ></p>
-          <div
-            className="text-[13px] flex items-center gap-4"
-            style={{
-              color: hexToRgba(textColor.hex.toString(), 0.65),
-            }}
-          >
-            12 min ago
+      <div className="flex w-full items-center pr-3 pl-5 py-4">
+        <div className="flex flex-col w-full">
+          {hasHeader && (
             <p
-              className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10.5px]"
               style={{
-                color: hexToRgba(textColor.hex.toString(), 0.65),
+                color: textColor.hex.toString(),
               }}
+              className="text-[15px] leading-5 font-bold mb-2"
             >
-              Verified by Taplo
-              <BadgeCheck
-                width={18}
-                height={18}
-                fill={accentColor.hex.toString()}
-                color={backgroundColor.hex.toString()}
-              />
+              {isPreviewMode ? previewEvent?.header : activeEvent?.header}
             </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const LargePopupNoImageTemplate = ({
-  animation,
-  isAnimatePulse,
-  isPreviewMode,
-  contentBody,
-  previewContentBody,
-}: {
-  animation?: string;
-  isAnimatePulse?: boolean;
-  isPreviewMode: boolean;
-  contentBody: string;
-  previewContentBody: string;
-}) => {
-  const { backgroundColor, textColor, accentColor, borderColor } =
-    useProjectContext();
-  return (
-    <div
-      style={{
-        backgroundColor: backgroundColor.hex.toString(),
-        borderColor: borderColor.hex.toString(),
-      }}
-      className={`relative flex flex-row w-fit h-fit min-h-[110px] max-w-[340px] rounded-lg border shadow-lg gap-3 ${
-        isPreviewMode ? animation : ""
-      } ${
-        isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""
-      }`}
-    >
-      <div className="flex w-full gap-3 items-center mx-3">
-        <div className="flex flex-col w-full gap-[6px] mx-2">
+          )}
           <p
             style={{
               color: textColor.hex.toString(),
             }}
-            className="text-[14.5px] leading-5 mt-1"
+            className={`${
+              hasHeader ? "text-[13px]" : "text-[14px]"
+            } leading-4 mb-1`}
             dangerouslySetInnerHTML={{
               __html: isPreviewMode ? previewContentBody : contentBody,
             }}
           ></p>
           <div
-            className="text-[13px] flex items-center"
+            className="text-[11.5px] leading-5"
             style={{
               color: hexToRgba(textColor.hex.toString(), 0.65),
             }}
@@ -701,8 +731,92 @@ const LargePopupNoImageTemplate = ({
             >
               Verified by Taplo
               <BadgeCheck
-                width={18}
-                height={18}
+                width={20}
+                height={20}
+                fill={accentColor.hex.toString()}
+                color={backgroundColor.hex.toString()}
+              />
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const LargePopupNoImageTemplate = ({
+  previewEvent,
+  animation,
+  isAnimatePulse,
+  isPreviewMode,
+  contentBody,
+  previewContentBody,
+}: {
+  previewEvent: Tables<"Events"> | undefined;
+  animation?: string;
+  isAnimatePulse?: boolean;
+  isPreviewMode: boolean;
+  contentBody: string;
+  previewContentBody: string;
+}) => {
+  const { activeEvent, backgroundColor, textColor, accentColor, borderColor } =
+    useProjectContext();
+
+  const hasHeader =
+    (isPreviewMode && previewEvent?.header) ||
+    (!isPreviewMode && activeEvent?.header);
+  return (
+    <div
+      style={{
+        backgroundColor: backgroundColor.hex.toString(),
+        borderColor: borderColor.hex.toString(),
+      }}
+      className={`relative flex flex-row w-fit h-fit min-h-[90px] max-w-[360px] min-w-[300px] rounded-lg border shadow-lg gap-3 ${
+        isPreviewMode ? animation : ""
+      } ${
+        isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""
+      }`}
+    >
+      <div className="flex w-full items-center pr-3 pl-6 py-4">
+        <div className="flex flex-col w-full">
+          {hasHeader && (
+            <p
+              style={{
+                color: textColor.hex.toString(),
+              }}
+              className="text-[15px] leading-5 font-bold mb-2"
+            >
+              {isPreviewMode ? previewEvent?.header : activeEvent?.header}
+            </p>
+          )}
+          <p
+            style={{
+              color: textColor.hex.toString(),
+            }}
+            className={`${
+              hasHeader ? "text-[13px]" : "text-[14px]"
+            } leading-4 mb-1`}
+            dangerouslySetInnerHTML={{
+              __html: isPreviewMode ? previewContentBody : contentBody,
+            }}
+          ></p>
+          <div
+            className="text-[11.5px] leading-5"
+            style={{
+              color: hexToRgba(textColor.hex.toString(), 0.65),
+            }}
+          >
+            12 min ago
+            <p
+              className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[11px]"
+              style={{
+                color: hexToRgba(textColor.hex.toString(), 0.65),
+              }}
+            >
+              Verified by Taplo
+              <BadgeCheck
+                width={20}
+                height={20}
                 fill={accentColor.hex.toString()}
                 color={backgroundColor.hex.toString()}
               />
@@ -739,6 +853,10 @@ const CardTemplate = ({
     accentColor,
     borderColor,
   } = useProjectContext();
+
+  const hasHeader =
+    (isPreviewMode && previewEvent?.header) ||
+    (!isPreviewMode && activeEvent?.header);
   return (
     <div
       style={{
@@ -777,42 +895,65 @@ const CardTemplate = ({
             {EventIcon(
               isPreviewMode
                 ? (previewEvent?.event_type as EventType)
-                : (activeEvent?.event_type as EventType)
+                : (activeEvent?.event_type as EventType),
+              "lg"
             )}
           </div>
         )}
       </div>
       <div className="flex w-full gap-4 items-center">
         <div className="flex flex-col w-full gap-[4px] mx-2 p-2">
+          {hasHeader && (
+            <div className="flex gap-[2px]">
+              <p
+                style={{
+                  color: textColor.hex.toString(),
+                }}
+                className="text-[15px] leading-5 font-bold mb-1"
+              >
+                {isPreviewMode ? previewEvent?.header : activeEvent?.header}
+              </p>
+              <BadgeCheck
+                width={20}
+                height={20}
+                fill={accentColor.hex.toString()}
+                color={backgroundColor.hex.toString()}
+              />
+            </div>
+          )}
           <p
             style={{
               color: textColor.hex.toString(),
             }}
-            className="text-[13px] leading-5"
+            className={`${
+              hasHeader ? "text-[13px]" : "text-[14px]"
+            } leading-4 mb-1`}
             dangerouslySetInnerHTML={{
               __html: isPreviewMode ? previewContentBody : contentBody,
             }}
           ></p>
           <div
-            className="text-[12px] flex items-center gap-4"
+            className="text-[12px] leading-5"
             style={{
               color: hexToRgba(textColor.hex.toString(), 0.65),
             }}
           >
             12 min ago
             <p
-              className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10.5px]"
+              className="absolute bottom-[2px] right-2 flex items-center gap-[3px] text-[10.5px]"
               style={{
                 color: hexToRgba(textColor.hex.toString(), 0.65),
               }}
             >
               Verified by Taplo
-              <BadgeCheck
-                width={18}
-                height={18}
-                fill={accentColor.hex.toString()}
-                color={backgroundColor.hex.toString()}
-              />
+              {!hasHeader && (
+                <BadgeCheck
+                  width={18}
+                  height={18}
+                  fill={accentColor.hex.toString()}
+                  color={backgroundColor.hex.toString()}
+                />
+              )}
             </p>
           </div>
         </div>
@@ -822,27 +963,33 @@ const CardTemplate = ({
 };
 
 const CardNoImageTemplate = ({
+  previewEvent,
   animation,
   isAnimatePulse,
   isPreviewMode,
   contentBody,
   previewContentBody,
 }: {
+  previewEvent: Tables<"Events"> | undefined;
   animation?: string;
   isAnimatePulse?: boolean;
   isPreviewMode: boolean;
   contentBody: string;
   previewContentBody: string;
 }) => {
-  const { backgroundColor, textColor, accentColor, borderColor } =
+  const { activeEvent, backgroundColor, textColor, accentColor, borderColor } =
     useProjectContext();
+
+  const hasHeader =
+    (isPreviewMode && previewEvent?.header) ||
+    (!isPreviewMode && activeEvent?.header);
   return (
     <div
       style={{
         backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className={`relative flex flex-col w-fit h-fit min-h-[160px] items-center justify-center max-w-[280px] rounded-lg border shadow-lg gap-3 ${
+      className={`relative flex flex-col w-fit h-fit min-h-[130px] py-5 items-center justify-center max-w-[280px] min-w-[260px] rounded-lg border shadow-lg gap-3 ${
         isPreviewMode ? animation : ""
       } ${
         isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""
@@ -850,35 +997,57 @@ const CardNoImageTemplate = ({
     >
       <div className="flex w-full gap-4 items-center">
         <div className="flex flex-col w-full text-center items-center justify-center gap-[4px] px-5 py-3">
+          {hasHeader && (
+            <div className="flex gap-[2px]">
+              <p
+                style={{
+                  color: textColor.hex.toString(),
+                }}
+                className="text-[15px] leading-5 font-bold mb-1"
+              >
+                {isPreviewMode ? previewEvent?.header : activeEvent?.header}
+              </p>
+              <BadgeCheck
+                width={20}
+                height={20}
+                fill={accentColor.hex.toString()}
+                color={backgroundColor.hex.toString()}
+              />
+            </div>
+          )}
           <p
             style={{
               color: textColor.hex.toString(),
             }}
-            className="text-[13px] leading-5"
+            className={`${
+              hasHeader ? "text-[13px]" : "text-[14px]"
+            } leading-4 mb-1`}
             dangerouslySetInnerHTML={{
               __html: isPreviewMode ? previewContentBody : contentBody,
             }}
           ></p>
           <div
-            className="text-[12px] flex items-center gap-4"
+            className="text-[12px] leading-5"
             style={{
               color: hexToRgba(textColor.hex.toString(), 0.65),
             }}
           >
             12 min ago
             <p
-              className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10.5px]"
+              className="absolute bottom-[2px] right-2 flex items-center gap-[3px] text-[11px]"
               style={{
                 color: hexToRgba(textColor.hex.toString(), 0.65),
               }}
             >
               Verified by Taplo
-              <BadgeCheck
-                width={18}
-                height={18}
-                fill={accentColor.hex.toString()}
-                color={backgroundColor.hex.toString()}
-              />
+              {!hasHeader && (
+                <BadgeCheck
+                  width={18}
+                  height={18}
+                  fill={accentColor.hex.toString()}
+                  color={backgroundColor.hex.toString()}
+                />
+              )}
             </p>
           </div>
         </div>
@@ -912,13 +1081,24 @@ const BannerTemplate = ({
     accentColor,
     borderColor,
   } = useProjectContext();
+
+  const hasHeader =
+    (isPreviewMode && previewEvent?.header) ||
+    (!isPreviewMode && activeEvent?.header);
+
+  const headerHtml = DOMPurify.sanitize(
+    `<span class="font-bold">${
+      isPreviewMode ? previewEvent?.header : activeEvent?.header
+    } | </span>`
+  );
+
   return (
     <div
       style={{
         backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className={`relative flex flex-row px-5 h-fit min-h-[60px] items-center justify-center max-w-screen-md rounded-lg border shadow-lg ${
+      className={`relative flex flex-row px-5 h-fit min-h-[60px] min-w-[300px] items-center justify-center rounded-lg border shadow-lg ${
         isPreviewMode ? animation : ""
       } ${
         isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""
@@ -950,24 +1130,32 @@ const BannerTemplate = ({
               isPreviewMode
                 ? (previewEvent?.event_type as EventType)
                 : (activeEvent?.event_type as EventType),
-              "md"
+              "sm"
             )}
           </div>
         )}
       </div>
       <div className="flex w-full items-center justify-center">
-        <div className="flex flex-col items-center justify-center w-full px-5 py-2 gap-1">
-          <p
-            style={{
-              color: textColor.hex.toString(),
-            }}
-            className="text-[13px] leading-5"
-            dangerouslySetInnerHTML={{
-              __html: isPreviewMode ? previewContentBody : contentBody,
-            }}
-          ></p>
+        <div className="flex flex-col items-center justify-center w-full pl-5 py-2 gap-1">
+          <div className="inline-flex items-center gap-1">
+            <p
+              style={{
+                color: textColor.hex.toString(),
+              }}
+              className="text-[13px] leading-4 text-center"
+              dangerouslySetInnerHTML={{
+                __html: isPreviewMode
+                  ? hasHeader
+                    ? headerHtml + previewContentBody
+                    : previewContentBody
+                  : hasHeader
+                  ? headerHtml + contentBody
+                  : contentBody,
+              }}
+            ></p>
+          </div>
           <div
-            className={`flex flex-row gap-1 md:text-[12px] lg:text-[12px] text-[11px] leading-5`}
+            className={`flex flex-row gap-1 text-[11px] leading-5`}
             style={{
               color: hexToRgba(textColor.hex.toString(), 0.65),
             }}
@@ -996,47 +1184,65 @@ const BannerTemplate = ({
 };
 
 const BannerNoImageTemplate = ({
+  previewEvent,
   animation,
   isAnimatePulse,
   isPreviewMode,
   contentBody,
   previewContentBody,
 }: {
+  previewEvent: Tables<"Events"> | undefined;
   animation?: string;
   isAnimatePulse?: boolean;
   isPreviewMode: boolean;
   contentBody: string;
   previewContentBody: string;
 }) => {
-  const { backgroundColor, textColor, accentColor, borderColor } =
+  const { activeEvent, backgroundColor, textColor, accentColor, borderColor } =
     useProjectContext();
+
+  const hasHeader =
+    (isPreviewMode && previewEvent?.header) ||
+    (!isPreviewMode && activeEvent?.header);
+
+  const headerHtml = DOMPurify.sanitize(
+    `<span class="font-bold">${
+      isPreviewMode ? previewEvent?.header : activeEvent?.header
+    } | </span>`
+  );
   return (
     <div
       style={{
         backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className={`relative flex flex-col h-fit min-h-[60px] items-center justify-center max-w-screen-md rounded-lg border shadow-lg ${
+      className={`relative flex flex-row h-fit min-h-[60px] min-w-[300px] items-center justify-center rounded-lg border shadow-lg ${
         isPreviewMode ? animation : ""
       } ${
         isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""
       }`}
     >
       <div className="flex w-full items-center justify-center">
-        <div className="flex flex-col items-center justify-center w-full px-5 py-2 gap-1">
-          <p
-            style={{
-              color: textColor.hex.toString(),
-            }}
-            className="text-[13px] leading-5"
-            dangerouslySetInnerHTML={{
-              __html: isPreviewMode ? previewContentBody : contentBody,
-            }}
-          ></p>
+        <div className="flex flex-col items-center justify-center w-full px-8 py-2 gap-1">
+          <div className="inline-flex items-center gap-1">
+            <p
+              style={{
+                color: textColor.hex.toString(),
+              }}
+              className="text-[13px] leading-4 text-center"
+              dangerouslySetInnerHTML={{
+                __html: isPreviewMode
+                  ? hasHeader
+                    ? headerHtml + previewContentBody
+                    : previewContentBody
+                  : hasHeader
+                  ? headerHtml + contentBody
+                  : contentBody,
+              }}
+            ></p>
+          </div>
           <div
-            className={`flex flex-row gap-1 text-[12px] ${
-              isPreviewMode && "-mt-2"
-            }`}
+            className={`flex flex-row gap-1 text-[11px] leading-5`}
             style={{
               color: hexToRgba(textColor.hex.toString(), 0.65),
             }}

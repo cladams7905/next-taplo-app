@@ -14,6 +14,7 @@ export type Database = {
           created_at: string
           custom_messages: Json | null
           event_type: string
+          header: string | null
           id: number
           integration_id: number | null
           message: string
@@ -24,6 +25,7 @@ export type Database = {
           created_at?: string
           custom_messages?: Json | null
           event_type?: string
+          header?: string | null
           id?: number
           integration_id?: number | null
           message?: string
@@ -34,6 +36,7 @@ export type Database = {
           created_at?: string
           custom_messages?: Json | null
           event_type?: string
+          header?: string | null
           id?: number
           integration_id?: number | null
           message?: string

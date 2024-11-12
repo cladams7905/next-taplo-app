@@ -338,7 +338,7 @@ const LargePopupTemplate = ({ isShowImages }: { isShowImages: boolean }) => {
               }}
             >
               Verified by Taplo
-              <ShoppingBag
+              <BadgeCheck
                 width={14}
                 height={14}
                 fill={accentColor.hex.toString()}

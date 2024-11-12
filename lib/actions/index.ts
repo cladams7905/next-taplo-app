@@ -200,14 +200,14 @@ export const isFreeTrialPeriod = (
  * @param maxLength default 25 chars
  * @returns modified string
  */
-export function checkStringLength(str: string | null, maxLength?: number) {
-  if (str == null) {
-    return "";
+export function checkStringLength(str: string, maxLength: number = 25) {
+  if (str.length <= maxLength) {
+    return str;
   }
 
   let modifiedStr = str;
-  if (str.length > (maxLength ? maxLength : 25)) {
-    modifiedStr = str.substring(0, 20) + "...";
+  if (str.length > maxLength) {
+    modifiedStr = str.substring(0, maxLength) + "...";
   }
 
   return modifiedStr;
@@ -343,7 +343,7 @@ export const replaceVariablesInContentBody = (
       case ContentVars.Price:
         return isPopup
           ? `${product?.price ? `$${product.price}` : "$0.00"}`
-          : "$";
+          : "Price";
       default:
         return "undefined";
     }
@@ -369,7 +369,7 @@ export const replaceVariablesInContentBody = (
       ? `<a href="${product.link}" target="_blank">`
       : "";
     const productStyle = product?.name ? `style="color: ${accentColor};"` : "";
-    const productClass = product?.name ? "font-bold underline mr-1" : "";
+    const productClass = product?.name ? "font-semibold underline mr-1" : "";
     const underlineClass = product?.link ? "underline" : "";
     const svgIcon = product?.link ? getSVGIcon() : "";
 

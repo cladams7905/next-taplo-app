@@ -192,7 +192,9 @@ export default function NewEventModal({
                   {getEventIcon(eventOption.type, "#FFFFFF")}
                 </div>
                 <div className="flex flex-col py-4 px-2 ml-3 gap-2">
-                  <div className="font-bold text-sm">{eventOption.title}</div>
+                  <div className="font-semibold text-md">
+                    {eventOption.title}
+                  </div>
                   <div className="text-xs">
                     Integrations: {eventOption.integrations}
                   </div>
