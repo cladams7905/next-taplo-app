@@ -58,7 +58,7 @@ export default function NewProjectForm({
         name: formData.projectName,
         public_url: formData.publicUrl,
         screen_alignment: ScreenAlignment.BottomLeft,
-        template: TemplateTypes.SmPopupNoImg,
+        template: TemplateTypes.SmPopup,
         display_time: 7000,
         bg_color: "#FFFFFF",
         text_color: "#172554",

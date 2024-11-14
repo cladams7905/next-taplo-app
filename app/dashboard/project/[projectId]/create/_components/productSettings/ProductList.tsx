@@ -92,15 +92,14 @@ const ProductList = ({
     let updatedProduct = { ...product };
     let shouldUpdate = false;
 
-    if (name === "name" && value !== product.name && value !== "") {
+    if (name === "name" && value !== product.name) {
       updatedProduct = { ...updatedProduct, name: value };
       shouldUpdate = true;
     }
 
     if (
       name === "price" &&
-      parseFloat(value.replace(/[^0-9.-]+/g, "")) !== product.price &&
-      value !== ""
+      parseFloat(value.replace(/[^0-9.-]+/g, "")) !== product.price
     ) {
       updatedProduct = {
         ...updatedProduct,
@@ -109,10 +108,7 @@ const ProductList = ({
       shouldUpdate = true;
     }
 
-    if (
-      (name === "link" && value !== product.link && value !== "") ||
-      (product.link !== "" && product.link !== null && value === "")
-    ) {
+    if (name === "link" && value !== product.link) {
       updatedProduct = { ...updatedProduct, link: value };
       shouldUpdate = true;
     }

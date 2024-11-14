@@ -1,12 +1,13 @@
 "use client";
 
 import { replaceVariablesInContentBody } from "@/lib/actions";
-import { EventType } from "@/lib/enums";
+import { DefaultMessages, EventType } from "@/lib/enums";
 import { Tables, TablesUpdate } from "@/lib/supabase/types";
 import { ChevronDown, CirclePlus } from "lucide-react";
 import React, { TransitionStartFunction, useRef } from "react";
 import DOMPurify from "isomorphic-dompurify";
 import EditContentModal from "./EditContentModal";
+import { getDefaultMessageOptions } from "../../_lib/sharedFunctions";
 
 export default function MessageDropdown({
   projectName,
@@ -128,26 +129,3 @@ export default function MessageDropdown({
     );
   }
 }
-
-export const getDefaultMessageOptions = (eventType: EventType) => {
-  let options: string[] = [];
-  switch (eventType) {
-    case EventType.ActiveUsers:
-      options = [
-        "\\NUMUSERS users are online now.",
-        "\\NUMUSERS people are currently considering \\PROJECTNAME's products.",
-      ];
-      break;
-    case EventType.Purchase:
-      options = [
-        "\\PERSON in \\LOCATION purchased \\PRODUCT.",
-        "\\PERSON in \\LOCATION subscribed to \\PRODUCT.",
-        "\\PERSON in \\LOCATION bought \\PRODUCT for \\PRICE.",
-      ];
-      break;
-    case EventType.Checkout:
-    case EventType.CustomerTrends:
-    case EventType.SomeoneViewing:
-  }
-  return options;
-};

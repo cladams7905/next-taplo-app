@@ -18,6 +18,7 @@ import { updateEvent } from "@/lib/actions/events";
 import { showToastError } from "@/app/_components/shared/showToast";
 import MessageDropdown from "./MessageDropdown";
 import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
+import { getEventIcon } from "../../_lib/sharedFunctions";
 
 function Event({
   currentEvent,
@@ -48,19 +49,6 @@ function Event({
   const handleToggleActiveEvent = () => {
     if (!activeEvent || activeEvent.id !== currentEvent.id) {
       setActiveEvent(currentEvent);
-    }
-  };
-
-  const getEventIcon = (eventType: EventType) => {
-    switch (eventType) {
-      case EventType.Purchase:
-        return <ShoppingBag width={20} height={20} />;
-      case EventType.Checkout:
-        return <ShoppingCart width={20} height={20} />;
-      case EventType.SomeoneViewing:
-        return <UserRoundSearch width={20} height={20} />;
-      case EventType.ActiveUsers:
-        return <UsersRound width={20} height={20} />;
     }
   };
 
@@ -104,7 +92,11 @@ function Event({
       >
         <div className="flex flex-row gap-3">
           <div className="flex items-center">
-            {getEventIcon(currentEvent.event_type as EventType)}
+            {getEventIcon(
+              currentEvent.event_type as EventType,
+              20,
+              "oklch(var(--bc))"
+            )}
           </div>
           <div className="flex flex-col gap-1">
             <p className="font-semibold">{currentEvent.event_type}</p>

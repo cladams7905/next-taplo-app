@@ -2,11 +2,22 @@
  * The different types of notification events a user can create.
  */
 export enum EventType {
-  Purchase = "Recent Purchases",
-  Checkout = "Checkout Sessions",
-  CustomerTrends = "Customer Trends",
-  SomeoneViewing = "Someone is Viewing",
+  Purchase = "On Purchase",
+  Checkout = "On Checkout",
   ActiveUsers = "Active Users",
+  SomeoneViewing = "Someone is Viewing",
+  CustomerTrends = "Customer Trends",
+}
+
+/**
+ * The default messages displayed when a new notification event is created.
+ */
+export enum DefaultMessages {
+  Purchase = "\\PERSON in \\LOCATION purchased \\PRODUCT.",
+  Checkout = "\\PERSON in \\LOCATION is considering buying \\PRODUCT.",
+  ActiveUsers = "\\NUMUSERS users are online now.",
+  SomeoneViewing = "Someone in \\LOCATION is viewing \\PROJECTNAME's products.",
+  CustomerTrends = "Over the past X days, X has gained X new customers.",
 }
 
 /**

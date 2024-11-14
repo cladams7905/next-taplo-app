@@ -6,7 +6,6 @@ import React, {
   Dispatch,
   SetStateAction,
   TransitionStartFunction,
-  useCallback,
   useEffect,
   useRef,
   useState,
@@ -18,6 +17,7 @@ import StripeLogo from "@/public/images/providers/stripe-logo.svg";
 import GA4Logo from "@/public/images/providers/ga-logo.svg";
 import { convertDateTime, formatCentsToDollars } from "@/lib/actions";
 import Stripe from "stripe";
+import { filterIntegrationsByEventType } from "../../_lib/sharedFunctions";
 
 export default function IntegrationSelect({
   currentEvent,
@@ -48,29 +48,6 @@ export default function IntegrationSelect({
 
   // Whether or not the integration select component is inside of the new product modal
   const isInProductModal = currentEvent === undefined;
-
-  /**
-   * Returns the integrations that are compatible with the current currentEvent.
-   */
-  const filterIntegrationsByEventType = useCallback(() => {
-    let filteredIntegrations: Tables<"Integrations">[] = integrations;
-    switch (currentEvent?.event_type) {
-      case EventType.Checkout:
-      case EventType.Purchase:
-      case EventType.CustomerTrends:
-        filteredIntegrations = integrations.filter(
-          (integration) => integration.provider === Providers.Stripe
-        );
-        break;
-      case EventType.SomeoneViewing:
-      case EventType.ActiveUsers:
-        filteredIntegrations = integrations.filter(
-          (integration) => integration.provider === Providers.GoogleAnalytics
-        );
-        break;
-    }
-    return filteredIntegrations;
-  }, [currentEvent?.event_type, integrations]);
 
   /**
    * handles integration selection in the dropdown menu
@@ -136,7 +113,10 @@ export default function IntegrationSelect({
     Tables<"Integrations">[]
   >(
     currentEvent
-      ? filterIntegrationsByEventType()
+      ? filterIntegrationsByEventType(
+          currentEvent.event_type as EventType,
+          integrations
+        )
       : getIntegrationsForProductFetching()
   );
 
@@ -178,7 +158,12 @@ export default function IntegrationSelect({
    * Change integration dropdown options whenever integrations array changes.
    */
   useEffect(() => {
-    setFilteredIntegrations(filterIntegrationsByEventType());
+    setFilteredIntegrations(
+      filterIntegrationsByEventType(
+        currentEvent?.event_type as EventType,
+        integrations
+      )
+    );
   }, [integrations, filterIntegrationsByEventType]);
 
   return (
@@ -212,7 +197,7 @@ export default function IntegrationSelect({
         <div
           tabIndex={0}
           ref={toggleModalRef}
-          className="menu menu-sm dropdown-content bg-white border border-gray-200 shadow-md z-[1] rounded-lg w-full mt-1 h-fit min-h-16 max-h-44 p-0"
+          className="menu menu-sm dropdown-content bg-white border border-gray-200 shadow-md z-[1] rounded-lg w-full mt-1 h-fit max-h-44 p-0"
         >
           <ul className="h-full w-full overflow-y-scroll">
             {filteredIntegrations.length > 0 ? (

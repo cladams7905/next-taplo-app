@@ -1,4 +1,4 @@
-import React, { RefObject, useTransition } from "react";
+import React, { RefObject } from "react";
 import ContentBodyEditor from "./ContentBodyEditor";
 import { Tables, TablesUpdate } from "@/lib/supabase/types";
 

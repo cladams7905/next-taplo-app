@@ -1,22 +1,18 @@
 "use client";
 
-import { EventType } from "@/lib/enums";
-import { Tables, TablesInsert } from "@/lib/supabase/types";
+import { DefaultMessages, EventType } from "@/lib/enums";
+import { TablesInsert } from "@/lib/supabase/types";
 import { showToastError } from "@/app/_components/shared/showToast";
 import { sortByTimeCreated } from "@/lib/actions";
 import { createEvent } from "@/lib/actions/events";
-import {
-  Boxes,
-  CheckIcon,
-  Search,
-  ShoppingBag,
-  ShoppingCart,
-  UserRoundSearch,
-  UsersRound,
-} from "lucide-react";
+import { CheckIcon, Search } from "lucide-react";
 import { RefObject, useState, useTransition } from "react";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import LoadingDots from "@/app/_components/shared/loadingdots";
+import {
+  filterIntegrationsByEventType,
+  getEventIcon,
+} from "../../_lib/sharedFunctions";
 
 type EventOption = {
   title: string;
@@ -31,7 +27,7 @@ export default function NewEventModal({
 }: {
   eventModalRef: RefObject<HTMLDialogElement>;
 }) {
-  const { activeProject, events, setEvents, setActiveEvent } =
+  const { activeProject, events, setEvents, setActiveEvent, integrations } =
     useProjectContext();
 
   const [isLoading, startLoadingTransition] = useTransition();
@@ -49,11 +45,19 @@ export default function NewEventModal({
     startLoadingTransition(async () => {
       if (activeProject) {
         const content = setEventContent(eventType);
+        const filteredIntegrations = filterIntegrationsByEventType(
+          eventType,
+          integrations
+        );
         const event: TablesInsert<"Events"> = {
           user_id: activeProject.user_id,
           project_id: activeProject.id,
           event_type: eventType,
           message: content,
+          integration_id:
+            filteredIntegrations.length === 1
+              ? filteredIntegrations[0].id
+              : undefined,
         };
         const { data, error } = await createEvent(event);
         if (error) {
@@ -94,20 +98,20 @@ export default function NewEventModal({
   const setEventContent = (eventType: EventType) => {
     let content: string;
     switch (eventType) {
+      case EventType.ActiveUsers:
+        content = DefaultMessages.ActiveUsers;
+        break;
       case EventType.Purchase:
-        content = "\\PERSON in \\LOCATION purchased \\PRODUCT.";
+        content = DefaultMessages.Purchase;
         break;
       case EventType.Checkout:
-        content = "\\PERSON in \\LOCATION added \\PRODUCT to cart.";
+        content = DefaultMessages.Checkout;
         break;
       case EventType.SomeoneViewing:
-        content = "\\PERSON in \\LOCATION recently viewed \\PRODUCT.";
-        break;
-      case EventType.ActiveUsers:
-        content = "\\NUMUSERS users are online now.";
+        content = DefaultMessages.SomeoneViewing;
         break;
       case EventType.CustomerTrends:
-        content = "Over the past X days, X has gained X new customers.";
+        content = DefaultMessages.CustomerTrends;
         break;
     }
     return content;
@@ -161,11 +165,11 @@ export default function NewEventModal({
               />
             </label>
           </div>
-          <div className="flex flex-row flex-wrap gap-2 w-full overflow-y-scroll p-1 py-3">
+          <div className="flex flex-row flex-wrap gap-3 w-full overflow-y-scroll p-1 py-3">
             {filteredEvents.map((eventOption, i) => (
               <div
                 key={i}
-                className={`relative flex flex-row border border-gray-300 shadow-md rounded-lg w-full lg:max-w-[352px] md:max-w-[352px] mb-1 ${
+                className={`relative flex flex-row border border-gray-300 shadow-md rounded-lg w-full lg:max-w-[350px] md:max-w-[350px] mb-1 ${
                   isEventAlreadyCreated(eventOption.type)
                     ? " hidden"
                     : "cursor-pointer hover:outline hover:outline-[1px] hover:outline-primary hover:-translate-y-1 transition-transform"
@@ -189,7 +193,7 @@ export default function NewEventModal({
                   </div>
                 )}
                 <div className="relative flex items-center justify-center rounded-l-lg w-14 min-w-14 h-full bg-primary/80 border-r border-gray-300">
-                  {getEventIcon(eventOption.type, "#FFFFFF")}
+                  {getEventIcon(eventOption.type, 28)}
                 </div>
                 <div className="flex flex-col py-4 px-2 ml-3 gap-2">
                   <div className="font-semibold text-md">
@@ -198,7 +202,7 @@ export default function NewEventModal({
                   <div className="text-xs">
                     Integrations: {eventOption.integrations}
                   </div>
-                  <div className="text-xs text-wrap text-gray-400">
+                  <div className="text-xs text-wrap text-gray-400 pr-2">
                     {eventOption.description}
                   </div>
                 </div>
@@ -235,7 +239,7 @@ const getEventOptions = () => {
     {
       title: EventType.Purchase,
       integrations: "Stripe",
-      description: "Notifies visitors of recent purchases or subscriptions.",
+      description: "Triggers when a user purchases a product or subscription.",
       type: EventType.Purchase,
       color: "#3eb981",
     },
@@ -243,14 +247,14 @@ const getEventOptions = () => {
       title: EventType.Checkout,
       integrations: "Stripe",
       description:
-        "Notifies visitors of when someone enters a checkout session.",
+        "Triggers when someone adds a product to cart or enters a checkout session.",
       type: EventType.Checkout,
       color: "#3eb981",
     },
     {
       title: EventType.SomeoneViewing,
       integrations: "Google Analytics",
-      description: "Exposes what pages visitors are curently viewing.",
+      description: "Exposes what users are currently viewing your site.",
       type: EventType.SomeoneViewing,
       color: "#7A81EB",
     },
@@ -263,17 +267,4 @@ const getEventOptions = () => {
     },
   ] as EventOption[];
   return eventOptions;
-};
-
-const getEventIcon = (eventType: EventType, color: string) => {
-  switch (eventType) {
-    case EventType.Purchase:
-      return <ShoppingBag width={28} height={28} color="#FFFFFF" />;
-    case EventType.Checkout:
-      return <ShoppingCart width={28} height={28} color="#FFFFFF" />;
-    case EventType.SomeoneViewing:
-      return <UserRoundSearch width={28} height={28} color="#FFFFFF" />;
-    case EventType.ActiveUsers:
-      return <UsersRound width={28} height={28} color="#FFFFFF" />;
-  }
 };

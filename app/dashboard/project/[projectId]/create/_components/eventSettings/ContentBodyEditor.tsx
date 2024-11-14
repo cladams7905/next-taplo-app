@@ -3,7 +3,6 @@
 import React, {
   FormEvent,
   RefObject,
-  useCallback,
   useEffect,
   useRef,
   useState,
@@ -11,8 +10,11 @@ import React, {
 } from "react";
 import { Tables, TablesUpdate } from "@/lib/supabase/types";
 import { ContentVars, EventType } from "@/lib/enums";
-import { getDefaultMessageOptions } from "./MessageDropdown";
 import LoadingDots from "@/app/_components/shared/loadingdots";
+import {
+  getDefaultMessageOptions,
+  getVariableList,
+} from "../../_lib/sharedFunctions";
 
 export default function ContentBodyEditor({
   modalRef,
@@ -57,39 +59,8 @@ export default function ContentBodyEditor({
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const [isLoading, startTransition] = useTransition();
 
-  /**
-   * Gets the variable list based on the event type
-   */
-  const getVariableList = useCallback(() => {
-    let variableList: string[] = [];
-    if (currentEvent) {
-      switch (currentEvent.event_type) {
-        case EventType.Purchase:
-        case EventType.Checkout:
-          variableList = [
-            ContentVars.Person,
-            ContentVars.Location,
-            ContentVars.Product,
-            ContentVars.Price,
-          ];
-          break;
-        case EventType.ActiveUsers:
-          variableList = [ContentVars.NumUsers];
-          break;
-        case EventType.SomeoneViewing:
-          variableList = [
-            ContentVars.Person,
-            ContentVars.Location,
-            ContentVars.Product,
-          ];
-          break;
-      }
-    }
-    return variableList;
-  }, [currentEvent]);
-
   //Stores the variables that can be accessed within a certain event
-  const variableList = getVariableList();
+  const variableList = getVariableList(currentEvent);
 
   /*
    * This useEffect handles key press events within the variable dropdown menu
@@ -349,6 +320,9 @@ export default function ContentBodyEditor({
       case ContentVars.NumUsers:
         returnStr =
           "The total number of visitors on your site now. If this number is not found, this field will default to 0.";
+        break;
+      case ContentVars.ProjectName:
+        returnStr = "The name of your project.";
         break;
     }
     return returnStr;

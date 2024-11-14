@@ -345,14 +345,6 @@ const EventIcon = (eventType: EventType, size: "lg" | "md" | "sm" = "md") => {
           width={iconSize}
         />
       );
-    case EventType.Checkout:
-      return (
-        <ShoppingCart
-          color={hexToRgba(accentColor.hex.toString(), 0.85)}
-          height={iconSize}
-          width={iconSize}
-        />
-      );
     case EventType.SomeoneViewing:
       return (
         <UserRoundSearch
