@@ -1,6 +1,7 @@
 export default function Loading() {
   return (
-    <div className="flex items-center justify-center w-full h-full bg-gradient-to-tr from-primary/50 to-violet-100">
+    <div className="flex relative items-center justify-center w-full h-full bg-gradient-to-tr from-primary/80 to-violet-100">
+      <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
       <span className="loading loading-spinner loading-lg bg-base-content"></span>
     </div>
   );

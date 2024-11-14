@@ -46,7 +46,8 @@ export default function NewProjectPage({
           setFreeTrialDate={setFreeTrialDate}
         />
       )}
-      <div className="flex flex-col items-center justify-center w-full h-screen-minus-navbar bg-gradient-to-tr from-primary/50 to-violet-100 font-sans md:px-24 sm:px-10 px-6">
+      <div className="flex flex-col items-center justify-center w-full h-screen-minus-navbar bg-gradient-to-tr from-primary/80 to-violet-100 font-sans md:px-24 sm:px-10 px-6">
+        <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
         <div className="border border-gray-300 z-[1] p-2 shadow-lg bg-base-100 rounded-md w-full max-w-lg">
           <div className="flex flex-col items-center justify-center w-full pt-6 px-6">
             <p className="font-logo md:text-2xl text-xl mb-4">
@@ -69,18 +70,18 @@ export default function NewProjectPage({
               numProjects={numProjects}
             />
           </div>
-        </div>
-        <div className="inline-block gap-2 md:text-sm text-xs text-center font-bold mt-6">
-          Need help getting started? Check out{" "}
-          <Link
-            href={"/docs/getting-started"}
-            target="_blank"
-            className="link inline-flex items-center gap-1 link-primary"
-          >
-            this guide
-            <ExternalLink width={16} height={16} />
-          </Link>{" "}
-          for helpful tips!
+          <div className="flex items-center justify-center mb-3 gap-1 md:text-sm text-xs text-center">
+            Need help getting started? Check out{" "}
+            <Link
+              href={"/docs/getting-started"}
+              target="_blank"
+              className="link inline-flex items-center gap-1 link-primary"
+            >
+              this guide
+              <ExternalLink width={16} height={16} />
+            </Link>{" "}
+            for helpful tips!
+          </div>
         </div>
       </div>
     </>
