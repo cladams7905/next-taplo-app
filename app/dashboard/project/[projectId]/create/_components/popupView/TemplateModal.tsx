@@ -4,7 +4,13 @@ import { showToastError } from "@/app/_components/shared/showToast";
 import { hexToRgba } from "@/lib/actions";
 import { updateProject } from "@/lib/actions/projects";
 import { ScreenAlignment, TemplateTypes } from "@/lib/enums";
-import { BadgeCheck, CheckIcon, ShoppingBag } from "lucide-react";
+import {
+  BadgeCheck,
+  CheckIcon,
+  LayoutPanelTop,
+  Pencil,
+  ShoppingBag,
+} from "lucide-react";
 import {
   Dispatch,
   RefObject,
@@ -24,7 +30,6 @@ export default function TemplateModal({
   setActiveTemplate: Dispatch<SetStateAction<TemplateTypes>>;
 }) {
   const { activeProject, setActiveProject } = useProjectContext();
-  const [isShowImageTemplates, setShowImageTemplates] = useState<boolean>(true);
   const [isLoading, startLoadingTransition] = useTransition();
 
   const handleSetActiveTemplate = (templateToSet: TemplateTypes) => {
@@ -73,16 +78,8 @@ export default function TemplateModal({
         </form>
         <div className="flex items-center gap-6">
           <h3 className="font-semibold text-lg">Select Template</h3>
-          <div className="form-control">
-            <label className="label cursor-pointer">
-              <span className="label-text mr-2">Show image?</span>
-              <input
-                type="checkbox"
-                className="toggle toggle-primary"
-                checked={isShowImageTemplates}
-                onChange={() => setShowImageTemplates(!isShowImageTemplates)}
-              />
-            </label>
+          <div className="flex text-sm gap-2">
+            <Pencil size={20} /> {activeTemplate}
           </div>
           {isLoading && (
             <span className="loading loading-spinner loading-sm bg-base-content"></span>
@@ -92,101 +89,153 @@ export default function TemplateModal({
           <div
             className={`relative flex flex-col px-4 items-center justify-center
             ${
-              (activeTemplate === TemplateTypes.SmPopup ||
-                activeTemplate === TemplateTypes.SmPopupNoImg) &&
+              activeTemplate === TemplateTypes.SmPopup &&
               "outline outline-[3px] outline-primary"
             } bg-primary/50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform`}
-            onClick={() =>
-              isShowImageTemplates
-                ? handleSetActiveTemplate(TemplateTypes.SmPopup)
-                : handleSetActiveTemplate(TemplateTypes.SmPopupNoImg)
-            }
+            onClick={() => handleSetActiveTemplate(TemplateTypes.SmPopup)}
           >
             <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
-            {(activeTemplate === TemplateTypes.SmPopup ||
-              activeTemplate === TemplateTypes.SmPopupNoImg) && (
+            {activeTemplate === TemplateTypes.SmPopup && (
               <div className="flex items-center justify-center absolute top-0 z-[2] left-0 aspect-square w-8 h-8 rounded-br-lg rounded-tl-lg bg-primary text-white">
                 <CheckIcon width={18} height={18} strokeWidth={3} />
               </div>
             )}
-            <SmallPopupTemplate isShowImages={isShowImageTemplates} />
+            <SmallPopupTemplate isShowImages={true} />
             <div className="flex items-center justify-center absolute w-full h-fit px-10 py-3 outline outline-1 outline-primary bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold">
-              {isShowImageTemplates ? "Small popup" : "Small popup (no image)"}
-            </div>
-          </div>
-          <div
-            className={`relative flex flex-col px-2 items-center justify-center
-            ${
-              (activeTemplate === TemplateTypes.LgPopup ||
-                activeTemplate === TemplateTypes.LgPopupNoImg) &&
-              "outline outline-[3px] outline-primary"
-            } bg-primary/50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform`}
-            onClick={() =>
-              isShowImageTemplates
-                ? handleSetActiveTemplate(TemplateTypes.LgPopup)
-                : handleSetActiveTemplate(TemplateTypes.LgPopupNoImg)
-            }
-          >
-            <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
-            {(activeTemplate === TemplateTypes.LgPopup ||
-              activeTemplate === TemplateTypes.LgPopupNoImg) && (
-              <div className="flex items-center justify-center absolute top-0 z-[2] left-0 aspect-square w-8 h-8 rounded-br-lg rounded-tl-lg bg-primary text-white">
-                <CheckIcon width={18} height={18} strokeWidth={3} />
-              </div>
-            )}
-            <LargePopupTemplate isShowImages={isShowImageTemplates} />
-            <div className="flex items-center justify-center absolute w-full h-fit px-10 py-3 outline outline-1 outline-primary bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold">
-              {isShowImageTemplates ? "Large popup" : "Large popup (no image)"}
-            </div>
-          </div>
-          <div
-            className={`relative flex flex-col px-2 items-center justify-center
-            ${
-              (activeTemplate === TemplateTypes.Card ||
-                activeTemplate === TemplateTypes.CardNoImg) &&
-              "outline outline-[3px] outline-primary"
-            } bg-primary/50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform`}
-            onClick={() =>
-              isShowImageTemplates
-                ? handleSetActiveTemplate(TemplateTypes.Card)
-                : handleSetActiveTemplate(TemplateTypes.CardNoImg)
-            }
-          >
-            <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
-            {(activeTemplate === TemplateTypes.Card ||
-              activeTemplate === TemplateTypes.CardNoImg) && (
-              <div className="flex items-center justify-center absolute top-0 z-[2] left-0 aspect-square w-8 h-8 rounded-br-lg rounded-tl-lg bg-primary text-white">
-                <CheckIcon width={18} height={18} strokeWidth={3} />
-              </div>
-            )}
-            <CardTemplate isShowImages={isShowImageTemplates} />
-            <div className="flex items-center justify-center absolute w-full h-fit px-10 py-3 outline outline-1 outline-primary bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold">
-              {isShowImageTemplates ? "Card" : "Card (no image)"}
+              Small popup
             </div>
           </div>
           <div
             className={`relative flex flex-col px-4 items-center justify-center
             ${
-              (activeTemplate === TemplateTypes.Banner ||
-                activeTemplate === TemplateTypes.BannerNoImg) &&
+              activeTemplate === TemplateTypes.SmPopupNoImg &&
               "outline outline-[3px] outline-primary"
             } bg-primary/50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform`}
-            onClick={() =>
-              isShowImageTemplates
-                ? handleSetActiveTemplate(TemplateTypes.Banner)
-                : handleSetActiveTemplate(TemplateTypes.BannerNoImg)
-            }
+            onClick={() => handleSetActiveTemplate(TemplateTypes.SmPopupNoImg)}
           >
             <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
-            {(activeTemplate === TemplateTypes.Banner ||
-              activeTemplate === TemplateTypes.BannerNoImg) && (
+            {activeTemplate === TemplateTypes.SmPopupNoImg && (
               <div className="flex items-center justify-center absolute top-0 z-[2] left-0 aspect-square w-8 h-8 rounded-br-lg rounded-tl-lg bg-primary text-white">
                 <CheckIcon width={18} height={18} strokeWidth={3} />
               </div>
             )}
-            <BannerTemplate isShowImages={isShowImageTemplates} />
+            <SmallPopupTemplate isShowImages={false} />
             <div className="flex items-center justify-center absolute w-full h-fit px-10 py-3 outline outline-1 outline-primary bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold">
-              {isShowImageTemplates ? "Banner" : "Banner (no image)"}
+              Small popup (no image)
+            </div>
+          </div>
+          <div
+            className={`relative flex flex-col px-2 items-center justify-center
+            ${
+              activeTemplate === TemplateTypes.LgPopup &&
+              "outline outline-[3px] outline-primary"
+            } bg-primary/50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform`}
+            onClick={() => handleSetActiveTemplate(TemplateTypes.LgPopup)}
+          >
+            <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
+            {activeTemplate === TemplateTypes.LgPopup && (
+              <div className="flex items-center justify-center absolute top-0 z-[2] left-0 aspect-square w-8 h-8 rounded-br-lg rounded-tl-lg bg-primary text-white">
+                <CheckIcon width={18} height={18} strokeWidth={3} />
+              </div>
+            )}
+            <LargePopupTemplate isShowImages={true} />
+            <div className="flex items-center justify-center absolute w-full h-fit px-10 py-3 outline outline-1 outline-primary bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold">
+              Large popup
+            </div>
+          </div>
+          <div
+            className={`relative flex flex-col px-2 items-center justify-center
+            ${
+              activeTemplate === TemplateTypes.LgPopupNoImg &&
+              "outline outline-[3px] outline-primary"
+            } bg-primary/50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform`}
+            onClick={() => handleSetActiveTemplate(TemplateTypes.LgPopupNoImg)}
+          >
+            <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
+            {activeTemplate === TemplateTypes.LgPopupNoImg && (
+              <div className="flex items-center justify-center absolute top-0 z-[2] left-0 aspect-square w-8 h-8 rounded-br-lg rounded-tl-lg bg-primary text-white">
+                <CheckIcon width={18} height={18} strokeWidth={3} />
+              </div>
+            )}
+            <LargePopupTemplate isShowImages={false} />
+            <div className="flex items-center justify-center absolute w-full h-fit px-10 py-3 outline outline-1 outline-primary bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold">
+              Large popup (no image)
+            </div>
+          </div>
+          <div
+            className={`relative flex flex-col px-2 items-center justify-center
+            ${
+              activeTemplate === TemplateTypes.Card &&
+              "outline outline-[3px] outline-primary"
+            } bg-primary/50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform`}
+            onClick={() => handleSetActiveTemplate(TemplateTypes.Card)}
+          >
+            <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
+            {activeTemplate === TemplateTypes.Card && (
+              <div className="flex items-center justify-center absolute top-0 z-[2] left-0 aspect-square w-8 h-8 rounded-br-lg rounded-tl-lg bg-primary text-white">
+                <CheckIcon width={18} height={18} strokeWidth={3} />
+              </div>
+            )}
+            <CardTemplate isShowImages={true} />
+            <div className="flex items-center justify-center absolute w-full h-fit px-10 py-3 outline outline-1 outline-primary bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold">
+              Card
+            </div>
+          </div>
+          <div
+            className={`relative flex flex-col px-2 items-center justify-center
+            ${
+              activeTemplate === TemplateTypes.CardNoImg &&
+              "outline outline-[3px] outline-primary"
+            } bg-primary/50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform`}
+            onClick={() => handleSetActiveTemplate(TemplateTypes.CardNoImg)}
+          >
+            <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
+            {activeTemplate === TemplateTypes.CardNoImg && (
+              <div className="flex items-center justify-center absolute top-0 z-[2] left-0 aspect-square w-8 h-8 rounded-br-lg rounded-tl-lg bg-primary text-white">
+                <CheckIcon width={18} height={18} strokeWidth={3} />
+              </div>
+            )}
+            <CardTemplate isShowImages={false} />
+            <div className="flex items-center justify-center absolute w-full h-fit px-10 py-3 outline outline-1 outline-primary bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold">
+              Card (no image)
+            </div>
+          </div>
+          <div
+            className={`relative flex flex-col px-4 items-center justify-center
+            ${
+              activeTemplate === TemplateTypes.Banner &&
+              "outline outline-[3px] outline-primary"
+            } bg-primary/50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform`}
+            onClick={() => handleSetActiveTemplate(TemplateTypes.Banner)}
+          >
+            <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
+            {activeTemplate === TemplateTypes.Banner && (
+              <div className="flex items-center justify-center absolute top-0 z-[2] left-0 aspect-square w-8 h-8 rounded-br-lg rounded-tl-lg bg-primary text-white">
+                <CheckIcon width={18} height={18} strokeWidth={3} />
+              </div>
+            )}
+            <BannerTemplate isShowImages={true} />
+            <div className="flex items-center justify-center absolute w-full h-fit px-10 py-3 outline outline-1 outline-primary bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold">
+              Banner
+            </div>
+          </div>
+          <div
+            className={`relative flex flex-col px-4 items-center justify-center
+            ${
+              activeTemplate === TemplateTypes.BannerNoImg &&
+              "outline outline-[3px] outline-primary"
+            } bg-primary/50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform`}
+            onClick={() => handleSetActiveTemplate(TemplateTypes.BannerNoImg)}
+          >
+            <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
+            {activeTemplate === TemplateTypes.BannerNoImg && (
+              <div className="flex items-center justify-center absolute top-0 z-[2] left-0 aspect-square w-8 h-8 rounded-br-lg rounded-tl-lg bg-primary text-white">
+                <CheckIcon width={18} height={18} strokeWidth={3} />
+              </div>
+            )}
+            <BannerTemplate isShowImages={false} />
+            <div className="flex items-center justify-center absolute w-full h-fit px-10 py-3 outline outline-1 outline-primary bottom-0 rounded-b-lg bg-primary text-xs text-white font-bold">
+              Banner (no image)
             </div>
           </div>
         </div>

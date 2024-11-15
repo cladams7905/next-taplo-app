@@ -617,7 +617,7 @@ const CardTemplate = ({
           borderColor: borderColor,
         }}
         onClick={() => setExitPopup(true)}
-        className="absolute -top-3 -right-3 rounded-full flex items-center justify-center border shadow-lg p-1 opacity-0 transition-opacity duration-300 group-hover:opacity-100 cursor-pointer hover:bg-opacity-75"
+        className="absolute -top-3 -right-3 rounded-full z-50 flex items-center justify-center border shadow-lg p-1 opacity-0 transition-opacity duration-300 group-hover:opacity-100 cursor-pointer hover:bg-opacity-75"
       >
         <X color={hexToRgba(textColor, 0.65)} width={14} height={14} />
       </div>
