@@ -12,6 +12,7 @@ import { hexToRgba } from "@/lib/actions";
 import Image from "next/image";
 import { Tables } from "@/lib/supabase/types";
 import { DisplayNotification } from "@/lib/types";
+import DOMPurify from "isomorphic-dompurify";
 
 export default function PopupWidget({
   project,
@@ -97,7 +98,7 @@ const EventIcon = (
   project: Tables<"Projects">,
   size: "lg" | "md" | "sm" = "lg"
 ) => {
-  const iconSize = size === "lg" ? 28 : size === "md" ? 24 : 20;
+  const iconSize = size === "lg" ? 38 : size === "md" ? 28 : 20;
   switch (eventType) {
     case EventType.Purchase:
       return (
@@ -151,13 +152,18 @@ const SmallPopupTemplate = ({
   const textColor = project.text_color ?? "#172554";
   const accentColor = project.accent_color ?? "#7A81EB";
 
+  const hasHeader =
+    notification.event?.header !== "" &&
+    notification.event?.header !== null &&
+    notification.event?.header !== undefined;
+
   return (
     <div
       style={{
         backgroundColor: backgroundColor,
         borderColor: borderColor,
       }}
-      className={`relative flex flex-row w-fit h-fit pr-6 pl-4 max-w-[330px] rounded-lg border shadow-lg py-4 gap-3 group`}
+      className={`relative flex flex-row w-fit h-fit pr-6 pl-4 max-w-[330px] min-w-[280px] min-h-[80px] rounded-lg border shadow-lg py-3 gap-3 group`}
     >
       <div
         style={{
@@ -171,12 +177,12 @@ const SmallPopupTemplate = ({
       </div>
       <div className="flex items-center justify-center">
         {product && product?.image_url && product?.image_url !== "" ? (
-          <div className="w-16 h-16 min-w-16">
+          <div className="w-12 h-12 min-w-12">
             <Image
               loader={() => product.image_url || ""}
               unoptimized={true}
-              width={110}
-              height={110}
+              width={48}
+              height={48}
               alt="product-img"
               src={product.image_url}
               className="object-cover w-full h-full rounded-full"
@@ -184,7 +190,7 @@ const SmallPopupTemplate = ({
           </div>
         ) : (
           <div
-            className="rounded-full flex items-center justify-center w-16 h-16 min-w-16 aspect-square"
+            className="rounded-full flex items-center justify-center w-12 h-12 min-w-12 aspect-square"
             style={{
               backgroundColor: hexToRgba(accentColor, 0.2),
             }}
@@ -193,39 +199,69 @@ const SmallPopupTemplate = ({
           </div>
         )}
       </div>
-      <div className="flex w-full gap-4 items-center ml-2">
-        <div className="flex flex-col w-full gap-2">
-          <div
+      <div className="flex w-full items-center ml-2">
+        <div className="flex flex-col w-full">
+          {hasHeader && (
+            <div className="flex justify-between leading-5">
+              <p
+                style={{
+                  color: textColor,
+                }}
+                className="text-[13.5px] font-bold"
+              >
+                {notification.event?.header}
+              </p>
+              <div
+                className="absolute bottom-[2px] right-3 text-[10px] flex items-center gap-[2px]"
+                style={{
+                  color: hexToRgba(textColor, 0.65),
+                }}
+              >
+                {notification.time} | Verified by Taplo{" "}
+                <BadgeCheck
+                  width={18}
+                  height={18}
+                  fill={accentColor}
+                  color={backgroundColor}
+                />
+              </div>
+            </div>
+          )}
+          <p
             style={{
               color: textColor,
             }}
-            className="text-[12.5px] leading-5"
+            className={`${
+              hasHeader ? "text-[11.5px] mb-4 mt-1" : "text-[12.5px]"
+            } leading-4`}
             dangerouslySetInnerHTML={{
               __html: notification.message,
             }}
-          ></div>
-          <div
-            className="text-xs text-[11.5px] flex items-center gap-4"
-            style={{
-              color: hexToRgba(textColor, 0.65),
-            }}
-          >
-            {notification.time}
+          ></p>
+          {!hasHeader && (
             <div
-              className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10px]"
+              className="text-[11px] flex items-center mt-1 leading-4"
               style={{
                 color: hexToRgba(textColor, 0.65),
               }}
             >
-              Verified by Taplo
-              <BadgeCheck
-                width={18}
-                height={18}
-                fill={accentColor}
-                color={backgroundColor}
-              />
+              {notification.time}
+              <p
+                className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10px]"
+                style={{
+                  color: hexToRgba(textColor, 0.65),
+                }}
+              >
+                Verified by Taplo
+                <BadgeCheck
+                  width={18}
+                  height={18}
+                  fill={accentColor}
+                  color={backgroundColor}
+                />
+              </p>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
@@ -246,13 +282,18 @@ const SmallPopupNoImageTemplate = ({
   const textColor = project.text_color ?? "#172554";
   const accentColor = project.accent_color ?? "#7A81EB";
 
+  const hasHeader =
+    notification.event?.header !== "" &&
+    notification.event?.header !== null &&
+    notification.event?.header !== undefined;
+
   return (
     <div
       style={{
         backgroundColor: backgroundColor,
         borderColor: borderColor,
       }}
-      className={`relative flex w-fit h-fit pr-6 pl-4 max-w-[300px] rounded-lg border shadow-lg py-4 group`}
+      className={`relative flex flex-row w-fit h-fit px-5 max-w-[330px] min-w-[280px] min-h-[80px] rounded-lg border shadow-lg py-4 gap-3 group`}
     >
       <div
         style={{
@@ -264,39 +305,73 @@ const SmallPopupNoImageTemplate = ({
       >
         <X color={hexToRgba(textColor, 0.65)} width={14} height={14} />
       </div>
-      <div className="flex w-full gap-4 items-center">
-        <div className="flex flex-col w-full gap-2">
-          <div
+      <div className="flex w-full items-center">
+        <div className="flex flex-col w-full">
+          {hasHeader && (
+            <div className="flex justify-between leading-5">
+              <p
+                style={{
+                  color: textColor,
+                }}
+                className="text-[14px] font-bold"
+              >
+                {notification.event?.header}
+              </p>
+              <div
+                className="absolute bottom-1 right-2 text-[10.5px] flex items-center gap-1"
+                style={{
+                  color: hexToRgba(textColor, 0.65),
+                }}
+              >
+                {notification.time} |{" "}
+                <div className="flex gap-[2px]">
+                  Verified by Taplo{" "}
+                  <BadgeCheck
+                    width={18}
+                    height={18}
+                    fill={accentColor}
+                    color={backgroundColor}
+                    className="mt-[1px]"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+          <p
             style={{
               color: textColor,
             }}
-            className="text-[13px] leading-5"
+            className={`${
+              hasHeader ? "text-[12px] mt-2 mb-3" : "text-[13px]"
+            } leading-4`}
             dangerouslySetInnerHTML={{
               __html: notification.message,
             }}
-          ></div>
-          <div
-            className="text-xs flex items-center gap-4"
-            style={{
-              color: hexToRgba(textColor, 0.65),
-            }}
-          >
-            {notification.time}
+          ></p>
+          {!hasHeader && (
             <div
-              className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10px]"
+              className="text-[11.5px] flex items-center mt-1 leading-4"
               style={{
                 color: hexToRgba(textColor, 0.65),
               }}
             >
-              Verified by Taplo
-              <BadgeCheck
-                width={18}
-                height={18}
-                fill={accentColor}
-                color={backgroundColor}
-              />
+              {notification.time}
+              <p
+                className="absolute bottom-1 right-1 flex items-center gap-[3px] text-[11px]"
+                style={{
+                  color: hexToRgba(textColor, 0.65),
+                }}
+              >
+                Verified by Taplo
+                <BadgeCheck
+                  width={18}
+                  height={18}
+                  fill={accentColor}
+                  color={backgroundColor}
+                />
+              </p>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
@@ -320,13 +395,18 @@ const LargePopupTemplate = ({
   const textColor = project.text_color ?? "#172554";
   const accentColor = project.accent_color ?? "#7A81EB";
 
+  const hasHeader =
+    notification.event?.header !== "" &&
+    notification.event?.header !== null &&
+    notification.event?.header !== undefined;
+
   return (
     <div
       style={{
         backgroundColor: backgroundColor,
         borderColor: borderColor,
       }}
-      className={`relative flex flex-row w-fit h-fit min-h-[100px] max-w-[380px] min-w-[330px] md:min-w-[380px] rounded-lg border shadow-lg group`}
+      className={`relative flex flex-row w-fit min-h-[120px] h-fit max-w-[400px] min-w-[330px] md:min-w-[380px] rounded-lg border shadow-lg group`}
     >
       <div
         style={{
@@ -338,15 +418,14 @@ const LargePopupTemplate = ({
       >
         <X color={hexToRgba(textColor, 0.65)} width={14} height={14} />
       </div>
-      <div className="flex items-center justify-center h-full w-full max-w-[110px]">
+      <div className="relative h-auto w-[180px] flex flex-grow">
         {product && product?.image_url && product.image_url !== "" ? (
-          <div className="h-[110px] w-[110px]">
+          <div className="flex relative w-full h-full">
             <Image
               loader={() => product.image_url || ""}
               unoptimized={true}
-              width={110}
-              height={110}
               alt="product-img"
+              fill
               src={product.image_url}
               className="object-cover w-full h-full rounded-l-lg"
             />
@@ -363,38 +442,50 @@ const LargePopupTemplate = ({
           </div>
         )}
       </div>
-      <div className="flex w-full items-center pr-3 pl-5">
-        <div className="flex flex-col w-full lg:gap-[6px]">
-          <div
+      <div className="flex w-full items-center pr-4 pl-5 py-4">
+        <div className="flex flex-col w-full">
+          {hasHeader && (
+            <p
+              style={{
+                color: textColor,
+              }}
+              className="text-[15px] leading-5 font-bold mb-2"
+            >
+              {notification.event?.header}
+            </p>
+          )}
+          <p
             style={{
               color: textColor,
             }}
-            className="text-[14.5px] leading-5"
+            className={`${
+              hasHeader ? "text-[13px]" : "text-[14px]"
+            } leading-4 mb-1`}
             dangerouslySetInnerHTML={{
               __html: notification.message,
             }}
-          ></div>
+          ></p>
           <div
-            className="text-[13px] flex items-center gap-4"
+            className="text-[11.5px] leading-5"
             style={{
               color: hexToRgba(textColor, 0.65),
             }}
           >
             {notification.time}
-            <div
-              className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10.5px]"
+            <p
+              className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[11px]"
               style={{
                 color: hexToRgba(textColor, 0.65),
               }}
             >
               Verified by Taplo
               <BadgeCheck
-                width={18}
-                height={18}
+                width={20}
+                height={20}
                 fill={accentColor}
                 color={backgroundColor}
               />
-            </div>
+            </p>
           </div>
         </div>
       </div>
@@ -416,13 +507,18 @@ const LargePopupNoImageTemplate = ({
   const textColor = project.text_color ?? "#172554";
   const accentColor = project.accent_color ?? "#7A81EB";
 
+  const hasHeader =
+    notification.event?.header !== "" &&
+    notification.event?.header !== null &&
+    notification.event?.header !== undefined;
+
   return (
     <div
       style={{
         backgroundColor: backgroundColor,
         borderColor: borderColor,
       }}
-      className={`relative flex flex-row w-fit h-fit min-h-[110px] max-w-[340px] rounded-lg border shadow-lg gap-3 group`}
+      className={`relative flex flex-row w-fit h-fit min-h-[90px] max-w-[360px] min-w-[300px] rounded-lg border shadow-lg gap-3 group`}
     >
       <div
         style={{
@@ -434,25 +530,37 @@ const LargePopupNoImageTemplate = ({
       >
         <X color={hexToRgba(textColor, 0.65)} width={14} height={14} />
       </div>
-      <div className="flex w-full gap-3 items-center mx-3">
-        <div className="flex flex-col w-full gap-[6px] mx-2">
-          <div
+      <div className="flex w-full items-center px-5 py-4">
+        <div className="flex flex-col w-full">
+          {hasHeader && (
+            <p
+              style={{
+                color: textColor,
+              }}
+              className="text-[15px] leading-5 font-bold mb-2"
+            >
+              {notification.event?.header}
+            </p>
+          )}
+          <p
             style={{
               color: textColor,
             }}
-            className="text-[14.5px] leading-5 mt-1"
+            className={`${
+              hasHeader ? "text-[13px]" : "text-[14px]"
+            } leading-4 mb-1`}
             dangerouslySetInnerHTML={{
               __html: notification.message,
             }}
-          ></div>
+          ></p>
           <div
-            className="text-[13px] flex items-center"
+            className="text-[11.5px] leading-5"
             style={{
               color: hexToRgba(textColor, 0.65),
             }}
           >
             {notification.time}
-            <div
+            <p
               className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[11px]"
               style={{
                 color: hexToRgba(textColor, 0.65),
@@ -460,12 +568,12 @@ const LargePopupNoImageTemplate = ({
             >
               Verified by Taplo
               <BadgeCheck
-                width={18}
-                height={18}
+                width={20}
+                height={20}
                 fill={accentColor}
                 color={backgroundColor}
               />
-            </div>
+            </p>
           </div>
         </div>
       </div>
@@ -490,13 +598,18 @@ const CardTemplate = ({
   const textColor = project.text_color ?? "#172554";
   const accentColor = project.accent_color ?? "#7A81EB";
 
+  const hasHeader =
+    notification.event?.header !== "" &&
+    notification.event?.header !== null &&
+    notification.event?.header !== undefined;
+
   return (
     <div
       style={{
         backgroundColor: backgroundColor,
         borderColor: borderColor,
       }}
-      className={`relative flex flex-col w-fit h-fit min-h-[270px] max-w-[280px] rounded-lg border shadow-lg gap-3 group`}
+      className={`relative flex flex-col h-fit min-h-[250px] w-[250px] rounded-lg border shadow-lg gap-3 group`}
     >
       <div
         style={{
@@ -508,14 +621,13 @@ const CardTemplate = ({
       >
         <X color={hexToRgba(textColor, 0.65)} width={14} height={14} />
       </div>
-      <div className="flex items-center justify-center h-full min-w-[270px]">
+      <div className="flex items-center justify-center h-full w-full">
         {product && product?.image_url && product.image_url !== "" ? (
-          <div className="h-[160px] w-full">
+          <div className="relative h-[140px] w-full">
             <Image
               loader={() => product.image_url || ""}
               unoptimized={true}
-              width={90}
-              height={90}
+              fill
               alt="product-img"
               src={product.image_url}
               className="object-cover w-full h-full rounded-t-lg"
@@ -523,36 +635,50 @@ const CardTemplate = ({
           </div>
         ) : (
           <div
-            className="flex h-full w-full max-h-[160px] items-center justify-center aspect-square rounded-t-lg outline-1 outline"
+            className="flex h-full w-full max-h-[140px] items-center justify-center aspect-square rounded-t-lg outline-1 outline"
             style={{
               backgroundColor: hexToRgba(accentColor, 0.2),
               outlineColor: hexToRgba(accentColor, 0.2),
             }}
           >
-            {EventIcon(event?.event_type as EventType, project)}
+            {EventIcon(event?.event_type as EventType, project, "lg")}
           </div>
         )}
       </div>
       <div className="flex w-full gap-4 items-center">
         <div className="flex flex-col w-full gap-[4px] mx-2 p-2">
+          {hasHeader && (
+            <div className="flex gap-[2px]">
+              <p
+                style={{
+                  color: textColor,
+                }}
+                className="text-[15px] leading-5 font-bold mb-1"
+              >
+                {notification.event?.header}
+              </p>
+            </div>
+          )}
           <div
             style={{
               color: textColor,
             }}
-            className="text-[13px] leading-5"
+            className={`${
+              hasHeader ? "text-[12px]" : "text-[13px]"
+            } leading-4 mb-1`}
             dangerouslySetInnerHTML={{
               __html: notification.message,
             }}
           ></div>
           <div
-            className="text-[12px] flex items-center gap-4"
+            className="text-[11px] leading-5"
             style={{
               color: hexToRgba(textColor, 0.65),
             }}
           >
             {notification.time}
             <div
-              className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10.5px]"
+              className="absolute bottom-[2px] right-2 flex items-center gap-[3px] text-[10.5px]"
               style={{
                 color: hexToRgba(textColor, 0.65),
               }}
@@ -586,13 +712,18 @@ const CardNoImageTemplate = ({
   const textColor = project.text_color ?? "#172554";
   const accentColor = project.accent_color ?? "#7A81EB";
 
+  const hasHeader =
+    notification.event?.header !== "" &&
+    notification.event?.header !== null &&
+    notification.event?.header !== undefined;
+
   return (
     <div
       style={{
         backgroundColor: backgroundColor,
         borderColor: borderColor,
       }}
-      className={`relative flex flex-col w-fit h-fit min-h-[160px] items-center justify-center max-w-[280px] rounded-lg border shadow-lg gap-3 group`}
+      className={`relative flex flex-col w-fit h-fit min-h-[130px] py-5 items-center justify-center max-w-[280px] min-w-[260px] rounded-lg border shadow-lg gap-3 group`}
     >
       <div
         style={{
@@ -606,24 +737,38 @@ const CardNoImageTemplate = ({
       </div>
       <div className="flex w-full gap-4 items-center">
         <div className="flex flex-col w-full text-center items-center justify-center gap-[4px] px-5 py-3">
+          {hasHeader && (
+            <div className="flex gap-[2px]">
+              <p
+                style={{
+                  color: textColor,
+                }}
+                className="text-[15px] leading-5 font-bold mb-1"
+              >
+                {notification.event?.header}
+              </p>
+            </div>
+          )}
           <div
             style={{
               color: textColor,
             }}
-            className="text-[13px] leading-5"
+            className={`${
+              hasHeader ? "text-[13px]" : "text-[14px]"
+            } leading-4 mb-1`}
             dangerouslySetInnerHTML={{
               __html: notification.message,
             }}
           ></div>
           <div
-            className="text-[12px] flex items-center gap-4"
+            className="text-[12px] leading-5"
             style={{
               color: hexToRgba(textColor, 0.65),
             }}
           >
             {notification.time}
             <div
-              className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10.5px]"
+              className="absolute bottom-[2px] right-2 flex items-center gap-[3px] text-[11px]"
               style={{
                 color: hexToRgba(textColor, 0.65),
               }}
@@ -660,13 +805,22 @@ const BannerTemplate = ({
   const textColor = project.text_color ?? "#172554";
   const accentColor = project.accent_color ?? "#7A81EB";
 
+  const hasHeader =
+    notification.event?.header !== "" &&
+    notification.event?.header !== null &&
+    notification.event?.header !== undefined;
+
+  const headerHtml = DOMPurify.sanitize(
+    `<span class="font-semibold">${notification.event?.header} | </span>`
+  );
+
   return (
     <div
       style={{
         backgroundColor: backgroundColor,
         borderColor: borderColor,
       }}
-      className={`relative flex flex-row px-5 h-fit min-h-[60px] items-center justify-center max-w-screen-md rounded-lg border shadow-lg group`}
+      className={`relative flex flex-row pr-5 pl-3 h-fit min-h-[60px] min-w-[300px] max-w-[700px] items-center justify-center rounded-lg border shadow-lg group`}
     >
       <div
         style={{
@@ -680,12 +834,12 @@ const BannerTemplate = ({
       </div>
       <div className="flex items-center justify-center">
         {product && product?.image_url && product.image_url !== "" ? (
-          <div className="w-12 h-12">
+          <div className="w-10 h-10">
             <Image
               loader={() => product.image_url || ""}
               unoptimized={true}
-              width={48}
-              height={48}
+              width={40}
+              height={40}
               alt="product-img"
               src={product.image_url}
               className="object-cover w-full h-full rounded-full"
@@ -693,28 +847,32 @@ const BannerTemplate = ({
           </div>
         ) : (
           <div
-            className="rounded-full flex items-center justify-center w-12 h-12 min-w-12 aspect-square"
+            className="rounded-full flex items-center justify-center w-10 h-10 min-w-10 aspect-square"
             style={{
               backgroundColor: hexToRgba(accentColor, 0.2),
             }}
           >
-            {EventIcon(event?.event_type as EventType, project, "md")}
+            {EventIcon(event?.event_type as EventType, project, "sm")}
           </div>
         )}
       </div>
       <div className="flex w-full items-center justify-center">
-        <div className="flex flex-col items-center justify-center w-full px-5 py-2 gap-1">
+        <div className="flex flex-col items-center justify-center w-full pl-4 py-2 gap-1">
+          <div className="inline-flex items-center gap-1">
+            <p
+              style={{
+                color: textColor,
+              }}
+              className="text-[13px] leading-4 text-center"
+              dangerouslySetInnerHTML={{
+                __html: hasHeader
+                  ? headerHtml + notification.message
+                  : notification.message,
+              }}
+            ></p>
+          </div>
           <div
-            style={{
-              color: textColor,
-            }}
-            className="text-[13px] leading-5"
-            dangerouslySetInnerHTML={{
-              __html: notification.message,
-            }}
-          ></div>
-          <div
-            className={`flex flex-row gap-1 md:text-[12px] lg:text-[12px] text-[11px] leading-5`}
+            className={`flex flex-row gap-1 text-[11px] leading-5`}
             style={{
               color: hexToRgba(textColor, 0.65),
             }}
@@ -756,13 +914,22 @@ const BannerNoImageTemplate = ({
   const textColor = project.text_color ?? "#172554";
   const accentColor = project.accent_color ?? "#7A81EB";
 
+  const hasHeader =
+    notification.event?.header !== "" &&
+    notification.event?.header !== null &&
+    notification.event?.header !== undefined;
+
+  const headerHtml = DOMPurify.sanitize(
+    `<span class="font-semibold">${notification.event?.header} | </span>`
+  );
+
   return (
     <div
       style={{
         backgroundColor: backgroundColor,
         borderColor: borderColor,
       }}
-      className={`relative flex flex-col h-fit min-h-[60px] items-center justify-center max-w-screen-md rounded-lg border shadow-lg group`}
+      className={`relative flex flex-col h-fit min-h-[60px] min-w-[300px] max-w-[700px] items-center justify-center rounded-lg border shadow-lg group`}
     >
       <div
         style={{
@@ -776,17 +943,21 @@ const BannerNoImageTemplate = ({
       </div>
       <div className="flex w-full items-center justify-center">
         <div className="flex flex-col items-center justify-center w-full px-5 py-2 gap-1">
+          <div className="inline-flex items-center gap-1">
+            <p
+              style={{
+                color: textColor,
+              }}
+              className="text-[13px] leading-4 text-center"
+              dangerouslySetInnerHTML={{
+                __html: hasHeader
+                  ? headerHtml + notification.message
+                  : notification.message,
+              }}
+            ></p>
+          </div>
           <div
-            style={{
-              color: textColor,
-            }}
-            className="text-[13px] leading-5"
-            dangerouslySetInnerHTML={{
-              __html: notification.message,
-            }}
-          ></div>
-          <div
-            className={`flex flex-row gap-1 text-[12px] -mt-2`}
+            className={`flex flex-row gap-1 text-[11px] leading-5`}
             style={{
               color: hexToRgba(textColor, 0.65),
             }}

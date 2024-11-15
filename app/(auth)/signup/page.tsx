@@ -16,8 +16,9 @@ export default async function Signup() {
   }
 
   return (
-    <main className="bg-gradient-to-tr from-purple-200 via-primary/60 to-purple-100">
-      <div className="navbar lg:px-20 font-sans">
+    <main className="relative bg-gradient-to-tr from-purple-200 via-primary/60 to-purple-100">
+      <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] z-[0]"></div>
+      <div className="relative navbar lg:px-20 font-sans">
         <Link href={"/"}>
           <div className="navbar-start ml-8 w-full flex items-center">
             <Image width={36} height={36} alt="logo" src={Logo} />
@@ -25,7 +26,7 @@ export default async function Signup() {
           </div>
         </Link>
       </div>
-      <div className="flex min-h-screen w-full flex-col items-center justify-between sm:px-24 px-8 font-sans">
+      <div className="relative flex min-h-screen w-full flex-col items-center justify-between sm:px-24 px-8 font-sans">
         <RegisterForm user={userData.user as User} />
       </div>
     </main>

@@ -334,7 +334,7 @@ export default function PopupTemplate({
 
 const EventIcon = (eventType: EventType, size: "lg" | "md" | "sm" = "md") => {
   const { accentColor } = useProjectContext();
-  const iconSize = size === "lg" ? 38 : size === "md" ? 28 : 24;
+  const iconSize = size === "lg" ? 38 : size === "md" ? 28 : 20;
 
   switch (eventType) {
     case EventType.Purchase:
@@ -356,6 +356,14 @@ const EventIcon = (eventType: EventType, size: "lg" | "md" | "sm" = "md") => {
     case EventType.ActiveUsers:
       return (
         <UsersRound
+          color={hexToRgba(accentColor.hex.toString(), 0.85)}
+          height={iconSize}
+          width={iconSize}
+        />
+      );
+    case EventType.Checkout:
+      return (
+        <ShoppingCart
           color={hexToRgba(accentColor.hex.toString(), 0.85)}
           height={iconSize}
           width={iconSize}
@@ -436,34 +444,31 @@ const SmallPopupTemplate = ({
           </div>
         )}
       </div>
-      <div className="flex w-full gap-4 items-center ml-2">
+      <div className="flex w-full items-center ml-2">
         <div className="flex flex-col w-full">
           {hasHeader && (
-            <div className="flex justify-between leading-5 mb-[2px]">
-              {" "}
-              <div className="flex gap-[2px]">
-                <p
-                  style={{
-                    color: textColor.hex.toString(),
-                  }}
-                  className="text-[13.5px] font-bold"
-                >
-                  {isPreviewMode ? previewEvent?.header : activeEvent?.header}
-                </p>{" "}
+            <div className="flex justify-between leading-5">
+              <p
+                style={{
+                  color: textColor.hex.toString(),
+                }}
+                className="text-[13.5px] font-bold"
+              >
+                {isPreviewMode ? previewEvent?.header : activeEvent?.header}
+              </p>
+              <div
+                className="absolute bottom-[2px] right-3 text-[10px] flex items-center gap-[2px]"
+                style={{
+                  color: hexToRgba(textColor.hex.toString(), 0.65),
+                }}
+              >
+                12 min ago | Verified by Taplo{" "}
                 <BadgeCheck
                   width={18}
                   height={18}
                   fill={accentColor.hex.toString()}
                   color={backgroundColor.hex.toString()}
                 />
-              </div>
-              <div
-                className="absolute bottom-[2px] right-3 text-[10px] flex items-center"
-                style={{
-                  color: hexToRgba(textColor.hex.toString(), 0.65),
-                }}
-              >
-                12 min ago | Verified by Taplo
               </div>
             </div>
           )}
@@ -472,7 +477,7 @@ const SmallPopupTemplate = ({
               color: textColor.hex.toString(),
             }}
             className={`${
-              hasHeader ? "text-[11.5px] mb-2" : "text-[12.5px]"
+              hasHeader ? "text-[11.5px] mb-4 mt-1" : "text-[12.5px]"
             } leading-4`}
             dangerouslySetInnerHTML={{
               __html: isPreviewMode ? previewContentBody : contentBody,
@@ -534,40 +539,41 @@ const SmallPopupNoImageTemplate = ({
         backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className={`relative flex flex-row w-fit h-fit pr-6 pl-4 max-w-[330px] min-w-[280px] min-h-[80px] rounded-lg border shadow-lg py-4 gap-3 ${
+      className={`relative flex flex-row w-fit px-5 max-w-[330px] min-w-[280px] min-h-[80px] rounded-lg border shadow-lg py-4 gap-3 ${
         isPreviewMode ? animation : ""
       } ${
         isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""
       }`}
     >
-      <div className="flex w-full gap-4 items-center">
+      <div className="flex w-full items-center">
         <div className="flex flex-col w-full">
           {hasHeader && (
-            <div className="flex justify-between leading-5 mb-[2px]">
-              {" "}
-              <div className="flex gap-[2px]">
-                <p
-                  style={{
-                    color: textColor.hex.toString(),
-                  }}
-                  className="text-[13.5px] font-bold"
-                >
-                  {isPreviewMode ? previewEvent?.header : activeEvent?.header}
-                </p>{" "}
-                <BadgeCheck
-                  width={18}
-                  height={18}
-                  fill={accentColor.hex.toString()}
-                  color={backgroundColor.hex.toString()}
-                />
-              </div>
+            <div className="flex justify-between leading-5">
+              <p
+                style={{
+                  color: textColor.hex.toString(),
+                }}
+                className="text-[14px] font-bold"
+              >
+                {isPreviewMode ? previewEvent?.header : activeEvent?.header}
+              </p>
               <div
-                className="absolute bottom-[2px] right-3 text-[10px] flex items-center"
+                className="absolute bottom-1 right-2 text-[10.5px] flex items-center gap-1"
                 style={{
                   color: hexToRgba(textColor.hex.toString(), 0.65),
                 }}
               >
-                12 min ago | Verified by Taplo
+                12 min ago |{" "}
+                <div className="flex gap-[2px]">
+                  Verified by Taplo{" "}
+                  <BadgeCheck
+                    width={18}
+                    height={18}
+                    fill={accentColor.hex.toString()}
+                    color={backgroundColor.hex.toString()}
+                    className="mt-[1px]"
+                  />
+                </div>
               </div>
             </div>
           )}
@@ -576,7 +582,7 @@ const SmallPopupNoImageTemplate = ({
               color: textColor.hex.toString(),
             }}
             className={`${
-              hasHeader ? "text-[11.5px] mb-2" : "text-[12.5px]"
+              hasHeader ? "text-[12px] mt-2 mb-3" : "text-[13px]"
             } leading-4`}
             dangerouslySetInnerHTML={{
               __html: isPreviewMode ? previewContentBody : contentBody,
@@ -584,14 +590,14 @@ const SmallPopupNoImageTemplate = ({
           ></p>
           {!hasHeader && (
             <div
-              className="text-[11px] flex items-center mt-1 leading-4"
+              className="text-[11.5px] flex items-center mt-1 leading-4"
               style={{
                 color: hexToRgba(textColor.hex.toString(), 0.65),
               }}
             >
               12 min ago
               <p
-                className="absolute bottom-[2px] right-1 flex items-center gap-[3px] text-[10px]"
+                className="absolute bottom-1 right-1 flex items-center gap-[3px] text-[11px]"
                 style={{
                   color: hexToRgba(textColor.hex.toString(), 0.65),
                 }}
@@ -647,23 +653,22 @@ const LargePopupTemplate = ({
         backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className={`relative flex flex-row w-fit h-fit max-w-[400px] min-w-[330px] md:min-w-[380px] rounded-lg border shadow-lg ${
+      className={`relative flex flex-row w-fit min-h-[120px] h-fit max-w-[400px] min-w-[330px] md:min-w-[380px] rounded-lg border shadow-lg ${
         isPreviewMode ? animation : ""
       } ${
         isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""
       }`}
     >
-      <div className="flex items-center justify-center h-full w-full max-w-[115px]">
+      <div className="relative h-auto w-[160px] min-w-[120px]">
         {activeProduct?.image_url &&
         activeProduct.image_url !== "" &&
         shouldDisplayImage() ? (
-          <div className="max-w-[115px] max-h-[115px]">
+          <div className="flex relative w-full h-full aspect-square">
             <Image
               loader={() => activeProduct.image_url || ""}
               unoptimized={true}
               alt="product-img"
-              width={110}
-              height={110}
+              fill
               src={activeProduct.image_url}
               className="object-cover w-full h-full rounded-l-lg"
             />
@@ -679,13 +684,12 @@ const LargePopupTemplate = ({
             {EventIcon(
               isPreviewMode
                 ? (previewEvent?.event_type as EventType)
-                : (activeEvent?.event_type as EventType),
-              "lg"
+                : (activeEvent?.event_type as EventType)
             )}
           </div>
         )}
       </div>
-      <div className="flex w-full items-center pr-3 pl-5 py-4">
+      <div className="flex w-full items-center pr-4 pl-5 py-4">
         <div className="flex flex-col w-full">
           {hasHeader && (
             <p
@@ -769,7 +773,7 @@ const LargePopupNoImageTemplate = ({
         isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""
       }`}
     >
-      <div className="flex w-full items-center pr-3 pl-6 py-4">
+      <div className="flex w-full items-center px-5 py-4">
         <div className="flex flex-col w-full">
           {hasHeader && (
             <p
@@ -855,22 +859,21 @@ const CardTemplate = ({
         backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className={`relative flex flex-col w-fit h-fit min-h-[270px] max-w-[280px] rounded-lg border shadow-lg gap-3 ${
+      className={`relative flex flex-col h-fit min-h-[250px] w-[250px] rounded-lg border shadow-lg gap-3 ${
         isPreviewMode ? animation : ""
       } ${
         isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""
       }`}
     >
-      <div className="flex items-center justify-center h-full min-w-[270px]">
+      <div className="flex items-center justify-center h-full w-full">
         {activeProduct?.image_url &&
         activeProduct.image_url !== "" &&
         shouldDisplayImage() ? (
-          <div className="h-[160px] w-full">
+          <div className="relative h-[140px] w-full">
             <Image
               loader={() => activeProduct.image_url || ""}
               unoptimized={true}
-              width={90}
-              height={90}
+              fill
               alt="product-img"
               src={activeProduct.image_url}
               className="object-cover w-full h-full rounded-t-lg"
@@ -878,7 +881,7 @@ const CardTemplate = ({
           </div>
         ) : (
           <div
-            className="flex h-full w-full max-h-[160px] items-center justify-center aspect-square rounded-t-lg outline-1 outline"
+            className="flex h-full w-full max-h-[140px] items-center justify-center aspect-square rounded-t-lg outline-1 outline"
             style={{
               backgroundColor: hexToRgba(accentColor.hex.toString(), 0.2),
               outlineColor: hexToRgba(accentColor.hex.toString(), 0.2),
@@ -905,12 +908,6 @@ const CardTemplate = ({
               >
                 {isPreviewMode ? previewEvent?.header : activeEvent?.header}
               </p>
-              <BadgeCheck
-                width={20}
-                height={20}
-                fill={accentColor.hex.toString()}
-                color={backgroundColor.hex.toString()}
-              />
             </div>
           )}
           <p
@@ -918,14 +915,14 @@ const CardTemplate = ({
               color: textColor.hex.toString(),
             }}
             className={`${
-              hasHeader ? "text-[13px]" : "text-[14px]"
+              hasHeader ? "text-[12px]" : "text-[13px]"
             } leading-4 mb-1`}
             dangerouslySetInnerHTML={{
               __html: isPreviewMode ? previewContentBody : contentBody,
             }}
           ></p>
           <div
-            className="text-[12px] leading-5"
+            className="text-[11px] leading-5"
             style={{
               color: hexToRgba(textColor.hex.toString(), 0.65),
             }}
@@ -938,14 +935,12 @@ const CardTemplate = ({
               }}
             >
               Verified by Taplo
-              {!hasHeader && (
-                <BadgeCheck
-                  width={18}
-                  height={18}
-                  fill={accentColor.hex.toString()}
-                  color={backgroundColor.hex.toString()}
-                />
-              )}
+              <BadgeCheck
+                width={18}
+                height={18}
+                fill={accentColor.hex.toString()}
+                color={backgroundColor.hex.toString()}
+              />
             </p>
           </div>
         </div>
@@ -999,12 +994,6 @@ const CardNoImageTemplate = ({
               >
                 {isPreviewMode ? previewEvent?.header : activeEvent?.header}
               </p>
-              <BadgeCheck
-                width={20}
-                height={20}
-                fill={accentColor.hex.toString()}
-                color={backgroundColor.hex.toString()}
-              />
             </div>
           )}
           <p
@@ -1032,14 +1021,12 @@ const CardNoImageTemplate = ({
               }}
             >
               Verified by Taplo
-              {!hasHeader && (
-                <BadgeCheck
-                  width={18}
-                  height={18}
-                  fill={accentColor.hex.toString()}
-                  color={backgroundColor.hex.toString()}
-                />
-              )}
+              <BadgeCheck
+                width={18}
+                height={18}
+                fill={accentColor.hex.toString()}
+                color={backgroundColor.hex.toString()}
+              />
             </p>
           </div>
         </div>
@@ -1079,7 +1066,7 @@ const BannerTemplate = ({
     (!isPreviewMode && activeEvent?.header);
 
   const headerHtml = DOMPurify.sanitize(
-    `<span class="font-bold">${
+    `<span class="font-semibold">${
       isPreviewMode ? previewEvent?.header : activeEvent?.header
     } | </span>`
   );
@@ -1090,7 +1077,7 @@ const BannerTemplate = ({
         backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className={`relative flex flex-row px-5 h-fit min-h-[60px] min-w-[300px] items-center justify-center rounded-lg border shadow-lg ${
+      className={`relative flex flex-row pr-5 pl-3 h-fit min-h-[60px] min-w-[300px] max-w-[700px] items-center justify-center rounded-lg border shadow-lg ${
         isPreviewMode ? animation : ""
       } ${
         isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""
@@ -1100,12 +1087,12 @@ const BannerTemplate = ({
         {activeProduct?.image_url &&
         activeProduct.image_url !== "" &&
         shouldDisplayImage() ? (
-          <div className="w-12 h-12">
+          <div className="w-10 h-10">
             <Image
               loader={() => activeProduct.image_url || ""}
               unoptimized={true}
-              width={48}
-              height={48}
+              width={40}
+              height={40}
               alt="product-img"
               src={activeProduct.image_url}
               className="object-cover w-full h-full rounded-full"
@@ -1113,7 +1100,7 @@ const BannerTemplate = ({
           </div>
         ) : (
           <div
-            className="rounded-full flex items-center justify-center w-12 h-12 min-w-12 aspect-square"
+            className="rounded-full flex items-center justify-center w-10 h-10 min-w-10 aspect-square"
             style={{
               backgroundColor: hexToRgba(accentColor.hex.toString(), 0.2),
             }}
@@ -1128,7 +1115,7 @@ const BannerTemplate = ({
         )}
       </div>
       <div className="flex w-full items-center justify-center">
-        <div className="flex flex-col items-center justify-center w-full pl-5 py-2 gap-1">
+        <div className="flex flex-col items-center justify-center w-full pl-4 py-2 gap-1">
           <div className="inline-flex items-center gap-1">
             <p
               style={{
@@ -1198,7 +1185,7 @@ const BannerNoImageTemplate = ({
     (!isPreviewMode && activeEvent?.header);
 
   const headerHtml = DOMPurify.sanitize(
-    `<span class="font-bold">${
+    `<span class="font-semibold">${
       isPreviewMode ? previewEvent?.header : activeEvent?.header
     } | </span>`
   );
@@ -1208,7 +1195,7 @@ const BannerNoImageTemplate = ({
         backgroundColor: backgroundColor.hex.toString(),
         borderColor: borderColor.hex.toString(),
       }}
-      className={`relative flex flex-row h-fit min-h-[60px] min-w-[300px] items-center justify-center rounded-lg border shadow-lg ${
+      className={`relative flex flex-row h-fit min-h-[60px] min-w-[300px] max-w-[700px] items-center justify-center rounded-lg border shadow-lg ${
         isPreviewMode ? animation : ""
       } ${
         isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""

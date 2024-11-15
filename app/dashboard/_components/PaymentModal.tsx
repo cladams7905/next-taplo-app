@@ -101,10 +101,11 @@ export default function PaymentModal({
 
   return (
     <dialog id="payment_modal" className="modal" ref={paymentModalRef}>
-      <div className="modal-box flex md:flex-row flex-col items-center gap-4 max-w-screen-lg min-h-[95vh] bg-gradient-to-tr from-purple-200 via-primary/60 to-purple-100 font-sans">
-        <div className="flex flex-col items-center w-full h-full gap-6 lg:px-12">
+      <div className="modal-box relative flex md:flex-row flex-col items-center gap-4 max-w-screen-lg min-h-[95vh] font-sans">
+        <div className="absolute inset-0 h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] z-[0]"></div>
+        <div className="relative flex flex-col items-center w-full h-full gap-6 lg:px-12">
           <Image width={48} height={48} alt="logo" src={Logo} />
-          <p className="font-logo text-3xl">Start your 14-day free trial.</p>
+          <p className="font-logo text-3xl">Activate your free trial!</p>
           <p className="text-sm">
             <Lock
               width={16}
@@ -128,7 +129,7 @@ export default function PaymentModal({
                 </div>
               </div>
               <select
-                className="select select-bordered select-primary"
+                className="select select-bordered select-primary shadow-sm"
                 value={paymentPlan || "default"}
                 onChange={handleSelectPaymentPlan}
               >
@@ -146,11 +147,11 @@ export default function PaymentModal({
             <label className="form-control w-full">
               <div className="flex items-center gap-3">
                 <div className="label">
-                  <span className="label-text">How did you find us?</span>
+                  <span className="label-text">How did you find Taplo?</span>
                 </div>
               </div>
               <select
-                className="select select-bordered select-primary"
+                className="select select-bordered select-primary shadow-sm"
                 value={referralSource || "default"}
                 onChange={(e) => setReferralSource(e.target.value)}
               >
@@ -168,7 +169,7 @@ export default function PaymentModal({
             </label>
           </div>
         </div>
-        <div className="flex flex-col items-center w-full max-h-[90vh] rounded-lg md:overflow-y-scroll">
+        <div className="relative flex flex-col items-center w-full max-h-[90vh] rounded-lg md:overflow-y-scroll border border-gray-200 shadow-sm pb-5">
           {" "}
           <CheckoutSession
             user={user}

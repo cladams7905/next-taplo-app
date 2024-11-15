@@ -14,6 +14,7 @@ const config: Config = {
         default: {
           primary: "#7A81EB",
           secondary: "#F7E47F",
+          "primary-content": "#FFFFFF",
           accent: "#172554",
           neutral: "#D1D3D7" /**9ca3af */,
           "base-100": "#ffffff",
@@ -40,7 +41,7 @@ const config: Config = {
   theme: {
     extend: {
       height: {
-        "screen-minus-navbar": "calc(100vh - 64px)",
+        "screen-minus-navbar": "calc(100vh - 68px)",
       },
       fontFamily: {
         heading: ["var(--font-changaOne)"],

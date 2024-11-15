@@ -98,6 +98,7 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
 
   /**
    * Fetch the user's active subscription, if one exists
+   * If no active subscription is found, then don't show the popup notifications
    */
   const fetchActiveSubscription = useCallback(async () => {
     try {

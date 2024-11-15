@@ -119,6 +119,7 @@ export const getDefaultMessageOptions = (eventType: EventType) => {
     case EventType.Checkout:
       options = [
         DefaultMessages.Checkout,
+        "\\PERSON in \\LOCATION activated their free trial.",
         "\\PERSON in \\LOCATION added \\PRODUCT to cart.",
       ];
       break;
