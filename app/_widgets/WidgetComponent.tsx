@@ -5,11 +5,11 @@ import { Tables as StripeTables } from "@/lib/stripe/types";
 import { DisplayNotification, EventData } from "@/lib/types";
 import ExitPopupToast from "./ExitPopupToast";
 import {
-  countryAbbreviations,
   createChargesQueueEvents,
   createCheckoutQueueEvents,
   randomizeQueueOrder,
-  stateAbbreviations,
+  getFullCountryName,
+  getFullStateName,
 } from "./queueHelpers";
 import { ScreenAlignment } from "@/lib/enums";
 
@@ -180,10 +180,6 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
   useEffect(() => {
     const queue: DisplayNotification[] = [];
 
-    const getFullStateName = (abbreviation: string) =>
-      stateAbbreviations[abbreviation] || abbreviation;
-    const getFullCountryName = (abbreviation: string) =>
-      countryAbbreviations[abbreviation] || abbreviation;
     const getFirstName = (fullName: string) => fullName.split(" ")[0];
     let isChargesData,
       isCheckoutData = false;

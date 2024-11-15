@@ -4,20 +4,8 @@ import { showToastError } from "@/app/_components/shared/showToast";
 import { hexToRgba } from "@/lib/actions";
 import { updateProject } from "@/lib/actions/projects";
 import { ScreenAlignment, TemplateTypes } from "@/lib/enums";
-import {
-  BadgeCheck,
-  CheckIcon,
-  LayoutPanelTop,
-  Pencil,
-  ShoppingBag,
-} from "lucide-react";
-import {
-  Dispatch,
-  RefObject,
-  SetStateAction,
-  useState,
-  useTransition,
-} from "react";
+import { BadgeCheck, CheckCheck, CheckIcon, ShoppingBag } from "lucide-react";
+import { Dispatch, RefObject, SetStateAction, useTransition } from "react";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 
 export default function TemplateModal({
@@ -78,8 +66,9 @@ export default function TemplateModal({
         </form>
         <div className="flex items-center gap-6">
           <h3 className="font-semibold text-lg">Select Template</h3>
-          <div className="flex text-sm gap-2">
-            <Pencil size={20} /> {activeTemplate}
+          <div className="flex text-sm gap-1">
+            <CheckCheck size={20} />
+            Selected: {activeTemplate}
           </div>
           {isLoading && (
             <span className="loading loading-spinner loading-sm bg-base-content"></span>

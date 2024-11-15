@@ -3,6 +3,8 @@ import Stripe from "stripe";
 import { convertDateTime, replaceVariablesInContentBody } from "@/lib/actions";
 import { DisplayNotification, EventData, MessageData } from "@/lib/types";
 import { Tables } from "@/lib/supabase/types";
+import countryCodes from "./countrycodes.json";
+import stateCodes from "./statecodes.json";
 
 /**
  * Randomizes the order of the queue
@@ -164,60 +166,22 @@ export const createCheckoutQueueEvents = (
   });
 };
 
-export const stateAbbreviations: { [key: string]: string } = {
-  AL: "Alabama",
-  AK: "Alaska",
-  AZ: "Arizona",
-  AR: "Arkansas",
-  CA: "California",
-  CO: "Colorado",
-  CT: "Connecticut",
-  DE: "Delaware",
-  FL: "Florida",
-  GA: "Georgia",
-  HI: "Hawaii",
-  ID: "Idaho",
-  IL: "Illinois",
-  IN: "Indiana",
-  IA: "Iowa",
-  KS: "Kansas",
-  KY: "Kentucky",
-  LA: "Louisiana",
-  ME: "Maine",
-  MD: "Maryland",
-  MA: "Massachusetts",
-  MI: "Michigan",
-  MN: "Minnesota",
-  MS: "Mississippi",
-  MO: "Missouri",
-  MT: "Montana",
-  NE: "Nebraska",
-  NV: "Nevada",
-  NH: "New Hampshire",
-  NJ: "New Jersey",
-  NM: "New Mexico",
-  NY: "New York",
-  NC: "North Carolina",
-  ND: "North Dakota",
-  OH: "Ohio",
-  OK: "Oklahoma",
-  OR: "Oregon",
-  PA: "Pennsylvania",
-  RI: "Rhode Island",
-  SC: "South Carolina",
-  SD: "South Dakota",
-  TN: "Tennessee",
-  TX: "Texas",
-  UT: "Utah",
-  VT: "Vermont",
-  VA: "Virginia",
-  WA: "Washington",
-  WV: "West Virginia",
-  WI: "Wisconsin",
-  WY: "Wyoming",
+/**
+ * Gets the full name of a country based on the Stripe abbreviation code.
+ * @param countryKey the two-letter country abbreviation
+ * @returns the country name, or empty string if not found
+ */
+export const getFullCountryName = (countryKey: string) => {
+  const country = countryCodes.find((c) => c.key === countryKey);
+  return country?.name || "";
 };
 
-export const countryAbbreviations: { [key: string]: string } = {
-  US: "United States",
-  USA: "United States",
+/**
+ * Gets the full name of a state based on the abbreviation code.
+ * @param stateKey the two-letter state abbreviation
+ * @returns the state name, or empty string if not found
+ */
+export const getFullStateName = (stateKey: string) => {
+  const state = stateCodes.find((s) => s.key === stateKey);
+  return state?.name || "";
 };

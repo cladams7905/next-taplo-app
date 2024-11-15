@@ -212,7 +212,7 @@ export default function NewEventModal({
           <div className="flex flex-col items-center justify-center sticky bottom-0 bg-white pb-6">
             {eventsToCreate.length > 0 && (
               <div
-                className="btn btn-primary mb-8 text-white min-w-[146px]"
+                className="btn btn-primary mb-2 text-white min-w-[146px]"
                 onClick={() => createSelectedEvents()}
               >
                 {isLoading ? (
