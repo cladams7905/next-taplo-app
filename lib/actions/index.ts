@@ -66,7 +66,7 @@ function getLiveModeTimeDifference(now: Date, inputDate: Date): string {
   const diffInDays = Math.floor(diffInHours / 24);
 
   if (diffInSeconds < 60) {
-    return `just now`;
+    return `Just now`;
   } else if (diffInMinutes < 60) {
     return `${diffInMinutes} ${
       diffInMinutes === 1 ? "minute ago" : "minutes ago"
@@ -337,7 +337,11 @@ export const replaceVariablesInContentBody = (
       case ContentVars.Product:
         return getProductHTML();
       case ContentVars.NumUsers:
-        return isPopup ? "20" : "#";
+        return isLiveMode && messageData?.numActiveUsers
+          ? messageData.numActiveUsers
+          : isPopup
+          ? "20"
+          : "#";
       case ContentVars.ProjectName:
         return isPopup && projectName ? projectName : "ProjectName";
       case ContentVars.Price:
@@ -350,7 +354,7 @@ export const replaceVariablesInContentBody = (
   };
 
   const getLocationString = (messageData?: MessageData) => {
-    if (isLiveMode && messageData?.customerAddress.country) {
+    if (isLiveMode && messageData?.customerAddress?.country) {
       const { city, state, country } = messageData?.customerAddress;
       const locationParts = [city, state, country].filter(Boolean);
       return locationParts.join(", ");

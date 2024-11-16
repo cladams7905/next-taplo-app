@@ -19,7 +19,7 @@ export interface GoogleData {
   activeUsers?: {
     country: string;
     city: string;
-    userCount: string;
+    visitorCount: string;
   }[];
 }
 
@@ -32,9 +32,10 @@ export interface DisplayNotification {
 
 export interface MessageData {
   customerName?: string | null;
-  customerAddress: {
+  customerAddress?: {
     city?: string | null;
     state?: string | null;
     country?: string | null;
   };
+  numActiveUsers?: number | null;
 }

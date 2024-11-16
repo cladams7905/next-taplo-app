@@ -15,7 +15,7 @@ export enum EventType {
 export enum DefaultMessages {
   Purchase = "\\PERSON in \\LOCATION purchased \\PRODUCT.",
   Checkout = "\\PERSON in \\LOCATION is considering buying \\PRODUCT.",
-  ActiveUsers = "\\NUMUSERS users are online now.",
+  ActiveUsers = "\\NUMUSERS user(s) are online now.",
   SomeoneViewing = "Someone in \\LOCATION is viewing \\PROJECTNAME's products.",
   CustomerTrends = "Over the past X days, X has gained X new customers.",
 }

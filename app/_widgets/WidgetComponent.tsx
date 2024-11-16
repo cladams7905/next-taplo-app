@@ -10,6 +10,7 @@ import {
   randomizeQueueOrder,
   getFullCountryName,
   getFullStateName,
+  createActiveUsersQueueEvents,
 } from "./queueHelpers";
 import { ScreenAlignment } from "@/lib/enums";
 
@@ -159,20 +160,24 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
    * Fetch project, events, active subscription, and products
    */
   useEffect(() => {
-    fetchProject();
+    const fetchData = async () => {
+      await fetchProject();
+    };
+    fetchData();
   }, [fetchProject]);
 
   useEffect(() => {
-    fetchEvents();
-  }, [fetchEvents, projectData]);
+    if (projectData) {
+      fetchEvents(); // Only call fetchEvents if projectData is available
+    }
+  }, [projectData, fetchEvents]);
 
   useEffect(() => {
-    fetchActiveSubscription();
-  }, [fetchActiveSubscription]);
-
-  useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
+    if (projectData) {
+      fetchActiveSubscription();
+      fetchProducts();
+    }
+  }, [projectData, fetchActiveSubscription, fetchProducts]);
 
   /**
    * Create a queue of notification events to be shown based on integration data
@@ -181,14 +186,15 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
     const queue: DisplayNotification[] = [];
 
     const getFirstName = (fullName: string) => fullName.split(" ")[0];
-    let isChargesData,
-      isCheckoutData = false;
 
     if (window.location.hostname === "localhost") {
       console.log("eventData:", eventData);
     }
 
-    if (eventData?.stripeData?.charges) {
+    if (
+      eventData?.stripeData?.charges &&
+      eventData.stripeData.charges.length > 0
+    ) {
       createChargesQueueEvents(
         eventData,
         productData,
@@ -198,9 +204,11 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
         queue,
         projectData
       );
-      isChargesData = true;
     }
-    if (eventData?.stripeData?.checkoutSessions) {
+    if (
+      eventData?.stripeData?.checkoutSessions &&
+      eventData.stripeData.checkoutSessions.length > 0
+    ) {
       createCheckoutQueueEvents(
         eventData,
         productData,
@@ -210,13 +218,16 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
         queue,
         projectData
       );
-      isCheckoutData = true;
+    }
+    if (
+      eventData?.googleData?.activeUsers &&
+      eventData.googleData.activeUsers.length > 0
+    ) {
+      createActiveUsersQueueEvents(eventData, queue, projectData);
     }
 
-    //If there is more than one type of event in the queue, randomize queue order before setting it
-    if (isChargesData || isCheckoutData) randomizeQueueOrder(queue);
-
-    setNotificationQueue(queue);
+    //Randomize queue order before setting it
+    setNotificationQueue(randomizeQueueOrder(queue));
   }, [eventData, productData, projectData]);
 
   useEffect(() => {

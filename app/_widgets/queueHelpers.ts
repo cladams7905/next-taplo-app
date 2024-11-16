@@ -84,7 +84,9 @@ export const createChargesQueueEvents = (
         true
       ),
       event: purchaseEvent,
-      product: purchaseEvent?.message.includes("\\PRODUCT") ? product : null,
+      product: purchaseEvent?.message.includes("\\PRODUCT")
+        ? product
+        : undefined,
     } as DisplayNotification);
   });
 };
@@ -161,9 +163,83 @@ export const createCheckoutQueueEvents = (
         true
       ),
       event: checkoutEvent,
-      product: checkoutEvent?.message.includes("\\PRODUCT") ? product : null,
+      product: checkoutEvent?.message.includes("\\PRODUCT")
+        ? product
+        : undefined,
     } as DisplayNotification);
   });
+};
+
+/**
+ * Creates a queue of events to be shown based on google analytics active users data
+ * (used for "Someone is Viewing" and "Active Users" events)
+ */
+export const createActiveUsersQueueEvents = (
+  eventData: EventData,
+  queue: DisplayNotification[],
+  projectData: Tables<"Projects"> | undefined
+) => {
+  const activeUsersEvent = eventData.events.find(
+    (event) => event.event_type === EventType.ActiveUsers
+  );
+  const someoneIsViewingEvent = eventData.events.find(
+    (event) => event.event_type === EventType.SomeoneViewing
+  );
+
+  if (activeUsersEvent) {
+    const totalVisitorCount = eventData.googleData?.activeUsers?.reduce(
+      (acc, user) => acc + (parseInt(user.visitorCount) || 0),
+      0
+    );
+    if (totalVisitorCount && totalVisitorCount > 0) {
+      const messageData: MessageData = {
+        numActiveUsers: totalVisitorCount,
+      };
+      queue.push({
+        message: replaceVariablesInContentBody(
+          activeUsersEvent?.message || "",
+          true, // isPopup
+          true, // isLiveMode
+          false, //isShowProductAsLink = false
+          undefined,
+          projectData?.name,
+          projectData?.bg_color || "#FFFFFF",
+          projectData?.accent_color || "#7A81EB",
+          messageData
+        ),
+        time: convertDateTime(new Date().toUTCString(), false, true),
+        event: activeUsersEvent,
+        product: undefined,
+      } as DisplayNotification);
+    }
+  }
+
+  if (someoneIsViewingEvent) {
+    eventData.googleData?.activeUsers?.forEach((activeUser) => {
+      const messageData: MessageData = {
+        customerAddress: {
+          city: activeUser.city,
+          country: activeUser.country,
+        },
+      };
+      queue.push({
+        message: replaceVariablesInContentBody(
+          someoneIsViewingEvent?.message || "",
+          true, // isPopup
+          true, // isLiveMode
+          false, //isShowProductAsLink = false
+          undefined,
+          projectData?.name,
+          projectData?.bg_color || "#FFFFFF",
+          projectData?.accent_color || "#7A81EB",
+          messageData
+        ),
+        time: convertDateTime(new Date().toUTCString(), false, true),
+        event: someoneIsViewingEvent,
+        product: undefined,
+      } as DisplayNotification);
+    });
+  }
 };
 
 /**

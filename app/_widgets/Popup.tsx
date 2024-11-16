@@ -96,7 +96,7 @@ export default function PopupWidget({
 const EventIcon = (
   eventType: EventType,
   project: Tables<"Projects">,
-  size: "lg" | "md" | "sm" = "lg"
+  size: "lg" | "md" | "sm" = "md"
 ) => {
   const iconSize = size === "lg" ? 38 : size === "md" ? 28 : 20;
   switch (eventType) {
