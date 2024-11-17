@@ -143,7 +143,7 @@ export default function ProjectDropdown({
                           }, 1000);
                         }}
                       >
-                        <a className="w-full flex justify-between">
+                        <a className="w-full flex justify-between text-base-content">
                           {checkStringLength(project.name)}
                           {activeProject?.id === project.id && !isPending && (
                             <Check

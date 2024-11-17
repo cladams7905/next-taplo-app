@@ -172,13 +172,11 @@ async function getGoogleAnalyticsData(
   integrationData: IntegrationData
 ) {
   switch (event.event_type as EventType) {
+    case EventType.SomeoneViewing:
     case EventType.ActiveUsers:
       integrationData.googleData.activeUsers = await getActiveUsersFromGoogle(
         integration
       );
-      break;
-    case EventType.SomeoneViewing:
-      // Handle SomeoneViewing event type if needed
       break;
   }
 }

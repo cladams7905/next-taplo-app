@@ -106,7 +106,7 @@ export const getDefaultMessageOptions = (eventType: EventType) => {
     case EventType.ActiveUsers:
       options = [
         DefaultMessages.ActiveUsers,
-        "\\NUMUSERS user(s) are currently considering \\PROJECTNAME's products.",
+        "\\NUMUSERS user(s) are currently exploring \\PROJECTNAME's products.",
       ];
       break;
     case EventType.Purchase:
