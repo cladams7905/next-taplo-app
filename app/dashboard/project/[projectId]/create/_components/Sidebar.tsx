@@ -76,7 +76,7 @@ export default function Sidebar({ isPreviewMode }: { isPreviewMode: boolean }) {
   return (
     <div
       ref={scrollParentRef}
-      className="rounded-none relative w-full h-full border-l border-gray-300 bg-white overflow-y-scroll overflow-x-hidden shadow-xl"
+      className="rounded-none relative w-full h-full border-l md:!border-t-0 border-t border-gray-300 bg-white overflow-y-scroll overflow-x-hidden"
     >
       <EventSettings
         scrollRef={scrollParentRef}

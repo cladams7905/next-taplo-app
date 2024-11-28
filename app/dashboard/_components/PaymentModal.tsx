@@ -46,9 +46,17 @@ export default function PaymentModal({
   const paymentModalRef = useRef<HTMLDialogElement>(null);
 
   const [isCheckoutComplete, setCheckoutComplete] = useState(false);
-  const formattedBillingDate = convertDateTime(
-    toDateTime(calculateBillingCycle()).toUTCString()
-  );
+
+  const [formattedBillingDate, setFormattedBillingDate] = useState<string>("");
+
+  // Calculate the billing date only on the client
+  useEffect(() => {
+    const billingDate = convertDateTime(
+      toDateTime(calculateBillingCycle()).toUTCString()
+    );
+    setFormattedBillingDate(billingDate);
+  }, []);
+
   const [selectedProduct, setSelectedProduct] = useState(products[2]); // defaults to starter yearly
   const [paymentPlan, setPaymentPlan] = useState<string | null>(
     selectedProduct.payment_plan
@@ -117,9 +125,9 @@ export default function PaymentModal({
           </p>
           <p className="text-sm">
             No payment will be processed until{" "}
-            <span className="font-bold">{formattedBillingDate}</span>. If you
-            decide you want to cancel or change your subscription, you may do so
-            from your Account page.
+            <span className="font-bold">{formattedBillingDate || ""}</span>. If
+            you decide you want to cancel or change your subscription, you may
+            do so from your Account page.
           </p>
           <div className="flex flex-col items-center w-full gap-1 lg:mb-0 mb-6">
             <label className="form-control w-full">

@@ -138,7 +138,7 @@ const ProductList = ({
             className={`relative flex flex-row w-full items-center rounded-lg bg-white border border-gray-200 px-4 py-6 shadow-sm`}
           >
             <div
-              className={`absolute top-0 left-0 rounded-l-lg w-[6px] h-full outline-1 outline-primary ${
+              className={`absolute top-0 left-0 rounded-l-lg w-1 h-full outline-1 outline-primary ${
                 activeProduct && activeProduct.id === product.id
                   ? "block bg-primary"
                   : "hidden"

@@ -26,8 +26,8 @@ const EventSettings = ({
     >
       <div
         className={`sticky top-0 w-full min-h-[65px] p-4 bg-white ${
-          scrolled ? "border-b border-gray-300 -mb-[1px] shadow-sm" : ""
-        } ${isPreviewMode ? "z-[1]" : "z-40"}`}
+          scrolled ? "border-b border-gray-300 -mb-[1px]" : ""
+        } ${isPreviewMode ? "z-[1]" : "z-30"}`}
       >
         <EventsHeader isEventPending={isEventPending} />
       </div>

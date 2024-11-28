@@ -37,7 +37,6 @@ export default function CheckoutSession({
   setCheckoutComplete: Dispatch<SetStateAction<boolean>>;
   selectReferralSource: () => Promise<void>;
 }) {
-  const freeTrialDate = toDateTime(calculateBillingCycle()).toUTCString();
   const fetchClientSecret = useCallback(async () => {
     const customerId = await createOrRetrieveCustomer({
       email: email,
@@ -82,6 +81,7 @@ export default function CheckoutSession({
   }, [priceId, productId, email, selectReferralSource, user]);
 
   const onComplete = useCallback(async () => {
+    const freeTrialDate = toDateTime(calculateBillingCycle()).toUTCString();
     setFreeTrialDate(freeTrialDate);
     setCheckoutComplete(true);
 
@@ -94,6 +94,9 @@ export default function CheckoutSession({
       console.log(error);
       showToastError(error);
     } else {
+      //send welcome email
+      sendWelcomeEmail(freeTrialDate);
+
       showToast(
         `All set! Your free trial will end on ${convertDateTime(
           freeTrialDate
@@ -101,7 +104,28 @@ export default function CheckoutSession({
         change your subscription preferences, you may do so from your "Account" page.`
       );
     }
-  }, [setFreeTrialDate, setCheckoutComplete, freeTrialDate, user.id]);
+  }, [setFreeTrialDate, setCheckoutComplete, user.id]);
+
+  const sendWelcomeEmail = async (freeTrialDate: string) => {
+    const res = await fetch("/api/v1/email/send", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: "Taplo",
+        to: user?.email,
+        subject: "Welcome to Taplo!",
+        template: "welcome email",
+        mailgun_variables: {
+          firstname: user?.user_metadata.name || "new Taplo user",
+          free_trial_end_date: convertDateTime(freeTrialDate),
+        },
+      }),
+    });
+    const data = await res.json();
+    console.log(data);
+  };
 
   const options = {
     fetchClientSecret,

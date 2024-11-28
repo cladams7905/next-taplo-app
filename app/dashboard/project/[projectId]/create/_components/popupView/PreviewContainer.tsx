@@ -16,7 +16,7 @@ export default function PreviewContainer({
   return (
     <div
       ref={previewRef}
-      className="items-center justify-center fixed hidden w-full h-full top-0 left-0 z-50 bg-black/30 text-lg p-5"
+      className="items-center justify-center fixed hidden w-full h-full top-0 left-0 z-[80] bg-black/30 text-lg p-5"
     >
       <div
         className={`absolute p-[inherit] 

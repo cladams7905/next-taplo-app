@@ -26,7 +26,7 @@ export default async function Signup() {
           </div>
         </Link>
       </div>
-      <div className="relative flex min-h-screen w-full flex-col items-center justify-between sm:px-24 px-8 font-sans">
+      <div className="relative flex w-full h-full min-h-[calc(100vh_-_64px)] flex-col items-center sm:px-24 px-8 font-sans">
         <RegisterForm user={userData.user as User} />
       </div>
     </main>

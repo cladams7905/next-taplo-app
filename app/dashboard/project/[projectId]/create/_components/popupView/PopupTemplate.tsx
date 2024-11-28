@@ -207,7 +207,7 @@ export default function PopupTemplate({
             previewContentBody={previewContentBody}
             shouldDisplayImage={shouldDisplayImage}
           />
-          <div className="text-xs flex items-center gap-2">
+          <div className="text-xs flex items-center gap-2 font-light">
             <InfoCircledIcon width={13} height={13} /> Demo data only
           </div>
         </div>
@@ -223,7 +223,7 @@ export default function PopupTemplate({
             contentBody={contentBodyHtml}
             previewContentBody={previewContentBody}
           />
-          <div className="text-xs flex items-center gap-2">
+          <div className="text-xs flex items-center gap-2 font-light">
             <InfoCircledIcon width={13} height={13} /> Demo data only
           </div>
         </div>
@@ -240,7 +240,7 @@ export default function PopupTemplate({
             previewContentBody={previewContentBody}
             shouldDisplayImage={shouldDisplayImage}
           />
-          <div className="text-xs flex items-center gap-2">
+          <div className="text-xs flex items-center gap-2 font-light">
             <InfoCircledIcon width={13} height={13} /> Demo data only
           </div>
         </div>
@@ -256,7 +256,7 @@ export default function PopupTemplate({
             contentBody={contentBodyHtml}
             previewContentBody={previewContentBody}
           />
-          <div className="text-xs flex items-center gap-2">
+          <div className="text-xs flex items-center gap-2 font-light">
             <InfoCircledIcon width={13} height={13} /> Demo data only
           </div>
         </div>
@@ -273,7 +273,7 @@ export default function PopupTemplate({
             previewContentBody={previewContentBody}
             shouldDisplayImage={shouldDisplayImage}
           />
-          <div className="text-xs flex items-center gap-2">
+          <div className="text-xs flex items-center gap-2 font-light">
             <InfoCircledIcon width={13} height={13} /> Demo data only
           </div>
         </div>
@@ -289,7 +289,7 @@ export default function PopupTemplate({
             contentBody={contentBodyHtml}
             previewContentBody={previewContentBody}
           />
-          <div className="text-xs flex items-center gap-2">
+          <div className="text-xs flex items-center gap-2 font-light">
             <InfoCircledIcon width={13} height={13} /> Demo data only
           </div>
         </div>
@@ -306,7 +306,7 @@ export default function PopupTemplate({
             previewContentBody={previewContentBody}
             shouldDisplayImage={shouldDisplayImage}
           />
-          <div className="text-xs flex items-center gap-2">
+          <div className="text-xs flex items-center gap-2 font-light">
             <InfoCircledIcon width={13} height={13} /> Demo data only
           </div>
         </div>
@@ -322,7 +322,7 @@ export default function PopupTemplate({
             contentBody={contentBodyHtml}
             previewContentBody={previewContentBody}
           />
-          <div className="text-xs flex items-center gap-2">
+          <div className="text-xs flex items-center gap-2 font-light">
             <InfoCircledIcon width={13} height={13} /> Demo data only
           </div>
         </div>

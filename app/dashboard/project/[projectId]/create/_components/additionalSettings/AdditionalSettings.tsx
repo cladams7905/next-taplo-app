@@ -65,7 +65,7 @@ export default function AdditionalSettings({
       <div className="flex flex-col w-full h-fit">
         <div
           className={`flex items-center sticky top-[-1px] px-4 py-6 gap-2 bg-white border-gray-300 ${
-            scrolled ? "border-b -mb-[1px] shadow-sm" : ""
+            scrolled ? "border-b -mb-[1px]" : ""
           } ${isPreviewMode ? "z-[1]" : "z-[2]"}`}
         >
           <div className="font-semibold ml-2 text-md">Settings</div>

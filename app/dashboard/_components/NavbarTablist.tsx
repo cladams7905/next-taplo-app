@@ -75,7 +75,7 @@ export default function NavbarTabList({
         >
           Insights
         </div>
-        <div className="absolute -right-[90px] mb-[6px] badge badge-primary bg-primary/20 border-none text-primary">
+        <div className="absolute -right-[75px] mb-[6px] badge badge-primary text-xs bg-primary/20 border-none text-primary">
           Coming soon!
         </div>
       </div>

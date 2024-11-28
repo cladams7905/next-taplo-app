@@ -69,66 +69,68 @@ export default function ProjectDetails({
   }
 
   return (
-    <div className="flex flex-col border border-gray-200 rounded-lg px-6 gap-4 py-4 text-sm">
-      <p className="text-lg font-bold mb-4">Project Settings</p>
-      <div className="flex flex-col items-center justify-center w-full">
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="w-full space-y-6 font-sans"
-            autoComplete="on"
-          >
-            <FormField
-              control={form.control}
-              name="projectName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Project Name</FormLabel>
-                  <FormControl>
-                    <input
-                      placeholder="My Project"
-                      className="input input-bordered flex items-center gap-2 w-full"
-                      {...field}
-                      type="text"
-                      onChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="projectUrl"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Project URL</FormLabel>
-                  <FormControl>
-                    <input
-                      placeholder="https://www.my-project.com"
-                      className="input input-bordered flex items-center gap-2 w-full"
-                      {...field}
-                      type="text"
-                      onChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <div
-              onClick={form.handleSubmit(onSubmit)}
-              className={`md:w-fit w-full btn btn-primary mt-2 text-base-100 ${
-                form.getValues("projectName") === activeProject.name &&
-                (form.getValues("projectUrl") || "") ===
-                  (activeProject.public_url || "") &&
-                "btn-disabled"
-              }`}
+    <div className="flex flex-col justify-center items-center w-full">
+      <div className="flex flex-col items-center justify-center lg:max-w-[50%] w-full rounded-lg gap-4 py-4 text-sm">
+        <p className="text-lg font-bold mb-4">Project Settings</p>
+        <div className="flex flex-col items-center justify-center w-full">
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="w-full space-y-6 font-sans"
+              autoComplete="on"
             >
-              {isPending ? <LoadingDots color="#FFFFFF" /> : "Save changes"}
-            </div>
-          </form>
-        </Form>
+              <FormField
+                control={form.control}
+                name="projectName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Project Name</FormLabel>
+                    <FormControl>
+                      <input
+                        placeholder="My Project"
+                        className="input input-bordered flex items-center gap-2 w-full"
+                        {...field}
+                        type="text"
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="projectUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Project URL</FormLabel>
+                    <FormControl>
+                      <input
+                        placeholder="https://www.my-project.com"
+                        className="input input-bordered flex items-center gap-2 w-full"
+                        {...field}
+                        type="text"
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <div
+                onClick={form.handleSubmit(onSubmit)}
+                className={`md:w-fit w-full btn btn-primary mt-2 text-base-100 ${
+                  form.getValues("projectName") === activeProject.name &&
+                  (form.getValues("projectUrl") || "") ===
+                    (activeProject.public_url || "") &&
+                  "btn-disabled"
+                }`}
+              >
+                {isPending ? <LoadingDots color="#FFFFFF" /> : "Save changes"}
+              </div>
+            </form>
+          </Form>
+        </div>
       </div>
     </div>
   );

@@ -16,14 +16,12 @@ export default function ProjectBoard({
   fetchedIntegrations,
   fetchedEvents,
   fetchedProducts,
-  featuresVoteToken,
 }: {
   user: User;
   fetchedActiveProject: Tables<"Projects">;
   fetchedIntegrations: Tables<"Integrations">[] | null;
   fetchedEvents: Tables<"Events">[] | null;
   fetchedProducts: Tables<"Products">[] | null;
-  featuresVoteToken: string | undefined;
 }) {
   /**
    * Active Project: the project which is currently being displayed from
@@ -187,7 +185,6 @@ export default function ProjectBoard({
       <main className="flex lg:flex-row md:flex-row flex-col w-full h-screen-minus-navbar">
         <div className="lg:w-[60%] w-full">
           <ViewContainer
-            featuresVoteToken={featuresVoteToken}
             isPreviewMode={isPreviewMode}
             setPreviewMode={setPreviewMode}
           />

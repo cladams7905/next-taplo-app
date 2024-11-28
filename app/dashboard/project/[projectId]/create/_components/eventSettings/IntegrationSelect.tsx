@@ -197,7 +197,7 @@ export default function IntegrationSelect({
         <div
           tabIndex={0}
           ref={toggleModalRef}
-          className="menu menu-sm dropdown-content bg-white border border-gray-200 shadow-md z-[1] rounded-lg w-full mt-1 h-fit max-h-44 p-0"
+          className="menu menu-sm dropdown-content bg-white border border-gray-200 shadow-md z-[1] rounded-lg w-full mt-1 h-fit max-h-44 min-h-11"
         >
           <ul className="h-full w-full overflow-y-scroll">
             {filteredIntegrations.length > 0 ? (
@@ -230,7 +230,7 @@ export default function IntegrationSelect({
                 </li>
               ))
             ) : (
-              <div className="text-gray-400 text-xs">
+              <div className="text-gray-400 text-xs px-1 pt-1">
                 {isInProductModal
                   ? "You don't have any integrations connected that are able to fetch products. Please first create a Stripe integration to fetch products."
                   : 'You haven\'t created any integrations for this event yet. Click "+" to create a new one!'}

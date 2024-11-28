@@ -79,8 +79,8 @@ export default function TemplateModal({
             className={`relative flex flex-col px-4 items-center justify-center
             ${
               activeTemplate === TemplateTypes.SmPopup &&
-              "outline outline-[3px] outline-primary"
-            } bg-primary/50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform`}
+              "outline outline-[2px] outline-primary"
+            } bg-gray-50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[2px] hover:outline-primary hover:-translate-y-1 transition-transform`}
             onClick={() => handleSetActiveTemplate(TemplateTypes.SmPopup)}
           >
             <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
@@ -98,8 +98,8 @@ export default function TemplateModal({
             className={`relative flex flex-col px-4 items-center justify-center
             ${
               activeTemplate === TemplateTypes.SmPopupNoImg &&
-              "outline outline-[3px] outline-primary"
-            } bg-primary/50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform`}
+              "outline outline-[2px] outline-primary"
+            } bg-gray-50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[2px] hover:outline-primary hover:-translate-y-1 transition-transform`}
             onClick={() => handleSetActiveTemplate(TemplateTypes.SmPopupNoImg)}
           >
             <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
@@ -117,8 +117,8 @@ export default function TemplateModal({
             className={`relative flex flex-col px-2 items-center justify-center
             ${
               activeTemplate === TemplateTypes.LgPopup &&
-              "outline outline-[3px] outline-primary"
-            } bg-primary/50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform`}
+              "outline outline-[2px] outline-primary"
+            } bg-gray-50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 cursor-pointer hover:outline hover:outline-[2px] hover:outline-primary hover:-translate-y-1 transition-transform`}
             onClick={() => handleSetActiveTemplate(TemplateTypes.LgPopup)}
           >
             <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
@@ -136,8 +136,8 @@ export default function TemplateModal({
             className={`relative flex flex-col px-2 items-center justify-center
             ${
               activeTemplate === TemplateTypes.LgPopupNoImg &&
-              "outline outline-[3px] outline-primary"
-            } bg-primary/50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform`}
+              "outline outline-[2px] outline-primary"
+            } bg-gray-50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 cursor-pointer hover:outline hover:outline-[2px] hover:outline-primary hover:-translate-y-1 transition-transform`}
             onClick={() => handleSetActiveTemplate(TemplateTypes.LgPopupNoImg)}
           >
             <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
@@ -155,8 +155,8 @@ export default function TemplateModal({
             className={`relative flex flex-col px-2 items-center justify-center
             ${
               activeTemplate === TemplateTypes.Card &&
-              "outline outline-[3px] outline-primary"
-            } bg-primary/50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform`}
+              "outline outline-[2px] outline-primary"
+            } bg-gray-50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[2px] hover:outline-primary hover:-translate-y-1 transition-transform`}
             onClick={() => handleSetActiveTemplate(TemplateTypes.Card)}
           >
             <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
@@ -174,8 +174,8 @@ export default function TemplateModal({
             className={`relative flex flex-col px-2 items-center justify-center
             ${
               activeTemplate === TemplateTypes.CardNoImg &&
-              "outline outline-[3px] outline-primary"
-            } bg-primary/50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform`}
+              "outline outline-[2px] outline-primary"
+            } bg-gray-50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[2px] hover:outline-primary hover:-translate-y-1 transition-transform`}
             onClick={() => handleSetActiveTemplate(TemplateTypes.CardNoImg)}
           >
             <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
@@ -193,8 +193,8 @@ export default function TemplateModal({
             className={`relative flex flex-col px-4 items-center justify-center
             ${
               activeTemplate === TemplateTypes.Banner &&
-              "outline outline-[3px] outline-primary"
-            } bg-primary/50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform`}
+              "outline outline-[2px] outline-primary"
+            } bg-gray-50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[2px] hover:outline-primary hover:-translate-y-1 transition-transform`}
             onClick={() => handleSetActiveTemplate(TemplateTypes.Banner)}
           >
             <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
@@ -212,8 +212,8 @@ export default function TemplateModal({
             className={`relative flex flex-col px-4 items-center justify-center
             ${
               activeTemplate === TemplateTypes.BannerNoImg &&
-              "outline outline-[3px] outline-primary"
-            } bg-primary/50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[3px] hover:outline-primary hover:-translate-y-1 transition-transform`}
+              "outline outline-[2px] outline-primary"
+            } bg-gray-50 outline outline-1 outline-gray-300 rounded-lg h-full w-72 min-w-72 p-4 cursor-pointer hover:outline hover:outline-[2px] hover:outline-primary hover:-translate-y-1 transition-transform`}
             onClick={() => handleSetActiveTemplate(TemplateTypes.BannerNoImg)}
           >
             <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>

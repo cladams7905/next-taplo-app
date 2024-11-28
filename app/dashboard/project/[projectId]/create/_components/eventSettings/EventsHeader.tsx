@@ -37,7 +37,7 @@ export default function EventsHeader({
         </div>
       </div>
       <div
-        className="btn btn-sm w-auto btn-primary text-white text-xs tooltip tooltip-left tooltip-info flex items-center"
+        className="btn btn-sm bg-gray-100 hover:!bg-link-hover w-auto text-xs tooltip tooltip-left tooltip-info flex items-center"
         data-tip="Create Event"
         onClick={() => {
           eventModalRef.current?.showModal();

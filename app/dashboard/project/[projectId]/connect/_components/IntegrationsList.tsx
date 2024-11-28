@@ -130,11 +130,8 @@ export default function IntegrationsList({
       );
     })
   ) : (
-    <div className="flex flex-col gap-2 text-gray-400 mt-4 items-center border border-gray-200 rounded-lg py-12">
-      {" "}
-      <div className="text-md">
-        You haven&apos;t created any integrations yet.
-      </div>
+    <div className="flex flex-col gap-2 text-gray-400 mt-4 items-center border border-gray-200 rounded-lg py-2 pr-4 min-h-11">
+      You haven&apos;t created any integrations yet.
       <div className="flex flex-row items-center gap-2">
         Click{" "}
         <span>

@@ -32,7 +32,7 @@ li > a:hover:not(.tab) {
 }
 
 .tab-active::after {
-  @apply content-[""] flex items-center mt-8 w-8 h-[5px] rounded-sm bg-primary absolute transition-opacity duration-300 ease-in-out
+  @apply content-[""] flex items-center mt-8 w-8 h-[4px] rounded-sm bg-primary absolute transition-opacity duration-300 ease-in-out
 }
 
 .tabs-lifted>.tab-active::after {

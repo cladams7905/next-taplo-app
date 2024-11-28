@@ -21,9 +21,13 @@ export default async function SettingsPage() {
     <div className="flex items-center justify-center w-full h-full md:px-24 sm:px-10">
       <div className="w-full h-full flex flex-col gap-6 px-8 md:pt-12 pt-6 overflow-y-scroll bg-white border-x border-b border-gray-300">
         <ProjectDetails fetchedActiveProject={activeProject} />
-        <div className="flex flex-col border border-error rounded-lg px-6 py-4 gap-3 text-sm">
-          <p className="font-bold text-error">Danger Zone</p>
-          <DeleteProjectModal activeProject={activeProject} />
+        <div className="flex w-full items-center justify-center">
+          <div className="flex items-center justify-center lg:max-w-[50%] w-full">
+            <div className="flex flex-col w-full border border-error rounded-lg px-6 py-4 gap-3 text-sm">
+              <p className="font-bold text-error">Danger Zone</p>
+              <DeleteProjectModal activeProject={activeProject} />
+            </div>
+          </div>
         </div>
       </div>
     </div>

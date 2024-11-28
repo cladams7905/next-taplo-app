@@ -5,7 +5,6 @@ import { redirect } from "next/navigation";
 import { getIntegrations } from "@/lib/actions/integrations";
 import { getEvents } from "@/lib/actions/events";
 import { getProducts } from "@/lib/actions/products";
-import { fetchToken } from "@/lib/actions/featuresvote";
 
 export default async function CreatePopupPage() {
   const supabase = createClient();
@@ -22,7 +21,6 @@ export default async function CreatePopupPage() {
   const { data: integrations } = await getIntegrations(activeProject.id);
   const { data: events } = await getEvents(activeProject.id);
   const { data: products } = await getProducts(activeProject.id);
-  const featuresVoteToken = await fetchToken(data.user);
 
   return (
     <ProjectBoard
@@ -31,7 +29,6 @@ export default async function CreatePopupPage() {
       fetchedIntegrations={integrations}
       fetchedEvents={events}
       fetchedProducts={products}
-      featuresVoteToken={featuresVoteToken}
     />
   );
 }

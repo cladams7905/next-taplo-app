@@ -56,7 +56,7 @@ const EventsList = ({
         onClick={(e) => toggleAccordion(e.currentTarget.classList)}
       >
         <div
-          className={`absolute w-[6px] h-full z-[0] rounded-l-lg ${
+          className={`absolute w-1 h-full z-[0] rounded-l-lg ${
             activeEvent && activeEvent.id === event.id
               ? "block bg-primary"
               : "hidden"

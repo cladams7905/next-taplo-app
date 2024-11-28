@@ -58,18 +58,13 @@ function UserDropdown({
             </div>
           ) : (
             <div className="rounded-full items-center flex">
-              <CircleUserRound
-                height={26}
-                width={26}
-                strokeWidth={1.8}
-                className="rounded-full"
-              />
+              <CircleUserRound strokeWidth={1.5} className="rounded-full" />
             </div>
           )}
         </div>
       </button>
       <div
-        className="dropdown-content w-fit min-w-48 z-50 mt-2 rounded-md bg-white p-2 border shadow-lg border-gray-300"
+        className="dropdown-content dropdown-end w-fit min-w-48 z-50 mt-2 rounded-md bg-white p-2 border shadow-lg border-gray-300"
         tabIndex={0}
       >
         <div className="p-2">
@@ -110,7 +105,7 @@ function UserDropdown({
           <LogOut className="h-auto w-4" />
           <p className="text-sm">
             {isPending ? (
-              <LoadingDots color="oklch(var(--pc))" size="sm" />
+              <LoadingDots color="oklch(var(--bc))" size="sm" />
             ) : (
               "Logout"
             )}

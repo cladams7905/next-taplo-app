@@ -40,7 +40,7 @@ export default async function DashboardLayout({
             paymentPlan={product?.name ?? null}
             subscription={subscription}
           />
-          <div className="flex flex-col h-screen-minus-navbar bg-gradient-to-tr from-primary/80 to-violet-100 dark:bg-base-100 relative">
+          <div className="flex flex-col h-screen-minus-navbar bg-gray-50 dark:bg-base-100 relative">
             <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
             {subscription?.status === "canceled" && <RenewSubscriptionBanner />}
             <div className="flex flex-col w-full h-full font-sans relative">

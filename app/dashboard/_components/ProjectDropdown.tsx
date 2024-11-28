@@ -134,7 +134,7 @@ export default function ProjectDropdown({
                         className={`flex flex-row text-sm text-base-content rounded-md mb-2 ${
                           activeProject?.id === project.id &&
                           !isPending &&
-                          `bg-link-hover text-primary-content`
+                          `bg-gray-100 text-primary-content`
                         }`}
                         onClick={() => {
                           handleSubmit(project, activeProject);

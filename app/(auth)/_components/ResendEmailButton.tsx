@@ -31,10 +31,12 @@ export default function ResendEmailButton({ email }: { email?: string }) {
       }
 
       const { data, error } = JSON.parse(await resendEmail({ email: email }));
+
+      console.log(data, error);
       if (error) {
         showToastError(
           error,
-          error.code == 429
+          error.status == 429
             ? `Please wait at least 60 seconds between requesting new email links.`
             : ``
         );

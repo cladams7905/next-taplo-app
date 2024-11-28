@@ -32,7 +32,7 @@ export default function ProductSettings({
     >
       <div
         className={`sticky top-0 w-full min-h-[65px] p-4 bg-white flex items-center justify-between z-[2] ${
-          scrolled ? "border-b border-gray-300 -mb-[1px] shadow-sm" : ""
+          scrolled ? "border-b border-gray-300 -mb-[1px]" : ""
         }`}
       >
         <div className="flex flex-row items-center sticky top-[-1px] ml-2 gap-2 bg-white">
@@ -56,7 +56,7 @@ export default function ProductSettings({
           {events.length > 0 && (
             <>
               <div
-                className="btn btn-sm w-auto btn-primary text-white text-xs tooltip tooltip-left tooltip-info flex items-center font-normal"
+                className="btn btn-sm bg-gray-100 hover:!bg-link-hover w-auto text-xs tooltip tooltip-left tooltip-info flex items-center font-normal"
                 data-tip="Create Product"
                 onClick={() => productModalRef.current?.showModal()}
               >
