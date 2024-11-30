@@ -9,6 +9,7 @@ import { sortByTimeCreated } from "@/lib/actions";
 import { User } from "@supabase/supabase-js";
 import { ProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import Link from "next/link";
+import { updateProject } from "@/lib/actions/projects";
 
 export default function ProjectBoard({
   user,
@@ -111,12 +112,6 @@ export default function ProjectBoard({
     [setEvents]
   );
 
-  useEffect(() => {
-    if (activeEvent) {
-      updateEvents(activeEvent);
-    }
-  }, [activeEvent, updateEvents]);
-
   /**
    * When the active product changes, this callback/useEffect makes sure that
    * anything changed in the active product is set within the corresponding product in
@@ -132,6 +127,12 @@ export default function ProjectBoard({
     },
     [setProducts]
   );
+
+  useEffect(() => {
+    if (activeEvent) {
+      updateEvents(activeEvent);
+    }
+  }, [activeEvent, updateEvents]);
 
   useEffect(() => {
     if (activeProduct) {

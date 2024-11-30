@@ -5,7 +5,7 @@ import { TemplateTypes } from "@/lib/enums";
 import TemplateModal from "./TemplateModal";
 import PopupTemplate from "./PopupTemplate";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
-import { DashboardIcon, InfoCircledIcon } from "@radix-ui/react-icons";
+import { DashboardIcon } from "@radix-ui/react-icons";
 
 export default function PopupViewer() {
   const { activeProject, activeEvent, activeProduct } = useProjectContext();

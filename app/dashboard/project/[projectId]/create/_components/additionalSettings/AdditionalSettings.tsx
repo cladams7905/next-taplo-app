@@ -5,6 +5,7 @@ import { updateProject } from "@/lib/actions/projects";
 import useScroll from "@/lib/hooks/use-scroll";
 import { RefObject, useState, useTransition } from "react";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
+import { HelpCircleIcon } from "lucide-react";
 
 export default function AdditionalSettings({
   scrollRef,
@@ -104,7 +105,15 @@ export default function AdditionalSettings({
             </div>
           </div>
           <div className="flex flex-row items-center justify-between gap-2 text-sm px-2">
-            Popup display duration
+            <div className="flex items-center gap-2">
+              Popup display duration
+              <div
+                className="tooltip tooltip-top tooltip-info"
+                data-tip="The length of time each popup notification is displayed (in milliseconds)."
+              >
+                <HelpCircleIcon size={16} strokeWidth={1.75} />
+              </div>
+            </div>
             <div className="flex items-center gap-2 mr-[10px]">
               <input
                 className="input input-bordered input-sm max-w-20"

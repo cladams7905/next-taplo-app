@@ -24,10 +24,14 @@ export default function TemplateModal({
     if (templateToSet === activeTemplate) return;
 
     startLoadingTransition(async () => {
-      const { data, error } = await updateProject(activeProject.id, {
-        template: templateToSet,
-        screen_alignment: setScreenAlignment(templateToSet),
-      });
+      const { data, error } = await updateProject(
+        activeProject.id,
+        {
+          template: templateToSet,
+          screen_alignment: setScreenAlignment(templateToSet),
+        },
+        true
+      );
       if (error) {
         showToastError(error);
       } else {

@@ -71,7 +71,7 @@ export default async function AccountPage() {
           <div className="join-item flex flex-col border border-gray-200 rounded-lg px-6 py-4 gap-3 md:w-2/3">
             <p className="text-lg font-bold mb-3">Subscription Details</p>
             <p className="font-bold text-sm">My plan: {productData?.name}</p>
-            <div className="columns-2">
+            <div className="sm:columns-2 w-full sm:block flex sm:flex-row flex-col gap-3">
               {productData?.name && productData.name.includes("Starter") ? (
                 <>
                   <div className="flex flex-col justify-center gap-3 text-sm">
