@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { CheckCheck, Pencil } from "lucide-react";
 import { TemplateTypes } from "@/lib/enums";
 import TemplateModal from "./TemplateModal";
 import PopupTemplate from "./PopupTemplate";
@@ -26,19 +25,16 @@ export default function PopupViewer() {
   return (
     <div className="flex justify-center items-center w-full h-full flex-col">
       <div
-        className="flex gap-3 left-0 h-fit px-4 outline-1 outline-primary bottom-0 rounded-b-lg text-xs cursor-pointer z-10 absolute top-16"
+        className="flex gap-3 left-0 h-fit px-4 outline-1 outline-primary bottom-0 rounded-b-lg text-xs cursor-pointer z-[1] absolute top-16"
         onClick={() => templateModalRef.current?.showModal()}
       >
-        <div className="flex text-xs items-center gap-2">
-          <DashboardIcon strokeWidth={1.5} />
-          {activeTemplate}
-        </div>
         <div
-          className="tooltip tooltip-bottom tooltip-info"
+          className="tooltip tooltip-right tooltip-info"
           data-tip="Change template"
         >
-          <div className="btn btn-xs btn-primary">
-            <Pencil height={14} width={14} />
+          <div className="flex items-center gap-2 btn btn-sm bg-white border border-gray-300 hover:!bg-link-hover w-auto text-xs">
+            <DashboardIcon strokeWidth={1.5} />
+            {activeTemplate}
           </div>
         </div>
       </div>

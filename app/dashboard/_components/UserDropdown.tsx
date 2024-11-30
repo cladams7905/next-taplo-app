@@ -53,7 +53,7 @@ function UserDropdown({
                 alt="user"
                 width="34"
                 height="34"
-                className="rounded-full"
+                className="rounded-full min-w-8 min-h-8"
               />
             </div>
           ) : (

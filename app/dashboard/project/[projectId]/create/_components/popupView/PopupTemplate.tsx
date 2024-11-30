@@ -87,7 +87,13 @@ export default function PopupTemplate({
         accentColor.hex.toString()
       )
     );
-  }, [previewEvent, accentColor, activeProduct, backgroundColor]);
+  }, [
+    previewEvent,
+    accentColor,
+    activeProject.name,
+    activeProduct,
+    backgroundColor,
+  ]);
 
   /**
    * This check determines whether an event should display a product's image if an image is available.
@@ -865,7 +871,7 @@ const CardTemplate = ({
         isAnimatePulse ? "animate__animated animate__pulse animate__faster" : ""
       }`}
     >
-      <div className="flex items-center justify-center h-full w-full">
+      <div className="flex h-fit w-full">
         {activeProduct?.image_url &&
         activeProduct.image_url !== "" &&
         shouldDisplayImage() ? (
@@ -896,7 +902,7 @@ const CardTemplate = ({
           </div>
         )}
       </div>
-      <div className="flex w-full gap-4 items-center">
+      <div className="flex w-full gap-4">
         <div className="flex flex-col w-full gap-[4px] mx-2 p-2">
           {hasHeader && (
             <div className="flex gap-[2px]">

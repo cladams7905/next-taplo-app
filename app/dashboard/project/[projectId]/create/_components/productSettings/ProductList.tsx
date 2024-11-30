@@ -140,7 +140,7 @@ const ProductList = ({
             <div
               className={`absolute top-0 left-0 rounded-l-lg w-1 h-full outline-1 outline-primary ${
                 activeProduct && activeProduct.id === product.id
-                  ? "block bg-primary"
+                  ? "block bg-primary w-[5px]"
                   : "hidden"
               }`}
             />

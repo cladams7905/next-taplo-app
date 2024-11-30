@@ -56,7 +56,7 @@ export default function ProductSettings({
           {events.length > 0 && (
             <>
               <div
-                className="btn btn-sm bg-gray-100 hover:!bg-link-hover w-auto text-xs tooltip tooltip-left tooltip-info flex items-center font-normal"
+                className="btn btn-sm bg-white border !border-gray-300 shadow-sm hover:!bg-link-hover w-auto text-xs tooltip tooltip-left tooltip-info flex items-center font-normal"
                 data-tip="Create Product"
                 onClick={() => productModalRef.current?.showModal()}
               >

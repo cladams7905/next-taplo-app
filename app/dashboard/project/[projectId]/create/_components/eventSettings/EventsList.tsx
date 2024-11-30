@@ -58,7 +58,7 @@ const EventsList = ({
         <div
           className={`absolute w-1 h-full z-[0] rounded-l-lg ${
             activeEvent && activeEvent.id === event.id
-              ? "block bg-primary"
+              ? "block bg-primary w-[5px]"
               : "hidden"
           }`}
         />
