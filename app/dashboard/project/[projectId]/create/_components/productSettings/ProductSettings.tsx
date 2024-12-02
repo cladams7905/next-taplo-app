@@ -83,7 +83,7 @@ export default function ProductSettings({
           </div>
         ) : (
           <div className="px-4 text-[12px] text-gray-400 w-full text-center mb-6">
-            To enable products, toggle the &quot;Show Products&quot; option.
+            To enable products, first create a new event.
           </div>
         )}
       </div>

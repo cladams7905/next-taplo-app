@@ -25,7 +25,7 @@ export default function PopupViewer() {
   return (
     <div className="flex justify-center items-center w-full h-full flex-col">
       <div
-        className="flex gap-3 left-0 h-fit px-4 outline-1 outline-primary bottom-0 rounded-b-lg text-xs cursor-pointer z-[1] absolute top-16"
+        className="flex gap-3 left-0 h-fit px-4 outline-1 outline-primary bottom-0 rounded-b-lg text-xs cursor-pointer z-[1] absolute top-[70px]"
         onClick={() => templateModalRef.current?.showModal()}
       >
         <div

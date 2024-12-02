@@ -2,7 +2,7 @@
 
 import UserDropdown from "./UserDropdown";
 import { User } from "@supabase/supabase-js";
-import { ChevronRight, Menu } from "lucide-react";
+import { ChevronRight, Menu, MessageCircleHeart } from "lucide-react";
 import NavbarTabList from "./NavbarTablist";
 import ProjectDropdown from "./ProjectDropdown";
 import { Tables as SupabaseTables } from "@/lib/supabase/types";
@@ -11,6 +11,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import ContactModal from "./ContactModal";
+import NewUserModal from "../project/[projectId]/create/_components/NewUserModal";
 
 export default function Navbar({
   user,
@@ -36,6 +37,7 @@ export default function Navbar({
 
   const contactDropdownRef = useRef<HTMLUListElement>(null);
   const contactModalRef = useRef<HTMLDialogElement>(null);
+  const newUserGuideRef = useRef<HTMLDialogElement>(null);
 
   // First useEffect to set the active project
   useEffect(() => {
@@ -68,7 +70,7 @@ export default function Navbar({
   return (
     <>
       {/* <FeedbackBanner featuresVoteToken={featuresVoteToken} /> */}
-      <main className="flex flex-col items-center w-full font-sans z-30 lg:px-3 md:px-3 sm:px-3 px-1 transition-all border-b border-gray-300 dark:bg-base-100 bg-white">
+      <main className="flex flex-col items-center w-full font-sans z-40 lg:px-3 md:px-3 sm:px-3 px-1 transition-all border-b border-gray-300 dark:bg-base-100 bg-white">
         <div className="navbar flex">
           <div className="navbar-start md:w-1/2 w-full">
             {activeProject && (
@@ -103,6 +105,22 @@ export default function Navbar({
             </div>
           )}
           <div className="navbar-end md:w-1/2 w-fit gap-2">
+            <div
+              className="tooltip tooltip-bottom tooltip-info p-2 -mr-3 z-40 rounded-lg cursor-pointer hover:bg-primary/20"
+              data-tip="Submit Feedback"
+            >
+              <a
+                href={
+                  featuresVoteToken
+                    ? `https://taplo.features.vote/board?token=${featuresVoteToken}`
+                    : "#"
+                }
+                target="_blank"
+                className="flex flex-col items-start rounded-md"
+              >
+                <MessageCircleHeart width={20} height={20} strokeWidth={1.5} />
+              </a>
+            </div>
             <div tabIndex={0} className="dropdown dropdown-end max-h-9 z-40">
               <div
                 className="tooltip tooltip-bottom tooltip-info p-2 rounded-lg cursor-pointer hover:bg-primary/20"
@@ -113,7 +131,7 @@ export default function Navbar({
               <ul
                 tabIndex={0}
                 ref={contactDropdownRef}
-                className={`menu menu-sm dropdown-content border border-gray-300 z-40 shadow-md bg-base-100 rounded-md min-w-44 p-2`}
+                className={`menu menu-sm dropdown-content border border-gray-300 z-40 shadow-md bg-base-100 rounded-md min-w-48 p-2`}
               >
                 <li>
                   <Link
@@ -127,19 +145,18 @@ export default function Navbar({
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    href={
-                      featuresVoteToken
-                        ? `https://taplo.features.vote/board?token=${featuresVoteToken}`
-                        : "#"
-                    }
-                    target="_blank"
-                    className="flex flex-col items-start rounded-md"
+                  <div
+                    className="flex items-center gap-2 py-2 !rounded-lg hover:!bg-link-hover"
+                    onClick={() => {
+                      newUserGuideRef.current?.showModal();
+                    }}
                   >
-                    <div className="flex items-center gap-2 py-1">
-                      Suggest a feature
-                    </div>
-                  </Link>
+                    Getting Started Guide
+                  </div>
+                  <NewUserModal
+                    userGuideRef={newUserGuideRef}
+                    hasViewedNewUserGuide={true}
+                  />
                 </li>
                 <li>
                   <a

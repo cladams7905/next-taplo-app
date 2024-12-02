@@ -2,14 +2,14 @@
 
 import { Tables } from "@/lib/supabase/types";
 import Sidebar from "./Sidebar";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useColor } from "react-color-palette";
 import ViewContainer from "./popupView/ViewContainer";
 import { sortByTimeCreated } from "@/lib/actions";
 import { User } from "@supabase/supabase-js";
 import { ProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import Link from "next/link";
-import { updateProject } from "@/lib/actions/projects";
+import NewUserModal from "./NewUserModal";
 
 export default function ProjectBoard({
   user,
@@ -181,6 +181,15 @@ export default function ProjectBoard({
     );
   }
 
+  const newUserGuideRef = useRef<HTMLDialogElement>(null);
+  const hasViewedNewUserGuide = user.user_metadata?.hasViewedNewUserGuide;
+
+  useEffect(() => {
+    if (user && !hasViewedNewUserGuide) {
+      newUserGuideRef.current?.showModal();
+    }
+  }, []);
+
   return (
     <ProjectContext.Provider value={contextValue}>
       <main className="flex lg:flex-row md:flex-row flex-col w-full h-screen-minus-navbar">
@@ -193,6 +202,10 @@ export default function ProjectBoard({
         <div className="relative lg:w-[40%] w-full">
           <Sidebar isPreviewMode={isPreviewMode} />
         </div>
+        <NewUserModal
+          userGuideRef={newUserGuideRef}
+          hasViewedNewUserGuide={hasViewedNewUserGuide}
+        />
       </main>
     </ProjectContext.Provider>
   );

@@ -78,7 +78,7 @@ export default function TemplateModal({
             <span className="loading loading-spinner loading-sm bg-base-content"></span>
           )}
         </div>
-        <div className="flex flex-row overflow-x-scroll w-full h-80 py-4 px-1 gap-4">
+        <div className="flex flex-row overflow-x-scroll scrollbar-custom w-full h-80 py-4 px-1 gap-4">
           <div
             className={`relative flex flex-col px-4 items-center justify-center
             ${

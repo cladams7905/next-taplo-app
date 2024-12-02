@@ -52,6 +52,9 @@ export default function RegisterForm({ user }: { user: User }) {
       password: data.password,
       options: {
         emailRedirectTo: getURL() + "/dashboard/create-project",
+        data: {
+          hasViewedNewUserGuide: false,
+        },
       },
     });
     return JSON.stringify(result);
