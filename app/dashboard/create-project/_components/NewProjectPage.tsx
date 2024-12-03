@@ -50,7 +50,7 @@ export default function NewProjectPage({
         <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
         <div className="border border-gray-300 z-[1] p-2 shadow-sm bg-base-100 rounded-md w-full max-w-lg">
           <div className="flex flex-col items-center justify-center w-full pt-6 px-6">
-            <p className="font-logo md:text-2xl text-xl mb-4">
+            <p className="md:text-2xl font-bold text-xl mb-4">
               Create New Project
             </p>
             {numProjects &&
@@ -70,7 +70,7 @@ export default function NewProjectPage({
               numProjects={numProjects}
             />
           </div>
-          <div className="flex items-center justify-center mb-3 gap-1 md:text-sm text-xs text-center">
+          <div className="inline-block w-full items-center justify-center mb-3 gap-1 md:text-sm text-xs text-center">
             Need help getting started? Check out{" "}
             <Link
               href={"/docs/getting-started"}

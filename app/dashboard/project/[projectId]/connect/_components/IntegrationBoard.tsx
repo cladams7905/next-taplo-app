@@ -29,7 +29,7 @@ export default function IntegrationBoard({
       <div className="w-full h-full flex flex-col items-center gap-6 px-8 md:pt-12 pt-6 overflow-y-scroll bg-white border-x border-b border-gray-300">
         <div className="flex flex-col gap-4 h-full w-full lg:max-w-[65%]">
           <div className="flex md:flex-row flex-col items-center justify-between gap-6">
-            <p className="text-lg font-semibold ml-4">
+            <p className="text-xl md:text-2xl font-semibold ml-4">
               My Integrations ({integrations.length})
             </p>
             <div
