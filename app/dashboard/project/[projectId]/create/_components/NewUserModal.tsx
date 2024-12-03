@@ -3,7 +3,7 @@
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { updateUserMetadata } from "@/lib/actions/users";
 import Link from "next/link";
-import React, { RefObject, useEffect, useRef } from "react";
+import { RefObject, useState } from "react";
 
 export default function NewUserModal({
   userGuideRef,
@@ -12,14 +12,15 @@ export default function NewUserModal({
   userGuideRef: RefObject<HTMLDialogElement>;
   hasViewedNewUserGuide: boolean;
 }) {
+  const [activeSlide, setActiveSlide] = useState(1);
+
+  const navigateToSlide = (slideNumber: number) => {
+    setActiveSlide(slideNumber);
+  };
+
   const closeNewUserGuide = async () => {
     userGuideRef.current?.close();
-
-    // Remove the # anchor from the URL
-    const currentUrl = window.location.href;
-    const newUrl = currentUrl.split("#")[0];
-    window.history.replaceState({}, document.title, newUrl);
-
+    setActiveSlide(1);
     if (!hasViewedNewUserGuide) {
       const { data, error } = await updateUserMetadata({
         hasViewedNewUserGuide: true,
@@ -36,7 +37,7 @@ export default function NewUserModal({
   return (
     <dialog
       id="new_user_modal"
-      className="modal modal-top pt-4 pl-4 absolute pr-4 !bg-inherit"
+      className="modal modal-top pt-4 pl-4 absolute pr-4 !bg-inherit min-h-[350px]"
       ref={userGuideRef}
     >
       <div className="modal-box max-w-[375px] max-sc">
@@ -50,8 +51,9 @@ export default function NewUserModal({
         </form>
         <div className="carousel mt-4 w-full flex gap-4">
           <div
-            id="slide1"
-            className="carousel-item relative w-full flex flex-col items-center gap-6 font-sans"
+            className={`carousel-item ${
+              activeSlide === 1 ? "block" : "hidden"
+            } relative w-full flex flex-col items-center gap-6 font-sans`}
           >
             <p className="text-lg font-logo">Getting Started Guide</p>
             <p className="text-sm text-gray-500 text-center">
@@ -60,50 +62,58 @@ export default function NewUserModal({
             </p>
             <ol
               type="1"
-              className="list-decimal text-primary flex flex-col gap-3"
+              className="list-decimal list-inside noflex-list text-primary space-y-3"
             >
-              <li>
-                <a className="link" href="#slide2">
-                  Create an Event
-                </a>
+              <li
+                className="link link-primary"
+                onClick={() => navigateToSlide(2)}
+              >
+                Create an Event
               </li>
-              <li>
-                <a className="link" href="#slide3">
-                  Add an Integration
-                </a>
+              <li
+                className="link link-primary"
+                onClick={() => navigateToSlide(3)}
+              >
+                Add an Integration
               </li>
-              <li>
-                <a className="link" href="#slide4">
-                  Add Products
-                </a>
+              <li
+                className="link link-primary"
+                onClick={() => navigateToSlide(4)}
+              >
+                Add Products
               </li>
-              <li>
-                <a className="link" href="#slide5">
-                  Select a Template
-                </a>
+              <li
+                className="link link-primary"
+                onClick={() => navigateToSlide(5)}
+              >
+                Select a Template
               </li>
-              <li>
-                <a className="link" href="#slide6">
-                  Adjust Styling
-                </a>
+              <li
+                className="link link-primary"
+                onClick={() => navigateToSlide(6)}
+              >
+                Adjust Styling
               </li>
-              <li>
-                <a className="link" href="#slide7">
-                  Preview and Embed
-                </a>
+              <li
+                className="link link-primary"
+                onClick={() => navigateToSlide(7)}
+              >
+                Preview and Embed
               </li>
             </ol>
-            <div className="absolute bottom-0 left-2 w-full">
-              <div className="btn btn-primary w-[280px]">
-                <a href="#slide2" className="w-full">
-                  Get started!
-                </a>
+            <div className="w-full">
+              <div
+                className="btn btn-primary max-w-[290px] w-full"
+                onClick={() => navigateToSlide(2)}
+              >
+                Get started!
               </div>
             </div>
           </div>
           <div
-            id="slide2"
-            className="carousel-item relative w-full flex flex-col items-center gap-4 font-sans"
+            className={`carousel-item ${
+              activeSlide === 2 ? "block" : "hidden"
+            } relative w-full flex flex-col items-center gap-6 font-sans`}
           >
             <div className="text-xl font-logo">1. Create an Event</div>
             <video
@@ -117,24 +127,31 @@ export default function NewUserModal({
               <source src="/videos/Create_Events.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
-            <p className="ml-4 text-gray-500 text-sm mb-16">
+            <p className="ml-4 text-gray-500 text-sm">
               To get started configuring your social proof plugin, first create
               an event. Events allow you to specify what types of information
               you can display to your users. You can show off recent purchases,
               top products, and more!
             </p>
-            <div className="flex absolute bottom-0 gap-4 justify-between">
-              <a href="#slide1" className="btn btn-circle">
+            <div className="flex gap-4 justify-between">
+              <div
+                className="btn btn-circle"
+                onClick={() => navigateToSlide(1)}
+              >
                 ❮
-              </a>
-              <a href="#slide3" className="btn btn-circle">
+              </div>
+              <div
+                className="btn btn-circle"
+                onClick={() => navigateToSlide(3)}
+              >
                 ❯
-              </a>
+              </div>
             </div>
           </div>
           <div
-            id="slide3"
-            className="carousel-item relative w-full flex flex-col items-center gap-4 font-sans"
+            className={`carousel-item ${
+              activeSlide === 3 ? "block" : "hidden"
+            } relative w-full flex flex-col items-center gap-6 font-sans`}
           >
             <div className="text-xl font-logo">2. Add an Integration</div>
             <video
@@ -150,7 +167,7 @@ export default function NewUserModal({
             </video>
             <div className="ml-6 flex flex-col gap-2">
               {" "}
-              <p className="text-gray-500 text-sm mb-16">
+              <p className="text-gray-500 text-sm">
                 Events require an integration to display real data to your
                 site&apos;s visitors. Follow the walkthrough guide for each
                 integration to learn how to connect different services to
@@ -158,18 +175,25 @@ export default function NewUserModal({
                 the <span className="font-bold">Connect</span> page.
               </p>
             </div>
-            <div className="flex absolute bottom-0 gap-4 justify-between">
-              <a href="#slide2" className="btn btn-circle">
+            <div className="flex gap-4 justify-between">
+              <div
+                className="btn btn-circle"
+                onClick={() => navigateToSlide(2)}
+              >
                 ❮
-              </a>
-              <a href="#slide4" className="btn btn-circle">
+              </div>
+              <div
+                className="btn btn-circle"
+                onClick={() => navigateToSlide(4)}
+              >
                 ❯
-              </a>
+              </div>
             </div>
           </div>
           <div
-            id="slide4"
-            className="carousel-item relative w-full flex flex-col items-center gap-4 font-sans"
+            className={`carousel-item ${
+              activeSlide === 4 ? "block" : "hidden"
+            } relative w-full flex flex-col items-center gap-6 font-sans`}
           >
             <div className="text-xl font-logo">3. Add Products</div>
             <video
@@ -192,18 +216,25 @@ export default function NewUserModal({
                 manually, if needed.
               </p>
             </div>
-            <div className="flex absolute bottom-0 gap-4 justify-between">
-              <a href="#slide3" className="btn btn-circle">
+            <div className="flex gap-4 justify-between">
+              <div
+                className="btn btn-circle"
+                onClick={() => navigateToSlide(3)}
+              >
                 ❮
-              </a>
-              <a href="#slide5" className="btn btn-circle">
+              </div>
+              <div
+                className="btn btn-circle"
+                onClick={() => navigateToSlide(5)}
+              >
                 ❯
-              </a>
+              </div>
             </div>
           </div>
           <div
-            id="slide5"
-            className="carousel-item relative w-full flex flex-col items-center gap-4 font-sans"
+            className={`carousel-item ${
+              activeSlide === 5 ? "block" : "hidden"
+            } relative w-full flex flex-col items-center gap-6 font-sans`}
           >
             <div className="text-xl font-logo">4. Select a Template</div>
             <video
@@ -224,18 +255,25 @@ export default function NewUserModal({
                 fully customizable!
               </p>
             </div>
-            <div className="flex absolute bottom-0 gap-4 justify-between">
-              <a href="#slide4" className="btn btn-circle">
+            <div className="flex gap-4 justify-between">
+              <div
+                className="btn btn-circle"
+                onClick={() => navigateToSlide(4)}
+              >
                 ❮
-              </a>
-              <a href="#slide6" className="btn btn-circle">
+              </div>
+              <div
+                className="btn btn-circle"
+                onClick={() => navigateToSlide(6)}
+              >
                 ❯
-              </a>
+              </div>
             </div>
           </div>
           <div
-            id="slide6"
-            className="carousel-item relative w-full flex flex-col items-center gap-4 font-sans"
+            className={`carousel-item ${
+              activeSlide === 6 ? "block" : "hidden"
+            } relative w-full flex flex-col items-center gap-6 font-sans`}
           >
             <div className="text-xl font-logo">5. Adjust Styling</div>
             <video
@@ -249,25 +287,32 @@ export default function NewUserModal({
               <source src="/videos/AdjustStyling.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
-            <div className="ml-10 flex flex-col gap-2">
+            <div className="ml-6 flex flex-col gap-2">
               {" "}
               <p className="text-gray-500 text-sm">
                 Adjust colors, screen alignment, and more from the sidebar to
                 match your website&apos;s own style and branding.
               </p>
             </div>
-            <div className="flex absolute bottom-0 gap-4 justify-between">
-              <a href="#slide5" className="btn btn-circle">
+            <div className="flex gap-4 justify-between">
+              <div
+                className="btn btn-circle"
+                onClick={() => navigateToSlide(5)}
+              >
                 ❮
-              </a>
-              <a href="#slide7" className="btn btn-circle">
+              </div>
+              <div
+                className="btn btn-circle"
+                onClick={() => navigateToSlide(7)}
+              >
                 ❯
-              </a>
+              </div>
             </div>
           </div>
           <div
-            id="slide7"
-            className="carousel-item relative w-full flex flex-col items-center gap-4 font-sans"
+            className={`carousel-item ${
+              activeSlide === 7 ? "block" : "hidden"
+            } relative w-full flex flex-col items-center gap-6 font-sans`}
           >
             <div className="text-xl font-logo">6. Preview and Embed</div>
             <video
@@ -289,18 +334,25 @@ export default function NewUserModal({
                 project from the toolbar.
               </p>
             </div>
-            <div className="flex absolute bottom-0 gap-4 justify-between">
-              <a href="#slide6" className="btn btn-circle">
+            <div className="flex gap-4 justify-between">
+              <div
+                className="btn btn-circle"
+                onClick={() => navigateToSlide(6)}
+              >
                 ❮
-              </a>
-              <a href="#slide8" className="btn btn-circle">
+              </div>
+              <div
+                className="btn btn-circle"
+                onClick={() => navigateToSlide(8)}
+              >
                 ❯
-              </a>
+              </div>
             </div>
           </div>
           <div
-            id="slide8"
-            className="carousel-item relative w-full flex flex-col justify-center -mt-16 items-center gap-4 font-sans"
+            className={`carousel-item ${
+              activeSlide === 8 ? "block" : "hidden"
+            } relative w-full flex flex-col items-center gap-6 font-sans`}
           >
             <p className="text-lg font-logo">You&apos;re ready to go!</p>
             <div className="text-sm text-gray-500 text-center inline-block">
@@ -316,10 +368,13 @@ export default function NewUserModal({
               </Link>{" "}
               .
             </div>
-            <div className="absolute bottom-0 left-2 w-full flex gap-4">
-              <a href="#slide7" className="btn btn-circle">
+            <div className="flex gap-4 justify-between">
+              <div
+                className="btn btn-circle"
+                onClick={() => navigateToSlide(7)}
+              >
                 ❮
-              </a>
+              </div>
               <div
                 className="btn btn-primary w-[215px]"
                 onClick={closeNewUserGuide}

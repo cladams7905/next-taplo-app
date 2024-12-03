@@ -132,3 +132,7 @@ input:not(.toggle-primary), select, textarea {
   background-color: #f1f1f1;
   /* Scrollbar track color */
 }
+
+.noflex-list li {
+  display: list-item !important;
+}
