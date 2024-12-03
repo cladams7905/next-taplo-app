@@ -154,6 +154,7 @@ export default function Navbar({
                     Getting Started Guide
                   </div>
                   <NewUserModal
+                    user={user}
                     userGuideRef={newUserGuideRef}
                     hasViewedNewUserGuide={true}
                   />

@@ -2,13 +2,16 @@
 
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { updateUserMetadata } from "@/lib/actions/users";
+import { User } from "@supabase/supabase-js";
 import Link from "next/link";
 import { RefObject, useState } from "react";
 
 export default function NewUserModal({
+  user,
   userGuideRef,
   hasViewedNewUserGuide,
 }: {
+  user: User;
   userGuideRef: RefObject<HTMLDialogElement>;
   hasViewedNewUserGuide: boolean;
 }) {
@@ -28,6 +31,7 @@ export default function NewUserModal({
       if (error) {
         showToastError(error);
       } else {
+        user.user_metadata.hasViewedNewUserGuide = true;
         showToast(
           'Click on the Help menu in the top-right hand corner to view the "Getting Started Guide" again.'
         );
@@ -122,6 +126,7 @@ export default function NewUserModal({
               autoPlay
               loop
               muted
+              playsInline
               className="rounded-lg"
             >
               <source src="/videos/Create_Events.mp4" type="video/mp4" />
@@ -160,6 +165,7 @@ export default function NewUserModal({
               autoPlay
               loop
               muted
+              playsInline
               className="rounded-lg"
             >
               <source src="/videos/AddIntegration.mp4" type="video/mp4" />
@@ -202,6 +208,7 @@ export default function NewUserModal({
               autoPlay
               loop
               muted
+              playsInline
               className="rounded-lg"
             >
               <source src="/videos/AddProducts.mp4" type="video/mp4" />
@@ -243,6 +250,7 @@ export default function NewUserModal({
               autoPlay
               loop
               muted
+              playsInline
               className="rounded-lg"
             >
               <source src="/videos/SelectTemplate.mp4" type="video/mp4" />
@@ -282,6 +290,7 @@ export default function NewUserModal({
               autoPlay
               loop
               muted
+              playsInline
               className="rounded-lg"
             >
               <source src="/videos/AdjustStyling.mp4" type="video/mp4" />
@@ -321,6 +330,7 @@ export default function NewUserModal({
               autoPlay
               loop
               muted
+              playsInline
               className="rounded-lg"
             >
               <source src="/videos/PreviewEmbed.mp4" type="video/mp4" />

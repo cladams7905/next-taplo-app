@@ -172,7 +172,7 @@ export default function ProjectBoard({
     if (user && !hasViewedNewUserGuide) {
       newUserGuideRef.current?.showModal();
     }
-  }, []);
+  }, [user, hasViewedNewUserGuide]);
 
   if (!fetchedActiveProject || !fetchedEvents || !fetchedProducts) {
     return (
@@ -205,6 +205,7 @@ export default function ProjectBoard({
           </div>
         </div>
         <NewUserModal
+          user={user}
           userGuideRef={newUserGuideRef}
           hasViewedNewUserGuide={hasViewedNewUserGuide}
         />
