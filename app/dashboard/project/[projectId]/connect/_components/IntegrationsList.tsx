@@ -130,10 +130,9 @@ export default function IntegrationsList({
       );
     })
   ) : (
-    <div className="flex flex-col gap-2 text-gray-400 mt-4 items-center border border-gray-200 rounded-lg py-2 pr-4 min-h-11">
-      You haven&apos;t created any integrations yet.
+    <div className="flex flex-col gap-2 text-gray-400 mt-4 text-sm items-center border border-gray-200 rounded-lg py-2 pr-4 min-h-60 justify-center">
       <div className="flex flex-row items-center gap-2">
-        Click{" "}
+        You haven&apos;t created any integrations yet. Click{" "}
         <span>
           <CirclePlus height={18} width={18} />
         </span>{" "}

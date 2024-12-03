@@ -81,14 +81,14 @@ export default function CheckoutSession({
   }, [priceId, productId, email, selectReferralSource, user]);
 
   const sendWelcomeEmail = useCallback(
-    async (freeTrialDate: string) => {
+    async (freeTrialDate: string, user: User) => {
       const res = await fetch("/api/v1/email/send", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          from: "Taplo",
+          from: "Taplo <noreply@taplo.io>",
           to: user?.email,
           subject: "Welcome to Taplo!",
           template: "welcome email",
@@ -102,7 +102,7 @@ export default function CheckoutSession({
       console.log(data);
     },
     [user?.email, user?.user_metadata.name]
-  ); // Dependencies for user and helper function
+  );
 
   const onComplete = useCallback(async () => {
     const freeTrialDate = toDateTime(calculateBillingCycle()).toUTCString();
@@ -119,7 +119,7 @@ export default function CheckoutSession({
       showToastError(error);
     } else {
       // Send welcome email
-      await sendWelcomeEmail(freeTrialDate);
+      await sendWelcomeEmail(freeTrialDate, user);
 
       showToast(
         `All set! Your free trial will end on ${convertDateTime(
