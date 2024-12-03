@@ -37,10 +37,10 @@ export default function NewUserModal({
   return (
     <dialog
       id="new_user_modal"
-      className="modal modal-top pt-4 pl-4 absolute pr-4 !bg-inherit min-h-[350px]"
+      className="modal modal-top !bg-inherit min-h-[350px]"
       ref={userGuideRef}
     >
-      <div className="modal-box max-w-[375px] max-sc">
+      <div className="modal-box !max-w-[375px] !left-4 !top-4 absolute">
         <form method="dialog" className="modal-backdrop">
           <button
             className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-base-content !outline-none"

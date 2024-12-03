@@ -192,15 +192,17 @@ export default function ProjectBoard({
 
   return (
     <ProjectContext.Provider value={contextValue}>
-      <main className="flex lg:flex-row md:flex-row flex-col w-full h-screen-minus-navbar">
-        <div className="lg:w-[60%] w-full">
-          <ViewContainer
-            isPreviewMode={isPreviewMode}
-            setPreviewMode={setPreviewMode}
-          />
-        </div>
-        <div className="relative lg:w-[40%] w-full">
-          <Sidebar isPreviewMode={isPreviewMode} />
+      <main>
+        <div className="flex md:flex-row flex-col w-full h-screen-minus-navbar">
+          <div className="lg:w-[60%] w-full">
+            <ViewContainer
+              isPreviewMode={isPreviewMode}
+              setPreviewMode={setPreviewMode}
+            />
+          </div>
+          <div className="relative lg:w-[40%] w-full">
+            <Sidebar isPreviewMode={isPreviewMode} />
+          </div>
         </div>
         <NewUserModal
           userGuideRef={newUserGuideRef}
