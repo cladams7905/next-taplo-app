@@ -1,3 +1,5 @@
+"use client";
+
 import { showToast, showToastError } from "@/app/_components/shared/showToast";
 import { updateUserMetadata } from "@/lib/actions/users";
 import Link from "next/link";

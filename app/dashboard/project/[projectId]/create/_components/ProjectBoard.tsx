@@ -165,6 +165,15 @@ export default function ProjectBoard({
     setBorderColor,
   };
 
+  const newUserGuideRef = useRef<HTMLDialogElement>(null);
+  const hasViewedNewUserGuide = user.user_metadata?.hasViewedNewUserGuide;
+
+  useEffect(() => {
+    if (user && !hasViewedNewUserGuide) {
+      newUserGuideRef.current?.showModal();
+    }
+  }, []);
+
   if (!fetchedActiveProject || !fetchedEvents || !fetchedProducts) {
     return (
       <div>
@@ -180,15 +189,6 @@ export default function ProjectBoard({
       </div>
     );
   }
-
-  const newUserGuideRef = useRef<HTMLDialogElement>(null);
-  const hasViewedNewUserGuide = user.user_metadata?.hasViewedNewUserGuide;
-
-  useEffect(() => {
-    if (user && !hasViewedNewUserGuide) {
-      newUserGuideRef.current?.showModal();
-    }
-  }, []);
 
   return (
     <ProjectContext.Provider value={contextValue}>
