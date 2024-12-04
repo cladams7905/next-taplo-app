@@ -9,7 +9,7 @@ import LaunchOfferBadge from "./LaunchOfferBadge";
 
 export default function Navbar() {
   return (
-    <div className="fixed w-screen font-sans shadow-lg bg-white/70 backdrop-blur-lg z-30 transition-all">
+    <div className="fixed w-screen font-sans shadow-sm bg-white/80 backdrop-blur-xl z-30 transition-all">
       <LaunchOfferBadge />
       <main>
         <div className={`navbar lg:px-20`}>
@@ -25,7 +25,7 @@ export default function Navbar() {
             <div className="ml-2 font-bold font-logo text-xl mr-2">Taplo</div>
           </div>
           <div className="navbar-center hidden lg:flex">
-            <ul className="menu menu-horizontal px-1">
+            <ul className="menu menu-horizontal px-1 font-semibold">
               <li>
                 <Link href={"#key-features"} className="focus:bg-link-hover">
                   Features
@@ -50,7 +50,7 @@ export default function Navbar() {
               </div>
             </Link>
             <Link href={"/signup"}>
-              <div className="btn btn-primary font-sans text-white btn-sm max-w-fit ml-2">
+              <div className="btn btn-primary btn-outline font-sans text-white btn-sm max-w-fit ml-2">
                 Try for free
                 <ArrowRight size={20} />
               </div>

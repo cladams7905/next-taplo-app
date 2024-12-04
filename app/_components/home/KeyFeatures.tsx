@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import LineChart from "./LineChart";
 
 export default function KeyFeatures() {
   enum Features {
@@ -29,16 +30,22 @@ export default function KeyFeatures() {
       setIsAnimate(false);
     }, 100);
   }, [activeFeature]);
+
+  //Example data for linechart
+  const labels = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"];
+  const clicks = [50, 100, 150, 200, 250, 300, 400];
+  const impressions = [300, 400, 450, 500, 600, 650, 700];
+
   return (
-    <div className="flex flex-col items-center pt-6 w-full min-h-[100vh] gap-12 font-sans lg:px-32 px-8">
+    <div className="flex flex-col items-center py-12 w-full min-h-[100vh] gap-12 font-sans lg:px-32 px-8 z-10 bg-white/60 shadow-lg rounded-lg">
       <p id="key-features" className="uppercase font-logo text-lg">
         Key Features
       </p>
       <div className="flex overflow-x-scroll lg:justify-center w-full md:gap-12 gap-0 items-center">
         <div
-          className={`flex flex-col h-fit items-center justify-center min-w-[150px] gap-3 mb-4 p-4 rounded-lg hover:-translate-y-1 transition-transform cursor-pointer ${
+          className={`flex flex-col h-fit items-center justify-center min-w-[150px] gap-3 mb-4 p-4 rounded-lg hover:translate-y-1 transition-transform cursor-pointer ${
             activeFeature === Features.CustomStyling
-              ? "bg-gradient-to-tr from-primary/40 to-purple-100 text-primary animate-fadeInLeftToRight"
+              ? "text-primary animate-fadeInLeftToRight"
               : ""
           }`}
           style={{
@@ -51,12 +58,12 @@ export default function KeyFeatures() {
           }}
         >
           <Paintbrush width={40} height={40} />
-          <p className="font-bold text-center">Custom styling</p>
+          <p className="text-center">Custom styling</p>
         </div>
         <div
-          className={`flex flex-col h-fit items-center justify-center min-w-[150px] gap-3 mb-4 p-4 rounded-lg hover:-translate-y-1 transition-transform cursor-pointer ${
+          className={`flex flex-col h-fit items-center justify-center min-w-[150px] gap-3 mb-4 p-4 rounded-lg hover:translate-y-1 transition-transform cursor-pointer ${
             activeFeature === Features.Embed
-              ? "bg-gradient-to-tr from-primary/40 to-purple-100 text-primary animate-fadeInLeftToRight"
+              ? "text-primary animate-fadeInLeftToRight"
               : ""
           }`}
           style={{
@@ -69,12 +76,12 @@ export default function KeyFeatures() {
           }}
         >
           <CodeXml width={40} height={40} />
-          <p className="font-bold text-center">Single-line embed</p>
+          <p className="text-center">Single-line embed</p>
         </div>
         <div
-          className={`flex flex-col h-fit items-center justify-center min-w-[150px] gap-3 mb-4 p-4 rounded-lg hover:-translate-y-1 transition-transform cursor-pointer ${
+          className={`flex flex-col h-fit items-center justify-center min-w-[150px] gap-3 mb-4 p-4 rounded-lg hover:translate-y-1 transition-transform cursor-pointer ${
             activeFeature === Features.Integrations
-              ? "bg-gradient-to-tr from-primary/40 to-purple-100 text-primary animate-fadeInLeftToRight"
+              ? "text-primary animate-fadeInLeftToRight"
               : ""
           }`}
           style={{
@@ -87,12 +94,12 @@ export default function KeyFeatures() {
           }}
         >
           <Share2 width={40} height={40} />
-          <p className="font-bold text-center">4+ integrations</p>
+          <p className="text-center">2+ integrations</p>
         </div>
         <div
-          className={`flex flex-col h-fit items-center justify-center min-w-[150px] gap-3 mb-4 p-4 rounded-lg hover:-translate-y-1 transition-transform cursor-pointer ${
+          className={`flex flex-col h-fit items-center justify-center min-w-[150px] gap-3 mb-4 p-4 rounded-lg hover:translate-y-1 transition-transform cursor-pointer ${
             activeFeature === Features.PopupInline
-              ? "bg-gradient-to-tr from-primary/40 to-purple-100 text-primary animate-fadeInLeftToRight"
+              ? "text-primary animate-fadeInLeftToRight"
               : ""
           }`}
           style={{
@@ -105,12 +112,12 @@ export default function KeyFeatures() {
           }}
         >
           <Proportions width={40} height={40} />
-          <p className="font-bold text-center">Popup & inline</p>
+          <p className="text-center">8 Popup Templates</p>
         </div>
         <div
-          className={`flex flex-col h-fit items-center justify-center min-w-[150px] gap-3 mb-4 p-4 rounded-lg hover:-translate-y-1 transition-transform cursor-pointer ${
+          className={`flex flex-col h-fit items-center justify-center min-w-[150px] gap-3 mb-4 p-4 rounded-lg hover:translate-y-1 transition-transform cursor-pointer ${
             activeFeature === Features.DataAnalytics
-              ? "bg-gradient-to-tr from-primary/40 to-purple-100 text-primary animate-fadeInLeftToRight"
+              ? "text-primary animate-fadeInLeftToRight"
               : ""
           }`}
           style={{
@@ -123,7 +130,7 @@ export default function KeyFeatures() {
           }}
         >
           <BarChartBig width={40} height={40} />
-          <p className="font-bold text-center">Data analytics</p>
+          <p className="text-center">Data analytics</p>
         </div>
       </div>
       <div className="md:columns-2 md:gap-8 flex md:flex-row items-center flex-col w-full min-h-[50vh] lg:px-12">
@@ -133,13 +140,23 @@ export default function KeyFeatures() {
             <div className="flex flex-col order-2 lg:min-h-[50vh] w-full justify-center gap-6 animate-twSlideInBottom">
               <p className="font-logo text-3xl">Styling to match your brand</p>
               <p className="text-lg">
-                Choose from 8 different popup templates, select custom colors,
-                change text content, and create a feel to match your own
-                personal brand.
+                Adjust popup sizing, select custom colors, change text content,
+                and create a feel to match your own personal brand.
               </p>
             </div>
-            <div className="flex flex-col max-w-[450px] order-1 items-center w-full md:mb-0 mb-12 justify-center animate-twSlideInBottom">
-              <div className="w-full h-[40vh] bg-gradient-to-tr from-primary/60 to-purple-100 rounded-lg"></div>
+            <div className="flex flex-col max-w-[450px] order-1 items-center w-full md:mb-0 mb-12 justify-center animate-twSlideInBottom shadow-lg rounded-lg">
+              <video
+                width="600"
+                controls
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="rounded-lg"
+              >
+                <source src="/videos/AdjustStyling.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
             </div>
           </>
         )}
@@ -153,8 +170,19 @@ export default function KeyFeatures() {
                 to display your Taplo notifications. No sweat!
               </p>
             </div>
-            <div className="flex flex-col max-w-[450px] order-1 items-center md:mb-0 mb-12 w-full justify-center animate-twSlideInBottom">
-              <div className="w-full h-[40vh] bg-gradient-to-tr from-primary/60 to-purple-100 rounded-lg"></div>
+            <div className="flex flex-col max-w-[450px] order-1 items-center w-full md:mb-0 mb-12 justify-center animate-twSlideInBottom shadow-lg rounded-lg">
+              <video
+                width="600"
+                controls
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="rounded-lg"
+              >
+                <source src="/videos/PreviewEmbed.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
             </div>
           </>
         )}
@@ -166,12 +194,29 @@ export default function KeyFeatures() {
                 Integrate with your favorite services
               </p>
               <p className="text-lg">
-                Taplo can integrate with Stripe, Shopify, LemonSqueezy, and
-                Google Analytics. More integrations will be coming soon!
+                Taplo can currently integrate with Stripe and Google Analytics.
+                More integrations will be coming soon!
               </p>
             </div>
-            <div className="flex flex-col max-w-[450px] order-1 items-center md:mb-0 mb-12 w-full justify-center animate-twSlideInBottom">
-              <div className="w-full h-[40vh] bg-gradient-to-tr from-primary/60 to-purple-100 rounded-lg"></div>
+            <div className="flex flex-col max-w-[450px] order-1 items-center w-full md:mb-0 mb-12 justify-center animate-twSlideInBottom shadow-lg rounded-lg">
+              <video
+                width="600"
+                controls
+                autoPlay
+                loop
+                muted
+                playsInline
+                onLoadedMetadata={(e) => {
+                  const videoElement = e.target as HTMLVideoElement;
+                  setTimeout(() => {
+                    videoElement.currentTime = 14; // Set the start time to 14 seconds
+                  }, 2000); // Delay of 50 milliseconds
+                }}
+                className="rounded-lg"
+              >
+                <source src="/videos/AddIntegration.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
             </div>
           </>
         )}
@@ -179,18 +224,26 @@ export default function KeyFeatures() {
           <>
             {" "}
             <div className="flex flex-col order-2 lg:min-h-[50vh] w-full justify-center gap-6 animate-twSlideInBottom">
-              <div className="rounded-xl w-fit px-4 py-1 bg-gradient-to-tr from-primary/40 font-bold to-purple-100 shadow-md">
-                Coming soon!
-              </div>
               <p className="font-logo text-3xl">Choose your display method</p>
               <p className="text-lg">
-                Taplo notifications can either appear as a popup or as inline
-                text directly on the page. Choose whichever works best with your
-                project!
+                Choose from one of 8 different popup templates to determine how
+                your popup appears on the page. Inline styles are also coming
+                soon!
               </p>
             </div>
-            <div className="flex flex-col max-w-[450px] order-1 items-center md:mb-0 mb-12 w-full justify-center animate-twSlideInBottom">
-              <div className="w-full h-[40vh] bg-gradient-to-tr from-primary/60 to-purple-100 rounded-lg"></div>
+            <div className="flex flex-col max-w-[450px] order-1 items-center w-full md:mb-0 mb-12 justify-center animate-twSlideInBottom shadow-lg rounded-lg">
+              <video
+                width="600"
+                controls
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="rounded-lg"
+              >
+                <source src="/videos/SelectTemplate.mp4" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
             </div>
           </>
         )}
@@ -198,7 +251,7 @@ export default function KeyFeatures() {
           <>
             {" "}
             <div className="flex flex-col order-2 lg:min-h-[50vh] w-full justify-center gap-6 animate-twSlideInBottom">
-              <div className="rounded-xl w-fit px-4 py-1 bg-gradient-to-tr from-primary/40 font-bold to-purple-100 shadow-md">
+              <div className="badge badge-primary badge-outline bg-transparent rounded-xl w-fit px-4 py-1 text-sm">
                 Coming soon!
               </div>
               <p className="font-logo text-3xl">
@@ -209,15 +262,19 @@ export default function KeyFeatures() {
                 with the Taplo notifications on your page.
               </p>
             </div>
-            <div className="flex flex-col max-w-[450px] order-1 items-center md:mb-0 mb-12 w-full justify-center animate-twSlideInBottom">
-              <div className="w-full h-[40vh] bg-gradient-to-tr from-primary/60 to-purple-100 rounded-lg"></div>
+            <div className="flex flex-col max-w-[450px] order-1 items-center md:mb-0 mb-12 w-full justify-center animate-twSlideInBottom shadow-md bg-white/60 backdrop-blur-lg p-4 rounded-lg">
+              <LineChart
+                labels={labels}
+                clicks={clicks}
+                impressions={impressions}
+              />
             </div>
           </>
         )}
       </div>
       <Link href={"/signup"}>
         <div
-          className={`btn btn-lg btn-primary mb-12 text-white max-w-fit ${
+          className={`btn btn-lg btn-primary text-white max-w-fit ${
             isAnimate ? "animate-twSlideInBottom" : ""
           }`}
         >

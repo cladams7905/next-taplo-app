@@ -22,9 +22,9 @@ export default function Pricing() {
     }, 1000);
   }, [pricingType]);
   return (
-    <div className="w-full min-h-[140vh] px-8">
+    <div className="w-full min-h-[120vh] px-8 py-12 z-10 bg-white/70 rounded-lg shadow-lg">
       {" "}
-      <div className="flex flex-col items-center pb-12 w-full gap-12 font-sans lg:px-32">
+      <div className="flex flex-col items-center w-full gap-12 font-sans lg:px-32">
         <p id="pricing" className="uppercase font-logo text-lg">
           Pricing
         </p>
@@ -33,7 +33,11 @@ export default function Pricing() {
           <p className="text-3xl font-logo text-center">
             Start boosting your conversions with Taplo.
           </p>
-          <LaunchOfferBadge />
+          <div className="px-2 md:text-md text-sm w-fit rounded-lg text-center inline-block bg-accent text-white justify-center items-center lg:px-4 py-1 font-sans">
+            <span className="mx-1 font-semibold">🚀 Launch offer:</span>
+            <span className="text-pink-200 mx-1">50% off Pro</span>for the next
+            <span className="text-pink-200 mx-1">75</span>customers.
+          </div>
         </div>
         <div className="flex w-full items-center justify-center gap-3 md:ml-16 ml-12">
           <p>Monthly</p>
@@ -59,7 +63,7 @@ export default function Pricing() {
           }`}
         >
           <div className="flex flex-col w-full min-h-[80vh] items-center max-w-[475px]">
-            <div className="relative flex flex-col gap-6 items-center shadow-md border border-gray-300 rounded-lg p-6 w-full h-full mb-12">
+            <div className="relative flex flex-col gap-6 items-center shadow-lg bg-white/60 backdrop-blur-lg rounded-lg p-6 w-full h-full">
               <div className="flex w-full items-center justify-center gap-3">
                 <div className="line-through font-bold text-xl -mt-10">
                   {pricingType === PricingType.Monthly
@@ -162,8 +166,8 @@ export default function Pricing() {
               </p>
             </div>
           </div>
-          <div className="flex flex-col w-full min-h-[80vh] items-center max-w-[475px] mb-12">
-            <div className="relative flex flex-col gap-6 items-center shadow-md border-2 border-primary rounded-lg p-6 w-full h-full">
+          <div className="flex flex-col w-full min-h-[80vh] items-center max-w-[475px]">
+            <div className="relative flex flex-col gap-6 items-center shadow-lg bg-white/60 backdrop-blur-md border-2 border-primary rounded-lg p-6 w-full h-full">
               <div className="absolute badge badge-lg badge-primary text-white -top-3">
                 Most Popular
               </div>

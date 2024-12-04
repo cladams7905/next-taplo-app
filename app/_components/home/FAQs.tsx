@@ -1,35 +1,18 @@
 "use client";
 
-import { Dot } from "lucide-react";
-import Logo from "@/public/images/Taplo-logo (3).svg";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function FAQs() {
   return (
-    <div className="flex flex-col w-full bg-accent pt-12 pb-20 gap-8 lg:px-64 px-8 font-sans">
+    <div className="flex flex-col w-full bg-white/70 rounded-lg shadow-lg z-10 pt-12 pb-20 gap-8 lg:px-64 px-8 font-sans">
       <div className="flex flex-col items-center gap-4">
         {" "}
-        <p id="faqs" className="text-white uppercase font-logo text-lg">
+        <p id="faqs" className="uppercase font-logo text-lg">
           FAQs
         </p>
-        <div className="flex flex-row items-center gap-1">
-          {" "}
-          <Dot color="oklch(var(--s))" width={40} height={40} />
-          <Dot color="oklch(var(--s))" width={40} height={40} />
-          <Image
-            width={36}
-            height={36}
-            src={Logo}
-            alt="Logo"
-            className="rounded-full"
-          />
-          <Dot color="oklch(var(--s))" width={40} height={40} />
-          <Dot color="oklch(var(--s))" width={40} height={40} />
-        </div>
       </div>
       <div className="flex flex-col w-full items-center gap-4">
-        <div className="collapse collapse-plus bg-transparent text-white rounded-none border-b border-white/40">
+        <div className="collapse collapse-plus bg-transparent rounded-none border-b border-base-content">
           <input type="radio" name="my-accordion-3" defaultChecked />
           <div className="collapse-title md:text-xl text-lg font-medium">
             Who would benefit from using Taplo?
@@ -43,7 +26,7 @@ export default function FAQs() {
             </p>
           </div>
         </div>
-        <div className="collapse collapse-plus bg-transparent text-white rounded-none border-b border-white/40">
+        <div className="collapse collapse-plus bg-transparent rounded-none border-b border-base-content">
           <input type="radio" name="my-accordion-3" />
           <div className="collapse-title md:text-xl text-lg font-medium">
             How much of a conversion boost should I expect?
@@ -56,7 +39,7 @@ export default function FAQs() {
             </p>
           </div>
         </div>
-        <div className="collapse collapse-plus bg-transparent text-white rounded-none border-b border-white/40">
+        <div className="collapse collapse-plus bg-transparent rounded-none border-b border-base-content">
           <input type="radio" name="my-accordion-3" />
           <div className="collapse-title md:text-xl text-lg font-medium">
             What integrations does Taplo support?
@@ -69,7 +52,7 @@ export default function FAQs() {
             </p>
           </div>
         </div>
-        <div className="collapse collapse-plus bg-transparent text-white rounded-none border-b border-white/40">
+        <div className="collapse collapse-plus bg-transparent rounded-none border-b border-base-content">
           <input type="radio" name="my-accordion-3" />
           <div className="collapse-title md:text-xl text-lg font-medium">
             How does Taplo handle privacy?
@@ -82,7 +65,7 @@ export default function FAQs() {
             </p>
           </div>
         </div>
-        <div className="collapse collapse-plus bg-transparent text-white rounded-none border-b border-white/40">
+        <div className="collapse collapse-plus bg-transparent rounded-none border-b border-base-content">
           <input type="radio" name="my-accordion-3" />
           <div className="collapse-title md:text-xl text-lg font-medium">
             Can I get a refund?
@@ -103,7 +86,7 @@ export default function FAQs() {
             </div>
           </div>
         </div>
-        <div className="collapse collapse-plus bg-transparent text-white rounded-none border-b border-white/40">
+        <div className="collapse collapse-plus bg-transparent rounded-none border-b border-base-content">
           <input type="radio" name="my-accordion-3" />
           <div className="collapse-title md:text-xl text-lg font-medium">
             Can I hide notifications older than X days?
@@ -116,7 +99,7 @@ export default function FAQs() {
             </p>
           </div>
         </div>
-        <div className="collapse collapse-plus bg-transparent text-white rounded-none border-b border-white/40">
+        <div className="collapse collapse-plus bg-transparent rounded-none border-b border-base-content">
           <input type="radio" name="my-accordion-3" />
           <div className="collapse-title md:text-xl text-lg font-medium">
             How can I get in contact?
