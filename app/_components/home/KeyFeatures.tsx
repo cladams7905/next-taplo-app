@@ -37,13 +37,13 @@ export default function KeyFeatures() {
   const impressions = [300, 400, 450, 500, 600, 650, 700];
 
   return (
-    <div className="flex flex-col items-center py-12 w-full min-h-[100vh] gap-12 font-sans lg:px-32 px-8 z-10 bg-white/60 shadow-lg rounded-lg">
+    <div className="flex flex-col items-center py-12 w-full min-h-[100vh] gap-12 font-sans lg:px-32 sm:!px-8 px-4 z-10 bg-white/60 shadow-lg rounded-lg">
       <p id="key-features" className="uppercase font-logo text-lg">
         Key Features
       </p>
-      <div className="flex overflow-x-scroll lg:justify-center w-full md:gap-12 gap-0 items-center">
+      <div className="flex overflow-x-scroll lg:justify-center w-full md:gap-12 gap-0 items-center !font-sans">
         <div
-          className={`flex flex-col h-fit items-center justify-center min-w-[150px] gap-3 mb-4 p-4 rounded-lg hover:translate-y-1 transition-transform cursor-pointer ${
+          className={`flex flex-col h-fit items-center justify-center w-fit min-w-[120px] sm:text-md text-sm gap-3 mb-4 p-4 !pl-0 rounded-lg hover:translate-y-1 transition-transform cursor-pointer ${
             activeFeature === Features.CustomStyling
               ? "text-primary animate-fadeInLeftToRight"
               : ""
@@ -61,7 +61,7 @@ export default function KeyFeatures() {
           <p className="text-center">Custom styling</p>
         </div>
         <div
-          className={`flex flex-col h-fit items-center justify-center min-w-[150px] gap-3 mb-4 p-4 rounded-lg hover:translate-y-1 transition-transform cursor-pointer ${
+          className={`flex flex-col h-fit items-center justify-center w-fit min-w-[120px] sm:text-md text-sm gap-3 mb-4 p-4 rounded-lg hover:translate-y-1 transition-transform cursor-pointer ${
             activeFeature === Features.Embed
               ? "text-primary animate-fadeInLeftToRight"
               : ""
@@ -79,7 +79,7 @@ export default function KeyFeatures() {
           <p className="text-center">Single-line embed</p>
         </div>
         <div
-          className={`flex flex-col h-fit items-center justify-center min-w-[150px] gap-3 mb-4 p-4 rounded-lg hover:translate-y-1 transition-transform cursor-pointer ${
+          className={`flex flex-col h-fit items-center justify-center w-fit min-w-[120px] sm:text-md text-sm gap-3 mb-4 p-4 rounded-lg hover:translate-y-1 transition-transform cursor-pointer ${
             activeFeature === Features.Integrations
               ? "text-primary animate-fadeInLeftToRight"
               : ""
@@ -97,7 +97,7 @@ export default function KeyFeatures() {
           <p className="text-center">2+ integrations</p>
         </div>
         <div
-          className={`flex flex-col h-fit items-center justify-center min-w-[150px] gap-3 mb-4 p-4 rounded-lg hover:translate-y-1 transition-transform cursor-pointer ${
+          className={`flex flex-col h-fit items-center justify-center w-fit min-w-[120px] sm:text-md text-sm gap-3 mb-4 p-4 rounded-lg hover:translate-y-1 transition-transform cursor-pointer ${
             activeFeature === Features.PopupInline
               ? "text-primary animate-fadeInLeftToRight"
               : ""
@@ -115,7 +115,7 @@ export default function KeyFeatures() {
           <p className="text-center">8 Popup Templates</p>
         </div>
         <div
-          className={`flex flex-col h-fit items-center justify-center min-w-[150px] gap-3 mb-4 p-4 rounded-lg hover:translate-y-1 transition-transform cursor-pointer ${
+          className={`flex flex-col h-fit items-center justify-center w-fit min-w-[120px] sm:text-md text-sm gap-3 mb-4 p-4 rounded-lg hover:translate-y-1 transition-transform cursor-pointer ${
             activeFeature === Features.DataAnalytics
               ? "text-primary animate-fadeInLeftToRight"
               : ""
@@ -138,8 +138,10 @@ export default function KeyFeatures() {
           <>
             {" "}
             <div className="flex flex-col order-2 lg:min-h-[50vh] w-full justify-center gap-6 animate-twSlideInBottom">
-              <p className="font-logo text-3xl">Styling to match your brand</p>
-              <p className="text-lg">
+              <p className="font-logo md:text-3xl text-2xl">
+                Styling to match your brand
+              </p>
+              <p className="md:text-lg text-md">
                 Adjust popup sizing, select custom colors, change text content,
                 and create a feel to match your own personal brand.
               </p>
@@ -164,8 +166,10 @@ export default function KeyFeatures() {
           <>
             {" "}
             <div className="flex flex-col order-2 lg:min-h-[50vh] w-full justify-center gap-6 animate-twSlideInBottom">
-              <p className="font-logo text-3xl">5-minute, no-code setup</p>
-              <p className="text-lg">
+              <p className="font-logo md:text-3xl text-2xl">
+                5-minute, no-code setup
+              </p>
+              <p className="md:text-lg text-md">
                 Simply copy the embed script and paste it on the pages you want
                 to display your Taplo notifications. No sweat!
               </p>
@@ -190,10 +194,10 @@ export default function KeyFeatures() {
           <>
             {" "}
             <div className="flex flex-col order-2 lg:min-h-[50vh] w-full justify-center gap-6 animate-twSlideInBottom">
-              <p className="font-logo text-3xl">
+              <p className="font-logo md:text-3xl text-2xl">
                 Integrate with your favorite services
               </p>
-              <p className="text-lg">
+              <p className="md:text-lg text-md">
                 Taplo can currently integrate with Stripe and Google Analytics.
                 More integrations will be coming soon!
               </p>
@@ -224,8 +228,10 @@ export default function KeyFeatures() {
           <>
             {" "}
             <div className="flex flex-col order-2 lg:min-h-[50vh] w-full justify-center gap-6 animate-twSlideInBottom">
-              <p className="font-logo text-3xl">Choose your display method</p>
-              <p className="text-lg">
+              <p className="font-logo md:text-3xl text-2xl">
+                Choose your display method
+              </p>
+              <p className="md:text-lg text-md">
                 Choose from one of 8 different popup templates to determine how
                 your popup appears on the page. Inline styles are also coming
                 soon!
@@ -254,10 +260,10 @@ export default function KeyFeatures() {
               <div className="badge badge-primary badge-outline bg-transparent rounded-xl w-fit px-4 py-1 text-sm">
                 Coming soon!
               </div>
-              <p className="font-logo text-3xl">
+              <p className="font-logo md:text-3xl text-2xl">
                 Collect data, understand your users
               </p>
-              <p className="text-lg">
+              <p className="md:text-lg text-md">
                 View insights to understand how your visitors are interacting
                 with the Taplo notifications on your page.
               </p>
@@ -274,7 +280,7 @@ export default function KeyFeatures() {
       </div>
       <Link href={"/signup"}>
         <div
-          className={`btn btn-lg btn-primary text-white max-w-fit ${
+          className={`btn md:!btn-lg rounded-lg btn-md btn-primary sm:w-fit text-white ${
             isAnimate ? "animate-twSlideInBottom" : ""
           }`}
         >

@@ -27,39 +27,39 @@ export default function Home() {
           <Suspense fallback="...">
             <Navbar />
           </Suspense>
-          <div className="relative flex h-fit w-full flex-col items-center justify-between px-8 md:px-24 lg:px-24 overflow-x-clip font-sans bg-gradient-to-tr from-primary to-pink-100 space-y-12 gap-8 pb-24">
+          <div className="relative flex h-fit w-full flex-col items-center justify-between px-6 sm:!px-12 md:px-24 overflow-x-clip font-sans bg-gradient-to-tr from-primary to-pink-100 space-y-12 gap-8 pb-24">
             <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
             <div className="z-[2] relative flex flex-row flex-wrap font-sans lg:mb-32 md:mb-16 sm:mb-12 lg:gap-12 md:gap-8 sm:gap-4 items-center justify-center w-full">
-              <div className="flex flex-1 flex-col justify-center items-center gap-12 lg:px-44 lg:w-1/2 w-full min-h-[80vh]">
-                <div className="flex flex-col gap-10 relative pt-48">
+              <div className="flex flex-1 flex-col justify-center items-center gap-12 xl:px-44 lg:w-1/2 w-full min-h-[80vh]">
+                <div className="flex flex-col gap-10 relative md:pt-48 pt-24">
                   {" "}
-                  <h1 className="font-bold font-logo md:text-5xl text-5xl text-center leading-normal">
+                  <h1 className="font-bold font-logo md:!text-5xl sm:!text-4xl !text-3xl text-center !leading-tight">
                     <span className="relative">
                       {" "}
                       Boost conversions
-                      <div className="w-full h-4 rounded-lg bg-primary/40 absolute top-10 left-0 -z-10" />
+                      <div className="w-full sm:h-4 h-3 rounded-lg bg-primary/60 absolute md:top-10 sm:top-7 top-6 left-0 -z-10" />
                     </span>{" "}
                     &{" "}
                     <span className="relative">
                       credibility
-                      <div className="w-full h-4 rounded-lg bg-primary/40 absolute left-0 top-10 -z-10" />
+                      <div className="w-full sm:h-4 h-3 rounded-lg bg-primary/60 absolute left-0 md:top-10  sm:top-7 top-6 -z-10" />
                     </span>{" "}
                     with the #1 social proof plugin.
                   </h1>
-                  <p className="lg:text-xl lg:px-32 text-lg pr-4 text-center">
+                  <p className="md:text-xl lg:px-32 text-md pr-4 text-center">
                     Add Taplo&apos;s plugin to your site to show off real-time
                     data to your users&mdash;no coding skills required.
                   </p>
                 </div>
                 <div className="flex lg:flex-row md:flex-row w-full flex-col items-center justify-center mb-2 lg:gap-16 md:gap-16 gap-8 mt-4">
                   <div className="flex flex-col gap-2 w-full md:w-fit items-center">
-                    <Link href={"/signup"} className="w-full">
-                      <div className="btn lg:btn-lg rounded-lg btn-md btn-primary w-full md:w-fit lg:w-fit text-white">
+                    <Link href={"/signup"}>
+                      <div className="btn md:!btn-lg rounded-lg btn-md btn-primary sm:w-fit text-white">
                         Get started for free
                         <ArrowRight />
                       </div>
                     </Link>
-                    <p className="italic mt-2">
+                    <p className="italic mt-2 sm:text-md text-sm">
                       <span className="font-bold">25</span> marketers love using
                       Taplo
                     </p>
@@ -102,7 +102,7 @@ export default function Home() {
                   minutes!
                 </p>
                 <Link href={"/signup"}>
-                  <div className="btn btn-lg btn-primary text-white max-w-fit mt-6">
+                  <div className="btn lg:btn-lg rounded-lg btn-md btn-primary w-full sm:w-fit text-white">
                     Get started for free
                     <ArrowRight />
                   </div>

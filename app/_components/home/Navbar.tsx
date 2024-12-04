@@ -25,19 +25,19 @@ export default function Navbar() {
             <div className="ml-2 font-bold font-logo text-xl mr-2">Taplo</div>
           </div>
           <div className="navbar-center hidden lg:flex">
-            <ul className="menu menu-horizontal px-1 font-semibold">
+            <ul className="menu menu-horizontal px-1 flex gap-2 font-semibold">
               <li>
-                <Link href={"#key-features"} className="focus:bg-link-hover">
+                <Link href={"#key-features"} className="focus:!bg-link-hover">
                   Features
                 </Link>
               </li>
               <li>
-                <Link href={"#pricing"} className="focus:bg-link-hover">
+                <Link href={"#pricing"} className="focus:!bg-link-hover">
                   Pricing
                 </Link>
               </li>
               <li>
-                <Link href={"#faqs"} className="focus:bg-link-hover">
+                <Link href={"#faqs"} className="focus:!bg-link-hover">
                   FAQs
                 </Link>
               </li>
