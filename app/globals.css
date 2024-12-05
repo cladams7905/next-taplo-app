@@ -81,12 +81,12 @@ input:not(.toggle-primary), select, textarea {
 }
 
 [type="checkbox"]:not(:checked) {
-  background-color: #F1F2FD !important;
-  border-color: #F1F2FD !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
 }
 
 .toggle-primary{
-  @apply !text-purple-100 bg-gray-200
+  @apply !text-purple-100 bg-transparent
 }
 
 .tooltip::before {

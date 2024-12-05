@@ -27,24 +27,24 @@ export default function Home() {
           <Suspense fallback="...">
             <Navbar />
           </Suspense>
-          <div className="relative flex h-fit w-full flex-col items-center justify-between px-6 sm:!px-12 md:px-24 overflow-x-clip font-sans bg-gradient-to-tr from-primary to-pink-100 space-y-12 gap-8 pb-24">
-            <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
+          <div className="relative flex h-fit w-full flex-col items-center justify-between px-6 sm:px-12 md:px-24 overflow-x-clip font-sans bg-gradient-to-tr from-primary to-pink-100 sm:space-y-12 space-y-8 md:!pt-0 pt-8 gap-4 pb-24 z-0">
+            <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] h-full"></div>
             <div className="z-[2] relative flex flex-row flex-wrap font-sans lg:mb-32 md:mb-16 sm:mb-12 lg:gap-12 md:gap-8 sm:gap-4 items-center justify-center w-full">
               <div className="flex flex-1 flex-col justify-center items-center gap-12 xl:px-44 lg:w-1/2 w-full min-h-[80vh]">
                 <div className="flex flex-col gap-10 relative md:pt-48 pt-24">
                   {" "}
-                  <h1 className="font-bold font-logo md:!text-5xl sm:!text-4xl !text-3xl text-center !leading-tight">
+                  <h1 className="font-bold font-logo md:!text-6xl !text-4xl text-center !leading-tight">
                     <span className="relative">
                       {" "}
                       Boost conversions
-                      <div className="w-full sm:h-4 h-3 rounded-lg bg-primary/60 absolute md:top-10 sm:top-7 top-6 left-0 -z-10" />
+                      <div className="w-full sm:h-4 h-3 rounded-lg bg-primary/60 absolute md:top-12 top-7 left-0 -z-10" />
                     </span>{" "}
                     &{" "}
                     <span className="relative">
                       credibility
-                      <div className="w-full sm:h-4 h-3 rounded-lg bg-primary/60 absolute left-0 md:top-10  sm:top-7 top-6 -z-10" />
+                      <div className="w-full sm:h-4 h-3 rounded-lg bg-primary/60 absolute left-0 md:top-12 top-7 -z-10" />
                     </span>{" "}
-                    with the #1 social proof plugin.
+                    with social proof
                   </h1>
                   <p className="md:text-xl lg:px-32 text-md pr-4 text-center">
                     Add Taplo&apos;s plugin to your site to show off real-time
@@ -60,7 +60,7 @@ export default function Home() {
                       </div>
                     </Link>
                     <p className="italic mt-2 sm:text-md text-sm">
-                      <span className="font-bold">25</span> marketers love using
+                      <span className="font-bold">25</span> others love using
                       Taplo
                     </p>
                   </div>
@@ -96,13 +96,13 @@ export default function Home() {
                 <p className="text-3xl font-logo text-center">
                   Boost your conversion rate overnight with Taplo.
                 </p>
-                <p className="md:text-xl text-lg text-center md:px-24">
+                <p className="md:text-xl sm:text-lg text-md text-center md:px-24">
                   Just create an account, add a new Taplo project, customize
                   your notifications, and embed your script. It only takes 5
                   minutes!
                 </p>
                 <Link href={"/signup"}>
-                  <div className="btn lg:btn-lg rounded-lg btn-md btn-primary w-full sm:w-fit text-white">
+                  <div className="btn lg:btn-lg mt-8 rounded-lg btn-md btn-primary w-full sm:w-fit text-white">
                     Get started for free
                     <ArrowRight />
                   </div>

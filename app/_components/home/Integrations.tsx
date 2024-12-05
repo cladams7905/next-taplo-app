@@ -29,7 +29,7 @@ export default function Integrations() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center py-12 w-full min-h-[100vh] gap-12 font-sans lg:px-32 sm:!px-8 px-4 z-10 bg-white/60 shadow-lg rounded-lg">
+    <div className="flex flex-col items-center py-12 w-full min-h-[100vh] gap-12 font-sans lg:px-32 sm:px-8 px-4 z-10 bg-white/60 shadow-lg rounded-lg">
       <div className="flex flex-col items-center w-full gap-12 font-sans">
         <p className="uppercase font-logo text-lg">Popup Events</p>
         <p className="md:text-lg text-md">

@@ -1,10 +1,8 @@
 "use client";
 
 import { ArrowRight, Check, Lock, X } from "lucide-react";
-import LaunchOfferBadge from "./LaunchOfferBadge";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { PaymentPlans } from "@/lib/enums";
 
 export default function Pricing() {
   const enum PricingType {
@@ -12,7 +10,7 @@ export default function Pricing() {
     Yearly,
   }
   const [pricingType, setPricingType] = useState<PricingType>(
-    PricingType.Monthly
+    PricingType.Yearly
   );
   const [isAnimate, setIsAnimate] = useState<boolean>(false);
   useEffect(() => {
@@ -22,9 +20,9 @@ export default function Pricing() {
     }, 1000);
   }, [pricingType]);
   return (
-    <div className="w-full min-h-[120vh] px-8 py-12 z-10 bg-white/70 rounded-lg shadow-lg">
+    <div className="w-full min-h-[120vh] xl:px-32 lg:px-24 sm:px-8 px-4 py-12 z-10 bg-white/70 rounded-lg shadow-lg">
       {" "}
-      <div className="flex flex-col items-center w-full gap-12 font-sans lg:px-32">
+      <div className="flex flex-col items-center w-full gap-12 font-sans">
         <p id="pricing" className="uppercase font-logo text-lg">
           Pricing
         </p>
@@ -33,52 +31,63 @@ export default function Pricing() {
           <p className="text-3xl font-logo text-center">
             Start boosting your conversions with Taplo.
           </p>
-          <div className="px-2 md:text-md text-sm w-fit rounded-lg text-center inline-block bg-accent text-white justify-center items-center lg:px-4 py-1 font-sans">
-            <span className="mx-1 font-semibold">🚀 Launch offer:</span>
-            <span className="text-pink-200 mx-1">50% off Pro</span>for the next
-            <span className="text-pink-200 mx-1">75</span>customers.
+        </div>
+        <div className="w-fit bg-white/60 rounded-lg p-1 shadow-lg">
+          <div className="relative flex w-fit sm:min-w-[320px] min-w-[290px] items-center justify-center">
+            {/* Sliding background */}
+            <div
+              className={`absolute left-0 top-0 h-full w-1/2 bg-primary rounded-lg transition-transform duration-300 ${
+                pricingType === PricingType.Yearly
+                  ? "translate-x-full"
+                  : "translate-x-0"
+              }`}
+            ></div>
+
+            {/* Options */}
+            <div
+              className={`relative z-10 flex-1 p-2 text-center cursor-pointer font-semibold text-sm ${
+                pricingType === PricingType.Monthly
+                  ? "text-white"
+                  : "text-base-content"
+              }`}
+              onClick={() => setPricingType(PricingType.Monthly)}
+            >
+              Monthly
+            </div>
+            <div
+              className={`relative z-10 flex-1 p-2 w-fit text-center cursor-pointer whitespace-nowrap font-semibold text-sm ${
+                pricingType === PricingType.Yearly
+                  ? "text-white"
+                  : "text-base-content"
+              }`}
+              onClick={() => setPricingType(PricingType.Yearly)}
+            >
+              Yearly (save 33%) 🔥
+            </div>
           </div>
         </div>
-        <div className="flex w-full items-center justify-center gap-3 md:ml-16 ml-12">
-          <p>Monthly</p>
-          <input
-            type="radio"
-            name="radio-2"
-            className="radio radio-primary"
-            checked={pricingType === PricingType.Monthly}
-            onChange={() => setPricingType(PricingType.Monthly)}
-          />
-          <input
-            type="radio"
-            name="radio-2"
-            className="radio radio-primary"
-            checked={pricingType === PricingType.Yearly}
-            onChange={() => setPricingType(PricingType.Yearly)}
-          />
-          <p>Yearly (save 25-30%)</p>
-        </div>
         <div
-          className={`lg:columns-2 md:columns-2 flex md:flex-row md:gap-6 flex-col items-center justify-center w-full mt-6 ${
+          className={`lg:columns-2 md:columns-2 flex lg:flex-row md:gap-6 flex-col items-center justify-center w-full mt-6 ${
             isAnimate ? "animate-twSlideInBottom" : ""
           }`}
         >
-          <div className="flex flex-col w-full min-h-[80vh] items-center max-w-[475px]">
-            <div className="relative flex flex-col gap-6 items-center shadow-lg bg-white/60 backdrop-blur-lg rounded-lg p-6 w-full h-full">
+          <div className="flex flex-col w-full h-full max-w-[475px] md:mb-auto mb-8">
+            <div className="relative flex flex-col gap-6 items-center shadow-lg bg-white/60 backdrop-blur-lg rounded-lg p-6 w-full h-full min-h-[620px]">
               <div className="flex w-full items-center justify-center gap-3">
                 <div className="line-through font-bold text-xl -mt-10">
                   {pricingType === PricingType.Monthly
                     ? ""
                     : pricingType === PricingType.Yearly
-                    ? "$96"
+                    ? "$60"
                     : ""}
                 </div>
                 <div className="flex flex-col items-center">
                   {" "}
                   <p className="text-[40px] text-primary font-logo">
                     {pricingType === PricingType.Monthly
-                      ? "$7.99"
+                      ? "$5"
                       : pricingType === PricingType.Yearly
-                      ? "$69.99"
+                      ? "$40"
                       : ""}
                   </p>
                   <p>
@@ -97,13 +106,13 @@ export default function Pricing() {
                 {pricingType === PricingType.Monthly
                   ? ""
                   : pricingType === PricingType.Yearly
-                  ? "(save $26)"
+                  ? "(save $20)"
                   : ""}
               </div>
               <p>
                 Perfect for startups and marketers with only a single website.
               </p>
-              <div className="flex flex-col justify-center gap-3">
+              <div className="flex flex-col justify-center gap-3 mb-10">
                 <div className="flex items-center gap-3">
                   <Check
                     color="#4ade80"
@@ -120,37 +129,28 @@ export default function Pricing() {
                     height={24}
                     strokeWidth={4}
                   />
-                  <p>Unlimited integrations</p>
+                  <p>Unlimited popups</p>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="relative flex items-center gap-3">
                   <Check
                     color="#4ade80"
                     width={24}
                     height={24}
                     strokeWidth={4}
                   />
-                  <p>Customizable popups</p>
+                  <p>Simple analytics*</p>
                 </div>
-                <div className="flex items-center gap-3">
-                  <Check
-                    color="#4ade80"
-                    width={24}
-                    height={24}
-                    strokeWidth={4}
-                  />
-                  <p>Simple analytics</p>
-                </div>
-                <div className="flex items-center gap-3">
+                <div className="relative flex items-center gap-3">
                   <X color="#f87171" width={24} height={24} strokeWidth={4} />
-                  <p>API access</p>
+                  <p>API access*</p>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="relative flex items-center gap-3">
                   <X color="#f87171" width={24} height={24} strokeWidth={4} />
-                  <p>Inline style</p>
+                  <p>Inline style*</p>
                 </div>
               </div>
               <Link href={`/signup`}>
-                <div className="btn btn-lg btn-primary text-white max-w-fit">
+                <div className="btn md:!btn-lg rounded-lg btn-md btn-primary sm:w-fit text-white">
                   Start my free trial
                   <ArrowRight />
                 </div>
@@ -166,7 +166,7 @@ export default function Pricing() {
               </p>
             </div>
           </div>
-          <div className="flex flex-col w-full min-h-[80vh] items-center max-w-[475px]">
+          <div className="flex flex-col w-full min-h-[80vh] max-w-[475px]">
             <div className="relative flex flex-col gap-6 items-center shadow-lg bg-white/60 backdrop-blur-md border-2 border-primary rounded-lg p-6 w-full h-full">
               <div className="absolute badge badge-lg badge-primary text-white -top-3">
                 Most Popular
@@ -175,18 +175,18 @@ export default function Pricing() {
                 <div className="line-through font-bold text-xl -mt-10">
                   {" "}
                   {pricingType === PricingType.Monthly
-                    ? "$18"
+                    ? "$16"
                     : pricingType === PricingType.Yearly
-                    ? "$216"
+                    ? "$96"
                     : ""}
                 </div>
                 <div className="flex flex-col items-center">
                   {" "}
                   <p className="text-[40px] text-primary font-logo">
                     {pricingType === PricingType.Monthly
-                      ? "$8.99"
+                      ? "$8"
                       : pricingType === PricingType.Yearly
-                      ? "$107.99"
+                      ? "$48"
                       : ""}
                   </p>
                   <p>
@@ -205,7 +205,7 @@ export default function Pricing() {
                 {pricingType === PricingType.Monthly
                   ? ""
                   : pricingType === PricingType.Yearly
-                  ? "(save $108)"
+                  ? "(save $48)"
                   : ""}
               </div>
               <p>
@@ -229,7 +229,7 @@ export default function Pricing() {
                     height={24}
                     strokeWidth={4}
                   />
-                  <p>Unlimited integrations</p>
+                  <p>Unlimited popups</p>
                 </div>
                 <div className="flex items-center gap-3">
                   <Check
@@ -238,38 +238,38 @@ export default function Pricing() {
                     height={24}
                     strokeWidth={4}
                   />
-                  <p>Customizable popups</p>
+                  <p>Full customization</p>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="relative flex items-center gap-3">
                   <Check
                     color="#4ade80"
                     width={24}
                     height={24}
                     strokeWidth={4}
                   />
-                  <p>In-depth analytics</p>
+                  <p>In-depth analytics*</p>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="relative flex items-center gap-3">
                   <Check
                     color="#4ade80"
                     width={24}
                     height={24}
                     strokeWidth={4}
                   />
-                  <p>API access</p>
+                  <p>API access*</p>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="relative flex items-center gap-3">
                   <Check
                     color="#4ade80"
                     width={24}
                     height={24}
                     strokeWidth={4}
                   />
-                  <p>Inline style</p>
+                  <p>Inline style*</p>
                 </div>
               </div>
               <Link href={`/signup`}>
-                <div className="btn btn-lg btn-primary text-white">
+                <div className="btn md:!btn-lg rounded-lg btn-md btn-primary sm:w-fit text-white">
                   Start my free trial
                   <ArrowRight />
                 </div>
@@ -286,6 +286,9 @@ export default function Pricing() {
             </div>
           </div>
         </div>
+        <p className="text-center">
+          *These features are still under development.
+        </p>
       </div>
     </div>
   );

@@ -37,7 +37,7 @@ export default function KeyFeatures() {
   const impressions = [300, 400, 450, 500, 600, 650, 700];
 
   return (
-    <div className="flex flex-col items-center py-12 w-full min-h-[100vh] gap-12 font-sans lg:px-32 sm:!px-8 px-4 z-10 bg-white/60 shadow-lg rounded-lg">
+    <div className="flex flex-col items-center py-12 w-full min-h-[100vh] gap-12 font-sans lg:px-32 sm:px-8 px-4 z-10 bg-white/60 shadow-lg rounded-lg">
       <p id="key-features" className="uppercase font-logo text-lg">
         Key Features
       </p>

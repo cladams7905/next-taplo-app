@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function FAQs() {
   return (
-    <div className="flex flex-col w-full bg-white/70 rounded-lg shadow-lg z-10 pt-12 pb-20 gap-8 lg:px-64 px-8 font-sans">
+    <div className="flex flex-col w-full bg-white/70 rounded-lg shadow-lg z-10 pt-12 pb-20 gap-8 lg:px-64 sm:px-8 px-4 font-sans">
       <div className="flex flex-col items-center gap-4">
         {" "}
         <p id="faqs" className="uppercase font-logo text-lg">
