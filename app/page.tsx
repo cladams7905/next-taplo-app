@@ -90,7 +90,7 @@ export default function Home() {
             <Integrations />
             <Pricing />
             <FAQs />
-            <div className="relative flex bg-white/70 rounded-lg shadow-lg lg:h-[65vh] h-[100vh] w-full flex-col items-center justify-center px-8 gap-8 overflow-x-clip font-sans">
+            <div className="relative flex bg-white/70 rounded-lg shadow-lg h-[65vh] w-full flex-col items-center justify-center px-8 gap-8 overflow-x-clip font-sans">
               <div className="relative z-[4] flex flex-col items-center justify-center w-full h-full gap-6">
                 {" "}
                 <p className="text-3xl font-logo text-center">

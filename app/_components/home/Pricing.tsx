@@ -32,8 +32,8 @@ export default function Pricing() {
             Start boosting your conversions with Taplo.
           </p>
         </div>
-        <div className="w-fit bg-white/60 rounded-lg p-1 shadow-lg">
-          <div className="relative flex w-fit sm:min-w-[320px] min-w-[290px] items-center justify-center">
+        <div className="w-full bg-white/60 rounded-lg p-1 shadow-lg max-w-[400px]">
+          <div className="relative flex sm:min-w-[320px] sm:w-fit w-full items-center justify-center">
             {/* Sliding background */}
             <div
               className={`absolute left-0 top-0 h-full w-1/2 bg-primary rounded-lg transition-transform duration-300 ${
@@ -62,16 +62,16 @@ export default function Pricing() {
               }`}
               onClick={() => setPricingType(PricingType.Yearly)}
             >
-              Yearly (save 33%) 🔥
+              Yearly🔥 (save 33%)
             </div>
           </div>
         </div>
         <div
-          className={`lg:columns-2 md:columns-2 flex lg:flex-row md:gap-6 flex-col items-center justify-center w-full mt-6 ${
+          className={`lg:columns-2 md:columns-2 flex lg:flex-row md:gap-6 flex-col lg:!items-start lg:!justify-start !justify-center !items-center w-full ${
             isAnimate ? "animate-twSlideInBottom" : ""
           }`}
         >
-          <div className="flex flex-col w-full h-full max-w-[475px] md:mb-auto mb-8">
+          <div className="flex flex-col w-full h-full max-w-[475px] md:mb-0 mb-8">
             <div className="relative flex flex-col gap-6 items-center shadow-lg bg-white/60 backdrop-blur-lg rounded-lg p-6 w-full h-full min-h-[620px]">
               <div className="flex w-full items-center justify-center gap-3">
                 <div className="line-through font-bold text-xl -mt-10">
