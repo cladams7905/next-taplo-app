@@ -77,11 +77,9 @@ export default function NewProjectForm({
 
   const shouldDisableCreateProject = () => {
     return (
+      !user.user_metadata.is_promo_user ||
       !freeTrialDate ||
-      (!user.user_metadata.is_promo_user &&
-        paymentPlan?.includes("Starter") &&
-        numProjects &&
-        numProjects >= 1)
+      (paymentPlan?.includes("Starter") && numProjects && numProjects >= 1)
     );
   };
 
