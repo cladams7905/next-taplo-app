@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import ProfilePic from "@/public/images/Profile_LightGray.png";
-import Logo from "@/public/images/Taplo-logo.svg";
+import Logo from "@/public/images/TaploLogoWhite.svg";
 import Link from "next/link";
 
 export default function Footer() {
@@ -10,9 +10,9 @@ export default function Footer() {
     <div className="flex flex-col gap-12 bg-base-content text-white p-10 font-sans z-20">
       <footer className="footer">
         <aside>
-          <div className="flex items-center gap-2">
-            <Image width={40} height={40} alt="logo" src={Logo} />
-            <p className="text-2xl font-logo">Taplo</p>
+          <div className="flex items-center gap-2 mb-3">
+            <Image width={34} height={34} alt="logo" src={Logo} />
+            <p className="mx-2 text-2xl font-logo">Taplo</p>
           </div>
           <p className="text-md">
             Attention-grabbing popups to increase your conversion rate.
@@ -97,6 +97,17 @@ export default function Footer() {
             </Link>
           </div>
         </nav>
+        <a
+          href="https://www.producthunt.com/posts/taplo?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-taplo"
+          target="_blank"
+        >
+          <img
+            src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=745836&theme=light"
+            alt="Taplo - Embeddable&#0032;Social&#0032;Proof&#0032;Plugin&#0032;for&#0032;SaaS&#0032;founders | Product Hunt"
+            width="200"
+            height="54"
+          />
+        </a>
       </footer>
       <div className="flex items-center gap-6 mb-12">
         <Image

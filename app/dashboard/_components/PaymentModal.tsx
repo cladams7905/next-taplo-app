@@ -19,7 +19,7 @@ import {
   useRef,
   useState,
 } from "react";
-import Logo from "@/public/images/Taplo-logo (2).svg";
+import Logo from "@/public/images/TaploLogo.svg";
 import Stripe from "stripe";
 import { PaymentPlans } from "@/lib/enums";
 import { updateStripeUser } from "@/lib/stripe/actions";

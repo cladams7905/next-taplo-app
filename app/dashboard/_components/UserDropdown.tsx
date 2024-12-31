@@ -78,12 +78,13 @@ function UserDropdown({
                   subscription &&
                   subscription.status !== "canceled" && (
                     <div className="badge badge-sm bg-primary/15 font-bold text-primary ">
-                      {isFreeTrialPeriod(subscription)
+                      {user.user_metadata.is_promo_user ||
+                      paymentPlan.includes("Pro")
+                        ? "Pro"
+                        : isFreeTrialPeriod(subscription)
                         ? "Free Trial"
                         : paymentPlan.includes("Starter")
                         ? "Starter"
-                        : paymentPlan.includes("Pro")
-                        ? "Pro"
                         : ""}
                     </div>
                   )}

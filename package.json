@@ -47,7 +47,7 @@
     "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.378.0",
     "mailgun.js": "^10.2.3",
-    "next": "^14.2.14",
+    "next": "^14.2.22",
     "next-nprogress-bar": "^2.3.12",
     "postcss-cli": "^11.0.0",
     "postcss-loader": "^8.1.1",

@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Tables } from "@/lib/supabase/types";
+import { Tables as StripeTables } from "@/lib/stripe/types";
 import {
   Check,
   ChevronsUpDown,
@@ -22,13 +23,16 @@ import LoadingDots from "@/app/_components/shared/loadingdots";
 import { useRouter } from "next/navigation";
 import { checkStringLength } from "@/lib/actions";
 import { setActiveProject } from "@/lib/actions/projects";
+import { User } from "@supabase/supabase-js";
 
 export default function ProjectDropdown({
+  user,
   projects,
   activeProject,
   setActiveProjectRef,
   paymentPlan,
 }: {
+  user: User;
   projects: Tables<"Projects">[];
   activeProject: Tables<"Projects"> | undefined;
   setActiveProjectRef: Dispatch<SetStateAction<Tables<"Projects"> | undefined>>;
@@ -124,7 +128,7 @@ export default function ProjectDropdown({
               <hr className="border-t border-gray-200"></hr>
               <div className="mt-4">
                 <div className="text-xs ml-2 font-semibold text-gray-400">
-                  Projects
+                  Projects ({projects.length})
                 </div>
                 <ul className="mt-2 max-h-32 overflow-y-scroll">
                   {activeProject &&
@@ -156,7 +160,9 @@ export default function ProjectDropdown({
                       </li>
                     ))}
                 </ul>
-                {paymentPlan?.includes("Starter") && projects.length >= 1 ? (
+                {!user.user_metadata.is_promo_user &&
+                paymentPlan?.includes("Starter") &&
+                projects.length >= 1 ? (
                   <div className="text-error bg-error/10 p-2 mt-2 rounded-lg text-xs flex items-center gap-2">
                     <CircleAlert width={24} height={24} />
                     <p>You are only allowed one project on the Starter plan.</p>

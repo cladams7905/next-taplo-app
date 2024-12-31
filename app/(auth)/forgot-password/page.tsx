@@ -2,7 +2,7 @@ import React from "react";
 import ForgotPasswordForm from "../_components/ForgotPasswordForm";
 import Link from "next/link";
 import Image from "next/image";
-import Logo from "@/public/images/Taplo-logo (2).svg";
+import Logo from "@/public/images/TaploLogoDark.svg";
 
 export default async function ForgotPassword() {
   return (
@@ -11,8 +11,8 @@ export default async function ForgotPassword() {
       <div className="relative navbar lg:px-20 font-sans">
         <Link href={"/"}>
           <div className="navbar-start ml-8 w-full flex items-center">
-            <Image width={36} height={36} alt="logo" src={Logo} />
-            <div className="font-bold font-logo text-xl mx-2">Taplo</div>
+            <Image width={34} height={34} alt="logo" src={Logo} />
+            <div className="font-bold font-logo text-xl mx-4">Taplo</div>
           </div>
         </Link>
       </div>

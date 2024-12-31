@@ -42,6 +42,12 @@ const nextConfig = {
         port: "",
         pathname: "/links/**",
       },
+      {
+        protocol: "https",
+        hostname: "api.producthunt.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
   experimental: {

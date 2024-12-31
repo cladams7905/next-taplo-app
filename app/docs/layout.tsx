@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import Logo from "@/public/images/Taplo-logo (1).svg";
+import Logo from "@/public/images/TaploLogo.svg";
 import Link from "next/link";
 
 export default async function DocsLayout({
@@ -17,7 +17,7 @@ export default async function DocsLayout({
             <div className="flex flex-col my-4">
               <div className="flex items-center">
                 <Image width={36} height={36} alt="logo" src={Logo} />
-                <div className="ml-2 font-bold font-logo text-xl mr-2">
+                <div className="ml-2 font-bold font-logo text-xl mr-4">
                   Taplo
                 </div>
                 <div className="text-sm text-primary font-extrabold font-logo mt-[5px] uppercase">

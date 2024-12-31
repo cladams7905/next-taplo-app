@@ -27,7 +27,8 @@ const geograma = Georama({
 
 export const metadata: Metadata = {
   title: "Taplo",
-  description: "Attention-grabbing popups that increase your conversion rate.",
+  description:
+    "Boost conversions and credibility with popup notifications that display real-time user data. Try it free for 14 days, and then pay only $5 a month.",
 };
 
 export default function RootLayout({

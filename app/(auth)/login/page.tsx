@@ -3,7 +3,7 @@ import OAuthForm from "../_components/OAuthForm";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import Logo from "@/public/images/Taplo-logo (2).svg";
+import Logo from "@/public/images/TaploLogoDark.svg";
 import Image from "next/image";
 import { getRedirectPathname } from "../_actions";
 
@@ -21,8 +21,8 @@ export default async function Login() {
       <div className="relative navbar lg:px-20 font-sans">
         <Link href={"/"}>
           <div className="navbar-start ml-8 w-full flex items-center">
-            <Image width={36} height={36} alt="logo" src={Logo} />
-            <div className="font-bold font-logo text-xl mx-2">Taplo</div>
+            <Image width={34} height={34} alt="logo" src={Logo} />
+            <div className="font-bold font-logo text-xl mx-4">Taplo</div>
           </div>
         </Link>
       </div>

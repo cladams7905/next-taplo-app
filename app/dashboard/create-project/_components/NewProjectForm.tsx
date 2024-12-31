@@ -20,6 +20,7 @@ import { useRouter } from "next/navigation";
 import { TemplateTypes, ScreenAlignment } from "@/lib/enums";
 import { Tables } from "@/lib/stripe/types";
 import React from "react";
+import { User } from "@supabase/supabase-js";
 
 const FormSchema = z.object({
   projectName: z
@@ -32,12 +33,12 @@ const FormSchema = z.object({
 });
 
 export default function NewProjectForm({
-  stripeUser,
+  user,
   freeTrialDate,
   paymentPlan,
   numProjects,
 }: {
-  stripeUser: Tables<"users"> | null;
+  user: User;
   freeTrialDate: string | null;
   paymentPlan: string | null | undefined;
   numProjects: number | null | undefined;
@@ -77,7 +78,10 @@ export default function NewProjectForm({
   const shouldDisableCreateProject = () => {
     return (
       !freeTrialDate ||
-      (paymentPlan?.includes("Starter") && numProjects && numProjects >= 1)
+      (!user.user_metadata.is_promo_user &&
+        paymentPlan?.includes("Starter") &&
+        numProjects &&
+        numProjects >= 1)
     );
   };
 

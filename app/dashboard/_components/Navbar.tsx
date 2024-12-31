@@ -12,6 +12,8 @@ import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import ContactModal from "./ContactModal";
 import NewUserModal from "../project/[projectId]/create/_components/NewUserModal";
+import Image from "next/image";
+import Logo from "@/public/images/TaploLogo.svg";
 
 export default function Navbar({
   user,
@@ -83,7 +85,8 @@ export default function Navbar({
                 <Menu color="oklch(var(--bc))" />
               </label>
             )}
-            <div className="font-bold font-logo text-lg lg:text-xl">Taplo</div>
+            <Image width={34} height={34} alt="logo" src={Logo} />
+            {/* <div className="font-bold font-logo text-lg lg:text-xl">Taplo</div> */}
             <div className="text-gray-500 text-xl ml-6 font-thin">
               <ChevronRight
                 height={16}
@@ -93,6 +96,7 @@ export default function Navbar({
               />
             </div>
             <ProjectDropdown
+              user={user}
               projects={reorderedProjects}
               activeProject={activeProject}
               setActiveProjectRef={setActiveProject}

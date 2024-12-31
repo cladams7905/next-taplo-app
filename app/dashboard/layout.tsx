@@ -20,7 +20,6 @@ export default async function DashboardLayout({
   }
   const projects = (await getProjects(userData.user.id)).data;
   const activeProject = (await getActiveProject(userData.user.id)).data;
-
   const { data: subscription } = await getSubscription(userData?.user.id);
   const { data: product } = subscription?.product_id
     ? await getProduct(subscription.product_id)

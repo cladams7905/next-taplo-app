@@ -29,6 +29,7 @@ export default async function AccountPage() {
   if (userError || !userData?.user) {
     redirect("/");
   }
+  const isPromoUser = userData.user.user_metadata.is_promo_user;
 
   const { data: stripeUserData } = await getStripeUser(userData.user.id);
 
@@ -70,9 +71,13 @@ export default async function AccountPage() {
         <div className="join md:join-horizontal join-vertical mb-6 shadow-sm">
           <div className="join-item flex flex-col border border-gray-200 rounded-lg px-6 py-4 gap-3 md:w-2/3">
             <p className="text-lg font-bold mb-3">Subscription Details</p>
-            <p className="font-bold text-sm">My plan: {productData?.name}</p>
+            <p className="font-bold text-sm">
+              My plan: {isPromoUser ? "Pro Plan" : productData?.name}
+            </p>
             <div className="sm:columns-2 w-full sm:block flex sm:flex-row flex-col gap-3">
-              {productData?.name && productData.name.includes("Starter") ? (
+              {productData?.name &&
+              productData.name.includes("Starter") &&
+              !isPromoUser ? (
                 <>
                   <div className="flex flex-col justify-center gap-3 text-sm">
                     <div className="flex items-center gap-3">
@@ -192,7 +197,9 @@ export default async function AccountPage() {
           <div className="join-item flex flex-col border border-gray-200 rounded-lg px-6 py-4 gap-3 md:w-1/3 text-sm">
             <p>
               Plan Status:{" "}
-              {subscriptionData?.status === "canceled" ? (
+              {isPromoUser ? (
+                "Active"
+              ) : subscriptionData?.status === "canceled" ? (
                 <span className="text-error">Canceled</span>
               ) : (
                 capitalizeFirstLetter(subscriptionData?.status || "")
@@ -210,48 +217,54 @@ export default async function AccountPage() {
             </p>
             <p>
               Next billing date:{" "}
-              {subscriptionData?.status === "active" ||
-              subscriptionData?.status === "trialing"
+              {!isPromoUser &&
+              (subscriptionData?.status === "active" ||
+                subscriptionData?.status === "trialing")
                 ? billingDate
                 : "N/A"}
             </p>
             <p>
               Billing amount:{" "}
-              {(subscriptionData?.status === "active" ||
+              {!isPromoUser &&
+              (subscriptionData?.status === "active" ||
                 subscriptionData?.status === "trialing") &&
               !subscriptionData?.cancel_at &&
               priceData
                 ? formatCentsToDollars(priceData.unit_amount)
                 : "$0.00"}
             </p>
-            <Link
-              href={
-                getURL().includes("taplo")
-                  ? "https://billing.stripe.com/p/login/fZeeVR24I5pC1UY288"
-                  : "https://billing.stripe.com/p/login/test_14kdUs06T5fha9q000"
-              }
-              target="_blank"
-            >
-              <div className="btn btn-primary btn-sm text-white w-full mt-6">
-                Manage Subscription
-              </div>
-            </Link>
-            {subscriptionData?.cancel_at_period_end ||
-            subscriptionData?.cancel_at ||
-            subscriptionData?.ended_at ? (
-              <RenewSubscriptionModal
-                customer={stripeCustomerData}
-                subscription={subscriptionData}
-                product={productData}
-                price={priceData}
-                billingDate={billingDate}
-              />
-            ) : (
-              <CancelSubscriptionModal
-                user={userData?.user}
-                subscription={subscriptionData}
-                billingDate={billingDate}
-              />
+            {!isPromoUser && (
+              <>
+                <Link
+                  href={
+                    getURL().includes("taplo")
+                      ? "https://billing.stripe.com/p/login/fZeeVR24I5pC1UY288"
+                      : "https://billing.stripe.com/p/login/test_14kdUs06T5fha9q000"
+                  }
+                  target="_blank"
+                >
+                  <div className="btn btn-primary btn-sm text-white w-full mt-6">
+                    Manage Subscription
+                  </div>
+                </Link>
+                {subscriptionData?.cancel_at_period_end ||
+                subscriptionData?.cancel_at ||
+                subscriptionData?.ended_at ? (
+                  <RenewSubscriptionModal
+                    customer={stripeCustomerData}
+                    subscription={subscriptionData}
+                    product={productData}
+                    price={priceData}
+                    billingDate={billingDate}
+                  />
+                ) : (
+                  <CancelSubscriptionModal
+                    user={userData?.user}
+                    subscription={subscriptionData}
+                    billingDate={billingDate}
+                  />
+                )}
+              </>
             )}
           </div>
         </div>

@@ -13,6 +13,7 @@ import {
   createActiveUsersQueueEvents,
 } from "./queueHelpers";
 import { ScreenAlignment } from "@/lib/enums";
+import { User } from "@supabase/supabase-js";
 
 interface WidgetConfig {
   siteUrl: string;
@@ -32,6 +33,7 @@ const Popup = lazy(() => import("./Popup"));
  * 6. Display events
  */
 const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
+  const [isPromoUser, setPromoUser] = useState<boolean>(false);
   const [projectData, setProjectData] = useState<Tables<"Projects">>();
   const [eventData, setEventData] = useState<EventData>();
   const [productData, setProductData] = useState<Tables<"Products">[]>([]);
@@ -46,6 +48,27 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
   const [currentNotification, setCurrentNotification] = useState<
     DisplayNotification | undefined
   >(undefined);
+
+  /**
+   * Get user data relating to the promo user status
+   */
+  const fetchPromoUser = useCallback(async () => {
+    try {
+      const response = await fetch(
+        `${siteUrl}/api/v1/user/is_promo_user?user_id=${projectData?.user_id}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const result: boolean = (await response.json())?.data;
+      setPromoUser(result);
+    } catch (error: any) {
+      throw new Error("Error getting promo user data: " + error.message);
+    }
+  }, [projectData?.user_id, siteUrl]);
 
   /**
    * Get the project data
@@ -168,9 +191,10 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
 
   useEffect(() => {
     if (projectData) {
-      fetchEvents(); // Only call fetchEvents if projectData is available
+      fetchPromoUser();
+      fetchEvents();
     }
-  }, [projectData, fetchEvents]);
+  }, [projectData, fetchEvents, fetchPromoUser]);
 
   useEffect(() => {
     if (projectData) {
@@ -393,7 +417,7 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
   };
 
   return (
-    isActiveSubscription && (
+    (isActiveSubscription || isPromoUser) && (
       <>
         <div className={`fixed z-50 ${getAlignmentClasses()}`}>
           {currentNotification?.event &&

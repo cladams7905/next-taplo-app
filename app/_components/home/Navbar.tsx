@@ -3,7 +3,7 @@
 import { ArrowRight, Menu } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import Logo from "@/public/images/Taplo-logo (1).svg";
+import Logo from "@/public/images/TaploLogo.svg";
 import React from "react";
 import LaunchOfferBadge from "./LaunchOfferBadge";
 
@@ -21,8 +21,8 @@ export default function Navbar() {
             >
               <Menu color="#6b7280" />
             </label>
-            <Image width={36} height={36} alt="logo" src={Logo} />
-            <div className="ml-2 font-bold font-logo text-xl mr-2">Taplo</div>
+            <Image width={34} height={34} alt="logo" src={Logo} />
+            <div className="mx-4 font-bold font-logo text-xl">Taplo</div>
           </div>
           <div className="navbar-center hidden lg:flex">
             <ul className="menu menu-horizontal px-1 flex gap-2 font-semibold">

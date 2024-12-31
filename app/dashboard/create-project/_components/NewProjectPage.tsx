@@ -64,7 +64,7 @@ export default function NewProjectPage({
               ""
             )}
             <NewProjectForm
-              stripeUser={stripeUser}
+              user={user}
               freeTrialDate={freeTrialDate}
               paymentPlan={paymentPlan}
               numProjects={numProjects}
