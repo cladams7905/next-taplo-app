@@ -126,13 +126,13 @@ export const toDateTime = (secs: number) => {
 };
 
 /**
- * Calculates date two weeks from now for billing cycle.
- * @returns date two weeks from now (in seconds)
+ * Calculates date 30 from now for billing cycle.
+ * @returns date 30 days from now (in seconds)
  */
 export const calculateBillingCycle = () => {
   const now = Math.floor(Date.now() / 1000); // Get the current time in seconds since Unix epoch
-  const twoWeeksInSeconds = 2 * 7 * 24 * 60 * 60; // Two weeks in seconds
-  return now + twoWeeksInSeconds;
+  const thirtyDaysInSeconds = 30 * 24 * 60 * 60; // 30 days in seconds
+  return now + thirtyDaysInSeconds;
 };
 
 /**
