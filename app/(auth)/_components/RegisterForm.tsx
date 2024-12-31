@@ -54,6 +54,7 @@ export default function RegisterForm({ user }: { user: User }) {
         emailRedirectTo: getURL() + "/dashboard/create-project",
         data: {
           hasViewedNewUserGuide: false,
+          is_promo_user: false,
         },
       },
     });
