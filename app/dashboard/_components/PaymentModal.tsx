@@ -62,7 +62,7 @@ export default function PaymentModal({
     selectedProduct?.payment_plan
   );
   const [checkoutPriceId, setCheckoutPriceId] = useState<string>(
-    selectedProduct.price.id
+    selectedProduct?.price?.id
   );
   const [referralSource, setReferralSource] = useState(
     stripeUser?.referral_source
@@ -103,7 +103,7 @@ export default function PaymentModal({
     if (!newSelectedProduct) return;
     setSelectedProduct(newSelectedProduct);
 
-    const newCheckoutPriceId = newSelectedProduct.price.id;
+    const newCheckoutPriceId = newSelectedProduct?.price?.id;
     setCheckoutPriceId(newCheckoutPriceId);
   }, [paymentPlan, products]);
 
@@ -182,7 +182,7 @@ export default function PaymentModal({
           <CheckoutSession
             user={user}
             priceId={checkoutPriceId}
-            productId={selectedProduct.id}
+            productId={selectedProduct?.id}
             email={user?.email}
             setFreeTrialDate={setFreeTrialDate}
             setCheckoutComplete={setCheckoutComplete}
