@@ -12,7 +12,6 @@ import { getURL } from "@/lib/actions";
 import Script from "next/script";
 import StripeLogo from "@/public/images/providers/stripe-big.png";
 import GoogleAnalyticsLogo from "@/public/images/providers/ga-big.png";
-import Arrow from "@/public/images/arrow.png";
 import { getTotalStripeUsers } from "@/lib/stripe/actions";
 
 export default async function Home() {
@@ -91,7 +90,7 @@ export default async function Home() {
             </div>
             <KeyFeatures />
             <Integrations />
-            <Pricing totalUsers={totalUsers} />
+            <Pricing />
             <FAQs />
             <div className="relative flex bg-white/70 rounded-lg shadow-lg h-[65vh] w-full flex-col items-center justify-center px-8 gap-8 overflow-x-clip font-sans">
               <div className="relative z-[4] flex flex-col items-center justify-center w-full h-full gap-6">
