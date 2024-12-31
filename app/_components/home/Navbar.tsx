@@ -7,10 +7,10 @@ import Logo from "@/public/images/TaploLogo.svg";
 import React from "react";
 import LaunchOfferBadge from "./LaunchOfferBadge";
 
-export default function Navbar() {
+export default function Navbar({ totalUsers }: { totalUsers: number }) {
   return (
     <div className="fixed w-screen font-sans shadow-sm bg-white/80 backdrop-blur-xl z-30 transition-all">
-      <LaunchOfferBadge />
+      <LaunchOfferBadge totalUsers={totalUsers} />
       <main>
         <div className={`navbar lg:px-20`}>
           <div className="navbar-start">

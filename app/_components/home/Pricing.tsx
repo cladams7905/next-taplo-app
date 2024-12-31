@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import LaunchOfferBadge from "./LaunchOfferBadge";
 
-export default function Pricing() {
+export default function Pricing({ totalUsers }: { totalUsers: number }) {
   const enum PricingType {
     Monthly,
     Yearly,
@@ -30,7 +30,7 @@ export default function Pricing() {
         <div className="flex flex-col w-full items-center gap-6">
           {" "}
           <div className="max-w-fit bg-base-content h-full w-full rounded-full p-1 px-2 mb-6">
-            <LaunchOfferBadge />
+            <LaunchOfferBadge totalUsers={totalUsers} />
           </div>
           <p className="text-3xl font-logo text-center">
             Start boosting your conversions with Taplo.

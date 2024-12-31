@@ -183,6 +183,11 @@ const manageSubscriptionStatusChange = async (
     );
 };
 
+const getTotalStripeUsers = async () => {
+  const result = await supabaseAdmin.from("users").select("*");
+  return result;
+};
+
 const getStripeUser = async (userId: string) => {
   const result = await supabaseAdmin
     .from("users")
@@ -250,6 +255,7 @@ export {
   createOrRetrieveCustomer,
   manageSubscriptionStatusChange,
   getStripeUser,
+  getTotalStripeUsers,
   getStripeCustomer,
   updateStripeUser,
   getSubscription,

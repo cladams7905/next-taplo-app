@@ -12,8 +12,12 @@ import { getURL } from "@/lib/actions";
 import Script from "next/script";
 import StripeLogo from "@/public/images/providers/stripe-big.png";
 import GoogleAnalyticsLogo from "@/public/images/providers/ga-big.png";
+import Arrow from "@/public/images/arrow.png";
+import { getTotalStripeUsers } from "@/lib/stripe/actions";
 
-export default function Home() {
+export default async function Home() {
+  const { data: totalStripeUsers } = await getTotalStripeUsers();
+  const totalUsers = totalStripeUsers?.length ?? 0;
   return (
     <main>
       <div id="taplo-widget-container" data-project-id="160"></div>
@@ -25,7 +29,7 @@ export default function Home() {
         <input id="drawer-menu" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content">
           <Suspense fallback="...">
-            <Navbar />
+            <Navbar totalUsers={totalUsers} />
           </Suspense>
           <div className="relative flex h-fit w-full flex-col items-center justify-between px-6 sm:px-12 md:px-24 overflow-x-clip font-sans bg-gradient-to-tr from-primary to-pink-100 sm:space-y-12 space-y-8 md:!pt-0 pt-8 gap-4 pb-24 z-0">
             <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] h-full"></div>
@@ -87,7 +91,7 @@ export default function Home() {
             </div>
             <KeyFeatures />
             <Integrations />
-            <Pricing />
+            <Pricing totalUsers={totalUsers} />
             <FAQs />
             <div className="relative flex bg-white/70 rounded-lg shadow-lg h-[65vh] w-full flex-col items-center justify-center px-8 gap-8 overflow-x-clip font-sans">
               <div className="relative z-[4] flex flex-col items-center justify-center w-full h-full gap-6">
