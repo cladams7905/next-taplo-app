@@ -37,7 +37,7 @@ export default function NewProjectPage({
   );
   return (
     <>
-      {!freeTrialDate && (
+      {!freeTrialDate && !user.user_metadata.is_promo_user && (
         <PaymentModal
           stripeUser={stripeUser}
           products={products}
@@ -53,8 +53,9 @@ export default function NewProjectPage({
             <p className="md:text-2xl font-bold text-xl mb-4">
               Create New Project
             </p>
-            {numProjects &&
+            {!user.user_metadata.is_promo_user &&
             paymentPlan?.includes("Starter") &&
+            numProjects &&
             numProjects >= 1 ? (
               <div className="text-error bg-error/10 p-2 mt-2 rounded-lg sm:text-sm text-xs flex items-center gap-2">
                 <CircleAlert width={18} height={18} />
