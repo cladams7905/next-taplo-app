@@ -88,6 +88,12 @@ export default function RegisterForm({ user }: { user: User }) {
     });
   }
 
+  function handleKeyPress(event: React.KeyboardEvent<HTMLFormElement>) {
+    if (event.key === "Enter") {
+      form.handleSubmit(onSubmit)();
+    }
+  }
+
   if (isRegisterSuccess) {
     return (
       <div className="flex flex-col items-center justify-center h-full mt-48 w-full max-w-md p-8 bg-white rounded-lg border border-gray-200 my-8 mb-16">
@@ -111,6 +117,7 @@ export default function RegisterForm({ user }: { user: User }) {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
+            onKeyPress={handleKeyPress}
             className="w-full space-y-6 my-6 font-sans"
             autoComplete="on"
           >

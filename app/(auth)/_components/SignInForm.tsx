@@ -53,10 +53,17 @@ export default function SignInForm() {
     });
   }
 
+  function handleKeyPress(event: React.KeyboardEvent<HTMLFormElement>) {
+    if (event.key === "Enter") {
+      form.handleSubmit(onSubmit)();
+    }
+  }
+
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
+        onKeyPress={handleKeyPress}
         className="w-full space-y-6 my-6"
         autoComplete="on"
       >
