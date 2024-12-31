@@ -59,7 +59,7 @@ export default function PaymentModal({
 
   const [selectedProduct, setSelectedProduct] = useState(products[2]); // defaults to starter yearly
   const [paymentPlan, setPaymentPlan] = useState<string | null>(
-    selectedProduct.payment_plan
+    selectedProduct?.payment_plan
   );
   const [checkoutPriceId, setCheckoutPriceId] = useState<string>(
     selectedProduct.price.id
@@ -98,7 +98,7 @@ export default function PaymentModal({
   // Update the checkoutPriceId and selectedProduct based on the selected payment plan
   useEffect(() => {
     const newSelectedProduct = products.find(
-      (product) => product.payment_plan === paymentPlan
+      (product) => product?.payment_plan === paymentPlan
     );
     if (!newSelectedProduct) return;
     setSelectedProduct(newSelectedProduct);
