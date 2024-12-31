@@ -60,8 +60,7 @@ export default function Home() {
                       </div>
                     </Link>
                     <p className="italic mt-2 sm:text-md text-sm">
-                      <span className="font-bold">25</span> others love using
-                      Taplo
+                      Try it free for 30 days, and then only $5/month.
                     </p>
                   </div>
                 </div>

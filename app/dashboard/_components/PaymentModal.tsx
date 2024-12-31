@@ -57,7 +57,7 @@ export default function PaymentModal({
     setFormattedBillingDate(billingDate);
   }, []);
 
-  const [selectedProduct, setSelectedProduct] = useState(products[2]); // defaults to starter yearly
+  const [selectedProduct, setSelectedProduct] = useState(products[1]); // defaults to pro plan yearly
   const [paymentPlan, setPaymentPlan] = useState<string | null>(
     selectedProduct?.payment_plan
   );

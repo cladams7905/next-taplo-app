@@ -3,6 +3,7 @@
 import { ArrowRight, Check, Lock, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import LaunchOfferBadge from "./LaunchOfferBadge";
 
 export default function Pricing() {
   const enum PricingType {
@@ -28,13 +29,16 @@ export default function Pricing() {
         </p>
         <div className="flex flex-col w-full items-center gap-6">
           {" "}
+          <div className="max-w-fit bg-base-content h-full w-full rounded-full p-1 px-2 mb-6">
+            <LaunchOfferBadge />
+          </div>
           <p className="text-3xl font-logo text-center">
             Start boosting your conversions with Taplo.
           </p>
+          <p>Try it free for 30 days, and then pay annually!</p>
         </div>
-        <div className="w-full bg-white/60 rounded-lg p-1 shadow-lg max-w-[400px]">
+        {/* <div className="w-full bg-white/60 rounded-lg p-1 shadow-lg max-w-[400px]">
           <div className="relative flex sm:min-w-[320px] sm:w-fit w-full items-center justify-center">
-            {/* Sliding background */}
             <div
               className={`absolute left-0 top-0 h-full w-1/2 bg-primary rounded-lg transition-transform duration-300 ${
                 pricingType === PricingType.Yearly
@@ -42,8 +46,6 @@ export default function Pricing() {
                   : "translate-x-0"
               }`}
             ></div>
-
-            {/* Options */}
             <div
               className={`relative z-10 flex-1 p-2 text-center cursor-pointer font-semibold text-sm ${
                 pricingType === PricingType.Monthly
@@ -65,7 +67,7 @@ export default function Pricing() {
               Yearly🔥 (save 33%)
             </div>
           </div>
-        </div>
+        </div> */}
         <div
           className={`lg:columns-2 md:columns-2 flex lg:flex-row md:gap-6 flex-col lg:!items-start justify-center !items-center w-full ${
             isAnimate ? "animate-twSlideInBottom" : ""
@@ -78,16 +80,16 @@ export default function Pricing() {
                   {pricingType === PricingType.Monthly
                     ? ""
                     : pricingType === PricingType.Yearly
-                    ? "$60"
+                    ? ""
                     : ""}
                 </div>
-                <div className="flex flex-col items-center">
+                <div className="relative flex flex-col items-center">
                   {" "}
-                  <p className="text-[40px] text-primary font-logo">
+                  <p className="text-[40px] font-logo">
                     {pricingType === PricingType.Monthly
                       ? "$5"
                       : pricingType === PricingType.Yearly
-                      ? "$40"
+                      ? "$5"
                       : ""}
                   </p>
                   <p>
@@ -95,18 +97,20 @@ export default function Pricing() {
                     {pricingType === PricingType.Monthly
                       ? "/month"
                       : pricingType === PricingType.Yearly
-                      ? "/year"
+                      ? "/month (billed annually)"
                       : ""}
                   </p>
+                  <div className="absolute top-[26px] right-4 font-bold text-md">
+                    USD
+                  </div>
                 </div>
-                <div className="-mt-2 font-bold text-md text-primary">USD</div>
               </div>
               <div className="text-xl font-logo text-left w-full">
                 Starter Plan{" "}
                 {pricingType === PricingType.Monthly
                   ? ""
                   : pricingType === PricingType.Yearly
-                  ? "(save $20)"
+                  ? ""
                   : ""}
               </div>
               <p>
@@ -169,24 +173,23 @@ export default function Pricing() {
           <div className="flex flex-col w-full min-h-[80vh] max-w-[475px]">
             <div className="relative flex flex-col gap-6 items-center shadow-lg bg-white/60 backdrop-blur-md border-2 border-primary rounded-lg p-6 w-full h-full">
               <div className="absolute badge badge-lg badge-primary text-white -top-3">
-                Most Popular
+                Limited Time Offer!
               </div>
               <div className="flex w-full items-center justify-center gap-3">
-                <div className="line-through font-bold text-xl -mt-10">
-                  {" "}
-                  {pricingType === PricingType.Monthly
-                    ? "$16"
-                    : pricingType === PricingType.Yearly
-                    ? "$96"
-                    : ""}
-                </div>
-                <div className="flex flex-col items-center">
-                  {" "}
-                  <p className="text-[40px] text-primary font-logo">
+                <div className="relative flex flex-col items-center">
+                  <div className="absolute top-2 left-5 line-through font-bold text-xl">
+                    {" "}
+                    {pricingType === PricingType.Monthly
+                      ? ""
+                      : pricingType === PricingType.Yearly
+                      ? "$8"
+                      : ""}
+                  </div>
+                  <p className="text-[40px] font-logo">
                     {pricingType === PricingType.Monthly
                       ? "$8"
                       : pricingType === PricingType.Yearly
-                      ? "$48"
+                      ? "$4"
                       : ""}
                   </p>
                   <p>
@@ -194,13 +197,15 @@ export default function Pricing() {
                     {pricingType === PricingType.Monthly
                       ? "/month"
                       : pricingType === PricingType.Yearly
-                      ? "/year"
+                      ? "/month (billed annually)"
                       : ""}
                   </p>
+                  <div className="absolute top-[26px] right-4 font-bold text-md">
+                    USD
+                  </div>
                 </div>
-                <div className="-mt-2 font-bold text-md text-primary">USD</div>
               </div>
-              <div className="text-xl font-logo text-left w-full">
+              <div className="flex flex-col text-xl font-logo text-left w-full">
                 Pro Plan{" "}
                 {pricingType === PricingType.Monthly
                   ? ""
@@ -209,8 +214,8 @@ export default function Pricing() {
                   : ""}
               </div>
               <p>
-                Perfect for businesses with multiple websites or needing more
-                fine-grained control.
+                Perfect for businesses with multiple websites or those needing
+                more fine-grained control.
               </p>
               <div className="flex flex-col justify-center gap-3">
                 <div className="flex items-center gap-3">

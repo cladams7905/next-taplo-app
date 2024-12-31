@@ -101,7 +101,7 @@ export default function CheckoutSession({
       const data = await res.json();
       console.log(data);
     },
-    [user?.email, user?.user_metadata.name]
+    []
   );
 
   const onComplete = useCallback(async () => {
@@ -127,7 +127,7 @@ export default function CheckoutSession({
         )}. If you want to change your subscription preferences, you may do so from your "Account" page.`
       );
     }
-  }, [setFreeTrialDate, setCheckoutComplete, sendWelcomeEmail, user.id]);
+  }, [setFreeTrialDate, setCheckoutComplete, sendWelcomeEmail, user]);
 
   const options = {
     fetchClientSecret,

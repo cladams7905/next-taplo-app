@@ -183,7 +183,7 @@ export default function RegisterForm({ user }: { user: User }) {
         </Form>
         <OAuthForm />
         <p className="mt-6 text-sm">
-          Your 14-day free trial will begin after activating your account. By
+          Your 30-day free trial will begin after activating your account. By
           continuing, you agree to our{" "}
           <Link href={"/legal/terms-of-service"} target="_blank">
             <span className="link">Terms of Service</span>
