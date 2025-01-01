@@ -30,7 +30,7 @@ export default async function Home() {
           <Suspense fallback="...">
             <Navbar totalUsers={totalUsers} />
           </Suspense>
-          <div className="relative flex h-fit w-full flex-col items-center justify-between px-6 sm:px-12 md:px-24 overflow-x-clip font-sans bg-gradient-to-tr from-primary to-pink-100 sm:space-y-12 space-y-8 md:!pt-0 pt-8 gap-4 pb-24 z-0">
+          <div className="relative flex h-fit w-full flex-col items-center justify-between px-6 sm:px-12 md:px-24 overflow-x-clip font-sans bg-slate-50 sm:space-y-12 space-y-8 md:!pt-0 pt-8 gap-4 pb-24 z-0">
             <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] h-full"></div>
             <div className="z-[2] relative flex flex-row flex-wrap font-sans lg:mb-32 md:mb-16 sm:mb-12 lg:gap-12 md:gap-8 sm:gap-4 items-center justify-center w-full">
               <div className="flex flex-1 flex-col justify-center items-center gap-12 xl:px-44 lg:w-1/2 w-full min-h-[80vh]">

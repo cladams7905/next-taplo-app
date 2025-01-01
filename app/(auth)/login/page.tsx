@@ -16,7 +16,7 @@ export default async function Login() {
     redirect(await getRedirectPathname(userData.user.id));
   }
   return (
-    <main className="relative bg-gradient-to-tr from-purple-200 via-primary/60 to-purple-100">
+    <main className="relative bg-slate-50">
       <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
       <div className="relative navbar lg:px-20 font-sans">
         <Link href={"/"}>
@@ -27,7 +27,7 @@ export default async function Login() {
         </Link>
       </div>
       <div className="relative flex w-full flex-col items-center justify-between sm:px-24 px-8 font-sans">
-        <div className="flex flex-col items-center justify-center w-full max-w-md bg-white rounded-lg border border-gray-200 p-8 my-8">
+        <div className="flex flex-col items-center justify-center w-full max-w-md bg-white shadow-lg rounded-lg border border-gray-200 p-8 my-8">
           <p className="font-logo text-3xl mb-4 text-center">Welcome back</p>
           <p className="">
             Don&apos;t have an account?{" "}

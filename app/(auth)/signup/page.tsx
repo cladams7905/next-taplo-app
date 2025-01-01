@@ -16,7 +16,7 @@ export default async function Signup() {
   }
 
   return (
-    <main className="relative bg-gradient-to-tr from-purple-200 via-primary/60 to-purple-100">
+    <main className="relative bg-slate-50">
       <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] z-[0]"></div>
       <div className="relative navbar lg:px-20 font-sans">
         <Link href={"/"}>

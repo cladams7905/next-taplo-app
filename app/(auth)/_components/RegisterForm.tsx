@@ -96,7 +96,7 @@ export default function RegisterForm({ user }: { user: User }) {
 
   if (isRegisterSuccess) {
     return (
-      <div className="flex flex-col items-center justify-center h-full mt-48 w-full max-w-md p-8 bg-white rounded-lg border border-gray-200 my-8 mb-16">
+      <div className="flex flex-col items-center justify-center h-full mt-48 w-full max-w-md p-8 bg-white shadow-lg rounded-lg border border-gray-200 my-8 mb-16">
         <p className="font-logo text-center text-3xl mb-4">Almost done!</p>
         <p>Please check your inbox to confirm your email address.</p>
         <ResendEmailButton email={form.getValues().email} />
@@ -104,7 +104,7 @@ export default function RegisterForm({ user }: { user: User }) {
     );
   } else {
     return (
-      <div className="flex flex-col items-center justify-center w-full max-w-md p-8 bg-white rounded-lg border border-gray-200 my-8 mb-16">
+      <div className="flex flex-col items-center justify-center w-full max-w-md p-8 bg-white shadow-lg rounded-lg border border-gray-200 my-8 mb-16">
         <p className="font-logo text-center text-3xl mb-4">
           Let&apos;s get started!
         </p>
