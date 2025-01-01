@@ -149,7 +149,6 @@ export default function KeyFeatures() {
             <div className="flex flex-col max-w-[450px] order-1 items-center w-full md:mb-0 mb-12 justify-center animate-twSlideInBottom shadow-lg rounded-lg">
               <video
                 width="600"
-                controls
                 autoPlay
                 loop
                 muted
@@ -177,7 +176,6 @@ export default function KeyFeatures() {
             <div className="flex flex-col max-w-[450px] order-1 items-center w-full md:mb-0 mb-12 justify-center animate-twSlideInBottom shadow-lg rounded-lg">
               <video
                 width="600"
-                controls
                 autoPlay
                 loop
                 muted
@@ -205,7 +203,6 @@ export default function KeyFeatures() {
             <div className="flex flex-col max-w-[450px] order-1 items-center w-full md:mb-0 mb-12 justify-center animate-twSlideInBottom shadow-lg rounded-lg">
               <video
                 width="600"
-                controls
                 autoPlay
                 loop
                 muted
@@ -240,7 +237,6 @@ export default function KeyFeatures() {
             <div className="flex flex-col max-w-[450px] order-1 items-center w-full md:mb-0 mb-12 justify-center animate-twSlideInBottom shadow-lg rounded-lg">
               <video
                 width="600"
-                controls
                 autoPlay
                 loop
                 muted
