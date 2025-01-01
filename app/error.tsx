@@ -16,7 +16,7 @@ export default function AppError({
   }, [error]);
 
   return (
-    <div className="flex flex-col w-full h-screen bg-gradient-to-tr from-primary/50 to-violet-100 items-center justify-center gap-10 font-sans">
+    <div className="flex flex-col w-full h-screen bg-slate-50 items-center justify-center gap-10 font-sans">
       <div className="text-4xl font-bold">
         Whoops! (
         {`${error.name === "Error" ? "Client-Side Error" : error.name}`})
