@@ -101,11 +101,11 @@ export default function Footer() {
           href="https://www.producthunt.com/posts/taplo?embed=true&utm_source=badge-featured&utm_medium=badge&utm_souce=badge-taplo"
           target="_blank"
         >
-          <img
+          <Image
             src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=745836&theme=light"
             alt="Taplo - Embeddable&#0032;Social&#0032;Proof&#0032;Plugin&#0032;for&#0032;SaaS&#0032;founders | Product Hunt"
-            width="200"
-            height="54"
+            width={200}
+            height={54}
           />
         </a>
       </footer>

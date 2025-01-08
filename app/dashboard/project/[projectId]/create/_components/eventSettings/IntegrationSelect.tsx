@@ -164,7 +164,7 @@ export default function IntegrationSelect({
         integrations
       )
     );
-  }, [integrations, filterIntegrationsByEventType]);
+  }, [integrations, currentEvent?.event_type]);
 
   return (
     <>

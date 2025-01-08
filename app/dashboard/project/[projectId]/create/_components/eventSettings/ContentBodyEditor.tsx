@@ -3,6 +3,7 @@
 import React, {
   FormEvent,
   RefObject,
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -62,6 +63,30 @@ export default function ContentBodyEditor({
   //Stores the variables that can be accessed within a certain event
   const variableList = getVariableList(currentEvent);
 
+  /**
+   * Adds a variable from the dropdown list to the textarea content
+   * @param variable the variable to add
+   */
+  const handleAddVariableFromDropdown = useCallback(
+    (variable: string) => {
+      if (textAreaRef.current?.value) {
+        const content = textAreaRef.current.value;
+        const currVar = getCurrentVariable(content, varIndex + 1);
+
+        if (varIndex >= 0) {
+          const beforeInsert = content.substring(0, varIndex);
+          const afterInsert = content.substring(varIndex + currVar.length + 1);
+
+          textAreaRef.current.value =
+            beforeInsert + "\\" + variable.toLocaleUpperCase() + afterInsert;
+
+          varDropdownRef.current?.classList.add("hidden");
+        }
+      }
+    },
+    [varIndex]
+  );
+
   /*
    * This useEffect handles key press events within the variable dropdown menu
    */
@@ -90,7 +115,13 @@ export default function ContentBodyEditor({
     return () => {
       window.removeEventListener("keydown", handleKeyPress);
     };
-  }, [dropdownVisible, highlightedIndex, variableList]);
+  }, [
+    dropdownVisible,
+    highlightedIndex,
+    variableList,
+    handleAddVariableFromDropdown,
+    isHovered,
+  ]);
 
   /**
    * Handles the creation of a new custom message
@@ -270,27 +301,6 @@ export default function ContentBodyEditor({
     }
 
     return currVar;
-  };
-
-  /**
-   * Adds a variable from the dropdown list to the textarea content
-   * @param variable the variable to add
-   */
-  const handleAddVariableFromDropdown = (variable: string) => {
-    if (textAreaRef.current?.value) {
-      const content = textAreaRef.current.value;
-      const currVar = getCurrentVariable(content, varIndex + 1);
-
-      if (varIndex >= 0) {
-        const beforeInsert = content.substring(0, varIndex);
-        const afterInsert = content.substring(varIndex + currVar.length + 1);
-
-        textAreaRef.current.value =
-          beforeInsert + "\\" + variable.toLocaleUpperCase() + afterInsert;
-
-        varDropdownRef.current?.classList.add("hidden");
-      }
-    }
   };
 
   /**
