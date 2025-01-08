@@ -32,7 +32,7 @@ export async function getActiveProject(userId: string) {
   return result;
 }
 
-export async function getProjectById(projectId: string) {
+export async function getProjectById(projectId: number) {
   const supabase = createClient();
   const result = await supabase
     .from("Projects")
@@ -42,7 +42,7 @@ export async function getProjectById(projectId: string) {
   return result;
 }
 
-export async function setActiveProject(userId: string, projectId: string) {
+export async function setActiveProject(userId: string, projectId: number) {
   const supabase = createClient();
   const result = await supabase
     .from("Projects")
