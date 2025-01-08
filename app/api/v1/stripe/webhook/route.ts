@@ -57,7 +57,6 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({
               message:
                 "Error in subscriptions. View your nextjs function logs.",
-              subscription,
               error: error,
               status: 400,
             });

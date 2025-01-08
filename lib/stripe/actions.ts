@@ -78,7 +78,8 @@ const createOrRetrieveCustomer = async ({
     const { error: supabaseError } = await supabaseAdmin
       .from("customers")
       .insert([{ id: uuid, stripe_customer_id: customer.id }]);
-    if (supabaseError) throw new Error(supabaseError.message);
+    if (supabaseError)
+      throw new Error("Error inserting new user: " + supabaseError.message);
     console.log(`New customer created and inserted for ${uuid}.`);
     return customer.id;
   }
@@ -105,7 +106,10 @@ const copyBillingDetailsToCustomer = async (
       payment_method: { ...payment_method[payment_method.type] },
     })
     .eq("id", uuid);
-  if (error) throw new Error(error.message);
+  if (error)
+    throw new Error(
+      "Error copying billing details to customer: " + error.message
+    );
 };
 
 const manageSubscriptionStatusChange = async (
@@ -120,7 +124,7 @@ const manageSubscriptionStatusChange = async (
     .eq("stripe_customer_id", customerId)
     .single();
   if (noCustomerError) {
-    throw new Error("noCustomerError");
+    throw new Error(`Error finding customer: ${noCustomerError.message}`);
   }
 
   const { id: uuid } = customerData!;
