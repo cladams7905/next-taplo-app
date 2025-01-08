@@ -70,6 +70,7 @@ export async function POST(request: NextRequest) {
     } catch (error: any) {
       return NextResponse.json({
         message: "Webhook handler failed. View your nextjs function logs.",
+        error: error,
         status: 400,
       });
     }
