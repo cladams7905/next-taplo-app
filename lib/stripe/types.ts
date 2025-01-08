@@ -205,7 +205,7 @@ export type Database = {
           cancel_comment: string | null;
           email: string | null;
           free_trial_start_date: string | null;
-          id: number;
+          id: string;
           payment_method: Json | null;
           payment_status: string | null;
           reason_for_leaving: string | null;
@@ -217,7 +217,7 @@ export type Database = {
           cancel_comment?: string | null;
           email?: string | null;
           free_trial_start_date?: string | null;
-          id?: number;
+          id?: string;
           payment_method?: Json | null;
           payment_status?: string | null;
           reason_for_leaving?: string | null;
@@ -229,7 +229,7 @@ export type Database = {
           cancel_comment?: string | null;
           email?: string | null;
           free_trial_start_date?: string | null;
-          id?: number;
+          id?: string;
           payment_method?: Json | null;
           payment_status?: string | null;
           reason_for_leaving?: string | null;
