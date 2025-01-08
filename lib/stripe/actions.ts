@@ -120,7 +120,7 @@ const manageSubscriptionStatusChange = async (
     .eq("stripe_customer_id", customerId)
     .single();
   if (noCustomerError) {
-    throw noCustomerError;
+    throw "noCustomerError";
   }
 
   const { id: uuid } = customerData!;
@@ -168,7 +168,7 @@ const manageSubscriptionStatusChange = async (
   const { error } = await supabaseAdmin
     .from("subscriptions")
     .upsert([subscriptionData]);
-  if (error) throw new Error(error.message);
+  if (error) throw new Error("error upserting subscription: " + error.message);
   console.log(
     `Inserted/updated subscription [${subscription.id}] for user [${uuid}]`
   );
