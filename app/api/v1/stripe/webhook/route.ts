@@ -47,6 +47,7 @@ export async function POST(request: NextRequest) {
         case "customer.subscription.updated":
         case "customer.subscription.deleted":
           const subscription = event.data.object as Stripe.Subscription;
+          console.log(subscription);
           await manageSubscriptionStatusChange(
             subscription.id,
             subscription.customer as string,
