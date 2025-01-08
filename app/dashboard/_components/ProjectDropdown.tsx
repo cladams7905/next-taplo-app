@@ -56,10 +56,7 @@ export default function ProjectDropdown({
     startTransition(async () => {
       if (project.user_id) {
         if (activeProject.id !== project.id) {
-          const { error } = await setActiveProject(
-            project.user_id,
-            project.id.toString()
-          );
+          const { error } = await setActiveProject(project.user_id, project.id);
           if (error) {
             console.log(error);
             showToastError(error);
