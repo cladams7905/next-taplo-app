@@ -47,12 +47,21 @@ export async function POST(request: NextRequest) {
         case "customer.subscription.updated":
         case "customer.subscription.deleted":
           const subscription = event.data.object as Stripe.Subscription;
-          console.log(subscription);
-          await manageSubscriptionStatusChange(
-            subscription.id,
-            subscription.customer as string,
-            event.type === "customer.subscription.created"
-          );
+          try {
+            await manageSubscriptionStatusChange(
+              subscription.id,
+              subscription.customer as string,
+              event.type === "customer.subscription.created"
+            );
+          } catch (error: any) {
+            return NextResponse.json({
+              message:
+                "Error in subscriptions. View your nextjs function logs.",
+              subscription,
+              error: error,
+              status: 400,
+            });
+          }
           break;
         case "checkout.session.completed":
           const checkoutSession = event.data.object as Stripe.Checkout.Session;
