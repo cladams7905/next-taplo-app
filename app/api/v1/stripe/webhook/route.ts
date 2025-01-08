@@ -46,8 +46,8 @@ export async function POST(request: NextRequest) {
         case "customer.subscription.created":
         case "customer.subscription.updated":
         case "customer.subscription.deleted":
-          const subscription = event.data.object as Stripe.Subscription;
           try {
+            const subscription = event.data.object as Stripe.Subscription;
             await manageSubscriptionStatusChange(
               subscription.id,
               subscription.customer as string,
@@ -57,7 +57,9 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({
               message:
                 "Error in subscriptions. View your nextjs function logs.",
-              error: error,
+              error: {
+                message: error.message,
+              },
               status: 400,
             });
           }
