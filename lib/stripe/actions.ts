@@ -120,7 +120,7 @@ const manageSubscriptionStatusChange = async (
     .eq("stripe_customer_id", customerId)
     .single();
   if (noCustomerError) {
-    throw "noCustomerError";
+    throw new Error("noCustomerError");
   }
 
   const { id: uuid } = customerData!;
