@@ -82,9 +82,9 @@ export default function Pricing() {
                   {" "}
                   <p className="text-[40px] font-logo">
                     {pricingType === PricingType.Monthly
-                      ? "$5"
+                      ? "$3"
                       : pricingType === PricingType.Yearly
-                      ? "$5"
+                      ? "$3"
                       : ""}
                   </p>
                   <p>
@@ -205,7 +205,7 @@ export default function Pricing() {
                 {pricingType === PricingType.Monthly
                   ? ""
                   : pricingType === PricingType.Yearly
-                  ? "(save $48)"
+                  ? "(save $48/yr)"
                   : ""}
               </div>
               <p>

@@ -63,7 +63,7 @@ export default async function Home() {
                       </div>
                     </Link>
                     <p className="italic mt-2 sm:text-md text-sm">
-                      Try it free for 30 days, and then only $5/month.
+                      Try it free for 30 days, and then only $3/month.
                     </p>
                   </div>
                 </div>
