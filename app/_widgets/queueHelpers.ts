@@ -187,17 +187,42 @@ export const createActiveUsersQueueEvents = (
   );
 
   if (activeUsersEvent) {
-    const totalVisitorCount = eventData.googleData?.activeUsers?.reduce(
+    const activeUserCount = eventData.googleData?.activeUsers?.reduce(
       (acc, user) => acc + (parseInt(user.visitorCount) || 0),
       0
     );
-    if (totalVisitorCount && totalVisitorCount > 0) {
+    const usersPastDayCount = eventData.googleData?.usersPastDay?.reduce(
+      (acc, user) => acc + (parseInt(user.visitorCount) || 0),
+      0
+    );
+    if (activeUserCount && activeUserCount > 0) {
       const messageData: MessageData = {
-        numActiveUsers: totalVisitorCount,
+        numActiveUsers: activeUserCount,
       };
       queue.push({
         message: replaceVariablesInContentBody(
           activeUsersEvent?.message || "",
+          true, // isPopup
+          true, // isLiveMode
+          false, //isShowProductAsLink = false
+          undefined,
+          projectData?.name,
+          projectData?.bg_color || "#FFFFFF",
+          projectData?.accent_color || "#7A81EB",
+          messageData
+        ),
+        time: convertDateTime(new Date().toUTCString(), false, true),
+        event: activeUsersEvent,
+        product: undefined,
+      } as DisplayNotification);
+    }
+    if (usersPastDayCount && usersPastDayCount > 0) {
+      const messageData: MessageData = {
+        numUsersPastDay: usersPastDayCount,
+      };
+      queue.push({
+        message: replaceVariablesInContentBody(
+          `${usersPastDayCount} users in the past 24 hours have visited ${projectData?.name}'s site.`,
           true, // isPopup
           true, // isLiveMode
           false, //isShowProductAsLink = false

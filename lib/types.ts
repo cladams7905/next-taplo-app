@@ -21,6 +21,11 @@ export interface GoogleData {
     city: string;
     visitorCount: string;
   }[];
+  usersPastDay?: {
+    country: string;
+    city: string;
+    visitorCount: string;
+  }[];
 }
 
 export interface DisplayNotification {
@@ -38,4 +43,5 @@ export interface MessageData {
     country?: string | null;
   };
   numActiveUsers?: number | null;
+  numUsersPastDay?: number | null;
 }

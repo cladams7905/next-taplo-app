@@ -174,9 +174,11 @@ async function getGoogleAnalyticsData(
   switch (event.event_type as EventType) {
     case EventType.SomeoneViewing:
     case EventType.ActiveUsers:
-      integrationData.googleData.activeUsers = await getActiveUsersFromGoogle(
+      const { activeUsers, usersPastDay } = await getActiveUsersFromGoogle(
         integration
       );
+      integrationData.googleData.activeUsers = activeUsers;
+      integrationData.googleData.usersPastDay = usersPastDay;
       break;
   }
 }

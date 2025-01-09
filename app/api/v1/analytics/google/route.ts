@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    const [response] = await analyticsDataClient.runRealtimeReport({
+    const [activeUsersResponse] = await analyticsDataClient.runRealtimeReport({
       property: `properties/${googlePropertyId}`,
       dimensions: [
         {
@@ -58,15 +58,48 @@ export async function GET(request: NextRequest) {
       ],
     });
 
-    if (!response.rows) {
+    const currentDate = new Date();
+    const startDate = new Date(currentDate);
+    startDate.setDate(startDate.getDate() - 1);
+
+    const [usersPastDayResponse] = await analyticsDataClient.runReport({
+      property: `properties/${googlePropertyId}`,
+      dateRanges: [
+        {
+          startDate: startDate.toISOString().split("T")[0],
+          endDate: currentDate.toISOString().split("T")[0],
+        },
+      ],
+      dimensions: [
+        {
+          name: "country",
+        },
+        {
+          name: "city",
+        },
+      ],
+      metrics: [
+        {
+          name: "activeUsers",
+        },
+      ],
+    });
+
+    if (!activeUsersResponse.rows || !usersPastDayResponse.rows) {
       console.log("No rows returned.");
       return NextResponse.json({
         error: "No rows returned.",
         status: 500,
       });
     }
-    const formattedRealtimeReport = formatRealtimeReport(response);
-    return NextResponse.json(formattedRealtimeReport);
+
+    const formattedRealtimeReport = formatRealtimeReport(activeUsersResponse);
+    const formattedPastDayReport = formatRealtimeReport(usersPastDayResponse);
+
+    return NextResponse.json({
+      activeUsers: formattedRealtimeReport,
+      usersPastDay: formattedPastDayReport,
+    });
   } catch (error: any) {
     return NextResponse.json({
       error: `Error: ${error.message}`,

@@ -13,7 +13,6 @@ import {
   createActiveUsersQueueEvents,
 } from "./queueHelpers";
 import { ScreenAlignment } from "@/lib/enums";
-import { User } from "@supabase/supabase-js";
 
 interface WidgetConfig {
   siteUrl: string;
