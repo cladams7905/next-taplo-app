@@ -146,8 +146,7 @@ export default function PaymentModal({
                 </option>
                 {products.map((product, i) => (
                   <option key={i} value={product?.payment_plan}>
-                    {product.name} -{" "}
-                    {formatCentsToDollars(product?.price?.unit_amount)}
+                    {product.name}
                   </option>
                 ))}
               </select>
