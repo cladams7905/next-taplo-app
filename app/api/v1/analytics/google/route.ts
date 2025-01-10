@@ -3,6 +3,51 @@ import { BetaAnalyticsDataClient } from "@google-analytics/data";
 import { google } from "@google-analytics/data/build/protos/protos";
 import { getIntegrationById } from "@/lib/actions/integrations";
 
+/**
+ * Fetch data from Google Analytics.
+ */
+async function fetchGoogleAnalyticsData(
+  client: BetaAnalyticsDataClient,
+  params: any,
+  isRealtime = false
+) {
+  try {
+    if (isRealtime) {
+      const [response] = await client.runRealtimeReport(params);
+      return response;
+    } else {
+      const [response] = await client.runReport(params);
+      return response;
+    }
+  } catch (error: any) {
+    throw new Error(`Google Analytics API Error: ${error.message}`);
+  }
+}
+
+/**
+ * Format the date into `YYYY-MM-DD`.
+ */
+function formatDate(date: Date): string {
+  return date.toISOString().split("T")[0];
+}
+
+/**
+ * Format the Google Analytics report response.
+ */
+function formatReport(
+  response:
+    | google.analytics.data.v1beta.IRunReportResponse
+    | google.analytics.data.v1beta.IRunRealtimeReportResponse
+) {
+  return (
+    response.rows?.map((row) => ({
+      country: row.dimensionValues?.[0]?.value ?? "N/A",
+      city: row.dimensionValues?.[1]?.value ?? "N/A",
+      visitorCount: row.metricValues?.[0]?.value ?? "N/A",
+    })) || []
+  );
+}
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
@@ -22,108 +67,87 @@ export async function GET(request: NextRequest) {
 
     if (!integration || error) {
       return NextResponse.json({
-        error: `Get Integration Error: ${error?.message}`,
+        error: `Integration Error: ${
+          error?.message || "Integration not found."
+        }`,
         status: 500,
       });
     }
 
-    const googlePropertyId = integration.google_property_id || "";
-    const googleProjectId = integration.google_project_id || "";
-    const googleClientEmail = integration.google_client_email || "";
-    const googlePrivateKey =
-      integration.google_private_key?.split(String.raw`\n`).join("\n") || "";
+    const {
+      google_property_id,
+      google_project_id,
+      google_client_email,
+      google_private_key,
+    } = integration;
 
-    const analyticsDataClient = new BetaAnalyticsDataClient({
-      projectId: googleProjectId,
+    if (
+      !google_property_id ||
+      !google_project_id ||
+      !google_client_email ||
+      !google_private_key
+    ) {
+      return NextResponse.json({
+        error: "Google Analytics credentials are incomplete.",
+        status: 500,
+      });
+    }
+
+    const analyticsClient = new BetaAnalyticsDataClient({
+      projectId: google_project_id,
       credentials: {
-        private_key: googlePrivateKey,
-        client_email: googleClientEmail,
+        private_key: google_private_key.split(String.raw`\n`).join("\n"),
+        client_email: google_client_email,
       },
     });
 
-    const [activeUsersResponse] = await analyticsDataClient.runRealtimeReport({
-      property: `properties/${googlePropertyId}`,
-      dimensions: [
-        {
-          name: "country",
-        },
-        {
-          name: "city",
-        },
-      ],
-      metrics: [
-        {
-          name: "activeUsers",
-        },
-      ],
-    });
+    // Fetch active users (real-time report)
+    const activeUsersParams = {
+      property: `properties/${google_property_id}`,
+      dimensions: [{ name: "country" }, { name: "city" }],
+      metrics: [{ name: "activeUsers" }],
+    };
 
+    const activeUsersResponse = await fetchGoogleAnalyticsData(
+      analyticsClient,
+      {
+        ...activeUsersParams,
+      },
+      true
+    );
+
+    // Fetch users in the past 24 hours (report)
     const currentDate = new Date();
-    const startDate = new Date(currentDate);
-    startDate.setDate(startDate.getDate() - 1);
+    const startDate = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
-    const [usersPastDayResponse] = await analyticsDataClient.runReport({
-      property: `properties/${googlePropertyId}`,
+    const usersPastDayParams = {
+      property: `properties/${google_property_id}`,
       dateRanges: [
-        {
-          startDate: startDate.toISOString().split("T")[0],
-          endDate: currentDate.toISOString().split("T")[0],
-        },
+        { startDate: formatDate(startDate), endDate: formatDate(currentDate) },
       ],
-      dimensions: [
-        {
-          name: "country",
-        },
-        {
-          name: "city",
-        },
-      ],
-      metrics: [
-        {
-          name: "activeUsers",
-        },
-      ],
-    });
+      dimensions: [{ name: "country" }, { name: "city" }],
+      metrics: [{ name: "activeUsers" }],
+    };
 
-    if (!activeUsersResponse.rows || !usersPastDayResponse.rows) {
-      console.log("No rows returned.");
-      return NextResponse.json({
-        error: "No rows returned.",
-        status: 500,
-      });
-    }
+    const usersPastDayResponse = await fetchGoogleAnalyticsData(
+      analyticsClient,
+      {
+        ...usersPastDayParams,
+      }
+    );
 
-    const formattedRealtimeReport = formatRealtimeReport(activeUsersResponse);
-    const formattedPastDayReport = formatRealtimeReport(usersPastDayResponse);
+    // Format the results
+    const activeUsers = formatReport(activeUsersResponse);
+    const usersPastDay = formatReport(usersPastDayResponse);
 
     return NextResponse.json({
-      activeUsers: formattedRealtimeReport,
-      usersPastDay: formattedPastDayReport,
+      activeUsers,
+      usersPastDay,
     });
   } catch (error: any) {
     return NextResponse.json({
-      error: `Error: ${error.message}`,
+      error: `Server Error: ${error.message}`,
       status: 500,
     });
   }
-}
-
-function formatRealtimeReport(
-  response: google.analytics.data.v1beta.IRunRealtimeReportResponse
-) {
-  let formattedResponse: {
-    country: string;
-    city: string;
-    visitorCount: string;
-  }[] = [];
-
-  response.rows?.forEach((row) => {
-    formattedResponse.push({
-      country: row.dimensionValues?.[0]?.value ?? "N/A",
-      city: row.dimensionValues?.[1]?.value ?? "N/A",
-      visitorCount: row.metricValues?.[0]?.value ?? "N/A",
-    });
-  });
-
-  return formattedResponse;
 }
