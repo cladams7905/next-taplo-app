@@ -48,6 +48,18 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
     DisplayNotification | undefined
   >(undefined);
 
+  const [isFetchingEventsComplete, setIsFetchingEventsComplete] =
+    useState(false);
+  const [isFetchingProductsComplete, setIsFetchingProductsComplete] =
+    useState(false);
+  const [isFetchingProjectComplete, setIsFetchingProjectComplete] =
+    useState(false);
+
+  const allDataFetched =
+    isFetchingEventsComplete &&
+    isFetchingProductsComplete &&
+    isFetchingProjectComplete;
+
   /**
    * Get user data relating to the promo user status
    */
@@ -181,24 +193,35 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
   /**
    * Fetch project, events, active subscription, and products
    */
+
+  /**
+   * Fetch project data
+   */
   useEffect(() => {
     const fetchData = async () => {
       await fetchProject();
+      setIsFetchingProjectComplete(true); // Mark project fetch as complete
     };
     fetchData();
   }, [fetchProject]);
 
+  /**
+   * Fetch promo user and events after project is fetched
+   */
   useEffect(() => {
     if (projectData) {
       fetchPromoUser();
-      fetchEvents();
+      fetchEvents().then(() => setIsFetchingEventsComplete(true)); // Mark events fetch as complete
     }
   }, [projectData, fetchEvents, fetchPromoUser]);
 
+  /**
+   * Fetch subscription and products after project is fetched
+   */
   useEffect(() => {
     if (projectData) {
       fetchActiveSubscription();
-      fetchProducts();
+      fetchProducts().then(() => setIsFetchingProductsComplete(true)); // Mark products fetch as complete
     }
   }, [projectData, fetchActiveSubscription, fetchProducts]);
 
@@ -206,52 +229,55 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
    * Create a queue of notification events to be shown based on integration data
    */
   useEffect(() => {
-    const queue: DisplayNotification[] = [];
+    if (allDataFetched) {
+      const queue: DisplayNotification[] = [];
 
-    const getFirstName = (fullName: string) => fullName.split(" ")[0];
+      const getFirstName = (fullName: string) => fullName.split(" ")[0];
 
-    if (window.location.hostname === "localhost") {
-      console.log("eventData:", eventData);
-    }
+      if (window.location.hostname === "localhost") {
+        console.log("all Data Fetched!");
+        console.log("eventData:", eventData);
+      }
 
-    if (
-      eventData?.stripeData?.charges &&
-      eventData.stripeData.charges.length > 0
-    ) {
-      createChargesQueueEvents(
-        eventData,
-        productData,
-        getFirstName,
-        getFullStateName,
-        getFullCountryName,
-        queue,
-        projectData
-      );
-    }
-    if (
-      eventData?.stripeData?.checkoutSessions &&
-      eventData.stripeData.checkoutSessions.length > 0
-    ) {
-      createCheckoutQueueEvents(
-        eventData,
-        productData,
-        getFirstName,
-        getFullStateName,
-        getFullCountryName,
-        queue,
-        projectData
-      );
-    }
-    if (
-      eventData?.googleData?.activeUsers &&
-      eventData.googleData.activeUsers.length > 0
-    ) {
-      createActiveUsersQueueEvents(eventData, queue, projectData);
-    }
+      if (
+        eventData?.stripeData?.charges &&
+        eventData.stripeData.charges.length > 0
+      ) {
+        createChargesQueueEvents(
+          eventData,
+          productData,
+          getFirstName,
+          getFullStateName,
+          getFullCountryName,
+          queue,
+          projectData
+        );
+      }
+      if (
+        eventData?.stripeData?.checkoutSessions &&
+        eventData.stripeData.checkoutSessions.length > 0
+      ) {
+        createCheckoutQueueEvents(
+          eventData,
+          productData,
+          getFirstName,
+          getFullStateName,
+          getFullCountryName,
+          queue,
+          projectData
+        );
+      }
+      if (
+        eventData?.googleData?.activeUsers &&
+        eventData.googleData.activeUsers.length > 0
+      ) {
+        createActiveUsersQueueEvents(eventData, queue, projectData);
+      }
 
-    //Randomize queue order before setting it
-    setNotificationQueue(randomizeQueueOrder(queue));
-  }, [eventData, productData, projectData]);
+      //Randomize queue order before setting it
+      setNotificationQueue(randomizeQueueOrder(queue));
+    }
+  }, [allDataFetched, eventData, productData, projectData]);
 
   useEffect(() => {
     if (window.location.hostname === "localhost") {
