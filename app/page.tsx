@@ -34,8 +34,18 @@ export default async function Home() {
             <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] h-full"></div>
             <div className="z-[2] relative flex flex-row flex-wrap font-sans lg:mb-32 md:mb-16 sm:mb-12 lg:gap-12 md:gap-8 sm:gap-4 items-center justify-center w-full">
               <div className="flex flex-1 flex-col justify-center items-center gap-12 xl:px-44 lg:w-1/2 w-full min-h-[80vh]">
-                <div className="flex flex-col gap-10 relative md:pt-48 pt-24">
-                  {" "}
+                <div className="flex flex-col justify-center items-center gap-10 relative md:pt-36 pt-24">
+                  <a
+                    href="https://www.producthunt.com/posts/taplo?embed=true&utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-taplo"
+                    target="_blank"
+                  >
+                    <img
+                      src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=745836&theme=neutral&period=daily&t=1736880960304"
+                      alt="Taplo - Customizable&#0032;social&#0032;proof&#0032;widget&#0032;for&#0032;SaaS&#0032;founders | Product Hunt"
+                      width="250"
+                      height="54"
+                    />
+                  </a>{" "}
                   <h1 className="font-bold font-logo md:!text-6xl !text-4xl text-center !leading-tight">
                     <span className="relative">
                       {" "}
