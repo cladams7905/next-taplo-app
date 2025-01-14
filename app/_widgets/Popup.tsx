@@ -163,7 +163,7 @@ const SmallPopupTemplate = ({
         backgroundColor: backgroundColor,
         borderColor: borderColor,
       }}
-      className={`relative flex flex-row w-fit h-fit pr-6 pl-4 max-w-[330px] min-w-[280px] min-h-[80px] rounded-lg border shadow-lg py-3 gap-3 group`}
+      className="relative flex flex-row w-fit h-fit pr-6 pl-4 max-w-[330px] min-w-[280px] min-h-[80px] rounded-lg border shadow-lg py-3 gap-3 group"
     >
       <div
         style={{
