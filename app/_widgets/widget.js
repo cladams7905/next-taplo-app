@@ -31,19 +31,17 @@ const injectStyles = (callback) => {
   }
 
   // Inject Tailwind CSS
-  if (
-    !document.querySelector(`link[href*="${site_url}/css/tailwind.min.css"]`)
-  ) {
+  if (!document.querySelector(`link[href*="${site_url}/css/taplo.min.css"]`)) {
     const tailwindLink = document.createElement("link");
-    tailwindLink.href = `${site_url}/css/tailwind.min.css`;
+    tailwindLink.href = `${site_url}/css/taplo.min.css`;
     tailwindLink.rel = "stylesheet";
     tailwindLink.onload = () => {
-      stylesLoaded.add("tailwind");
+      stylesLoaded.add("taplo");
       checkAllStylesLoaded();
     };
     document.head.appendChild(tailwindLink);
   } else {
-    stylesLoaded.add("tailwind");
+    stylesLoaded.add("taplo");
   }
 
   checkAllStylesLoaded();
