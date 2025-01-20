@@ -300,13 +300,13 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
       const animation =
         projectData.screen_alignment === ScreenAlignment.BottomLeft ||
         projectData.screen_alignment === ScreenAlignment.TopLeft
-          ? "animate-twSlideInLeft"
+          ? "taplo-animate-twSlideInLeft"
           : projectData.screen_alignment === ScreenAlignment.BottomRight ||
             projectData.screen_alignment === ScreenAlignment.TopRight
-          ? "animate-twSlideInRight"
+          ? "taplo-animate-twSlideInRight"
           : projectData.screen_alignment === ScreenAlignment.TopCenter
-          ? "animate-twSlideInTop"
-          : "animate-twSlideInBottom";
+          ? "taplo-animate-twSlideInTop"
+          : "taplo-animate-twSlideInBottom";
 
       setAnimation(animation);
     }
@@ -322,10 +322,13 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
     orientation: string,
     isExitPopup: boolean
   ) => {
-    if (isExitPopup || prevAnimation === `animate-twSlideIn${orientation}`) {
-      return `animate-twSlideOut${orientation}`;
+    if (
+      isExitPopup ||
+      prevAnimation === `taplo-animate-twSlideIn${orientation}`
+    ) {
+      return `taplo-animate-twSlideOut${orientation}`;
     } else {
-      return `animate-twSlideIn${orientation}`;
+      return `taplo-animate-twSlideIn${orientation}`;
     }
   };
 
@@ -425,17 +428,17 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
   const getAlignmentClasses = () => {
     switch (projectData.screen_alignment) {
       case ScreenAlignment.BottomLeft:
-        return "bottom-4 left-4";
+        return "taplo-bottom-4 taplo-left-4";
       case ScreenAlignment.TopLeft:
-        return "top-4 left-4";
+        return "taplo-top-4 taplo-left-4";
       case ScreenAlignment.BottomRight:
-        return "bottom-4 right-4";
+        return "taplo-bottom-4 taplo-right-4";
       case ScreenAlignment.TopRight:
-        return "top-4 right-4";
+        return "taplo-top-4 taplo-right-4";
       case ScreenAlignment.BottomCenter:
-        return "bottom-4 flex items-center justify-center w-full px-4";
+        return "taplo-bottom-4 taplo-flex taplo-items-center taplo-justify-center taplo-w-full taplo-px-4";
       case ScreenAlignment.TopCenter:
-        return "top-4 flex items-center justify-center w-full px-4";
+        return "taplo-top-4 taplo-flex taplo-items-center taplo-justify-center taplo-w-full taplo-px-4";
       default:
         return "";
     }
@@ -444,7 +447,7 @@ const WidgetComponent = ({ siteUrl, projectId }: WidgetConfig) => {
   return (
     (isActiveSubscription || isPromoUser) && (
       <>
-        <div className={`fixed z-50 ${getAlignmentClasses()}`}>
+        <div className={`taplo-fixed taplo-z-50 ${getAlignmentClasses()}`}>
           {currentNotification?.event &&
             currentNotification?.message &&
             currentNotification?.time && (

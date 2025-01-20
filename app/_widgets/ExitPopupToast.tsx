@@ -10,20 +10,20 @@ export default function ExitPopupToast({
   showExitPopupToast: boolean;
 }) {
   return (
-    <div className="fixed z-50 bottom-4 flex items-center justify-center w-full">
+    <div className="taplo-fixed taplo-z-50 taplo-bottom-4 taplo-flex taplo-items-center taplo-justify-center taplo-w-full">
       <div
         style={{
           backgroundColor: projectData.bg_color || "#FFFFFF",
           borderColor: projectData.border_color || "#FFFFFF",
           color: projectData.text_color || "#000000",
         }}
-        className={`flex items-center border text-sm w-fit rounded-lg shadow-lg px-4 py-2 ${
+        className={`taplo-flex taplo-items-center taplo-border taplo-text-sm taplo-w-fit taplo-rounded-lg taplo-shadow-lg taplo-px-4 taplo-py-2 ${
           showExitPopupToast
-            ? "animate-twSlideInBottom"
-            : "animate-twSlideOutBottom"
+            ? "taplo-animate-twSlideInBottom"
+            : "taplo-animate-twSlideOutBottom"
         }`}
       >
-        <InfoCircledIcon width={16} height={16} className="mr-2" />
+        <InfoCircledIcon width={16} height={16} className="taplo-mr-2" />
         Notifications will be paused for 5 minutes.
       </div>
     </div>
