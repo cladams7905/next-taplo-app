@@ -250,7 +250,7 @@ const SmallPopupTemplate = ({
             >
               {notification.time}
               <Link
-                className="taplo-absolute taplo-bottom-[2px] taplo-right-1 taplo-flex taplo-items-center taplo-gap-[3px] taplo-text-[10px]"
+                className="taplo-absolute taplo-bottom-[2px] taplo-link-hover hover:taplo-underline taplo-right-1 taplo-flex taplo-items-center taplo-gap-[3px] taplo-text-[10px]"
                 href={"https://www.taplo.io"}
                 style={{
                   color: hexToRgba(textColor, 0.65),
@@ -328,7 +328,10 @@ const SmallPopupNoImageTemplate = ({
                 }}
               >
                 {notification.time} |{" "}
-                <div className="taplo-flex taplo-gap-[2px]">
+                <Link
+                  className="taplo-flex taplo-gap-[2px] taplo-link-hover"
+                  href={"https://www.taplo.io"}
+                >
                   Verified by Taplo{" "}
                   <BadgeCheck
                     width={18}
@@ -337,7 +340,7 @@ const SmallPopupNoImageTemplate = ({
                     color={backgroundColor}
                     className="taplo-mt-[1px]"
                   />
-                </div>
+                </Link>
               </div>
             </div>
           )}
@@ -362,8 +365,9 @@ const SmallPopupNoImageTemplate = ({
               }}
             >
               {notification.time}
-              <p
-                className="taplo-absolute taplo-bottom-1 taplo-right-1 taplo-flex taplo-items-center taplo-gap-[3px] taplo-text-[11px]"
+              <Link
+                className="taplo-absolute taplo-bottom-1 taplo-link-hover taplo-right-1 taplo-flex taplo-items-center taplo-gap-[3px] taplo-text-[11px]"
+                href={"https://www.taplo.io"}
                 style={{
                   color: hexToRgba(textColor, 0.65),
                 }}
@@ -375,7 +379,7 @@ const SmallPopupNoImageTemplate = ({
                   fill={accentColor}
                   color={backgroundColor}
                 />
-              </p>
+              </Link>
             </div>
           )}
         </div>
@@ -478,8 +482,9 @@ const LargePopupTemplate = ({
             }}
           >
             {notification.time}
-            <p
-              className="taplo-absolute taplo-bottom-[2px] taplo-right-1 taplo-flex taplo-items-center taplo-gap-[3px] taplo-text-[11px]"
+            <Link
+              className="taplo-absolute taplo-bottom-[2px] taplo-link-hover taplo-right-1 taplo-flex taplo-items-center taplo-gap-[3px] taplo-text-[11px]"
+              href={"https://www.taplo.io"}
               style={{
                 color: hexToRgba(textColor, 0.65),
               }}
@@ -491,7 +496,7 @@ const LargePopupTemplate = ({
                 fill={accentColor}
                 color={backgroundColor}
               />
-            </p>
+            </Link>
           </div>
         </div>
       </div>
@@ -566,8 +571,9 @@ const LargePopupNoImageTemplate = ({
             }}
           >
             {notification.time}
-            <p
-              className="taplo-absolute taplo-bottom-[2px] taplo-right-1 taplo-flex taplo-items-center taplo-gap-[3px] taplo-text-[11px]"
+            <Link
+              className="taplo-absolute taplo-bottom-[2px] taplo-link-hover taplo-right-1 taplo-flex taplo-items-center taplo-gap-[3px] taplo-text-[11px]"
+              href={"https://www.taplo.io"}
               style={{
                 color: hexToRgba(textColor, 0.65),
               }}
@@ -579,7 +585,7 @@ const LargePopupNoImageTemplate = ({
                 fill={accentColor}
                 color={backgroundColor}
               />
-            </p>
+            </Link>
           </div>
         </div>
       </div>
@@ -683,8 +689,9 @@ const CardTemplate = ({
             }}
           >
             {notification.time}
-            <div
-              className="taplo-absolute taplo-bottom-[2px] taplo-right-2 taplo-flex taplo-items-center taplo-gap-[3px] taplo-text-[10.5px]"
+            <Link
+              className="taplo-absolute taplo-bottom-[2px] taplo-link-hover taplo-right-2 taplo-flex taplo-items-center taplo-gap-[3px] taplo-text-[10.5px]"
+              href={"https://www.taplo.io"}
               style={{
                 color: hexToRgba(textColor, 0.65),
               }}
@@ -696,7 +703,7 @@ const CardTemplate = ({
                 fill={accentColor}
                 color={backgroundColor}
               />
-            </div>
+            </Link>
           </div>
         </div>
       </div>
@@ -773,8 +780,9 @@ const CardNoImageTemplate = ({
             }}
           >
             {notification.time}
-            <div
-              className="taplo-absolute taplo-bottom-[2px] taplo-right-2 taplo-flex taplo-items-center taplo-gap-[3px] taplo-text-[11px]"
+            <Link
+              className="taplo-absolute taplo-bottom-[2px] taplo-link-hover taplo-right-2 taplo-flex taplo-items-center taplo-gap-[3px] taplo-text-[11px]"
+              href={"https://www.taplo.io"}
               style={{
                 color: hexToRgba(textColor, 0.65),
               }}
@@ -786,7 +794,7 @@ const CardNoImageTemplate = ({
                 fill={accentColor}
                 color={backgroundColor}
               />
-            </div>
+            </Link>
           </div>
         </div>
       </div>
@@ -885,8 +893,9 @@ const BannerTemplate = ({
           >
             {notification.time}
             <p>|</p>
-            <div
-              className="taplo-flex taplo-items-center taplo-gap-[3px]"
+            <Link
+              className="taplo-flex taplo-link-hover taplo-items-center taplo-gap-[3px]"
+              href={"https://www.taplo.io"}
               style={{
                 color: hexToRgba(textColor, 0.65),
               }}
@@ -898,7 +907,7 @@ const BannerTemplate = ({
                 fill={accentColor}
                 color={backgroundColor}
               />
-            </div>
+            </Link>
           </div>
         </div>
       </div>
