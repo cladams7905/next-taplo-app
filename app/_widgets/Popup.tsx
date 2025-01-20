@@ -218,13 +218,20 @@ const SmallPopupTemplate = ({
                   color: hexToRgba(textColor, 0.65),
                 }}
               >
-                {notification.time} | Verified by Taplo{" "}
-                <BadgeCheck
-                  width={18}
-                  height={18}
-                  fill={accentColor}
-                  color={backgroundColor}
-                />
+                {notification.time} |{" "}
+                <Link
+                  className="taplo-link-hover taplo-flex taplo-items-center"
+                  href={"https://www.taplo.io"}
+                  target="_blank"
+                >
+                  Verified by Taplo{" "}
+                  <BadgeCheck
+                    width={18}
+                    height={18}
+                    fill={accentColor}
+                    color={backgroundColor}
+                  />
+                </Link>
               </div>
             </div>
           )}
@@ -252,6 +259,7 @@ const SmallPopupTemplate = ({
               <Link
                 className="taplo-absolute taplo-bottom-[2px] taplo-link-hover hover:taplo-underline taplo-right-1 taplo-flex taplo-items-center taplo-gap-[3px] taplo-text-[10px]"
                 href={"https://www.taplo.io"}
+                target="_blank"
                 style={{
                   color: hexToRgba(textColor, 0.65),
                 }}
@@ -331,6 +339,7 @@ const SmallPopupNoImageTemplate = ({
                 <Link
                   className="taplo-flex taplo-gap-[2px] taplo-link-hover"
                   href={"https://www.taplo.io"}
+                  target="_blank"
                 >
                   Verified by Taplo{" "}
                   <BadgeCheck
@@ -368,6 +377,7 @@ const SmallPopupNoImageTemplate = ({
               <Link
                 className="taplo-absolute taplo-bottom-1 taplo-link-hover taplo-right-1 taplo-flex taplo-items-center taplo-gap-[3px] taplo-text-[11px]"
                 href={"https://www.taplo.io"}
+                target="_blank"
                 style={{
                   color: hexToRgba(textColor, 0.65),
                 }}
@@ -485,6 +495,7 @@ const LargePopupTemplate = ({
             <Link
               className="taplo-absolute taplo-bottom-[2px] taplo-link-hover taplo-right-1 taplo-flex taplo-items-center taplo-gap-[3px] taplo-text-[11px]"
               href={"https://www.taplo.io"}
+              target="_blank"
               style={{
                 color: hexToRgba(textColor, 0.65),
               }}
@@ -574,6 +585,7 @@ const LargePopupNoImageTemplate = ({
             <Link
               className="taplo-absolute taplo-bottom-[2px] taplo-link-hover taplo-right-1 taplo-flex taplo-items-center taplo-gap-[3px] taplo-text-[11px]"
               href={"https://www.taplo.io"}
+              target="_blank"
               style={{
                 color: hexToRgba(textColor, 0.65),
               }}
@@ -692,6 +704,7 @@ const CardTemplate = ({
             <Link
               className="taplo-absolute taplo-bottom-[2px] taplo-link-hover taplo-right-2 taplo-flex taplo-items-center taplo-gap-[3px] taplo-text-[10.5px]"
               href={"https://www.taplo.io"}
+              target="_blank"
               style={{
                 color: hexToRgba(textColor, 0.65),
               }}
@@ -783,6 +796,7 @@ const CardNoImageTemplate = ({
             <Link
               className="taplo-absolute taplo-bottom-[2px] taplo-link-hover taplo-right-2 taplo-flex taplo-items-center taplo-gap-[3px] taplo-text-[11px]"
               href={"https://www.taplo.io"}
+              target="_blank"
               style={{
                 color: hexToRgba(textColor, 0.65),
               }}
@@ -896,6 +910,7 @@ const BannerTemplate = ({
             <Link
               className="taplo-flex taplo-link-hover taplo-items-center taplo-gap-[3px]"
               href={"https://www.taplo.io"}
+              target="_blank"
               style={{
                 color: hexToRgba(textColor, 0.65),
               }}
@@ -982,6 +997,7 @@ const BannerNoImageTemplate = ({
             <Link
               className="taplo-flex taplo-items-center taplo-gap-[3px] taplo-link-hover"
               href={"https://www.taplo.io"}
+              target="_blank"
               style={{
                 color: hexToRgba(textColor, 0.65),
               }}
