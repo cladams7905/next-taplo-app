@@ -82,9 +82,9 @@ export default function Pricing() {
                   {" "}
                   <p className="text-[40px] font-logo">
                     {pricingType === PricingType.Monthly
-                      ? "$3"
+                      ? "4"
                       : pricingType === PricingType.Yearly
-                      ? "$3"
+                      ? "$4"
                       : ""}
                   </p>
                   <p>
@@ -177,14 +177,14 @@ export default function Pricing() {
                     {pricingType === PricingType.Monthly
                       ? ""
                       : pricingType === PricingType.Yearly
-                      ? "$8"
+                      ? "$10"
                       : ""}
                   </div>
                   <p className="text-[40px] font-logo">
                     {pricingType === PricingType.Monthly
-                      ? "$8"
+                      ? "$10"
                       : pricingType === PricingType.Yearly
-                      ? "$4"
+                      ? "$5"
                       : ""}
                   </p>
                   <p>
@@ -205,7 +205,7 @@ export default function Pricing() {
                 {pricingType === PricingType.Monthly
                   ? ""
                   : pricingType === PricingType.Yearly
-                  ? "(save $48/yr)"
+                  ? "(save $60/yr)"
                   : ""}
               </div>
               <p>
