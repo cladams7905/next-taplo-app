@@ -22,11 +22,11 @@ export default async function AuthCodeError() {
             Please try logging in or registering again in a while. We apologize
             for the inconvenience. If this issue persists, please reach out at
             <Link
-              href={`mailto:help@taplo.io?subject=Authorization%20error`}
+              href={`mailto:team@taplo.io?subject=Authorization%20error`}
               target="_blank"
               className="link link-primary"
             >
-              help@taplo.io
+              team@taplo.io
             </Link>
             .
           </div>

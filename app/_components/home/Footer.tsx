@@ -21,11 +21,11 @@ export default function Footer() {
           <div className="mt-6">
             Question? Email me at{" "}
             <Link
-              href={`mailto:help@taplo.io?subject=Business%20inquiry`}
+              href={`mailto:team@taplo.io?subject=Business%20inquiry`}
               target="_blank"
               className="link"
             >
-              help@taplo.io
+              team@taplo.io
             </Link>
           </div>
         </aside>

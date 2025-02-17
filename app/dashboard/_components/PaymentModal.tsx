@@ -14,6 +14,7 @@ import Image from "next/image";
 import {
   ChangeEvent,
   Dispatch,
+  RefObject,
   SetStateAction,
   useEffect,
   useRef,
@@ -26,12 +27,14 @@ import { updateStripeUser } from "@/lib/stripe/actions";
 import { showToastError } from "@/app/_components/shared/showToast";
 
 export default function PaymentModal({
+  modalRef,
   stripeUser,
   user,
   products,
   freeTrialDate,
   setFreeTrialDate,
 }: {
+  modalRef: RefObject<HTMLDialogElement>;
   stripeUser: Tables<"users"> | null;
   user: User;
   products: {
@@ -43,8 +46,6 @@ export default function PaymentModal({
   freeTrialDate: string | null;
   setFreeTrialDate: Dispatch<SetStateAction<string | null>>;
 }) {
-  const paymentModalRef = useRef<HTMLDialogElement>(null);
-
   const [isCheckoutComplete, setCheckoutComplete] = useState(false);
 
   const [formattedBillingDate, setFormattedBillingDate] = useState<string>("");
@@ -86,15 +87,6 @@ export default function PaymentModal({
     }
   };
 
-  // Open payment modal if free trial date is not set
-  useEffect(() => {
-    if (isCheckoutComplete) {
-      paymentModalRef.current?.classList.remove("modal-open");
-    } else {
-      if (!freeTrialDate) paymentModalRef.current?.classList.add("modal-open");
-    }
-  }, [freeTrialDate, isCheckoutComplete]);
-
   // Update the checkoutPriceId and selectedProduct based on the selected payment plan
   useEffect(() => {
     const newSelectedProduct = products.find(
@@ -108,8 +100,18 @@ export default function PaymentModal({
   }, [paymentPlan, products]);
 
   return (
-    <dialog id="payment_modal" className="modal" ref={paymentModalRef}>
+    <dialog id="payment_modal" className="modal" ref={modalRef}>
       <div className="modal-box relative flex md:flex-row flex-col items-center gap-4 max-w-screen-lg min-h-[95vh] font-sans">
+        <form method="dialog">
+          <button
+            className="btn btn-sm btn-circle btn-ghost absolute sm:left-2 sm:right-0 right-2 z-10 top-3 text-base-content !outline-none"
+            onClick={() => {
+              modalRef?.current?.close();
+            }}
+          >
+            ✕
+          </button>
+        </form>
         <div className="absolute inset-0 h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] z-[0]"></div>
         <div className="relative flex flex-col items-center w-full h-full gap-6 lg:px-12">
           <Image width={48} height={48} alt="logo" src={Logo} />

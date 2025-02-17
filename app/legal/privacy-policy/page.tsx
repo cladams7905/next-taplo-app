@@ -86,11 +86,11 @@ export default function PrivacyPolicy() {
         update, or delete your personal information. If you would like to
         exercise any of these rights, please contact us at{" "}
         <Link
-          href={`mailto:help@taplo.io?subject=Legal%20inquiry`}
+          href={`mailto:team@taplo.io?subject=Legal%20inquiry`}
           target="_blank"
           className="link link-primary"
         >
-          help@taplo.io
+          team@taplo.io
         </Link>
         .
       </div>
@@ -105,11 +105,11 @@ export default function PrivacyPolicy() {
         If you have any questions or concerns about this Privacy Policy or our
         privacy practices, please contact us at{" "}
         <Link
-          href={`mailto:help@taplo.io?subject=Legal%20inquiry`}
+          href={`mailto:team@taplo.io?subject=Legal%20inquiry`}
           target="_blank"
           className="link link-primary"
         >
-          help@taplo.io
+          team@taplo.io
         </Link>
         . We will make every effort to respond to your inquiry and address any
         concerns you may have.

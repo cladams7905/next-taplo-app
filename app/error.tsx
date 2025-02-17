@@ -26,11 +26,11 @@ export default function AppError({
         <div className="text-2xl">
           We ran into a snag. Please contact us at{" "}
           <Link
-            href={`mailto:help@taplo.io?subject=Client%20side%20error:%20${error.name}`}
+            href={`mailto:team@taplo.io?subject=Client%20side%20error:%20${error.name}`}
             target="_blank"
             className="link link-primary"
           >
-            help@taplo.io
+            team@taplo.io
           </Link>{" "}
           to resolve this issue.
         </div>

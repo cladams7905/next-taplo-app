@@ -75,11 +75,11 @@ export default function FAQs() {
               Refunds are accepted if they are requested within 7 days of the
               initial payment. To request a refund, please email{" "}
               <Link
-                href={`mailto:help@taplo.io?subject=Refund%20request`}
+                href={`mailto:team@taplo.io?subject=Refund%20request`}
                 target="_blank"
                 className="link"
               >
-                help@taplo.io
+                team@taplo.io
               </Link>
               . Should you wish to cancel your subscription, you can do so at
               any time from your &quot;Account&quot; page.
@@ -108,11 +108,11 @@ export default function FAQs() {
             Should you wish to get in contact with a business inquiry or other
             question, you can email me at{" "}
             <Link
-              href={`mailto:help@taplo.io?subject=Business%20inquiry`}
+              href={`mailto:team@taplo.io?subject=Business%20inquiry`}
               target="_blank"
               className="link link-primary"
             >
-              help@taplo.io
+              team@taplo.io
             </Link>
             . You can typically expect a response within 24 hours.
           </div>

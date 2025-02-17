@@ -370,11 +370,11 @@ export default function NewUserModal({
               <span className="font-bold">Help</span> menu to view the Taplo
               docs, or send your questions to{" "}
               <Link
-                href={`mailto:help@taplo.io`}
+                href={`mailto:team@taplo.io`}
                 target="_blank"
                 className="link link-primary inline"
               >
-                help@taplo.io
+                team@taplo.io
               </Link>{" "}
               .
             </div>

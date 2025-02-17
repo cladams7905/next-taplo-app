@@ -87,11 +87,11 @@ export default function TermsOfService() {
         For any questions or concerns regarding the Service or these Terms of
         Use, please contact us at{" "}
         <Link
-          href={`mailto:help@taplo.io?subject=Legal%20inquiry`}
+          href={`mailto:team@taplo.io?subject=Legal%20inquiry`}
           target="_blank"
           className="link link-primary"
         >
-          help@taplo.io
+          team@taplo.io
         </Link>{" "}
         or any other communication means we put at the customer&apos;s
         disposition.

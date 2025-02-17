@@ -41,11 +41,11 @@ export default function EmbedModal({
           <div className="text-sm">
             Need help setting up the script? Email me at{" "}
             <Link
-              href={`mailto:help@taplo.io?subject=Help%20embedding%20project`}
+              href={`mailto:team@taplo.io?subject=Help%20embedding%20project`}
               target="_blank"
               className="link link-primary"
             >
-              help@taplo.io
+              team@taplo.io
             </Link>
             .
           </div>

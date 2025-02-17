@@ -458,11 +458,11 @@ export default function NewIntegrationForm({
         <div className="text-sm">
           Need help setting up an integration? Email me at{" "}
           <Link
-            href={`mailto:help@taplo.io?subject=Help%20setting%20up%20integration`}
+            href={`mailto:team@taplo.io?subject=Help%20setting%20up%20integration`}
             target="_blank"
             className="link link-primary"
           >
-            help@taplo.io
+            team@taplo.io
           </Link>
           .
         </div>

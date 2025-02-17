@@ -2,23 +2,53 @@
 
 import "react-color-palette/css";
 import { Code2Icon, Fullscreen, Settings } from "lucide-react";
-import React, { Dispatch, SetStateAction, useEffect, useRef } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import PreviewContainer from "./PreviewContainer";
 import { useProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import EmbedModal from "./EmbedModal";
 import Link from "next/link";
+import { User } from "@supabase/supabase-js";
+import { Tables } from "@/lib/stripe/types";
+import { PaymentPlans } from "@/lib/enums";
+import Stripe from "stripe";
+import PaymentModal from "@/app/dashboard/_components/PaymentModal";
 
 export default function ViewContainerHeader({
+  stripeUser,
+  user,
+  products,
   isPreviewMode,
   setPreviewMode,
 }: {
+  stripeUser: Tables<"users"> | null;
+  user: User;
+  products: {
+    id: string;
+    payment_plan: PaymentPlans;
+    name: string;
+    price: Stripe.Price;
+  }[];
   isPreviewMode: boolean;
   setPreviewMode: Dispatch<SetStateAction<boolean>>;
 }) {
   const { events } = useProjectContext();
   const previewRef = useRef<HTMLDivElement>(null);
   const embedModalRef = useRef<HTMLDialogElement>(null);
+  const paymentModalRef = useRef<HTMLDialogElement>(null);
   const settingsDropdownRef = useRef<HTMLUListElement>(null);
+  /**
+   * The date when the free trial should begin
+   * If null, then payment modal opens and create project button is disabled.
+   */
+  const [freeTrialDate, setFreeTrialDate] = useState<string | null>(
+    stripeUser?.free_trial_start_date ?? null
+  );
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -73,13 +103,27 @@ export default function ViewContainerHeader({
                 : "text-gray-300"
             } flex items-center text-xs rounded-lg p-2`}
             onClick={() => {
-              if (events.length > 0) embedModalRef.current?.showModal();
+              if (events.length > 0) {
+                if (!freeTrialDate && !user.user_metadata.is_promo_user) {
+                  paymentModalRef.current?.showModal();
+                } else {
+                  embedModalRef.current?.showModal();
+                }
+              }
             }}
           >
             <Code2Icon width={20} height={20} strokeWidth={1.75} />
           </div>
         </div>
         <EmbedModal modalRef={embedModalRef} />
+        <PaymentModal
+          modalRef={paymentModalRef}
+          stripeUser={stripeUser}
+          products={products}
+          user={user}
+          freeTrialDate={freeTrialDate}
+          setFreeTrialDate={setFreeTrialDate}
+        />
         <div
           className="tooltip tooltip-bottom tooltip-info p-2 rounded-lg cursor-pointer hover:bg-primary/20"
           data-tip="Project settings"

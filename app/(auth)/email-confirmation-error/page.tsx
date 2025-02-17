@@ -22,11 +22,11 @@ export default async function EmailConfirmationError() {
             Please try sending an email again in a while. We apologize for the
             inconvenience. If this issue persists, please reach out at
             <Link
-              href={`mailto:help@taplo.io?subject=Email%20confirmation%20error`}
+              href={`mailto:team@taplo.io?subject=Email%20confirmation%20error`}
               target="_blank"
               className="link link-primary"
             >
-              help@taplo.io
+              team@taplo.io
             </Link>
             .
           </div>

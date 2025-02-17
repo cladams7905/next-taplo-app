@@ -41,11 +41,11 @@ export default function DocsHome() {
       <div className="text-center md:px-24">
         Have unanswered questions? Reach out to me at{" "}
         <Link
-          href={`mailto:help@taplo.io?subject=Business%20inquiry`}
+          href={`mailto:team@taplo.io?subject=Business%20inquiry`}
           target="_blank"
           className="link link-primary"
         >
-          help@taplo.io
+          team@taplo.io
         </Link>
         .
       </div>

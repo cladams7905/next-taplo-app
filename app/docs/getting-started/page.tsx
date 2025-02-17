@@ -281,11 +281,11 @@ export default function GettingStarted() {
         If you have any questions or need help with anything, please don&apos;t
         hesitate to reach out to me at{" "}
         <Link
-          href="mailto:help@taplo.io?subject=Help%20with%20Taplo%20Project%20Setup"
+          href="mailto:team@taplo.io?subject=Help%20with%20Taplo%20Project%20Setup"
           target="_blank"
           className="link link-primary"
         >
-          help@taplo.io
+          team@taplo.io
         </Link>
         . Hopefully this guide has been helpful in getting you started with your
         first Taplo project!

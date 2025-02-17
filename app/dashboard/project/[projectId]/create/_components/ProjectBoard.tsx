@@ -1,6 +1,7 @@
 "use client";
 
 import { Tables } from "@/lib/supabase/types";
+import { Tables as StripeTables } from "@/lib/stripe/types";
 import Sidebar from "./Sidebar";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useColor } from "react-color-palette";
@@ -10,9 +11,13 @@ import { User } from "@supabase/supabase-js";
 import { ProjectContext } from "@/app/dashboard/_components/ProjectContext";
 import Link from "next/link";
 import NewUserModal from "./NewUserModal";
+import { PaymentPlans } from "@/lib/enums";
+import Stripe from "stripe";
 
 export default function ProjectBoard({
   user,
+  stripeUser,
+  stripeProducts,
   fetchedActiveProject,
   fetchedIntegrations,
   fetchedEvents,
@@ -23,6 +28,13 @@ export default function ProjectBoard({
   fetchedIntegrations: Tables<"Integrations">[] | null;
   fetchedEvents: Tables<"Events">[] | null;
   fetchedProducts: Tables<"Products">[] | null;
+  stripeUser: StripeTables<"users"> | null;
+  stripeProducts: {
+    id: string;
+    payment_plan: PaymentPlans;
+    name: string;
+    price: Stripe.Price;
+  }[];
 }) {
   /**
    * Active Project: the project which is currently being displayed from
@@ -179,11 +191,11 @@ export default function ProjectBoard({
       <div>
         Error fetching data. Please get in touch about this error (
         <Link
-          href={`mailto:help@taplo.io?subject=Error%20fetching%20data`}
+          href={`mailto:team@taplo.io?subject=Error%20fetching%20data`}
           target="_blank"
           className="link link-primary"
         >
-          help@taplo.io
+          team@taplo.io
         </Link>
         ).
       </div>
@@ -196,6 +208,9 @@ export default function ProjectBoard({
         <div className="flex md:flex-row flex-col w-full h-screen-minus-navbar">
           <div className="lg:w-[60%] w-full">
             <ViewContainer
+              stripeUser={stripeUser}
+              products={stripeProducts}
+              user={user}
               isPreviewMode={isPreviewMode}
               setPreviewMode={setPreviewMode}
             />
