@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   try {
     const { price_id, product_id, email, customer } = await request.json();
-    const pro_plan = "price_1Qc8yAKvAbuT2OVeOmtkzldz";
+    const pro_plan = "price_1QtcmvKvAbuT2OVekwvJx0tN";
     const launch_discount = "WSmiLqjf";
 
     const session = await stripe.checkout.sessions.create({
