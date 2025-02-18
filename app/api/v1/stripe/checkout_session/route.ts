@@ -10,6 +10,7 @@ export async function POST(request: NextRequest) {
 
     const session = await stripe.checkout.sessions.create({
       ui_mode: "embedded",
+      allow_promotion_codes: true,
       line_items: [
         {
           price: price_id,
