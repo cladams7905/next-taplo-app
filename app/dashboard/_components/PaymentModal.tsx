@@ -5,7 +5,7 @@ import {
   calculateBillingCycle,
   convertDateTime,
   formatCentsToDollars,
-  toDateTime,
+  toDateTime
 } from "@/lib/actions";
 import { Tables } from "@/lib/stripe/types";
 import { User } from "@supabase/supabase-js";
@@ -18,7 +18,7 @@ import {
   SetStateAction,
   useEffect,
   useRef,
-  useState,
+  useState
 } from "react";
 import Logo from "@/public/images/TaploLogo.svg";
 import Stripe from "stripe";
@@ -32,7 +32,7 @@ export default function PaymentModal({
   user,
   products,
   freeTrialDate,
-  setFreeTrialDate,
+  setFreeTrialDate
 }: {
   modalRef: RefObject<HTMLDialogElement>;
   stripeUser: Tables<"users"> | null;
@@ -79,7 +79,7 @@ export default function PaymentModal({
   const handleSelectReferralSource = async () => {
     const { error } = await updateStripeUser({
       user_id: user.id,
-      referral_source: referralSource,
+      referral_source: referralSource
     });
     if (error) {
       console.log(error);
@@ -112,7 +112,8 @@ export default function PaymentModal({
             ✕
           </button>
         </form>
-        <div className="absolute inset-0 h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] z-[0]"></div>
+        {/* Subtle background pattern */}
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-100 via-blue-100 to-pink-100"></div>
         <div className="relative flex flex-col items-center w-full h-full gap-6 lg:px-12">
           <Image width={48} height={48} alt="logo" src={Logo} />
           <p className="font-logo text-3xl">Activate your free trial!</p>

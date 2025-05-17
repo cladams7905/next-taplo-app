@@ -4,13 +4,14 @@ import Logo from "@/public/images/TaploLogo.svg";
 import Link from "next/link";
 
 export default async function DocsLayout({
-  children,
+  children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <main className="relative h-screen w-screen bg-gradient-to-tr from-purple-200 via-primary/80 to-purple-100">
-      <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
+      {/* Subtle background pattern */}
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-100 via-blue-100 to-pink-100"></div>
       <div className="relative flex flex-col h-screen font-sans md:px-24">
         <div className="flex h-full flex-col gap-6 px-6 overflow-y-scroll bg-white border-x border-gray-300 pb-6">
           <Link href="/docs" className="w-fit">
