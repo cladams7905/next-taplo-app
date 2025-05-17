@@ -17,7 +17,8 @@ export default async function Login() {
   }
   return (
     <main className="relative bg-slate-50">
-      <div className="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
+      {/* Subtle background pattern */}
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-100 via-blue-100 to-pink-100"></div>
       <div className="relative navbar lg:px-20 font-sans">
         <Link href={"/"}>
           <div className="navbar-start ml-8 w-full flex items-center">

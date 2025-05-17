@@ -43,17 +43,17 @@ export default function Navbar({ totalUsers }: { totalUsers: number }) {
               </li>
             </ul>
           </div>
-          <div className="navbar-end mr-4">
+          <div className="navbar-end mr-4 gap-2">
             <Link href={"/login"} className="lg:block md:block hidden">
               <div className="btn btn-neutral font-sans btn-ghost btn-sm max-w-fit">
                 Login
               </div>
             </Link>
-            <Link href={"/signup"}>
-              <div className="btn btn-primary btn-outline font-sans text-white btn-sm max-w-fit ml-2">
+            <Link href="/signup">
+              <button className="btn btn-primary btn-sm rounded-lg text-white shadow-lg hover:shadow-xl transition-all duration-300 group">
                 Try for free
-                <ArrowRight size={20} />
-              </div>
+                <ArrowRight className=" group-hover:translate-x-1 transition-transform" />
+              </button>
             </Link>
           </div>
         </div>

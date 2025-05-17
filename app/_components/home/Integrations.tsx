@@ -9,10 +9,11 @@ import {
   Sparkles,
   Star,
   Timer,
-  UsersRound,
+  UsersRound
 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import SectionDecoration from "./SectionDecoration";
 
 export default function Integrations() {
   const [isMediumScreen, setIsMediumScreen] = useState(false);
@@ -29,7 +30,9 @@ export default function Integrations() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center py-12 w-full min-h-[100vh] gap-12 font-sans lg:px-32 sm:px-8 px-4 z-10 bg-white/60 shadow-lg rounded-lg">
+    <div className="relative overflow-hidden flex flex-col items-center py-12 w-full min-h-[100vh] gap-12 font-sans lg:px-32 sm:px-8 px-4 z-10 bg-white/60 shadow-lg rounded-lg">
+      {/* Background decoration */}
+      <SectionDecoration />
       <div className="flex flex-col items-center w-full gap-12 font-sans">
         <p className="uppercase font-logo text-lg">Popup Events</p>
         <p className="md:text-lg text-md">
@@ -123,13 +126,11 @@ export default function Integrations() {
           </div>
         </div>
       </div>
-      <Link href={"/signup"}>
-        <div
-          className={`btn md:!btn-lg rounded-lg btn-md btn-primary sm:w-fit text-white`}
-        >
+      <Link href="/signup">
+        <button className="btn btn-primary md:btn-lg rounded-lg text-white shadow-lg hover:shadow-xl transition-all duration-300 group">
           Get started for free
-          <ArrowRight />
-        </div>
+          <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+        </button>
       </Link>
     </div>
   );

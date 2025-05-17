@@ -1,10 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import SectionDecoration from "./SectionDecoration";
 
 export default function FAQs() {
   return (
-    <div className="flex flex-col w-full bg-white/70 rounded-lg shadow-lg z-10 pt-12 pb-20 gap-8 lg:px-64 sm:px-8 px-4 font-sans">
+    <div className="relative flex flex-col w-full overflow-hidden bg-white/70 rounded-2xl shadow-lg z-10 pt-12 pb-20 gap-8 lg:px-64 sm:px-8 px-4 font-sans">
+      {/* Background decoration */}
+      <SectionDecoration />
       <div className="flex flex-col items-center gap-4">
         {" "}
         <p id="faqs" className="uppercase font-logo text-lg">

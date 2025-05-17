@@ -9,7 +9,7 @@ import {
   Title,
   Tooltip,
   Legend,
-  ChartOptions,
+  ChartOptions
 } from "chart.js";
 
 // Register Chart.js components
@@ -33,7 +33,7 @@ interface LineChartProps {
 const LineChart: React.FC<LineChartProps> = ({
   labels,
   clicks,
-  impressions,
+  impressions
 }) => {
   // Chart data configuration
   const data = {
@@ -44,16 +44,16 @@ const LineChart: React.FC<LineChartProps> = ({
         data: clicks,
         borderColor: "rgb(122, 129, 235, 0.5)",
         backgroundColor: "rgb(122, 129, 235, 0.2)",
-        tension: 0.4,
+        tension: 0.4
       },
       {
         label: "Impressions",
         data: impressions,
         borderColor: "rgb(122, 129, 235)",
         backgroundColor: "rgb(122, 129, 235, 0.2)",
-        tension: 0.4,
-      },
-    ],
+        tension: 0.4
+      }
+    ]
   };
 
   // Chart options configuration
@@ -61,24 +61,24 @@ const LineChart: React.FC<LineChartProps> = ({
     responsive: true,
     plugins: {
       legend: {
-        position: "top",
+        position: "top"
       },
       tooltip: {
         enabled: true,
         mode: "index",
-        intersect: false,
-      },
+        intersect: false
+      }
     },
     scales: {
       x: {
         grid: {
-          display: false,
-        },
+          display: false
+        }
       },
       y: {
-        beginAtZero: true,
-      },
-    },
+        beginAtZero: true
+      }
+    }
   };
 
   return (

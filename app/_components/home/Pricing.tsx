@@ -3,11 +3,12 @@
 import { ArrowRight, Check, Lock, X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import SectionDecoration from "./SectionDecoration";
 
 export default function Pricing() {
   const enum PricingType {
     Monthly,
-    Yearly,
+    Yearly
   }
   const [pricingType, setPricingType] = useState<PricingType>(
     PricingType.Yearly
@@ -20,8 +21,9 @@ export default function Pricing() {
     }, 1000);
   }, [pricingType]);
   return (
-    <div className="w-full min-h-[120vh] xl:px-32 lg:px-24 sm:px-8 px-4 py-12 z-10 bg-white/70 rounded-lg shadow-lg">
-      {" "}
+    <div className="relative overflow-hidden w-full min-h-[120vh] xl:px-32 lg:px-24 sm:px-8 px-4 py-12 z-10 bg-white/70 rounded-lg shadow-lg">
+      {/* Background decoration */}
+      <SectionDecoration />{" "}
       <div className="flex flex-col items-center w-full gap-12 font-sans">
         <p id="pricing" className="uppercase font-logo text-lg">
           Pricing
@@ -148,11 +150,11 @@ export default function Pricing() {
                   <p>Inline style*</p>
                 </div>
               </div>
-              <Link href={`/signup`}>
-                <div className="btn md:!btn-lg rounded-lg btn-md btn-primary sm:w-fit text-white">
+              <Link href="/signup">
+                <button className="btn btn-primary md:btn-lg rounded-lg text-white shadow-lg hover:shadow-xl transition-all duration-300 group">
                   Start my free trial
-                  <ArrowRight />
-                </div>
+                  <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                </button>
               </Link>
               <p className="text-sm">
                 <Lock
@@ -268,11 +270,11 @@ export default function Pricing() {
                   <p>Inline style*</p>
                 </div>
               </div>
-              <Link href={`/signup`}>
-                <div className="btn md:!btn-lg rounded-lg btn-md btn-primary sm:w-fit text-white">
+              <Link href="/signup">
+                <button className="btn btn-primary md:btn-lg rounded-lg text-white shadow-lg hover:shadow-xl transition-all duration-300 group">
                   Start my free trial
-                  <ArrowRight />
-                </div>
+                  <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                </button>
               </Link>
               <p className="text-sm">
                 <Lock

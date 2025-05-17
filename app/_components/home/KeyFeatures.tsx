@@ -6,11 +6,12 @@ import {
   CodeXml,
   Paintbrush,
   Proportions,
-  Share2,
+  Share2
 } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import LineChart from "./LineChart";
+import SectionDecoration from "./SectionDecoration";
 
 export default function KeyFeatures() {
   enum Features {
@@ -18,7 +19,7 @@ export default function KeyFeatures() {
     Embed,
     Integrations,
     PopupInline,
-    DataAnalytics,
+    DataAnalytics
   }
   const [activeFeature, setActiveFeature] = useState<Features>(
     Features.CustomStyling
@@ -37,7 +38,9 @@ export default function KeyFeatures() {
   const impressions = [300, 400, 450, 500, 600, 650, 700];
 
   return (
-    <div className="flex flex-col items-center py-12 w-full min-h-[100vh] gap-12 font-sans lg:px-32 sm:px-8 px-4 z-10 bg-white/60 shadow-lg rounded-lg">
+    <div className="relative overflow-hidden flex flex-col items-center py-12 w-full min-h-[100vh] gap-12 font-sans lg:px-32 sm:px-8 px-4 z-10 bg-white/60 shadow-lg rounded-lg">
+      {/* Background decoration */}
+      <SectionDecoration />
       <p id="key-features" className="uppercase font-logo text-lg">
         Key Features
       </p>
@@ -50,7 +53,7 @@ export default function KeyFeatures() {
           }`}
           style={{
             backgroundSize: "0% 100%",
-            backgroundRepeat: "no-repeat",
+            backgroundRepeat: "no-repeat"
           }}
           onClick={() => {
             if (activeFeature !== Features.CustomStyling)
@@ -68,7 +71,7 @@ export default function KeyFeatures() {
           }`}
           style={{
             backgroundSize: "0% 100%",
-            backgroundRepeat: "no-repeat",
+            backgroundRepeat: "no-repeat"
           }}
           onClick={() => {
             if (activeFeature !== Features.Embed)
@@ -86,7 +89,7 @@ export default function KeyFeatures() {
           }`}
           style={{
             backgroundSize: "0% 100%",
-            backgroundRepeat: "no-repeat",
+            backgroundRepeat: "no-repeat"
           }}
           onClick={() => {
             if (activeFeature !== Features.Integrations)
@@ -104,7 +107,7 @@ export default function KeyFeatures() {
           }`}
           style={{
             backgroundSize: "0% 100%",
-            backgroundRepeat: "no-repeat",
+            backgroundRepeat: "no-repeat"
           }}
           onClick={() => {
             if (activeFeature !== Features.PopupInline)
@@ -122,7 +125,7 @@ export default function KeyFeatures() {
           }`}
           style={{
             backgroundSize: "0% 100%",
-            backgroundRepeat: "no-repeat",
+            backgroundRepeat: "no-repeat"
           }}
           onClick={() => {
             if (activeFeature !== Features.DataAnalytics)
@@ -133,11 +136,11 @@ export default function KeyFeatures() {
           <p className="text-center">Data analytics</p>
         </div>
       </div>
-      <div className="md:columns-2 md:gap-8 flex md:flex-row items-center flex-col w-full min-h-[50vh] lg:px-12">
+      <div className="gap-8 flex lg:flex-row items-center flex-col w-full min-h-[50vh]">
         {activeFeature === Features.CustomStyling && (
           <>
             {" "}
-            <div className="flex flex-col order-2 lg:min-h-[50vh] w-full justify-center gap-6 animate-twSlideInBottom">
+            <div className="flex flex-col order-2 w-full lg:w-1/3 justify-center gap-6 animate-twSlideInBottom">
               <p className="font-logo md:text-3xl text-2xl">
                 Styling to match your brand
               </p>
@@ -146,14 +149,14 @@ export default function KeyFeatures() {
                 and create a feel to match your own personal brand.
               </p>
             </div>
-            <div className="flex flex-col max-w-[450px] order-1 items-center w-full md:mb-0 mb-12 justify-center animate-twSlideInBottom shadow-lg rounded-lg">
+            <div className="flex flex-col order-1 w-full lg:w-2/3 md:mb-0 mb-12 justify-center animate-twSlideInBottom shadow-lg rounded-lg">
               <video
                 width="600"
                 autoPlay
                 loop
                 muted
                 playsInline
-                className="rounded-lg"
+                className="rounded-lg w-full h-auto"
               >
                 <source src="/videos/AdjustStyling.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
@@ -164,7 +167,7 @@ export default function KeyFeatures() {
         {activeFeature === Features.Embed && (
           <>
             {" "}
-            <div className="flex flex-col order-2 lg:min-h-[50vh] w-full justify-center gap-6 animate-twSlideInBottom">
+            <div className="flex flex-col order-2 w-full lg:w-1/3 justify-center gap-6 animate-twSlideInBottom">
               <p className="font-logo md:text-3xl text-2xl">
                 5-minute, no-code setup
               </p>
@@ -173,7 +176,7 @@ export default function KeyFeatures() {
                 to display your Taplo notifications. No sweat!
               </p>
             </div>
-            <div className="flex flex-col max-w-[450px] order-1 items-center w-full md:mb-0 mb-12 justify-center animate-twSlideInBottom shadow-lg rounded-lg">
+            <div className="flex flex-col order-1 w-full lg:w-2/3 md:mb-0 mb-12 justify-center animate-twSlideInBottom shadow-lg rounded-lg">
               <video
                 width="600"
                 autoPlay
@@ -191,7 +194,7 @@ export default function KeyFeatures() {
         {activeFeature === Features.Integrations && (
           <>
             {" "}
-            <div className="flex flex-col order-2 lg:min-h-[50vh] w-full justify-center gap-6 animate-twSlideInBottom">
+            <div className="flex flex-col order-2 w-full lg:w-1/3 justify-center gap-6 animate-twSlideInBottom">
               <p className="font-logo md:text-3xl text-2xl">
                 Integrate with your favorite services
               </p>
@@ -200,7 +203,7 @@ export default function KeyFeatures() {
                 More integrations will be coming soon!
               </p>
             </div>
-            <div className="flex flex-col max-w-[450px] order-1 items-center w-full md:mb-0 mb-12 justify-center animate-twSlideInBottom shadow-lg rounded-lg">
+            <div className="flex flex-col order-1 w-full lg:w-2/3 md:mb-0 mb-12 justify-center animate-twSlideInBottom shadow-lg rounded-lg">
               <video
                 width="600"
                 autoPlay
@@ -224,7 +227,7 @@ export default function KeyFeatures() {
         {activeFeature === Features.PopupInline && (
           <>
             {" "}
-            <div className="flex flex-col order-2 lg:min-h-[50vh] w-full justify-center gap-6 animate-twSlideInBottom">
+            <div className="flex flex-col order-2 w-full lg:w-1/3 justify-center gap-6 animate-twSlideInBottom">
               <p className="font-logo md:text-3xl text-2xl">
                 Choose your display method
               </p>
@@ -234,7 +237,7 @@ export default function KeyFeatures() {
                 soon!
               </p>
             </div>
-            <div className="flex flex-col max-w-[450px] order-1 items-center w-full md:mb-0 mb-12 justify-center animate-twSlideInBottom shadow-lg rounded-lg">
+            <div className="flex flex-col order-1 w-full lg:w-2/3 md:mb-0 mb-12 justify-center animate-twSlideInBottom shadow-lg rounded-lg">
               <video
                 width="600"
                 autoPlay
@@ -252,7 +255,7 @@ export default function KeyFeatures() {
         {activeFeature === Features.DataAnalytics && (
           <>
             {" "}
-            <div className="flex flex-col order-2 lg:min-h-[50vh] w-full justify-center gap-6 animate-twSlideInBottom">
+            <div className="flex flex-col order-2 w-full lg:w-1/3 justify-center gap-6 animate-twSlideInBottom">
               <div className="badge badge-primary badge-outline bg-transparent rounded-xl w-fit px-4 py-1 text-sm">
                 Coming soon!
               </div>
@@ -264,7 +267,7 @@ export default function KeyFeatures() {
                 with the Taplo notifications on your page.
               </p>
             </div>
-            <div className="flex flex-col max-w-[450px] order-1 items-center md:mb-0 mb-12 w-full justify-center animate-twSlideInBottom shadow-md bg-white/60 backdrop-blur-lg p-4 rounded-lg">
+            <div className="flex h-full bg-white items-center py-12 px-6 flex-col order-1 w-full lg:w-2/3 md:mb-0 mb-12 justify-center animate-twSlideInBottom shadow-lg rounded-lg">
               <LineChart
                 labels={labels}
                 clicks={clicks}
@@ -275,14 +278,14 @@ export default function KeyFeatures() {
         )}
       </div>
       <Link href={"/signup"}>
-        <div
-          className={`btn md:!btn-lg rounded-lg btn-md btn-primary sm:w-fit text-white ${
+        <button
+          className={`btn md:!btn-lg rounded-lg btn-md btn-primary sm:w-fit shadow-lg hover:shadow-xl transition-all duration-300 group ${
             isAnimate ? "animate-twSlideInBottom" : ""
           }`}
         >
           Get started for free
-          <ArrowRight />
-        </div>
+          <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+        </button>
       </Link>
     </div>
   );
